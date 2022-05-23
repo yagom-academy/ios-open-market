@@ -9,43 +9,58 @@ import UIKit
 
 final class ListCollectionViewCell: UICollectionViewListCell {
     
-    static var identifier: String {
-        return String(describing: self)
-    }
-    
     private func defaultListConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
     }
     
+    private var cellContentLayouts: [NSLayoutConstraint]?
     private lazy var listContentView = UIListContentView(configuration: .subtitleCell())
+    private lazy var productImage = UIImageView()
+    private let network = Network.shared
+    private var lastDataTask: URLSessionDataTask?
     
-    private let stock = UILabel()
+    private let stock: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .right
+        label.numberOfLines = 2
+        return label
+    }()
     
     private func setConstraint() {
-        [listContentView, stock].forEach {
+        guard cellContentLayouts == nil else { return }
+        
+        [listContentView, stock, productImage].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        stock.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
-        NSLayoutConstraint.activate([
-            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+        let heightLayout = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80)
+        heightLayout.priority = UILayoutPriority(999)
+                
+        let layouts = [
+            heightLayout,
+            productImage.widthAnchor.constraint(equalToConstant: 80),
+            productImage.heightAnchor.constraint(equalToConstant: 80),
+            productImage.trailingAnchor.constraint(equalTo: listContentView.leadingAnchor),
+            productImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            productImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            
-            stock.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
+            stock.leadingAnchor.constraint(equalTo: listContentView.trailingAnchor),
             stock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            stock.widthAnchor.constraint(lessThanOrEqualTo: listContentView.widthAnchor, multiplier: 0.5),
+            stock.widthAnchor.constraint(equalTo: listContentView.widthAnchor, multiplier: 0.3),
             stock.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
+        ]
+        
+        NSLayoutConstraint.activate(layouts)
+        cellContentLayouts = layouts
     }
     
     func configureContent(productInformation product: ProductInformation) {
         
         var configure = defaultListConfiguration()
-        configure.image = product.thumbnailImage
-        configure.imageProperties.maximumSize = CGSize(width: 60, height: 60)
+        lastDataTask?.cancel()
+        lastDataTask = network.setImageFromUrl(imageUrl: product.thumbnail, imageView: productImage)
         configure.text = product.name
         configure.textProperties.font = .preferredFont(forTextStyle: .headline)
         configure.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
@@ -82,6 +97,11 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stock.textColor = .gray
         }
         setConstraint()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImage.image = nil
     }
 }
 

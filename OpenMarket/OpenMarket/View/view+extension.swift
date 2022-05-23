@@ -15,3 +15,14 @@ extension NSMutableAttributedString {
         self.addAttribute(.strikethroughStyle, value: 1, range: (allText as NSString).range(of: redText))
     }
 }
+
+extension UIView {
+    static var identifier: String {
+        return String(describing: self)
+    }
+}
+
+enum ViewType: Int {
+    case list = 0
+    case grid = 1
+}

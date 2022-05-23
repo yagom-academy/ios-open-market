@@ -6,40 +6,40 @@
 
 import UIKit
 
-final class MainViewController: UIViewController, NetworkAble {
-    
-    let session: URLSessionProtocol = URLSession.shared
-    var status = 0
-    var pageNo = 4
-    var itemsPerPage = 40
+final class MainViewController: UIViewController {
     
     enum Section {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>!
-    var collectionView: UICollectionView!
+    let network = Network.shared
+    let session: URLSessionProtocol = URLSession.shared
+    private var pageNo = 3
+    private var itemsPerPage = 40
     
-    private lazy var listLayout: UICollectionViewCompositionalLayout = {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: configuration)
+    private lazy var collectionView: MainCollectionView = {
+        let view = MainCollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
+        view.changeLayout(viewType: .list)
+        return view
     }()
     
-    private lazy var gridLayout: UICollectionViewLayout = {
-        let flowLayout = UICollectionViewFlowLayout()
-        let inset: CGFloat = 20
-        let rowItems = 2
-        flowLayout.minimumLineSpacing = inset
-        flowLayout.minimumInteritemSpacing = inset
-        flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(
-            width: (view.safeAreaLayoutGuide.layoutFrame.width / CGFloat(rowItems)) - (inset * 1.5),
-            height: view.safeAreaLayoutGuide.layoutFrame.height / 2.5 - inset
-        )
-        flowLayout.sectionInset.left = inset
-        flowLayout.sectionInset.right = inset
-        return flowLayout
-    }()
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+        
+        switch self.segmentedControl.selectedSegmentIndex {
+        case ViewType.list.rawValue:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
+            cell.accessories = [.disclosureIndicator()]
+            cell.configureContent(productInformation: itemIdentifier)
+            return cell
+            
+        case ViewType.grid.rawValue:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
+            cell.configureContent(productInformation: itemIdentifier)
+            return cell
+        default:
+            return UICollectionViewCell()
+        }
+    }
     
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
@@ -48,7 +48,7 @@ final class MainViewController: UIViewController, NetworkAble {
         segment.selectedSegmentTintColor = .systemBlue
         segment.layer.borderWidth = 2
         segment.layer.borderColor = UIColor.systemBlue.cgColor
-        segment.addTarget(self, action: #selector(changeSegmentedControl), for: .valueChanged)
+        segment.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
         segment.widthAnchor.constraint(equalToConstant: view.frame.size.width / 2).isActive = true
         let selectedTextAttributes = [
@@ -76,29 +76,25 @@ final class MainViewController: UIViewController, NetworkAble {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        view.backgroundColor = .white
         
         configureSegmentedControl()
         configureCollectionView()
-        configureDataSource(pageNo: pageNo, itemsPerPage: itemsPerPage)
-        
-        self.collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
-        self.collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+        configureIndicator()
+        network.requestDecodedData(pageNo: pageNo, itemsPerPage: itemsPerPage, delegate: self)
     }
     
     private func configureSegmentedControl() {
-        self.navigationItem.titleView = segmentedControl
+        navigationItem.titleView = segmentedControl
     }
     
-    @objc func changeSegmentedControl(sender: UISegmentedControl) {
+    @objc private func segmentedControlChanged(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case 0:
-            self.status = 0
-            collectionView.setCollectionViewLayout(listLayout, animated: true)
+        case ViewType.list.rawValue:
+            collectionView.changeLayout(viewType: .list)
             collectionView.reloadData()
-        case 1:
-            self.status = 1
-            collectionView.setCollectionViewLayout(gridLayout, animated: true)
+        case ViewType.grid.rawValue:
+            collectionView.changeLayout(viewType: .grid)
             collectionView.reloadData()
         default:
             return
@@ -106,53 +102,37 @@ final class MainViewController: UIViewController, NetworkAble {
     }
 
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: listLayout)
         view.addSubview(collectionView)
-        collectionView.delegate = self
-
+        collectionView.changeLayout(viewType: .list)
+        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
+        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+    }
+    
+    private func configureIndicator() {
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
-    
-    private func configureDataSource(pageNo: Int, itemsPerPage: Int) {
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductInformation) in
-            switch self.status {
-            case 0:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
-                cell.accessories = [.disclosureIndicator()]
-                cell.configureContent(productInformation: identifier)
-                return cell
-                
-            case 1:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
-                cell.configureContent(productInformation: identifier)
-                return cell
-            default:
-                return UICollectionViewCell()
-            }
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
-        snapshot.appendSections([.main])
-        
-        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
-            return
-        }
-        
-        requestData(url: url) { data, urlResponse in
-            guard let data = data,
-                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
-            snapshot.appendItems(pageInformation.pages)
-            self.dataSource.apply(snapshot, animatingDifferences: true)
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-            }
-        } errorHandler: { error in
-        }
-    }
 }
 
-extension MainViewController: UICollectionViewDelegate {
+extension MainViewController: MainViewDelegate {
+    func setSnapshot(productInformations: [ProductInformation]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
+        snapshot.appendSections([.main])
+        DispatchQueue.main.async {
+            snapshot.appendItems(productInformations)
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+            self.activityIndicator.stopAnimating()
+        }
+    }
     
+    func showErrorAlert(error: Error) {
+        let networkError = error as? NetworkError
+        let alert = UIAlertController(title: networkError?.errorDescription,
+                                      message: "Error Occurred",
+                                      preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK",
+                                        style: .default)
+        alert.addAction(alertAction)
+        present(alert, animated: true)
+    }
 }
