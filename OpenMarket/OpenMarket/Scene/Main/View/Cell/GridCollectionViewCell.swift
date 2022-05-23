@@ -56,20 +56,20 @@ final class GridCollectionViewCell: UICollectionViewCell, BaseCell {
         return stackView
     }()
     
-    private lazy var productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private lazy var indicatorView: UIActivityIndicatorView = {
+    private let indicatorView: UIActivityIndicatorView = {
         let indicatorView = UIActivityIndicatorView()
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
         return indicatorView
     }()
     
-    private lazy var productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.textAlignment = .center
@@ -77,14 +77,14 @@ final class GridCollectionViewCell: UICollectionViewCell, BaseCell {
         return label
     }()
     
-    private lazy var productionPriceLabel: UILabel = {
+    private let productionPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemRed
         label.textAlignment = .center
         return label
     }()
     
-    private lazy var sellingPriceLabel: UILabel = {
+    private let sellingPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray2
         label.textAlignment = .center
@@ -92,7 +92,7 @@ final class GridCollectionViewCell: UICollectionViewCell, BaseCell {
         return label
     }()
     
-    private lazy var stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray2
         label.textAlignment = .center

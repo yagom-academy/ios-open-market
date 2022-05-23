@@ -33,13 +33,13 @@ final class MainView: UIView {
         }
     }
     
-    lazy var segmentControl: UISegmentedControl = {
+    let segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentControl.selectedSegmentIndex = 0
         return segmentControl
     }()
     
-    lazy var addButton: UIBarButtonItem = {
+    let addButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         return button
     }()
@@ -50,7 +50,7 @@ final class MainView: UIView {
         return collectionView
     }()
     
-    private lazy var listLayout: UICollectionViewCompositionalLayout = {
+    private let listLayout: UICollectionViewCompositionalLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -65,7 +65,7 @@ final class MainView: UIView {
         return layout
     }()
     
-    private lazy var gridLayout: UICollectionViewCompositionalLayout = {
+    private let gridLayout: UICollectionViewCompositionalLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)

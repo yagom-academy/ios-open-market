@@ -50,13 +50,13 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         return stackView
     }()
     
-    private lazy var productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private lazy var indicatorView: UIActivityIndicatorView = {
+    private let indicatorView: UIActivityIndicatorView = {
         let indicatorView = UIActivityIndicatorView()
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
         return indicatorView
@@ -74,14 +74,14 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         return stackView
     }()
     
-    private lazy var productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
-    private lazy var stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
         label.textColor = .systemGray2
@@ -97,7 +97,7 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         return stackView
     }()
     
-    private lazy var sellingPriceLabel: UILabel = {
+    private let sellingPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray2
         label.font = .preferredFont(forTextStyle: .body)
@@ -105,7 +105,7 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         return label
     }()
     
-    private lazy var productionPriceLabel: UILabel = {
+    private let productionPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .red
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -114,7 +114,7 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         return label
     }()
     
-    private lazy var bottomLineView: UIView = {
+    private let bottomLineView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray5
         view.translatesAutoresizingMaskIntoConstraints = false
