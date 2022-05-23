@@ -13,7 +13,7 @@ struct EndPointStorage {
     
     static func productsList(pageNumber: Int, perPages: Int)
         -> EndPoint {
-        let productsListDTO = ProductsListDTO(
+        let productsListDTO = ProductsRequest(
             pageNumber: pageNumber,
             perPages: perPages
         )

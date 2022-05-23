@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol Cell {
+protocol BaseCell {
     static var identifier: String { get }
 }

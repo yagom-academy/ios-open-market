@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell, Cell {
+final class GridCollectionViewCell: UICollectionViewCell, BaseCell {
     static var identifier: String {
         return String(describing: self)
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewCell, Cell {
+final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
     static var identifier: String {
         return String(describing: self)
     }
