@@ -167,11 +167,9 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as? ImageRegisterCell else {
             return ImageRegisterCell()
         }
-        
+        cell.plusButton.addTarget(self, action: #selector(actionSheetAlert), for: .touchUpInside)
         return cell
     }
-    
-    
 }
 
 extension UITextField {
