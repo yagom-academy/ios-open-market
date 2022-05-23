@@ -9,6 +9,10 @@ import UIKit
 
 final class ListCollectionViewCell: UICollectionViewListCell {
     
+    private enum Constant {
+        static var imageLength: CGFloat = 80
+    }
+    
     private func defaultListConfiguration() -> UIListContentConfiguration {
         return .subtitleCell()
     }
@@ -34,13 +38,13 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        let heightLayout = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 80)
+        let heightLayout = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: Constant.imageLength)
         heightLayout.priority = UILayoutPriority(999)
                 
         let layouts = [
             heightLayout,
-            productImage.widthAnchor.constraint(equalToConstant: 80),
-            productImage.heightAnchor.constraint(equalToConstant: 80),
+            productImage.widthAnchor.constraint(equalToConstant: Constant.imageLength),
+            productImage.heightAnchor.constraint(equalToConstant: Constant.imageLength),
             productImage.trailingAnchor.constraint(equalTo: listContentView.leadingAnchor),
             productImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             productImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
