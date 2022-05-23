@@ -12,7 +12,6 @@ struct Presenter {
     var productName: String?
     var price: String?
     var bargainPrice: String?
-    var totalPrice: String?
     var stock: String?
     
     mutating func setData(of product: Products) -> Presenter {

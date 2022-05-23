@@ -21,40 +21,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
     private lazy var entireProductStackView = makeStackView(axis: .horizontal, alignment: .fill, distribution: .fill, spacing: 5)
     private lazy var accessoryStackView = makeStackView(axis: .horizontal, alignment: .top, distribution: .fill, spacing: 5)
     
-    private lazy var originalPrice: UILabel = {
-        let label = UILabel()
-        
-        guard let currency = currency.text else {
-            return UILabel()
-        }
-        
-        guard let price = price.text else {
-            return UILabel()
-        }
-        
-        label.text = "\(currency) \(price)"
-        label.textColor = .systemGray2
-        
-        return label
-    }()
-    
-    private lazy var discountedPrice: UILabel = {
-        let label = UILabel()
-        
-        guard let currency = currency.text else {
-            return UILabel()
-        }
-        
-        guard let bargainPrice = bargainPrice.text else {
-            return UILabel()
-        }
-        
-        label.text = "\(currency) \(bargainPrice)"
-        label.textColor = .systemGray2
-        
-        return label
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.layer.addSeparator()
