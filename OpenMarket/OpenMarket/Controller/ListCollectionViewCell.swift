@@ -129,17 +129,22 @@ extension ListCollectionViewCell {
     }
     
     private func configureAccessoryUI(_ presenter: Presenter) {
-        let label = UILabel()
         let button = UIButton()
-        
-        stock.text = presenter.stock
-        
+                
         button.setContentHuggingPriority(.required, for: .horizontal)
         button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
         button.tintColor = .systemGray2
-        label.textAlignment = .right
         
-        accessoryStackView.addArrangedSubview([label, button])
+        stock.text = presenter.stock
+        
+        if presenter.stock != "품절" {
+            stock.textColor = .systemGray2
+        } else {
+            stock.textColor = .systemYellow
+        }
+        
+        stock.textAlignment = .right
+        accessoryStackView.addArrangedSubview([stock, button])
     }
     
     private func configureEntireProductUI() {
