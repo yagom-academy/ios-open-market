@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
     var productImageView: UIImageView = UIImageView()
     
     lazy var mainStackView: UIStackView = {
@@ -129,14 +129,20 @@ class RegisterViewController: UIViewController {
         mainStackView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         mainStackView.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor).isActive = true
         mainStackView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor).isActive = true
-        //mainStackView.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor).isActive = true
         mainStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         priceStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.25).isActive = true
+        collectionView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 15).isActive = true
         nameField.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.05).isActive = true
         nameField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10).isActive = true
         nameField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10).isActive = true
+        stockField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10).isActive = true
+        stockField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10).isActive = true
+        discountedPriceField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10).isActive = true
+        discountedPriceField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10).isActive = true
+        descriptionField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10).isActive = true
+        descriptionField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10).isActive = true
         
         priceStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10).isActive = true
         priceStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10).isActive = true
@@ -177,5 +183,46 @@ extension UITextField {
         let padding = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
         self.leftView = padding
         self.leftViewMode = ViewMode.always
+    }
+}
+
+extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDelegate {
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        vc.cameraFlashMode = .on
+        
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func presentAlbum() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+             dismiss(animated: true, completion: nil)
+        }
+    
+    @objc func actionSheetAlert() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let camera = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
+            self?.presentCamera()
+        }
+        let album = UIAlertAction(title: "앨범", style: .default) { [weak self] _ in
+            self?.presentAlbum()
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(camera)
+        alert.addAction(album)
+        present(alert, animated: true, completion: nil)
     }
 }
