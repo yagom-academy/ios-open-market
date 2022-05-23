@@ -117,13 +117,21 @@ final class ViewController: UIViewController {
     }
     
     private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) {
-        let thumnailURL = self.items[indexPath.row].thumbnail
+        let name = self.items[indexPath.row].name
+        let price = (self.items[indexPath.row].currency + String(self.items[indexPath.row].price)).strikethrough()
+        let isDiscounted = self.items[indexPath.row].discountedPrice == 0 ? false : true
+        let bargainPrice = self.items[indexPath.row].currency + String(self.items[indexPath.row].bargainPrice)
+        let stock = self.items[indexPath.row].stock == 0 ? "품절" : "잔여수량 : \(self.items[indexPath.row].stock)"
+        let stockLabel = self.items[indexPath.row].stock == 0 ?  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1) : #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         
+        let cellComponents = CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel)
+        
+        let thumnailURL = self.items[indexPath.row].thumbnail
         self.getImage(itemCell: itemCell, url: thumnailURL, indexPath: indexPath)
         
         DispatchQueue.main.async {
             if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                itemCell.configureCell(items: self.items, indexPath: indexPath)
+                itemCell.configureCell(components: cellComponents)
             }
             self.myActivityIndicator.stopAnimating()
         }

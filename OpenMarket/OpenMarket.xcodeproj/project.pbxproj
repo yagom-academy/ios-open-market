@@ -34,7 +34,7 @@
 		E5BEB001282B889B001B7BDD /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BEB000282B889B001B7BDD /* StubURLSession.swift */; };
 		E5DF525C2834A77100CBBC45 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DF525A2834A77100CBBC45 /* GridCell.swift */; };
 		E5DF525D2834A77100CBBC45 /* GridCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5DF525B2834A77100CBBC45 /* GridCell.xib */; };
-		E5DF525F2835332300CBBC45 /* ItemCellPotocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DF525E2835332300CBBC45 /* ItemCellPotocol.swift */; };
+		E5DF525F2835332300CBBC45 /* ItemCellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DF525E2835332300CBBC45 /* ItemCellable.swift */; };
 		E5DF52622836395500CBBC45 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DF52612836395500CBBC45 /* ImageCacheManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,7 +79,7 @@
 		E5BEB000282B889B001B7BDD /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		E5DF525A2834A77100CBBC45 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		E5DF525B2834A77100CBBC45 /* GridCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCell.xib; sourceTree = "<group>"; };
-		E5DF525E2835332300CBBC45 /* ItemCellPotocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCellPotocol.swift; sourceTree = "<group>"; };
+		E5DF525E2835332300CBBC45 /* ItemCellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCellable.swift; sourceTree = "<group>"; };
 		E5DF52612836395500CBBC45 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,7 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				E5DF525E2835332300CBBC45 /* ItemCellPotocol.swift */,
+				E5DF525E2835332300CBBC45 /* ItemCellable.swift */,
 				AC12F11B283486C70044462D /* ListCell.swift */,
 				E5DF525A2834A77100CBBC45 /* GridCell.swift */,
 			);
@@ -352,7 +352,7 @@
 				E5BEAFE5282A7C01001B7BDD /* Currency.swift in Sources */,
 				ACA9600A282A7D9A00CBA9D1 /* ItemProtocol.swift in Sources */,
 				E5DF52622836395500CBBC45 /* ImageCacheManager.swift in Sources */,
-				E5DF525F2835332300CBBC45 /* ItemCellPotocol.swift in Sources */,
+				E5DF525F2835332300CBBC45 /* ItemCellable.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				E525336E2832915F0032F533 /* HttpMethod.swift in Sources */,
 				E5BEAFFE282B7AF9001B7BDD /* APIError.swift in Sources */,
