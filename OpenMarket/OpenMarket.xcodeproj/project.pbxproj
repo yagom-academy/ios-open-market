@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E5DF7A4283BC50900530CC9 /* ImageRegisterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5DF7A3283BC50900530CC9 /* ImageRegisterCell.swift */; };
 		4EA2BFC528294A970028C72A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA2BFC428294A970028C72A /* Parser.swift */; };
 		4EA2BFCD282957140028C72A /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA2BFCC282957140028C72A /* DecodeTests.swift */; };
 		4EA2BFD32829574E0028C72A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DDF7B28294D6E00B72AD8 /* Product.swift */; };
@@ -93,6 +94,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E5DF7A3283BC50900530CC9 /* ImageRegisterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRegisterCell.swift; sourceTree = "<group>"; };
 		4EA2BFC428294A970028C72A /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		4EA2BFCA282957140028C72A /* DecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EA2BFCC282957140028C72A /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				4ECE6E6B282E3EAD00536F3E /* ListCollectionViewCell.swift */,
 				DA671A48282E483B00461C26 /* GridCollectionViewCell.swift */,
 				4ECCD1BB2833B143008B79FA /* OpenMarketCell.swift */,
+				4E5DF7A3283BC50900530CC9 /* ImageRegisterCell.swift */,
 			);
 			path = CellView;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				4EA2BFC528294A970028C72A /* Parser.swift in Sources */,
 				DA671A49282E483B00461C26 /* GridCollectionViewCell.swift in Sources */,
 				DA0DDF822829531400B72AD8 /* ProductList.swift in Sources */,
+				4E5DF7A4283BC50900530CC9 /* ImageRegisterCell.swift in Sources */,
 				DAB91823283346100077254E /* UIImageView+extension.swift in Sources */,
 				4ECCD1BC2833B143008B79FA /* OpenMarketCell.swift in Sources */,
 				4EC87E102830C5A600DDB419 /* NumberFormatter+extension.swift in Sources */,
