@@ -25,7 +25,7 @@ extension API {
     static let pages = 20
 }
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     private let arrangeModeChanger = UISegmentedControl(items: ArrangeMode.allCases.map {
         $0.rawValue
     })
@@ -37,7 +37,7 @@ final class ViewController: UIViewController {
     }()
 }
 
-extension ViewController {
+extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationItems()
@@ -45,6 +45,8 @@ extension ViewController {
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
         requestProductListData()
+        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backbutton
         
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
@@ -55,7 +57,7 @@ extension ViewController {
 }
 
 // MARK: - Delegate
-extension ViewController {
+extension MainViewController {
    private func defineCollectionViewDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -63,7 +65,7 @@ extension ViewController {
 }
 
 // MARK: - Delegate Method
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
     }
@@ -76,12 +78,16 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return configureGridCell(indexPath: indexPath)
         }
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//    }
 }
 
 // MARK: - Private Method
-private extension ViewController {
+private extension MainViewController {
     private func setUpNavigationItems() {
-        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(linkRVC))
         self.navigationItem.titleView = arrangeModeChanger
         self.navigationItem.rightBarButtonItem = plusButton
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
@@ -127,6 +133,12 @@ private extension ViewController {
         arrangeModeChanger.setWidth(85, forSegmentAt: 1)
         arrangeModeChanger.apportionsSegmentWidthsByContent = true
         arrangeModeChanger.sizeToFit()
+    }
+    
+    @objc private func linkRVC(_ sender: UIBarButtonItem) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController")
+        vc?.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
     
     @objc private func changeArrangement(_ sender: UISegmentedControl) {
@@ -201,7 +213,7 @@ private extension ViewController {
 }
 
 // MARK: - Collection View Layout
-extension ViewController {
+extension MainViewController {
     private var listLayout: UICollectionViewCompositionalLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         
