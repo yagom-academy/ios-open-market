@@ -8,12 +8,12 @@
 import UIKit
 
 extension UIImageView {
-    func loadImage(url: URL, completion: @escaping () -> ()) -> URLSessionDataTaskProtocol? {
-        let imageCacheManager = ImageCacheManager()
+    func loadImage(url: URL, imageCacheManager: ImageCacheManager, completion: @escaping () -> ()) -> URLSessionDataTaskProtocol? {
         let nsURL = url as NSURL
         
         if let cachedImage = imageCacheManager.cache.object(forKey: nsURL) {
             self.image = cachedImage
+            completion()
             return nil
         }
         

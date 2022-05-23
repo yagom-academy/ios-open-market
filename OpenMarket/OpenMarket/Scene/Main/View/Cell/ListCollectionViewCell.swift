@@ -169,10 +169,10 @@ final class ListCollectionViewCell: UICollectionViewCell {
         stockLabel.update(stockStatus: data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) ")
     }
     
-    func updateImage(url: URL) {
+    func updateImage(url: URL, imageCacheManager: ImageCacheManager) {
         indicatorView.startAnimating()
         
-        let task = productImageView.loadImage(url: url) {
+        let task = productImageView.loadImage(url: url, imageCacheManager: imageCacheManager) {
             DispatchQueue.main.async {
                 self.indicatorView.stopAnimating()
             }

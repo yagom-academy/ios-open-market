@@ -73,7 +73,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
 
-                    cell.updateImage(url: item.thumbnail)
+                    cell.updateImage(url: item.thumbnail, imageCacheManager: self.viewModel.imageCacheManager)
                     cell.updateLabel(data: item)
                     
                     return cell
@@ -85,7 +85,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
 
-                    cell.updateImage(url: item.thumbnail)
+                    cell.updateImage(url: item.thumbnail, imageCacheManager: self.viewModel.imageCacheManager)
                     cell.updateLabel(data: item)
                     
                     return cell
