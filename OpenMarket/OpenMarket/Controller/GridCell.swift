@@ -26,8 +26,8 @@ final class GridCell: UICollectionViewCell, ItemCellable {
         self.layer.borderWidth = 1
     }
     
-    func configureImage(image: UIImage) {
-        itemImageView.image = image
+    private func configureImage(urlString: String) {
+        itemImageView.getImge(urlString: urlString)
     }
     
     override func prepareForReuse() {

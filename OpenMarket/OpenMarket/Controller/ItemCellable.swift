@@ -9,7 +9,6 @@ import UIKit
 
 protocol ItemCellable where Self: UICollectionViewCell {
     func configureCell(components: CellComponents)
-    func configureImage(image: UIImage)
 }
 
 struct CellComponents {
@@ -19,4 +18,5 @@ struct CellComponents {
     let bargainPrice: String
     let stock: String
     let stockLabelColor: UIColor
+    let thumbnailURL: String
 }

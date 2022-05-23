@@ -69,37 +69,37 @@ final class ViewController: UIViewController {
         }
     }
     
-    private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
-        if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
-            DispatchQueue.main.async {
-                if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                    itemCell.configureImage(image: cachedImage)
-                }
-            }
-            return
-        }
-        
-        networkHandler.request(api: ItemImageAPI(host: url)) { data in
-            switch data {
-            case .success(let data):
-                guard let data = data else { return }
-                guard let image = UIImage(data: data) else { return }
-                DispatchQueue.main.async {
-                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                        itemCell.configureImage(image: image)
-                        ImageCacheManager.shared.setObject(image, forKey: url as NSString)
-                    }
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                        guard let failImage = UIImage(systemName: "xmark.app") else { return }
-                        itemCell.configureImage(image: failImage)
-                    }
-                }
-            }
-        }
-    }
+//    private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
+//        if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
+//            DispatchQueue.main.async {
+//                if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
+//                    itemCell.configureImage(urlString: url)
+//                }
+//            }
+//            return
+//        }
+//
+//        networkHandler.request(api: ItemImageAPI(host: url)) { data in
+//            switch data {
+//            case .success(let data):
+//                guard let data = data else { return }
+//                guard let image = UIImage(data: data) else { return }
+//                DispatchQueue.main.async {
+//                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
+//                        itemCell.configureImage(image: image)
+//                        ImageCacheManager.shared.setObject(image, forKey: url as NSString)
+//                    }
+//                }
+//            case .failure(_):
+//                DispatchQueue.main.async {
+//                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
+//                        guard let failImage = UIImage(systemName: "xmark.app") else { return }
+//                        itemCell.configureImage(image: failImage)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     private func changeCellType() {
         if cellType == .list {
@@ -123,13 +123,11 @@ final class ViewController: UIViewController {
         let bargainPrice = self.items[indexPath.row].currency + String(self.items[indexPath.row].bargainPrice)
         let stock = self.items[indexPath.row].stock == 0 ? "품절" : "잔여수량 : \(self.items[indexPath.row].stock)"
         let stockLabel = self.items[indexPath.row].stock == 0 ?  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1) : #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        let thumnailURL = self.items[indexPath.row].thumbnail
         
-        let cellComponents = CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel)
+        let cellComponents = CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel, thumbnailURL: thumnailURL)
         
         itemCell.configureCell(components: cellComponents)
-        
-        let thumnailURL = self.items[indexPath.row].thumbnail
-        self.getImage(itemCell: itemCell, url: thumnailURL, indexPath: indexPath)
         
         self.myActivityIndicator.stopAnimating()
     }

@@ -21,10 +21,11 @@ final class ListCell: UICollectionViewCell, ItemCellable {
         bargainPriceLabel.text = components.bargainPrice
         stockLabel.text = components.stock
         stockLabel.textColor = components.stockLabelColor
+        configureImage(urlString: components.thumbnailURL)
     }
     
-    func configureImage(image: UIImage) {
-        itemImageView.image = image
+    private func configureImage(urlString: String) {
+        itemImageView.getImge(urlString: urlString)
     }
     
     override func prepareForReuse() {
