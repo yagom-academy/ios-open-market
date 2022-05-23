@@ -13,6 +13,7 @@ final class GridCell: UICollectionViewCell, ItemCellable {
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var bargainPriceLabel: UILabel!
     @IBOutlet private weak var stockLabel: UILabel!
+    private var dataTask: URLSessionDataTask?
     
     func configureCell(components: CellComponents) {
         itemNameLabel.text = components.name
@@ -21,13 +22,14 @@ final class GridCell: UICollectionViewCell, ItemCellable {
         bargainPriceLabel.text = components.bargainPrice
         stockLabel.text = components.stock
         stockLabel.textColor = components.stockLabelColor
+        configureImage(urlString: components.thumbnailURL)
         
         self.layer.cornerRadius = 8
         self.layer.borderWidth = 1
     }
     
     private func configureImage(urlString: String) {
-        itemImageView.getImge(urlString: urlString)
+        dataTask = itemImageView.getImge(urlString: urlString)
     }
     
     override func prepareForReuse() {
@@ -38,5 +40,7 @@ final class GridCell: UICollectionViewCell, ItemCellable {
         bargainPriceLabel.text = nil
         stockLabel.text = nil
         stockLabel.textColor = nil
+        dataTask?.suspend()
+        dataTask?.cancel()
     }
 }

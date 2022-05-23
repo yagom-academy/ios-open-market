@@ -8,13 +8,13 @@
 import UIKit
 
 extension UIImageView {
-    func getImge(urlString: String) {
+    func getImge(urlString: String) -> URLSessionDataTask? {
         if let image = ImageCacheManager.shared.object(forKey: urlString as NSString) {
             self.image = image
-            return
+            return nil
         }
         
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: urlString) else { return nil }
         
         let dataTask = URLSession(configuration: .default).dataTask(with: url) { data, response, error in
             guard error == nil else {
@@ -37,5 +37,7 @@ extension UIImageView {
             }
         }
         dataTask.resume()
+        
+        return dataTask
     }
 }
