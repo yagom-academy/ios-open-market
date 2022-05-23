@@ -11,9 +11,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
     static let identifier = "CollectionViewCell"
     private var productImage: UIImageView = UIImageView()
     private var productName: UILabel = UILabel()
-    private var currency: UILabel = UILabel()
-    private var price: UILabel = UILabel()
-    private var bargainPrice: UILabel = UILabel()
+    private var originalPrice = UILabel()
+    private var discountedPrice = UILabel()
     private var stock: UILabel = UILabel()
     
     private lazy var priceStackView = makeStackView(axis: .horizontal, alignment: .leading, distribution: .fillEqually, spacing: 5)
@@ -32,19 +31,11 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        priceStackView.arrangedSubviews.forEach {
-            $0.removeFromSuperview()
-        }
         
-        productStackView.arrangedSubviews.forEach {
-            $0.removeFromSuperview()
-        }
+        discountedPrice.isHidden = false
+        originalPrice.attributedText = nil
         
         accessoryStackView.arrangedSubviews.forEach {
-            $0.removeFromSuperview()
-        }
-        
-        entireProductStackView.arrangedSubviews.forEach {
             $0.removeFromSuperview()
         }
     }
@@ -62,8 +53,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
 extension ListCollectionViewCell {
     private func setCellUI(_ presenter: Presenter) {
         productName.text = presenter.productName
-        price.text = presenter.totalPrice
-        stock.text = presenter.stock
         
         guard let imageUrl = presenter.productImage else {
             return
@@ -142,7 +131,7 @@ extension ListCollectionViewCell {
     }
     
     private func strikeThrough(price: UILabel) {
-        price.textColor = .systemRed
-        price.attributedText = price.text?.strikeThrough()
+        originalPrice.textColor = .systemRed
+        originalPrice.attributedText = originalPrice.text?.strikeThrough()
     }
 }
