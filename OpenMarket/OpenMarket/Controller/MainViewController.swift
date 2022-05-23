@@ -106,6 +106,7 @@ extension MainViewController {
             collectionView: productView.collectionView,
             cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
                 var presenter = Presenter()
+                presenter = presenter.setData(of: product)
 
                 guard let layoutType = LayoutType(rawValue: self.productView.segmentedControl.selectedSegmentIndex) else { return UICollectionViewCell() }
                 
@@ -115,7 +116,6 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    presenter = presenter.setData(of: product)
                     
                     cell.configureCell(presenter)
                     
@@ -126,11 +126,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    DispatchQueue.main.async {
-                        if collectionView.indexPath(for: cell) == indexPath {
-                            cell.configureCell(product)
-                        }
-                    }
+                    cell.configureCell(presenter)
                     
                     return cell
                 }
