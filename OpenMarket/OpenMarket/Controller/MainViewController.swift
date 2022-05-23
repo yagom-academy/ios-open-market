@@ -100,11 +100,13 @@ extension MainViewController {
         productView.collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
         productView.collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
     }
-
+    
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(
             collectionView: productView.collectionView,
             cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
+                var presenter = Presenter()
+
                 guard let layoutType = LayoutType(rawValue: self.productView.segmentedControl.selectedSegmentIndex) else { return UICollectionViewCell() }
                 
                 switch layoutType {
@@ -113,11 +115,9 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    DispatchQueue.main.async {
-                        if collectionView.indexPath(for: cell) == indexPath {
-                            cell.configureCell(product)
-                        }
-                    }
+                    presenter = presenter.setData(of: product)
+                    
+                    cell.configureCell(presenter)
                     
                     return cell
                     

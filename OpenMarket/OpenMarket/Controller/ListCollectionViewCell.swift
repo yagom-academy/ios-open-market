@@ -83,70 +83,56 @@ final class ListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configureCell(_ products: Products) {
-        if products.discountedPrice != 0 {
-            setDiscountedPriceUI(products)
-        }
-        
-        setCellUI(products)
-        configurePriceUI()
-        configureProductUI()
-        configureAccessoryUI()
+    func configureCell(_ presenter: Presenter) {
+        setCellUI(presenter)
+        configurePriceUI(presenter)
+        configureProductUI(presenter)
+        configureAccessoryUI(presenter)
         configureEntireProductUI()
     }
 }
 
 // MARK: - setup UI
 extension ListCollectionViewCell {
-    private func setDiscountedPriceUI(_ products: Products) {
-        let currency = products.currency
-        let formattedPrice = formatNumber(price: products.price)
-        let bargain = formatNumber(price: products.bargainPrice)
+    private func setCellUI(_ presenter: Presenter) {
+        productName.text = presenter.productName
+        price.text = presenter.totalPrice
+        stock.text = presenter.stock
         
-        originalPrice.text = currency + formattedPrice
-        strikeThrough(price: originalPrice)
-        discountedPrice.text = currency + bargain
+        guard let imageUrl = presenter.productImage else {
+            return
+        }
+        
+        productImage.loadImage(imageUrl)
     }
     
-    private func setCellUI(_ products: Products) {
-        let formattedPrice = formatNumber(price: products.price)
+    private func configurePriceUI(_ presenter: Presenter) {
+        originalPrice.text = presenter.price
+        discountedPrice.text = presenter.bargainPrice
         
-        productName.font  = UIFont.boldSystemFont(ofSize: 20)
-        productName.text = products.name
-        currency.text = products.currency
-        price.text = formattedPrice
-        stock.text = String(products.stock)
+        if presenter.price == presenter.bargainPrice {
+            originalPrice.textColor = .systemGray2
+            discountedPrice.isHidden = true
+        } else {
+            originalPrice.attributedText = originalPrice.text?.strikeThrough()
+            originalPrice.textColor = .systemRed
+            discountedPrice.textColor = .systemGray2
+        }
         
-        productImage.loadImage(products.thumbnail.absoluteString)
-    }
-    
-    private func configurePriceUI() {
-        discountedPrice.textColor = .systemGray2
-
         priceStackView.addArrangedSubview([originalPrice, discountedPrice])
     }
     
-    private func configureProductUI() {
+    private func configureProductUI(_ presenter: Presenter) {
         productName.font = UIFont.preferredFont(forTextStyle: .title3)
         
         productStackView.addArrangedSubview([productName, priceStackView])
     }
     
-    private func configureAccessoryUI() {
+    private func configureAccessoryUI(_ presenter: Presenter) {
         let label = UILabel()
         let button = UIButton()
         
-        guard let stock = stock.text else {
-            return
-        }
-        
-        if stock == "0" {
-            label.text = "품절"
-            label.textColor = .systemYellow
-        } else {
-            label.text = "잔여수량: \(stock)"
-            label.textColor = .systemGray2
-        }
+        stock.text = presenter.stock
         
         button.setContentHuggingPriority(.required, for: .horizontal)
         button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
@@ -184,17 +170,6 @@ extension ListCollectionViewCell {
         return stackView
     }
     
-    private func formatNumber(price: Int) -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        guard let formattedPrice = numberFormatter.string(from: NSNumber(value: price)) else {
-            return ""
-        }
-        
-        return formattedPrice
-    }
-
     private func strikeThrough(price: UILabel) {
         price.textColor = .systemRed
         price.attributedText = price.text?.strikeThrough()
