@@ -9,7 +9,7 @@ import XCTest
 @testable import OpenMarket
 
 final class MockURLSessionTests: XCTestCase {
-  var sut: URLSessionProvider<ProductsList>!
+  var sut: ApiProvider<ProductsList>!
   let mockData = MockData().loadData()!
   
   override func setUpWithError() throws {
@@ -17,7 +17,7 @@ final class MockURLSessionTests: XCTestCase {
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
     let urlSession = URLSession(configuration: configuration)
-    sut = URLSessionProvider<ProductsList>(session: urlSession)
+    sut = ApiProvider<ProductsList>(session: urlSession)
   }
   
   override func tearDownWithError() throws {
@@ -37,7 +37,7 @@ final class MockURLSessionTests: XCTestCase {
     }
     let expectation = XCTestExpectation(description: "response data")
     //when
-    sut.get { data in
+    sut.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
       // then
       switch data {
       case .success(let products):
@@ -62,7 +62,7 @@ final class MockURLSessionTests: XCTestCase {
     }
     let expectation = XCTestExpectation(description: "response data")
     //when
-    sut.get { data in
+    sut.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
       // then
       switch data {
       case .success(let products):
@@ -87,7 +87,7 @@ final class MockURLSessionTests: XCTestCase {
     }
     let expectation = XCTestExpectation(description: "response data")
     //when
-    sut.get { data in
+    sut.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
       // then
       switch data {
       case .success(let products):

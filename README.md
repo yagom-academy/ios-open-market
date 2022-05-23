@@ -6,10 +6,14 @@
 - [프로젝트 목표](#프로젝트-목표)
 - [실행화면](#실행화면)
 - [UML](#uml)
-- [STEP 1 기능 구현](#step-1-기능-구현)
+- [STEP 1](#step-1)
     + [고민했던 것들(트러블 슈팅)](#고민한-점트러블-슈팅)
     + [배운 개념](#배운-개념)
     + [PR 후 개선사항](#pr-후-개선사항)
+- [STEP 2](#step-2)
+    + [고민했던 것들(트러블 슈팅)](#고민한-점트러블-슈팅-1)
+    + [배운 개념](#배운-개념-1)
+    + [PR 후 개선사항](#pr-후-개선사항-1)
 - [Ground Rules](#ground-rules)
 
 ---
@@ -29,7 +33,7 @@
 
 ---
 
-## STEP 1 기능 구현
+## STEP 1
 
 ### 고민한 점(트러블 슈팅)
 1️⃣ 서버와 통신하지 않고 Mock 데이터로 통신하기
@@ -153,3 +157,177 @@ let promise = expectation(description: "")
 - escaping closure
 
 ### PR 후 개선사항
+
+---
+
+## STEP 2
+
+### 고민한 점(트러블 슈팅)
+
+1️⃣ stroyBoard vs code UI 구현
+- STEP2를 시작하기 전, UI 구현에 있어 어떠한 방법을 선택할 지 고민했다.
+- 각각 장단점이 있는 것 같다.
+    - storyBoard 장점: UI 구현이 빠르다. / 직접 눈으로 UI의 구성을 확인할 수 있다. / 여러 기능을 찾아보지 않고 간단하게 사용할 수 있다.
+    - storyBoard 단점: 변경 사항 commit을 파악하기 어렵다. / 유지, 보수가 어렵다.
+    - code 장점: storyBoard에 비해서 가볍다. /  변경 사항을 파악하기 쉽다. / 충돌 가능성이 낮다.(확인이 용이해서) / UIKit 구조, 원리를 학습하기 좋다.
+    - code 단점: 코드가 길어진다. / 시간이 다소 걸린다. / 화면을 파악하기 힘들다.
+- 이러한 점들을 비교했을 때, 협력과 리뷰, 학습에 도움이 된다는 점에서 code로 구현하는 것을 선택했다.
+
+2️⃣ List, Grid 화면 전환에 대한 고민
+- 셀의 프로토타입을 두개 만드는 방법과 하나의 셀에서 레이아웃만 변경하는 방법 중에서 고민했다.
+- 처음에는 셀을 두개 생성하는 방법으로 진행하다가 코드의 중복이 너무 많아서 레이아웃을 변경하는 방법으로도 구현해봤지만, 첫번째 방법과 동일하게 코드의 중복이 많아졌고 하나의 셀을 공유하면서 발생하는 `side effect` 도 많았다. 
+- 또한 외부 개발자가 봤을 때 구현한 내용을 바로 이해하기 힘들다는 점에서 가독성이 좋지 않다는 문제점도 있었다. 
+> ❗️ 결국 처음의 방법대로 셀을 두 개 생성하여 구현하였는데, 더 좋은 방법이 있을 지 궁금하다.
+
+3️⃣ collectionview contentsOffset 문제와 고민
+- List 형식의 Layout에서 Grid 형식으로 화면전환할 때, Grid 형식의 collection view의 시작이 아래쪽인 문제가 생겼다.
+- 0번째 index의 cell이 아닌 2번 index의 cell이 기준점이 되는 듯 한 현상이었고, 그 원인에 대해서 고민했다.
+> ❗️ 결국 명확한 원인을 찾을 수 없었다. 
+> 하지만 cell의 contents size height 만큼 offset이 아래쪽에 있다는 것을 확인했고,
+> collection view의 layout이 변경될 때, `collectionView.contentsOffset`을 변경해주는 방법으로 문제를 해결했다.
+
+<image width="600" src="https://i.imgur.com/FkYdHJY.png"/>  
+
+
+4️⃣ reuseCell에 대한 고민
+- 빠르게 List, Grid layout을 번갈아가며 변경하면 ListCell에 잘못된 이미지가 로드되는 버그가 생겼고, 이를 해결하기 위해 고민했다.
+- cell이 reuse 되면서 생기는 버그로 판단했다.
+- 또한 cell의 imageView에 이미지가 로드되는 UI update 작업이 main thred에서 이루어지지 않는다고 판단했다.
+- 이러한 근거로 해당 버그를 해결하기 위해 세 가지를 수정했다.
+    1. Cell의 prepareForReuse() 메서드를 override하여 reuseCell의 요소들을 reset해주었다.
+    2. `collectionView.indexPath(for: cell) == indexPath`인 값들만 UI setUp 메서드를 호출할 수 있도록 했다.
+    3. UI를 setUp 해주는 메서드를 `DispatchQueue.main.async`로 처리해주었다.
+```swift
+DispatchQueue.main.async {
+    if collectionView.indexPath(for: cell) == indexPath {
+        cell.setUpListCell(page: page)
+    }
+}
+```
+
+5️⃣ collectionView layout은 어떤 것을 선택할까
+- compositionalLayout, flowLayout, listCell 방식 중 어떤 것이 이번 프로젝트에 적합할지 고민했다.
+- modern collection view를 경험하는 것이 이번 프로젝트의 요구사항이다.
+- 따라서 가장 먼저 composiotionalLayout을 생각했다.
+    - 복잡한 layout이 요구될 때 용이하다.
+    - 유연하고 어느 상황이든 적용이 가능하다.
+    - 하지만 이번 프로젝트는 단순히 cell이 순서대로 나열되는 형식이다.
+- listCell
+    - iOS 14.0 이상이 요구된다. 
+- flowLayout
+    - 흐름, 순서에 따라 cell이 배치된다.
+    - iOS 13.0 부터 지원된다.
+    - 따라서 이번 프로젝트에 적합한 스펙이라고 판단했다.
+
+6️⃣ Diffable DataSource, Snapshot 사용
+- 처음에는 CollectionViewDataSource를 VC에 채택시켜 data source를 구현했지만, modern collection view를 적용하고자 Diffable DataSource를 적용하기로 결정했다.
+- 모델 타입에 Hashable을 채택하고 diffableDataSource를 생성하여 collectionView와 연결해주었다. 
+- 그 후 cell을 만들고 register된 셀에 데이터를 넣어주고 데이터가 변경될 때마다 collectionView에 특정 시점의 데이터 상태를 나타내는 snapshot을 만들어주고 DataSource에서 apply를 호출해주었다.
+```swift
+  private func makeDataSource() -> DataSource {
+    let dataSource = DataSource(collectionView: collectionView, cellProvider: {
+      (collectionView, indexPath, page) ->
+      UICollectionViewCell? in
+      if self.segmentedControl.selectedSegmentIndex == 0 {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
+                                                      for: indexPath) as? ListCell
+        // somecode
+        return cell
+      } else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
+                                                            for: indexPath) as? GridCell
+        // somecode
+        return cell
+      }
+    })
+    return dataSource
+  }
+//...
+  private func applySnapshot(animatingDifferences: Bool = true) {
+    var snapshot = Snapshot()
+    snapshot.appendSections([.main])
+    snapshot.appendItems(pages)
+    dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+  }
+```
+
+### 질문사항
+1️⃣ cell prototype을 두개 만들면서 발생하는 많은 중복 코드
+고민했던 점에 작성했던 것과 같이 저희는 두 개의 셀 프로토타입을 만들어서 구현하였는데 두 개의 셀의 label, imageView, stackView등의 구성과 레이아웃이 비슷한 것이 많아서 중복코드가 많습니다. 중복되는 코드를 줄이기위해서 cell을 한 개 만드는 방법밖에 없을까요?? 저희 코드에서 개선하기위해선 어떻게 해야할 지 여쭤보고 싶습니다!
+
+2️⃣ paging 관련 질문
+이번 STEP에서 추가 구현으로 스크롤 페이징을 해보려고 했습니다. view controller에 `UICollectionViewDataSourcePrefetching` 프로토콜을 채택하여 페이징 관련 메서드를 구현해보고자 했지만...실패했습니다.
+itemsPerPage가 20인 경우를 기준으로 view에 보여진 Cell의 수가 일정수준(19개 정도)일 때, page에 1을 더해주고, 그 이후에 api에서 데이터를 get하는 메서드를 호출해주는 방법을 생각해봤습니다. 하지만... 실패했습니다. 😭
+아직 그 방법이 덜 숙지된 것인지 감을 잡지 못해서 어떠한 키워드로 공부를 하는 것이 좋을지 조언 부탁드립니다.🙇‍♂️
+
+3️⃣ collectionView contentsOffset
+GridCell화면에서 첫번째 셀, 두번째 셀이 safeArea안에서 잡히지 않고 넘어가버리는 것을 확인하고 collectionView의 Anchor를 safeArea에 잡아주었는데, 해결이 되지않아서 cell의 contentsOffset을 한개의 셀의 높이만큼 변경해주었습니다. 
+해결은 되었지만 셀의 위치를 임의로 맞춰준 것이기 때문에 다른 좋은 방법이 있을지 궁금합니다. 
+그리고 이러한 현상이 일어나는 원인이 잘못된 로직 때문인 것인지 다른 이유가 있는 것인지 궁금합니다. 
+
+### 배운 개념
+- Modern Collection View
+- Collection View
+- Diffable DataSource, Snapshot
+- URL
+- URLSession
+- URLComponents
+- URLQueryItem
+- URLRequest
+- escaping closure
+
+### PR 후 개선사항
+
+---
+
+## Ground Rules
+### 스크럼
+- 🌈  10시 시작 
+- 스크럼 시간은 30분이 넘지 않기
+- 오늘의 목표 / 공유할 이슈 / 컨디션 공유
+- 자신의 부족한 부분 / 우리 팀이 아쉬운 부분 토론
+- 상황에 따라 조정 가능
+
+### 주간 활동 시간
+- 월, 화, 수, 목, 금 : 10시 ~ 24시
+- 점심시간 : 13시 ~ 14시
+- 저녁시간 : 18시 ~ 20시
+- 상황에 따라 조정 가능
+
+---
+
+## 🪧 프로젝트 관련 규칙
+### 코딩 컨벤션
+#### Swift 코드 스타일
+코드 스타일은 [스타일쉐어 가이드 컨벤션](https://github.com/StyleShare/swift-style-guide#%EC%A4%84%EB%B0%94%EA%BF%88) 에 따라 진행한다.
+
+### Commit 규칙
+커밋 제목은 최대 50자 입력
+본문은 한 줄 최대 72자 입력
+
+### Commit 메세지
+🪛[chore]: 코드 수정, 내부 파일 수정.  
+✨[feat]: 새로운 기능 구현.  
+🎨[style]: 스타일 관련 기능.(코드의 구조/형태 개선)  
+➕[add]: Feat 이외의 부수적인 코드 추가, 라이브러리 추가  
+🔧[file]: 새로운 파일 생성, 삭제 시  
+🐛[fix]: 버그, 오류 해결.  
+🔥[del]: 쓸모없는 코드/파일 삭제.  
+📝[docs]: README나 WIKI 등의 문서 개정.  
+💄[mod]: storyboard 파일,UI 수정한 경우.  
+✏️[correct]: 주로 문법의 오류나 타입의 변경, 이름 변경 등에 사용합니다.  
+🚚[move]: 프로젝트 내 파일이나 코드(리소스)의 이동.  
+⏪️[rename]: 파일 이름 변경이 있을 때 사용합니다.  
+⚡️[improve]: 향상이 있을 때 사용합니다.  
+♻️[refactor]: 전면 수정이 있을 때 사용합니다  
+🔀[merge]: 다른브렌치를 merge 할 때 사용합니다.  
+✅ [test]: 테스트 코드를 작성할 때 사용합니다.  
+  
+### Commit Body 규칙
+제목 끝에 마침표(.) 금지
+한글로 작성
+
+### 브랜치 이름 규칙
+`STEP1-1`, `STEP1-2`, `STEP2-1``STEP2-2` ...
+
+---
