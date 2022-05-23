@@ -8,6 +8,8 @@
 import UIKit
 
 class RegisterViewController: UIViewController {
+    var productImageView: UIImageView = UIImageView()
+    
     let mainStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
@@ -21,6 +23,21 @@ class RegisterViewController: UIViewController {
          stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
          return stackView
+    }()
+    
+    var collectionView: UICollectionView = {
+       let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.allowsMultipleSelection = false
+        collectionView.isPagingEnabled = true
+        collectionView.contentInsetAdjustmentBehavior = .never
+        
+        return collectionView
     }()
     
     let nameField: UITextField = {
@@ -70,7 +87,9 @@ class RegisterViewController: UIViewController {
         // Sub View Structure
         priceStackView.addArrangedSubview(priceField)
         priceStackView.addArrangedSubview(currencyField)
+        collectionView.addSubview(productImageView)
         
+        mainStackView.addArrangedSubview(collectionView)
         mainStackView.addArrangedSubview(nameField)
         mainStackView.addArrangedSubview(priceStackView)
         mainStackView.addArrangedSubview(discountedPriceField)
