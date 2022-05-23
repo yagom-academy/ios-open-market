@@ -12,8 +12,8 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    let network = Network.shared
-    let session: URLSessionProtocol = URLSession.shared
+    private let network = Network.shared
+    private let session: URLSessionProtocol = URLSession.shared
     private var pageNo = 3
     private var itemsPerPage = 40
     
@@ -24,14 +24,12 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-        
         switch self.segmentedControl.selectedSegmentIndex {
         case ViewType.list.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
             cell.accessories = [.disclosureIndicator()]
             cell.configureContent(productInformation: itemIdentifier)
             return cell
-            
         case ViewType.grid.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.configureContent(productInformation: itemIdentifier)
@@ -77,7 +75,6 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
         configureSegmentedControl()
         configureCollectionView()
         configureIndicator()
@@ -118,10 +115,10 @@ extension MainViewController: MainViewDelegate {
     func setSnapshot(productInformations: [ProductInformation]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections([.main])
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             snapshot.appendItems(productInformations)
-            self.dataSource.apply(snapshot, animatingDifferences: true)
-            self.activityIndicator.stopAnimating()
+            self?.dataSource.apply(snapshot, animatingDifferences: true)
+            self?.activityIndicator.stopAnimating()
         }
     }
     
