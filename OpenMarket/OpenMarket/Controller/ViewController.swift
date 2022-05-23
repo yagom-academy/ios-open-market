@@ -126,15 +126,12 @@ final class ViewController: UIViewController {
         
         let cellComponents = CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel)
         
+        itemCell.configureCell(components: cellComponents)
+        
         let thumnailURL = self.items[indexPath.row].thumbnail
         self.getImage(itemCell: itemCell, url: thumnailURL, indexPath: indexPath)
         
-        DispatchQueue.main.async {
-            if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                itemCell.configureCell(components: cellComponents)
-            }
-            self.myActivityIndicator.stopAnimating()
-        }
+        self.myActivityIndicator.stopAnimating()
     }
     
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
