@@ -84,13 +84,40 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func requestModifyProduct() {
+        
+        
     }
     
     @objc func doneToMain() {
-        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
+
+        var data: String = ""
+        data.append(compare(productView.nameField.text!, product?.name, key: "name"))
+        data.append(compare(productView.priceField.text!, String(product?.price ?? 0.0), key: "price"))
+        data.append(compare(currency.rawValue, product?.currency?.rawValue, key: "currency"))
+        data.append(compare(productView.discountedPriceField.text!, String(product?.discountedPrice ?? 0.0), key: "discounted_price"))
+        data.append(compare(productView.stockField.text!, String(product?.stock ?? 0), key: "stock"))
+        data.append(compare(productView.descriptionField.text!, product?.description, key: "descriptions"))
+        
+        if data.count > 0 {
+            data.removeLast()
+            data.insert("{", at: data.startIndex)
+            data.append("}")
+        }
+        
+        print(data)
     }
     
     @objc func backToMain() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func compare(_ field: String?, _ original: String?, key: String) -> String {
+        if field == original {
+            return ""
+        } else {
+            return "\"\(key)\": \"\(field ?? "")\","
+        }
+        
     }
 }
