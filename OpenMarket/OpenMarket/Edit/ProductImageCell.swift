@@ -58,10 +58,14 @@ final class ProductImageCell: UICollectionViewCell {
     func configure(image: UIImage) {
         productImageView.image = image
         removeButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
-        
+                
         if productImageView.image == UIImage(named: "plus") {
             removeButton.isHidden = true
         }
+    }
+    
+    func hideRemoveButton() {
+        removeButton.isHidden = true
     }
     
     override func prepareForReuse() {

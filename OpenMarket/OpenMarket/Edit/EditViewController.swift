@@ -21,6 +21,17 @@ final class EditViewController: UIViewController {
     
     private let imagePickerController = UIImagePickerController()
     
+    private let product: Product
+    
+    init(product: Product) {
+        self.product = product
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         super.loadView()
         mainView = EditView(frame: view.bounds)
@@ -30,7 +41,7 @@ final class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        applySnapshot(images: [UIImage(named: "plus")!])
+        //applySnapshot(images: )
         configurePickerController()
         registerNotification()
     }
@@ -57,11 +68,11 @@ final class EditViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = leftBarButton
         navigationItem.rightBarButtonItem = rightBarButton
-        navigationItem.title = "상품등록"
+        navigationItem.title = "상품수정"
     }
     
     @objc private func cancelButtonDidTapped() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func doneButtonDidTapped() {
@@ -157,6 +168,7 @@ extension EditViewController {
             }
             
             cell.configure(image: itemIdentifier)
+            cell.hideRemoveButton()
             
             return cell
         }
