@@ -25,6 +25,9 @@ class ModifyViewController: UIViewController {
         backbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
         self.navigationItem.leftBarButtonItem = backbutton
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+        
         productView.collectionView.delegate = self
         productView.collectionView.dataSource = self
         
@@ -43,7 +46,7 @@ class ModifyViewController: UIViewController {
         productView.nameField.text = product.name
         productView.priceField.text = String(product.price)
         productView.stockField.text = String(product.stock)
-        productView.descriptionField.text = product.description
+        productView.descriptionView.text = product.description
         productView.discountedPriceField.text = String(product.discountedPrice)
     }
     
@@ -89,15 +92,13 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     @objc func doneToMain() {
-        //self.navigationController?.popViewController(animated: true)
-
         var data: String = ""
         data.append(compare(productView.nameField.text!, product?.name, key: "name"))
         data.append(compare(productView.priceField.text!, String(product?.price ?? 0.0), key: "price"))
         data.append(compare(currency.rawValue, product?.currency?.rawValue, key: "currency"))
         data.append(compare(productView.discountedPriceField.text!, String(product?.discountedPrice ?? 0.0), key: "discounted_price"))
         data.append(compare(productView.stockField.text!, String(product?.stock ?? 0), key: "stock"))
-        data.append(compare(productView.descriptionField.text!, product?.description, key: "descriptions"))
+        data.append(compare(productView.descriptionView.text!, product?.description, key: "descriptions"))
         
         if data.count > 0 {
             data.append("\"secret\": \"password\"")
@@ -112,6 +113,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 print("성공!")
             }
         }
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func backToMain() {
@@ -126,4 +128,19 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+
+        guard let userInfo = notification.userInfo else { return }
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        productView.mainScrollView.setContentOffset(CGPoint(x: 0, y: keyboardFrame.size.height - 100), animated: true)
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+
+        let contentInset: UIEdgeInsets = UIEdgeInsets.zero
+        productView.mainScrollView.contentInset = contentInset
+    }
+    
 }

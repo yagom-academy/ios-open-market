@@ -8,6 +8,8 @@
 import UIKit
 
 class ProductView: UIView {
+    let spaceView: UIView = UIView()
+    
     lazy var mainStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
@@ -17,6 +19,14 @@ class ProductView: UIView {
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return stackView
+    }()
+    
+    let mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
     
     let priceStackView: UIStackView = {
@@ -68,15 +78,14 @@ class ProductView: UIView {
         return textField
     }()
     
-    let descriptionField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "상품설명"
-        textField.layer.cornerRadius = 10
-        textField.layer.borderWidth = 0.5
-        textField.layer.borderColor = UIColor.systemGray.cgColor
-        textField.contentVerticalAlignment = .top
-        textField.addPadding()
-        return textField
+    let descriptionView: UITextView = {
+        let textView = UITextView()
+        textView.layer.cornerRadius = 10
+        textView.layer.borderWidth = 0.5
+        textView.layer.borderColor = UIColor.systemGray.cgColor
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.textContainerInset = UIEdgeInsets(top: 7, left: 5, bottom: 5, right: 5)
+        return textView
     }()
     
     var collectionView: UICollectionView = {
@@ -106,27 +115,32 @@ class ProductView: UIView {
         mainStackView.addArrangedSubview(priceStackView)
         mainStackView.addArrangedSubview(discountedPriceField)
         mainStackView.addArrangedSubview(stockField)
-        mainStackView.addArrangedSubview(descriptionField)
+        mainStackView.addArrangedSubview(descriptionView)
+        mainScrollView.addSubview(mainStackView)
+        mainScrollView.addSubview(spaceView)
+        self.addSubview(mainScrollView)
         
-        self.addSubview(mainStackView)
-        
-        mainStackView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        mainStackView.centerYAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerYAnchor).isActive = true
-        mainStackView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor).isActive = true
-        mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        mainScrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        mainScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        mainScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true
+        mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
         priceStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor).isActive = true
-        collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.20).isActive = true
+        collectionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.20).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 15).isActive = true
-        nameField.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.05).isActive = true
+        nameField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.05).isActive = true
         nameField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         nameField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         stockField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         stockField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         discountedPriceField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         discountedPriceField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        descriptionField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        descriptionField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        descriptionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        descriptionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        descriptionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.466).isActive = true
         
         priceStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         priceStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
