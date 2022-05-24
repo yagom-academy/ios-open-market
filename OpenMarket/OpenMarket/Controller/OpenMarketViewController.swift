@@ -43,12 +43,12 @@ final class OpenMarketViewController: UIViewController {
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumLineSpacing = 10
         
-        self.collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
-        self.view.addSubview(collectionView ?? UICollectionView())
-        self.collectionView?.dataSource = self
-        self.collectionView?.delegate = self
-        self.collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
-        self.collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
+        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
+        view.addSubview(collectionView ?? UICollectionView())
+        collectionView?.dataSource = self
+        collectionView?.delegate = self
+        collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+        collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
     }
     
     private func setupSegmentControl() {
@@ -57,6 +57,8 @@ final class OpenMarketViewController: UIViewController {
     }
     
     @objc private func didChangeSegment(_ sender: UISegmentedControl) {
+        
+        
         if let currentLayout = LayoutType(rawValue: sender.selectedSegmentIndex) {
             layoutType = currentLayout
         }
@@ -68,7 +70,11 @@ final class OpenMarketViewController: UIViewController {
 }
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         
         switch layoutType {
         case .list:
@@ -78,13 +84,15 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
         
         switch layoutType {
         case .list:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 15)
         case .grid:
             return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         }
@@ -92,13 +100,18 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension OpenMarketViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         
         guard let product = productList?[indexPath.item] else {
             return UICollectionViewCell()
         }
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: layoutType.cell.identifier, for: indexPath) as? CustomCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: layoutType.cell.identifier,
+            for: indexPath) as? CustomCell else {
             return UICollectionViewCell()
         }
         
@@ -107,7 +120,10 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         return productList?.count ?? .zero
     }
 }
