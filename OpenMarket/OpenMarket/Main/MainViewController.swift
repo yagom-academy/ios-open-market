@@ -53,6 +53,7 @@ final class MainViewController: UIViewController {
     private func configureCollectionView() {
         mainView?.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
         mainView?.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
+        mainView?.collectionView.delegate = self
         mainView?.collectionView.prefetchDataSource = self
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
@@ -80,9 +81,9 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     @objc private func addButtonDidTapped() {
-        let editNavigationController = UINavigationController(rootViewController: EditViewController())
-        editNavigationController.modalPresentationStyle = .fullScreen
-        present(editNavigationController, animated: true)
+        let registerNavigationController = UINavigationController(rootViewController: RegisterViewController())
+        registerNavigationController.modalPresentationStyle = .fullScreen
+        present(registerNavigationController, animated: true)
     }
     
     @objc private func segmentValueDidChanged() {
@@ -122,6 +123,16 @@ extension MainViewController {
                 AlertDirector(viewController: self).createErrorAlert()
             }
         }
+    }
+}
+
+//MARK: - CollectionView Delegate
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = snapshot?.itemIdentifiers[indexPath.item] else { return }
+
+        navigationController?.pushViewController(EditViewController(product: product), animated: true)
     }
 }
 
