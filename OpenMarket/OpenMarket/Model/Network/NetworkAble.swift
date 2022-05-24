@@ -17,6 +17,13 @@ protocol NetworkAble {
         completeHandler: @escaping (Data?, URLResponse?) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask?
+    
+    @discardableResult
+    func requestDecodedData<T: Decodable>(
+        url: URL,
+        completeHandler: @escaping (T) -> Void,
+        decodingErrorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask?
 }
 
 extension NetworkAble {
@@ -50,5 +57,24 @@ extension NetworkAble {
         }
         dataTask.resume()
         return dataTask
+    }
+    
+    @discardableResult
+    func requestDecodedData<T: Decodable>(
+        url: URL,
+        completeHandler: @escaping (T) -> Void,
+        decodingErrorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask? {
+        requestData(url: url) { data, urlResponse in
+            guard let data = data,
+                  let decodedData: T = try? JSONDecoder().decode(T.self, from: data) else { return }
+            DispatchQueue.main.async {
+                completeHandler(decodedData)
+            }
+        } errorHandler: { error in
+            DispatchQueue.main.async {
+                decodingErrorHandler(error)
+            }
+        }
     }
 }

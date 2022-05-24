@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol MainViewDelegate: UIViewController {
-    func setSnapshot(productInformations: [ProductInformation])
-    func showErrorAlert(error: Error)
-}
-
 final class Network: NetworkAble {
     
     static let shared = Network()
@@ -23,25 +18,24 @@ final class Network: NetworkAble {
         self.session = session
     }
     
-    func setImageFromUrl(imageUrl: URL, imageView: UIImageView) -> URLSessionDataTask? {
+    func setImageFromUrl(
+        imageUrl: URL,
+        completionHandler: @escaping (UIImage) -> Void
+    ) -> URLSessionDataTask? {
         let cacheKey = imageUrl.absoluteString as NSString
         
         if let image = imageCache.object(forKey: cacheKey) {
-            imageView.image = image
+            completionHandler(image)
             return nil
         }
         
-        guard let dataTask = requestData(url: imageUrl, completeHandler: {
-            data, error in
+        guard let dataTask = requestData(url: imageUrl, completeHandler: { data, error in
             
             guard let data = data, let image = UIImage(data: data) else {
                 return
             }
-            
-            DispatchQueue.main.async {
-                self.imageCache.setObject(image, forKey: cacheKey)
-                imageView.image = image
-            }
+            self.imageCache.setObject(image, forKey: cacheKey)
+            completionHandler(image)
         }, errorHandler: {
             error in
         }) else {
@@ -50,31 +44,13 @@ final class Network: NetworkAble {
         return dataTask
     }
     
-    func setImageFromUrl(imageUrl imageUrlString: String, imageView: UIImageView) -> URLSessionDataTask? {
+    func setImageFromUrl(
+        imageUrlString: String,
+        completionHandler: @escaping (UIImage) -> Void
+    ) -> URLSessionDataTask? {
         guard let url = URL(string: imageUrlString) else {
             return nil
         }
-        return setImageFromUrl(imageUrl: url, imageView: imageView)
-    }
-    
-    func requestDecodedData(pageNo: Int, itemsPerPage: Int, delegate: MainViewDelegate?) {
-        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
-            DispatchQueue.main.async {
-                delegate?.showErrorAlert(error: NetworkError.urlError)
-            }
-            return
-        }
-        
-        requestData(url: url) { data, urlResponse in
-            guard let data = data,
-                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
-            DispatchQueue.main.async {
-                delegate?.setSnapshot(productInformations: pageInformation.pages)
-            }
-        } errorHandler: { error in
-            DispatchQueue.main.async {
-                delegate?.showErrorAlert(error: error)
-            }
-        }
+        return setImageFromUrl(imageUrl: url, completionHandler: completionHandler)
     }
 }

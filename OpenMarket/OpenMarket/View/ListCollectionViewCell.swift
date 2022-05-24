@@ -64,7 +64,12 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         
         var configure = defaultListConfiguration()
         lastDataTask?.cancel()
-        lastDataTask = network.setImageFromUrl(imageUrl: product.thumbnail, imageView: productImage)
+        lastDataTask = network.setImageFromUrl(
+            imageUrlString: product.thumbnail) { image in
+                DispatchQueue.main.async {
+                    self.productImage.image = image
+                }
+            }
         configure.text = product.name
         configure.textProperties.font = .preferredFont(forTextStyle: .headline)
         configure.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
