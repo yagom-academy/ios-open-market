@@ -17,6 +17,17 @@ final class ProductImageCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let removeButton: UIButton = {
+        let button = UIButton()
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        button.tintColor = .black
+        return button
+    }()
+    
+    var removeImage: (() -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
@@ -35,9 +46,30 @@ final class ProductImageCell: UICollectionViewCell {
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+        
+        contentView.addSubview(removeButton)
+        
+        NSLayoutConstraint.activate([
+            removeButton.topAnchor.constraint(equalTo: productImageView.topAnchor, constant: -8),
+            removeButton.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8)
+        ])
     }
     
     func configure(image: UIImage) {
         productImageView.image = image
+        removeButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
+        
+        if productImageView.image == UIImage(named: "plus") {
+            removeButton.isHidden = true
+        }
+    }
+    
+    override func prepareForReuse() {
+        productImageView.image = nil
+        removeButton.isHidden = false
+    }
+    
+    @objc private func removeButtonTapped() {
+        removeImage?()
     }
 }
