@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQF-b9-SUG">
-                        <rect key="frame" x="0.0" y="0.0" width="178" height="152"/>
+                        <rect key="frame" x="0.0" y="0.0" width="178" height="162"/>
                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
                         <color key="textColor" red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -37,7 +37,7 @@
                     <constraint firstItem="cz3-RS-80K" firstAttribute="centerY" secondItem="xE5-91-mT2" secondAttribute="centerY" id="V6g-Lh-vy8"/>
                     <constraint firstItem="gQF-b9-SUG" firstAttribute="leading" secondItem="xE5-91-mT2" secondAttribute="leading" id="jnU-NH-f8I"/>
                     <constraint firstAttribute="trailing" secondItem="cz3-RS-80K" secondAttribute="trailing" id="san-6k-vQC"/>
-                    <constraint firstAttribute="bottom" secondItem="gQF-b9-SUG" secondAttribute="bottom" constant="10" id="ygy-OI-b0M"/>
+                    <constraint firstAttribute="bottom" secondItem="gQF-b9-SUG" secondAttribute="bottom" id="ygy-OI-b0M"/>
                     <constraint firstItem="cz3-RS-80K" firstAttribute="leading" secondItem="xE5-91-mT2" secondAttribute="leading" id="ymZ-7b-t0K"/>
                 </constraints>
             </collectionViewCellContentView>
