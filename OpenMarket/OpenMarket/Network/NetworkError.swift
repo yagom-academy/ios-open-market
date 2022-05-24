@@ -12,4 +12,5 @@ enum NetworkError: Error {
     case urlError
     case clientError
     case dataError
+    case imageError
 }

@@ -5,7 +5,7 @@
 //  Created by marlang, Taeangel on 2022/05/12.
 //
 
-import Foundation
+import UIKit
 
 struct URLSessionProvider<T: Decodable> {
     private let session: URLSessionProtocol
@@ -17,18 +17,18 @@ struct URLSessionProvider<T: Decodable> {
     func fetchData(
         from url: Endpoint,
         completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
-        guard let url = url.url else {
-            completionHandler(.failure(.urlError))
-            return
+            guard let url = url.url else {
+                completionHandler(.failure(.urlError))
+                return
+            }
+            
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "GET"
+            
+            request(with: urlRequest, completionHandler: completionHandler)
         }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "GET"
-        
-        request(with: urlRequest, completionHandler: completionHandler)
-    }
     
-    func request(
+    private func request(
         with request: URLRequest,
         completionHandler: @escaping (Result<T, NetworkError>) -> Void
     ) {

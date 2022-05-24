@@ -9,6 +9,7 @@ disabled_rules:
 - comment_spacing
 - empty_enum_arguments
 - xctfail_message
+- legacy_constructor
 
 excluded:
 - Pods

@@ -7,12 +7,19 @@
 
 import Foundation
 
+struct Json {
+static let decoder = JSONDecoder()
+    private init() {}
+}
+
 extension Decodable {
     static func parse(data: Data) -> Self? {
         Json.decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
         guard let product = try? Json.decoder.decode(Self.self, from: data) else {
             return nil
         }
+        
         return product
     }
 }
