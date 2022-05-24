@@ -93,21 +93,20 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     @objc func doneToMain() {
         var data: String = ""
-        data.append(compare(productView.nameField.text!, product?.name, key: "name"))
-        data.append(compare(productView.priceField.text!, String(product?.price ?? 0.0), key: "price"))
-        data.append(compare(currency.rawValue, product?.currency?.rawValue, key: "currency"))
-        data.append(compare(productView.discountedPriceField.text!, String(product?.discountedPrice ?? 0.0), key: "discounted_price"))
-        data.append(compare(productView.stockField.text!, String(product?.stock ?? 0), key: "stock"))
-        data.append(compare(productView.descriptionView.text!, product?.description, key: "descriptions"))
+        guard let product = product else {
+            return
+        }
+        data.append(compare(productView.nameField.text!, product.name, key: "name"))
+        data.append(compare(productView.priceField.text!, String(product.price), key: "price"))
+        data.append(compare(currency.rawValue, product.currency?.rawValue, key: "currency"))
+        data.append(compare(productView.discountedPriceField.text!, String(product.discountedPrice), key: "discounted_price"))
+        data.append(compare(productView.stockField.text!, String(product.stock), key: "stock"))
+        data.append(compare(productView.descriptionView.text!, product.description, key: "descriptions"))
         
         if data.count > 0 {
             data.append("\"secret\": \"password\"")
             data.insert("{", at: data.startIndex)
             data.append("}")
-            
-            guard let product = product else {
-                return
-            }
             
             RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") {_ in
                 print("성공!")
