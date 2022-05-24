@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ProductListCell: UICollectionViewCell {
+class ProductListCell: UICollectionViewCell, ContentUpdatable {
     static let reuseIdentifier = "product-list-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
-    private var item: Product? = nil
-    private var imageFetchTask: URLSessionDataTask?
+    var item: Product? = nil
+    var imageFetchTask: URLSessionDataTask?
     var showSeparator = true {
         didSet {
             updateSeparator()
@@ -130,6 +130,12 @@ extension ProductListCell {
         cellUIComponent.priceLabel.textColor = .systemGray
         cellUIComponent.bargainPriceLabel.isHidden = false
         cellUIComponent.priceLabel.attributedText = nil
+    }
+}
+
+extension ProductListCell {
+    private func updateSeparator() {
+        seperatorView.isHidden = !showSeparator
     }
 }
 

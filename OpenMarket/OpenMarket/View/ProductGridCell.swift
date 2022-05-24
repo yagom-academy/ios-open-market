@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ProductGridCell: UICollectionViewCell {
+class ProductGridCell: UICollectionViewCell, ContentUpdatable {
     static let reuseIdentifier = "product-grid-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
-    private var item: Product? = nil
-    private var imageFetchTask: URLSessionDataTask?
+    var item: Product? = nil
+    var imageFetchTask: URLSessionDataTask?
     
     //MARK: - stackView
     private let baseStackView: UIStackView = {
@@ -59,9 +59,7 @@ extension ProductGridCell {
             thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor)
         ])
     }
-}
-
-extension ProductGridCell {
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         imageFetchTask?.cancel()
