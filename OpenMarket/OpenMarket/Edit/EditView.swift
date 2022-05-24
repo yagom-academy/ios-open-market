@@ -165,7 +165,7 @@ private extension UICollectionViewLayout {
     static let horizontalGrid: UICollectionViewCompositionalLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: 4, leading: 4, bottom: 4, trailing: 4)
+        item.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1), heightDimension: .fractionalHeight(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
