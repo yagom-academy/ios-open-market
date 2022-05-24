@@ -57,3 +57,9 @@ final class ImageRegisterCell: UICollectionViewCell {
     }
 }
 
+extension ImageRegisterCell {
+    override func prepareForReuse() {
+        plusButton.isHidden = false
+        imageView.image = nil
+    }
+}

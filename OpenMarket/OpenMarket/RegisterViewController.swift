@@ -46,7 +46,7 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let imageNumber = images.count + 1
-        return imageNumber < 5 ? imageNumber : 5
+        return imageNumber <= 5 ? imageNumber : 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
