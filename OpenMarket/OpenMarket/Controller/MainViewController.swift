@@ -67,8 +67,15 @@ final class MainViewController: UIViewController {
     navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
     navigationItem.titleView = segmentedControl
     navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add,
-                                              target: .none,
-                                              action: .none)
+                                              target: self,
+                                              action: #selector(presentRegistrationViewController))
+  }
+  
+  @objc private func presentRegistrationViewController() {
+    let registrationVC = RegistrationViewController()
+    let navigationController = UINavigationController(rootViewController: registrationVC)
+    navigationController.modalPresentationStyle = .fullScreen
+    present(navigationController, animated: true, completion: nil)
   }
   
   @objc private func changeCollectionViewLayout(_ sender: UISegmentedControl) {
