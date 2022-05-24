@@ -115,7 +115,6 @@ class RegistrationView: UIView {
     stackView.alignment = .fill
     stackView.distribution = .fillEqually
     stackView.spacing = 5
-
     return stackView
   }()
   
@@ -137,23 +136,24 @@ class RegistrationView: UIView {
     totalStackView.addArrangedSubviews(imageScrollView, textFieldStackView, descriptionTextField)
     self.addSubview(totalStackView)
     
-    NSLayoutConstraint.activate([totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                                 totalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-                                 totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
-                                 totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                                 
-                                 currencySegmentedControl.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.23),
-                                 
-                                 addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor, multiplier: 1),
-                                 
-                                 imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.17),
-                                 
-                                 imageWithButtonStackView.leadingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
-                                 imageWithButtonStackView.trailingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
-                                 imageWithButtonStackView.topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
-                                 imageWithButtonStackView.bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
-                                 imageWithButtonStackView.heightAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.heightAnchor, multiplier: 1),
-                                 descriptionTextField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6)
-                                ])
+    NSLayoutConstraint.activate(
+      [totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+       totalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+       totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
+       totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+       
+       currencySegmentedControl.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.23),
+       
+       addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor, multiplier: 1),
+       
+       imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.17),
+       
+       imageWithButtonStackView.leadingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
+       imageWithButtonStackView.trailingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
+       imageWithButtonStackView.topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
+       imageWithButtonStackView.bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
+       imageWithButtonStackView.heightAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.heightAnchor, multiplier: 1),
+       descriptionTextField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6)
+      ])
   }
 }
