@@ -13,6 +13,7 @@ final class EditView: UIView {
         addSubviews()
         makeConstraints()
         setUpAttribute()
+        registerCollectionViewCell()
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +66,7 @@ final class EditView: UIView {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: horizontalLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -126,21 +128,21 @@ final class EditView: UIView {
     }()
     
     private let horizontalLayout: UICollectionViewCompositionalLayout = {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1.0), heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         
         let footerSize = NSCollectionLayoutSize(widthDimension: .absolute(140),
                                                      heightDimension: .fractionalHeight(1.0))
         let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: footerSize,
-            elementKind: "section-footer-element-kind", alignment: .bottom)
+            elementKind: "section-footer-element-kind", alignment: .trailing)
         section.boundarySupplementaryItems = [sectionFooter]
         
+        section.orthogonalScrollingBehavior = .continuous
         let layout = UICollectionViewCompositionalLayout(section: section)
-        layout.configuration.scrollDirection = .horizontal
         return layout
     }()
     
@@ -185,6 +187,13 @@ final class EditView: UIView {
     
     func setUpBarItem(title: String) {
         navigationBarItem.title = title
+    }
+    
+    private func registerCollectionViewCell() {
+        collectionView.register(
+            ProductsHorizontalCell.self,
+            forCellWithReuseIdentifier: ProductsHorizontalCell.identifier
+        )
     }
 }
                                             

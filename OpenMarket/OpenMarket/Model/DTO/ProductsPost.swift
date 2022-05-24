@@ -24,7 +24,7 @@ struct ProductsPost: Encodable {
     }
 }
 
-struct ImageInfo: Encodable {
+struct ImageInfo: Encodable, Hashable {
     let fileName: String
     let data: Data
     let type: String

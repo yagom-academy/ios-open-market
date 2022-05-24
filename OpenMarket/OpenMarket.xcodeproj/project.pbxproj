@@ -11,6 +11,7 @@
 		A13387A02833673300950EA2 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A133879F2833673300950EA2 /* ImageCacheManager.swift */; };
 		A13387A22833759D00950EA2 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13387A12833759C00950EA2 /* AlertBuilder.swift */; };
 		A13387A4283375ED00950EA2 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13387A3283375ED00950EA2 /* UIViewController.swift */; };
+		A1625711283D177700397546 /* ProductsHorizontalFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1625710283D177700397546 /* ProductsHorizontalFooterView.swift */; };
 		A17840CD282A238700DAB50D /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17840CC282A238700DAB50D /* StubURLSession.swift */; };
 		A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A3ECCA282A55E1000A440C /* EndPoint.swift */; };
 		A1A3ECCE282A56C0000A440C /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A3ECCD282A56C0000A440C /* APIProvider.swift */; };
@@ -62,6 +63,7 @@
 		A133879F2833673300950EA2 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		A13387A12833759C00950EA2 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		A13387A3283375ED00950EA2 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		A1625710283D177700397546 /* ProductsHorizontalFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsHorizontalFooterView.swift; sourceTree = "<group>"; };
 		A17840CC282A238700DAB50D /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		A1A3ECCA282A55E1000A440C /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		A1A3ECCD282A56C0000A440C /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
@@ -126,6 +128,22 @@
 				A13387A12833759C00950EA2 /* AlertBuilder.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		A162570E283D0E4E00397546 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A162570F283D0E5300397546 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968DA283D071600CDA7B1 /* RegisterViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		A17840C8282A233B00DAB50D /* Network */ = {
@@ -312,6 +330,7 @@
 			children = (
 				DAA968D4283CA95200CDA7B1 /* EditView.swift */,
 				DAA968D8283D054900CDA7B1 /* ProductsHorizontalCell.swift */,
+				A1625710283D177700397546 /* ProductsHorizontalFooterView.swift */,
 				DAA968D3283CA93400CDA7B1 /* Register */,
 			);
 			path = Edit;
@@ -320,8 +339,8 @@
 		DAA968D3283CA93400CDA7B1 /* Register */ = {
 			isa = PBXGroup;
 			children = (
-				DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */,
-				DAA968DA283D071600CDA7B1 /* RegisterViewModel.swift */,
+				A162570E283D0E4E00397546 /* View */,
+				A162570F283D0E5300397546 /* ViewModel */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -447,6 +466,7 @@
 				DA9AE567282B5709003BA8B2 /* ProductsDetail.swift in Sources */,
 				DA9AE5B728326AF0003BA8B2 /* ProductsListCell.swift in Sources */,
 				A13387A02833673300950EA2 /* ImageCacheManager.swift in Sources */,
+				A1625711283D177700397546 /* ProductsHorizontalFooterView.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				DAA968D7283CA98900CDA7B1 /* RegisterViewController.swift in Sources */,
 				A1DADBF2282D4F88002C7B4D /* URLSession.swift in Sources */,
@@ -617,7 +637,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8C8Y42HXM4;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -637,7 +657,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8C8Y42HXM4;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

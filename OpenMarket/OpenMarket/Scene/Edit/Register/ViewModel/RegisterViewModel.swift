@@ -12,11 +12,11 @@ final class RegisterViewModel {
         case main
     }
     
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, UIImage>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageInfo>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ImageInfo>
     
     private let productsAPIServie = APIProvider<Products>()
-    var images: [UIImage] = []
+    var images: [ImageInfo] = []
     var datasource: DataSource?
     weak var delegate: AlertDelegate?
     
@@ -33,6 +33,20 @@ final class RegisterViewModel {
                 }
             }
         }
+    }
+    
+    func appendImages() {
+        guard let data1 = UIImage(systemName: "swift")?.pngData() else { return }
+        guard let data2 = UIImage(systemName: "swift")?.pngData() else { return }
+        guard let data3 = UIImage(systemName: "swift")?.pngData() else { return }
+        
+        images.append(ImageInfo(fileName: "test1", data: data1, type: "png"))
+        images.append(ImageInfo(fileName: "test2", data: data2, type: "png"))
+        images.append(ImageInfo(fileName: "test3", data: data3, type: "png"))
+        images.append(ImageInfo(fileName: "test4", data: data3, type: "png"))
+        images.append(ImageInfo(fileName: "test5", data: data3, type: "png"))
+        
+        applySnapshot()
     }
     
     private func applySnapshot() {

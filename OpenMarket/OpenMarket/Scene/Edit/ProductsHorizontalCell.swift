@@ -23,14 +23,15 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
         makeConstraints()
     }
     
-    let productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     func addSubviews() {
-        self.addSubview(productImageView)
+        contentView.addSubview(productImageView)
     }
     
     func makeConstraints() {
@@ -40,5 +41,11 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
             productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+    }
+    
+    func updateImage(imageInfo: ImageInfo) {
+        if let image = UIImage(data: imageInfo.data) {
+            productImageView.image = image
+        }
     }
 }
