@@ -8,17 +8,31 @@
 import UIKit
 
 class RegistrationView: UIView {
+  
+  init() {
+    super.init(frame: .zero)
+    configureLayout()
+    self.backgroundColor = .white
+    self.translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   //MARK: - image scroll part
   private let imageScrollView: UIScrollView = {
     let scrollView = UIScrollView()
+    scrollView.translatesAutoresizingMaskIntoConstraints = false
     return scrollView
   }()
   
   private let addImageButton: UIButton = {
     let button = UIButton()
     button.backgroundColor = .systemGray2
-    button.titleLabel?.text = "+"
-    button.titleLabel?.textColor = .systemBlue
+    button.setTitle("+", for: .normal)
+    button.setTitleColor(UIColor.systemBlue, for: .normal)
+    button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
   //MARK: - text field part
@@ -65,6 +79,8 @@ class RegistrationView: UIView {
   private let descriptionTextField: UITextField = {
     let textField = UITextField()
     textField.backgroundColor = .white
+    textField.translatesAutoresizingMaskIntoConstraints = false
+    textField.contentVerticalAlignment = .top
     return textField
   }()
   //MARK: - stack view
@@ -73,7 +89,7 @@ class RegistrationView: UIView {
     stackView.axis = .horizontal
     stackView.alignment = .fill
     stackView.distribution = .fill
-    stackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
   
@@ -82,6 +98,7 @@ class RegistrationView: UIView {
     stackView.axis = .horizontal
     stackView.alignment = .fill
     stackView.distribution = .fill
+    stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
   
@@ -97,8 +114,9 @@ class RegistrationView: UIView {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.alignment = .fill
-    stackView.distribution = .fill
+    stackView.distribution = .fillEqually
     stackView.spacing = 5
+
     return stackView
   }()
   
@@ -108,6 +126,7 @@ class RegistrationView: UIView {
     stackView.alignment = .fill
     stackView.distribution = .fill
     stackView.spacing = 10
+    stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
   //MARK: - layout
@@ -128,13 +147,14 @@ class RegistrationView: UIView {
                                  
                                  addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor, multiplier: 1),
                                  
-                                 imageStackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.17),
+                                 imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.17),
                                  
                                  imageWithButtonStackView.leadingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
                                  imageWithButtonStackView.trailingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
                                  imageWithButtonStackView.topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
                                  imageWithButtonStackView.bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
-                                 imageWithButtonStackView.heightAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.heightAnchor, multiplier: 1)
+                                 imageWithButtonStackView.heightAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.heightAnchor, multiplier: 1),
+                                 descriptionTextField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6)
                                 ])
   }
 }
