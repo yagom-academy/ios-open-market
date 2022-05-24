@@ -83,7 +83,7 @@ class RegistrationView: UIView {
     return textField
   }()
   //MARK: - stack view
-  private let imageStackView: UIStackView = {
+  let imageStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.alignment = .fill
