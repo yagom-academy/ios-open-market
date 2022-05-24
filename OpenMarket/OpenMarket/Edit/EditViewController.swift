@@ -30,7 +30,7 @@ final class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        applySnapshot(images: [UIImage(systemName: "plus")!])
+        applySnapshot(images: [UIImage(named: "plus")!])
         configurePickerController()
         registerNotification()
     }
