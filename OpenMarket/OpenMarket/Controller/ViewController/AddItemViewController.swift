@@ -96,7 +96,7 @@ extension AddItemViewController {
     }
     
     private func setLayout() {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(itemImageCollectionView.frame.height), heightDimension: .absolute(itemImageCollectionView.frame.height))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: itemSize.widthDimension, heightDimension: itemSize.heightDimension)
