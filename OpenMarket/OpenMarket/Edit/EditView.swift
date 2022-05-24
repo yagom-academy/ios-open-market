@@ -37,6 +37,7 @@ class EditView: UIView {
     let productNameTextField: UITextField = {
         let textField = UITextField()
         
+        textField.makeToolBar()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
         return textField
@@ -52,9 +53,11 @@ class EditView: UIView {
     let productCostTextField: UITextField = {
         let textField = UITextField()
         
+        textField.makeToolBar()
         textField.setContentHuggingPriority(.lowest, for: .horizontal)
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         return textField
     }()
     
@@ -68,22 +71,27 @@ class EditView: UIView {
     let productDiscountCostTextField: UITextField = {
         let textField = UITextField()
         
+        textField.makeToolBar()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         return textField
     }()
     
     let productStockTextField: UITextField = {
         let textField = UITextField()
         
+        textField.makeToolBar()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         return textField
     }()
     
     let productDescriptionTextView: UITextView = {
         let textView = UITextView()
         
+        textView.makeToolBar()
         return textView
     }()
     
@@ -114,6 +122,42 @@ class EditView: UIView {
         NSLayoutConstraint.activate([
             collectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
         ])
+    }
+}
+
+private extension UITextField {
+    func makeToolBar() {
+        let bar = UIToolbar()
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let hiddenButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(keyboardHidden))
+        bar.items = [space, hiddenButton]
+        bar.sizeToFit()
+        
+        inputAccessoryView = bar
+    }
+    
+    @objc private func keyboardHidden() {
+        if isFirstResponder {
+            resignFirstResponder()
+        }
+    }
+}
+
+private extension UITextView {
+    func makeToolBar() {
+        let bar = UIToolbar()
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let hiddenButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(keyboardHidden))
+        bar.items = [space, hiddenButton]
+        bar.sizeToFit()
+        
+        inputAccessoryView = bar
+    }
+    
+    @objc private func keyboardHidden() {
+        if isFirstResponder {
+            resignFirstResponder()
+        }
     }
 }
 

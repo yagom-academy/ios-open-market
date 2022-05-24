@@ -34,7 +34,7 @@ final class EditViewController: UIViewController {
         configurePickerController()
         registerNotification()
     }
-    
+
     deinit {
         removeNotification()
     }
