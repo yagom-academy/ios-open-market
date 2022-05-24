@@ -30,6 +30,9 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
         productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
         productView.currencyField.selectedSegmentIndex = 0
         self.changeCurrency(productView.currencyField)
+        
+        
+        
     }
 }
 
@@ -60,7 +63,6 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             cell.plusButton.addTarget(self, action: #selector(actionSheetAlert), for: .touchUpInside)
         }
-        
         return cell
     }
 }
@@ -95,8 +97,24 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
             return
         }
         var imageSize: Double = Double(imagaDataSize) / 1024
+        
+        
+        guard let cellSize = productView.collectionView.visibleCells.first?.frame.size else {
+            return
+        }
+        print("# Size of image in KB: \(imageSize) KB")
+        if imageSize > maxKBSize {
+            print("# ============================================")
+            image = image.resize(target: cellSize)
+            guard let imagaDataSize = image.jpegData(compressionQuality: 1.0)?.count else {
+                return
+            }
+            imageSize = Double(imagaDataSize) / 1024
+            print("# Size of image in KB: \(imageSize) KB")
+        }
+        
         while imageSize > maxKBSize {
-            let ratio = (imageSize / 300.0)
+            let ratio = (imageSize / maxKBSize)
             if ratio > 2 {
                 image = image.resize(ratio: ratio)
             } else {
@@ -106,6 +124,7 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
                 return
             }
             imageSize = Double(imagaDataSize) / 1024
+            print("# Size of image in KB: \(imageSize) KB")
         }
         
         images.append(image)
