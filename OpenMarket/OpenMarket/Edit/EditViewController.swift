@@ -88,11 +88,6 @@ final class EditViewController: UIViewController {
     }
     
     @objc private func keyboardWillHidden(_ sender: Notification) {
-        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
-        
-        let keyboardHeight = keyboardFrame.cgRectValue.height
         mainView?.productDescriptionTextView.contentInset.bottom = 0
     }
     
