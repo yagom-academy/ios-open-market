@@ -61,5 +61,6 @@ extension ImageRegisterCell {
     override func prepareForReuse() {
         plusButton.isHidden = false
         imageView.image = nil
+        imageView.backgroundColor = .systemGray3
     }
 }

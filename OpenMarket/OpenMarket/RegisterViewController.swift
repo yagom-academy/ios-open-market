@@ -56,6 +56,7 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
         if indexPath.row < images.count {
             cell.imageView.image = images[indexPath.row]
             cell.plusButton.isHidden = true
+            cell.imageView.backgroundColor = .clear
         } else {
             cell.plusButton.addTarget(self, action: #selector(actionSheetAlert), for: .touchUpInside)
         }
@@ -85,13 +86,9 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        dismiss(animated: true, completion: nil)
-        
-        let urlInfo = info[.originalImage] as! UIImage
-        
-        
+        let urlInfo = info[.editedImage] as! UIImage
         images.append(urlInfo)
-        
+        dismiss(animated: true, completion: nil)
         DispatchQueue.main.async {
             self.productView.collectionView.reloadData()
         }
