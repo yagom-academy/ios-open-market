@@ -5,9 +5,9 @@
 //  Created by 우롱차, Donnie on 2022/05/10.
 //
 
-import Foundation
+import UIKit
 
-struct ProductInformation: Codable {
+struct ProductInformation: Codable, Hashable {
     let id: Int
     let vendorId: Int
     let name: String
@@ -19,7 +19,7 @@ struct ProductInformation: Codable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-    
+
     private enum CodingKeys: String, CodingKey {
         case id
         case vendorId = "vendor_id"
@@ -34,3 +34,4 @@ struct ProductInformation: Codable {
         case issuedAt = "issued_at"
     }
 }
+

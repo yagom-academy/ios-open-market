@@ -2,60 +2,79 @@
 //  Network.swift
 //  OpenMarket
 //
-//  Created by 우롱차, Donnie on 2022/05/10.
+//  Created by 우롱차, Donnie on 2022/05/20.
 //
 
-import Foundation
+import UIKit
 
-protocol NetworkAble {
-    func requestData(url: String,
-                     completeHandler: @escaping DataTaskCompletionHandler,
-                     errorHandler: @escaping DataTaskErrorHandler)
+protocol MainViewDelegate: UIViewController {
+    func setSnapshot(productInformations: [ProductInformation])
+    func showErrorAlert(error: Error)
 }
 
 final class Network: NetworkAble {
     
-    private enum Constant {
-        static let successRange = 200..<300
-    }
+    static let shared = Network()
+    private let imageCache = NSCache<NSString, UIImage>()
+    private let decoder = JSONDecoder()
+    let session: URLSessionProtocol
     
-    var session: URLSessionProtocol
-    
-    init(session: URLSessionProtocol) {
+    private init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func requestData(url: String,
-                     completeHandler: @escaping DataTaskCompletionHandler,
-                     errorHandler: @escaping DataTaskErrorHandler) {
+    func setImageFromUrl(imageUrl: URL, imageView: UIImageView) -> URLSessionDataTask? {
+        let cacheKey = imageUrl.absoluteString as NSString
         
-        let urlComponents = URLComponents(string: url)
-        guard let requestURL = urlComponents?.url else {
-            errorHandler(NetworkError.urlError)
+        if let image = imageCache.object(forKey: cacheKey) {
+            imageView.image = image
+            return nil
+        }
+        
+        guard let dataTask = requestData(url: imageUrl, completeHandler: {
+            data, error in
+            
+            guard let data = data, let image = UIImage(data: data) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.imageCache.setObject(image, forKey: cacheKey)
+                imageView.image = image
+            }
+        }, errorHandler: {
+            error in
+        }) else {
+            return nil
+        }
+        return dataTask
+    }
+    
+    func setImageFromUrl(imageUrl imageUrlString: String, imageView: UIImageView) -> URLSessionDataTask? {
+        guard let url = URL(string: imageUrlString) else {
+            return nil
+        }
+        return setImageFromUrl(imageUrl: url, imageView: imageView)
+    }
+    
+    func requestDecodedData(pageNo: Int, itemsPerPage: Int, delegate: MainViewDelegate?) {
+        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
+            DispatchQueue.main.async {
+                delegate?.showErrorAlert(error: NetworkError.urlError)
+            }
             return
         }
         
-        let dataTask = session.dataTask(with: requestURL) { (data, response, error) in
-            
-            guard error == nil else {
-                errorHandler(NetworkError.sessionError)
-                return
+        requestData(url: url) { data, urlResponse in
+            guard let data = data,
+                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
+            DispatchQueue.main.async {
+                delegate?.setSnapshot(productInformations: pageInformation.pages)
             }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                Constant.successRange.contains(statusCode) else {
-                errorHandler(NetworkError.statusCodeError)
-                return
+        } errorHandler: { error in
+            DispatchQueue.main.async {
+                delegate?.showErrorAlert(error: error)
             }
-            
-            guard let data = data else {
-                errorHandler(NetworkError.dataError)
-                return
-            }
-            
-            completeHandler(data, response, error)
         }
-        dataTask.resume()
     }
 }
-

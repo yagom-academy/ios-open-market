@@ -10,7 +10,7 @@ import Foundation
 struct ProductRegistration: Codable {
     let identifier: String
     let parameters: RegistrationParameter
-    let images: [Image]
+    let images: [ProductImage]
     
     private enum CodingKeys: String, CodingKey {
         case identifier

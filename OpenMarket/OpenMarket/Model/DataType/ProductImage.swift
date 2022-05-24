@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Image: Codable {
+struct ProductImage: Codable {
     let id: Int
     let url: String
     let thumbnailUrl: String
