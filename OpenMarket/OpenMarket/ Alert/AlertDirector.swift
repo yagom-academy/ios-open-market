@@ -18,19 +18,18 @@ final class AlertDirector {
         AlertBuilder(viewController: viewController)
             .setTitle("에러 발생")
             .setMessage("데이터를 불러오지 못했습니다.")
-            .setOkActionTitle("확인")
+            .setOkButton()
             .show()
     }
     
     func createImageSelectActionSheet(albumAction: @escaping (UIAlertAction) -> Void, cameraAction: @escaping (UIAlertAction) -> Void) {
         AlertBuilder(viewController: viewController)
             .setPreferredStyle(.actionSheet)
-            .setTitle("대충타이틀")
-            .setMessage("대충메시지")
-            .setOkActionTitle("앨범")
-            .setCencelActionTitle("카메라")
-            .setOkAction(albumAction)
-            .setCencelAction(cameraAction)
+            .setFirstActionTitle("앨범")
+            .setSecondActionTitle("카메라")
+            .setFirstAction(albumAction)
+            .setSecondAction(cameraAction)
+            .setCancelButton()
             .show()
     }
 }

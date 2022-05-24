@@ -86,9 +86,13 @@ final class EditViewController: UIViewController {
     }
 }
 
+// MARK: - ImageViewController Delegate
+
 extension EditViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
 }
+
+// MARK: - CollectionView Delegate
 
 extension EditViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
