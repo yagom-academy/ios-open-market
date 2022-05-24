@@ -17,19 +17,36 @@
                 <rect key="frame" x="0.0" y="0.0" width="178" height="162"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQF-b9-SUG">
+                        <rect key="frame" x="0.0" y="0.0" width="178" height="152"/>
+                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                        <color key="textColor" red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cz3-RS-80K">
                         <rect key="frame" x="0.0" y="0.0" width="178" height="162"/>
+                        <color key="tintColor" red="0.15886913320000001" green="0.1646648537" blue="0.17735227589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="cz3-RS-80K" firstAttribute="top" secondItem="xE5-91-mT2" secondAttribute="top" id="15A-RP-cwb"/>
                     <constraint firstAttribute="bottom" secondItem="cz3-RS-80K" secondAttribute="bottom" id="A4a-Tr-fZy"/>
+                    <constraint firstItem="gQF-b9-SUG" firstAttribute="top" secondItem="xE5-91-mT2" secondAttribute="top" id="Fy2-cM-cx4"/>
+                    <constraint firstItem="cz3-RS-80K" firstAttribute="centerX" secondItem="xE5-91-mT2" secondAttribute="centerX" id="Mrk-Ew-RpA"/>
+                    <constraint firstAttribute="trailing" secondItem="gQF-b9-SUG" secondAttribute="trailing" id="Oz5-fc-LIn"/>
+                    <constraint firstItem="cz3-RS-80K" firstAttribute="centerY" secondItem="xE5-91-mT2" secondAttribute="centerY" id="V6g-Lh-vy8"/>
+                    <constraint firstItem="gQF-b9-SUG" firstAttribute="leading" secondItem="xE5-91-mT2" secondAttribute="leading" id="jnU-NH-f8I"/>
                     <constraint firstAttribute="trailing" secondItem="cz3-RS-80K" secondAttribute="trailing" id="san-6k-vQC"/>
+                    <constraint firstAttribute="bottom" secondItem="gQF-b9-SUG" secondAttribute="bottom" constant="10" id="ygy-OI-b0M"/>
                     <constraint firstItem="cz3-RS-80K" firstAttribute="leading" secondItem="xE5-91-mT2" secondAttribute="leading" id="ymZ-7b-t0K"/>
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="178" height="162"/>
-            <point key="canvasLocation" x="217.39130434782609" y="55.580357142857139"/>
+            <connections>
+                <outlet property="itemImageView" destination="cz3-RS-80K" id="ILr-Sh-Kbw"/>
+                <outlet property="plusLabel" destination="gQF-b9-SUG" id="gu9-XC-s4j"/>
+            </connections>
+            <point key="canvasLocation" x="123" y="62"/>
         </collectionViewCell>
     </objects>
 </document>
