@@ -30,11 +30,8 @@ final class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        applySnapshot(images: [UIImage(systemName: "swift")!,
-                               UIImage(systemName: "pencil")!,
-                               UIImage(systemName: "person.2")!,
-                               UIImage(systemName: "plus")!
-                              ])
+        applySnapshot(images: [UIImage(systemName: "plus")!])
+        configurePickerController()
     }
     
     private func configureView() {
@@ -89,6 +86,12 @@ final class EditViewController: UIViewController {
 // MARK: - ImageViewController Delegate
 
 extension EditViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        insertSnapshot(images: [image])
+        picker.dismiss(animated: true)
+    }
     
 }
 
@@ -137,6 +140,16 @@ extension EditViewController {
     private func applySnapshot(images: [UIImage]) {
         DispatchQueue.main.async { [self] in
             snapshot?.appendItems(images)
+            guard let snapshot = snapshot else { return }
+            
+            dataSource?.apply(snapshot, animatingDifferences: false)
+        }
+    }
+    
+    private func insertSnapshot(images: [UIImage]) {
+        DispatchQueue.main.async { [self] in
+            guard let lastItem = snapshot?.itemIdentifiers.last else { return }
+            snapshot?.insertItems(images, beforeItem: lastItem)
             guard let snapshot = snapshot else { return }
             
             dataSource?.apply(snapshot, animatingDifferences: false)
