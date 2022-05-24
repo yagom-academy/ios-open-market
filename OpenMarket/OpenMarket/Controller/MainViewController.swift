@@ -1,12 +1,12 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - MainViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     @IBOutlet private weak var openMarketCollectionView: UICollectionView!
     @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
     @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
@@ -100,13 +100,23 @@ final class ViewController: UIViewController {
         self.myActivityIndicator.stopAnimating()
     }
     
+    private func moveToAddVC(title: String) {
+        guard let addVC = storyboard?.instantiateViewController(withIdentifier: "AddItemViewController") as? AddItemViewController else { return }
+        addVC.navigationItem.title = title
+        navigationController?.pushViewController(addVC, animated: true)
+    }
+    
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         guard let segmentType = CellType(rawValue: sender.selectedSegmentIndex) else { return }
         cellType = segmentType
     }
+    
+    @IBAction func touchAddButton(_ sender: UIBarButtonItem) {
+        moveToAddVC(title: "상품 등록")
+    }
 }
 // MARK: - CollectionView Cell
-extension ViewController: UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
@@ -125,7 +135,7 @@ extension ViewController: UICollectionViewDataSource {
 }
 
 // MARK: - CollectionView Prefetching
-extension ViewController: UICollectionViewDataSourcePrefetching {
+extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         guard hasNext else {
             return
@@ -139,7 +149,7 @@ extension ViewController: UICollectionViewDataSourcePrefetching {
 }
 
 // MARK: - CollectionView Layout
-extension ViewController {
+extension MainViewController {
     private func setListLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(openMarketCollectionView.frame.height * 0.1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
