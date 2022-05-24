@@ -109,26 +109,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AC28CE98283CAAE100121BA2 /* MainView */ = {
+		AC28CE98283CAAE100121BA2 /* CellView */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
-				E5DF525E2835332300CBBC45 /* ItemCellable.swift */,
 				AC12F11B283486C70044462D /* ListCell.swift */,
 				E5DF525A2834A77100CBBC45 /* GridCell.swift */,
-			);
-			path = MainView;
-			sourceTree = "<group>";
-		};
-		AC28CE99283CAAF400121BA2 /* AddView */ = {
-			isa = PBXGroup;
-			children = (
-				ACAAEEB8283C79420080EE0B /* AddItemViewController.swift */,
 				E5DF529C283CADDF00CBBC45 /* ItemImageCell.swift */,
-				E5DF529D283CADDF00CBBC45 /* ItemImageCell.xib */,
 			);
-			name = AddView;
-			path = MainView/AddView;
+			path = CellView;
 			sourceTree = "<group>";
 		};
 		AC70B776282CBA270065042D /* ItemModel */ = {
@@ -147,6 +135,7 @@
 				ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */,
 				AC326F72283285DA00303ADC /* APIableProtocol.swift */,
 				AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */,
+				E5DF525E2835332300CBBC45 /* ItemCellable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -213,8 +202,7 @@
 		E5BEAFDF282A581A001B7BDD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				AC28CE98283CAAE100121BA2 /* MainView */,
-				AC28CE99283CAAF400121BA2 /* AddView */,
+				E5DF52A2283CB80600CBBC45 /* ViewController */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -222,9 +210,9 @@
 		E5BEAFE0282A5824001B7BDD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AC28CE98283CAAE100121BA2 /* CellView */,
+				E5DF52A1283CB7AF00CBBC45 /* CellViewXib */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				AC12F11C283486C70044462D /* ListCell.xib */,
-				E5DF525B2834A77100CBBC45 /* GridCell.xib */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
 			path = View;
@@ -254,6 +242,25 @@
 				E525336F2832963B0032F533 /* TestAPIModel.swift */,
 			);
 			path = TestDouble;
+			sourceTree = "<group>";
+		};
+		E5DF52A1283CB7AF00CBBC45 /* CellViewXib */ = {
+			isa = PBXGroup;
+			children = (
+				AC12F11C283486C70044462D /* ListCell.xib */,
+				E5DF525B2834A77100CBBC45 /* GridCell.xib */,
+				E5DF529D283CADDF00CBBC45 /* ItemImageCell.xib */,
+			);
+			path = CellViewXib;
+			sourceTree = "<group>";
+		};
+		E5DF52A2283CB80600CBBC45 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				ACAAEEB8283C79420080EE0B /* AddItemViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
