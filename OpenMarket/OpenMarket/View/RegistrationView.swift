@@ -26,7 +26,7 @@ class RegistrationView: UIView {
     return scrollView
   }()
   
-  private let addImageButton: UIButton = {
+  let addImageButton: UIButton = {
     let button = UIButton()
     button.backgroundColor = .systemGray2
     button.setTitle("+", for: .normal)
