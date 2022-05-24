@@ -22,7 +22,7 @@ enum ArrangeMode: String, CaseIterable {
 
 extension API {
     static let numbers = 1
-    static let pages = 20
+    static let pages = 100
 }
 
 final class MainViewController: UIViewController {
@@ -79,9 +79,31 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
+            return
+        }
+        vc.modalPresentationStyle = .fullScreen
+        let id = products[indexPath.row].id
+        RequestAssistant.shared.requestDetailAPI(productId: id) { result in
+            switch result {
+            case .success(let data):
+                vc.product = data
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    let alert = UIAlertController(title: "데이터 로드 실패", message: "", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "닫기", style: .default) { (action) in
+                    }
+                    alert.addAction(action)
+                    self.present(alert, animated: false, completion: nil)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Private Method
@@ -95,7 +117,7 @@ private extension MainViewController {
     
     private func requestProductListData() {
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
-            Thread.sleep(forTimeInterval: 5)
+            //Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let data):
                 self.products = data.pages
