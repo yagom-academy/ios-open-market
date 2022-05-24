@@ -38,6 +38,8 @@
 		E5DF525D2834A77100CBBC45 /* GridCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5DF525B2834A77100CBBC45 /* GridCell.xib */; };
 		E5DF525F2835332300CBBC45 /* ItemCellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DF525E2835332300CBBC45 /* ItemCellable.swift */; };
 		E5DF52622836395500CBBC45 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DF52612836395500CBBC45 /* ImageCacheManager.swift */; };
+		E5DF529E283CADDF00CBBC45 /* ItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DF529C283CADDF00CBBC45 /* ItemImageCell.swift */; };
+		E5DF529F283CADDF00CBBC45 /* ItemImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5DF529D283CADDF00CBBC45 /* ItemImageCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		E5DF525B2834A77100CBBC45 /* GridCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCell.xib; sourceTree = "<group>"; };
 		E5DF525E2835332300CBBC45 /* ItemCellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCellable.swift; sourceTree = "<group>"; };
 		E5DF52612836395500CBBC45 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		E5DF529C283CADDF00CBBC45 /* ItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImageCell.swift; sourceTree = "<group>"; };
+		E5DF529D283CADDF00CBBC45 /* ItemImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemImageCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				ACAAEEB8283C79420080EE0B /* AddItemViewController.swift */,
+				E5DF529C283CADDF00CBBC45 /* ItemImageCell.swift */,
+				E5DF529D283CADDF00CBBC45 /* ItemImageCell.xib */,
 			);
 			name = AddView;
 			path = MainView/AddView;
@@ -338,6 +344,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5DF529F283CADDF00CBBC45 /* ItemImageCell.xib in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				E5DF525D2834A77100CBBC45 /* GridCell.xib in Resources */,
 				AC12F11E283486C70044462D /* ListCell.xib in Resources */,
@@ -371,6 +378,7 @@
 				ACE4F5E4283BC4860069DC11 /* Extension + UIImageView.swift in Sources */,
 				AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */,
 				ACB7B5E3283737B50099425E /* Extension + String.swift in Sources */,
+				E5DF529E283CADDF00CBBC45 /* ItemImageCell.swift in Sources */,
 				E5BEAFE7282A7F5B001B7BDD /* NetworkHandler.swift in Sources */,
 				E5BEAFE3282A58E9001B7BDD /* ItemPage.swift in Sources */,
 				E5BEAFE5282A7C01001B7BDD /* Currency.swift in Sources */,

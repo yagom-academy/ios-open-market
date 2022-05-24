@@ -101,7 +101,7 @@ final class MainViewController: UIViewController {
     }
     
     private func moveToAddVC(title: String) {
-        guard let addVC = storyboard?.instantiateViewController(withIdentifier: "AddItemViewController") as? AddItemViewController else { return }
+        guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
         addVC.title = title
         
         navigationController?.pushViewController(addVC, animated: true)
