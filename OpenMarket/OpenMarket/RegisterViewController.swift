@@ -9,8 +9,9 @@ import UIKit
 
 final class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
     lazy var productView = ProductView(frame: view.frame)
-    var imageNumber: Int = 1
+
     var currency: Currency = .KRW
+    var images: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,14 +45,21 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageNumber <= 5 ? imageNumber : 5
+        let imageNumber = images.count + 1
+        return imageNumber < 5 ? imageNumber : 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as? ImageRegisterCell else {
             return ImageRegisterCell()
         }
-        cell.plusButton.addTarget(self, action: #selector(actionSheetAlert), for: .touchUpInside)
+        if indexPath.row < images.count {
+            cell.imageView.image = images[indexPath.row]
+            cell.plusButton.isHidden = true
+        } else {
+            cell.plusButton.addTarget(self, action: #selector(actionSheetAlert), for: .touchUpInside)
+        }
+        
         return cell
     }
 }
@@ -77,8 +85,17 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-             dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
+        
+        let urlInfo = info[.originalImage] as! UIImage
+        
+        
+        images.append(urlInfo)
+        
+        DispatchQueue.main.async {
+            self.productView.collectionView.reloadData()
         }
+    }
     
     @objc func actionSheetAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
