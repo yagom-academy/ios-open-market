@@ -12,6 +12,8 @@ final class ProductImageCell: UICollectionViewCell {
         let imageView = UIImageView()
             
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
