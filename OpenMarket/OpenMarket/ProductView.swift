@@ -25,6 +25,7 @@ class ProductView: UIView {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()

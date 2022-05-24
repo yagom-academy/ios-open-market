@@ -93,6 +93,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let product = product else {
             return
         }
+        
         data.append(compare(productView.nameField.text!, product.name, key: "name"))
         data.append(compare(productView.priceField.text!, String(product.price), key: "price"))
         data.append(compare(currency.rawValue, product.currency?.rawValue, key: "currency"))
@@ -104,6 +105,8 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
             data.append("\"secret\": \"password\"")
             data.insert("{", at: data.startIndex)
             data.append("}")
+            
+            
             
             RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") {_ in
                 print("성공!")
@@ -127,32 +130,31 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     @objc func keyboardWillShow(notification: NSNotification) {
 
-        guard let userInfo = notification.userInfo else {
-            return
-        }
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        productView.mainScrollView.setContentOffset(CGPoint(x: 0, y: keyboardFrame.size.height - 100), animated: true)
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+               UIView.animate(withDuration: 0.3, animations: {
+                   self.productView.transform = CGAffineTransform(translationX: 0, y: -keyboardSize.height)
+               })
+           }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
 
-        guard let userInfo = notification.userInfo else {
-            return
-        }
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        productView.mainScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        self.productView.transform = .identity
     }
   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        productView.endEditing(true)
     }
 }

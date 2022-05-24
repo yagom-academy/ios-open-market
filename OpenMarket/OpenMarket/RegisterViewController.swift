@@ -130,4 +130,33 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
             currency = Currency.USD
         }
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+               UIView.animate(withDuration: 0.3, animations: {
+                   self.productView.transform = CGAffineTransform(translationX: 0, y: -keyboardSize.height)
+               })
+           }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.productView.transform = .identity
+    }
+  
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        productView.endEditing(true)
+    }
 }
