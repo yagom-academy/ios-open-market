@@ -11,6 +11,12 @@ final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
     @IBOutlet private weak var curruncySegment: UISegmentedControl!
     
+    private var imageCount = 0 {
+        didSet {
+            itemImageCollectionView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
@@ -20,6 +26,7 @@ final class AddItemViewController: UIViewController {
         navigationItem.setLeftBarButton(makeCancelButton(), animated: true)
         navigationItem.setRightBarButton(makeDoneButton(), animated: true)
         itemImageCollectionView.dataSource = self
+        itemImageCollectionView.delegate = self
         itemImageCollectionView.register(UINib(nibName: "\(ItemImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(ItemImageCell.self)")
         setSegmentTextFont()
         setLayout()
@@ -35,16 +42,34 @@ final class AddItemViewController: UIViewController {
 // MARK: - aboutCell
 extension AddItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        if imageCount < 5 {
+            return imageCount + 1
+        } else {
+            return 5
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ItemImageCell.self)", for: indexPath) as? ItemImageCell else {
             return ItemImageCell()
         }
+        
         cell.backgroundColor = .brown
+        if indexPath.row == imageCount {
+            cell.backgroundColor = .systemBlue
+        }
         
         return cell
+    }
+}
+
+extension AddItemViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if imageCount < 5 && indexPath.row == imageCount {
+            print("edit")
+            self.imageCount += 1
+            print(imageCount)
+        }
     }
 }
 
