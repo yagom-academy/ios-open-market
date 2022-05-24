@@ -18,10 +18,16 @@ final class EditViewController: UIViewController {
     private var mainView: EditView?
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
+    
+    override func loadView() {
+        super.loadView()
+        mainView = EditView(frame: view.bounds)
+        view = mainView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCollectionView()
+        configureView()
         applySnapshot(images: [UIImage(systemName: "swift")!,
                                UIImage(systemName: "pencil")!,
                                UIImage(systemName: "person.2")!,
@@ -29,17 +35,32 @@ final class EditViewController: UIViewController {
                               ])
     }
     
-    override func loadView() {
-        super.loadView()
-        mainView = EditView(frame: view.bounds)
-        mainView?.backgroundColor = .systemBackground
-        view = mainView
+    private func configureView() {
+        configureCollectionView()
+        configureNavigationBar()
     }
     
     private func configureCollectionView() {
         mainView?.collectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
         dataSource = makeDataSource()
         snapshot = makeSnapsnot()
+    }
+    
+    private func configureNavigationBar() {
+        let leftBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonDidTapped))
+        let rightBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonDidTapped))
+        
+        navigationItem.leftBarButtonItem = leftBarButton
+        navigationItem.rightBarButtonItem = rightBarButton
+        navigationItem.title = "상품등록"
+    }
+    
+    @objc private func cancelButtonDidTapped() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func doneButtonDidTapped() {
+        // empty
     }
 }
 

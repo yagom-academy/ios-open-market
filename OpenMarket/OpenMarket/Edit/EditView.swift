@@ -89,11 +89,16 @@ class EditView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureView()
         configureLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureView() {
+        backgroundColor = .systemBackground
     }
     
     private func configureLayout() {
