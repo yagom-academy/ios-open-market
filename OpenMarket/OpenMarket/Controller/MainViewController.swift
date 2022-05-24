@@ -34,10 +34,6 @@ final class MainViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = false
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         openMarketCollectionView.dataSource = self
@@ -106,8 +102,7 @@ final class MainViewController: UIViewController {
     
     private func moveToAddVC(title: String) {
         guard let addVC = storyboard?.instantiateViewController(withIdentifier: "AddItemViewController") as? AddItemViewController else { return }
-        
-        addVC.getComponents(title: title)
+        addVC.title = title
         
         navigationController?.pushViewController(addVC, animated: true)
     }

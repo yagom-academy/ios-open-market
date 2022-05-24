@@ -8,21 +8,33 @@
 import UIKit
 
 class AddItemViewController: UIViewController {
-
-    @IBOutlet private weak var navigationBarTitle: UINavigationItem!
-    private var titleText: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
     }
     
-    func getComponents(title: String) {
-        titleText = title
+    private func setInitialView() {
+        navigationItem.setLeftBarButton(makeCancelButton(), animated: true)
+        navigationItem.setRightBarButton(makeDoneButton(), animated: true)
+    }
+    @objc private func touchCancelButton() {
+        navigationController?.popViewController(animated: true)
     }
     
-    private func setInitialView() {
-        navigationController?.isNavigationBarHidden = true
-        navigationBarTitle.title = titleText
+    @objc private func touchDoneButton() {
+        print("Done")
+    }
+    
+//MARK: - aboutView
+    private func makeCancelButton() -> UIBarButtonItem {
+        let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchCancelButton))
+        barButton.title = "Cancel"
+        return barButton
+    }
+    private func makeDoneButton() -> UIBarButtonItem {
+        let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchDoneButton))
+        barButton.title = "Done"
+        return barButton
     }
 }
