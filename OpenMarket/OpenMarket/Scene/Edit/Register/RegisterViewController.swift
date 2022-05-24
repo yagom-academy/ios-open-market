@@ -8,15 +8,14 @@
 import UIKit
 
 final class RegisterViewController: UIViewController {
-    lazy var editView = EditView(frame: view.frame)
+    private lazy var editView = EditView(frame: view.frame)
     
     override func loadView() {
         super.loadView()
-        view = editView
+        view.addSubview(editView)
     }
     
     override func viewDidLoad() {
-        view.backgroundColor = .white
         setUpBarItems()
     }
     
