@@ -15,7 +15,7 @@ final class MainViewController: UIViewController {
     private let network = Network.shared
     private let session: URLSessionProtocol = URLSession.shared
     private var pageNo = 3
-    private var itemsPerPage = 40
+    private var itemsPerPage = 100
     
     private lazy var collectionView: MainCollectionView = {
         let view = MainCollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())

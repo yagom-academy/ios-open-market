@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RegisterEditViewController: UIViewController {
+final class RegisterEditViewController: UIViewController{
     
     private enum Constant {
         static let rightNavigationButtonText = "Done"
@@ -29,6 +29,7 @@ final class RegisterEditViewController: UIViewController {
     }
     
     var mode: Mode = .add
+    let picker = UIImagePickerController()
     
     private lazy var rightNavigationButton = UIBarButtonItem(
         title: Constant.rightNavigationButtonText,
@@ -51,7 +52,7 @@ final class RegisterEditViewController: UIViewController {
     }()
     
     private lazy var horizontalStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [tempImage])
+        let view = UIStackView(arrangedSubviews: [addImageButton])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
         view.spacing = 10
@@ -60,43 +61,70 @@ final class RegisterEditViewController: UIViewController {
         return view
     }()
     
-    private lazy var tempImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "swift")
-        return imageView
+    private lazy var addImageButton: UIButton = {
+        let imageButton = UIButton()
+        let image = UIImage(systemName: "plus")
+        
+        imageButton.setImage(image, for: .normal)
+        imageButton.backgroundColor = .systemGray5
+        imageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
+        
+        return imageButton
     }()
-    private lazy var tempImage2: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "star")
-        return imageView
-    }()
-    private lazy var tempImage3: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "person")
-        return imageView
-    }()
-    private lazy var tempImage4: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "star")
-        return imageView
-    }()
-    private lazy var tempImage5: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "star")
-        return imageView
-    }()
+    
+    @objc private func addImage() {
+        let alert = UIAlertController(
+            title: "상품 이미지 추가",
+            message: "",
+            preferredStyle: .actionSheet)
+        let library = UIAlertAction(title: "사진앨범", style: .default) {
+            (action) in
+            self.openLibrary()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(library)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func openLibrary() {
+        picker.sourceType   = .photoLibrary
+        present(picker, animated: false, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setNavigationTitle()
         setConstraint()
+        picker.delegate = self
     }
+    
+    private func addImageToStackView(image: UIImage){
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
+        horizontalStackView.addArrangedSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+        ])
+        imageView.image = UIImage(named: "swift")
+        
+    }
+}
+
+extension RegisterEditViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let selectedImage = info[.originalImage] as? UIImage else {
+            fatalError("errror")
+    }
+        
+    addImageToStackView(image: selectedImage)
+    picker.dismiss(animated: true)
+    }
+    
 }
 
 // MARK: - Method
@@ -127,8 +155,8 @@ extension RegisterEditViewController {
         ])
         
         NSLayoutConstraint.activate([
-            tempImage.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor),
-            tempImage.widthAnchor.constraint(equalTo: tempImage.heightAnchor)
+            addImageButton.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor),
+            addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor)
         ])
     }
 }
