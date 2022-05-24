@@ -100,12 +100,18 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         data.append(compare(productView.descriptionField.text!, product?.description, key: "descriptions"))
         
         if data.count > 0 {
-            data.removeLast()
+            data.append("\"secret\": \"password\"")
             data.insert("{", at: data.startIndex)
             data.append("}")
+            
+            guard let product = product else {
+                return
+            }
+            
+            RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") {_ in
+                print("성공!")
+            }
         }
-        
-        print(data)
     }
     
     @objc func backToMain() {

@@ -56,10 +56,10 @@ final class RequestAssistant {
         })
     }
     
-    func requestModifyAPI(productId: Int, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
-        let endpoint: Endpoint = .productDetail(productId: productId)
+    func requestModifyAPI(productId: Int, body: String, identifier: String, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+        let endpoint: Endpoint = .modifyProduct(productId: productId)
         
-        sessionManager.request(endpoint: endpoint, completionHandler: { [weak self] data, response, error in
+        sessionManager.request(endpoint: endpoint, body: body, identifier: identifier, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
             }
