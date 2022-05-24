@@ -24,6 +24,7 @@
 		B02944A3282A430800B9828F /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02944A2282A430800B9828F /* DecodeTests.swift */; };
 		B05BE63A2833CC230059CD26 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05BE6392833CC230059CD26 /* Int+Extension.swift */; };
 		B0802A4228326C670058019C /* ProductListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0802A4128326C670058019C /* ProductListCollectionViewCell.swift */; };
+		B09E6196283CAD7400097623 /* ProductRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09E6195283CAD7400097623 /* ProductRegisterViewController.swift */; };
 		B0A408DD282B933C00A388FA /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408DC282B933C00A388FA /* NetworkService.swift */; };
 		B0A408DF282B945D00A388FA /* APINetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408DE282B945D00A388FA /* APINetworkService.swift */; };
 		B0A408E1282B95F400A388FA /* URLSessionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A408E0282B95F400A388FA /* URLSessionable.swift */; };
@@ -65,6 +66,7 @@
 		B02944A2282A430800B9828F /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
 		B05BE6392833CC230059CD26 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		B0802A4128326C670058019C /* ProductListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCollectionViewCell.swift; sourceTree = "<group>"; };
+		B09E6195283CAD7400097623 /* ProductRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterViewController.swift; sourceTree = "<group>"; };
 		B0A408DC282B933C00A388FA /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B0A408DE282B945D00A388FA /* APINetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINetworkService.swift; sourceTree = "<group>"; };
 		B0A408E0282B95F400A388FA /* URLSessionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionable.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ProductListViewController.swift */,
+				B09E6195283CAD7400097623 /* ProductRegisterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				C70FB0FF25BEF61C00C9924E /* ProductListViewController.swift in Sources */,
 				AB6E6BF8282A4C5600431717 /* APIResponse.swift in Sources */,
 				AB6E6BFA282A4E4A00431717 /* Product.swift in Sources */,
+				B09E6196283CAD7400097623 /* ProductRegisterViewController.swift in Sources */,
 				B0A408E1282B95F400A388FA /* URLSessionable.swift in Sources */,
 				B00E3C5F282BDA2B006AB0AC /* URLSession+Extension.swift in Sources */,
 				AB794C5C2837736800D6ADAA /* ImageCache.swift in Sources */,

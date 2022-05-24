@@ -76,7 +76,12 @@ final class ProductListViewController: UIViewController {
     }
   }
   
-  @objc private func addButtonDidTap(_ sender: UIBarButtonItem) {}
+  @objc private func addButtonDidTap(_ sender: UIBarButtonItem) {
+    let viewController = UINavigationController(
+      rootViewController: ProductRegisterViewController())
+    viewController.modalPresentationStyle = .fullScreen
+    self.present(viewController, animated: true)
+  }
 }
 
 // MARK: - UI
