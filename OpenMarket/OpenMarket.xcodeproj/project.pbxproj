@@ -40,6 +40,8 @@
 		DAA1077A28374B9300907154 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA1077928374B9200907154 /* Double.swift */; };
 		DAA1077C28374BEC00907154 /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */; };
 		DAA968D1283BBFDF00CDA7B1 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D0283BBFDF00CDA7B1 /* BaseCell.swift */; };
+		DAA968D5283CA95200CDA7B1 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D4283CA95200CDA7B1 /* EditView.swift */; };
+		DAA968D7283CA98900CDA7B1 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,8 @@
 		DAA1077928374B9200907154 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 		DAA968D0283BBFDF00CDA7B1 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		DAA968D4283CA95200CDA7B1 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +185,7 @@
 		A1FC1BC6283737A700EC14DD /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				DAA968D2283CA88000CDA7B1 /* Edit */,
 				A1FC1BC8283737C400EC14DD /* Main */,
 			);
 			path = Scene;
@@ -293,6 +298,23 @@
 				DAA968D0283BBFDF00CDA7B1 /* BaseCell.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		DAA968D2283CA88000CDA7B1 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968D4283CA95200CDA7B1 /* EditView.swift */,
+				DAA968D3283CA93400CDA7B1 /* Register */,
+			);
+			path = Edit;
+			sourceTree = "<group>";
+		};
+		DAA968D3283CA93400CDA7B1 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */,
+			);
+			path = Register;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -415,11 +437,13 @@
 				DA9AE5B728326AF0003BA8B2 /* ListCollectionViewCell.swift in Sources */,
 				A13387A02833673300950EA2 /* ImageCacheManager.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				DAA968D7283CA98900CDA7B1 /* RegisterViewController.swift in Sources */,
 				A1DADBF2282D4F88002C7B4D /* URLSession.swift in Sources */,
 				A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */,
 				DA9AE5BB28327C15003BA8B2 /* UILabel.swift in Sources */,
 				DA9AE561282AAA1C003BA8B2 /* ProductsReceive.swift in Sources */,
 				A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */,
+				DAA968D5283CA95200CDA7B1 /* EditView.swift in Sources */,
 				DA9AE54B282A45FF003BA8B2 /* NetworkError.swift in Sources */,
 				A1255C77283C9B910013772D /* ProductsPost.swift in Sources */,
 				DAA1077C28374BEC00907154 /* NSMutableAttributedString.swift in Sources */,

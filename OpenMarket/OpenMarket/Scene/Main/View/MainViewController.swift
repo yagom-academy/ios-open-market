@@ -38,6 +38,8 @@ extension MainViewController {
     private func setUpNavigationItem() {
         navigationItem.titleView = mainView.segmentControl
         navigationItem.rightBarButtonItem = mainView.addButton
+        mainView.addButton.target = self
+        mainView.addButton.action = #selector(moveRegisterView)
     }
     
     private func setUpCollectionView() {
@@ -55,6 +57,12 @@ extension MainViewController {
     
     @objc private func segmentControlValueChanged() {
         mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
+    }
+    
+    @objc private func moveRegisterView() {
+        let registerViewController = RegisterViewController()
+        registerViewController.modalPresentationStyle = .fullScreen
+        self.present(registerViewController, animated: true)
     }
     
 }
