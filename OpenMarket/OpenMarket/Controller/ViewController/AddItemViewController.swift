@@ -54,9 +54,12 @@ extension AddItemViewController: UICollectionViewDataSource {
             return ItemImageCell()
         }
         
-        cell.backgroundColor = .brown
         if indexPath.row == imageCount {
-            cell.backgroundColor = .systemBlue
+            cell.backgroundColor = #colorLiteral(red: 0.854186415, green: 0.854186415, blue: 0.854186415, alpha: 1)
+            cell.itemImageView.image = nil
+        } else {
+            cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            cell.itemImageView.image = UIImage(systemName: "folder.fill")
         }
         
         return cell
