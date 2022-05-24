@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030874E1283CB038005BDDB2 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030874E0283CB038005BDDB2 /* RegistrationViewController.swift */; };
+		030874E3283CB06A005BDDB2 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030874E2283CB06A005BDDB2 /* RegistrationView.swift */; };
 		03287253283779880056EAB3 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03287252283779880056EAB3 /* CollectionView.swift */; };
 		0328725528377EB80056EAB3 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0328725428377EB80056EAB3 /* Layout.swift */; };
 		032C4243282DF1120038A8CA /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032C4242282DF1120038A8CA /* MockURLProtocol.swift */; };
@@ -44,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		030874E0283CB038005BDDB2 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		030874E2283CB06A005BDDB2 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		03287252283779880056EAB3 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		0328725428377EB80056EAB3 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		032C4242282DF1120038A8CA /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 				0328725428377EB80056EAB3 /* Layout.swift */,
 				AEAF783228327FAA00215F26 /* ListCell.swift */,
 				03301A5A2832B68400D58385 /* GridCell.swift */,
+				030874E2283CB06A005BDDB2 /* RegistrationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				030874E0283CB038005BDDB2 /* RegistrationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -316,6 +322,7 @@
 			files = (
 				03287253283779880056EAB3 /* CollectionView.swift in Sources */,
 				03301A592832AD3800D58385 /* ImageView+Extension.swift in Sources */,
+				030874E1283CB038005BDDB2 /* RegistrationViewController.swift in Sources */,
 				03301A5B2832B68400D58385 /* GridCell.swift in Sources */,
 				0341E5D6282A43E700DEC832 /* NetworkError.swift in Sources */,
 				D67E6961283757870075284A /* ImageCacheManager.swift in Sources */,
@@ -332,6 +339,7 @@
 				AEAF783328327FAA00215F26 /* ListCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				030874E3283CB06A005BDDB2 /* RegistrationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
