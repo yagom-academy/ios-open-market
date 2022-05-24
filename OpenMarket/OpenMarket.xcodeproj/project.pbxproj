@@ -13,6 +13,7 @@
 		0E20818C28367B7D0015D973 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E20818B28367B7D0015D973 /* DataProvider.swift */; };
 		0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */; };
 		0E70314A2829F777002134CF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7031492829F777002134CF /* Product.swift */; };
+		0EBC5017283CC4F7006CF95B /* ContentUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBC5016283CC4F7006CF95B /* ContentUpdatable.swift */; };
 		0EC4B1CD282DF4420052F39B /* HTTPManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4B1CC282DF4420052F39B /* HTTPManagerTests.swift */; };
 		0ED7574C282DF52E00C05FC1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */; };
 		0EE77F2E28350A0800E13561 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE77F2D28350A0800E13561 /* Array+.swift */; };
@@ -48,6 +49,7 @@
 		0E20818B28367B7D0015D973 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		0E6DF3CA282A0C0F0076E0C6 /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 		0E7031492829F777002134CF /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		0EBC5016283CC4F7006CF95B /* ContentUpdatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUpdatable.swift; sourceTree = "<group>"; };
 		0EC4B1CA282DF4420052F39B /* HTTPManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTTPManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EC4B1CC282DF4420052F39B /* HTTPManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManagerTests.swift; sourceTree = "<group>"; };
 		0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				0E09C88328333EE7004E4568 /* ProductListCell.swift */,
 				0E09C88528336508004E4568 /* CellUIComponent.swift */,
 				6724FDB7283370CC00183FC8 /* ProductGridCell.swift */,
+				0EBC5016283CC4F7006CF95B /* ContentUpdatable.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				0E09C88428333EE7004E4568 /* ProductListCell.swift in Sources */,
 				67FA257F282A05DA0089BBE3 /* OpenMarketProductList.swift in Sources */,
 				67EB7C37283CC30E00837605 /* MainViewControllerUnderiOS14.swift in Sources */,
+				0EBC5017283CC4F7006CF95B /* ContentUpdatable.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				0E09C88928336E01004E4568 /* UIStackView+.swift in Sources */,
 				0E6DF3CB282A0C0F0076E0C6 /* DecodingError.swift in Sources */,
