@@ -44,21 +44,14 @@ final class RegisterEditViewController: UIViewController {
         action: #selector(registerEditViewLeftBarButtonTapped)
     )
     
-    private lazy var mainVerticalStackView: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
-        view.spacing = 5
-        return view
-    }()
-    
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var horizontalStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [tempImage, tempImage2])
+        let view = UIStackView(arrangedSubviews: [tempImage])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
         view.spacing = 10
@@ -117,20 +110,12 @@ extension RegisterEditViewController {
     }
     
     private func setConstraint() {
-        view.addSubview(mainVerticalStackView)
+        view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            mainVerticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mainVerticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mainVerticalStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainVerticalStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
-        mainVerticalStackView.addSubview(scrollView)
-        NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: mainVerticalStackView.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: mainVerticalStackView.trailingAnchor),
-            scrollView.topAnchor.constraint(equalTo: mainVerticalStackView.topAnchor),
-            scrollView.heightAnchor.constraint(equalTo: mainVerticalStackView.heightAnchor, multiplier: 0.2)
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2)
         ])
         
         scrollView.addSubview(horizontalStackView)
@@ -142,8 +127,8 @@ extension RegisterEditViewController {
         ])
         
         NSLayoutConstraint.activate([
-            tempImage.widthAnchor.constraint(equalToConstant: 150),
-            tempImage.heightAnchor.constraint(equalToConstant: 150)
+            tempImage.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor),
+            tempImage.widthAnchor.constraint(equalTo: tempImage.heightAnchor)
         ])
     }
 }
