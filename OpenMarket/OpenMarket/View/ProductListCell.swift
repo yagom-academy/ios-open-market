@@ -38,7 +38,7 @@ class ProductListCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 2
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -101,27 +101,25 @@ extension ProductListCell {
         let thumbnail = cellUIComponent.thumbnailImageView
         
         NSLayoutConstraint.activate([
-            baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant:  10),
-            baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant:  -10),
+            baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
         
         NSLayoutConstraint.activate([
             thumbnail.heightAnchor.constraint(equalTo: contentStackView.heightAnchor),
-            thumbnail.heightAnchor.constraint(lessThanOrEqualToConstant: 60),
+            thumbnail.heightAnchor.constraint(lessThanOrEqualToConstant: 80),
             thumbnail.widthAnchor.constraint(equalTo: thumbnail.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
             accessoryImageView.widthAnchor.constraint(equalToConstant: 13),
         ])
-    }
-}
-
-extension ProductListCell {
-    private func updateSeparator() {
-        seperatorView.isHidden = !showSeparator
+        
+        NSLayoutConstraint.activate([
+            seperatorView.heightAnchor.constraint(equalToConstant: 0.5),
+        ])
     }
     
     override func prepareForReuse() {
