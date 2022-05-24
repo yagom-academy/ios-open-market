@@ -77,8 +77,8 @@ extension MainViewController {
                 switch self.mainView.layoutStatus {
                 case .list:
                     guard let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: ListCollectionViewCell.identifier,
-                        for: indexPath) as? ListCollectionViewCell else {
+                        withReuseIdentifier: ProductsListCell.identifier,
+                        for: indexPath) as? ProductsListCell else {
                         return UICollectionViewCell()
                     }
 
@@ -89,8 +89,8 @@ extension MainViewController {
                     
                 case .grid:
                     guard let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: GridCollectionViewCell.identifier,
-                        for: indexPath) as? GridCollectionViewCell else {
+                        withReuseIdentifier: ProductsGridCell.identifier,
+                        for: indexPath) as? ProductsGridCell else {
                         return UICollectionViewCell()
                     }
 

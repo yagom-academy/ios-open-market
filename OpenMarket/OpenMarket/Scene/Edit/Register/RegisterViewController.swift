@@ -9,6 +9,8 @@ import UIKit
 
 final class RegisterViewController: UIViewController {
     private lazy var editView = EditView(frame: view.frame)
+    private let viewModel = RegisterViewModel()
+    
     
     override func loadView() {
         super.loadView()

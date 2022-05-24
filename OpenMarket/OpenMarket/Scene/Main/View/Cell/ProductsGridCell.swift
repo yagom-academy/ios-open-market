@@ -1,5 +1,5 @@
 //
-//  ListCollectionViewCell.swift
+//  GridCollectionViewCell.swift
 //  OpenMarket
 //
 //  Created by Red, Mino. on 2022/05/16.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
+final class ProductsGridCell: UICollectionViewCell, BaseCell {
     static var identifier: String {
         return String(describing: self)
     }
@@ -22,12 +22,14 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         super.init(frame: frame)
         addSubviews()
         makeConstraints()
+        setUpAttribute()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         addSubviews()
         makeConstraints()
+        setUpAttribute()
     }
     
     override func prepareForReuse() {
@@ -44,15 +46,20 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
     }
     
     private lazy var productStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productImageView, informationStackView])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        let stackView = UIStackView(arrangedSubviews: [productImageView, productNameLabel, productionPriceLabel, sellingPriceLabel, stockLabel])
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
         stackView.spacing = 5
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -62,82 +69,52 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         return indicatorView
     }()
     
-    private lazy var informationStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [topStackView, bottomStackView])
-        stackView.axis = .vertical
-        return stackView
-    }()
-    
-    private lazy var topStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productNameLabel, stockLabel])
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    
     private let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
-        label.adjustsFontForContentSizeCategory = true
-        return label
-    }()
-    
-    private let stockLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .right
-        label.textColor = .systemGray2
-        label.font = .preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        return label
-    }()
-    
-    private lazy var bottomStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productionPriceLabel, sellingPriceLabel])
-        stackView.spacing = 5
-        stackView.distribution = .fill
-        return stackView
-    }()
-    
-    private let sellingPriceLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .systemGray2
-        label.font = .preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
+        label.textAlignment = .center
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
     private let productionPriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .red
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        label.font = .preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
+        label.textColor = .systemRed
+        label.textAlignment = .center
         return label
     }()
     
-    private let bottomLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray5
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private let sellingPriceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray2
+        label.textAlignment = .center
+        label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        return label
+    }()
+    
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray2
+        label.textAlignment = .center
+        return label
     }()
     
     private func addSubviews() {
         contentView.addSubview(productStackView)
         contentView.addSubview(indicatorView)
-        contentView.addSubview(bottomLineView)
     }
     
     private func makeConstraints() {
         NSLayoutConstraint.activate([
-            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
         
         NSLayoutConstraint.activate([
-            productImageView.heightAnchor.constraint(equalTo: productStackView.heightAnchor),
-            productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor)
+            productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
+            productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
         ])
         
         NSLayoutConstraint.activate([
@@ -148,11 +125,14 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         ])
         
         NSLayoutConstraint.activate([
-            bottomLineView.heightAnchor.constraint(equalToConstant: 1),
-            bottomLineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            bottomLineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            bottomLineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0)
+            productNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
         ])
+    }
+    
+    private func setUpAttribute() {
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.systemGray2.cgColor
+        layer.cornerRadius = 10
     }
     
     func updateLabel(data: Item) {
@@ -170,7 +150,7 @@ final class ListCollectionViewCell: UICollectionViewCell, BaseCell {
         }
         
         stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
-        stockLabel.update(stockStatus: data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) ")
+        stockLabel.text = data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) "
     }
     
     func updateImage(url: URL, imageCacheManager: ImageCacheManager) {

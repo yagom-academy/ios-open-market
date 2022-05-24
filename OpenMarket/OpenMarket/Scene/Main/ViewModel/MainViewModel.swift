@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol AlertDelegate: AnyObject {
-    func showAlertRequestError(with error: Error)
-}
-
 final class MainViewModel {
     private enum Constants {
         static let itemsCountPerPage = 20
@@ -42,21 +38,6 @@ final class MainViewModel {
                 self?.products = products
                 self?.items.append(contentsOf: products.items)
                 self?.applySnapshot()
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.delegate?.showAlertRequestError(with: error)
-                }
-            }
-        }
-    }
-    
-    func requestPost(_ productsPost: ProductsPost) {
-        let endpoint = EndPointStorage.productsPost(productsPost)
-        
-        productsAPIServie.registerProduct(with: endpoint) { [weak self] result in
-            switch result {
-            case .success(let data):
-                print(data)
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.delegate?.showAlertRequestError(with: error)

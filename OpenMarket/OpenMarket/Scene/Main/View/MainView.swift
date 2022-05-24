@@ -94,13 +94,13 @@ final class MainView: UIView {
     
     private func registerCollectionViewCell() {
         collectionView.register(
-            ListCollectionViewCell.self,
-            forCellWithReuseIdentifier: ListCollectionViewCell.identifier
+            ProductsListCell.self,
+            forCellWithReuseIdentifier: ProductsListCell.identifier
         )
         
         collectionView.register(
-            GridCollectionViewCell.self,
-            forCellWithReuseIdentifier: GridCollectionViewCell.identifier
+            ProductsGridCell.self,
+            forCellWithReuseIdentifier: ProductsGridCell.identifier
         )
     }
     

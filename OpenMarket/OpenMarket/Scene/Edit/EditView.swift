@@ -71,6 +71,9 @@ final class EditView: UIView {
     private let productNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        textField.adjustsFontForContentSizeCategory = true
         return textField
     }()
     
@@ -85,23 +88,33 @@ final class EditView: UIView {
     private let productPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품가격"
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        textField.adjustsFontForContentSizeCategory = true
         return textField
     }()
     
     private let productCurrencySegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["KRW", "USD"])
+        segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
     
     private let productDiscountedTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인금액"
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        textField.adjustsFontForContentSizeCategory = true
         return textField
     }()
     
     private let productStockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고수량"
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        textField.adjustsFontForContentSizeCategory = true
         return textField
     }()
     
@@ -118,6 +131,14 @@ final class EditView: UIView {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
         let section = NSCollectionLayoutSection(group: group)
+        
+        let footerSize = NSCollectionLayoutSize(widthDimension: .absolute(140),
+                                                     heightDimension: .fractionalHeight(1.0))
+        let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: "section-footer-element-kind", alignment: .bottom)
+        section.boundarySupplementaryItems = [sectionFooter]
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         layout.configuration.scrollDirection = .horizontal
         return layout
@@ -144,16 +165,17 @@ final class EditView: UIView {
         ])
         
         NSLayoutConstraint.activate([
+            topScrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: topScrollView.widthAnchor),
+            
             topStackView.topAnchor.constraint(equalTo: topScrollView.contentLayoutGuide.topAnchor),
             topStackView.bottomAnchor.constraint(equalTo: topScrollView.contentLayoutGuide.bottomAnchor),
-            topStackView.leadingAnchor.constraint(equalTo: topScrollView.contentLayoutGuide.leadingAnchor),
-            topStackView.trailingAnchor.constraint(equalTo: topScrollView.contentLayoutGuide.trailingAnchor),
-            topStackView.widthAnchor.constraint(equalTo: topScrollView.frameLayoutGuide.widthAnchor),
+            topStackView.leadingAnchor.constraint(equalTo: topScrollView.contentLayoutGuide.leadingAnchor, constant: 15),
+            topStackView.trailingAnchor.constraint(equalTo: topScrollView.contentLayoutGuide.trailingAnchor, constant: -15),
             topStackView.heightAnchor.constraint(equalTo: heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
+            collectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.175)
         ])
     }
     
