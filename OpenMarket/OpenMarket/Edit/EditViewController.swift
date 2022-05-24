@@ -19,6 +19,8 @@ final class EditViewController: UIViewController {
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
     
+    private let imagePickerController = UIImagePickerController()
+    
     override func loadView() {
         super.loadView()
         mainView = EditView(frame: view.bounds)
@@ -42,6 +44,7 @@ final class EditViewController: UIViewController {
     
     private func configureCollectionView() {
         mainView?.collectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
+        mainView?.collectionView.delegate = self
         dataSource = makeDataSource()
         snapshot = makeSnapsnot()
     }
@@ -61,6 +64,42 @@ final class EditViewController: UIViewController {
     
     @objc private func doneButtonDidTapped() {
         // empty
+    }
+    
+    private func configurePickerController() {
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+    }
+    
+    private func albumButtonTapped() {
+        imagePickerController.sourceType = .photoLibrary
+        present(imagePickerController, animated: true)
+    }
+    
+    private func cameraButtonTapped() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            return
+        }
+        
+        imagePickerController.sourceType = .camera
+        present(imagePickerController, animated: true)
+    }
+}
+
+extension EditViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+}
+
+extension EditViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard snapshot?.numberOfItems == indexPath.item + 1 else { return }
+        
+        AlertDirector(viewController: self).createImageSelectActionSheet { [weak self] _ in
+            self?.albumButtonTapped()
+        } cameraAction: { [weak self] _ in
+            self?.cameraButtonTapped()
+        }
+
     }
 }
 

@@ -21,4 +21,16 @@ final class AlertDirector {
             .setOkActionTitle("확인")
             .show()
     }
+    
+    func createImageSelectActionSheet(albumAction: @escaping (UIAlertAction) -> Void, cameraAction: @escaping (UIAlertAction) -> Void) {
+        AlertBuilder(viewController: viewController)
+            .setPreferredStyle(.actionSheet)
+            .setTitle("대충타이틀")
+            .setMessage("대충메시지")
+            .setOkActionTitle("앨범")
+            .setCencelActionTitle("카메라")
+            .setOkAction(albumAction)
+            .setCencelAction(cameraAction)
+            .show()
+    }
 }
