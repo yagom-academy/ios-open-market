@@ -81,7 +81,7 @@ class EditView: UIView {
         return textField
     }()
     
-    private let productDescriptionTextView: UITextView = {
+    let productDescriptionTextView: UITextView = {
         let textView = UITextView()
         
         return textView

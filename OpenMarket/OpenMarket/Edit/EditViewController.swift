@@ -32,6 +32,11 @@ final class EditViewController: UIViewController {
         configureView()
         applySnapshot(images: [UIImage(systemName: "plus")!])
         configurePickerController()
+        registerNotification()
+    }
+    
+    deinit {
+        removeNotification()
     }
     
     private func configureView() {
@@ -61,6 +66,34 @@ final class EditViewController: UIViewController {
     
     @objc private func doneButtonDidTapped() {
         // empty
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        mainView?.productDescriptionTextView.contentInset.bottom = keyboardHeight
+    }
+    
+    @objc private func keyboardWillHidden(_ sender: Notification) {
+        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        mainView?.productDescriptionTextView.contentInset.bottom = 0
     }
     
     private func configurePickerController() {
