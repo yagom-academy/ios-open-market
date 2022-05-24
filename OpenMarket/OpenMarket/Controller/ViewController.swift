@@ -69,38 +69,6 @@ final class ViewController: UIViewController {
         }
     }
     
-//    private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
-//        if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
-//            DispatchQueue.main.async {
-//                if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-//                    itemCell.configureImage(urlString: url)
-//                }
-//            }
-//            return
-//        }
-//
-//        networkHandler.request(api: ItemImageAPI(host: url)) { data in
-//            switch data {
-//            case .success(let data):
-//                guard let data = data else { return }
-//                guard let image = UIImage(data: data) else { return }
-//                DispatchQueue.main.async {
-//                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-//                        itemCell.configureImage(image: image)
-//                        ImageCacheManager.shared.setObject(image, forKey: url as NSString)
-//                    }
-//                }
-//            case .failure(_):
-//                DispatchQueue.main.async {
-//                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-//                        guard let failImage = UIImage(systemName: "xmark.app") else { return }
-//                        itemCell.configureImage(image: failImage)
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
     private func changeCellType() {
         if cellType == .list {
             myActivityIndicator.isHidden = false
