@@ -102,14 +102,15 @@ final class RegisterEditViewController: UIViewController{
     
     private func addImageToStackView(image: UIImage){
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
+        imageView.image = image
         horizontalStackView.addArrangedSubview(imageView)
         
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: horizontalStackView.heightAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
-        imageView.image = UIImage(named: "swift")
         
+        horizontalStackView.setNeedsDisplay()
     }
 }
 
