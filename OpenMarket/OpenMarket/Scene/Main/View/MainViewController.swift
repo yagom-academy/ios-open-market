@@ -27,6 +27,7 @@ final class MainViewController: UIViewController {
         setUpCollectionView()
         setUpSegmentControl()
         setUpViewModel()
+
         viewModel.requestProducts(by: viewModel.currentPage)
     }
 }

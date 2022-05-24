@@ -9,7 +9,7 @@ import UIKit
 
 protocol Provider {
     associatedtype T
-    func request(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
+    func retrieveProductsList(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
     func requestImage(with url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTaskProtocol?
 }
 
@@ -19,7 +19,7 @@ final class APIProvider<T: Decodable>: Provider {
         self.urlSession = urlSession
     }
     
-    func request(
+    func retrieveProductsList(
         with endpoint: Requestable,
         completion: @escaping (Result<T, Error>) -> Void
     ) {
@@ -32,6 +32,29 @@ final class APIProvider<T: Decodable>: Provider {
                     switch result {
                     case .success(let data):
                         completion(data.decode())
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            }.resume()
+        case .failure(let error):
+            completion(.failure(error))
+        }
+    }
+    
+    func registerProduct(
+        with endpoint: Requestable,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let urlRequest = endpoint.generateUrlRequestMultiPartFormData()
+        
+        switch urlRequest {
+        case .success(let urlRequest):
+            urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                self?.checkError(with: data, response, error) { result in
+                    switch result {
+                    case .success(_):
+                        completion(.success(()))
                     case .failure(let error):
                         completion(.failure(error))
                     }
