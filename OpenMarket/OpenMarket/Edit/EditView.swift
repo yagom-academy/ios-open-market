@@ -123,6 +123,23 @@ class EditView: UIView {
             collectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
         ])
     }
+    
+    func configure(product: Product) {
+        productNameTextField.text = product.name
+        productCostTextField.text = "\(product.price ?? 0)"
+        productDiscountCostTextField.text = "\(product.discountedPrice ?? 0)"
+        productStockTextField.text = "\(product.stock ?? 0)"
+        productDescriptionTextView.text = product.description
+        
+        switch product.currency {
+        case .KRW:
+            currencySegmentedControl.selectedSegmentIndex = 0
+        case .USD:
+            currencySegmentedControl.selectedSegmentIndex = 1
+        default:
+            break
+        }
+    }
 }
 
 private extension UITextField {
