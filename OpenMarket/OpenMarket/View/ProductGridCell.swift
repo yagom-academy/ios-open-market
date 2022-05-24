@@ -62,6 +62,19 @@ extension ProductGridCell {
 }
 
 extension ProductGridCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageFetchTask?.cancel()
+        cellUIComponent.thumbnailImageView.image = UIImage(systemName: "swift")
+        cellUIComponent.stockLabel.textColor = .systemGray
+        cellUIComponent.priceLabel.textColor = .systemGray
+        cellUIComponent.bargainPriceLabel.isHidden = false
+        cellUIComponent.priceLabel.attributedText = nil
+    }
+}
+
+@available(iOS 14.0, *)
+extension ProductGridCell {
     func update(newItem: Product) {
         guard item != newItem else { return }
         item = newItem
@@ -74,6 +87,7 @@ extension ProductGridCell {
     }
 }
 
+@available(iOS 14.0, *)
 extension ProductGridCell {
     private func setupViewsIfNeeded() {
         layout()
@@ -114,15 +128,5 @@ extension ProductGridCell {
             cellUIComponent.priceLabel.attributedText = cellUIComponent.priceLabel.text?.strikeThrough()
             cellUIComponent.priceLabel.textColor = .systemRed
         }
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageFetchTask?.cancel()
-        cellUIComponent.thumbnailImageView.image = UIImage(systemName: "swift")
-        cellUIComponent.stockLabel.textColor = .systemGray
-        cellUIComponent.priceLabel.textColor = .systemGray
-        cellUIComponent.bargainPriceLabel.isHidden = false
-        cellUIComponent.priceLabel.attributedText = nil
     }
 }

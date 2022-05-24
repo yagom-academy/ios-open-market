@@ -6,6 +6,7 @@
 
 import UIKit
 
+@available(iOS 14.0, *)
 class MainViewController: UIViewController {
     enum Section {
         case main
@@ -76,6 +77,7 @@ class MainViewController: UIViewController {
     }
 }
 
+@available(iOS 14.0, *)
 extension MainViewController {
     
     private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
@@ -162,6 +164,7 @@ extension MainViewController {
     }
 }
 
+@available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         dataProvider.fetchData() { products in

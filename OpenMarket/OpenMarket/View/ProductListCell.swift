@@ -123,8 +123,19 @@ extension ProductListCell {
     private func updateSeparator() {
         seperatorView.isHidden = !showSeparator
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageFetchTask?.cancel()
+        cellUIComponent.thumbnailImageView.image = UIImage(systemName: "swift")
+        cellUIComponent.stockLabel.textColor = .systemGray
+        cellUIComponent.priceLabel.textColor = .systemGray
+        cellUIComponent.bargainPriceLabel.isHidden = false
+        cellUIComponent.priceLabel.attributedText = nil
+    }
 }
 
+@available(iOS 14.0, *)
 extension ProductListCell {
     func update(newItem: Product) {
         guard item != newItem else { return }
@@ -138,10 +149,12 @@ extension ProductListCell {
     }
 }
 
+@available(iOS 14.0, *)
 fileprivate extension UIConfigurationStateCustomKey {
     static let item = UIConfigurationStateCustomKey("ProductListCell.item")
 }
 
+@available(iOS 14.0, *)
 extension UICellConfigurationState {
     var item: Product? {
         set { self[.item] = newValue }
@@ -149,6 +162,7 @@ extension UICellConfigurationState {
     }
 }
 
+@available(iOS 14.0, *)
 extension ProductListCell {
     private func setupViewsIfNeeded() {
         layout()
@@ -189,15 +203,5 @@ extension ProductListCell {
             cellUIComponent.priceLabel.attributedText = cellUIComponent.priceLabel.text?.strikeThrough()
             cellUIComponent.priceLabel.textColor = .systemRed
         }
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageFetchTask?.cancel()
-        cellUIComponent.thumbnailImageView.image = UIImage(systemName: "swift")
-        cellUIComponent.stockLabel.textColor = .systemGray
-        cellUIComponent.priceLabel.textColor = .systemGray
-        cellUIComponent.bargainPriceLabel.isHidden = false
-        cellUIComponent.priceLabel.attributedText = nil
     }
 }
