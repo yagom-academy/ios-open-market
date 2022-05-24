@@ -19,7 +19,6 @@ class RegistrationView: UIView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
   //MARK: - image scroll part
   private let imageScrollView: UIScrollView = {
     let scrollView = UIScrollView()
