@@ -20,7 +20,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     private var cellContentLayouts: [NSLayoutConstraint]?
     private lazy var listContentView = UIListContentView(configuration: .subtitleCell())
     private lazy var productImage = UIImageView()
-    private let network = Network.shared
+    private let network = Network()
     private var lastDataTask: URLSessionDataTask?
     
     private let stock: UILabel = {
@@ -29,6 +29,15 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         label.numberOfLines = 2
         return label
     }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setConstraint()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private func setConstraint() {
         guard cellContentLayouts == nil else { return }
@@ -105,7 +114,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stock.text = "잔여수량: \(product.stock)"
             stock.textColor = .gray
         }
-        setConstraint()
+//        setConstraint()
     }
     
     override func prepareForReuse() {

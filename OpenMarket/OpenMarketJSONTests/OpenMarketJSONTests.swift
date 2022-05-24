@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-final class OpenMarketJSONTests: XCTestCase, NetworkAble {
+final class OpenMarketJSONTests: XCTestCase {
     var session: URLSessionProtocol = URLSession.shared
     
     override func setUpWithError() throws {
@@ -34,11 +34,11 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let data = load(fileName: fileName, extensionType: extensionType)
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: nil)
-        let stubUrlSession = StubURLSession(dummy: dummy)
-        session = stubUrlSession
+        let stubUrlSession: URLSessionProtocol = StubURLSession(dummy: dummy)
+        let network = Network(session: stubUrlSession)
         
         //when
-        requestData(url: url) { (data, response) in
+        network.requestData(url: url) { (data, response) in
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
@@ -60,10 +60,10 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: sessionError)
         let stubUrlSession = StubURLSession(dummy: dummy)
+        let network = Network(session: stubUrlSession)
 
-        session = stubUrlSession
         //when
-        requestData(url: url) { (data, response) in
+        network.requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, sessionError)
@@ -75,14 +75,15 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let promise = expectation(description: "timeout 테스트")
         let pageNo = 1
         let itemsPerPage = 10
-        
+        let network = Network()
+
         guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
             XCTFail("변환실패")
             return
         }
 
         // when
-        requestData(url: url) { (data, response) in
+        network.requestData(url: url) { (data, response) in
             guard let data = data,
                   let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
@@ -100,13 +101,15 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         // given
         let promise = expectation(description: "timeout 테스트")
         let target = 2049
+        let network = Network()
+        
         guard let url = OpenMarketApi.productDetail(productNumber: target).url else {
             XCTFail("Url 변환 실패")
             return
         }
         
         // when
-        requestData(url: url) { data, response in
+        network.requestData(url: url) { data, response in
             guard let data = data,
                   let productDetail = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }
 
@@ -129,10 +132,10 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let response = HTTPURLResponse(url: url, statusCode: 500, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: data, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        session = stubUrlSession
+        let network = Network(session: stubUrlSession)
         
         //when
-        requestData(url: url) { (data, response) in
+        network.requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, statusCodeError)
@@ -146,10 +149,10 @@ final class OpenMarketJSONTests: XCTestCase, NetworkAble {
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: nil, response: response, error: nil)
         let stubUrlSession = StubURLSession(dummy: dummy)
-        session = stubUrlSession
-        
+        let network = Network(session: stubUrlSession)
+
         //when
-        requestData(url: url) { (data, response) in
+        network.requestData(url: url) { (data, response) in
             XCTFail("complete handler 사용")
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, dataError)

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 enum OpenMarketApi {
     private static let hostUrl = "https://market-training.yagom-academy.kr/"

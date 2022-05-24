@@ -9,12 +9,11 @@ import UIKit
 
 final class Network: NetworkAble {
     
-    static let shared = Network()
     private let imageCache = NSCache<NSString, UIImage>()
     private let decoder = JSONDecoder()
     let session: URLSessionProtocol
     
-    private init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     

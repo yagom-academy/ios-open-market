@@ -10,7 +10,7 @@ import UIKit
 final class GridCollectionViewCell: UICollectionViewCell {
     
     private lazy var productImage = UIImageView()
-    private var network = Network.shared
+    private var network = Network()
     private var lastDataTask: URLSessionDataTask?
     
     private lazy var productTitle: UILabel = {

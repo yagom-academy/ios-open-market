@@ -77,11 +77,11 @@ final class RegisterEditViewController: UIViewController{
             title: "상품 이미지 추가",
             message: "",
             preferredStyle: .actionSheet)
-        let library = UIAlertAction(title: "사진앨범", style: .default) {
+        let library = UIAlertAction(title: "사진앨범", style: .default) {
             (action) in
             self.openLibrary()
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         alert.addAction(library)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
@@ -89,7 +89,7 @@ final class RegisterEditViewController: UIViewController{
     
     private func openLibrary() {
         picker.sourceType   = .photoLibrary
-        present(picker, animated: false, completion: nil)
+        present(picker, animated: false, completion: nil)
     }
     
     override func viewDidLoad() {

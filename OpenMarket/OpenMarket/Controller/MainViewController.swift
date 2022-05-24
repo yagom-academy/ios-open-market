@@ -12,7 +12,7 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    private let network = Network.shared
+    private let network = Network()
     private let session: URLSessionProtocol = URLSession.shared
     private var pageNo = 3
     private var itemsPerPage = 100
@@ -24,7 +24,7 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-        switch ViewType(rawValue: self.segmentedControl.selectedSegmentIndex) {
+        switch MainCollectionView.LayoutType(rawValue: self.segmentedControl.selectedSegmentIndex) {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
             cell.accessories = [.disclosureIndicator()]
@@ -149,10 +149,10 @@ extension MainViewController {
     
     @objc private func segmentedControlChanged(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case ViewType.list.rawValue:
+        case MainCollectionView.LayoutType.list.rawValue:
             collectionView.changeLayout(viewType: .list)
             collectionView.reloadData()
-        case ViewType.grid.rawValue:
+        case MainCollectionView.LayoutType.grid.rawValue:
             collectionView.changeLayout(viewType: .grid)
             collectionView.reloadData()
         default:
