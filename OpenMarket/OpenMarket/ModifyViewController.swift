@@ -83,6 +83,9 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
+    func requestModifyProduct() {
+    }
+    
     @objc func doneToMain() {
         self.navigationController?.popViewController(animated: true)
     }
