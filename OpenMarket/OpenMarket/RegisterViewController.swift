@@ -7,7 +7,10 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
+final class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
+    var imageNumber: Int = 1
+    var currency: Currency = .KRW
+    
     var productImageView: UIImageView = UIImageView()
     
     lazy var mainStackView: UIStackView = {
@@ -64,7 +67,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         return textField
     }()
     
-    let currencyField: UISegmentedControl = UISegmentedControl(items: ["KRW", "USD"])
+    let currencyField: UISegmentedControl = UISegmentedControl(items: Currency.allCases.map{ $0.rawValue } )
     let discountedPriceField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인가격"
@@ -151,6 +154,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         discountedPriceField.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.05).isActive = true
         stockField.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.05).isActive = true
         currencyField.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.25).isActive = true
+        
+        
+        currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
+        currencyField.selectedSegmentIndex = 0
+        self.changeCurrency(currencyField)
     }
 }
 
@@ -236,5 +244,14 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         // Post
         
         // delegate
+    }
+    
+    @objc func changeCurrency(_ sender: UISegmentedControl) {
+        let mode = sender.selectedSegmentIndex
+        if mode == Currency.KRW.value {
+            currency = Currency.KRW
+        } else if mode == Currency.USD.value {
+            currency = Currency.USD
+        }
     }
 }
