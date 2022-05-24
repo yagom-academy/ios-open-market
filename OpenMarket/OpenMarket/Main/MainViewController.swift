@@ -80,7 +80,9 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     @objc private func addButtonDidTapped() {
-        // empty
+        let editNavigationController = UINavigationController(rootViewController: EditViewController())
+        editNavigationController.modalPresentationStyle = .fullScreen
+        present(editNavigationController, animated: true)
     }
     
     @objc private func segmentValueDidChanged() {
