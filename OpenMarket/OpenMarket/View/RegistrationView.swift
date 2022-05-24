@@ -69,7 +69,7 @@ class RegistrationView: UIView {
   
   private let stockTextField: UITextField = {
     let textField = UITextField()
-    textField.placeholder = "할인금액"
+    textField.placeholder = "재고수량"
     textField.borderStyle = .roundedRect
     textField.backgroundColor = .white
     return textField
