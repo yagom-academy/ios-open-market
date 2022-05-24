@@ -9,7 +9,6 @@ import UIKit
 
 struct URLSessionProvider<T: Decodable> {
     private let session: URLSessionProtocol
-    private let cache = NSCache<NSURL, UIImage>()
     
     init (session: URLSessionProtocol = URLSession.shared) {
         self.session = session
