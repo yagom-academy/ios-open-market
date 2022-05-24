@@ -9,7 +9,7 @@ import UIKit
 
 final class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
     lazy var productView = ProductView(frame: view.frame)
-
+    
     var currency: Currency = .KRW
     var images: [UIImage] = []
     
@@ -86,12 +86,34 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let urlInfo = info[.editedImage] as! UIImage
-        images.append(urlInfo)
+        let maxKBSize: Double = 300.0
+        guard let editedImage = info[.editedImage] as? UIImage else {
+            return
+        }
+        var image = editedImage
+        guard let imagaDataSize = image.jpegData(compressionQuality: 1.0)?.count else {
+            return
+        }
+        var imageSize: Double = Double(imagaDataSize) / 1024
+        while imageSize > maxKBSize {
+            let ratio = (imageSize / 300.0)
+            if ratio > 2 {
+                image = image.resize(ratio: ratio)
+            } else {
+                image = image.resize(ratio: 2.0)
+            }
+            guard let imagaDataSize = image.jpegData(compressionQuality: 1.0)?.count else {
+                return
+            }
+            imageSize = Double(imagaDataSize) / 1024
+        }
+        
+        images.append(image)
         dismiss(animated: true, completion: nil)
         DispatchQueue.main.async {
             self.productView.collectionView.reloadData()
         }
+        
     }
     
     @objc func actionSheetAlert() {
@@ -132,23 +154,23 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-
+        
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-               UIView.animate(withDuration: 0.3, animations: {
-                   self.productView.transform = CGAffineTransform(translationX: 0, y: -keyboardSize.height)
-               })
-           }
+            UIView.animate(withDuration: 0.3, animations: {
+                self.productView.transform = CGAffineTransform(translationX: 0, y: -keyboardSize.height)
+            })
+        }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         self.productView.transform = .identity
     }
-  
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
