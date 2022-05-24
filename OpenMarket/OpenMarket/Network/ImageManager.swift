@@ -22,6 +22,7 @@ class ImageManager {
         cacheManager.clear()
     }
     
+    @discardableResult
     func downloadImage(urlString: String?, completion: @escaping (Result<UIImage, NetworkErorr>) -> Void) -> URLSessionDataTask? {
         guard let urlString = urlString, let url = URL(string: urlString) else {
             completion(.failure(.urlError))

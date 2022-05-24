@@ -120,7 +120,6 @@ extension RegisterViewController: UIImagePickerControllerDelegate & UINavigation
         insertSnapshot(images: [image])
         picker.dismiss(animated: true)
     }
-    
 }
 
 // MARK: - CollectionView Delegate
@@ -136,7 +135,6 @@ extension RegisterViewController: UICollectionViewDelegate {
         } cameraAction: { [weak self] _ in
             self?.cameraButtonTapped()
         }
-
     }
 }
 

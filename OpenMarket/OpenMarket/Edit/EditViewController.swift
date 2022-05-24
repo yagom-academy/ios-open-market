@@ -15,6 +15,8 @@ final class EditViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, UIImage>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>
     
+    private let networkManager = NetworkManager<Product>()
+    
     private var mainView: EditView?
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
@@ -41,13 +43,45 @@ final class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        //applySnapshot(images: )
+        requestData()
         configurePickerController()
         registerNotification()
     }
 
     deinit {
         removeNotification()
+    }
+    
+    private func requestData() {
+        guard let id = product.id else { return }
+        
+        let endPoint = EndPoint.requestProduct(id: id, httpMethod: .get)
+        
+        networkManager.request(endPoint: endPoint) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let data):
+                self.mainView?.configure(product: data)
+                let imagesUrl = data.images?.compactMap { $0.url }
+                imagesUrl?.forEach({ url in
+                    self.requestImage(urlString: url)
+                })
+            case .failure(_):
+                AlertDirector(viewController: self).createErrorAlert()
+            }
+        }
+    }
+    
+    private func requestImage(urlString: String) {
+        ImageManager.shared.downloadImage(urlString: urlString) { [weak self] result in
+            switch result {
+            case .success(let image):
+                self?.applySnapshot(images: [image])
+            case .failure(_):
+                break
+            }
+        }
     }
     
     private func configureView() {
@@ -131,7 +165,6 @@ extension EditViewController: UIImagePickerControllerDelegate & UINavigationCont
         insertSnapshot(images: [image])
         picker.dismiss(animated: true)
     }
-    
 }
 
 // MARK: - CollectionView Delegate
@@ -147,7 +180,6 @@ extension EditViewController: UICollectionViewDelegate {
         } cameraAction: { [weak self] _ in
             self?.cameraButtonTapped()
         }
-
     }
 }
 
