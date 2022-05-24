@@ -28,10 +28,14 @@ final class ProductImageCell: UICollectionViewCell {
         contentView.addSubview(productImageView)
         
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+    }
+    
+    func configure(image: UIImage) {
+        productImageView.image = image
     }
 }
