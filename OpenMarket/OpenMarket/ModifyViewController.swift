@@ -25,9 +25,6 @@ class ModifyViewController: UIViewController {
         backbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
         self.navigationItem.leftBarButtonItem = backbutton
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
-        
         productView.collectionView.delegate = self
         productView.collectionView.dataSource = self
         
@@ -130,7 +127,9 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     @objc func keyboardWillShow(notification: NSNotification) {
 
-        guard let userInfo = notification.userInfo else { return }
+        guard let userInfo = notification.userInfo else {
+            return
+        }
         var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)
         productView.mainScrollView.setContentOffset(CGPoint(x: 0, y: keyboardFrame.size.height - 100), animated: true)
@@ -138,8 +137,22 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
     @objc func keyboardWillHide(notification: NSNotification) {
 
-        let contentInset: UIEdgeInsets = UIEdgeInsets.zero
-        productView.mainScrollView.contentInset = contentInset
+        guard let userInfo = notification.userInfo else {
+            return
+        }
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        productView.mainScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
-    
+  
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 }
