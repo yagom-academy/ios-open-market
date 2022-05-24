@@ -152,6 +152,10 @@ extension EditViewController {
                 return ProductImageCell()
             }
             
+            cell.removeImage = { [weak self] in
+                self?.deleteSnapshot(images: [itemIdentifier])
+            }
+            
             cell.configure(image: itemIdentifier)
             
             return cell
@@ -174,6 +178,13 @@ extension EditViewController {
             
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
+    }
+    
+    private func deleteSnapshot(images: [UIImage]) {
+        snapshot?.deleteItems(images)
+        guard let snapshot = snapshot else { return }
+        
+        dataSource?.apply(snapshot)
     }
     
     private func insertSnapshot(images: [UIImage]) {
