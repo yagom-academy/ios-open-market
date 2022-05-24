@@ -104,10 +104,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         collectionView
             .register(ImageRegisterCell.classForCoder(), forCellWithReuseIdentifier: "imageCell")
         self.navigationItem.title = "상품등록"
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneToMain))
         self.navigationItem.rightBarButtonItem = doneButton
         self.navigationItem.hidesBackButton = true
-        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
+        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(backToMain))
         backbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
         self.navigationItem.leftBarButtonItem = backbutton
         
@@ -224,5 +224,17 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         alert.addAction(camera)
         alert.addAction(album)
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func backToMain(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func doneToMain(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+        
+        // Post
+        
+        // delegate
     }
 }
