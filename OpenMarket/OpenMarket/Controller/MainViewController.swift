@@ -61,6 +61,14 @@ final class MainViewController: UIViewController {
         return segment
     }()
     
+    private lazy var rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(mainViewRightBarButtonTapped))
+    
+    @objc private func mainViewRightBarButtonTapped() {
+        let viewController = RegisterEditViewController()
+        viewController.mode = .add
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
@@ -83,6 +91,7 @@ final class MainViewController: UIViewController {
     
     private func configureSegmentedControl() {
         navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     @objc private func segmentedControlChanged(sender: UISegmentedControl) {
