@@ -9,6 +9,7 @@ import UIKit
 
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
+    @IBOutlet private weak var curruncySegment: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,7 @@ final class AddItemViewController: UIViewController {
         navigationItem.setRightBarButton(makeDoneButton(), animated: true)
         itemImageCollectionView.dataSource = self
         itemImageCollectionView.register(UINib(nibName: "\(ItemImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(ItemImageCell.self)")
+        setSegmentTextFont()
         setLayout()
     }
     @objc private func touchCancelButton() {
@@ -58,6 +60,11 @@ extension AddItemViewController {
         let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchDoneButton))
         barButton.title = "Done"
         return barButton
+    }
+    
+    private func setSegmentTextFont() {
+        let font = UIFont.preferredFont(forTextStyle: .caption1)
+        curruncySegment.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
     }
     
     private func setLayout() {
