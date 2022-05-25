@@ -148,22 +148,14 @@ class EditView: UIView {
         let discountedPrice = productDiscountCostTextField.text.flatMap { Double($0) }
         let stock = productStockTextField.text.flatMap { Int($0) }
         
-        let uploadProduct = UploadProduct(name: productNameTextField.text,
+        return UploadProduct(name: productNameTextField.text,
                                  discountedPrice: discountedPrice,
                                  descriptions: productDescriptionTextView.text,
                                  price: price,
                                  stock: stock,
                                  currency: currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD,
                                  secret: "password")
-        
-//        return UploadProduct(name: "qweqwe",
-//                             discountedPrice: 11,
-//                             descriptions: "productDescriptionTextView.text",
-//                             price: 123,
-//                             stock: 1,
-//                             currency: .KRW,
-//                             secret: "password")
-        return uploadProduct
+
     }
 }
 
