@@ -30,6 +30,16 @@ final class ProductRegisterViewController: UIViewController {
     return stackView
   }()
   
+  private lazy var addImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.image = UIImage(named: "add")
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.isUserInteractionEnabled = true
+    let gesture = UITapGestureRecognizer(target: self, action: #selector(addImageViewDidTap))
+    imageView.addGestureRecognizer(gesture)
+    return imageView
+  }()
+  
   private let productInputStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
@@ -97,6 +107,8 @@ final class ProductRegisterViewController: UIViewController {
     self.configureUI()
     self.configureNavigationItem()
   }
+  
+  @objc func addImageViewDidTap(_ sender: UIImageView) {}
 }
 
 // MARK: - UI
@@ -110,6 +122,7 @@ private extension ProductRegisterViewController {
     self.containerStackView.addArrangedSubview(descriptionsTextView)
     
     self.imageScrollView.addSubview(imageStackView)
+    self.imageStackView.addArrangedSubview(addImageView)
     
     self.productPriceStackView.addArrangedSubview(priceTextField)
     self.productPriceStackView.addArrangedSubview(currencySegment)
@@ -125,14 +138,15 @@ private extension ProductRegisterViewController {
       containerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
       containerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
       
-      imageScrollView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.2),
+      imageScrollView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.16),
       
       imageStackView.topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
       imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
       imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
       imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
       imageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor),
-      imageStackView.widthAnchor.constraint(equalToConstant: view.frame.width + 1),
+      
+      addImageView.widthAnchor.constraint(equalTo: addImageView.heightAnchor),
       
       priceTextField.widthAnchor.constraint(equalTo: currencySegment.widthAnchor, multiplier: 2.0)
     ])
