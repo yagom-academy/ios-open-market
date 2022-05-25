@@ -19,6 +19,9 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
         self.view = productView
         productView.collectionView.delegate = self
         productView.collectionView.dataSource = self
+        productView.priceField.delegate = self
+        productView.discountedPriceField.delegate = self
+        productView.stockField.delegate = self
         
         self.navigationItem.title = "상품등록"
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneToMain))
@@ -37,9 +40,6 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
     }
 }
 
-extension RegisterViewController: UITextFieldDelegate {
-    
-}
 
 extension RegisterViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -279,8 +279,15 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        productView.endEditing(true)
+}
+
+extension RegisterViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.keyboardType == .numberPad {
+            if CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
+                return true
+            }
+        }
+        return false
     }
 }

@@ -27,7 +27,9 @@ class ModifyViewController: UIViewController {
         
         productView.collectionView.delegate = self
         productView.collectionView.dataSource = self
-        
+        productView.priceField.delegate = self
+        productView.discountedPriceField.delegate = self
+        productView.stockField.delegate = self
         
         productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
         fillData()
@@ -177,8 +179,15 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        productView.endEditing(true)
+}
+
+extension ModifyViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.keyboardType == .numberPad {
+            if CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
+                return true
+            }
+        }
+        return false
     }
 }
