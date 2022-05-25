@@ -39,7 +39,7 @@ class NetworkTests: XCTestCase {
         let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10, httpMethod: .get)
         
         MockURLProtocol.requsetHandler = { requset in
-            let urlReponse = HTTPURLResponse(url: endPoint.urlRequst!.url!, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
+            let urlReponse = HTTPURLResponse(url: endPoint.urlRequest!.url!, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
             let dummyData = DummyData().data!
             
             return (urlReponse, dummyData)
@@ -74,7 +74,7 @@ class NetworkTests: XCTestCase {
         let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10, httpMethod: .get)
         
         MockURLProtocol.requsetHandler = { requset in
-            let urlReponse = HTTPURLResponse(url: endPoint.urlRequst!.url!, statusCode: 404, httpVersion: "2.0", headerFields: nil)!
+            let urlReponse = HTTPURLResponse(url: endPoint.urlRequest!.url!, statusCode: 404, httpVersion: "2.0", headerFields: nil)!
             let dummyData = DummyData().data!
             
             return (urlReponse, dummyData)

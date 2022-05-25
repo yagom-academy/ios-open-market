@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HTTPMethod: String {
+private enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
     case patch = "PATCH"
@@ -22,13 +22,10 @@ enum EndPoint {
     case createProduct(sendData: Data)
     
     static let boundary = UUID().uuidString
+    private static let host = "https://market-training.yagom-academy.kr/"
 }
 
 extension EndPoint {
-    private static var host: String {
-        "https://market-training.yagom-academy.kr/"
-    }
-    
     private var url: URL? {
         switch self {
         case .serverState:
@@ -46,11 +43,7 @@ extension EndPoint {
     
     private var httpMethod: HTTPMethod {
         switch self {
-        case .serverState:
-            return .get
-        case .requestList(_, _):
-            return .get
-        case .requestProduct(_):
+        case .serverState, .requestList(_, _), .requestProduct(_):
             return .get
         case .editProduct(_, _):
             return .patch
@@ -58,31 +51,21 @@ extension EndPoint {
             return .post
         }
     }
-    
-    var urlRequst: URLRequest? {
-        return makeUrlRequest()
-    }
-    
-    private func makeUrlRequest() -> URLRequest? {
+
+    var urlRequest: URLRequest? {
         guard let url = url else { return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
         
         switch self {
-        case .serverState:
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        case .requestList(_, _):
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        case .requestProduct(_):
+        case .serverState, .requestList(_, _),.requestProduct(_):
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         case .editProduct(_, let sendData):
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
-            
             request.httpBody = try? JSONEncoder().encode(sendData)
         case .createProduct(let sendData):
-            
             request.addValue("multipart/form-data; boundary=\(Self.boundary)", forHTTPHeaderField: "Content-Type")
             request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
             request.httpBody = sendData
