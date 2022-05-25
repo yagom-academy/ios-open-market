@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Product: Decodable {
+struct Product: Decodable, Hashable {
+    let identifier: Int
     let name: String
     let price: Int
     let bargainPrice: Int
@@ -16,6 +17,7 @@ struct Product: Decodable {
     let stock: Int
     
     enum CodingKeys: String, CodingKey {
+        case identifier = "id"
         case name
         case price
         case bargainPrice = "bargain_price"
