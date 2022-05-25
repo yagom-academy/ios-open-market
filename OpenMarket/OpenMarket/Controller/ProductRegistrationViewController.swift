@@ -26,7 +26,9 @@ class ProductRegistrationViewController: UIViewController {
         navigationItem.rightBarButtonItem = doneButton
     }
     
-    @objc private func didTapCancelButton() { }
+    @objc private func didTapCancelButton() {
+        self.navigationController?.dismiss(animated: true)
+    }
     
     @objc private func didTapDoneButton() { }
 
