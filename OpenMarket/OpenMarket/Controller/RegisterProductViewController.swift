@@ -43,7 +43,9 @@ class RegisterProductViewController: UIViewController {
         
         configureHierarchy(collectionViewLayout: imageLayout ?? UICollectionViewLayout())
         registerCell()
-        collectionView?.dataSource = self
+        setUpCollectionView()
+        
+        setUpImagePicker()
     }
 }
 
@@ -64,6 +66,11 @@ extension RegisterProductViewController {
 }
 
 extension RegisterProductViewController {
+    private func setUpCollectionView() {
+        collectionView?.dataSource = self
+        collectionView?.delegate = self
+    }
+    
     private func registerCell() {
         collectionView?.register(ImageCell.self, forCellWithReuseIdentifier: "ImageCell")
         collectionView?.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
