@@ -51,7 +51,7 @@ struct ProductImage: Decodable {
     private enum CodingKeys: String, CodingKey {
         case id
         case url
-        case thumbnailURL = "thumbnail"
+        case thumbnailURL = "thumbnail_url"
         case isSuccess = "succeed"
         case issuedAt = "issued_at"
     }

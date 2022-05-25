@@ -55,6 +55,7 @@ final class RegisterViewController: UIViewController {
     }
     
     private func setUpTextView() {
+        editView.productDescriptionTextView.delegate = self
         editView.productDescriptionTextView.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
     }
     
@@ -179,7 +180,7 @@ extension RegisterViewController {
     }
 }
 
-extension RegisterViewController: AlertDelegate {
+extension RegisterViewController: EditAlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)
@@ -205,7 +206,7 @@ extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate,
         if viewModel.images.count < 6 {
             self.present(imagePicker, animated: true)
         } else {
-            print("사진은 5장까지")
+            showAlertInputError(with: .imageIsFull)
         }
     }
     
@@ -213,5 +214,18 @@ extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate,
         guard let captureImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         viewModel.insert(image: captureImage)
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension RegisterViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if range.location == 1000 {
+            showAlertInputError(with: .descriptionIsTooLong)
+            return false
+        }
+        if range.length > 0 {
+            return true
+        }
+        return range.location < 1000
     }
 }

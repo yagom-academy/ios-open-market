@@ -7,6 +7,11 @@
 
 import Foundation
 
-protocol AlertDelegate: AnyObject {
+protocol MainAlertDelegate: AnyObject {
+    func showAlertRequestError(with error: Error)
+    func showAlertRequestDetailError(with error: Error)
+}
+
+protocol EditAlertDelegate: AnyObject {
     func showAlertRequestError(with error: Error)
 }

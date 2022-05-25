@@ -78,6 +78,7 @@ final class EditView: UIView {
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
         textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        textField.keyboardType = .default
         return textField
     }()
     
@@ -96,6 +97,7 @@ final class EditView: UIView {
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
         textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        textField.keyboardType = .numberPad
         return textField
     }()
     
@@ -112,6 +114,7 @@ final class EditView: UIView {
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
         textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        textField.keyboardType = .numberPad
         return textField
     }()
     
@@ -122,6 +125,7 @@ final class EditView: UIView {
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
         textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        textField.keyboardType = .numberPad
         return textField
     }()
     

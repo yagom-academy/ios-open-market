@@ -17,7 +17,7 @@ final class ModifyViewController: UIViewController {
     
     private lazy var editView = EditView(frame: view.frame)
     private let viewModel = ModifyViewModel()
-    let productDetail: ProductDetail
+    private let productDetail: ProductDetail
     
     override func loadView() {
         super.loadView()
@@ -26,6 +26,7 @@ final class ModifyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpViews()
         setUpBarItems()
         setUpViewModel()
         setUpKeyboardNotification()
@@ -44,7 +45,20 @@ final class ModifyViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    private func setUpViews() {
+        editView.productNameTextField.text = productDetail.name
+        editView.productPriceTextField.text = String(productDetail.price)
+        editView.productDiscountedTextField.text = String(productDetail.discountedPrice)
+        editView.productStockTextField.text = String(productDetail.stock)
+        editView.productDescriptionTextView.text = productDetail.productsDescription
+        viewModel.setUpImages(with: productDetail.images)
+        
+        if productDetail.currency == "KRW" {
+            editView.productCurrencySegmentedControl.selectedSegmentIndex = 0
+        } else {
+            editView.productCurrencySegmentedControl.selectedSegmentIndex = 1
+        }
+    }
     
     private func setUpBarItems() {
         editView.setUpBarItem(title: "상품수정")
@@ -176,7 +190,8 @@ extension ModifyViewController {
                     for: indexPath) as? ProductsHorizontalCell else {
                     return UICollectionViewCell()
                 }
-
+                
+                cell.updateImage(imageInfo: image)
 
                 return cell
             })
@@ -184,7 +199,7 @@ extension ModifyViewController {
     }
 }
 
-extension ModifyViewController: AlertDelegate {
+extension ModifyViewController: EditAlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)

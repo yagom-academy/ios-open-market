@@ -20,7 +20,7 @@ final class ModifyViewModel {
     private let productsAPIServie = APIProvider<Products>()
     private(set) var images: [ImageInfo] = []
     
-    weak var delegate: AlertDelegate?
+    weak var delegate: EditAlertDelegate?
     
     func requestPost(_ productsPost: ProductsPost) {
         let endpoint = EndPointStorage.productsPost(productsPost)
@@ -35,6 +35,28 @@ final class ModifyViewModel {
                 }
             }
         }
+    }
+    
+    func requestImage(url: URL) {
+        productsAPIServie.requestImage(with: url) { result in
+            switch result {
+            case .success(let data):
+                self.images.append(ImageInfo(fileName: self.generateUUID(), data: data, type: "jpg"))
+                self.applySnapshot()
+            case .failure(_):
+                print("asdf")
+            }
+        }
+    }
+    
+    func setUpImages(with images: [ProductImage]) {
+        images.forEach { image in
+            requestImage(url: image.url)
+        }
+    }
+    
+    private func generateUUID() -> String {
+        return UUID().uuidString + ".jpg"
     }
     
     private func applySnapshot() {

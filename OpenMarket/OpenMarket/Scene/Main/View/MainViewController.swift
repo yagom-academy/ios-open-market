@@ -10,6 +10,7 @@ final class MainViewController: UIViewController {
     private enum Constants {
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "다시요청하기"
+        static let requestDetailErrorAlertConfirmTitle = "확인"
     }
     
     private lazy var mainView = MainView(frame: view.bounds)
@@ -105,15 +106,23 @@ extension MainViewController {
 
 // MARK: AlertDelegate
 
-extension MainViewController: AlertDelegate {
+extension MainViewController: MainAlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)
             .setMessage(error.localizedDescription)
             .setConfirmTitle(Constants.requestErrorAlertConfirmTitle)
             .setConfirmHandler {
-//                self.viewModel.requestProducts(by: self.viewModel.currentPage)
+                self.viewModel.requestProducts(by: self.viewModel.currentPage)
             }
+            .showAlert()
+    }
+    
+    func showAlertRequestDetailError(with error: Error) {
+        self.alertBuilder
+            .setTitle(Constants.requestErrorAlertTitle)
+            .setMessage(error.localizedDescription)
+            .setConfirmTitle(Constants.requestDetailErrorAlertConfirmTitle)
             .showAlert()
     }
 }
@@ -134,12 +143,12 @@ extension MainViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let id = viewModel.items[indexPath.row].id
-        viewModel.requestProductDetail(by: id)
-        guard let item = viewModel.item else {
-            return
+        viewModel.requestProductDetail(by: id) { productDetail in
+            DispatchQueue.main.async {
+                let modifyView = ModifyViewController(productDetail: productDetail)
+                modifyView.modalPresentationStyle = .fullScreen
+                self.present(modifyView, animated: true)
+            }
         }
-        let modifyView = ModifyViewController(productDetail: item)
-        modifyView.modalPresentationStyle = .fullScreen
-        self.present(modifyView, animated: true)
     }
 }

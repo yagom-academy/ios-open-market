@@ -19,22 +19,21 @@ final class MainViewModel {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
-    private let productsAPIServie = APIProvider<Products>()
-    private let productsDetailAPIServie = APIProvider<ProductDetail>()
-    lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIServie)
+    private let productsAPIService = APIProvider<Products>()
+    private let productsDetailAPIService = APIProvider<ProductDetail>()
+    lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIService)
     
     var datasource: DataSource?
     private(set) var products: Products?
     private(set) var items: [Item] = []
-    private(set) var item: ProductDetail?
     var currentPage = 1
     
-    weak var delegate: AlertDelegate?
+    weak var delegate: MainAlertDelegate?
     
     func requestProducts(by page: Int) {
         let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: Constants.itemsCountPerPage)
         
-        productsAPIServie.retrieveProduct(with: endpoint) { [weak self] result in
+        productsAPIService.retrieveProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success(let products):
                 self?.products = products
@@ -48,13 +47,13 @@ final class MainViewModel {
         }
     }
     
-    func requestProductDetail(by id: Int) {
+    func requestProductDetail(by id: Int, completion: @escaping (ProductDetail) -> Void) {
         let endpoint = EndPointStorage.productsDetail(productID: id)
         
-        productsDetailAPIServie.retrieveProduct(with: endpoint) { [weak self] result in
+        productsDetailAPIService.retrieveProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success(let productDetail):
-                self?.item = productDetail
+                completion(productDetail)
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.delegate?.showAlertRequestError(with: error)

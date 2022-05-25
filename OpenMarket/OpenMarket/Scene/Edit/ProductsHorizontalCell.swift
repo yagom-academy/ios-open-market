@@ -35,7 +35,6 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "plus")
         return imageView
     }()
     

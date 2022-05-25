@@ -66,6 +66,7 @@ final class APIProvider<T: Decodable>: Provider {
         }
     }
     
+    @discardableResult
     func requestImage(
         with url: URL,
         completion: @escaping (Result<Data, Error>) -> Void

@@ -20,7 +20,7 @@ final class RegisterViewModel {
     private let productsAPIServie = APIProvider<Products>()
     private(set) var images: [ImageInfo] = []
     
-    weak var delegate: AlertDelegate?
+    weak var delegate: EditAlertDelegate?
     
     func requestPost(_ productsPost: ProductsPost) {
         let endpoint = EndPointStorage.productsPost(productsPost)
