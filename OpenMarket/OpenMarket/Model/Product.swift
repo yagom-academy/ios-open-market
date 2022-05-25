@@ -27,6 +27,7 @@ struct Product: Codable, Hashable {
     let issuedAt: Date?
     let images: [Image]?
     let vendors: Vendor?
+    let secret: String?
     
     enum CodingKeys: String, CodingKey {
         case id, name, thumbnail, currency, price, description, stock
@@ -35,7 +36,7 @@ struct Product: Codable, Hashable {
         case discountedPrice = "discounted_price"
         case createdAt = "created_at"
         case issuedAt = "issued_at"
-        case images, vendors
+        case images, vendors, secret
     }
     
     struct Image: Codable, Hashable {
@@ -64,14 +65,4 @@ struct Product: Codable, Hashable {
             case issuedAt = "issued_at"
         }
     }
-}
-
-struct UpLoadProduct: Encodable {
-    let name: String?
-    let discountedPrice: Double?
-    let descriptions: String?
-    let price: Double?
-    let stock: Int?
-    let currency: Currency?
-    let secret: String?
 }

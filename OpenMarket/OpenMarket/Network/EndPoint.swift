@@ -18,7 +18,7 @@ enum EndPoint {
     case serverState
     case requestList(page: Int, itemsPerPage: Int)
     case requestProduct(id: Int)
-    case editProduct(id: Int, sendData: [String: String])
+    case editProduct(id: Int, sendData: UploadProduct)
     case createProduct(sendData: Data)
     
     static let boundary = UUID().uuidString

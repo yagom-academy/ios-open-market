@@ -143,17 +143,27 @@ class EditView: UIView {
         }
     }
     
-    func allData() -> [String: String] {
-        var data = [String: String]()
-        data["name"] = productNameTextField.text
-        data["descriptions"] = productDescriptionTextView.text
-        data["price"] = productCostTextField.text
-        data["currency"] = currencySegmentedControl.selectedSegmentIndex == 0 ? "KRW" : "USD"
-        data["discounted_price"] = productDiscountCostTextField.text
-        data["stock"] = productStockTextField.text
-        data["secret"] = "password"
+    func allData() -> UploadProduct? {
+        let price = productCostTextField.text.flatMap { Double($0) }
+        let discountedPrice = productDiscountCostTextField.text.flatMap { Double($0) }
+        let stock = productStockTextField.text.flatMap { Int($0) }
         
-        return data
+        let uploadProduct = UploadProduct(name: productNameTextField.text,
+                                 discountedPrice: discountedPrice,
+                                 descriptions: productDescriptionTextView.text,
+                                 price: price,
+                                 stock: stock,
+                                 currency: currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD,
+                                 secret: "password")
+        
+//        return UploadProduct(name: "qweqwe",
+//                             discountedPrice: 11,
+//                             descriptions: "productDescriptionTextView.text",
+//                             price: 123,
+//                             stock: 1,
+//                             currency: .KRW,
+//                             secret: "password")
+        return uploadProduct
     }
 }
 

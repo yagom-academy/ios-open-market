@@ -130,9 +130,8 @@ final class RegisterViewController: UIViewController {
     
     private func multipartFormData() -> Data? {
         guard let snapshot = snapshot else { return nil }
-        guard let allData = mainView?.allData() else { return nil }
-        let upLoadProduct = UpLoadProduct(name: "name", discountedPrice: 100, descriptions: "asdasd", price: 10000, stock: 3, currency: .KRW, secret: "password")
-        
+        guard let uploadProduct = mainView?.allData() else { return nil }
+//        let uploadProduct = UploadProduct(name: "s", discountedPrice: 1, descriptions: "asda", price: 2, stock: 3, currency: .KRW, secret: "password")
         let images = snapshot.itemIdentifiers[0..<snapshot.itemIdentifiers.count - 1]
         let imageDatas = images.compactMap { $0.jpegData(compressionQuality: 1.0) }
         
@@ -146,7 +145,7 @@ final class RegisterViewController: UIViewController {
         
         data.appendString(boundaryPrefix)
         data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
-        data.append(try! JSONEncoder().encode(upLoadProduct))
+        data.append(try! JSONEncoder().encode(uploadProduct))
         data.appendString(newLine)
         
         for imageData in imageDatas {
