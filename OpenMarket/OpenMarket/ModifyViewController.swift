@@ -11,7 +11,7 @@ class ModifyViewController: UIViewController {
     var product: Product?
     lazy var productView = ProductView(frame: view.frame)
     var currency: Currency = .KRW
-    
+    weak var delegate: ListUpdatable?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = productView
@@ -109,8 +109,8 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
             
             
             
-            RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") {_ in
-                print("성공!")
+            RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { [self]_ in
+                delegate?.refreshProductList()
             }
         }
         self.navigationController?.popViewController(animated: true)

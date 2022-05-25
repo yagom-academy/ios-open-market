@@ -6,6 +6,10 @@
 
 import UIKit
 
+protocol ListUpdatable: NSObject {
+    func refreshProductList()
+}
+
 enum ArrangeMode: String, CaseIterable {
     case list = "LIST"
     case grid = "GRID"
@@ -84,6 +88,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return
         }
         vc.modalPresentationStyle = .fullScreen
+        vc.delegate = self
         let id = products[indexPath.row].id
         RequestAssistant.shared.requestDetailAPI(productId: id) { result in
             switch result {
@@ -260,3 +265,9 @@ extension MainViewController {
     }
 }
 
+extension MainViewController: ListUpdatable {
+    func refreshProductList() {
+        products = []
+        requestProductListData()
+    }
+}
