@@ -26,6 +26,7 @@
 		94E2C093283C7D9C001E633B /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C092283C7D9C001E633B /* ProductImageCell.swift */; };
 		94E2C095283D1A2D001E633B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C094283D1A2D001E633B /* RegisterViewController.swift */; };
 		94E2C097283E712C001E633B /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C096283E712C001E633B /* ProductViewController.swift */; };
+		94E2C099283E9507001E633B /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C098283E9507001E633B /* Currency.swift */; };
 		94F7EB64282A737500F75049 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = 942CE267282959AB006C6648 /* products.json */; };
 		9B0EE41F283C73F100888A3E /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0EE41E283C73F100888A3E /* EditViewController.swift */; };
 		9B2232F528375C34006E186C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2232F428375C34006E186C /* Alert.swift */; };
@@ -78,6 +79,7 @@
 		94E2C092283C7D9C001E633B /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		94E2C094283D1A2D001E633B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		94E2C096283E712C001E633B /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		94E2C098283E9507001E633B /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		9B0EE41E283C73F100888A3E /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		9B2232F428375C34006E186C /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		9B2232F628375CDE006E186C /* AlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAction.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				942CE24E282930ED006C6648 /* ProductList.swift */,
 				9BAC5B20282936E0000269EE /* Product.swift */,
 				9BB1E033283E022D00B4586B /* UploadProduct.swift */,
+				94E2C098283E9507001E633B /* Currency.swift */,
 				9BB1E035283E855600B4586B /* Section.swift */,
 			);
 			path = Model;
@@ -360,6 +363,7 @@
 				9BB17ED3282CC022009BE432 /* MainView.swift in Sources */,
 				94881799282D439B00217C2A /* ProductListCell.swift in Sources */,
 				94C11BEB283281E900EB3049 /* CacheManager.swift in Sources */,
+				94E2C099283E9507001E633B /* Currency.swift in Sources */,
 				941DA8F0283784C70021CFCB /* ImageManager.swift in Sources */,
 				9469FAD8282ECA9A0053037F /* UILabel+extension.swift in Sources */,
 				9BC589CF282D4D0300721A0F /* UILayoutPriority+extension.swift in Sources */,
