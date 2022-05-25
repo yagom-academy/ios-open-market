@@ -34,7 +34,7 @@ class NetworkDummyModelTests: XCTestCase {
         )
         
         // when
-        sut.retrieveProductsList(with: endPoint) { result in
+        sut.retrieveProduct(with: endPoint) { result in
             switch result {
             case .success(let data):
                 let result = data.pageNumber

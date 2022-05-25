@@ -112,7 +112,7 @@ extension MainViewController: AlertDelegate {
             .setMessage(error.localizedDescription)
             .setConfirmTitle(Constants.requestErrorAlertConfirmTitle)
             .setConfirmHandler {
-                self.viewModel.requestProducts(by: self.viewModel.currentPage)
+//                self.viewModel.requestProducts(by: self.viewModel.currentPage)
             }
             .showAlert()
     }
@@ -130,5 +130,16 @@ extension MainViewController: UICollectionViewDelegate {
             viewModel.currentPage += 1
             viewModel.requestProducts(by: viewModel.currentPage)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let id = viewModel.items[indexPath.row].id
+        viewModel.requestProductDetail(by: id)
+        guard let item = viewModel.item else {
+            return
+        }
+        let modifyView = ModifyViewController(productDetail: item)
+        modifyView.modalPresentationStyle = .fullScreen
+        self.present(modifyView, animated: true)
     }
 }

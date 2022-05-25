@@ -9,7 +9,7 @@ import UIKit
 
 protocol Provider {
     associatedtype T
-    func retrieveProductsList(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
+    func retrieveProduct(with endpoint: Requestable, completion: @escaping (Result<T, Error>) -> Void)
     func requestImage(with url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTaskProtocol?
 }
 
@@ -19,7 +19,7 @@ final class APIProvider<T: Decodable>: Provider {
         self.urlSession = urlSession
     }
     
-    func retrieveProductsList(
+    func retrieveProduct(
         with endpoint: Requestable,
         completion: @escaping (Result<T, Error>) -> Void
     ) {

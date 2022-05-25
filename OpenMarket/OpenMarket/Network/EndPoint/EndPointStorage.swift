@@ -42,4 +42,12 @@ struct EndPointStorage {
         
         return endpoint
     }
+    
+    static func productsDetail(productID: Int) -> EndPoint {
+        let endpoint = EndPoint(
+            path: Constants.basePath + "/\(productID)"
+        )
+        
+        return endpoint
+    }
 }

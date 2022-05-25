@@ -20,11 +20,13 @@ final class MainViewModel {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
     private let productsAPIServie = APIProvider<Products>()
+    private let productsDetailAPIServie = APIProvider<ProductDetail>()
     lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIServie)
     
     var datasource: DataSource?
     private(set) var products: Products?
     private(set) var items: [Item] = []
+    private(set) var item: ProductDetail?
     var currentPage = 1
     
     weak var delegate: AlertDelegate?
@@ -32,12 +34,27 @@ final class MainViewModel {
     func requestProducts(by page: Int) {
         let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: Constants.itemsCountPerPage)
         
-        productsAPIServie.retrieveProductsList(with: endpoint) { [weak self] result in
+        productsAPIServie.retrieveProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success(let products):
                 self?.products = products
                 self?.items.append(contentsOf: products.items)
                 self?.applySnapshot()
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.delegate?.showAlertRequestError(with: error)
+                }
+            }
+        }
+    }
+    
+    func requestProductDetail(by id: Int) {
+        let endpoint = EndPointStorage.productsDetail(productID: id)
+        
+        productsDetailAPIServie.retrieveProduct(with: endpoint) { [weak self] result in
+            switch result {
+            case .success(let productDetail):
+                self?.item = productDetail
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.delegate?.showAlertRequestError(with: error)
