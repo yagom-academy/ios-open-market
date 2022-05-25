@@ -164,4 +164,21 @@ class RegistrationView: UIView {
        descriptionTextField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6)
       ])
   }
+  
+  func setupParams() -> Params {
+    var currency = ""
+    if self.currencySegmentedControl.selectedSegmentIndex == 0 {
+      currency = "KRW"
+    } else {
+      currency = "USD"
+    }
+    let params = Params(name: self.nameTextField.text!,
+                        price: Int(self.priceTextField.text!)!,
+                        discountedPrice: Int(self.discountedPriceTextField.text!)!,
+                        stock: Int(self.stockTextField.text!)!,
+                        currency: currency,
+                        description: self.descriptionTextField.text!,
+                        secret: "password")
+    return params
+  }
 }
