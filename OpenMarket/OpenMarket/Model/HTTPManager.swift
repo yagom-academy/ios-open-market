@@ -128,7 +128,7 @@ struct HTTPManager {
         let boundary = UUID().uuidString
         
         request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
-        request.addValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     
         var data = Data()
         guard let jsonData = try? JSONSerialization.data(withJSONObject: product) else {
