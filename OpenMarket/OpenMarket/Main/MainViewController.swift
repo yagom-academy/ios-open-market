@@ -48,6 +48,16 @@ final class MainViewController: UIViewController {
         navigationItem.titleView = cellLayoutSegmentControl
     }
     
+    @objc private func addButtonDidTapped() {
+        let registerViewController = RegisterViewController()
+        registerViewController.delegate = self
+        
+        let registerNavigationController = UINavigationController(rootViewController: registerViewController)
+        registerNavigationController.modalPresentationStyle = .fullScreen
+        
+        present(registerNavigationController, animated: true)
+    }
+    
     private func configureCollectionView() {
         mainView?.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
         mainView?.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
@@ -62,6 +72,10 @@ final class MainViewController: UIViewController {
         mainView?.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
+    @objc private func handleRefreshControl() {
+        resetData()
+    }
+    
     private func configureSegmentControl() {
         cellLayoutSegmentControl.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
         cellLayoutSegmentControl.setTitleTextAttributes([.foregroundColor : UIColor.systemBlue], for: .normal)
@@ -73,28 +87,10 @@ final class MainViewController: UIViewController {
         cellLayoutSegmentControl.selectedSegmentIndex = 0
         cellLayoutSegmentControl.addTarget(self, action: #selector(segmentValueDidChanged), for: .valueChanged)
     }
-}
-
-// MARK: - Action Method
-
-extension MainViewController {
-    @objc private func addButtonDidTapped() {
-        let registerViewController = RegisterViewController()
-        registerViewController.delegate = self
-        
-        let registerNavigationController = UINavigationController(rootViewController: registerViewController)
-        registerNavigationController.modalPresentationStyle = .fullScreen
-        
-        present(registerNavigationController, animated: true)
-    }
     
     @objc private func segmentValueDidChanged() {
         mainView?.changeLayout(index: cellLayoutSegmentControl.selectedSegmentIndex)
         mainView?.collectionView.reloadData()
-    }
-    
-    @objc private func handleRefreshControl() {
-        resetData()
     }
 }
 
