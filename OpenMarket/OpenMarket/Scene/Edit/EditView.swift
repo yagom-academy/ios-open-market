@@ -71,7 +71,7 @@ final class EditView: UIView {
         return collectionView
     }()
     
-    private let productNameTextField: UITextField = {
+    let productNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
@@ -89,7 +89,7 @@ final class EditView: UIView {
         return stackView
     }()
     
-    private let productPriceTextField: UITextField = {
+    let productPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
@@ -99,13 +99,13 @@ final class EditView: UIView {
         return textField
     }()
     
-    private let productCurrencySegmentedControl: UISegmentedControl = {
+    let productCurrencySegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["KRW", "USD"])
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
     
-    private let productDiscountedTextField: UITextField = {
+    let productDiscountedTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
@@ -115,7 +115,7 @@ final class EditView: UIView {
         return textField
     }()
     
-    private let productStockTextField: UITextField = {
+    let productStockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect

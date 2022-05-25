@@ -30,6 +30,7 @@ final class RegisterViewModel {
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.delegate?.showAlertRequestError(with: error)
+                    print(error)
                 }
             }
         }
@@ -42,14 +43,14 @@ final class RegisterViewModel {
     }
     
     func insert(image: UIImage) {
-        guard let data = image.pngData() else { return }
-        images.insert(ImageInfo(fileName: generateUUID(), data: data, type: "png"), at: 0)
+        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
+        images.insert(ImageInfo(fileName: generateUUID(), data: data, type: "jpg"), at: 0)
         
         applySnapshot()
     }
     
     private func generateUUID() -> String {
-        return UUID().uuidString
+        return UUID().uuidString + ".jpg"
     }
     
     private func applySnapshot() {

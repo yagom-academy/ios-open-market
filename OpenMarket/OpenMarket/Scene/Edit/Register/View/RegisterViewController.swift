@@ -10,6 +10,7 @@ import UIKit
 final class RegisterViewController: UIViewController {
     private lazy var editView = EditView(frame: view.frame)
     private let viewModel = RegisterViewModel()
+    let imagePicker = UIImagePickerController()
     
     override func loadView() {
         super.loadView()
@@ -20,6 +21,7 @@ final class RegisterViewController: UIViewController {
         super.viewDidLoad()
         setUpBarItems()
         setUpViewModel()
+        setUpImagePicker()
         setUpKeyboardNotification()
         viewModel.setUpDefaultImage()
     }
@@ -28,11 +30,19 @@ final class RegisterViewController: UIViewController {
         editView.setUpBarItem(title: "상품등록")
         editView.navigationBarItem.leftBarButtonItem?.target = self
         editView.navigationBarItem.leftBarButtonItem?.action = #selector(didTapCancelButton)
+        
+        editView.navigationBarItem.rightBarButtonItem?.target = self
+        editView.navigationBarItem.rightBarButtonItem?.action = #selector(didTapDoneButton)
     }
     
     private func setUpViewModel() {
         viewModel.datasource = makeDataSource()
         viewModel.delegate = self
+    }
+    
+    private func setUpImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
     }
     
     private func setUpKeyboardNotification() {
@@ -64,6 +74,59 @@ final class RegisterViewController: UIViewController {
     
     @objc private func didTapCancelButton() {
         self.dismiss(animated: true)
+    }
+    
+    @objc private func didTapDoneButton() {
+        if validateInput() {
+            viewModel.requestPost(makeProductsPost())
+        }
+        self.dismiss(animated: true)
+    }
+    
+    private func validateInput() -> Bool {
+        guard editView.productNameTextField.text?.count ?? 0 >= 3 else {
+            print("3글자 이상 입력해 주세요")
+            return false
+        }
+        
+        guard let productPrice = Int(editView.productPriceTextField.text ?? "0") else {
+            print("상품가격을 입력하세요.")
+            return false
+        }
+
+        guard let discountedPrice = Int(editView.productDiscountedTextField.text ?? "0"),
+                productPrice >= discountedPrice else {
+            print("할인금액이 더 클수는 없어")
+            return false
+        }
+        
+        guard viewModel.images.count >= 2 else {
+            print("1개 이상의 사진이 필요합니다")
+            return false
+        }
+        
+        return true
+    }
+    
+    private func makeProductsPost() -> ProductsPost {
+        let productName = editView.productNameTextField.text ?? ""
+        let descriptions = editView.productDescriptionTextView.text ?? ""
+        let productPrice = Double(editView.productPriceTextField.text ?? "0") ?? 0
+        let currency = editView.productCurrencySegmentedControl.selectedSegmentIndex == 0 ? "KRW" : "USD"
+        let discountedPrice = Double(editView.productDiscountedTextField.text ?? "0")
+        let stock = Int(editView.productStockTextField.text ?? "0")
+        let secret = "password"
+        viewModel.images.removeLast()
+        let images = viewModel.images
+        
+        return ProductsPost(name: productName,
+                     descriptions: descriptions,
+                     price: productPrice,
+                     currency: currency,
+                     discountedPrice: discountedPrice,
+                     stock: stock,
+                     secret: secret,
+                     image: images)
     }
 }
 
@@ -108,10 +171,11 @@ extension RegisterViewController: AlertDelegate {
 
 extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func addButtonTaped() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        self.present(imagePicker, animated: true)
+        if viewModel.images.count < 6 {
+            self.present(imagePicker, animated: true)
+        } else {
+            print("사진은 5장까지")
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
