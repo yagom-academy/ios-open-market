@@ -90,25 +90,15 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     @objc func doneToMain() {
-        var data: String = ""
         guard let product = product else {
             return
         }
-        
-        data.append(compare(productView.nameField.text!, product.name, key: "name"))
-        data.append(compare(productView.priceField.text!, String(product.price), key: "price"))
-        data.append(compare(currency.rawValue, product.currency?.rawValue, key: "currency"))
-        data.append(compare(productView.discountedPriceField.text!, String(product.discountedPrice), key: "discounted_price"))
-        data.append(compare(productView.stockField.text!, String(product.stock), key: "stock"))
-        data.append(compare(productView.descriptionView.text!, product.description, key: "descriptions"))
-        
+        var data = makeModifyRequestBody(for: product)
         if data.count > 0 {
             data.append("\"secret\": \"password\"")
             data.insert("{", at: data.startIndex)
             data.append("}")
-            
-            
-            
+                        
             RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { [self]_ in
                 delegate?.refreshProductList()
             }
@@ -120,13 +110,31 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         self.navigationController?.popViewController(animated: true)
     }
     
-    func compare(_ field: String?, _ original: String?, key: String) -> String {
-        if field == original {
+    func makeModifyRequestBody(for product: Product) -> String {
+        var data: String = ""
+        data.append(compare(productView.nameField.text, product.name, key: "name"))
+        data.append(compare(Double(productView.priceField.text!),product.price, key: "price"))
+        data.append(compare(currency.rawValue, product.currency?.rawValue, key: "currency"))
+        data.append(compare(Double(productView.discountedPriceField.text!), product.discountedPrice, key: "discounted_price"))
+        data.append(compare(Int(productView.stockField.text!), product.stock, key: "stock"))
+        if let description: String = self.productView.descriptionView.text {
+            data.append(compare(description, product.description!, key: "descriptions"))
+        }
+        return data
+    }
+    
+    func compare<T: Equatable>(_ field: T?, _ original: T, key: String) -> String {
+        guard let field1 = field else {
             return ""
-        } else {
-            return "\"\(key)\": \"\(field ?? "")\","
         }
         
+        if field == original {
+            return ""
+        } else if type(of: original) == String.self {
+            return "\"\(key)\": \"\(field1)\","
+        } else {
+            return "\"\(key)\": \(field1),"
+        }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
