@@ -91,7 +91,7 @@ extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
         
         switch layoutType {
         case .list:
-            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 15)
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .grid:
             return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         }

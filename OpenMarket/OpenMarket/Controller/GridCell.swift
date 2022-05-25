@@ -172,8 +172,8 @@ extension GridCell {
         
         NSLayoutConstraint.activate([
             cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
 }

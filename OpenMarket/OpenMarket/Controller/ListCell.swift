@@ -199,7 +199,7 @@ extension ListCell {
             accessoryLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
             accessoryLabel.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
             accessoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            accessoryLabel.widthAnchor.constraint(equalToConstant: 10)
+            accessoryLabel.widthAnchor.constraint(equalToConstant: 15)
         ])
     }
 }
