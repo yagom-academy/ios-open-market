@@ -14,7 +14,7 @@ struct ProductToModify: Encodable {
     var descriptions: String?
     var discountedPrice: Double?
     var stock: Int?
-    let secret: String = "password"
+    let secret: String = API.secret
     private enum CodingKeys: String, CodingKey {
         case discountedPrice = "discounted_price"
         case secret, name, currency, price, descriptions, stock

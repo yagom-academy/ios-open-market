@@ -56,10 +56,10 @@ final class RequestAssistant {
         })
     }
     
-    func requestModifyAPI(productId: Int, body: Data, identifier: String, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+    func requestModifyAPI(productId: Int, body: Data, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
         let endpoint: Endpoint = .modifyProduct(productId: productId)
         
-        sessionManager.request(endpoint: endpoint, body: body, identifier: identifier, completionHandler: { [weak self] data, response, error in
+        sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
             }
@@ -71,10 +71,10 @@ final class RequestAssistant {
         })
     }
     
-    func requestRegisterAPI(body: Data, identifier: String, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+    func requestRegisterAPI(body: Data, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
         let endpoint: Endpoint = .registerProudct
         
-        sessionManager.request(endpoint: endpoint, body: body, identifier: identifier, completionHandler: { [weak self] data, response, error in
+        sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
             print(String(data: data!, encoding: .utf8))
             guard let data = data else {
                 return

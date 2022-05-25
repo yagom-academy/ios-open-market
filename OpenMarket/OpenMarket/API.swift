@@ -9,4 +9,6 @@ import Foundation
 
 enum API {
     static let boundary: String = UUID().uuidString
+    static let identifier: String = "cd706a3e-66db-11ec-9626-796401f2341a"
+    static let secret: String = "password"
 }
