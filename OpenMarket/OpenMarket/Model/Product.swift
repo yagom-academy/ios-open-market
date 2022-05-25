@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum Currency: String, Codable {
+    case KRW = "KRW"
+    case USD = "USD"
+}
+
 struct Product: Codable, Hashable {
     let id: Int?
     let vendorId: Int?
@@ -31,11 +36,6 @@ struct Product: Codable, Hashable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
         case images, vendors
-    }
-    
-    enum Currency: String, Codable {
-        case KRW = "KRW"
-        case USD = "USD"
     }
     
     struct Image: Codable, Hashable {
@@ -64,4 +64,14 @@ struct Product: Codable, Hashable {
             case issuedAt = "issued_at"
         }
     }
+}
+
+struct UpLoadProduct: Encodable {
+    let name: String?
+    let discountedPrice: Double?
+    let descriptions: String?
+    let price: Double?
+    let stock: Int?
+    let currency: Currency?
+    let secret: String?
 }

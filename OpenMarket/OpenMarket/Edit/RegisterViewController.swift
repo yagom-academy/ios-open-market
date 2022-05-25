@@ -68,7 +68,9 @@ final class RegisterViewController: UIViewController {
     
     @objc private func doneButtonDidTapped() {
         
-        let endPoint = EndPoint.createProduct(sendData: mainView!.multipartFormData())
+        guard let sendData = multipartFormData() else { return }
+        
+        let endPoint = EndPoint.createProduct(sendData: sendData)
         
         networkManager.request(endPoint: endPoint) { [weak self] result in
             guard let self = self else { return }
@@ -124,6 +126,46 @@ final class RegisterViewController: UIViewController {
         
         imagePickerController.sourceType = .camera
         present(imagePickerController, animated: true)
+    }
+    
+    private func multipartFormData() -> Data? {
+        guard let snapshot = snapshot else { return nil }
+        guard let allData = mainView?.allData() else { return nil }
+        let upLoadProduct = UpLoadProduct(name: "name", discountedPrice: 100, descriptions: "asdasd", price: 10000, stock: 3, currency: .KRW, secret: "password")
+        
+        let images = snapshot.itemIdentifiers[0..<snapshot.itemIdentifiers.count - 1]
+        let imageDatas = images.compactMap { $0.jpegData(compressionQuality: 1.0) }
+        
+        var data = Data()
+        let boundary = EndPoint.boundary
+        let fileName = "safari"
+
+        let newLine = "\r\n"
+        let boundaryPrefix = "--\(boundary)\r\n"
+        let boundarySuffix = "\r\n--\(boundary)--\r\n"
+        
+        data.appendString(boundaryPrefix)
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
+        data.append(try! JSONEncoder().encode(upLoadProduct))
+        data.appendString(newLine)
+        
+        for imageData in imageDatas {
+            data.appendString(boundaryPrefix)
+            data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n")
+            data.appendString("Content-Type: image/jpg\r\n\r\n")
+            data.append(imageData)
+            data.appendString(newLine)
+        }
+        
+        data.appendString(boundarySuffix)
+        return data
+    }
+}
+
+private extension Data {
+    mutating func appendString(_ string: String) {
+        guard let data = string.data(using: .utf8) else { return }
+        append(data)
     }
 }
 
