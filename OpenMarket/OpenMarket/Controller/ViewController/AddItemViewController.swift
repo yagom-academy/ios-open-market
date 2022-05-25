@@ -55,11 +55,9 @@ extension AddItemViewController: UICollectionViewDataSource {
         }
         
         if indexPath.row == imageCount {
-            cell.backgroundColor = #colorLiteral(red: 0.854186415, green: 0.854186415, blue: 0.854186415, alpha: 1)
-            cell.itemImageView.image = nil
+            cell.setPlusLabel()
         } else {
-            cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            cell.itemImageView.image = UIImage(systemName: "folder.fill")
+            cell.setItemImage()
         }
         
         return cell
@@ -69,9 +67,7 @@ extension AddItemViewController: UICollectionViewDataSource {
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if imageCount < 5 && indexPath.row == imageCount {
-            print("edit")
             self.imageCount += 1
-            print(imageCount)
         }
     }
 }

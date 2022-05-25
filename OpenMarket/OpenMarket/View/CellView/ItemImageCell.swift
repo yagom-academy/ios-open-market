@@ -8,10 +8,18 @@
 import UIKit
 
 final class ItemImageCell: UICollectionViewCell {
-    @IBOutlet weak var itemImageView: UIImageView!
-    @IBOutlet weak var plusLabel: UILabel!
+    @IBOutlet private weak var itemImageView: UIImageView!
+    @IBOutlet private weak var plusLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    func setItemImage() {
+        self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.plusLabel.isHidden = true
+        self.itemImageView.image = UIImage(systemName: "folder.fill")
+    }
+    
+    func setPlusLabel() {
+        self.backgroundColor = #colorLiteral(red: 0.854186415, green: 0.854186415, blue: 0.854186415, alpha: 1)
+        self.plusLabel.isHidden = false
+        self.itemImageView.image = nil
     }
 }
