@@ -84,10 +84,11 @@ final class ProductRegisterViewController: UIViewController {
     return textField
   }()
   
-  private let descriptionsTextView: UITextView = {
+  private lazy var descriptionsTextView: UITextView = {
     let textView = UITextView()
     textView.textColor = .black
     textView.font = .preferredFont(forTextStyle: .subheadline)
+    textView.delegate = self
     return textView
   }()
   
@@ -96,20 +97,12 @@ final class ProductRegisterViewController: UIViewController {
     self.configureUI()
     self.configureNavigationItem()
   }
-  
-  private func configureNavigationItem() {
-    self.title = "상품등록"
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      barButtonSystemItem: .cancel,
-      target: self,
-      action: #selector(closeButtonDidTap))
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-      barButtonSystemItem: .done,
-      target: self,
-      action: #selector(closeButtonDidTap))
-  }
-  
-  private func configureUI() {
+}
+
+// MARK: - UI
+
+private extension ProductRegisterViewController {
+  func configureUI() {
     self.view.backgroundColor = .systemBackground
     self.view.addSubview(containerStackView)
     self.containerStackView.addArrangedSubview(imageScrollView)
@@ -145,7 +138,19 @@ final class ProductRegisterViewController: UIViewController {
     ])
   }
   
-  @objc private func closeButtonDidTap() {
+  func configureNavigationItem() {
+    self.title = "상품등록"
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .cancel,
+      target: self,
+      action: #selector(closeButtonDidTap))
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .done,
+      target: self,
+      action: #selector(closeButtonDidTap))
+  }
+  
+  @objc func closeButtonDidTap() {
     self.dismiss(animated: true)
   }
 }
