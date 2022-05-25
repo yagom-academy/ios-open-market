@@ -163,9 +163,12 @@ private extension MainViewController {
     }
     
     @objc private func linkRVC(_ sender: UIBarButtonItem) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController")
-        vc?.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc!, animated: true)
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else {
+            return
+        }
+        vc.delegate = self
+        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func changeArrangement(_ sender: UISegmentedControl) {

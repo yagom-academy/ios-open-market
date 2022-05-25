@@ -34,4 +34,16 @@ final class URLSessionGenerator {
         request.httpBody = jsonData
         session.dataTask(with: request, completionHandler: completionHandler).resume()
     }
+    
+    func request(endpoint: Endpoint, body: Data, identifier: String, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void){
+        guard let url = endpoint.url else {
+            return
+        }
+        var request: URLRequest = URLRequest(url: url)
+        request.httpMethod = endpoint.method
+        request.setValue(identifier, forHTTPHeaderField: "identifier")
+        request.setValue("multipart/form-data; boundary=\"\(API.boundary)\"", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+        session.dataTask(with: request, completionHandler: completionHandler).resume()
+    }
 }

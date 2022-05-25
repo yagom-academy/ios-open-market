@@ -69,6 +69,7 @@
 		DA8D9A9D283B6FE6008E7FC5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D9A9C283B6FE6008E7FC5 /* RegisterViewController.swift */; };
 		DA8D9A9F283CA56B008E7FC5 /* ModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D9A9E283CA56B008E7FC5 /* ModifyViewController.swift */; };
 		DA8D9AA1283CA99B008E7FC5 /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D9AA0283CA99B008E7FC5 /* ProductView.swift */; };
+		DA8D9AA3283E77B2008E7FC5 /* RegisterProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8D9AA2283E77B2008E7FC5 /* RegisterProduct.swift */; };
 		DAB91823283346100077254E /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB91822283346100077254E /* UIImageView+extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -133,6 +134,7 @@
 		DA8D9A9C283B6FE6008E7FC5 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DA8D9A9E283CA56B008E7FC5 /* ModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyViewController.swift; sourceTree = "<group>"; };
 		DA8D9AA0283CA99B008E7FC5 /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
+		DA8D9AA2283E77B2008E7FC5 /* RegisterProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProduct.swift; sourceTree = "<group>"; };
 		DAB91822283346100077254E /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,6 +238,7 @@
 				DA0DDF7F28294FA200B72AD8 /* Vendor.swift */,
 				DA0DDF812829531400B72AD8 /* ProductList.swift */,
 				DA0DDFA1282A4FF700B72AD8 /* Currency.swift */,
+				DA8D9AA2283E77B2008E7FC5 /* RegisterProduct.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				4ECC5218282A3460008F7E14 /* RequestAssistant.swift in Sources */,
 				DA0DDFA6282A50F500B72AD8 /* OpenMarketError.swift in Sources */,
 				DA8D9A9F283CA56B008E7FC5 /* ModifyViewController.swift in Sources */,
+				DA8D9AA3283E77B2008E7FC5 /* RegisterProduct.swift in Sources */,
 				DA10BB5B2833A58400812F9D /* UIFont+extension.swift in Sources */,
 				DA0DDF88282A0ACC00B72AD8 /* CustomURLSession.swift in Sources */,
 				4EA2BFC528294A970028C72A /* Parser.swift in Sources */,

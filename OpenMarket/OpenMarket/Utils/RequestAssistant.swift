@@ -71,6 +71,22 @@ final class RequestAssistant {
         })
     }
     
+    func requestRegisterAPI(body: Data, identifier: String, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+        let endpoint: Endpoint = .registerProudct
+        
+        sessionManager.request(endpoint: endpoint, body: body, identifier: identifier, completionHandler: { [weak self] data, response, error in
+            print(String(data: data!, encoding: .utf8))
+            guard let data = data else {
+                return
+            }
+            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
+                completionHandler(.failure(.failDecode))
+                return
+            }
+            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+        })
+    }
+    
     private func handleResponse<T>(response: URLResponse?, result: T ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
         guard let response = response as? HTTPURLResponse else {
             return
@@ -96,6 +112,7 @@ enum Endpoint {
     case productDetail(productId: Int)
     case healthCheck
     case modifyProduct(productId: Int)
+    case registerProudct
 }
 
 extension Endpoint {
@@ -109,6 +126,8 @@ extension Endpoint {
             return .makeForEndpoint("/healthChecker")
         case .modifyProduct(let productId):
             return .makeForEndpoint("/api/products/\(productId)")
+        case .registerProudct:
+            return .makeForEndpoint("/api/products")
         }
     }
     
@@ -118,6 +137,8 @@ extension Endpoint {
             return "GET"
         case .modifyProduct(_):
             return "PATCH"
+        case .registerProudct:
+            return "POST"
         }
     }
 }

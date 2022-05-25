@@ -78,6 +78,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let images = product?.images else {
             return ImageRegisterCell()
         }
+        cell.imageView.backgroundColor = .clear
         cell.plusButton.isHidden = true
         cell.imageView.requestImageDownload(url: images[indexPath.row].url)
         return cell

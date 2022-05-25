@@ -9,9 +9,10 @@ import UIKit
 
 final class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
     lazy var productView = ProductView(frame: view.frame)
-    
+    weak var delegate: ListUpdatable?
     var currency: Currency = .KRW
     var images: [UIImage] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,11 +157,61 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     }
     
     @objc func doneToMain(_ sender: UIBarButtonItem) {
+        
+        let data = makeRegisterPostBody()
+        
+        RequestAssistant.shared.requestRegisterAPI(body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { _ in
+            self.delegate?.refreshProductList()
+        }
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func makeRegisterPostBody() -> Data {
+        var data = Data()
+        let registerProduct = RegisterProduct(name: productView.nameField.text!, currency: currency, price: Double(productView.priceField.text!)!, descriptions: self.productView.descriptionView.text, discountedPrice: Double(productView.discountedPriceField.text!), stock: Int(productView.stockField.text!))
+        data.append(makeParams(registerProduct: registerProduct))
+        images.forEach {
+            data.append(makeImages(image: $0))
+        }
+        data.append("--\(API.boundary)--\r\n".data(using: .utf8)!)
         
-        // Post
+        return data
+    }
+    
+    func makeParams(registerProduct: RegisterProduct) -> Data {
+        var data = Data()
+        var dataString: String = ""
+        guard let params = try? JSONEncoder().encode(registerProduct) else {
+            return data
+        }
+        dataString.append("--\(API.boundary)\r\n")
+        dataString.append("Content-Disposition: form-data; name=\"params\"\r\n")
+        dataString.append("Content-Type: application/json\r\n")
+        dataString.append("\r\n")
         
-        // delegate
+        data.append(dataString.data(using: .utf8)!)
+        data.append(params)
+        data.append("\r\n".data(using: .utf8)!)
+        
+        return data
+    }
+    
+    func makeImages(image: UIImage) -> Data {
+        var data = Data()
+        var dataString: String = ""
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+            return data
+        }
+        dataString.append("--\(API.boundary)\r\n")
+        dataString.append("Content-Disposition: form-data; name=\"images\"; filename=\"image.jpg\"\r\n")
+        dataString.append("Content-Type: jpg\r\n")
+        dataString.append("\r\n")
+        
+        data.append(dataString.data(using: .utf8)!)
+        data.append(imageData)
+        data.append("\r\n".data(using: .utf8)!)
+        
+        return data
     }
     
     @objc func changeCurrency(_ sender: UISegmentedControl) {
