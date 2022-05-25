@@ -10,6 +10,12 @@ import UIKit
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
     @IBOutlet private weak var curruncySegment: UISegmentedControl!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var discountPriceTextField: UITextField!
+    @IBOutlet weak var stockTextField: UITextField!
+    @IBOutlet weak var discriptinTextView: UITextView!
+    
     private let imagePicker = UIImagePickerController()
     private var imageArray: [UIImage] = [] {
         didSet {
@@ -31,7 +37,9 @@ final class AddItemViewController: UIViewController {
         itemImageCollectionView.register(UINib(nibName: "\(ItemImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(ItemImageCell.self)")
         setSegmentTextFont()
         setLayout()
+        makeKeyboardToolbar()
     }
+    
     @objc private func touchCancelButton() {
         navigationController?.popViewController(animated: true)
     }
@@ -114,6 +122,26 @@ extension AddItemViewController {
         let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchDoneButton))
         barButton.title = "Done"
         return barButton
+    }
+    
+    private func makeKeyboardToolbar() {
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(hideKeyboard))
+        barButton.tintColor = .darkGray
+        let emptySpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        toolBar.setItems([emptySpace, barButton], animated: false)
+        
+        nameTextField.inputAccessoryView = toolBar
+        priceTextField.inputAccessoryView = toolBar
+        discountPriceTextField.inputAccessoryView = toolBar
+        stockTextField.inputAccessoryView = toolBar
+        discriptinTextView.inputAccessoryView = toolBar
+    }
+    
+    @objc private func hideKeyboard() {
+        self.view.endEditing(true)
     }
     
     private func setSegmentTextFont() {
