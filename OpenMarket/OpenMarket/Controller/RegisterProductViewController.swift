@@ -20,6 +20,7 @@ class RegisterProductViewController: UIViewController {
         }
     }
     
+    private var product: [String: Any] = [:]
     private let imagePicker = UIImagePickerController()
     private var images: [UIImage] = [] {
         didSet {
@@ -218,5 +219,29 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
         }
         
         picker.dismiss(animated: true)
+    }
+}
+
+extension RegisterProductViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField.placeholder {
+        case "상품명":
+            product["name"] = textField.text
+        case "상품가격":
+            product["price"] = Int(textField.text ?? "0")
+        case "할인금액":
+            product["discounted_price"] = Int(textField.text ?? "0")
+        case "재고수량":
+            product["stock"] = Int(textField.text ?? "0")
+        default:
+            break
+        }
+        return true
+    }
+}
+
+extension RegisterProductViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        product["descriptions"] = textView.text
     }
 }
