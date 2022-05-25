@@ -11,6 +11,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     private lazy var productImage = UIImageView()
     private var network = Network()
+    private let imageCache = ImageCache.shared
     private var lastDataTask: URLSessionDataTask?
     
     private lazy var productTitle: UILabel = {
@@ -89,12 +90,14 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let stringDiscountedPrice = numberFormatter.string(for: product.discountedPrice) ?? ""
         
         lastDataTask?.cancel()
-        lastDataTask = network.setImageFromUrl(
-            imageUrlString: product.thumbnail) { image in
+        lastDataTask = imageCache.loadImage(
+            urlString: product.thumbnail,
+            completionHandler: { image in
                 DispatchQueue.main.async {
                     self.productImage.image = image
                 }
             }
+        )
         productTitle.text = product.name
         
         if product.discountedPrice == 0 {

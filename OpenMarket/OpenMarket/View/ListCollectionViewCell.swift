@@ -20,7 +20,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     private var cellContentLayouts: [NSLayoutConstraint]?
     private lazy var listContentView = UIListContentView(configuration: .subtitleCell())
     private lazy var productImage = UIImageView()
-    private let network = Network()
+    private let imageCache = ImageCache.shared
     private var lastDataTask: URLSessionDataTask?
     
     private let stock: UILabel = {
@@ -73,12 +73,14 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         
         var configure = defaultListConfiguration()
         lastDataTask?.cancel()
-        lastDataTask = network.setImageFromUrl(
-            imageUrlString: product.thumbnail) { image in
+        lastDataTask = imageCache.loadImage(
+            urlString: product.thumbnail,
+            completionHandler: { image in
                 DispatchQueue.main.async {
                     self.productImage.image = image
                 }
             }
+        )
         configure.text = product.name
         configure.textProperties.font = .preferredFont(forTextStyle: .headline)
         configure.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
