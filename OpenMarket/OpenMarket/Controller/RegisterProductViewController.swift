@@ -161,8 +161,27 @@ extension RegisterProductViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as? TextCell else {
                 return UICollectionViewCell()
             }
+            
+            setUpDelegate(cell: cell)
+
             return cell
         }
+    }
+    
+    private func setUpDelegate(cell: TextCell) {
+        cell.stockTextField.delegate = self
+        cell.nameTextField.delegate = self
+        cell.priceTextField.delegate = self
+        cell.discountedPriceTextField.delegate = self
+        cell.descriptionTextView.delegate = self
+        
+        cell.delegate = self
+    }
+}
+
+extension RegisterProductViewController: ValueObserable {
+    func observeSegmentIndex(value: String) {
+        product["currency"] = value
     }
 }
 

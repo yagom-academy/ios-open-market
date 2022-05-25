@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ValueObserable {
+    func observeSegmentIndex(value: String)
+}
+
 fileprivate class RegisterTextField: UITextField {
     init(placeholder: String) {
         super.init(frame: .zero)
@@ -34,6 +38,8 @@ fileprivate class RegisterTextField: UITextField {
 }
 
 class TextCell: UICollectionViewCell {
+    var delegate: ValueObserable?
+    
     let nameTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "상품명")
         return textField
@@ -72,7 +78,7 @@ class TextCell: UICollectionViewCell {
         }
         
         attribute()
-        
+        segmentedControl.addTarget(self, action: #selector(changeValue), for: .valueChanged)
         return segmentedControl
     }()
     
@@ -123,5 +129,13 @@ class TextCell: UICollectionViewCell {
         priceStackView.addArrangedSubviews(priceTextField, segmentedControl)
         baseStackView.addArrangedSubviews(nameTextField, priceStackView, discountedPriceTextField, stockTextField, descriptionTextView)
         contentView.addSubview(baseStackView)
+    }
+    
+    @objc private func changeValue() {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            delegate?.observeSegmentIndex(value: "KRW")
+        } else {
+            delegate?.observeSegmentIndex(value: "USD")
+        }
     }
 }
