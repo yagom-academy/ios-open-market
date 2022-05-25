@@ -18,10 +18,10 @@ class ModifyViewController: UIViewController {
         self.view.backgroundColor = .white
         
         self.navigationItem.title = "상품수정"
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneToMain))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
         self.navigationItem.rightBarButtonItem = doneButton
         self.navigationItem.hidesBackButton = true
-        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(backToMain))
+        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
         backbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
         self.navigationItem.leftBarButtonItem = backbutton
         
@@ -92,7 +92,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
     }
     
-    @objc func doneToMain() {
+    @objc func cancelModification() {
         guard let product = product else {
             return
         }
@@ -107,7 +107,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func backToMain() {
+    @objc func requestModification() {
         self.navigationController?.popViewController(animated: true)
     }
     
