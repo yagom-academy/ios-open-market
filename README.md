@@ -1,20 +1,24 @@
-
-# 오픈마켓
-
 # 🎁 ios-open-market 
-> 프로젝트 기간 2022.05.09 ~ 2022.05.20  
+> 프로젝트 기간 2022.05.09 ~ 2022.05.    
 팀원 : [malrang](https://github.com/malrang-malrang) [Taeangel](https://github.com/Taeangel) / 리뷰어 : [stevenkim](https://github.com/stevenkim18)
 
 - [Ground Rules](#ground-rules)
 - [프로젝트 목표](#프로젝트-목표)
 - [실행화면](#실행화면)
 - [UML](#uml)
-- [STEP 1 기능 구현](#step-1-기능-구현)
+- [STEP 1 구현](#step-1-구현)
     + [고민했던 것들(트러블 슈팅)](#고민했던-것들트러블-슈팅)
+    + [질문한것들](#질문한것들)
     + [배운 개념](#배운-개념)
     + [PR 후 개선사항](#pr-후-개선사항)
-- [STEP 2 기능 구현](#step-2-기능-구현)
+- [STEP 2 구현](#step-2-구현)
     + [고민했던 것들(트러블 슈팅)](#고민했던-것들트러블-슈팅)
+    + [질문한것들](#질문한것들)
+    + [배운 개념](#배운-개념)
+    + [PR 후 개선사항](#pr-후-개선사항)
+- [STEP 3 구현](#step-3-구현)
+    + [고민했던 것들(트러블 슈팅)](#고민했던-것들트러블-슈팅)
+    + [질문한것들](#질문한것들)
     + [배운 개념](#배운-개념)
     + [PR 후 개선사항](#pr-후-개선사항)
 
@@ -64,54 +68,25 @@
 
 ---
 ## 프로젝트 목표
->**1. 서버와 통신하는 방법**  
->**2. `CollectionView` 코드로 구현하는 방법**  
----
+**1. 서버와 통신하는 방법**  
+**2. `CollectionView` 코드로 구현하는 방법**  
+**3. 서버에서 가져온 데이터를 앱의 화면에 보여주는 방법**  
 
+---
 ## 실행화면
->![](https://i.imgur.com/emrPvQh.gif)
+![](https://i.imgur.com/emrPvQh.gif)
 
 ---
 ## UML
->![](https://i.imgur.com/nFoLkJS.png)
->[miro](https://miro.com/welcomeonboard/UlJBT0lpTjdqYWkyaGtINmQwbFVQOU1WS1J5MnNtTlJDTEZkMjduNFVSZzdzT2Y5TVJzTjZ5UGRyMTlLQ25KdnwzNDU4NzY0NTIzMDc5MjMxMTI5?share_link_id=654547367472)
+![](https://i.imgur.com/nFoLkJS.png)
+[miro](https://miro.com/welcomeonboard/UlJBT0lpTjdqYWkyaGtINmQwbFVQOU1WS1J5MnNtTlJDTEZkMjduNFVSZzdzT2Y5TVJzTjZ5UGRyMTlLQ25KdnwzNDU4NzY0NTIzMDc5MjMxMTI5?share_link_id=654547367472)
 
 ---
-## STEP 1 기능 구현
->1️⃣ `struct Product: Codable`
->- 네트워크 서버에서 `JSON` 데이터를 가져오기위한 타입
+# STEP 1 구현
+>**모델/네트워킹 타입 구현**
 >
->2️⃣ `struct ProductCatalog: Codable`
->- 네트워크 서버에서 `JSON` 데이터를 가져오기위한 타입
->
->3️⃣ `struct URLSessionProvider<T: Codable>`
->- 네트워크 통신을 담당할 타입
->- `private let session`: `URLSession` 을 주입받을 프로퍼티
->- `func fetchData(path: Stirng)`: `path`를 인자로받아 `URLRequest`로 변경한후 `getData()`를 호출하는 메서드
->- `func getData(from urlRequest: URLRequest)`: `URLSession`의 `dataTask()` 메서드를 호출하고 전달받은 값이 정상적으로 전달되었는지 검증후 `CompletionHandler`를 통해 반환하는 메서드
->
->4️⃣ `enum NetworkError: Error`
->- 네트워크 통신중 발생할수있는 `case` 를 담아둔 열거형
->
->5️⃣ `protocol URLSessionProtocol`
->- 네트워크와 무관한 `Test` 를 위한 프로토콜
->- `func dataTask(with request: URLRequest)`: `URLSessionProtocol` 의 필수구현 메서드 
->
->6️⃣ `struct MockData`
->- 네트워크와 무관한 `Test` 를 위해 `MockData` 를 위한 구조체
->- `func load() -> Data?`: `Asset` 에 저장된 `JSON` 파일 데이터를 반환하는 메서드
->
->7️⃣ `class MockURLSessionDataTask: URLSessionDataTask`
->- 네트워크와 무관한 `Test` 를 위해 구현된 타입
->- `private let closure: () -> Void`: resume() 메서드가 호출되면 실행될 클로저
->- `override func resume()`: 정지되어있는(suspend) `URLSessionDataTask` 를 실행시키기 위한 메서드
->
->8️⃣ `class MockURLSession: URLSessionProtocol`
->- 네트워크와 무관한 `Test` 를 위해 구현된 `Mock` 객체
->- `func dataTask(with urlRequest: URLRequest) -> URLSessionDataTask`: `URLSessionProvider` 의 `getData()` 메서드 검증조건을 모두 통과하는 데이터를 전해줄 메서드
-
----
-## 고민했던 것들(트러블 슈팅)
+>---
+>## 고민했던 것들(트러블 슈팅)
 >1️⃣ **네트워크 통신과 무관하도록 Mock 객체를 만들어 Test 하는 방법? 🤔**
 >
 >**1. 네트워크 통신과 무관한 테스트를 왜 해야할까??**
@@ -285,21 +260,21 @@
 >
 >```
 >테스트를 위한 목객체를 만들었는데 목객체에도 강제언래핑을 지양해야하는지 궁금합니다!
-
----
-## 배운 개념
-1️⃣ `URLSession`  
-2️⃣ `URLSessionTask`  
-3️⃣ `URL`, `URI`  
-4️⃣ `Response`  
-5️⃣ `Request`  
-6️⃣ `@escaping closure`  
-7️⃣ `Result`  
-8️⃣ `EndPoint`  
-9️⃣ 비동기 메서드를 테스트 하는 방법  
-
----
-## PR 후 개선사항
+>
+>---
+>## 배운 개념
+>1️⃣ `URLSession`  
+>2️⃣ `URLSessionTask`  
+>3️⃣ `URL`, `URI`  
+>4️⃣ `Response`  
+>5️⃣ `Request`  
+>6️⃣ `@escaping closure`  
+>7️⃣ `Result`  
+>8️⃣ `EndPoint`  
+>9️⃣ 비동기 메서드를 테스트 하는 방법  
+>
+>---
+>## PR 후 개선사항
 >1️⃣ **MockURLSessionDataTask init 관련 Error 에러**
 >
 >![](https://i.imgur.com/TqXVi4m.png)
@@ -394,10 +369,10 @@
 >```
 
 ---
-## STEP 2 기능 구현
-
----
-## 고민했던 것들(트러블 슈팅)
+# STEP 2 구현
+>**상품 목록 화면 구현**
+>
+>## 고민했던 것들(트러블 슈팅)
 >1️⃣ **이미지를 텍스트로 변경하여 label text 에 할당 하는 방법🤔**
 >
 >![](https://i.imgur.com/ddvA786.png)
@@ -718,20 +693,48 @@
 >스크롤을 빠르게 내린후 다시 위쪽으로 스크롤을 하게될경우 셀이 재사용되면서 이미지가 잘못 들어갈것이라 예상 했는데 이미지가 각각의 셀의 위치에 맞게 잘 적용되는것을 확인했습니다!
 >
 >왜 `prepareForReuse`을 해주지 않았는데도 이미지 `bug`가 발생하지 않았는지 궁급합니다.
-
----
-## 배운 개념  
-1️⃣ `CollectionView`  
-2️⃣ `CollectionvewFlowLayout`  
-3️⃣ `CALayer`  
-4️⃣ `segmentControl`  
-5️⃣ `NSTextAttachment`: 이미지를 텍스트로 변경하여 레이블에 추가하는 방법  
-6️⃣ `NSLayoutConstraint`  
-7️⃣ `prepareForReuse`  
-
----
-## PR 후 개선사항
-1️⃣ **오토레이아웃 스택뷰 최소화**
+>
+>3️⃣ **UICollectionViewFlowLayout 재사용할수있는 방법 🤔**
+>    
+>UICollectionView 의 인스턴스를 생성할때 layout 을 넣지 않으면 에러가 생기기때문UICollectionViewFlowLayout 인스턴스를 만들어 넣어주고
+>
+>그후 List모드 일때와 grid모드 일때 만들어둔 UICollectionViewFlowLayout 인스턴스의 설정을 변경해주려 했습니다! 어떤 이유에서 안되는것인지 찾지 못했습니다 ㅠㅠ drawLifeCycle 의 문제였을까요!?
+>
+>현재는 각각 모드를 변경할때마다 UICollectionViewFlowLayout 인스턴스를 생성하고 있습니다!
+>
+>지금방식으로 사용하게되면 모드를 바꿀때마다 UICollectionViewFlowLayout의 새로운 인스턴스가 생성되고 제거되기 때문에 이러한 문제를 해결할수있는 좋은 방법이있을까요~?
+>
+>아래는 현재 코드 list, grid 모드로 변경하는 코드입니다!
+>```swift
+>func drawListCell() -> UICollectionViewFlowLayout {
+>        let layout = UICollectionViewFlowLayout()
+>        layout.scrollDirection = .vertical
+>        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+>        layout.minimumLineSpacing = 10
+>        layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 14)
+>        return layout
+>    }
+>
+>    func drawGridCell() -> UICollectionViewFlowLayout {
+>        let layout = UICollectionViewFlowLayout()
+>        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+>        layout.itemSize = CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
+>        return layout
+>    }
+>```    
+>---
+>## 배운 개념  
+>1️⃣ `CollectionView`  
+>2️⃣ `CollectionvewFlowLayout`  
+>3️⃣ `CALayer`  
+>4️⃣ `segmentControl`  
+>5️⃣ `NSTextAttachment`: 이미지를 텍스트로 변경하여 레이블에 추가하는 방법  
+>6️⃣ `NSLayoutConstraint`  
+>7️⃣ `prepareForReuse`  
+>
+>---
+>## PR 후 개선사항
+>1️⃣ **오토레이아웃 스택뷰 최소화**
 >기존 오토레이아웃 에서는 StackView 를 활용하여 오토레이아웃 Constraint 를 최소화 하는 방식으로 UI 를 구현하였다.
 >
 >그렇다 보니 Cell 의 UI 를 구현하기위해 사용되는 StackView가 너무많아 복잡해졌고 Constraint 도 적지 않았다.
@@ -749,3 +752,101 @@
 >![](https://i.imgur.com/Uf4ry6i.png)
 > 
 >위의 사진 처럼 구조를 StackView 를 최소화하고 label, image 등등은 Constraint 을 사용하여 위치를 잡아주었다.
+>    
+>2️⃣ **UICollerctionViewFlowLayout 의 재사용**
+>위의 질문한것들 3번에 해당하는 부분이다!
+>    
+>기존의 코드는 List, Grid 모드 에서 다른모드로 변경할때마다 새로운 UICollerctionViewFlowLayout 의 새로운 인스턴스를 생성해서 CollectionView 의 layout 에 추가해주는 방식을 사용했다.
+>    
+>모드를 변경할때마다 새로운 인스턴스를 생성하는것이 비효율적이라고 느껴졌다.
+>그래서 이부분에대해 스티븐에게 물어봐 조언을 얻어 UICollerctionViewDelegateFlowLayout 를 활용하도록 적용해보았다.
+>    
+>**변경전 코드**
+>```swift
+>@objc func didChangeSegment(_ sender: UISegmentedControl) {
+>        
+>        guard let layoutType = LayoutType(rawValue: sender.selectedSegmentIndex) else {
+>            return
+>        }
+>        
+>        switch layoutType {
+>        case .list:
+>            collectionView?.collectionViewLayout = drawListCell()
+>        case .grid:
+>            collectionView?.collectionViewLayout = drawGridCell()
+>        }
+>        collectionView?.reloadData()
+>    }
+>    
+>    func drawListCell() -> UICollectionViewFlowLayout {
+>        let layout = UICollectionViewFlowLayout()
+>        layout.scrollDirection = .vertical
+>        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+>        layout.minimumLineSpacing = 10
+>        layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height / 14)
+>        return layout
+>    }
+>    
+>    func drawGridCell() -> UICollectionViewFlowLayout {
+>        let layout = UICollectionViewFlowLayout()
+>        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+>        layout.itemSize = CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
+>        return layout
+>    }
+>```
+>**변경후 코드**
+>구현해둔 LayoutType enum 과 UICollectionViewDelegateFlowLayout을 활용해 모드가 변경될때마다 flowLayout의 UIEdgeInsets, CGSize 를 각각의 모드에 맞게 변경하도록 수정하였다.
+>```swift
+>final class OpenMarketViewController: UIViewController {
+>private var layoutType = LayoutType.list
+>    
+>@objc private func didChangeSegment(_ sender: UISegmentedControl) {
+>        if let currentLayout = LayoutType(rawValue: sender.selectedSegmentIndex) {
+>            layoutType = currentLayout
+>        }
+>        
+>        DispatchQueue.main.async {
+>            self.collectionView?.reloadData()
+>        }
+>    }
+>}
+>    
+>extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
+>    func collectionView(_ collectionView: UICollectionView, layout >collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+>        
+>        switch layoutType {
+>        case .list:
+>            return CGSize(width: view.frame.width, height: view.frame.height / 14)
+>        case .grid:
+>            return CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
+>        }
+>    }
+>    
+>    func collectionView(_ collectionView: UICollectionView,
+>                      layout collectionViewLayout: UICollectionViewLayout,
+>                        insetForSectionAt section: Int) -> UIEdgeInsets >{
+>        
+>        switch layoutType {
+>        case .list:
+>            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+>        case .grid:
+>            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+>        }
+>    }
+>}
+>```
+---      
+# STEP 3 구현
+>**상품 등록/수정 화면 구현**
+>    
+>--- 
+>## 고민했던 것들(트러블 슈팅)
+>
+>---
+>## 질문한것들
+>
+>---    
+>## 배운 개념
+>
+>---    
+>## PR 후 개선사항
