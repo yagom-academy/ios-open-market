@@ -132,7 +132,7 @@ final class RegisterViewController: UIViewController {
         guard let snapshot = snapshot else { return nil }
         guard let uploadProduct = mainView?.allData() else { return nil }
 
-        let images = snapshot.itemIdentifiers[0..<snapshot.itemIdentifiers.count - 1]
+        let images = snapshot.itemIdentifiers[0..<snapshot.numberOfItems - 1]
         let imageDatas = images.compactMap { $0.jpegData(compressionQuality: 1.0) }
         
         var data = Data()
@@ -186,6 +186,11 @@ extension RegisterViewController: UICollectionViewDelegate {
         guard snapshot?.numberOfItems == indexPath.item + 1 else { return }
         
         view.endEditing(true)
+        
+        if snapshot?.numberOfItems == 6 {
+            AlertDirector(viewController: self).createErrorAlert(message: "이미지를 더 추가할 수 없습니다.")
+            return
+        }
         
         AlertDirector(viewController: self).createImageSelectActionSheet { [weak self] _ in
             self?.albumButtonTapped()
