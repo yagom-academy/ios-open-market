@@ -60,6 +60,42 @@ struct URLSessionProvider<T: Decodable> {
         task.resume()
     }
     
+    func postData(
+        params: ProductRegistration,
+        images: [Image],
+        completionHandler: @escaping (Result<T, NetworkError>
+        ) -> Void) {
+        
+        
+        guard let url = Endpoint.productRegistration.url else {
+            return
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        
+        let boundary = UUID().uuidString
+        
+        urlRequest.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+        urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        urlRequest.httpBody = createBody(params: params, images: images, boundary: boundary)
+        let task = session.dataTask(with: urlRequest) { _, urlResponse, error in
+            
+            guard error == nil else {
+                completionHandler(.failure(.clientError))
+                return
+            }
+            
+            guard let httpResponse = urlResponse as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                completionHandler(.failure(.statusCodeError))
+                return
+            }
+        }
+        task.resume()
+    }
+    
     func createBody(params: ProductRegistration, images: [Image], boundary: String) -> Data? {
         var body = Data()
         let newline = "\r\n"
