@@ -26,7 +26,8 @@ final class ProductRegisterViewController: UIViewController {
     let stackView = UIStackView()
     stackView.translatesAutoresizingMaskIntoConstraints = false
     stackView.axis = .horizontal
-    stackView.backgroundColor = .systemRed
+    stackView.distribution = .fillEqually
+    stackView.spacing = 10.0
     return stackView
   }()
   
@@ -108,7 +109,28 @@ final class ProductRegisterViewController: UIViewController {
     self.configureNavigationItem()
   }
   
-  @objc func addImageViewDidTap(_ sender: UIImageView) {}
+  @objc func addImageViewDidTap(_ sender: UIImageView) {
+    self.presentActionSheet()
+  }
+  
+  private func presentActionSheet() {
+    let alert = UIAlertController(title: "선택", message: nil, preferredStyle: .actionSheet)
+    let cancel = UIAlertAction(title: "취소", style: .cancel)
+    let album = UIAlertAction(title: "앨범", style: .default) { [weak self] _ in
+      self?.presentAlbum()
+    }
+    alert.addAction(cancel)
+    alert.addAction(album)
+    self.present(alert, animated: true)
+  }
+  
+  private func presentAlbum() {
+    let pickerController = UIImagePickerController()
+    pickerController.sourceType = .photoLibrary
+    pickerController.delegate = self
+    pickerController.allowsEditing = true
+    self.present(pickerController, animated: true)
+  }
 }
 
 // MARK: - UI
@@ -180,5 +202,34 @@ extension ProductRegisterViewController: UITextViewDelegate {
     guard let previousText = textView.text else { return false }
     let newLength = previousText.count + text.count - range.length
     return newLength <= 1000
+  }
+}
+
+extension ProductRegisterViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+  ) {
+    if let image = info[.editedImage] as? UIImage {
+      let imageView = UIImageView()
+      imageView.contentMode = .scaleToFill
+      imageView.image = resizeImage(image: image, height: imageStackView.frame.height)
+      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+      self.imageStackView.insertArrangedSubview(imageView, at: imageStackView.arrangedSubviews.count - 1)
+      if imageStackView.arrangedSubviews.count == 6 {
+        self.addImageView.isHidden = true
+      }
+    }
+    self.dismiss(animated: true)
+  }
+  
+  private func resizeImage(image: UIImage, height: CGFloat) -> UIImage? {
+    let scale = height / image.size.height
+    let width = image.size.width * scale
+    UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+    image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return newImage
   }
 }
