@@ -68,6 +68,7 @@ extension ApiProvider {
     request.httpMethod = HttpMethod.post
     request.setValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
     request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    request.httpBody = setupBody(params, images, boundary)
     
     session.dataTask(with: request) { data, response, error in
       guard error == nil else {
@@ -89,10 +90,30 @@ extension ApiProvider {
     }.resume()
   }
   
-  
-  
-  func setupBody(params: Params, images: [ImageFile], boundary: String) -> Data? {
+  func setupBody(_ params: Params, _ images: [ImageFile], _ boundary: String) -> Data? {
+    guard let jsonData = try? JSONEncoder().encode(params) else {
+      return nil
+    }
     var body = Data()
+    body.appendString("\r\n--\(boundary)\r\n")
+    body.appendString("Content-Disposition: form-data; name=\"params\"\r\n")
+    body.appendString("Content-Type: application/json\r\n")
+    body.appendString("\r\n")
+    body.append(jsonData)
+    body.appendString("\r\n")
+    
+    for image in images {
+      body.appendString("--\(boundary)\r\n")
+      body.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName)\"\r\n")
+      body.appendString("Content-Type: image/\(image.type)\r\n")
+      body.appendString("\r\n")
+      body.append(image.data)
+      body.appendString("\r\n")
+    }
+    body.appendString("\r\n--\(boundary)--\r\n")
+    
     return body
   }
 }
+
+
