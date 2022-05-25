@@ -10,6 +10,8 @@ import UIKit
 final class RegistrationViewController: UIViewController {
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
+  private let apiProvider = ApiProvider<ProductsList>()
+  private var selectedImages: [ImageFile] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -37,7 +39,7 @@ final class RegistrationViewController: UIViewController {
                                                             action: #selector(cancelModal))
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                              target: self,
-                                                             action: #selector(cancelModal))
+                                                             action: #selector(postData))
     self.navigationItem.title = "상품등록"
     
     self.navigationController?.navigationBar.backgroundColor = .white
@@ -50,7 +52,13 @@ final class RegistrationViewController: UIViewController {
   
   private func didTapAddImageButton() {
     registrationView.addImageButton.addTarget(self, action: #selector(presentAlert), for: .touchUpInside)
-    
+  }
+  
+  @objc private func postData() {
+    let params = registrationView.setupParams()
+    apiProvider.post(.registration, params, selectedImages) { result in
+      
+    }
   }
 }
 //MARK: - alert
@@ -81,9 +89,17 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
                              didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
     if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
       registrationView.imageStackView.addArrangedSubview(setUpImage(image))
-      print(registrationView.imageStackView)
+      convertToImageFile(image)
     }
     dismiss(animated: true, completion: nil)
+  }
+  
+  func convertToImageFile(_ image: UIImage) {
+    guard let imageData = image.jpegData(compressionQuality: 1) else {
+      return
+    }
+    let imageFile = ImageFile(fileName: "imageName.jpeg", type: "jpeg", data: imageData)
+    self.selectedImages.append(imageFile)
   }
   
   func setUpImage(_ image: UIImage) -> UIImageView {
