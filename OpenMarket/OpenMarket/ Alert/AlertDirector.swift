@@ -24,7 +24,7 @@ final class AlertDirector {
     
     func createImageSelectActionSheet(albumAction: @escaping (UIAlertAction) -> Void, cameraAction: @escaping (UIAlertAction) -> Void) {
         AlertBuilder(viewController: viewController)
-            .setPreferredStyle(.actionSheet)
+            .setAlertStyle(.actionSheet)
             .setFirstActionTitle("앨범")
             .setSecondActionTitle("카메라")
             .setFirstAction(albumAction)

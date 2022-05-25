@@ -17,7 +17,7 @@ protocol AlertBuilderable {
     
     func setTitle(_ title: String) -> Self
     func setMessage(_ message: String) -> Self
-    func setPreferredStyle(_ style: UIAlertController.Style) -> Self
+    func setAlertStyle(_ style: UIAlertController.Style) -> Self
     func setFirstActionTitle(_ title: String) -> Self
     func setFirstActionStyle(_ style: UIAlertAction.Style) -> Self
     func setFirstAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self
@@ -50,8 +50,8 @@ final class AlertBuilder: AlertBuilderable {
         return self
     }
     
-    func setPreferredStyle(_ style: UIAlertController.Style) -> Self {
-        alert.preferredStyle = style
+    func setAlertStyle(_ style: UIAlertController.Style) -> Self {
+        alert.style = style
         return self
     }
     
@@ -61,7 +61,7 @@ final class AlertBuilder: AlertBuilderable {
     }
     
     func setFirstActionStyle(_ style: UIAlertAction.Style) -> Self {
-        firstAction.alertActionStyle = style
+        firstAction.style = style
         return self
     }
     
@@ -76,7 +76,7 @@ final class AlertBuilder: AlertBuilderable {
     }
     
     func setSecondActionStyle(_ style: UIAlertAction.Style) -> Self {
-        secondAction.alertActionStyle = style
+        secondAction.style = style
         return self
     }
     
@@ -92,21 +92,22 @@ final class AlertBuilder: AlertBuilderable {
     
     func setCancelButton() -> Self {
         cancelAction.title = "취소"
-        cancelAction.alertActionStyle = .cancel
+        cancelAction.style = .cancel
         return self
     }
     
     func show() {
-        let alert = UIAlertController(title: alert.title, message: alert.message, preferredStyle: alert.preferredStyle)
+        let alert = UIAlertController(title: alert.title, message: alert.message, preferredStyle: alert.style)
         
         [firstAction, secondAction, okAction, cancelAction].forEach { actionButton in
             if actionButton.title != nil {
-                let action = UIAlertAction(title: actionButton.title, style: actionButton.alertActionStyle, handler: actionButton.action)
+                let action = UIAlertAction(title: actionButton.title, style: actionButton.style, handler: actionButton.action)
                 alert.addAction(action)
             }
         }
-        DispatchQueue.main.async {
-            self.targetViewController.present(alert, animated: true)
+        
+        DispatchQueue.main.async { [self] in
+            targetViewController.present(alert, animated: true)
         }
     }
 }

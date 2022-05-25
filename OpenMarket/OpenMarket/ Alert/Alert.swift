@@ -10,5 +10,5 @@ import UIKit
 struct Alert {
     var title: String?
     var message: String?
-    var preferredStyle: UIAlertController.Style = .alert
+    var style: UIAlertController.Style = .alert
 }
