@@ -54,6 +54,7 @@ class ProductView: UIView {
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.keyboardType = .numberPad
         textField.addPadding()
         return textField
     }()
@@ -65,6 +66,7 @@ class ProductView: UIView {
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.keyboardType = .numberPad
         textField.addPadding()
         return textField
     }()
@@ -75,6 +77,7 @@ class ProductView: UIView {
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.systemGray.cgColor
+        textField.keyboardType = .numberPad
         textField.addPadding()
         return textField
     }()
@@ -142,8 +145,6 @@ class ProductView: UIView {
         descriptionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         descriptionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         descriptionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.466).isActive = true
-        // descriptionView.heightAnchor.constraint(greaterThanOrEqualTo: self.heightAnchor, multiplier: 0.466).isActive = true
-        // descriptionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         priceStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         priceStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
@@ -156,6 +157,18 @@ class ProductView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    func validTextField(_ textField: UITextField) -> Bool {
+        let currentText = textField.text ?? ""
+     
+        return currentText.count <= 100 && currentText.count >= 3
+    }
+    
+    func validTextView(_ textView: UITextView) -> Bool {
+        let currentText = textView.text ?? ""
+     
+        return currentText.count <= 1000 && currentText.count >= 10
     }
 }
 

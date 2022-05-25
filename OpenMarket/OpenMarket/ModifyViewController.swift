@@ -28,6 +28,7 @@ class ModifyViewController: UIViewController {
         productView.collectionView.delegate = self
         productView.collectionView.dataSource = self
         
+        
         productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
         fillData()
     }
@@ -112,6 +113,20 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func makeModifyRequestBody(for product: Product) -> String {
         var data: String = ""
+        guard productView.validTextField(productView.nameField) else {
+            let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+            return data
+        }
+        guard productView.validTextView(productView.descriptionView) else {
+            let alert = UIAlertController(title: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+            return data
+        }
         data.append(compare(productView.nameField.text, product.name, key: "name"))
         data.append(compare(Double(productView.priceField.text!),product.price, key: "price"))
         data.append(compare(currency.rawValue, product.currency?.rawValue, key: "currency"))

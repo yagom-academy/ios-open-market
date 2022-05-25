@@ -158,17 +158,48 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     
     @objc func doneToMain(_ sender: UIBarButtonItem) {
         
-        let data = makeRegisterPostBody()
+        guard let data = makeRegisterPostBody() else {
+            return
+        }
         
         RequestAssistant.shared.requestRegisterAPI(body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { _ in
             self.delegate?.refreshProductList()
         }
+        
         self.navigationController?.popViewController(animated: true)
     }
     
-    func makeRegisterPostBody() -> Data {
+    func makeRegisterPostBody() -> Data? {
+        guard let name = productView.nameField.text, productView.validTextField(productView.nameField) else {
+            let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+            return nil
+        }
+        guard productView.validTextView(productView.descriptionView) else {
+            let alert = UIAlertController(title: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+            return nil
+        }
+        guard let price = Double(productView.priceField.text ?? "0.0") else {
+            let alert = UIAlertController(title: "정확한 상품 가격을 입력해주세요.", message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+            return nil
+        }
+        guard let discountedPrice = Double(productView.discountedPriceField.text ?? "0.0") else {
+            return nil
+        }
+        guard let stock = Int(productView.stockField.text ?? "0") else {
+            return nil
+        }
+        
         var data = Data()
-        let registerProduct = RegisterProduct(name: productView.nameField.text!, currency: currency, price: Double(productView.priceField.text!)!, descriptions: self.productView.descriptionView.text, discountedPrice: Double(productView.discountedPriceField.text!), stock: Int(productView.stockField.text!))
+        let registerProduct = RegisterProduct(name: name, currency: currency, price: price, descriptions: self.productView.descriptionView.text, discountedPrice: discountedPrice, stock: stock)
         data.append(makeParams(registerProduct: registerProduct))
         images.forEach {
             data.append(makeImages(image: $0))
