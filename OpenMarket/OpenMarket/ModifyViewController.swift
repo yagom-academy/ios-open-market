@@ -100,7 +100,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
             return
         }
         
-        RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { [self]_ in
+        RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data) { [self]_ in
             delegate?.refreshProductList()
         }
         
@@ -133,8 +133,8 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return data
     }
     
-    func detectModifiedContent() -> ModifyProduct {
-        var modifyProduct: ModifyProduct = ModifyProduct()
+    func detectModifiedContent() -> ProductToModify {
+        var modifyProduct: ProductToModify = ProductToModify()
         guard let product = product else {
             return modifyProduct
         }

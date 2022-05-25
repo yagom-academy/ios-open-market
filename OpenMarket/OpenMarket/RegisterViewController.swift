@@ -103,15 +103,12 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         guard let cellSize = productView.collectionView.visibleCells.first?.frame.size else {
             return
         }
-        print("# Size of image in KB: \(imageSize) KB")
         if imageSize > maxKBSize {
-            print("# ============================================")
             image = image.resize(target: cellSize)
             guard let imagaDataSize = image.jpegData(compressionQuality: 1.0)?.count else {
                 return
             }
             imageSize = Double(imagaDataSize) / 1024
-            print("# Size of image in KB: \(imageSize) KB")
         }
         
         while imageSize > maxKBSize {
@@ -125,7 +122,6 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
                 return
             }
             imageSize = Double(imagaDataSize) / 1024
-            print("# Size of image in KB: \(imageSize) KB")
         }
         
         images.append(image)
@@ -133,7 +129,6 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         DispatchQueue.main.async {
             self.productView.collectionView.reloadData()
         }
-        
     }
     
     @objc func actionSheetAlert() {
@@ -157,12 +152,10 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     }
     
     @objc func doneToMain(_ sender: UIBarButtonItem) {
-        
         guard let data = makeRegisterPostBody() else {
             return
         }
-        
-        RequestAssistant.shared.requestRegisterAPI(body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { _ in
+        RequestAssistant.shared.requestRegisterAPI(body: data) { _ in
             self.delegate?.refreshProductList()
         }
         
@@ -172,23 +165,19 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     func makeRegisterPostBody() -> Data? {
         guard let name = productView.nameField.text, productView.validTextField(productView.nameField) else {
             let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "취소", style: .default)
+            let action = UIAlertAction(title: "닫기", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
             return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
             let alert = UIAlertController(title: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "취소", style: .default)
+            let action = UIAlertAction(title: "닫기", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
             return nil
         }
         guard let price = Double(productView.priceField.text ?? "0.0") else {
-            let alert = UIAlertController(title: "정확한 상품 가격을 입력해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "취소", style: .default)
-            alert.addAction(action)
-            present(alert, animated: true)
             return nil
         }
         guard let discountedPrice = Double(productView.discountedPriceField.text ?? "0.0") else {
@@ -199,7 +188,7 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         }
         
         var data = Data()
-        let registerProduct = RegisterProduct(name: name, currency: currency, price: price, descriptions: self.productView.descriptionView.text, discountedPrice: discountedPrice, stock: stock)
+        let registerProduct = ProductToRegister(name: name, currency: currency, price: price, descriptions: self.productView.descriptionView.text, discountedPrice: discountedPrice, stock: stock)
         data.append(makeParams(registerProduct: registerProduct))
         images.forEach {
             data.append(makeImages(image: $0))
@@ -209,7 +198,7 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         return data
     }
     
-    func makeParams(registerProduct: RegisterProduct) -> Data {
+    func makeParams(registerProduct: ProductToRegister) -> Data {
         var data = Data()
         var dataString: String = ""
         guard let params = try? JSONEncoder().encode(registerProduct) else {
