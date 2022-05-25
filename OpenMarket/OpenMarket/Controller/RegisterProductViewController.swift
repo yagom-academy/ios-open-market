@@ -20,6 +20,7 @@ class RegisterProductViewController: UIViewController {
         }
     }
     
+    private let imagePicker = UIImagePickerController()
     private var images: [UIImage] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -159,5 +160,41 @@ extension RegisterProductViewController: UICollectionViewDataSource {
             }
             return cell
         }
+    }
+}
+
+extension RegisterProductViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ImageCell else { return }
+        if !cell.plusButton.isHidden {
+            self.present(self.imagePicker, animated: true)
+        }
+    }
+}
+
+extension RegisterProductViewController {
+    private func setUpImagePicker() {
+        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.allowsEditing = true
+        self.imagePicker.delegate = self
+    }
+}
+
+extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var newImage: UIImage? = nil
+        
+        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            newImage = possibleImage
+        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            newImage = possibleImage
+        }
+        
+        if let newImage = newImage {
+            images.append(newImage)
+        }
+        
+        picker.dismiss(animated: true)
     }
 }
