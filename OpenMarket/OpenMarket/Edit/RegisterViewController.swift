@@ -133,7 +133,7 @@ final class RegisterViewController: UIViewController {
         guard let uploadProduct = mainView?.allData() else { return nil }
 
         let images = snapshot.itemIdentifiers[0..<snapshot.numberOfItems - 1]
-        let imageDatas = images.compactMap { $0.jpegData(compressionQuality: 1.0) }
+        let imageDatas = images.compactMap { $0.jpegData(compressionQuality: 0.5) }
         
         var data = Data()
         let boundary = EndPoint.boundary
