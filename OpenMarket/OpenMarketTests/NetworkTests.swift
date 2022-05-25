@@ -36,7 +36,7 @@ class NetworkTests: XCTestCase {
     
     func test_네트워크통신없이_요청시_성공하는_경우() {
         // given
-        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10, httpMethod: .get)
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10)
         
         MockURLProtocol.requsetHandler = { requset in
             let urlReponse = HTTPURLResponse(url: endPoint.urlRequest!.url!, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
@@ -71,7 +71,7 @@ class NetworkTests: XCTestCase {
     
     func test_네트워크통신없이_요청시_실패하는_경우() {
         // given
-        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10, httpMethod: .get)
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10)
         
         MockURLProtocol.requsetHandler = { requset in
             let urlReponse = HTTPURLResponse(url: endPoint.urlRequest!.url!, statusCode: 404, httpVersion: "2.0", headerFields: nil)!
