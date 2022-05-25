@@ -20,6 +20,13 @@ class RegisterProductViewController: UIViewController {
         }
     }
     
+    private var images: [UIImage] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+            }
+        }
+    }
     private var collectionView: UICollectionView?
     private var imageLayout: UICollectionViewLayout?
     
@@ -35,6 +42,7 @@ class RegisterProductViewController: UIViewController {
         
         configureHierarchy(collectionViewLayout: imageLayout ?? UICollectionViewLayout())
         registerCell()
+        collectionView?.dataSource = self
     }
 }
 
@@ -112,5 +120,44 @@ extension RegisterProductViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
+    }
+}
+
+extension RegisterProductViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return images.count + 1
+        } else if section == 1 {
+            return 1
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageCell else {
+                return UICollectionViewCell()
+            }
+                        
+            if images.count != indexPath.row {
+                cell.plusButton.isHidden = true
+                cell.imageView.isHidden = false
+                guard let image = images[safe: indexPath.row] else {
+                    return UICollectionViewCell()
+                }
+                cell.imageView.image = image
+                return cell
+            }
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as? TextCell else {
+                return UICollectionViewCell()
+            }
+            return cell
+        }
     }
 }
