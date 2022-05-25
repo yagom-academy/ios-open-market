@@ -81,8 +81,12 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     @objc private func addButtonDidTapped() {
-        let registerNavigationController = UINavigationController(rootViewController: RegisterViewController())
+        let registerViewController = RegisterViewController()
+        registerViewController.delegate = self
+        
+        let registerNavigationController = UINavigationController(rootViewController: registerViewController)
         registerNavigationController.modalPresentationStyle = .fullScreen
+        
         present(registerNavigationController, animated: true)
     }
     
@@ -131,8 +135,11 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = snapshot?.itemIdentifiers[indexPath.item] else { return }
+        
+        let editViewController = EditViewController(product: product)
+        editViewController.delegate = self
 
-        navigationController?.pushViewController(EditViewController(product: product), animated: true)
+        navigationController?.pushViewController(editViewController, animated: true)
     }
 }
 
@@ -200,5 +207,11 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
             pageNumber += 1
             requestData(pageNumber: pageNumber)
         }
+    }
+}
+
+extension MainViewController: ProductViewControllerDelegate {
+    func refreshData() {
+        handleRefreshControl()
     }
 }

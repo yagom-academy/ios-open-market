@@ -7,6 +7,11 @@
 
 import UIKit
 
+
+protocol ProductViewControllerDelegate: AnyObject {
+    func refreshData()
+}
+
 class ProductViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, UIImage>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>
@@ -17,6 +22,7 @@ class ProductViewController: UIViewController {
     var mainView: EditView?
     var dataSource: DataSource?
     var snapshot: Snapshot?
+    weak var delegate: ProductViewControllerDelegate?
     
     override func loadView() {
         super.loadView()

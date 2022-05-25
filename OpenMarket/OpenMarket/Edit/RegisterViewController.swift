@@ -43,6 +43,7 @@ final class RegisterViewController: ProductViewController {
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
+                    self.delegate?.refreshData()
                     self.dismiss(animated: true)
                 }
             case .failure(_):
