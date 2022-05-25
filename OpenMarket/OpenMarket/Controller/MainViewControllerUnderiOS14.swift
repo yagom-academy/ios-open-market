@@ -52,7 +52,7 @@ extension MainViewControllerUnderiOS14 {
     private func setUpNavigationItem() {
         setUpSegmentation()
         navigationItem.titleView = baseView.segmentedControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(registerProduct))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(touchUpRegisterProduct))
     }
     
     private func setUpSegmentation() {
@@ -61,8 +61,12 @@ extension MainViewControllerUnderiOS14 {
         baseView.segmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
     }
     
-    @objc private func registerProduct() {
-        present(RegisterProductViewController(), animated: false)
+    @objc private func touchUpRegisterProduct() {
+        let registerProductView = RegisterProductViewController()
+        let navigationController = UINavigationController(rootViewController: registerProductView)
+        navigationController.modalTransitionStyle = .coverVertical
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
     
     @objc private func switchCollectionViewLayout() {

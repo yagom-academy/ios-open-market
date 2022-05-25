@@ -44,7 +44,7 @@ class MainViewController: UIViewController {
     private func setUpNavigationItem() {
         setUpSegmentation()
         navigationItem.titleView = baseView.segmentedControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(registerProduct))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(touchUpRegisterProduct))
     }
     
     private func setUpSegmentation() {
@@ -72,8 +72,12 @@ class MainViewController: UIViewController {
         dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
     }
     
-    @objc private func registerProduct() {
-        present(RegisterProductViewController(), animated: false)
+    @objc private func touchUpRegisterProduct() {
+        let registerProductView = RegisterProductViewController()
+        let navigationController = UINavigationController(rootViewController: registerProductView)
+        navigationController.modalTransitionStyle = .coverVertical
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
 }
 
