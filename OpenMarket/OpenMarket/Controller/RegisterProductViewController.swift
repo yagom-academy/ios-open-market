@@ -29,7 +29,7 @@ class RegisterProductViewController: UIViewController {
         }
     }
     private var collectionView: UICollectionView?
-    private var imageLayout: UICollectionViewLayout?
+    private var collectionViewLayout: UICollectionViewLayout?
     
     override func loadView() {
         super.loadView()
@@ -39,9 +39,9 @@ class RegisterProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageLayout = createLayout()
+        collectionViewLayout = createLayout()
         
-        configureHierarchy(collectionViewLayout: imageLayout ?? UICollectionViewLayout())
+        configureHierarchy(collectionViewLayout: collectionViewLayout ?? UICollectionViewLayout())
         registerCell()
         setUpCollectionView()
         
@@ -77,7 +77,7 @@ extension RegisterProductViewController {
     }
     
     private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 80, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: imageLayout ?? collectionViewLayout)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 80, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout ?? collectionViewLayout)
         view.addSubview(collectionView ?? UICollectionView())
         layoutCollectionView()
     }
