@@ -6,10 +6,6 @@
 
 import UIKit
 
-enum Section {
-    case main
-}
-
 private enum Constant {
     static let requestItemCount = 20
 }
@@ -18,11 +14,13 @@ final class MainViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Product>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Product>
     
+    private var networkManager = NetworkManager<ProductList>()
+    private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
+    
     private var mainView: MainView?
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
-    private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
-    private var networkManager = NetworkManager<ProductList>()
+    
     private var pageNumber = 1
     
     override func viewDidLoad() {
@@ -96,11 +94,7 @@ extension MainViewController {
     }
     
     @objc private func handleRefreshControl() {
-        pageNumber = 1
-        snapshot = makeSnapshot()
-
-        ImageManager.shared.clearCache()
-        requestData(pageNumber: pageNumber)
+        resetData()
     }
 }
 
@@ -127,6 +121,14 @@ extension MainViewController {
                 AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
             }
         }
+    }
+    
+    private func resetData() {
+        pageNumber = 1
+        snapshot = makeSnapshot()
+
+        ImageManager.shared.clearCache()
+        requestData(pageNumber: pageNumber)
     }
 }
 
@@ -180,9 +182,7 @@ extension MainViewController {
         DispatchQueue.main.async { [self] in
             snapshot?.appendItems(products)
             
-            guard let snapshot = snapshot else {
-                return
-            }
+            guard let snapshot = snapshot else { return }
             
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
@@ -197,9 +197,7 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     }
     
     private func prefetchData(_ indexPaths: [IndexPath]) {
-        guard let indexPath = indexPaths.last else {
-            return
-        }
+        guard let indexPath = indexPaths.last else { return }
         
         let section = indexPath.row / Constant.requestItemCount
         
@@ -210,8 +208,10 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     }
 }
 
+//MARK: - ProductViewController Delegate
+
 extension MainViewController: ProductViewControllerDelegate {
     func refreshData() {
-        handleRefreshControl()
+        resetData()
     }
 }

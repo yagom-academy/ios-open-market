@@ -84,9 +84,7 @@ extension MainView {
     }
     
     func changeLayout(index selectedIndex: Int) {
-        guard let layout = ProductCollectionViewLayoutType(rawValue: selectedIndex) else {
-            return
-        }
+        guard let layout = ProductCollectionViewLayoutType(rawValue: selectedIndex) else { return }
         
         switch layout {
         case .list:

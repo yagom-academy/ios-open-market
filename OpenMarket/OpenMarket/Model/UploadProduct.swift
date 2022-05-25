@@ -2,7 +2,7 @@
 //  UploadProduct.swift
 //  OpenMarket
 //
-//  Created by by dudu, safari on 2022/05/25.
+//  Created by dudu, safari on 2022/05/25.
 //
 
 struct UploadProduct: Encodable {
