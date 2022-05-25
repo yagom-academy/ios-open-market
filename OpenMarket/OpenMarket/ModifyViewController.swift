@@ -96,16 +96,14 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let product = product else {
             return
         }
-        var data = makeModifyRequestBody(for: product)
-        if data.count > 0 {
-            data.append("\"secret\": \"password\"")
-            data.insert("{", at: data.startIndex)
-            data.append("}")
-            
-            RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { [self]_ in
-                delegate?.refreshProductList()
-            }
+        guard let data = makeModifyRequestBody(for: product) else {
+            return
         }
+        
+        RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { [self]_ in
+            delegate?.refreshProductList()
+        }
+        
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -113,45 +111,51 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         self.navigationController?.popViewController(animated: true)
     }
     
-    func makeModifyRequestBody(for product: Product) -> String {
-        var data: String = ""
+    func makeModifyRequestBody(for product: Product) -> Data? {
         guard productView.validTextField(productView.nameField) else {
             let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "취소", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
-            return data
+            return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
             let alert = UIAlertController(title: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "취소", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
-            return data
+            return nil
         }
-        data.append(compare(productView.nameField.text, product.name, key: "name"))
-        data.append(compare(Double(productView.priceField.text!),product.price, key: "price"))
-        data.append(compare(currency.rawValue, product.currency?.rawValue, key: "currency"))
-        data.append(compare(Double(productView.discountedPriceField.text!), product.discountedPrice, key: "discounted_price"))
-        data.append(compare(Int(productView.stockField.text!), product.stock, key: "stock"))
-        if let description: String = self.productView.descriptionView.text {
-            data.append(compare(description, product.description!, key: "descriptions"))
+        guard let data = try? JSONEncoder().encode(detectModifiedContent()) else {
+            return nil
         }
+        
         return data
     }
     
-    func compare<T: Equatable>(_ field: T?, _ original: T, key: String) -> String {
-        guard let field1 = field else {
-            return ""
+    func detectModifiedContent() -> ModifyProduct {
+        var modifyProduct: ModifyProduct = ModifyProduct()
+        guard let product = product else {
+            return modifyProduct
         }
         
-        if field == original {
-            return ""
-        } else if type(of: original) == String.self {
-            return "\"\(key)\": \"\(field1)\","
-        } else {
-            return "\"\(key)\": \(field1),"
+        guard let name: String = productView.nameField.text,
+              let description: String = self.productView.descriptionView.text,
+              let price: Double = Double(productView.priceField.text ?? "0.0"),
+              let discountedPrice: Double = Double(productView.discountedPriceField.text ?? "0.0"),
+              let stock: Int = Int(productView.stockField.text ?? "0")
+              else {
+            return modifyProduct
         }
+        
+        name != product.name ? modifyProduct.name = name : nil
+        description != product.description ? modifyProduct.descriptions = description : nil
+        price != product.price ? modifyProduct.price = price : nil
+        discountedPrice != product.discountedPrice ? modifyProduct.discountedPrice = discountedPrice : nil
+        stock != product.stock ? modifyProduct.stock = stock : nil
+        currency != product.currency ? modifyProduct.currency = currency : nil
+        
+        return modifyProduct
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
