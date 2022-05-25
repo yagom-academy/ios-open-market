@@ -8,9 +8,16 @@
 import UIKit
 
 final class RegisterViewController: UIViewController {
+    private enum Constants {
+        static let requestErrorAlertTitle = "오류 발생"
+        static let requestErrorAlertConfirmTitle = "메인화면으로 돌아가기"
+        static let inputErrorAlertTitle = "등록 정보 오류"
+        static let inputErrorAlertConfirmTitle = "확인"
+    }
+    
     private lazy var editView = EditView(frame: view.frame)
     private let viewModel = RegisterViewModel()
-    let imagePicker = UIImagePickerController()
+    private let imagePicker = UIImagePickerController()
     
     override func loadView() {
         super.loadView()
@@ -23,6 +30,8 @@ final class RegisterViewController: UIViewController {
         setUpViewModel()
         setUpImagePicker()
         setUpKeyboardNotification()
+        setUpTextView()
+        setUpTextField()
         viewModel.setUpDefaultImage()
     }
     
@@ -45,10 +54,29 @@ final class RegisterViewController: UIViewController {
         imagePicker.allowsEditing = true
     }
     
+    private func setUpTextView() {
+        editView.productDescriptionTextView.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
+    }
+    
+    private func setUpTextField() {
+        editView.productNameTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
+        editView.productPriceTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
+        editView.productDiscountedTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
+        editView.productStockTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
+    }
+    
     private func setUpKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func didTapKeyboardHideButton() {
+        editView.productDescriptionTextView.resignFirstResponder()
+        editView.productNameTextField.resignFirstResponder()
+        editView.productPriceTextField.resignFirstResponder()
+        editView.productDiscountedTextField.resignFirstResponder()
+        editView.productStockTextField.resignFirstResponder()
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -77,31 +105,33 @@ final class RegisterViewController: UIViewController {
     }
     
     @objc private func didTapDoneButton() {
-        if validateInput() {
+        if checkInputValidation() {
+            viewModel.removeLastImage()
             viewModel.requestPost(makeProductsPost())
+            self.dismiss(animated: true)
         }
-        self.dismiss(animated: true)
     }
     
-    private func validateInput() -> Bool {
+    private func checkInputValidation() -> Bool {
         guard editView.productNameTextField.text?.count ?? 0 >= 3 else {
-            print("3글자 이상 입력해 주세요")
+            showAlertInputError(with: .productNameIsTooShort)
             return false
         }
         
         guard let productPrice = Int(editView.productPriceTextField.text ?? "0") else {
-            print("상품가격을 입력하세요.")
+            showAlertInputError(with: .productPriceIsEmpty)
             return false
         }
 
-        guard let discountedPrice = Int(editView.productDiscountedTextField.text ?? "0"),
-                productPrice >= discountedPrice else {
-            print("할인금액이 더 클수는 없어")
+        let discountedPrice = Int(editView.productDiscountedTextField.text ?? "0") ?? 0
+        
+        guard productPrice >= discountedPrice else {
+            showAlertInputError(with: .discountedPriceHigherThanPrice)
             return false
         }
         
         guard viewModel.images.count >= 2 else {
-            print("1개 이상의 사진이 필요합니다")
+            showAlertInputError(with: .productImageIsEmpty)
             return false
         }
         
@@ -116,7 +146,6 @@ final class RegisterViewController: UIViewController {
         let discountedPrice = Double(editView.productDiscountedTextField.text ?? "0")
         let stock = Int(editView.productStockTextField.text ?? "0")
         let secret = "password"
-        viewModel.images.removeLast()
         let images = viewModel.images
         
         return ProductsPost(name: productName,
@@ -127,19 +156,6 @@ final class RegisterViewController: UIViewController {
                      stock: stock,
                      secret: secret,
                      image: images)
-    }
-}
-
-extension UIView {
-    var firstResponder: UIView? {
-        guard !isFirstResponder else { return self }
-        
-        for subview in subviews {
-            if let firstResponder = subview.firstResponder {
-                return firstResponder
-            }
-        }
-        return nil
     }
 }
 
@@ -165,7 +181,22 @@ extension RegisterViewController {
 
 extension RegisterViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
-        print("")
+        self.alertBuilder
+            .setTitle(Constants.requestErrorAlertTitle)
+            .setMessage(error.localizedDescription)
+            .setConfirmTitle(Constants.requestErrorAlertConfirmTitle)
+            .setConfirmHandler {
+                self.dismiss(animated: true)
+            }
+            .showAlert()
+    }
+    
+    private func showAlertInputError(with error: InputError) {
+        self.alertBuilder
+            .setTitle(Constants.inputErrorAlertTitle)
+            .setMessage(error.localizedDescription)
+            .setConfirmTitle(Constants.inputErrorAlertConfirmTitle)
+            .showAlert()
     }
 }
 

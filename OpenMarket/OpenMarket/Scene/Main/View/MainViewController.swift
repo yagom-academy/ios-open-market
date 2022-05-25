@@ -10,7 +10,6 @@ final class MainViewController: UIViewController {
     private enum Constants {
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "다시요청하기"
-        static let loadImageErrorAlertConfirmTitle = "확인"
     }
     
     private lazy var mainView = MainView(frame: view.bounds)

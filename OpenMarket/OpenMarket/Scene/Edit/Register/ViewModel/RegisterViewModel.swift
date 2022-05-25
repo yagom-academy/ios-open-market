@@ -15,9 +15,11 @@ final class RegisterViewModel {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageInfo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ImageInfo>
     
-    private let productsAPIServie = APIProvider<Products>()
-    var images: [ImageInfo] = []
     var datasource: DataSource?
+    
+    private let productsAPIServie = APIProvider<Products>()
+    private(set) var images: [ImageInfo] = []
+    
     weak var delegate: AlertDelegate?
     
     func requestPost(_ productsPost: ProductsPost) {
@@ -30,7 +32,6 @@ final class RegisterViewModel {
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.delegate?.showAlertRequestError(with: error)
-                    print(error)
                 }
             }
         }
@@ -45,8 +46,11 @@ final class RegisterViewModel {
     func insert(image: UIImage) {
         guard let data = image.jpegData(compressionQuality: 0.5) else { return }
         images.insert(ImageInfo(fileName: generateUUID(), data: data, type: "jpg"), at: 0)
-        
         applySnapshot()
+    }
+    
+    func removeLastImage() {
+        images.removeLast()
     }
     
     private func generateUUID() -> String {

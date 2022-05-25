@@ -23,8 +23,8 @@ final class MainViewModel {
     lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIServie)
     
     var datasource: DataSource?
-    var products: Products?
-    var items: [Item] = []
+    private(set) var products: Products?
+    private(set) var items: [Item] = []
     var currentPage = 1
     
     weak var delegate: AlertDelegate?
