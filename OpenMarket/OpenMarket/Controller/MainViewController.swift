@@ -14,7 +14,7 @@ final class MainViewController: UIViewController {
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
-  private let urlProvider = ApiProvider<ProductsList>()
+  private let apiProvider = ApiProvider<ProductsList>()
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -47,7 +47,7 @@ final class MainViewController: UIViewController {
   }
   
   private func fetchPages() {
-    urlProvider.get(.productList(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
+    apiProvider.get(.productList(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
       guard let products = try? data.get() else {
         return
       }
