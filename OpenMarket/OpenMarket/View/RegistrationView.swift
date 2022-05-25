@@ -177,7 +177,7 @@ class RegistrationView: UIView {
                         discountedPrice: Int(self.discountedPriceTextField.text!)!,
                         stock: Int(self.stockTextField.text!)!,
                         currency: currency,
-                        description: self.descriptionTextField.text!,
+                        descriptions: self.descriptionTextField.text!,
                         secret: "password")
     return params
   }
