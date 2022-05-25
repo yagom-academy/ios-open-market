@@ -57,7 +57,13 @@ final class RegistrationViewController: UIViewController {
   @objc private func postData() {
     let params = registrationView.setupParams()
     apiProvider.post(.registration, params, selectedImages) { result in
-      
+      switch result {
+      case .success(_):
+        return
+      case .failure(let response):
+        print(response)
+        return
+      }
     }
   }
 }
