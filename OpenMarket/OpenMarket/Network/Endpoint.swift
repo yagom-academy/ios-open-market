@@ -10,6 +10,7 @@ enum Endpoint {
     case healthChecker
     case productList(page: Int, itemsPerPage: Int)
     case detailProduct(id: Int)
+    case productRegistration
 }
 
 extension Endpoint {
@@ -21,6 +22,8 @@ extension Endpoint {
             return .makeForEndpoint("api/products?page_no=\(page)&items_per_page=\(itemsPerPage)")
         case .detailProduct(let id):
             return .makeForEndpoint("api/products/\(id)")
+        case .productRegistration:
+            return .makeForEndpoint("api/products")
         }
     }
 }

@@ -58,7 +58,6 @@ final class OpenMarketViewController: UIViewController {
     
     @objc private func didChangeSegment(_ sender: UISegmentedControl) {
         
-        
         if let currentLayout = LayoutType(rawValue: sender.selectedSegmentIndex) {
             layoutType = currentLayout
         }
