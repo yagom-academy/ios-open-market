@@ -65,10 +65,7 @@ struct NetworkManager<T: Codable> {
             }
             
             do {
-                let jsonDecoder = JSONDecoder()
-                jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
-                
-                let result = try jsonDecoder.decode(T.self, from: data)
+                let result = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(result))
             } catch {
                 completion(.failure(.jsonError))
@@ -76,14 +73,4 @@ struct NetworkManager<T: Codable> {
             }
         }.resume()
     }
-}
-
-//MARK: - Extension DateFormatter
-
-private extension DateFormatter {
-    static let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
-        return dateFormatter
-    }()
 }
