@@ -14,14 +14,14 @@ struct ProductDetail: Decodable {
     let thumbnail: URL
     let currency: String
     let price: Int
-    let productsDescription: String
-    let bargainPrice: Int
+    let productsDescription: String?
+    let bargainPrice: Int?
     let discountedPrice: Int
     let stock: Int
-    let createdAt: String
-    let issuedAt: String
+    let createdAt: String?
+    let issuedAt: String?
     let images: [ProductImage]
-    let vendor: Vendor
+    let vendor: Vendor?
 
     private enum CodingKeys: String, CodingKey {
         case id

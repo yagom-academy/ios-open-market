@@ -51,7 +51,6 @@ final class APIProvider<T: Decodable>: Provider {
         switch urlRequest {
         case .success(let urlRequest):
             urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
-                print(String(data: data!, encoding: .utf8))
                 self?.checkError(with: data, response, error) { result in
                     switch result {
                     case .success(_):

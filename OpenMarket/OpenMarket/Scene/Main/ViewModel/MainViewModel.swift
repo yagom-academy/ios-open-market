@@ -25,7 +25,7 @@ final class MainViewModel {
     
     var datasource: DataSource?
     private(set) var products: Products?
-    private(set) var items: [Item] = []
+    var items: [Item] = []
     var currentPage = 1
     
     weak var delegate: MainAlertDelegate?
@@ -65,6 +65,7 @@ final class MainViewModel {
     private func applySnapshot() {
         DispatchQueue.main.async {
             var snapshot = Snapshot()
+            snapshot.deleteAllItems()
             snapshot.appendSections(Section.allCases)
             snapshot.appendItems(self.items, toSection: .main)
             self.datasource?.apply(snapshot)

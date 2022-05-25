@@ -27,7 +27,11 @@ final class MainViewController: UIViewController {
         setUpCollectionView()
         setUpSegmentControl()
         setUpViewModel()
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.items = []
         viewModel.requestProducts(by: viewModel.currentPage)
     }
 }

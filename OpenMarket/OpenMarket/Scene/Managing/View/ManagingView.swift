@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EditView: UIView {
+final class ManagingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()

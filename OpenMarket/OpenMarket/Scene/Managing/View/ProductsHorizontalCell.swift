@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 protocol CellDelegate: AnyObject {
     func addButtonTaped()
 }
@@ -14,6 +15,8 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
     static var identifier: String {
         return String(describing: self)
     }
+    
+    weak var delegate: CellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,8 +30,6 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
         addSubviews()
         makeConstraints()
     }
-    
-    weak var delegate: CellDelegate?
     
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
@@ -50,7 +51,6 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
     
     private func addSubviews() {
         contentView.addSubview(productImageView)
-        contentView.addSubview(addButton)
     }
     
     private func makeConstraints() {
@@ -58,18 +58,23 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
             productImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor),
-            
-            addButton.topAnchor.constraint(equalTo: productImageView.topAnchor),
-            addButton.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor),
-            addButton.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor),
-            addButton.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor),
+            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
     private func setUpAtrribute() {
         addButton.addTarget(self, action: #selector(self.didTapAddButton), for: UIControl.Event.touchUpInside)
+    }
+    
+    func addPlusButton() {
+        contentView.addSubview(addButton)
+        
+        NSLayoutConstraint.activate([
+            addButton.topAnchor.constraint(equalTo: productImageView.topAnchor),
+            addButton.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor),
+            addButton.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor),
+            addButton.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor)
+        ])
     }
     
     func updateImage(imageInfo: ImageInfo) {

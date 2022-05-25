@@ -44,13 +44,15 @@
 		DAA1077A28374B9300907154 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA1077928374B9200907154 /* Double.swift */; };
 		DAA1077C28374BEC00907154 /* NSMutableAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */; };
 		DAA968D1283BBFDF00CDA7B1 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D0283BBFDF00CDA7B1 /* BaseCell.swift */; };
-		DAA968D5283CA95200CDA7B1 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D4283CA95200CDA7B1 /* EditView.swift */; };
+		DAA968D5283CA95200CDA7B1 /* ManagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D4283CA95200CDA7B1 /* ManagingView.swift */; };
 		DAA968D7283CA98900CDA7B1 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */; };
 		DAA968D9283D054900CDA7B1 /* ProductsHorizontalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968D8283D054900CDA7B1 /* ProductsHorizontalCell.swift */; };
 		DAA968DB283D071600CDA7B1 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968DA283D071600CDA7B1 /* RegisterViewModel.swift */; };
 		DAA968DD283D0DBA00CDA7B1 /* AlertDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968DC283D0DBA00CDA7B1 /* AlertDelegate.swift */; };
 		DAA968DF283E50BF00CDA7B1 /* ModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968DE283E50BF00CDA7B1 /* ModifyViewController.swift */; };
 		DAA968E1283E50E400CDA7B1 /* ModifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968E0283E50E400CDA7B1 /* ModifyViewModel.swift */; };
+		DAA968E6283E71B800CDA7B1 /* ManagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968E5283E71B800CDA7B1 /* ManagingViewController.swift */; };
+		DAA968E8283E768100CDA7B1 /* ManagingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA968E7283E768100CDA7B1 /* ManagingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,13 +106,15 @@
 		DAA1077928374B9200907154 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		DAA1077B28374BEC00907154 /* NSMutableAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedString.swift; sourceTree = "<group>"; };
 		DAA968D0283BBFDF00CDA7B1 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
-		DAA968D4283CA95200CDA7B1 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		DAA968D4283CA95200CDA7B1 /* ManagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagingView.swift; sourceTree = "<group>"; };
 		DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DAA968D8283D054900CDA7B1 /* ProductsHorizontalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsHorizontalCell.swift; sourceTree = "<group>"; };
 		DAA968DA283D071600CDA7B1 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		DAA968DC283D0DBA00CDA7B1 /* AlertDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDelegate.swift; sourceTree = "<group>"; };
 		DAA968DE283E50BF00CDA7B1 /* ModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyViewController.swift; sourceTree = "<group>"; };
 		DAA968E0283E50E400CDA7B1 /* ModifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyViewModel.swift; sourceTree = "<group>"; };
+		DAA968E5283E71B800CDA7B1 /* ManagingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagingViewController.swift; sourceTree = "<group>"; };
+		DAA968E7283E768100CDA7B1 /* ManagingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				DAA968D6283CA98900CDA7B1 /* RegisterViewController.swift */,
-				DAA968DE283E50BF00CDA7B1 /* ModifyViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -153,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				DAA968DA283D071600CDA7B1 /* RegisterViewModel.swift */,
-				DAA968E0283E50E400CDA7B1 /* ModifyViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -196,9 +198,9 @@
 		A1D0E1002829F5BF00451BF8 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A1FC1BCA283737EF00EC14DD /* Cell */,
 				A1D0E1022829F5FE00451BF8 /* MainView.swift */,
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				A1FC1BCA283737EF00EC14DD /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -224,7 +226,7 @@
 		A1FC1BC6283737A700EC14DD /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				DAA968D2283CA88000CDA7B1 /* Edit */,
+				DAA968E9283E7FBE00CDA7B1 /* Managing */,
 				A1FC1BC8283737C400EC14DD /* Main */,
 			);
 			path = Scene;
@@ -341,16 +343,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		DAA968D2283CA88000CDA7B1 /* Edit */ = {
-			isa = PBXGroup;
-			children = (
-				DAA968D4283CA95200CDA7B1 /* EditView.swift */,
-				DAA968D8283D054900CDA7B1 /* ProductsHorizontalCell.swift */,
-				DAA968D3283CA93400CDA7B1 /* Register */,
-			);
-			path = Edit;
-			sourceTree = "<group>";
-		};
 		DAA968D3283CA93400CDA7B1 /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +350,60 @@
 				A162570F283D0E5300397546 /* ViewModel */,
 			);
 			path = Register;
+			sourceTree = "<group>";
+		};
+		DAA968E9283E7FBE00CDA7B1 /* Managing */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968EB283E7FE200CDA7B1 /* ViewModel */,
+				DAA968EA283E7FD900CDA7B1 /* View */,
+				DAA968D3283CA93400CDA7B1 /* Register */,
+				DAA968EC283E801000CDA7B1 /* Modify */,
+			);
+			path = Managing;
+			sourceTree = "<group>";
+		};
+		DAA968EA283E7FD900CDA7B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968E5283E71B800CDA7B1 /* ManagingViewController.swift */,
+				DAA968D8283D054900CDA7B1 /* ProductsHorizontalCell.swift */,
+				DAA968D4283CA95200CDA7B1 /* ManagingView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DAA968EB283E7FE200CDA7B1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968E7283E768100CDA7B1 /* ManagingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		DAA968EC283E801000CDA7B1 /* Modify */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968ED283E803E00CDA7B1 /* View */,
+				DAA968EE283E804300CDA7B1 /* ViewModel */,
+			);
+			path = Modify;
+			sourceTree = "<group>";
+		};
+		DAA968ED283E803E00CDA7B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968DE283E50BF00CDA7B1 /* ModifyViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DAA968EE283E804300CDA7B1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DAA968E0283E50E400CDA7B1 /* ModifyViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -481,6 +527,7 @@
 				A13387A22833759D00950EA2 /* AlertBuilder.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				DAA968DD283D0DBA00CDA7B1 /* AlertDelegate.swift in Sources */,
+				DAA968E6283E71B800CDA7B1 /* ManagingViewController.swift in Sources */,
 				A1FC1BCE28377FC700EC14DD /* UIImageView.swift in Sources */,
 				DA9AE567282B5709003BA8B2 /* ProductsDetail.swift in Sources */,
 				DA9AE5B728326AF0003BA8B2 /* ProductsListCell.swift in Sources */,
@@ -492,9 +539,10 @@
 				DA9AE5BB28327C15003BA8B2 /* UILabel.swift in Sources */,
 				DAA968D9283D054900CDA7B1 /* ProductsHorizontalCell.swift in Sources */,
 				DA9AE561282AAA1C003BA8B2 /* ProductsReceive.swift in Sources */,
+				DAA968E8283E768100CDA7B1 /* ManagingViewModel.swift in Sources */,
 				A128FB9C283E4D3100B96535 /* UIView.swift in Sources */,
 				A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */,
-				DAA968D5283CA95200CDA7B1 /* EditView.swift in Sources */,
+				DAA968D5283CA95200CDA7B1 /* ManagingView.swift in Sources */,
 				DAA968E1283E50E400CDA7B1 /* ModifyViewModel.swift in Sources */,
 				DA9AE54B282A45FF003BA8B2 /* NetworkError.swift in Sources */,
 				A1255C77283C9B910013772D /* ProductsPost.swift in Sources */,
