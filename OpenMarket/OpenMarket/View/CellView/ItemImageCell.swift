@@ -11,10 +11,10 @@ final class ItemImageCell: UICollectionViewCell {
     @IBOutlet private weak var itemImageView: UIImageView!
     @IBOutlet private weak var plusLabel: UILabel!
     
-    func setItemImage() {
+    func setItemImage(image: UIImage) {
         self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.plusLabel.isHidden = true
-        self.itemImageView.image = UIImage(systemName: "folder.fill")
+        self.itemImageView.image = image
     }
     
     func setPlusLabel() {

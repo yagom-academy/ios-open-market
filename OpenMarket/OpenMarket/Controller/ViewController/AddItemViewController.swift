@@ -10,8 +10,8 @@ import UIKit
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
     @IBOutlet private weak var curruncySegment: UISegmentedControl!
-    
-    private var imageCount = 0 {
+    private let imagePicker = UIImagePickerController()
+    private var imageArray: [UIImage] = [] {
         didSet {
             itemImageCollectionView.reloadData()
         }
@@ -27,6 +27,7 @@ final class AddItemViewController: UIViewController {
         navigationItem.setRightBarButton(makeDoneButton(), animated: true)
         itemImageCollectionView.dataSource = self
         itemImageCollectionView.delegate = self
+        imagePicker.delegate = self
         itemImageCollectionView.register(UINib(nibName: "\(ItemImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(ItemImageCell.self)")
         setSegmentTextFont()
         setLayout()
@@ -42,8 +43,8 @@ final class AddItemViewController: UIViewController {
 // MARK: - aboutCell
 extension AddItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if imageCount < 5 {
-            return imageCount + 1
+        if imageArray.count < 5 {
+            return imageArray.count + 1
         } else {
             return 5
         }
@@ -54,10 +55,10 @@ extension AddItemViewController: UICollectionViewDataSource {
             return ItemImageCell()
         }
         
-        if indexPath.row == imageCount {
+        if indexPath.row == imageArray.count {
             cell.setPlusLabel()
         } else {
-            cell.setItemImage()
+            cell.setItemImage(image: imageArray[indexPath.row])
         }
         
         return cell
@@ -66,9 +67,41 @@ extension AddItemViewController: UICollectionViewDataSource {
 
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if imageCount < 5 && indexPath.row == imageCount {
-            self.imageCount += 1
+        if imageArray.count < 5 && indexPath.row == imageArray.count {
+            let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
+            let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
+                self.openAlbum()
+            }
+            let cameraAction = UIAlertAction(title: "카메라", style: .default){_ in
+                self.openCamera()
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            alert.addAction(cameraAction)
+            alert.addAction(albumAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true)
         }
+    }
+}
+
+//MARK: - imagePicker
+extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    private func openAlbum() {
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
+    }
+    
+    private func openCamera() {
+        imagePicker.sourceType = .camera
+        present(imagePicker, animated: false)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ imageArray.append(image)
+        }
+        
+        dismiss(animated: true)
     }
 }
 
@@ -98,7 +131,7 @@ extension AddItemViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: itemSize.widthDimension, heightDimension: itemSize.heightDimension)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .paging
         
