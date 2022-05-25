@@ -28,7 +28,7 @@ class RegistrationView: UIView {
   
   let addImageButton: UIButton = {
     let button = UIButton()
-    button.backgroundColor = .systemGray2
+    button.backgroundColor = .systemGray4
     button.setTitle("+", for: .normal)
     button.setTitleColor(UIColor.systemBlue, for: .normal)
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +40,7 @@ class RegistrationView: UIView {
     textField.placeholder = "상품명"
     textField.borderStyle = .roundedRect
     textField.backgroundColor = .white
+    textField.keyboardType = .default
     return textField
   }()
   
@@ -48,6 +49,7 @@ class RegistrationView: UIView {
     textField.placeholder = "상품가격"
     textField.borderStyle = .roundedRect
     textField.backgroundColor = .white
+    textField.keyboardType = .numberPad
     return textField
   }()
   
@@ -64,6 +66,7 @@ class RegistrationView: UIView {
     textField.placeholder = "할인금액"
     textField.borderStyle = .roundedRect
     textField.backgroundColor = .white
+    textField.keyboardType = .numberPad
     return textField
   }()
   
@@ -72,15 +75,17 @@ class RegistrationView: UIView {
     textField.placeholder = "재고수량"
     textField.borderStyle = .roundedRect
     textField.backgroundColor = .white
+    textField.keyboardType = .numberPad
     return textField
   }()
   //MARK: - description part
-  private let descriptionTextField: UITextField = {
-    let textField = UITextField()
-    textField.backgroundColor = .white
-    textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.contentVerticalAlignment = .top
-    return textField
+  private let descriptionTextField: UITextView = {
+    let textView = UITextView()
+    textView.backgroundColor = .white
+    textView.translatesAutoresizingMaskIntoConstraints = false
+    textView.keyboardType = .default
+    textView.font = .systemFont(ofSize: 17)
+    return textView
   }()
   //MARK: - stack view
   let imageStackView: UIStackView = {
@@ -88,6 +93,7 @@ class RegistrationView: UIView {
     stackView.axis = .horizontal
     stackView.alignment = .fill
     stackView.distribution = .fill
+    stackView.spacing = 5
     stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
@@ -97,6 +103,7 @@ class RegistrationView: UIView {
     stackView.axis = .horizontal
     stackView.alignment = .fill
     stackView.distribution = .fill
+    stackView.spacing = 5
     stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
@@ -106,6 +113,7 @@ class RegistrationView: UIView {
     stackView.axis = .horizontal
     stackView.alignment = .fill
     stackView.distribution = .fill
+    stackView.spacing = 5
     return stackView
   }()
   
@@ -137,10 +145,10 @@ class RegistrationView: UIView {
     self.addSubview(totalStackView)
     
     NSLayoutConstraint.activate(
-      [totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-       totalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-       totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
-       totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+      [totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+       totalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+       totalStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+       totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
        
        currencySegmentedControl.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.23),
        
