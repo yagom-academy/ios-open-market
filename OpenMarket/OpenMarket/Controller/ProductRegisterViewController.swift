@@ -149,3 +149,17 @@ final class ProductRegisterViewController: UIViewController {
     self.dismiss(animated: true)
   }
 }
+
+// MARK: - Delegate
+
+extension ProductRegisterViewController: UITextViewDelegate {
+  func textView(
+    _ textView: UITextView,
+    shouldChangeTextIn range: NSRange,
+    replacementText text: String
+  ) -> Bool {
+    guard let previousText = textView.text else { return false }
+    let newLength = previousText.count + text.count - range.length
+    return newLength <= 1000
+  }
+}
