@@ -70,10 +70,10 @@ extension AddItemViewController: UICollectionViewDelegate {
         if imageArray.count < 5 && indexPath.row == imageArray.count {
             let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
             let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
-                self.openAlbum()
+                self.selectPhoto(where: .photoLibrary)
             }
             let cameraAction = UIAlertAction(title: "카메라", style: .default){_ in
-                self.openCamera()
+                self.selectPhoto(where: .camera)
             }
             let cancelAction = UIAlertAction(title: "취소", style: .cancel)
             alert.addAction(cameraAction)
@@ -87,18 +87,14 @@ extension AddItemViewController: UICollectionViewDelegate {
 
 //MARK: - imagePicker
 extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    private func openAlbum() {
-        imagePicker.sourceType = .photoLibrary
+    private func selectPhoto(where: UIImagePickerController.SourceType) {
+        imagePicker.sourceType = `where`
+        imagePicker.allowsEditing = true
         present(imagePicker, animated: true)
     }
     
-    private func openCamera() {
-        imagePicker.sourceType = .camera
-        present(imagePicker, animated: false)
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{ imageArray.append(image)
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{ imageArray.append(image)
         }
         
         dismiss(animated: true)
