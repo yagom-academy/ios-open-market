@@ -28,6 +28,7 @@
 		865B43D9283DFDD30005B484 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43D8283DFDD30005B484 /* Data.swift */; };
 		865B43DB283DFE310005B484 /* ProductRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43DA283DFE310005B484 /* ProductRegistration.swift */; };
 		865B43DD283DFE540005B484 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43DC283DFE540005B484 /* Image.swift */; };
+		865B43E1283E1EA60005B484 /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43E0283E1EA60005B484 /* ProductRegistrationViewController.swift */; };
 		869BD31A282D04EF00284FAE /* MockURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD319282D04EF00284FAE /* MockURLSessionTest.swift */; };
 		869BD321282D053000284FAE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBC2282CAC4F00D1FAC0 /* MockURLSession.swift */; };
 		869BD337282D0DA100284FAE /* URLHealthcheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */; };
@@ -91,6 +92,7 @@
 		865B43D8283DFDD30005B484 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		865B43DA283DFE310005B484 /* ProductRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistration.swift; sourceTree = "<group>"; };
 		865B43DC283DFE540005B484 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		865B43E0283E1EA60005B484 /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationViewController.swift; sourceTree = "<group>"; };
 		869BD317282D04EF00284FAE /* MockURLSessionTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockURLSessionTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869BD319282D04EF00284FAE /* MockURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTest.swift; sourceTree = "<group>"; };
 		869BD334282D0DA100284FAE /* URLHealthcheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLHealthcheckerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 				3008F3D62834FB760034C902 /* GridCell.swift */,
 				86A637D82835E02C00830118 /* SegmentControl.swift */,
 				3008F3E628363EBC0034C902 /* LayoutType.swift */,
+				865B43E0283E1EA60005B484 /* ProductRegistrationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				3008F3E728363EBC0034C902 /* LayoutType.swift in Sources */,
 				3008F3ED2837A8F30034C902 /* UICollectionViewCell.swift in Sources */,
 				8610B2B4282A052600EB00AF /* Product.swift in Sources */,
+				865B43E1283E1EA60005B484 /* ProductRegistrationViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				865B43D9283DFDD30005B484 /* Data.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,

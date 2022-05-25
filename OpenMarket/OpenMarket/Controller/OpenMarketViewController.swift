@@ -76,8 +76,13 @@ final class OpenMarketViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
     }
     
-    @objc private func didTapAddButton() { }
-    
+    @objc private func didTapAddButton() {
+        let productRegistrationVC = UINavigationController(
+            rootViewController: ProductRegistrationViewController()
+        )
+        productRegistrationVC.modalPresentationStyle = .fullScreen
+        self.present(productRegistrationVC, animated: true)
+    }
 }
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
