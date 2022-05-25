@@ -59,7 +59,7 @@ final class ProductImageCell: UICollectionViewCell {
         productImageView.image = image
         removeButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
                 
-        if productImageView.image == UIImage(named: "plus") {
+        if productImageView.image == .plus {
             removeButton.isHidden = true
         }
     }

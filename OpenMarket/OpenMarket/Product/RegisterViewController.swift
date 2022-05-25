@@ -8,11 +8,10 @@
 import UIKit
 
 final class RegisterViewController: ProductViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        applySnapshot(images: [UIImage(named: "plus")!])
+        applySnapshot(images: [.plus])
         configurePickerController()
         registerNotification()
     }
@@ -32,7 +31,6 @@ final class RegisterViewController: ProductViewController {
     }
     
     @objc override func doneButtonDidTapped() {
-        
         guard let sendData = multipartFormData() else { return }
         
         let endPoint = EndPoint.createProduct(sendData: sendData)
@@ -54,14 +52,14 @@ final class RegisterViewController: ProductViewController {
     
     private func multipartFormData() -> Data? {
         guard let snapshot = snapshot else { return nil }
-        guard let uploadProduct = mainView?.allData() else { return nil }
+        guard let uploadProduct = mainView?.makeEncodableModel() else { return nil }
 
         let images = snapshot.itemIdentifiers[0..<snapshot.numberOfItems - 1]
         let imageDatas = images.compactMap { $0.jpegData(compressionQuality: 0.5) }
         
         var data = Data()
         let boundary = EndPoint.boundary
-        let fileName = "safari"
+        let fileName = "dummyName"
 
         let newLine = "\r\n"
         let boundaryPrefix = "--\(boundary)\r\n"
@@ -108,6 +106,8 @@ final class RegisterViewController: ProductViewController {
     }
 }
 
+// MARK: - Data
+
 private extension Data {
     mutating func appendString(_ string: String) {
         guard let data = string.data(using: .utf8) else { return }
@@ -133,5 +133,19 @@ extension RegisterViewController: UICollectionViewDelegate {
         } cameraAction: { [weak self] _ in
             self?.cameraButtonTapped()
         }
+    }
+    
+    private func albumButtonTapped() {
+        imagePickerController.sourceType = .photoLibrary
+        present(imagePickerController, animated: true)
+    }
+    
+    private func cameraButtonTapped() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            return
+        }
+        
+        imagePickerController.sourceType = .camera
+        present(imagePickerController, animated: true)
     }
 }

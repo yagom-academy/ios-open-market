@@ -1,5 +1,5 @@
 //
-//  EditView.swift
+//  ProdctView.swift
 //  OpenMarket
 //
 //  Created by dudu, safari on 2022/05/24.
@@ -7,8 +7,7 @@
 
 import UIKit
 
-class EditView: UIView {
-    
+class ProdctView: UIView {
     private lazy var baseStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [collectionView,
                                                        productNameTextField,
@@ -143,7 +142,7 @@ class EditView: UIView {
         }
     }
     
-    func allData() -> UploadProduct? {
+    func makeEncodableModel() -> UploadProduct? {
         let price = productCostTextField.text.flatMap { Double($0) }
         let discountedPrice = productDiscountCostTextField.text.flatMap { Double($0) }
         let stock = productStockTextField.text.flatMap { Int($0) }
@@ -155,15 +154,16 @@ class EditView: UIView {
                                  stock: stock,
                                  currency: currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD,
                                  secret: "password")
-
     }
 }
+
+// MARK: - UITextField
 
 private extension UITextField {
     func makeToolBar() {
         let bar = UIToolbar()
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let hiddenButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(keyboardHidden))
+        let hiddenButton = UIBarButtonItem(image: .downKeyboard, style: .plain, target: self, action: #selector(keyboardHidden))
         bar.items = [space, hiddenButton]
         bar.sizeToFit()
         
@@ -177,11 +177,13 @@ private extension UITextField {
     }
 }
 
+// MARK: - UITextView
+
 private extension UITextView {
     func makeToolBar() {
         let bar = UIToolbar()
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let hiddenButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(keyboardHidden))
+        let hiddenButton = UIBarButtonItem(image: .downKeyboard, style: .plain, target: self, action: #selector(keyboardHidden))
         bar.items = [space, hiddenButton]
         bar.sizeToFit()
         
@@ -194,6 +196,8 @@ private extension UITextView {
         }
     }
 }
+
+// MARK: - CollectionView Layout
 
 private extension UICollectionViewLayout {
     static let horizontalGrid: UICollectionViewCompositionalLayout = {

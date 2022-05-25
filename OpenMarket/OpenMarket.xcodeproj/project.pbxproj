@@ -22,7 +22,7 @@
 		94A8E23C28353D74008BD5EC /* UIActivityIndicator+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */; };
 		94C11BE72832483400EB3049 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BE62832483400EB3049 /* EndPoint.swift */; };
 		94C11BEB283281E900EB3049 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BEA283281E900EB3049 /* CacheManager.swift */; };
-		94E2C091283C765E001E633B /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C090283C765E001E633B /* EditView.swift */; };
+		94E2C091283C765E001E633B /* ProdctView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C090283C765E001E633B /* ProdctView.swift */; };
 		94E2C093283C7D9C001E633B /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C092283C7D9C001E633B /* ProductImageCell.swift */; };
 		94E2C095283D1A2D001E633B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C094283D1A2D001E633B /* RegisterViewController.swift */; };
 		94E2C097283E712C001E633B /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C096283E712C001E633B /* ProductViewController.swift */; };
@@ -36,6 +36,7 @@
 		9BB17ED3282CC022009BE432 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB17ED2282CC022009BE432 /* MainView.swift */; };
 		9BB1E034283E022D00B4586B /* UploadProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB1E033283E022D00B4586B /* UploadProduct.swift */; };
 		9BB1E036283E855600B4586B /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB1E035283E855600B4586B /* Section.swift */; };
+		9BB1E038283E8DE600B4586B /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB1E037283E8DE600B4586B /* UIImage+extension.swift */; };
 		9BC589CF282D4D0300721A0F /* UILayoutPriority+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC589CE282D4D0300721A0F /* UILayoutPriority+extension.swift */; };
 		9BF53E512829FE6000E1A936 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF53E502829FE6000E1A936 /* NetworkManager.swift */; };
 		9BF817542832A4F30016A085 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF817532832A4F30016A085 /* ProductCell.swift */; };
@@ -73,7 +74,7 @@
 		94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicator+extension.swift"; sourceTree = "<group>"; };
 		94C11BE62832483400EB3049 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		94C11BEA283281E900EB3049 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
-		94E2C090283C765E001E633B /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		94E2C090283C765E001E633B /* ProdctView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProdctView.swift; sourceTree = "<group>"; };
 		94E2C092283C7D9C001E633B /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		94E2C094283D1A2D001E633B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		94E2C096283E712C001E633B /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 		9BB17ED2282CC022009BE432 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9BB1E033283E022D00B4586B /* UploadProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProduct.swift; sourceTree = "<group>"; };
 		9BB1E035283E855600B4586B /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		9BB1E037283E8DE600B4586B /* UIImage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
 		9BC589CE282D4D0300721A0F /* UILayoutPriority+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+extension.swift"; sourceTree = "<group>"; };
 		9BF53E502829FE6000E1A936 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		9BF817532832A4F30016A085 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
@@ -166,20 +168,21 @@
 				94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */,
 				941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */,
 				941DA8F1283785110021CFCB /* URLSession+extension.swift */,
+				9BB1E037283E8DE600B4586B /* UIImage+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		9B0EE41D283C732400888A3E /* Edit */ = {
+		9B0EE41D283C732400888A3E /* Product */ = {
 			isa = PBXGroup;
 			children = (
 				94E2C096283E712C001E633B /* ProductViewController.swift */,
 				94E2C094283D1A2D001E633B /* RegisterViewController.swift */,
 				9B0EE41E283C73F100888A3E /* EditViewController.swift */,
-				94E2C090283C765E001E633B /* EditView.swift */,
+				94E2C090283C765E001E633B /* ProdctView.swift */,
 				94E2C092283C7D9C001E633B /* ProductImageCell.swift */,
 			);
-			path = Edit;
+			path = Product;
 			sourceTree = "<group>";
 		};
 		9B2232F328375C03006E186C /*  Alert */ = {
@@ -229,7 +232,7 @@
 				9B2232F328375C03006E186C /*  Alert */,
 				94881795282D362200217C2A /* Extension */,
 				9BB17ED1282CBFCE009BE432 /* Main */,
-				9B0EE41D283C732400888A3E /* Edit */,
+				9B0EE41D283C732400888A3E /* Product */,
 				942CE26228294DF8006C6648 /* Network */,
 				942CE24D282930D9006C6648 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -377,7 +380,8 @@
 				9B2232F928375E85006E186C /* AlertBuilder.swift in Sources */,
 				94881794282CC60400217C2A /* ProductGridCell.swift in Sources */,
 				941DA8EE283741FE0021CFCB /* UICollectionViewCell+extension.swift in Sources */,
-				94E2C091283C765E001E633B /* EditView.swift in Sources */,
+				94E2C091283C765E001E633B /* ProdctView.swift in Sources */,
+				9BB1E038283E8DE600B4586B /* UIImage+extension.swift in Sources */,
 				9BF53E512829FE6000E1A936 /* NetworkManager.swift in Sources */,
 				94C11BE72832483400EB3049 /* EndPoint.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,

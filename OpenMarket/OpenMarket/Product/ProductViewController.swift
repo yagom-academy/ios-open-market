@@ -7,10 +7,11 @@
 
 import UIKit
 
-
 protocol ProductViewControllerDelegate: AnyObject {
     func refreshData()
 }
+
+// MARK: - Abstract Class
 
 class ProductViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, UIImage>
@@ -19,20 +20,22 @@ class ProductViewController: UIViewController {
     let networkManager = NetworkManager<Product>()
     let imagePickerController = UIImagePickerController()
     
-    var mainView: EditView?
+    var mainView: ProdctView?
     var dataSource: DataSource?
     var snapshot: Snapshot?
     weak var delegate: ProductViewControllerDelegate?
     
     override func loadView() {
         super.loadView()
-        mainView = EditView(frame: view.bounds)
+        mainView = ProdctView(frame: view.bounds)
         view = mainView
     }
     
     deinit {
         removeNotification()
     }
+    
+    // MARK: - Configure Method
     
     func configureView() {
         configureCollectionView()
@@ -66,14 +69,11 @@ class ProductViewController: UIViewController {
         // empty
     }
     
+    // MARK: - Notification
+    
     func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHidden), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    func removeNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
@@ -89,39 +89,17 @@ class ProductViewController: UIViewController {
         mainView?.productDescriptionTextView.contentInset.bottom = 0
     }
     
-    func albumButtonTapped() {
-        imagePickerController.sourceType = .photoLibrary
-        present(imagePickerController, animated: true)
+    func removeNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func cameraButtonTapped() {
-        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            return
-        }
-        
-        imagePickerController.sourceType = .camera
-        present(imagePickerController, animated: true)
-    }
+    // MARK: - CollectionView DataSource
     
     func makeDataSource() -> DataSource? {
         return nil
     }
-}
-
-// MARK: - ImageViewController Delegate
-
-extension ProductViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.editedImage] as? UIImage else { return }
-        
-        insertSnapshot(images: [image])
-        picker.dismiss(animated: true)
-    }
-}
-
-// MARK: - CollectionView DataSource
-
-extension ProductViewController {
+    
     func makeSnapsnot() -> Snapshot? {
         var snapshot = dataSource?.snapshot()
         snapshot?.deleteAllItems()
@@ -153,5 +131,16 @@ extension ProductViewController {
             
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
+    }
+}
+
+// MARK: - ImageViewController Delegate
+
+extension ProductViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        insertSnapshot(images: [image])
+        picker.dismiss(animated: true)
     }
 }
