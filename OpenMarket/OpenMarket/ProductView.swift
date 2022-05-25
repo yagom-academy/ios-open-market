@@ -8,8 +8,7 @@
 import UIKit
 
 class ProductView: UIView {
-    let spaceView: UIView = UIView()
-    
+
     lazy var mainStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
@@ -27,6 +26,7 @@ class ProductView: UIView {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
         return scrollView
     }()
     
@@ -85,7 +85,9 @@ class ProductView: UIView {
         textView.layer.borderWidth = 0.5
         textView.layer.borderColor = UIColor.systemGray.cgColor
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.textContainerInset = UIEdgeInsets(top: 7, left: 5, bottom: 5, right: 5)
+        //textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.textContainerInset = UIEdgeInsets(top: 7, left: 5, bottom: 15, right: 5)
         return textView
     }()
     
@@ -118,7 +120,6 @@ class ProductView: UIView {
         mainStackView.addArrangedSubview(stockField)
         mainStackView.addArrangedSubview(descriptionView)
         mainScrollView.addSubview(mainStackView)
-        mainScrollView.addSubview(spaceView)
         self.addSubview(mainScrollView)
         
         mainScrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -127,8 +128,8 @@ class ProductView: UIView {
         mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true
         mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true
-        mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true
-        mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true
+        mainStackView.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor).isActive = true
+        mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.bottomAnchor).isActive = true
         priceStackView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.20).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 15).isActive = true
@@ -142,6 +143,8 @@ class ProductView: UIView {
         descriptionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         descriptionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         descriptionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.466).isActive = true
+        //descriptionView.heightAnchor.constraint(greaterThanOrEqualTo: self.heightAnchor, multiplier: 0.466).isActive = true
+        //descriptionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         priceStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         priceStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
