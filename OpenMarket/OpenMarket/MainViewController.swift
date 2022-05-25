@@ -84,18 +84,18 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
+        guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
             return
         }
-        vc.modalPresentationStyle = .fullScreen
-        vc.delegate = self
+        modifyViewController.modalPresentationStyle = .fullScreen
+        modifyViewController.delegate = self
         let id = products[indexPath.row].id
         RequestAssistant.shared.requestDetailAPI(productId: id) { result in
             switch result {
             case .success(let data):
-                vc.product = data
+                modifyViewController.product = data
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    self.navigationController?.pushViewController(modifyViewController, animated: true)
                 }
             case .failure(_):
                 DispatchQueue.main.async {
@@ -114,7 +114,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 // MARK: - Private Method
 private extension MainViewController {
     private func setUpNavigationItems() {
-        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(linkRVC))
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showUpRegisterView))
         self.navigationItem.titleView = arrangeModeChanger
         self.navigationItem.rightBarButtonItem = plusButton
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
@@ -122,7 +122,7 @@ private extension MainViewController {
     
     private func requestProductListData() {
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
-            //Thread.sleep(forTimeInterval: 5)
+            Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let data):
                 self.products = data.pages
@@ -162,13 +162,13 @@ private extension MainViewController {
         arrangeModeChanger.sizeToFit()
     }
     
-    @objc private func linkRVC(_ sender: UIBarButtonItem) {
-        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else {
+    @objc private func showUpRegisterView(_ sender: UIBarButtonItem) {
+        guard let registerViewController = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else {
             return
         }
-        vc.delegate = self
-        vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
+        registerViewController.delegate = self
+        registerViewController.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(registerViewController, animated: true)
     }
     
     @objc private func changeArrangement(_ sender: UISegmentedControl) {
