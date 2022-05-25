@@ -73,12 +73,13 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
                                       UINavigationControllerDelegate {
   func presentAlbum(){
     picker.sourceType = .photoLibrary
+    picker.allowsEditing = true
     present(picker, animated: false, completion: nil)
   }
   
   func imagePickerController(_ picker: UIImagePickerController,
                              didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+    if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
       registrationView.imageStackView.addArrangedSubview(setUpImage(image))
       print(registrationView.imageStackView)
     }
