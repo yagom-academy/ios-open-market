@@ -15,6 +15,8 @@ final class RegisterViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, UIImage>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>
     
+    private let networkManager = NetworkManager<Product>()
+    
     private var mainView: EditView?
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
@@ -65,7 +67,21 @@ final class RegisterViewController: UIViewController {
     }
     
     @objc private func doneButtonDidTapped() {
-        // empty
+        
+        let endPoint = EndPoint.createProduct(sendData: mainView!.multipartFormData())
+        
+        networkManager.request(endPoint: endPoint) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true)
+                }
+            case .failure(_):
+                AlertDirector(viewController: self).createErrorAlert(message: "데이터를 등록하지 못했습니다.")
+            }
+        }
     }
     
     private func registerNotification() {

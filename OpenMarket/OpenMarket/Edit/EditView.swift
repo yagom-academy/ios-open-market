@@ -155,6 +155,52 @@ class EditView: UIView {
         
         return data
     }
+    
+    func multipartFormData() -> Data {
+        let allData = allData()
+        var data = Data()
+        let boundary = EndPoint.boundary
+        let fileName = "safari"
+        let imageData = UIImage(systemName: "swift")!.jpegData(compressionQuality: 1.0)!
+        let newLine = "\r\n"
+        let boundaryPrefix = "--\(boundary)\r\n"
+        let boundarySuffix = "\r\n--\(boundary)--\r\n"
+        
+        data.appendString(boundaryPrefix)
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
+        data.appendString("""
+                {
+                \"name\": \"safari올림\",
+                \"amount\": 1000,
+                \"currency\": \"KRW\",
+                \"secret\": \"password\",
+                \"descriptions\": \"desc\"
+                }
+                """)
+        data.appendString(newLine)
+        
+        data.appendString(boundaryPrefix)
+        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n")
+        data.appendString("Content-Type: image/jpg\r\n\r\n")
+        data.append(imageData)
+        data.appendString(newLine)
+        
+        data.appendString(boundaryPrefix)
+        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n")
+        data.appendString("Content-Type: image/jpg\r\n\r\n")
+        data.append(imageData)
+        data.appendString(newLine)
+        
+        data.appendString(boundarySuffix)
+        return data
+    }
+}
+
+private extension Data {
+    mutating func appendString(_ string: String) {
+        guard let data = string.data(using: .utf8) else { return }
+        append(data)
+    }
 }
 
 private extension UITextField {

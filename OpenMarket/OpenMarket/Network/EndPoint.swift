@@ -19,6 +19,9 @@ enum EndPoint {
     case requestList(page: Int, itemsPerPage: Int)
     case requestProduct(id: Int)
     case editProduct(id: Int, sendData: [String: String])
+    case createProduct(sendData: Data)
+    
+    static let boundary = UUID().uuidString
 }
 
 extension EndPoint {
@@ -34,8 +37,10 @@ extension EndPoint {
             return URL(string: Self.host + "api/products?items_per_page=\(itemsPerPage)&page_no=\(page)")
         case .requestProduct(let id):
             return URL(string: Self.host + "api/products/\(id)")
-        case .editProduct(id: let id, _):
+        case .editProduct(let id, _):
             return URL(string: Self.host + "api/products/\(id)")
+        case .createProduct(_):
+            return URL(string: Self.host + "api/products")
         }
     }
     
@@ -49,6 +54,8 @@ extension EndPoint {
             return .get
         case .editProduct(_, _):
             return .patch
+        case .createProduct(_):
+            return .post
         }
     }
     
@@ -75,6 +82,11 @@ extension EndPoint {
             
             let jsonData = try! JSONSerialization.data(withJSONObject: sendData, options: .prettyPrinted)
             request.httpBody = jsonData
+        case .createProduct(let sendData):
+            
+            request.addValue("multipart/form-data; boundary=\(Self.boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+            request.httpBody = sendData
         }
         
         return request
