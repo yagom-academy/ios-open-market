@@ -58,6 +58,18 @@ extension RegisterProductViewController {
     }
     
     @objc private func touchUpDoneButton() {
+        HTTPManager().postProductData(images: images, product: product) { data in
+            switch data {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(Product.self, from: data) else {
+                    return
+                }
+                return
+            case .failure(let error):
+                return
+            }
+        }
+        
         dismiss(animated: true)
     }
     

@@ -114,7 +114,7 @@ struct HTTPManager {
     }
     
     @discardableResult
-    func postProductData(images: [UIImage], product: [String : String] ,completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
+    func postProductData(images: [UIImage], product: [String : Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
         let requestURL = TargetURL.productPost.requestURL
         guard let url = URL(string: requestURL) else {
             completionHandler(.failure(.invalidURL))
@@ -122,33 +122,16 @@ struct HTTPManager {
         }
         
         var request = URLRequest(url: url ,cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
-        
         request.httpMethod = "POST"
         
         let boundary = UUID().uuidString
         
         request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-    
-        var data = Data()
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: product) else {
+        
+        guard let data = createMultipartBody(images: images, product: product, boundary: boundary) else {
             return nil
         }
-        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
-        data.append(jsonData)
-        
-        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        for (index, image) in images.enumerated() {
-            let fileName = "image" + "\(index)"
-            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-                 return nil
-            }
-            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n".data(using: .utf8)!)
-            data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
-            data.append(imageData)
-        }
-        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         request.httpBody = data
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -175,5 +158,32 @@ struct HTTPManager {
         }
         task.resume()
         return task
+    }
+    
+    func createMultipartBody(images: [UIImage], product: [String : Any], boundary: String) -> Data? {
+        var data = Data()
+        var product = product
+        product.updateValue("password", forKey: "secret")
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: product) else {
+            return nil
+        }
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
+        data.append(jsonData)
+        
+        for (index, image) in images.enumerated() {
+            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+            let fileName = "image" + "\(index)"
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                 return nil
+            }
+            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n".data(using: .utf8)!)
+            data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
+            data.append(imageData)
+        }
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        return data
     }
 }
