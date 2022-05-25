@@ -6,7 +6,7 @@
 
 import UIKit
 
-private enum Section {
+enum Section {
     case main
 }
 
