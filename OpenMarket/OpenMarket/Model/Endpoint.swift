@@ -10,6 +10,7 @@ import Foundation
 enum Endpoint {
   case healthChecker
   case productList(pageNumber: Int, itemsPerPage: Int)
+  case registration
 }
 
 extension Endpoint {
@@ -19,6 +20,8 @@ extension Endpoint {
       return .makeUrl(with: "healthChecker")
     case .productList(let page, let itemsPerPage):
       return .makeUrl(with: "api/products?page_no=\(page)&items_perpage=\(itemsPerPage)")
+    case .registration:
+      return .makeUrl(with: "api/products")
     }
   }
 }
