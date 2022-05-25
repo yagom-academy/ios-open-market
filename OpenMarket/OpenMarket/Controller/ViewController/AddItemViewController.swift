@@ -94,9 +94,10 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{ imageArray.append(image)
-        }
+        let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+        guard let image = image?.resizeImage() else { return }
         
+        imageArray.append(image)
         dismiss(animated: true)
     }
 }
@@ -134,6 +135,3 @@ extension AddItemViewController {
         itemImageCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
 }
-
-
-
