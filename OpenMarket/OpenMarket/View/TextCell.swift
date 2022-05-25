@@ -103,7 +103,7 @@ class TextCell: UICollectionViewCell {
     }
     
     private func layout() {
-        let inset = CGFloat(10)
+        let inset = CGFloat(5)
         NSLayoutConstraint.activate([
             baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
             baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
