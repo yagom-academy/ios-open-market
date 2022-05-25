@@ -14,10 +14,10 @@ final class AlertDirector {
         self.viewController = viewController
     }
     
-    func createErrorAlert() {
+    func createErrorAlert(message: String) {
         AlertBuilder(viewController: viewController)
             .setTitle("에러 발생")
-            .setMessage("데이터를 불러오지 못했습니다.")
+            .setMessage(message)
             .setOkButton()
             .show()
     }

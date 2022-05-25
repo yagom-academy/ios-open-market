@@ -104,7 +104,7 @@ extension MainViewController {
 
 extension MainViewController {
     private func requestData(pageNumber: Int) {
-        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount, httpMethod: .get)
+        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount)
         
         networkManager.request(endPoint: endPoint) { [weak self] result in
             guard let self = self else { return }
@@ -120,7 +120,7 @@ extension MainViewController {
                     self.mainView?.collectionView.refreshControl?.stop()
                 }
             case .failure(_):
-                AlertDirector(viewController: self).createErrorAlert()
+                AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
             }
         }
     }

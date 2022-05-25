@@ -21,7 +21,6 @@
 		94A8E23A28353D68008BD5EC /* UIRefreshControl+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A8E23928353D68008BD5EC /* UIRefreshControl+extension.swift */; };
 		94A8E23C28353D74008BD5EC /* UIActivityIndicator+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */; };
 		94C11BE72832483400EB3049 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BE62832483400EB3049 /* EndPoint.swift */; };
-		94C11BE92832689200EB3049 /* Encodable+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BE82832689200EB3049 /* Encodable+extension.swift */; };
 		94C11BEB283281E900EB3049 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C11BEA283281E900EB3049 /* CacheManager.swift */; };
 		94E2C091283C765E001E633B /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C090283C765E001E633B /* EditView.swift */; };
 		94E2C093283C7D9C001E633B /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2C092283C7D9C001E633B /* ProductImageCell.swift */; };
@@ -70,7 +69,6 @@
 		94A8E23928353D68008BD5EC /* UIRefreshControl+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+extension.swift"; sourceTree = "<group>"; };
 		94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicator+extension.swift"; sourceTree = "<group>"; };
 		94C11BE62832483400EB3049 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
-		94C11BE82832689200EB3049 /* Encodable+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+extension.swift"; sourceTree = "<group>"; };
 		94C11BEA283281E900EB3049 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		94E2C090283C765E001E633B /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		94E2C092283C7D9C001E633B /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
@@ -156,7 +154,6 @@
 				9BC589CE282D4D0300721A0F /* UILayoutPriority+extension.swift */,
 				9469FAD7282ECA9A0053037F /* UILabel+extension.swift */,
 				9469FAD9282ECAA40053037F /* Double+extension.swift */,
-				94C11BE82832689200EB3049 /* Encodable+extension.swift */,
 				94A8E23928353D68008BD5EC /* UIRefreshControl+extension.swift */,
 				94A8E23B28353D74008BD5EC /* UIActivityIndicator+extension.swift */,
 				941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */,
@@ -358,7 +355,6 @@
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				942CE24F282930ED006C6648 /* ProductList.swift in Sources */,
 				94A8E23C28353D74008BD5EC /* UIActivityIndicator+extension.swift in Sources */,
-				94C11BE92832689200EB3049 /* Encodable+extension.swift in Sources */,
 				94A8E23A28353D68008BD5EC /* UIRefreshControl+extension.swift in Sources */,
 				9BAC5B21282936E0000269EE /* Product.swift in Sources */,
 				9469FADA282ECAA40053037F /* Double+extension.swift in Sources */,

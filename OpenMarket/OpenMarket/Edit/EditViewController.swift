@@ -55,7 +55,7 @@ final class EditViewController: UIViewController {
     private func requestData() {
         guard let id = product.id else { return }
         
-        let endPoint = EndPoint.requestProduct(id: id, httpMethod: .get)
+        let endPoint = EndPoint.requestProduct(id: id)
         
         networkManager.request(endPoint: endPoint) { [weak self] result in
             guard let self = self else { return }
@@ -68,7 +68,7 @@ final class EditViewController: UIViewController {
                     self.requestImage(urlString: url)
                 })
             case .failure(_):
-                AlertDirector(viewController: self).createErrorAlert()
+                AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
             }
         }
     }
@@ -110,7 +110,23 @@ final class EditViewController: UIViewController {
     }
     
     @objc private func doneButtonDidTapped() {
-        // empty
+        
+        guard let data = mainView?.allData() else { return }
+        
+        let endPoint = EndPoint.editProduct(id: product.id!, sendData: data)
+        
+        networkManager.request(endPoint: endPoint) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            case .failure(_):
+                AlertDirector(viewController: self).createErrorAlert(message: "데이터를 보내지 못했습니다.")
+            }
+        }
     }
     
     private func registerNotification() {

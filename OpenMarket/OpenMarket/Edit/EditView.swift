@@ -142,6 +142,19 @@ class EditView: UIView {
             }
         }
     }
+    
+    func allData() -> [String: String] {
+        var data = [String: String]()
+        data["name"] = productNameTextField.text
+        data["descriptions"] = productDescriptionTextView.text
+        data["price"] = productCostTextField.text
+        data["currency"] = currencySegmentedControl.selectedSegmentIndex == 0 ? "KRW" : "USD"
+        data["discounted_price"] = productDiscountCostTextField.text
+        data["stock"] = productStockTextField.text
+        data["secret"] = "password"
+        
+        return data
+    }
 }
 
 private extension UITextField {

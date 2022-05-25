@@ -23,7 +23,7 @@ struct NetworkManager<T: Codable> {
     }
     
     func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
-        guard let urlRequst = EndPoint.serverState(httpMethod: .get).urlRequst else {
+        guard let urlRequst = EndPoint.serverState.urlRequst else {
             completion(.failure(.urlError))
             return
         }

@@ -10,14 +10,15 @@ import Foundation
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
-    case put = "PUT"
+    case patch = "PATCH"
     case delete = "DELETE"
 }
 
 enum EndPoint {
-    case serverState(httpMethod: HTTPMethod, sendData: Encodable? = nil)
-    case requestList(page: Int, itemsPerPage: Int, httpMethod: HTTPMethod, sendData: Encodable? = nil)
-    case requestProduct(id: Int, httpMethod: HTTPMethod, sendData: Encodable? = nil)
+    case serverState
+    case requestList(page: Int, itemsPerPage: Int)
+    case requestProduct(id: Int)
+    case editProduct(id: Int, sendData: [String: String])
 }
 
 extension EndPoint {
@@ -29,31 +30,53 @@ extension EndPoint {
         switch self {
         case .serverState:
             return URL(string: Self.host + "healthChecker")
-        case .requestList(let page, let itemsPerPage, _, _):
+        case .requestList(let page, let itemsPerPage):
             return URL(string: Self.host + "api/products?items_per_page=\(itemsPerPage)&page_no=\(page)")
-        case .requestProduct(let id, _, _):
+        case .requestProduct(let id):
+            return URL(string: Self.host + "api/products/\(id)")
+        case .editProduct(id: let id, _):
             return URL(string: Self.host + "api/products/\(id)")
         }
     }
     
-    var urlRequst: URLRequest? {
+    private var httpMethod: HTTPMethod {
         switch self {
-        case .serverState(let httpMethod, let sendData):
-            return makeUrlRequest(httpMethod: httpMethod, sendData: sendData)
-        case .requestList(_, _, let httpMethod, let sendData):
-            return makeUrlRequest(httpMethod: httpMethod, sendData: sendData)
-        case .requestProduct(_, let httpMethod, let sendData):
-            return makeUrlRequest(httpMethod: httpMethod, sendData: sendData)
+        case .serverState:
+            return .get
+        case .requestList(_, _):
+            return .get
+        case .requestProduct(_):
+            return .get
+        case .editProduct(_, _):
+            return .patch
         }
     }
     
-    private func makeUrlRequest(httpMethod: HTTPMethod, sendData: Encodable? = nil) -> URLRequest? {
+    var urlRequst: URLRequest? {
+        return makeUrlRequest()
+    }
+    
+    private func makeUrlRequest() -> URLRequest? {
         guard let url = url else { return nil }
         
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
-        request.httpBody = sendData?.encodeData()
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        switch self {
+        case .serverState:
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        case .requestList(_, _):
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        case .requestProduct(_):
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        case .editProduct(_, sendData: let sendData):
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+            
+            let jsonData = try! JSONSerialization.data(withJSONObject: sendData, options: .prettyPrinted)
+            request.httpBody = jsonData
+        }
+        
         return request
     }
 }

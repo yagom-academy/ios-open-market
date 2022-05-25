@@ -105,7 +105,8 @@ final class AlertBuilder: AlertBuilderable {
                 alert.addAction(action)
             }
         }
-        
-        targetViewController.present(alert, animated: true)
+        DispatchQueue.main.async {
+            self.targetViewController.present(alert, animated: true)
+        }
     }
 }
