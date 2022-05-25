@@ -91,7 +91,6 @@ final class EditViewController: UIViewController {
     
     private func configureCollectionView() {
         mainView?.collectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
-        mainView?.collectionView.delegate = self
         dataSource = makeDataSource()
         snapshot = makeSnapsnot()
     }
@@ -180,22 +179,6 @@ extension EditViewController: UIImagePickerControllerDelegate & UINavigationCont
         
         insertSnapshot(images: [image])
         picker.dismiss(animated: true)
-    }
-}
-
-// MARK: - CollectionView Delegate
-
-extension EditViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard snapshot?.numberOfItems == indexPath.item + 1 else { return }
-        
-        view.endEditing(true)
-        
-        AlertDirector(viewController: self).createImageSelectActionSheet { [weak self] _ in
-            self?.albumButtonTapped()
-        } cameraAction: { [weak self] _ in
-            self?.cameraButtonTapped()
-        }
     }
 }
 
