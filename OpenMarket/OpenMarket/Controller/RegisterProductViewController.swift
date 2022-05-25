@@ -77,7 +77,7 @@ extension RegisterProductViewController {
     }
     
     private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 80, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout ?? collectionViewLayout)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 80, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout)
         view.addSubview(collectionView ?? UICollectionView())
         layoutCollectionView()
     }
