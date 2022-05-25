@@ -173,16 +173,17 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.productView.transform = CGAffineTransform(translationX: 0, y: -keyboardSize.height)
-            })
+            self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            
+            if self.productView.descriptionView.isFirstResponder {
+                productView.mainScrollView.scrollRectToVisible(productView.descriptionView.frame, animated: true)
+            }
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        self.productView.transform = .identity
+        self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {

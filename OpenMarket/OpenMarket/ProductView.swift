@@ -85,7 +85,6 @@ class ProductView: UIView {
         textView.layer.borderWidth = 0.5
         textView.layer.borderColor = UIColor.systemGray.cgColor
         textView.font = .preferredFont(forTextStyle: .body)
-        //textView.isScrollEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 7, left: 5, bottom: 15, right: 5)
         return textView
@@ -143,8 +142,8 @@ class ProductView: UIView {
         descriptionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         descriptionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
         descriptionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.466).isActive = true
-        //descriptionView.heightAnchor.constraint(greaterThanOrEqualTo: self.heightAnchor, multiplier: 0.466).isActive = true
-        //descriptionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        // descriptionView.heightAnchor.constraint(greaterThanOrEqualTo: self.heightAnchor, multiplier: 0.466).isActive = true
+        // descriptionView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         priceStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         priceStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true

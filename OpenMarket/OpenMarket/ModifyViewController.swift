@@ -27,7 +27,6 @@ class ModifyViewController: UIViewController {
         
         productView.collectionView.delegate = self
         productView.collectionView.dataSource = self
-        productView.descriptionView.delegate = self
         
         productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
         fillData()
@@ -98,7 +97,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
             data.append("\"secret\": \"password\"")
             data.insert("{", at: data.startIndex)
             data.append("}")
-                        
+            
             RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data, identifier: "cd706a3e-66db-11ec-9626-796401f2341a") { [self]_ in
                 delegate?.refreshProductList()
             }
@@ -138,15 +137,16 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        print("# KeyBoard Show")
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            
+            if self.productView.descriptionView.isFirstResponder {
+                productView.mainScrollView.scrollRectToVisible(productView.descriptionView.frame, animated: true)
+            }
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        print("# KeyBoard Hide")
-        self.productView.transform = .identity
         self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
     }
     
@@ -164,35 +164,5 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         productView.endEditing(true)
-    }
-}
-
-extension ModifyViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-//        let fixedWidth = textView.frame.size.width
-//        textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-//        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-//        var newFrame = textView.frame
-//        newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
-//        textView.frame = newFrame
-//        print("# size: \(newFrame.size)")
-//
-//        let defaultHeight = self.productView.descriptionView.frame.height
-//
-//        if newFrame.size.height > defaultHeight {
-//            productView.mainScrollView.setContentOffset(CGPoint(x: 0, y: newFrame.size.height), animated: true)
-//        }
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        print("# TextView Height 1: \(self.productView.descriptionView.frame.height)")
-        print("# Content Height 2: \(self.productView.descriptionView.contentSize.height)")
-        productView.mainScrollView.setContentOffset(CGPoint(x: 0, y: self.productView.descriptionView.frame.height / 2), animated: true)
-        
-        productView.descriptionView.setContentOffset(CGPoint(x: 0, y: self.productView.descriptionView.contentSize.height / 2), animated: true)
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        print("# end")
     }
 }
