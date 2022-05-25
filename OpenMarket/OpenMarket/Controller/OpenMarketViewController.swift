@@ -25,6 +25,7 @@ final class OpenMarketViewController: UIViewController {
         fetchData(from: .productList(page: 1, itemsPerPage: 110))
         setupCollectionView()
         setupSegmentControl()
+        setupAddButton()
     }
     
     private func fetchData(from: Endpoint) {
@@ -66,6 +67,17 @@ final class OpenMarketViewController: UIViewController {
             self.collectionView?.reloadData()
         }
     }
+    
+    private func setupAddButton() {
+        let addButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTapAddButton))
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc private func didTapAddButton() { }
+    
 }
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
