@@ -94,8 +94,11 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
   func imagePickerController(_ picker: UIImagePickerController,
                              didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
     if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+      guard let resizePickerImage = resizeImage(image: image, newWidth: 300) else {
+        return
+      }
       registrationView.imageStackView.addArrangedSubview(setUpImage(image))
-      convertToImageFile(image)
+      convertToImageFile(resizePickerImage)
     }
     dismiss(animated: true, completion: nil)
   }
@@ -116,6 +119,16 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
     
     return imageView
+  }
+  
+  func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+    let scale = newWidth / image.size.width
+    let newHeight = image.size.height * scale
+    UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+    image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return newImage
   }
 }
 
