@@ -35,18 +35,21 @@ final class RegisterViewModel {
         }
     }
     
-    func appendImages() {
-        guard let data1 = UIImage(systemName: "swift")?.pngData() else { return }
-        guard let data2 = UIImage(systemName: "swift")?.pngData() else { return }
-        guard let data3 = UIImage(systemName: "swift")?.pngData() else { return }
-        
-        images.append(ImageInfo(fileName: "test1", data: data1, type: "png"))
-        images.append(ImageInfo(fileName: "test2", data: data2, type: "png"))
-        images.append(ImageInfo(fileName: "test3", data: data3, type: "png"))
-        images.append(ImageInfo(fileName: "test4", data: data3, type: "png"))
-        images.append(ImageInfo(fileName: "test5", data: data3, type: "png"))
+    func setUpDefaultImage() {
+        guard let plus = UIImage(named: "plus")?.pngData() else { return }
+        images.append(ImageInfo(fileName: "plusButton", data: plus, type: "png"))
+        applySnapshot()
+    }
+    
+    func insert(image: UIImage) {
+        guard let data = image.pngData() else { return }
+        images.insert(ImageInfo(fileName: generateUUID(), data: data, type: "png"), at: 0)
         
         applySnapshot()
+    }
+    
+    private func generateUUID() -> String {
+        return UUID().uuidString
     }
     
     private func applySnapshot() {

@@ -130,16 +130,10 @@ final class EditView: UIView {
     private let horizontalLayout: UICollectionViewCompositionalLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1.0), heightDimension: .fractionalHeight(1.0))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        
-        let footerSize = NSCollectionLayoutSize(widthDimension: .absolute(140),
-                                                     heightDimension: .fractionalHeight(1.0))
-        let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: footerSize,
-            elementKind: "section-footer-element-kind", alignment: .trailing)
-        section.boundarySupplementaryItems = [sectionFooter]
         
         section.orthogonalScrollingBehavior = .continuous
         let layout = UICollectionViewCompositionalLayout(section: section)
