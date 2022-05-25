@@ -7,7 +7,7 @@
 
 import UIKit
 protocol CellDelegate: AnyObject {
-    func buttonTaped()
+    func addButtonTaped()
 }
 
 final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
@@ -35,6 +35,7 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "plus")
         return imageView
     }()
     
@@ -45,7 +46,7 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
     }()
     
     @objc private func didTapAddButton() {
-        delegate?.buttonTaped()
+        delegate?.addButtonTaped()
     }
     
     private func addSubviews() {
@@ -64,7 +65,7 @@ final class ProductsHorizontalCell: UICollectionViewCell, BaseCell {
             addButton.topAnchor.constraint(equalTo: productImageView.topAnchor),
             addButton.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor),
             addButton.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor),
-            addButton.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor)
+            addButton.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor),
         ])
     }
     

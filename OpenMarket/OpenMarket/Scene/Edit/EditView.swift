@@ -39,7 +39,7 @@ final class EditView: UIView {
         return navigationBarItem
     }()
 
-    private let topScrollView: UIScrollView = {
+    let topScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -67,6 +67,7 @@ final class EditView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: horizontalLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .systemBackground
         return collectionView
     }()
     
@@ -76,6 +77,7 @@ final class EditView: UIView {
         textField.borderStyle = .roundedRect
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
+        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return textField
     }()
     
@@ -93,6 +95,7 @@ final class EditView: UIView {
         textField.borderStyle = .roundedRect
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
+        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return textField
     }()
     
@@ -108,6 +111,7 @@ final class EditView: UIView {
         textField.borderStyle = .roundedRect
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
+        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return textField
     }()
     
@@ -117,13 +121,15 @@ final class EditView: UIView {
         textField.borderStyle = .roundedRect
         textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
         textField.adjustsFontForContentSizeCategory = true
+        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return textField
     }()
     
-    private let productDescriptionTextView: UITextView = {
+    let productDescriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        textView.isScrollEnabled = false
         return textView
     }()
     

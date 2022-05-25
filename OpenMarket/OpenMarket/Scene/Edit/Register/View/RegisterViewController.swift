@@ -20,7 +20,7 @@ final class RegisterViewController: UIViewController {
         super.viewDidLoad()
         setUpBarItems()
         setUpViewModel()
-        
+        setUpKeyboardNotification()
         viewModel.setUpDefaultImage()
     }
     
@@ -35,8 +35,48 @@ final class RegisterViewController: UIViewController {
         viewModel.delegate = self
     }
     
+    private func setUpKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        editView.topScrollView.contentInset.bottom = keyboardFrame.size.height
+        
+        let firstResponder = editView.firstResponder
+        
+        if let textView = firstResponder as? UITextView {
+            editView.topScrollView.scrollRectToVisible(textView.frame, animated: true)
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        let contentInset = UIEdgeInsets.zero
+        editView.topScrollView.contentInset = contentInset
+        editView.topScrollView.scrollIndicatorInsets = contentInset
+    }
+    
     @objc private func didTapCancelButton() {
         self.dismiss(animated: true)
+    }
+}
+
+extension UIView {
+    var firstResponder: UIView? {
+        guard !isFirstResponder else { return self }
+        
+        for subview in subviews {
+            if let firstResponder = subview.firstResponder {
+                return firstResponder
+            }
+        }
+        return nil
     }
 }
 
@@ -50,6 +90,7 @@ extension RegisterViewController {
                     for: indexPath) as? ProductsHorizontalCell else {
                     return UICollectionViewCell()
                 }
+                
                 cell.updateImage(imageInfo: image)
                 cell.delegate = self
 
@@ -66,7 +107,7 @@ extension RegisterViewController: AlertDelegate {
 }
 
 extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func buttonTaped() {
+    func addButtonTaped() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true

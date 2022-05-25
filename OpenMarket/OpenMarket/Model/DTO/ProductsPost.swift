@@ -5,7 +5,7 @@
 //  Created by Red, Mino on 2022/05/24.
 //
 
-import Foundation
+import UIKit
 
 struct ProductsPost: Encodable {
     let name: String
