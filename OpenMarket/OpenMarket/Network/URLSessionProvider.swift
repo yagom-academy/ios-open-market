@@ -59,4 +59,36 @@ struct URLSessionProvider<T: Decodable> {
         }
         task.resume()
     }
+    
+    func createBody(params: ProductRegistration, images: [Image], boundary: String) -> Data? {
+        var body = Data()
+        let newline = "\r\n"
+        let boundaryPrefix = "--\(boundary)\r\n"
+        let boundarySuffix = "\r\n--\(boundary)--\r\n"
+        
+        guard let product = try? Json.encoder.encode(params) else {
+            return nil
+        }
+        
+        body.appendString(boundaryPrefix)
+        body.appendString("Content-Disposition: form-data; name=\"params\"")
+        body.appendString(newline)
+        body.appendString(newline)
+        body.append(product)
+        body.appendString(newline)
+
+        for image in images {
+            body.appendString(boundaryPrefix)
+            body.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName).jpeg\"")
+            body.appendString(newline)
+            body.appendString("Content-Type: image/\(image.type)")
+            body.appendString(newline)
+            body.appendString(newline)
+            body.append(image.data)
+            body.appendString(newline)
+        }
+
+        body.appendString(boundarySuffix)
+        return body
+    }
 }
