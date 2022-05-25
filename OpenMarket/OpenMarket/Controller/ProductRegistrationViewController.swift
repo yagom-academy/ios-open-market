@@ -8,12 +8,18 @@
 import UIKit
 
 class ProductRegistrationViewController: UIViewController {
+    private lazy var baseView = ProductRegistrationView(frame: view.bounds)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupNavigationItems()
+        setupView()
 
+    }
+    
+    private func setupView() {
+        view = baseView
     }
     
     private func setupNavigationItems() {
@@ -31,5 +37,4 @@ class ProductRegistrationViewController: UIViewController {
     }
     
     @objc private func didTapDoneButton() { }
-
 }
