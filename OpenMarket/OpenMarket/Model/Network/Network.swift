@@ -5,9 +5,9 @@
 //  Created by 우롱차, Donnie on 2022/05/20.
 //
 
-import UIKit
+import Foundation
 
-final class Network: NetworkAble {
+struct Network: NetworkAble {
     
     let session: URLSessionProtocol
     

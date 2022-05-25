@@ -12,11 +12,7 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    private let network = Network()
-    private let session: URLSessionProtocol = URLSession.shared
-    private var pageNo = 3
-    private var itemsPerPage = 100
-    
+    private let productListUseCase = ProductListUseCase()
     private lazy var collectionView: MainCollectionView = {
         let view = MainCollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         view.changeLayout(viewType: .list)
@@ -84,18 +80,20 @@ final class MainViewController: UIViewController {
         configureSegmentedControl()
         configureCollectionView()
         configureIndicator()
-        network.requestDecodedData(
-            url: OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url!) {
-                (data: PageInformation) -> Void in
-                self.setSnapshot(productInformations: data.pages)
-            } decodingErrorHandler: { error in
-                self.showErrorAlert(error: error)
-            }
+        requestList()
     }
 }
 
 // MARK: - Method
 extension MainViewController {
+    
+    private func requestList() {
+        productListUseCase.requestPageInformation { data in
+            self.setSnapshot(productInformations: data.pages)
+        } decodingErrorHandler: { error in
+            self.showErrorAlert(error: error)
+        }
+    }
     
     private func configureSegmentedControl() {
         navigationItem.titleView = segmentedControl
@@ -131,7 +129,9 @@ extension MainViewController {
                                           message: "Error Occurred",
                                           preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "OK",
-                                            style: .default)
+                                            style: .default) { _ in
+                self.requestList()
+            }
             alert.addAction(alertAction)
             self.present(alert, animated: true)
         }

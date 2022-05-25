@@ -12,4 +12,5 @@ enum NetworkError: Error, LocalizedError {
     case sessionError
     case statusCodeError
     case dataError
+    case decodingError
 }
