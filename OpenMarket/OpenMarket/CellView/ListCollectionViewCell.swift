@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewListCell, OpenMarketCell {
+final class ListCollectionViewCell: UICollectionViewListCell, OpenMarketCellProtocol {
     
     var productNameLabel: UILabel = UILabel()
     var productImageView: UIImageView = UIImageView()
