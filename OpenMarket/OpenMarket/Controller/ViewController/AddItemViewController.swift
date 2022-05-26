@@ -30,8 +30,8 @@ final class AddItemViewController: UIViewController {
     }
     
     private func setInitialView() {
-        navigationItem.setLeftBarButton(makeBarButton(title: "Cancel"), animated: true)
-        navigationItem.setRightBarButton(makeBarButton(title: "Done"), animated: true)
+        navigationItem.setLeftBarButton(makeBarButton(title: "Cancel",selector: #selector(touchCancelButton)), animated: true)
+        navigationItem.setRightBarButton(makeBarButton(title: "Done", selector: #selector(touchDoneButton)), animated: true)
         itemImageCollectionView.dataSource = self
         itemImageCollectionView.delegate = self
         imagePicker.delegate = self
@@ -121,8 +121,8 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 //MARK: - aboutView
 extension AddItemViewController {
-    private func makeBarButton(title: String) -> UIBarButtonItem {
-        let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchCancelButton))
+    private func makeBarButton(title: String, selector: Selector) -> UIBarButtonItem {
+        let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: selector)
         barButton.title = title
         return barButton
     }
