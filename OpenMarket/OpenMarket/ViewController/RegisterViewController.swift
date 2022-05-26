@@ -63,12 +63,9 @@ final class RegisterViewController: ProductViewController {
         guard let price = Double(productView.priceField.text ?? "0.0") else {
             return nil
         }
-        guard let discountedPrice = Double(productView.discountedPriceField.text ?? "0.0") else {
-            return nil
-        }
-        guard let stock = Int(productView.stockField.text ?? "0") else {
-            return nil
-        }
+        let discountedPrice = Double(productView.discountedPriceField.text ?? "0.0")
+        
+        let stock = Int(productView.stockField.text ?? "0")
         
         if images.count == 0 {
             let alert = UIAlertController(title: "이미지를 하나 이상 추가해주세요.", message: nil, preferredStyle: .alert)
