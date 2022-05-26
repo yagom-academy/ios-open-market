@@ -96,12 +96,12 @@ final class ModifyViewController: ProductViewController {
         
         guard let name: String = productView.nameField.text,
               let description: String = self.productView.descriptionView.text,
-              let price: Double = Double(productView.priceField.text ?? "0.0"),
-              let discountedPrice: Double = Double(productView.discountedPriceField.text ?? "0.0"),
-              let stock: Int = Int(productView.stockField.text ?? "0")
-              else {
+              let price: Double = Double(productView.priceField.text ?? "0.0")
+        else {
             return modifyProduct
         }
+        let discountedPrice: Double = Double(productView.discountedPriceField.text ?? "0.0") ?? 0.0
+        let stock: Int = Int(productView.stockField.text ?? "0") ?? 0
         
         name != product.name ? modifyProduct.name = name : nil
         description != product.description ? modifyProduct.descriptions = description : nil
