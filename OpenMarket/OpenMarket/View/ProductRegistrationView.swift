@@ -31,11 +31,11 @@ final class ProductRegistrationView: UIView {
         return button
     }()
     
-    private let productInputStackView: UIStackView = {
+    private let TextFieldStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
         stackView.spacing = 5
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -48,12 +48,27 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
+    private let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     private let productPrice: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품 가격"
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }()
+    
+    private let currencySegmentControl: UISegmentedControl = {
+        let segmentControl = UISegmentedControl(items: ["KRW", "USD"])
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentControl
     }()
     
     private let productBargenPrice: UITextField = {
@@ -72,10 +87,10 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let productDescription: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
+    private let productDescription: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
     }()
     
     override init(frame: CGRect) {
