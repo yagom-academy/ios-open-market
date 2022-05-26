@@ -18,19 +18,21 @@ final class RegistrationViewController: UIViewController {
     configureRegistration()
     configureNavigationBar()
     didTapAddImageButton()
-    self.picker.delegate = self
+    picker.delegate = self
+    addNotification()
+    addGestureRecognizer()
   }
   
   private func configureRegistration() {
     let safeArea = self.view.safeAreaLayoutGuide
     self.view.addSubview(registrationView)
     
-    NSLayoutConstraint.activate(
-      [registrationView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-       registrationView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-       registrationView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-       registrationView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-      ])
+    NSLayoutConstraint.activate([
+      registrationView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      registrationView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+      registrationView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+      registrationView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+    ])
   }
   
   private func configureNavigationBar() {
@@ -135,4 +137,3 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     return newImage
   }
 }
-
