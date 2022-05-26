@@ -24,6 +24,7 @@ final class MainViewController: UIViewController {
   }
   
   private lazy var collectionView = CollectionView()
+  private lazy var editingView = EditingView()
   private lazy var dataSource = makeDataSource()
   private var currentPageNumber = 1
   private var productsList:ProductsList?
