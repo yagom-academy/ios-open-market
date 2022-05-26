@@ -20,7 +20,8 @@ class RegisterProductViewController: UIViewController {
         }
     }
     
-    private var product: [String: Any] = [:]
+    private var product: Product?
+    private var productInput: [String: Any] = [:]
     private let imagePicker = UIImagePickerController()
     private var images: [UIImage] = [] {
         didSet {
@@ -31,6 +32,10 @@ class RegisterProductViewController: UIViewController {
     }
     private var collectionView: UICollectionView?
     private var collectionViewLayout: UICollectionViewLayout?
+    
+    func initialize(product: Product) {
+        self.product = product
+    }
     
     override func loadView() {
         super.loadView()
@@ -52,13 +57,21 @@ class RegisterProductViewController: UIViewController {
 
 extension RegisterProductViewController {
     private func setUpNavigationItem() {
-        navigationItem.title = "상품등록"
+        navigationItem.title = product == nil ? "상품등록": "상품수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(touchUpDoneButton))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(touchUpCancelButton))
     }
     
     @objc private func touchUpDoneButton() {
-        HTTPManager().postProductData(images: images, product: product) { data in
+        if let product = product {
+            HTTPManager().patchData(product: productInput, targetURL: .productPatch(productIdentifier: product.identifier)) { data in
+                return
+            }
+            dismiss(animated: true)
+            return
+        }
+        
+        HTTPManager().postProductData(images: images, product: productInput) { data in
             switch data {
             case .success(let data):
                 guard let decodedData = try? JSONDecoder().decode(Product.self, from: data) else {
@@ -194,7 +207,7 @@ extension RegisterProductViewController: UICollectionViewDataSource {
 
 extension RegisterProductViewController: ValueObserable {
     func observeSegmentIndex(value: String) {
-        product["currency"] = value
+        productInput["currency"] = value
     }
 }
 
@@ -238,13 +251,13 @@ extension RegisterProductViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField.placeholder {
         case "상품명":
-            product["name"] = textField.text
+            productInput["name"] = textField.text
         case "상품가격":
-            product["price"] = Int(textField.text ?? "0")
+            productInput["price"] = Int(textField.text ?? "0")
         case "할인금액":
-            product["discounted_price"] = Int(textField.text ?? "0")
+            productInput["discounted_price"] = Int(textField.text ?? "0")
         case "재고수량":
-            product["stock"] = Int(textField.text ?? "0")
+            productInput["stock"] = Int(textField.text ?? "0")
         default:
             break
         }
@@ -254,6 +267,6 @@ extension RegisterProductViewController: UITextFieldDelegate {
 
 extension RegisterProductViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        product["descriptions"] = textView.text
+        productInput["descriptions"] = textView.text
     }
 }
