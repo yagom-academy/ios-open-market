@@ -30,7 +30,7 @@ extension API {
 }
 
 final class MainViewController: UIViewController {
-    private let arrangeModeChanger = UISegmentedControl(items: ArrangeMode.allCases.map {
+    private let arrangeModeSegmentedControl = UISegmentedControl(items: ArrangeMode.allCases.map {
         $0.rawValue
     })
     private var currentArrangeMode: ArrangeMode = .list
@@ -115,14 +115,14 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 private extension MainViewController {
     private func setUpNavigationItems() {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showUpRegisterView))
-        self.navigationItem.titleView = arrangeModeChanger
+        self.navigationItem.titleView = arrangeModeSegmentedControl
         self.navigationItem.rightBarButtonItem = plusButton
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
     }
     
     private func requestProductListData() {
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
-            Thread.sleep(forTimeInterval: 5)
+            //Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let data):
                 self.products = data.pages
@@ -147,19 +147,19 @@ private extension MainViewController {
         let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue, .font: UIFont.preferredFont(forTextStyle: .callout)]
         let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, .font: UIFont.preferredFont(forTextStyle: .callout)]
         
-        arrangeModeChanger.translatesAutoresizingMaskIntoConstraints = false
-        arrangeModeChanger.backgroundColor = .white
-        arrangeModeChanger.selectedSegmentTintColor = .systemBlue
-        arrangeModeChanger.setTitleTextAttributes(normalTextAttributes, for: .normal)
-        arrangeModeChanger.setTitleTextAttributes(selectedTextAttributes, for: .selected)
-        arrangeModeChanger.layer.borderColor = UIColor.systemBlue.cgColor
-        arrangeModeChanger.layer.borderWidth = 1.0
-        arrangeModeChanger.layer.cornerRadius = 1.0
-        arrangeModeChanger.layer.masksToBounds = false
-        arrangeModeChanger.setWidth(85, forSegmentAt: 0)
-        arrangeModeChanger.setWidth(85, forSegmentAt: 1)
-        arrangeModeChanger.apportionsSegmentWidthsByContent = true
-        arrangeModeChanger.sizeToFit()
+        arrangeModeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        arrangeModeSegmentedControl.backgroundColor = .white
+        arrangeModeSegmentedControl.selectedSegmentTintColor = .systemBlue
+        arrangeModeSegmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
+        arrangeModeSegmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
+        arrangeModeSegmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        arrangeModeSegmentedControl.layer.borderWidth = 1.0
+        arrangeModeSegmentedControl.layer.cornerRadius = 1.0
+        arrangeModeSegmentedControl.layer.masksToBounds = false
+        arrangeModeSegmentedControl.setWidth(85, forSegmentAt: 0)
+        arrangeModeSegmentedControl.setWidth(85, forSegmentAt: 1)
+        arrangeModeSegmentedControl.apportionsSegmentWidthsByContent = true
+        arrangeModeSegmentedControl.sizeToFit()
     }
     
     @objc private func showUpRegisterView(_ sender: UIBarButtonItem) {
@@ -201,9 +201,9 @@ private extension MainViewController {
     }
     
     private func setUpInitialState() {
-        arrangeModeChanger.addTarget(self, action: #selector(changeArrangement(_:)), for: .valueChanged)
-        arrangeModeChanger.selectedSegmentIndex = 0
-        self.changeArrangement(arrangeModeChanger)
+        arrangeModeSegmentedControl.addTarget(self, action: #selector(changeArrangement(_:)), for: .valueChanged)
+        arrangeModeSegmentedControl.selectedSegmentIndex = 0
+        self.changeArrangement(arrangeModeSegmentedControl)
     }
     
     private func createActivityIndicator() -> UIActivityIndicatorView {

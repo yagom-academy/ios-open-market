@@ -11,46 +11,13 @@ extension API {
     static let maxSize = 300.0
 }
 
-final class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
-    lazy var productView = ProductView(frame: view.frame)
-    weak var delegate: ListUpdatable?
-    private var currency: Currency = .KRW
+final class RegisterViewController: ProductViewController {
     private var images: [UIImage] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = productView
-
+        
         setUpNavigationBar()
         defineCollectionViewDelegate()
-        defineTextFieldDelegate()
-        
-        productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-            
-            if self.productView.descriptionView.isFirstResponder {
-                productView.mainScrollView.scrollRectToVisible(productView.descriptionView.frame, animated: true)
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
     }
     
     private func setUpNavigationBar() {
@@ -61,15 +28,6 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
         let cancelbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelRegistration))
         cancelbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
         self.navigationItem.leftBarButtonItem = cancelbutton
-    }
-    
-    @objc func changeCurrency(_ sender: UISegmentedControl) {
-        let mode = sender.selectedSegmentIndex
-        if mode == Currency.KRW.value {
-            currency = Currency.KRW
-        } else if mode == Currency.USD.value {
-            currency = Currency.USD
-        }
     }
     
     @objc private func cancelRegistration(_ sender: UIBarButtonItem) {
@@ -83,8 +41,8 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
         RequestAssistant.shared.requestRegisterAPI(body: data) { _ in
             self.delegate?.refreshProductList()
         }
-        
         self.navigationController?.popViewController(animated: true)
+        
     }
     
     private func makeRequestBody() -> Data? {
@@ -180,6 +138,11 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
         
         return data
     }
+    
+    private func defineCollectionViewDelegate() {
+        productView.collectionView.delegate = self
+        productView.collectionView.dataSource = self
+    }
 }
 
 extension RegisterViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -210,9 +173,8 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDelegate {
+extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         guard let editedImage = info[.editedImage] as? UIImage else {
             return
         }
@@ -289,29 +251,5 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         picker.allowsEditing = true
         
         present(picker, animated: true, completion: nil)
-    }
-}
-
-extension RegisterViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.keyboardType == .numberPad {
-            if CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
-                return true
-            }
-        }
-        return false
-    }
-}
-
-extension RegisterViewController {
-    private func defineCollectionViewDelegate() {
-        productView.collectionView.delegate = self
-        productView.collectionView.dataSource = self
-    }
-    
-    private func defineTextFieldDelegate() {
-        productView.priceField.delegate = self
-        productView.discountedPriceField.delegate = self
-        productView.stockField.delegate = self
     }
 }

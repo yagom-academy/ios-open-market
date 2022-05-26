@@ -7,45 +7,13 @@
 
 import UIKit
 
-class ModifyViewController: UIViewController {
+final class ModifyViewController: ProductViewController {
     var product: Product?
-    lazy var productView = ProductView(frame: view.frame)
-    private var currency: Currency = .KRW
-    weak var delegate: ListUpdatable?
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = productView
-        self.view.backgroundColor = .white
-        
+        setUpNavigationBar()
         defineCollectionViewDelegate()
-        defineTextFieldDelegate()
         setUpProductViewContent()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-            
-            if self.productView.descriptionView.isFirstResponder {
-                productView.mainScrollView.scrollRectToVisible(productView.descriptionView.frame, animated: true)
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
     }
     
     private func setUpNavigationBar() {
@@ -94,18 +62,8 @@ class ModifyViewController: UIViewController {
     }
     
     private func setUpInitialCurrencyState(_ value: Int) {
-        productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
         productView.currencyField.selectedSegmentIndex = value
         self.changeCurrency(productView.currencyField)
-    }
-    
-    @objc func changeCurrency(_ sender: UISegmentedControl) {
-        let mode = sender.selectedSegmentIndex
-        if mode == Currency.KRW.value {
-            currency = Currency.KRW
-        } else if mode == Currency.USD.value {
-            currency = Currency.USD
-        }
     }
     
     private func makeRequestBody() -> Data? {
@@ -154,6 +112,11 @@ class ModifyViewController: UIViewController {
         
         return modifyProduct
     }
+    
+    private func defineCollectionViewDelegate() {
+        productView.collectionView.delegate = self
+        productView.collectionView.dataSource = self
+    }
 }
 
 extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -179,38 +142,5 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.plusButton.isHidden = true
         cell.imageView.requestImageDownload(url: images[indexPath.row].url)
         return cell
-    }
-}
-
-
-
-
-
-// MARK: - Common
-extension ModifyViewController {
-    
-}
-
-extension ModifyViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.keyboardType == .numberPad {
-            if CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
-                return true
-            }
-        }
-        return false
-    }
-}
-
-extension ModifyViewController {
-    private func defineCollectionViewDelegate() {
-        productView.collectionView.delegate = self
-        productView.collectionView.dataSource = self
-    }
-    
-    private func defineTextFieldDelegate() {
-        productView.priceField.delegate = self
-        productView.discountedPriceField.delegate = self
-        productView.stockField.delegate = self
     }
 }
