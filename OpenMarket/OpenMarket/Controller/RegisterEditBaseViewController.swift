@@ -81,13 +81,14 @@ class RegisterEditBaseViewController: UIViewController{
         return view
     }()
     
-    lazy var nameTextField = generateTextField(placeholder: "상품명")
-    lazy var priceTextField = generateTextField(placeholder: "상품가격")
-    lazy var discountPriceTextField = generateTextField(placeholder: "할인가격")
-    lazy var stockTextField = generateTextField(placeholder: "재고수량")
+    lazy var nameTextField = generateTextField(placeholder: "상품명", keyboardType: .default)
+    lazy var priceTextField = generateTextField(placeholder: "상품가격", keyboardType: .numberPad)
+    lazy var discountPriceTextField = generateTextField(placeholder: "할인가격", keyboardType: .numberPad)
+    lazy var stockTextField = generateTextField(placeholder: "재고수량", keyboardType: .numberPad)
     
     lazy var currencySegmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["KRW", "USD"])
+        segment.translatesAutoresizingMaskIntoConstraints = false
         segment.selectedSegmentIndex = 0
         return segment
     }()
@@ -142,14 +143,20 @@ extension RegisterEditBaseViewController {
             baseVerticalStackView.topAnchor.constraint(equalTo: addImageScrollView.bottomAnchor, constant: 15),
             baseVerticalStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            currencySegmentedControl.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25)
+        ])
     }
     
-    private func generateTextField(placeholder: String) -> UITextField {
+    private func generateTextField(placeholder: String, keyboardType: UIKeyboardType) -> UITextField {
         let field = UITextField()
         field.placeholder = "\(placeholder)"
         field.layer.borderColor = UIColor.systemGray4.cgColor
         field.layer.borderWidth = 1
         field.layer.cornerRadius = 5
+        field.addLeftPadding()
+        field.keyboardType = keyboardType
         NSLayoutConstraint.activate([
             field.heightAnchor.constraint(equalToConstant: 35)
         ])
