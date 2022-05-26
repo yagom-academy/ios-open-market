@@ -46,7 +46,14 @@ final class AddItemViewController: UIViewController {
     }
     
     @objc private func touchDoneButton() {
-        print("Done")
+        if imageArray.count == 0 {
+            let alert = UIAlertController(title: nil, message: "이미지는 최소 1장 이상\n 등록 되어야 합니다", preferredStyle: .alert)
+            let yesAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            
+            alert.addAction(yesAction)
+            
+            present(alert, animated: true, completion: nil)
+        }
     }
 }
 // MARK: - aboutCell
