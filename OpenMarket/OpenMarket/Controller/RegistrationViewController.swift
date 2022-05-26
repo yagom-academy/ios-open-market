@@ -101,6 +101,9 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
       registrationView.imageStackView.addArrangedSubview(setUpImage(image))
       convertToImageFile(resizePickerImage)
     }
+    if self.selectedImages.count > 4 {
+      registrationView.addImageButton.isHidden = true
+    }
     dismiss(animated: true, completion: nil)
   }
   
