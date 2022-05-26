@@ -56,7 +56,8 @@ struct ApiProvider<T: Decodable> {
 }
 
 extension ApiProvider {
-  func post(_ endpoint: Endpoint, _ params: Params, _ images: [ImageFile], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+  func post(_ endpoint: Endpoint, _ params: Params, _ images: [ImageFile],
+            completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
     
     guard let url = endpoint.url else {
       completionHandler(.failure(.invalid))
@@ -66,7 +67,7 @@ extension ApiProvider {
     var request = URLRequest(url: url)
     let boundary = "Boundary-\(UUID().uuidString)"
     request.httpMethod = HttpMethod.post
-    request.setValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+    request.setValue("8de44ec8-d1b8-11ec-9676-43acdce229f5", forHTTPHeaderField: "identifier")
     request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     request.httpBody = setupBody(params, images, boundary)
     

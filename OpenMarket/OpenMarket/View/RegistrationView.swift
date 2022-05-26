@@ -178,7 +178,7 @@ class RegistrationView: UIView {
                         stock: Int(self.stockTextField.text!)!,
                         currency: currency,
                         descriptions: self.descriptionTextField.text!,
-                        secret: "password")
+                        secret: "pqnoec089z")
     return params
   }
 }
