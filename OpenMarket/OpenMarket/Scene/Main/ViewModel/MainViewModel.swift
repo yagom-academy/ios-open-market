@@ -65,7 +65,6 @@ final class MainViewModel {
     private func applySnapshot() {
         DispatchQueue.main.async {
             var snapshot = Snapshot()
-            snapshot.deleteAllItems()
             snapshot.appendSections(Section.allCases)
             snapshot.appendItems(self.items, toSection: .main)
             self.datasource?.apply(snapshot)
