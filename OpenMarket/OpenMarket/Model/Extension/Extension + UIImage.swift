@@ -8,11 +8,11 @@
 import UIKit
 
 extension UIImage {
-    func resizeImage() -> UIImage? {
+    func resizeImage(kb: Int) -> UIImage? {
         var size = 500
         var image: UIImage? = self
         guard var imageData = image?.jpegData(compressionQuality: 1) else { return nil }
-        while imageData.count/1000 > 300 {
+        while imageData.count/1000 > kb {
             UIGraphicsBeginImageContext(CGSize(width: size, height: size))
             image?.draw(in: CGRect(x: 0, y: 0, width: size, height: size))
             image = UIGraphicsGetImageFromCurrentImageContext()

@@ -16,6 +16,7 @@ final class AddItemViewController: UIViewController {
     @IBOutlet private weak var stockTextField: UITextField!
     @IBOutlet private weak var discriptinTextView: UITextView!
     @IBOutlet private weak var myScrollView: UIScrollView!
+    private let maxImageCount = 5
     private let imagePicker = UIImagePickerController()
     private var imageArray: [UIImage] = [] {
         didSet {
@@ -29,8 +30,8 @@ final class AddItemViewController: UIViewController {
     }
     
     private func setInitialView() {
-        navigationItem.setLeftBarButton(makeCancelButton(), animated: true)
-        navigationItem.setRightBarButton(makeDoneButton(), animated: true)
+        navigationItem.setLeftBarButton(makeBarButton(title: "Cancel"), animated: true)
+        navigationItem.setRightBarButton(makeBarButton(title: "Done"), animated: true)
         itemImageCollectionView.dataSource = self
         itemImageCollectionView.delegate = self
         imagePicker.delegate = self
@@ -59,10 +60,10 @@ final class AddItemViewController: UIViewController {
 // MARK: - aboutCell
 extension AddItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if imageArray.count < 5 {
+        if imageArray.count < maxImageCount {
             return imageArray.count + 1
         } else {
-            return 5
+            return maxImageCount
         }
     }
     
@@ -83,7 +84,7 @@ extension AddItemViewController: UICollectionViewDataSource {
 
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if imageArray.count < 5 && indexPath.row == imageArray.count {
+        if imageArray.count < maxImageCount && indexPath.row == imageArray.count {
             let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
             let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
                 self.selectPhoto(where: .photoLibrary)
@@ -111,7 +112,7 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
-        guard let image = image?.resizeImage() else { return }
+        guard let image = image?.resizeImage(kb: 300) else { return }
         
         imageArray.append(image)
         dismiss(animated: true)
@@ -120,15 +121,9 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 //MARK: - aboutView
 extension AddItemViewController {
-    private func makeCancelButton() -> UIBarButtonItem {
+    private func makeBarButton(title: String) -> UIBarButtonItem {
         let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchCancelButton))
-        barButton.title = "Cancel"
-        return barButton
-    }
-    
-    private func makeDoneButton() -> UIBarButtonItem {
-        let barButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(touchDoneButton))
-        barButton.title = "Done"
+        barButton.title = title
         return barButton
     }
     
