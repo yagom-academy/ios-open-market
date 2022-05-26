@@ -37,6 +37,8 @@
 		D67E6961283757870075284A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67E6960283757870075284A /* ImageCacheManager.swift */; };
 		D6FC9AF0283E751F00192E30 /* Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AEF283E751E00192E30 /* Params.swift */; };
 		D6FC9AF2283F1AE500192E30 /* EditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AF1283F1AE500192E30 /* EditingView.swift */; };
+		D6FC9AF6283FA09400192E30 /* EditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AF5283FA09400192E30 /* EditingViewController.swift */; };
+		D6FC9AF8283FA52800192E30 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AF7283FA52800192E30 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,8 @@
 		D67E6960283757870075284A /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		D6FC9AEF283E751E00192E30 /* Params.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Params.swift; sourceTree = "<group>"; };
 		D6FC9AF1283F1AE500192E30 /* EditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingView.swift; sourceTree = "<group>"; };
+		D6FC9AF5283FA09400192E30 /* EditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingViewController.swift; sourceTree = "<group>"; };
+		D6FC9AF7283FA52800192E30 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +157,9 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				D6FC9AF7283FA52800192E30 /* DetailViewController.swift */,
 				030874E0283CB038005BDDB2 /* RegistrationViewController.swift */,
+				D6FC9AF5283FA09400192E30 /* EditingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -340,10 +346,12 @@
 				D67E6961283757870075284A /* ImageCacheManager.swift in Sources */,
 				03301A572832ACFB00D58385 /* String+Extension.swift in Sources */,
 				037A74122834C6BC001AC352 /* Endpoint.swift in Sources */,
+				D6FC9AF6283FA09400192E30 /* EditingViewController.swift in Sources */,
 				036802E9282911100097DC62 /* Products.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				03D0695B283F807E00DDA5B3 /* DetailProduct.swift in Sources */,
 				039161D8282B573600DFE033 /* URLSessionProtocol.swift in Sources */,
+				D6FC9AF8283FA52800192E30 /* DetailViewController.swift in Sources */,
 				0396412B283368CB00E0DE5A /* UIStackView+Extension.swift in Sources */,
 				0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */,
 				0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */,
