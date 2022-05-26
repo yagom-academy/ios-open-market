@@ -157,8 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
-				D6FC9AF7283FA52800192E30 /* DetailViewController.swift */,
 				030874E0283CB038005BDDB2 /* RegistrationViewController.swift */,
+				D6FC9AF7283FA52800192E30 /* DetailViewController.swift */,
 				D6FC9AF5283FA09400192E30 /* EditingViewController.swift */,
 			);
 			path = Controller;
