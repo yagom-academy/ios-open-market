@@ -147,14 +147,7 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let detailViewController = DetailViewController()
-    let detailAPIProvider = ApiProvider<DetailProduct>()
-    detailAPIProvider.get(.editing(productId: pages[indexPath.row].id)) { data in
-      guard let selectedProduct = try? data.get() else {
-        return
-      }
-      detailViewController.delegate = selectedProduct
-//      self.editingView.displayProductInformation(selectedProduct)
-    }
+    detailViewController.delegate = pages[indexPath.row]
     navigationController?.pushViewController(detailViewController, animated: false)
   }
 }
