@@ -44,20 +44,14 @@ final class RegisterViewController: ProductViewController {
         self.navigationController?.popViewController(animated: true)
         
     }
-    
     private func makeRequestBody() -> Data? {
         guard let name = productView.nameField.text, productView.validTextField(productView.nameField) else {
-            let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "닫기", style: .default)
-            alert.addAction(action)
-            present(alert, animated: true)
+            showAlert(alertTitle: "상품명을 3자 이상 100자 이하로 입력해주세요.")
             return nil
         }
+        
         guard productView.validTextView(productView.descriptionView) else {
-            let alert = UIAlertController(title: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "닫기", style: .default)
-            alert.addAction(action)
-            present(alert, animated: true)
+            showAlert(alertTitle: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.")
             return nil
         }
         guard let price = Double(productView.priceField.text ?? "0.0") else {
@@ -68,10 +62,7 @@ final class RegisterViewController: ProductViewController {
         let stock = Int(productView.stockField.text ?? "0")
         
         if images.count == 0 {
-            let alert = UIAlertController(title: "이미지를 하나 이상 추가해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "닫기", style: .default)
-            alert.addAction(action)
-            present(alert, animated: true)
+            showAlert(alertTitle: "이미지를 하나 이상 추가해주세요.")
             return nil
         }
         

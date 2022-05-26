@@ -68,17 +68,11 @@ final class ModifyViewController: ProductViewController {
     
     private func makeRequestBody() -> Data? {
         guard productView.validTextField(productView.nameField) else {
-            let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "취소", style: .default)
-            alert.addAction(action)
-            present(alert, animated: true)
+            showAlert(alertTitle: "상품명을 3자 이상 100자 이하로 입력해주세요.")
             return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
-            let alert = UIAlertController(title: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
-            let action = UIAlertAction(title: "취소", style: .default)
-            alert.addAction(action)
-            present(alert, animated: true)
+            showAlert(alertTitle: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.")
             return nil
         }
         guard let data = try? JSONEncoder().encode(detectModifiedContent()) else {

@@ -113,11 +113,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             case .failure(_):
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    let alert = UIAlertController(title: "데이터 로드 실패", message: "", preferredStyle: .alert)
-                    let action = UIAlertAction(title: "닫기", style: .default) { (action) in
-                    }
-                    alert.addAction(action)
-                    self.present(alert, animated: false, completion: nil)
+                    self.showAlert(alertTitle: "데이터 로드 실패")
                 }
             }
         }
@@ -135,7 +131,6 @@ private extension MainViewController {
     
     private func requestProductListData() {
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
-            //Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let data):
                 self.products = data.pages
@@ -146,11 +141,7 @@ private extension MainViewController {
             case .failure(_):
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    let alert = UIAlertController(title: "데이터 로드 실패", message: "", preferredStyle: .alert)
-                    let action = UIAlertAction(title: "닫기", style: .default) { (action) in
-                    }
-                    alert.addAction(action)
-                    self.present(alert, animated: false, completion: nil)
+                    self.showAlert(alertTitle: "데이터 로드 실패")
                 }
             }
         }
