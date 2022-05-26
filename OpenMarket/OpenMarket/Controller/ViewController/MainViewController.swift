@@ -100,20 +100,16 @@ final class MainViewController: UIViewController {
         self.myActivityIndicator.stopAnimating()
     }
     
-    private func moveToAddVC(title: String) {
-        guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
-        addVC.title = title
-        
-        navigationController?.pushViewController(addVC, animated: true)
-    }
-    
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         guard let segmentType = CellType(rawValue: sender.selectedSegmentIndex) else { return }
         cellType = segmentType
     }
     
     @IBAction func touchAddButton(_ sender: UIBarButtonItem) {
-        moveToAddVC(title: "상품 등록")
+        guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
+        addVC.title = "상품 등록"
+        
+        navigationController?.pushViewController(addVC, animated: true)
     }
 }
 // MARK: - CollectionView Cell
