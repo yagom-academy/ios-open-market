@@ -18,6 +18,7 @@
 		0EBC501B283DC5AF006CF95B /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBC501A283DC5AF006CF95B /* TextCell.swift */; };
 		0EC4B1CD282DF4420052F39B /* HTTPManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC4B1CC282DF4420052F39B /* HTTPManagerTests.swift */; };
 		0ED7574C282DF52E00C05FC1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */; };
+		0EE5F0D7283FAF7F009BC931 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5F0D6283FAF7F009BC931 /* Alert.swift */; };
 		0EE77F2E28350A0800E13561 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE77F2D28350A0800E13561 /* Array+.swift */; };
 		6707CEA328348CF300A97982 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6707CEA228348CF300A97982 /* String+.swift */; };
 		6707CEC528350B6C00A97982 /* UpdateProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6707CEC428350B6C00A97982 /* UpdateProductViewController.swift */; };
@@ -59,6 +60,7 @@
 		0EC4B1CA282DF4420052F39B /* HTTPManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTTPManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EC4B1CC282DF4420052F39B /* HTTPManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManagerTests.swift; sourceTree = "<group>"; };
 		0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		0EE5F0D6283FAF7F009BC931 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		0EE77F2D28350A0800E13561 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		6707CEA228348CF300A97982 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		6707CEC428350B6C00A97982 /* UpdateProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProductViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 		0E7031482829F750002134CF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0EE5F0D5283FAF5D009BC931 /* Alert */,
 				0E7031492829F777002134CF /* Product.swift */,
 				67FA257E282A05DA0089BBE3 /* OpenMarketProductList.swift */,
 				675D90DD282A2D5B00A46468 /* HTTPManager.swift */,
@@ -153,6 +156,14 @@
 				0ED7574B282DF52E00C05FC1 /* MockURLProtocol.swift */,
 			);
 			path = "Test Double";
+			sourceTree = "<group>";
+		};
+		0EE5F0D5283FAF5D009BC931 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				0EE5F0D6283FAF7F009BC931 /* Alert.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 		67FA257B282A007F0089BBE3 /* Scene */ = {
@@ -335,6 +346,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				0E09C88628336508004E4568 /* CellUIComponent.swift in Sources */,
 				0EE77F2E28350A0800E13561 /* Array+.swift in Sources */,
+				0EE5F0D7283FAF7F009BC931 /* Alert.swift in Sources */,
 				0E09C88428333EE7004E4568 /* ProductListCell.swift in Sources */,
 				67FA257F282A05DA0089BBE3 /* OpenMarketProductList.swift in Sources */,
 				67EB7C37283CC30E00837605 /* MainViewControllerUnderiOS14.swift in Sources */,
