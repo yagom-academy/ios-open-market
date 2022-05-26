@@ -65,6 +65,9 @@ extension MainViewController {
     @objc func pullToRefresh() {
         self.collectionView.reloadData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { _ in
+                self.refreshProductList()
+            }
             self.collectionView.refreshControl?.endRefreshing()
         }
     }
