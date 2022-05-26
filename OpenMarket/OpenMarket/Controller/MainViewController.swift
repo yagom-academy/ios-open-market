@@ -142,6 +142,18 @@ extension MainViewController {
     dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
   }
 }
+// MARK: - ViewController Delegate
+extension MainViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let detailAPIProvider = ApiProvider<DetailProduct>()
+    detailAPIProvider.get(.editing(productId: pages[indexPath.row].id)) { data in
+      guard let selectedProduct = try? data.get() else {
+        return
+      }
+      self.editingView.displayProductInformation(selectedProduct)
+    }
+  }
+}
 // MARK: - UICollectionViewDataSourcePrefetching
 extension MainViewController: UICollectionViewDataSourcePrefetching {
   func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
