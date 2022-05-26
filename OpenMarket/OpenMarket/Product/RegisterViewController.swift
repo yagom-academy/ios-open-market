@@ -21,6 +21,11 @@ final class RegisterViewController: ProductViewController {
         mainView?.collectionView.delegate = self
     }
     
+    private func configurePickerController() {
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+    }
+    
     override func configureNavigationBar() {
         super.configureNavigationBar()
         navigationItem.title = "상품등록"

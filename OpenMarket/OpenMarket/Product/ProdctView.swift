@@ -143,8 +143,8 @@ class ProdctView: UIView {
     }
     
     func makeEncodableModel() -> UploadProduct? {
-        let price = productCostTextField.text.flatMap { Double($0) }
-        let discountedPrice = productDiscountCostTextField.text.flatMap { Double($0) }
+        let price = productCostTextField.text.flatMap { UInt($0) }
+        let discountedPrice = productDiscountCostTextField.text.flatMap { UInt($0) }
         let stock = productStockTextField.text.flatMap { Int($0) }
         
         return UploadProduct(name: productNameTextField.text,

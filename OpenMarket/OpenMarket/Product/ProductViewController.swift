@@ -40,6 +40,7 @@ class ProductViewController: UIViewController {
     func configureView() {
         configureCollectionView()
         configureNavigationBar()
+        configureTextField()
     }
     
     func configureCollectionView() {
@@ -47,10 +48,13 @@ class ProductViewController: UIViewController {
         dataSource = makeDataSource()
         snapshot = makeSnapsnot()
     }
+
     
-    func configurePickerController() {
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
+    func configureTextField() {
+        mainView?.productNameTextField.delegate = self
+        mainView?.productCostTextField.delegate = self
+        mainView?.productDiscountCostTextField.delegate = self
+        mainView?.productStockTextField.delegate = self
     }
     
     func configureNavigationBar() {
@@ -142,5 +146,40 @@ extension ProductViewController: UIImagePickerControllerDelegate & UINavigationC
         
         insertSnapshot(images: [image])
         picker.dismiss(animated: true)
+    }
+}
+
+// MARK: - UITextField Delegate
+
+extension ProductViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString = textField.text ?? ""
+        let finalText = text(currentString, shouldChangeCharactersIn: range, replacementString: string)
+        if finalText.count == 0 { return true }
+        
+        switch textField {
+        case mainView?.productNameTextField:
+            return (0...100).contains(finalText.count)
+        case mainView?.productCostTextField:
+            mainView?.productDiscountCostTextField.text = ""
+            return UInt(finalText) == nil ? false : true
+        case mainView?.productDiscountCostTextField:
+            guard let discountCost = UInt(finalText),
+                  let costString = mainView?.productCostTextField.text,
+                  let cost = UInt(costString) else { return false }
+    
+            return (0...cost).contains(discountCost)
+        case mainView?.productStockTextField:
+            return UInt(finalText) == nil ? false : true
+        default:
+            return false
+        }
+    }
+    
+    private func text(_ currentString: String, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> String {
+        let currentString = currentString as NSString
+        let nextString = currentString.replacingCharacters(in: range, with: string)
+        
+        return nextString
     }
 }

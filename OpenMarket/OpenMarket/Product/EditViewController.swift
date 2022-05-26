@@ -23,7 +23,6 @@ final class EditViewController: ProductViewController {
         super.viewDidLoad()
         configureView()
         requestData()
-        configurePickerController()
         registerNotification()
     }
     

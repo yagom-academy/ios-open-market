@@ -1,5 +1,5 @@
 //
-//  Double+extension.swift
+//  UInt+extension.swift
 //  OpenMarket
 //
 //  Created by dudu, safari on 2022/05/14.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Double {
+extension UInt {
     func priceFormat(currency : String?) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
