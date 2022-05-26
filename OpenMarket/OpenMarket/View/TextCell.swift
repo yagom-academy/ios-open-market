@@ -47,16 +47,19 @@ class TextCell: UICollectionViewCell {
     
     let priceTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "상품가격")
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
     let discountedPriceTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "할인금액")
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
     let stockTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "재고수량")
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
