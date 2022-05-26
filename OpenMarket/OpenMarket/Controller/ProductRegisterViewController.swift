@@ -8,6 +8,8 @@
 import UIKit
 
 final class ProductRegisterViewController: UIViewController {
+  var keyboardSize: CGRect?
+  
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
@@ -68,6 +70,7 @@ final class ProductRegisterViewController: UIViewController {
   private let priceTextField: UITextField = {
     let textField = UITextField()
     textField.borderStyle = .roundedRect
+    textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
     textField.placeholder = "상품가격"
     return textField
@@ -82,6 +85,7 @@ final class ProductRegisterViewController: UIViewController {
   private let discountedPriceTextField: UITextField = {
     let textField = UITextField()
     textField.borderStyle = .roundedRect
+    textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
     textField.placeholder = "할인금액"
     return textField
@@ -90,6 +94,7 @@ final class ProductRegisterViewController: UIViewController {
   private let stockTextField: UITextField = {
     let textField = UITextField()
     textField.borderStyle = .roundedRect
+    textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
     textField.placeholder = "재고수량"
     return textField
@@ -107,6 +112,22 @@ final class ProductRegisterViewController: UIViewController {
     super.viewDidLoad()
     self.configureUI()
     self.configureNavigationItem()
+    NotificationCenter.default.addObserver(self, selector: #selector(textViewDidTap), name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(textViewDidTap), name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    self.view.endEditing(true)
+  }
+  
+  @objc func textViewDidTap(notification: Notification) {
+    guard let keyboardSize =
+            (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+             as? NSValue)?.cgRectValue else {
+      return
+    }
+    self.keyboardSize = keyboardSize
   }
   
   @objc func addImageViewDidTap(_ sender: UIImageView) {
@@ -202,6 +223,19 @@ extension ProductRegisterViewController: UITextViewDelegate {
     guard let previousText = textView.text else { return false }
     let newLength = previousText.count + text.count - range.length
     return newLength <= 1000
+  }
+
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    UIView.animate(withDuration: 0.3) {
+      guard let keyboardheight = self.keyboardSize?.height else { return }
+      self.view.transform = (CGAffineTransform(translationX: 0.0, y: -keyboardheight * 0.8))
+    }
+  }
+  
+  func textViewDidEndEditing(_ textView: UITextView) {
+    UIView.animate(withDuration: 0.3) {
+      self.view.transform = .identity
+    }
   }
 }
 
