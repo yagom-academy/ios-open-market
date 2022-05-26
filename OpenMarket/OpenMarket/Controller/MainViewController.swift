@@ -73,7 +73,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func touchUpRegisterProduct() {
-        let registerProductView = RegisterProductViewController()
+        let registerProductView = UpdateProductViewController()
         let navigationController = UINavigationController(rootViewController: registerProductView)
         navigationController.modalTransitionStyle = .coverVertical
         navigationController.modalPresentationStyle = .fullScreen
@@ -181,13 +181,24 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = dataSource?.itemIdentifier(for: indexPath) else { return }
         
-        let registerProductView = RegisterProductViewController()
+        let registerProductView = UpdateProductViewController()
         let navigationController = UINavigationController(rootViewController: registerProductView)
         navigationController.modalTransitionStyle = .coverVertical
         navigationController.modalPresentationStyle = .fullScreen
         
-        registerProductView.initialize(product: product)
-        
-        present(navigationController, animated: true)
+        HTTPManager().loadData(targetURL: .productDetail(productNumber: product.identifier)) { productDetail in
+            switch productDetail {
+            case .success(let productDetail):
+                guard let decodedData = try? JSONDecoder().decode(ProductDetail.self, from: productDetail) else {
+                    return
+                }
+                registerProductView.initialize(product: decodedData)
+                DispatchQueue.main.async { [self] in
+                    present(navigationController, animated: true)
+                }
+            case .failure(_):
+                return
+            }
+        }
     }
 }

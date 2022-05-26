@@ -1,5 +1,5 @@
 //
-//  RegisterProductViewController.swift
+//  UpdateProductViewController.swift
 //  OpenMarket
 //
 //  Created by papri, Tiana on 18/05/2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterProductViewController: UIViewController {
+class UpdateProductViewController: UIViewController {
     enum Section: Int, Hashable, CaseIterable, CustomStringConvertible {
         case image
         case text
@@ -20,7 +20,7 @@ class RegisterProductViewController: UIViewController {
         }
     }
     
-    private var product: Product?
+    private var product: ProductDetail?
     private var productInput: [String: Any] = [:]
     private let imagePicker = UIImagePickerController()
     private var images: [UIImage] = [] {
@@ -33,7 +33,7 @@ class RegisterProductViewController: UIViewController {
     private var collectionView: UICollectionView?
     private var collectionViewLayout: UICollectionViewLayout?
     
-    func initialize(product: Product) {
+    func initialize(product: ProductDetail) {
         self.product = product
     }
     
@@ -45,6 +45,13 @@ class RegisterProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let product = product {
+            product.images.forEach { image in
+                DataProvider().fetchImage(urlString: image.url) { [self] image in
+                    self.images.append(image)
+                }
+            }
+        }
         collectionViewLayout = createLayout()
         
         configureHierarchy(collectionViewLayout: collectionViewLayout ?? UICollectionViewLayout())
@@ -55,7 +62,7 @@ class RegisterProductViewController: UIViewController {
     }
 }
 
-extension RegisterProductViewController {
+extension UpdateProductViewController {
     private func setUpNavigationItem() {
         navigationItem.title = product == nil ? "상품등록": "상품수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(touchUpDoneButton))
@@ -91,7 +98,7 @@ extension RegisterProductViewController {
     }
 }
 
-extension RegisterProductViewController {
+extension UpdateProductViewController {
     private func setUpCollectionView() {
         collectionView?.dataSource = self
         collectionView?.delegate = self
@@ -153,14 +160,15 @@ extension RegisterProductViewController {
     }
 }
 
-extension RegisterProductViewController: UICollectionViewDataSource {
+extension UpdateProductViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return images.count + 1
+            let itemCount = product == nil ? images.count + 1 : images.count
+            return itemCount
         } else if section == 1 {
             return 1
         }
@@ -172,7 +180,14 @@ extension RegisterProductViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageCell else {
                 return UICollectionViewCell()
             }
-                        
+            
+            if let _ = product {
+                cell.plusButton.isHidden = true
+                cell.imageView.isHidden = false
+                cell.imageView.image = images[indexPath.row]
+                return cell
+            }
+            
             if images.count != indexPath.row {
                 cell.plusButton.isHidden = true
                 cell.imageView.isHidden = false
@@ -186,6 +201,15 @@ extension RegisterProductViewController: UICollectionViewDataSource {
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as? TextCell else {
                 return UICollectionViewCell()
+            }
+            
+            if let product = product {
+                cell.nameTextField.text = product.name
+                cell.priceTextField.text = String(product.price)
+                cell.discountedPriceTextField.text = String(product.price - product.bargainPrice)
+                cell.stockTextField.text = String(product.stock)
+                cell.segmentedControl.selectedSegmentIndex = product.currency == "KRW" ? 0 : 1
+                cell.descriptionTextView.text = product.description
             }
             
             setUpDelegate(cell: cell)
@@ -205,13 +229,13 @@ extension RegisterProductViewController: UICollectionViewDataSource {
     }
 }
 
-extension RegisterProductViewController: ValueObserable {
+extension UpdateProductViewController: ValueObserable {
     func observeSegmentIndex(value: String) {
         productInput["currency"] = value
     }
 }
 
-extension RegisterProductViewController: UICollectionViewDelegate {
+extension UpdateProductViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ImageCell else { return }
@@ -221,7 +245,7 @@ extension RegisterProductViewController: UICollectionViewDelegate {
     }
 }
 
-extension RegisterProductViewController {
+extension UpdateProductViewController {
     private func setUpImagePicker() {
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.allowsEditing = true
@@ -229,7 +253,7 @@ extension RegisterProductViewController {
     }
 }
 
-extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension UpdateProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         var newImage: UIImage? = nil
         
@@ -247,7 +271,7 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
     }
 }
 
-extension RegisterProductViewController: UITextFieldDelegate {
+extension UpdateProductViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField.placeholder {
         case "상품명":
@@ -265,7 +289,7 @@ extension RegisterProductViewController: UITextFieldDelegate {
     }
 }
 
-extension RegisterProductViewController: UITextViewDelegate {
+extension UpdateProductViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         productInput["descriptions"] = textView.text
     }

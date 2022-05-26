@@ -62,7 +62,7 @@ extension MainViewControllerUnderiOS14 {
     }
     
     @objc private func touchUpRegisterProduct() {
-        let registerProductView = RegisterProductViewController()
+        let registerProductView = UpdateProductViewController()
         let navigationController = UINavigationController(rootViewController: registerProductView)
         navigationController.modalTransitionStyle = .coverVertical
         navigationController.modalPresentationStyle = .fullScreen
