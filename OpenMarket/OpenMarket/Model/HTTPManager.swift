@@ -129,7 +129,7 @@ struct HTTPManager {
         
         let boundary = UUID().uuidString
         
-        request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+        request.addValue("a09d8d1a-d1b8-11ec-9676-bd41bb2bb233", forHTTPHeaderField: "identifier")
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         guard let data = createMultipartBody(images: images, product: product, boundary: boundary) else {
@@ -166,7 +166,7 @@ struct HTTPManager {
     func createMultipartBody(images: [UIImage], product: [String : Any], boundary: String) -> Data? {
         var data = Data()
         var product = product
-        product.updateValue("password", forKey: "secret")
+        product.updateValue("80sgmjjk9v", forKey: "secret")
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: product) else {
             return nil
@@ -200,10 +200,10 @@ struct HTTPManager {
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
         request.httpMethod = "PATCH"
         
-        request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+        request.addValue("a09d8d1a-d1b8-11ec-9676-bd41bb2bb233", forHTTPHeaderField: "identifier")
        
         var product = product
-        product.updateValue("password", forKey: "secret")
+        product.updateValue("80sgmjjk9v", forKey: "secret")
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: product) else {
             return nil
