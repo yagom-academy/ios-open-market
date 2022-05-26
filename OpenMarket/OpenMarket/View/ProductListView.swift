@@ -1,5 +1,5 @@
 //
-//  ProductView.swift
+//  ProductListView.swift
 //  OpenMarket
 //
 //  Created by Eddy, marisol on 2022/05/16.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductView: UIView {
+final class ProductListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(collectionView)
@@ -45,14 +45,6 @@ final class ProductView: UIView {
         return segmentedControl
     }()
     
-    lazy var plusButton: UIBarButtonItem = {
-        let plusButton = UIBarButtonItem()
-        
-        plusButton.title = "+"
-        
-        return plusButton
-    }()
-    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layouts)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +71,7 @@ final class ProductView: UIView {
 }
 
 // MARK: - Layout
-extension ProductView {
+extension ProductListView {
     func configureLayout() {
         NSLayoutConstraint.activate([
             self.collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),

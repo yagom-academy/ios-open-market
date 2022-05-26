@@ -26,11 +26,17 @@ final class MainViewController: UIViewController {
     
     private lazy var dataSource = makeDataSource()
     private let product = Product()
-    private lazy var productView = ProductView.init(frame: view.bounds)
+    private lazy var productView = ProductListView.init(frame: view.bounds)
+    private lazy var plusButton: UIBarButtonItem = {
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonDidTapped(_:)))
+        
+        return plusButton
+    }()
+    
     private let networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private lazy var item: [Products] = [] {
         didSet {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 self.applySnapshot()
                 self.productView.indicatorView.stopAnimating()
             })
@@ -65,9 +71,15 @@ extension MainViewController {
         productView.configureLayout()
     }
     
+    @objc private func plusButtonDidTapped(_ sender: UIBarButtonItem) {
+        let registrationViewController = RegistrationViewController()
+        
+        self.navigationController?.pushViewController(registrationViewController, animated: true)
+    }
+    
     private func setNavigation() {
         navigationItem.titleView = productView.segmentedControl
-        navigationItem.rightBarButtonItem = productView.plusButton
+        navigationItem.rightBarButtonItem = plusButton
         
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .systemGray6
