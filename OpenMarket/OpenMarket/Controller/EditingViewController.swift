@@ -9,10 +9,13 @@ import UIKit
 
 class EditingViewController: UIViewController {
   private lazy var editingView = EditingView()
+  var delegate: DetailProduct?
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureRegistration()
     configureNavigationBar()
+    configureView()
   }
   
   private func configureRegistration() {
@@ -28,15 +31,42 @@ class EditingViewController: UIViewController {
   }
   
   private func configureNavigationBar() {
-//    self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-//                                                            target: self,
-//                                                            action: #selector(cancelModal))
-//    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
-//                                                             target: self,
-//                                                             action: #selector(postData))
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                            target: self,
+                                                            action: #selector(cancelModal))
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                             target: self,
+                                                             action: #selector(postEditedData))
     self.navigationItem.title = "상품수정"
     
     self.navigationController?.navigationBar.backgroundColor = .white
     self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
+  }
+  
+  @objc private func cancelModal() {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
+  @objc private func postEditedData() {
+//    let params = editingView.setupParams()
+    // patch
+  }
+  
+  private func configureView() {
+    guard let product = delegate else {
+      return
+    }
+    editingView.displayProductInformation(product)
+    loadImage(product.images)
+  }
+  
+  private func loadImage(_ images: [Image]) {
+    for image in images {
+      let imageView = UIImageView()
+      imageView.translatesAutoresizingMaskIntoConstraints = false
+      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
+      imageView.loadImage(urlString: image.url)
+      editingView.imageStackView.addArrangedSubviews(imageView)
+    }
   }
 }
