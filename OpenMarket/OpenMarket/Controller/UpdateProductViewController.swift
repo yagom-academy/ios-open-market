@@ -167,6 +167,9 @@ extension UpdateProductViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
+            if product == nil, images.count == 5 {
+                return 5
+            }
             let itemCount = product == nil ? images.count + 1 : images.count
             return itemCount
         } else if section == 1 {
