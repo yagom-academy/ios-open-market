@@ -9,7 +9,7 @@ struct EndPointStorage {
     private enum Constants {
         static let basePath = "api/products"
         static let identifier = "identifier"
-        static let identifierSerialNumber = "cd706a3e-66db-11ec-9626-796401f2341a"
+        static let identifierSerialNumber = "7b016867-d1b8-11ec-9676-012a04c8e5dc"
         static let contentType = "Content-Type"
     }
     

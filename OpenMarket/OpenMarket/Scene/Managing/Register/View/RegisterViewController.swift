@@ -82,7 +82,7 @@ final class RegisterViewController: ManagingViewController {
         let currency = managingView.productCurrencySegmentedControl.selectedSegmentIndex == 0 ? "KRW" : "USD"
         let discountedPrice = Double(managingView.productDiscountedTextField.text ?? "0")
         let stock = Int(managingView.productStockTextField.text ?? "0")
-        let secret = "password"
+        let secret = "rwfkpko1fp"
         let images = viewModel.images
         
         return ProductsPost(name: productName,
