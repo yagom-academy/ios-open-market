@@ -51,6 +51,39 @@ extension RegisterViewController {
             addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor)
         ])
     }
+    
+    func wrapperProductInformation() -> RegistrationParameter? {
+        
+        guard let name = nameTextField.text, name.count >= 3 else {
+            //알랏 띄워주기
+            return nil
+        }
+        
+        guard let descriptions = textView.text, descriptions.count < 1000 else {
+            return nil
+        }
+        
+        guard let price = Double(priceTextField.text ?? "0"), price >= 0 else {
+            return nil
+        }
+        
+        guard let selectedText = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex), let currency = Currency(rawValue: selectedText) else {
+            return nil
+        }
+        
+        guard let discountedPrice = Double(discountPriceTextField.text ?? "0"), discountedPrice >= 0 else {
+            return nil
+        }
+        
+        guard let stock = Int(stockTextField.text ?? "0"), stock >= 0 else {
+            return nil
+        }
+        
+        //secret 얻어오는 로직 추후 추가
+        let secret = ""
+        
+        return RegistrationParameter(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+    }
 }
 
 // MARK: - Action Method

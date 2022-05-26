@@ -81,18 +81,18 @@ class RegisterEditBaseViewController: UIViewController{
         return view
     }()
     
-    private lazy var nameTextField = generateTextField(placeholder: "상품명")
-    private lazy var priceTextField = generateTextField(placeholder: "상품가격")
-    private lazy var discountPriceTextField = generateTextField(placeholder: "할인가격")
-    private lazy var stockTextField = generateTextField(placeholder: "재고수량")
+    lazy var nameTextField = generateTextField(placeholder: "상품명")
+    lazy var priceTextField = generateTextField(placeholder: "상품가격")
+    lazy var discountPriceTextField = generateTextField(placeholder: "할인가격")
+    lazy var stockTextField = generateTextField(placeholder: "재고수량")
     
-    private lazy var currencySegmentedControl: UISegmentedControl = {
+    lazy var currencySegmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["KRW", "USD"])
         segment.selectedSegmentIndex = 0
         return segment
     }()
     
-    private lazy var textView: UITextView = {
+    lazy var textView: UITextView = {
         let view = UITextView()
         view.font = .preferredFont(forTextStyle: .body)
         view.text = "제품 상세 설명 textView 입니다."
@@ -143,8 +143,6 @@ extension RegisterEditBaseViewController {
             baseVerticalStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-    
     
     private func generateTextField(placeholder: String) -> UITextField {
         let field = UITextField()
