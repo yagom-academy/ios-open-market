@@ -79,7 +79,7 @@ class RegistrationView: UIView {
     return textField
   }()
   //MARK: - description part
-  private let descriptionTextField: UITextView = {
+  private let descriptionTextView: UITextView = {
     let textView = UITextView()
     textView.backgroundColor = .white
     textView.translatesAutoresizingMaskIntoConstraints = false
@@ -141,7 +141,7 @@ class RegistrationView: UIView {
     imageWithButtonStackView.addArrangedSubviews(imageStackView, addImageButton)
     priceStackView.addArrangedSubviews(priceTextField, currencySegmentedControl)
     textFieldStackView.addArrangedSubviews(nameTextField, priceStackView, discountedPriceTextField, stockTextField)
-    totalStackView.addArrangedSubviews(imageScrollView, textFieldStackView, descriptionTextField)
+    totalStackView.addArrangedSubviews(imageScrollView, textFieldStackView, descriptionTextView)
     self.addSubview(totalStackView)
     
     NSLayoutConstraint.activate(
@@ -161,7 +161,7 @@ class RegistrationView: UIView {
        imageWithButtonStackView.topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
        imageWithButtonStackView.bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
        imageWithButtonStackView.heightAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.heightAnchor, multiplier: 1),
-       descriptionTextField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6)
+       descriptionTextView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6)
       ])
   }
   
@@ -177,7 +177,7 @@ class RegistrationView: UIView {
                         discountedPrice: Int(self.discountedPriceTextField.text!)!,
                         stock: Int(self.stockTextField.text!)!,
                         currency: currency,
-                        descriptions: self.descriptionTextField.text!,
+                        descriptions: self.descriptionTextView.text!,
                         secret: "pqnoec089z")
     return params
   }
