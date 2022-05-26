@@ -17,20 +17,27 @@ struct Presenter {
     mutating func setData(of product: Products) -> Presenter {
         var presenter = Presenter()
         
-        let urlString = product.thumbnail.absoluteString
+        let urlString = product.thumbnail?.absoluteString
         presenter.productImage = urlString
         presenter.productName = product.name
         
-        let formattedPrice = formatNumber(price: product.price)
-        presenter.price = "\(product.currency) \(formattedPrice)"
+        let productPrice = product.price ?? 0
+        let productCurrency = product.currency ?? ""
         
-        let formattedBargainPrice = formatNumber(price: product.bargainPrice)
-        presenter.bargainPrice = "\(product.currency) \(formattedBargainPrice)"
+        let formattedPrice = formatNumber(price: productPrice)
+        presenter.price = "\(productCurrency) \(formattedPrice)"
         
-        if product.stock == 0 {
+        let productBargainPrice = product.bargainPrice ?? 0
+        
+        let formattedBargainPrice = formatNumber(price: productBargainPrice)
+        presenter.bargainPrice = "\(productCurrency) \(formattedBargainPrice)"
+        
+        let productStock = product.stock ?? 0
+        
+        if productStock == 0 {
             presenter.stock = "품절"
         } else {
-            presenter.stock = "잔여수량: \(product.stock)"
+            presenter.stock = "잔여수량: \(productStock)"
         }
         
         return presenter

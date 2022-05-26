@@ -91,7 +91,7 @@ final class ProductDetailView: UIView {
             self.entireStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             self.entireStackView.topAnchor.constraint(equalTo: self.topAnchor),
             self.entireStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.entireStackView.heightAnchor.constraint(equalTo: self.heightAnchor),
+            self.entireStackView.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
     }
 }
