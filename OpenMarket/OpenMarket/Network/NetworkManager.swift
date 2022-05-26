@@ -14,14 +14,21 @@ enum NetworkError: Error {
     case decode
 }
 
+struct ImageInfo {
+    let fileName: String
+    let data: Data
+    let type: String
+}
+
 struct NetworkManager<T: Decodable> {
     var session: URLSessionProtocol
+    var imageData: UIImage?
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
     
-    func execute(with api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    mutating func execute(with api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
         let successRange = 200...299
         
         switch api.method {
