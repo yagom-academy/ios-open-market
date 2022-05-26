@@ -1,0 +1,115 @@
+//
+//  ProductRegistrationView.swift
+//  OpenMarket
+//
+//  Created by song on 2022/05/25.
+//
+
+import UIKit
+
+final class ProductRegistrationView: UIView {
+    private let imagesScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .systemBackground
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private let imagesStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let imageButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemGray4
+        button.setTitle("+", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let productInputStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let productName: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "상품명"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let productPrice: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "상품 가격"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let productBargenPrice: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "할인 가격"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let productStock: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "재고 수량"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let productDescription: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = .systemBackground
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupView() {
+        addsubViews(imagesScrollView, productInputStackView)
+        imagesScrollView.addSubview(imagesStackView)
+        imagesStackView.addArrangedsubViews(imageButton)
+        
+        NSLayoutConstraint.activate([
+            imagesScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            imagesScrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            imagesScrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            imagesScrollView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
+        ])
+        
+        NSLayoutConstraint.activate([
+            imagesStackView.topAnchor.constraint(equalTo: imagesScrollView.topAnchor),
+            imagesStackView.bottomAnchor.constraint(equalTo: imagesScrollView.bottomAnchor),
+            imagesStackView.leadingAnchor.constraint(equalTo: imagesScrollView.leadingAnchor),
+            imagesStackView.trailingAnchor.constraint(equalTo: imagesScrollView.trailingAnchor),
+            imagesStackView.heightAnchor.constraint(equalTo: imagesScrollView.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            imageButton.widthAnchor.constraint(equalTo: imageButton.heightAnchor)
+        ])
+    }
+}
