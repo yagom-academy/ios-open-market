@@ -34,6 +34,7 @@
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		D66EAACE283FEBAB00A9583D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66EAACD283FEBAB00A9583D /* UIViewController+Extension.swift */; };
 		D67E6961283757870075284A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67E6960283757870075284A /* ImageCacheManager.swift */; };
 		D6FC9AF0283E751F00192E30 /* Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AEF283E751E00192E30 /* Params.swift */; };
 		D6FC9AF2283F1AE500192E30 /* EditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AF1283F1AE500192E30 /* EditingView.swift */; };
@@ -82,6 +83,7 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D66EAACD283FEBAB00A9583D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		D67E6960283757870075284A /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		D6FC9AEF283E751E00192E30 /* Params.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Params.swift; sourceTree = "<group>"; };
 		D6FC9AF1283F1AE500192E30 /* EditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingView.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			children = (
 				03301A562832ACFA00D58385 /* String+Extension.swift */,
 				0396412C2833705200E0DE5A /* Int+Extension.swift */,
+				D66EAACD283FEBAB00A9583D /* UIViewController+Extension.swift */,
 				03301A582832AD3800D58385 /* ImageView+Extension.swift */,
 				0396412A283368CB00E0DE5A /* UIStackView+Extension.swift */,
 				0396412E28337A5500E0DE5A /* CALayer+Extension.swift */,
@@ -338,6 +341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D66EAACE283FEBAB00A9583D /* UIViewController+Extension.swift in Sources */,
 				03287253283779880056EAB3 /* CollectionView.swift in Sources */,
 				03301A592832AD3800D58385 /* ImageView+Extension.swift in Sources */,
 				030874E1283CB038005BDDB2 /* RegistrationViewController.swift in Sources */,
