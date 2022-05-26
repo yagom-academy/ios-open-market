@@ -100,7 +100,7 @@ final class APINetworkService: NetworkService {
     \"currency\": \"\(product.currency.rawValue)\",
     \"stock\": \(product.stock),
     \"descriptions\": \"\(product.description)\",
-    \"secret\": \"7tyryc4yyp\"
+    \"secret\": \"9vylftzug8\"
     }
     """)
     for image in product.images {
