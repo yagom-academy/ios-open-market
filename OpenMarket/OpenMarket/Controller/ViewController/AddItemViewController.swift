@@ -10,12 +10,11 @@ import UIKit
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
     @IBOutlet private weak var curruncySegment: UISegmentedControl!
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var priceTextField: UITextField!
-    @IBOutlet weak var discountPriceTextField: UITextField!
-    @IBOutlet weak var stockTextField: UITextField!
-    @IBOutlet weak var discriptinTextView: UITextView!
-    
+    @IBOutlet private weak var nameTextField: UITextField!
+    @IBOutlet private weak var priceTextField: UITextField!
+    @IBOutlet private weak var discountPriceTextField: UITextField!
+    @IBOutlet private weak var stockTextField: UITextField!
+    @IBOutlet private weak var discriptinTextView: UITextView!
     @IBOutlet private weak var myScrollView: UIScrollView!
     private let imagePicker = UIImagePickerController()
     private var imageArray: [UIImage] = [] {
@@ -23,41 +22,11 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
-    @objc private func keyboardWillShow(_ notification: Notification) {
-            guard let userInfo = notification.userInfo,
-                let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-                    return
-            }
-            
-            let contentInset = UIEdgeInsets(
-                top: 0.0,
-                left: 0.0,
-                bottom: keyboardFrame.height,
-                right: 0.0)
-            myScrollView.contentInset = contentInset
-            myScrollView.scrollIndicatorInsets = contentInset
-        }
-        
-        @objc private func keyboardWillHide() {
-            let contentInset = UIEdgeInsets.zero
-            myScrollView.contentInset = contentInset
-            myScrollView.scrollIndicatorInsets = contentInset
-        }
     
     override func viewDidLoad() {
-            super.viewDidLoad()
-            setInitialView()
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(keyboardWillShow),
-                name: UIResponder.keyboardWillShowNotification,
-                object: nil)
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(keyboardWillHide),
-                name: UIResponder.keyboardWillHideNotification,
-                object: nil)
-        }
+        super.viewDidLoad()
+        setInitialView()
+    }
     
     private func setInitialView() {
         navigationItem.setLeftBarButton(makeCancelButton(), animated: true)
@@ -68,7 +37,8 @@ final class AddItemViewController: UIViewController {
         itemImageCollectionView.register(UINib(nibName: "\(ItemImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(ItemImageCell.self)")
         setSegmentTextFont()
         setLayout()
-        makeKeyboardToolbar()
+        addKeyboardToolbar()
+        addKeyboardObserver()
     }
     
     @objc private func touchCancelButton() {
@@ -155,7 +125,7 @@ extension AddItemViewController {
         return barButton
     }
     
-    private func makeKeyboardToolbar() {
+    private func addKeyboardToolbar() {
         let barButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(hideKeyboard))
         barButton.tintColor = .darkGray
         let emptySpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -192,5 +162,27 @@ extension AddItemViewController {
         section.orthogonalScrollingBehavior = .paging
         
         itemImageCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.height, right: 0.0)
+        myScrollView.contentInset = contentInset
+        myScrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        myScrollView.contentInset = contentInset
+        myScrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
