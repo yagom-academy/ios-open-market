@@ -7,19 +7,18 @@
 
 import UIKit
 
-class ProductRegistrationViewController: UIViewController {
-    private lazy var baseView = ProductRegistrationView(frame: view.bounds)
-
+final class ProductRegistrationViewController: UIViewController {
+    private lazy var baseView = ProductRegistrationView(frame: view.frame)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         setupNavigationItems()
         setupView()
-
     }
     
     private func setupView() {
         view = baseView
+        view.backgroundColor = .systemBackground
     }
     
     private func setupNavigationItems() {
