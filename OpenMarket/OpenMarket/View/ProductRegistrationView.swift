@@ -104,9 +104,11 @@ final class ProductRegistrationView: UIView {
     }
     
     private func setupView() {
-        addsubViews(imagesScrollView, productInputStackView)
+        addsubViews(imagesScrollView, TextFieldStackView, productDescription)
         imagesScrollView.addSubview(imagesStackView)
         imagesStackView.addArrangedsubViews(imageButton)
+        TextFieldStackView.addArrangedsubViews(productName, priceStackView, productBargenPrice, productStock)
+        priceStackView.addArrangedsubViews(productPrice, currencySegmentControl)
         
         NSLayoutConstraint.activate([
             imagesScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -125,6 +127,24 @@ final class ProductRegistrationView: UIView {
         
         NSLayoutConstraint.activate([
             imageButton.widthAnchor.constraint(equalTo: imageButton.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            TextFieldStackView.topAnchor.constraint(equalTo: imagesScrollView.bottomAnchor, constant: 10),
+            TextFieldStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            TextFieldStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            TextFieldStackView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
+        ])
+        
+        NSLayoutConstraint.activate([
+            currencySegmentControl.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3)
+        ])
+        
+        NSLayoutConstraint.activate([
+            productDescription.topAnchor.constraint(equalTo: TextFieldStackView.bottomAnchor, constant: 10),
+            productDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            productDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            productDescription.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
