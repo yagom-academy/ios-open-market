@@ -19,4 +19,3 @@ extension Int {
       return currencyNumber
   }
 }
-
