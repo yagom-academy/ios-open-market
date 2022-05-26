@@ -213,7 +213,7 @@ extension ProductRegisterViewController: UINavigationControllerDelegate, UIImage
     if let image = info[.editedImage] as? UIImage {
       let imageView = UIImageView()
       imageView.contentMode = .scaleToFill
-      imageView.image = resizeImage(image: image, height: imageStackView.frame.height)
+      imageView.image = image.resize(with: imageStackView.frame.height)
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
       self.imageStackView.insertArrangedSubview(imageView, at: imageStackView.arrangedSubviews.count - 1)
       if imageStackView.arrangedSubviews.count == 6 {
@@ -221,15 +221,5 @@ extension ProductRegisterViewController: UINavigationControllerDelegate, UIImage
       }
     }
     self.dismiss(animated: true)
-  }
-  
-  private func resizeImage(image: UIImage, height: CGFloat) -> UIImage? {
-    let scale = height / image.size.height
-    let width = image.size.width * scale
-    UIGraphicsBeginImageContext(CGSize(width: width, height: height))
-    image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-    let newImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return newImage
   }
 }
