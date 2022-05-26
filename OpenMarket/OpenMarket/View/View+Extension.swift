@@ -12,3 +12,14 @@ extension UIView {
         return String(describing: self)
     }
 }
+
+extension UIStackView {
+    func addLastBehind(view: UIView){
+        let lastViewCount = self.accessibilityElementCount()
+        if lastViewCount == 0 {
+            self.insertArrangedSubview(view, at: 0)
+        } else {
+            self.insertArrangedSubview(view, at: lastViewCount-1)
+        }
+    }
+}

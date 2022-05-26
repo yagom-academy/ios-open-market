@@ -44,7 +44,7 @@ class RegisterEditBaseViewController: UIViewController{
         action: #selector(registerEditViewLeftBarButtonTapped)
     )
     
-    private lazy var addImageScrollView: UIScrollView = {
+    lazy var addImageScrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -60,7 +60,7 @@ class RegisterEditBaseViewController: UIViewController{
         return view
     }()
     
-    private lazy var baseVerticalStackView: UIStackView = {
+    lazy var baseVerticalStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [
             nameTextField,
             priceCurrencyStackView,
@@ -118,7 +118,7 @@ extension RegisterEditBaseViewController {
         navigationItem.leftBarButtonItem = leftNavigationButton
     }
     
-    private func setConstraint() {
+    func setConstraint() {
         view.addSubview(addImageScrollView)
         NSLayoutConstraint.activate([
             addImageScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -144,18 +144,7 @@ extension RegisterEditBaseViewController {
         ])
     }
     
-    func addImageToStackView(image: UIImage){
-        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
-        imageView.image = image
-        addImageHorizontalStackView.addArrangedSubview(imageView)
-        
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: addImageHorizontalStackView.heightAnchor),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        ])
-        
-        addImageHorizontalStackView.setNeedsDisplay()
-    }
+    
     
     private func generateTextField(placeholder: String) -> UITextField {
         let field = UITextField()

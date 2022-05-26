@@ -17,35 +17,39 @@ final class RegisterViewController: RegisterEditBaseViewController {
         imageButton.setImage(image, for: .normal)
         imageButton.backgroundColor = .systemGray5
         imageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            imageButton.heightAnchor.constraint(equalTo: addImageHorizontalStackView.heightAnchor),
-            imageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor)
-        ])
+
         return imageButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self
-//        addImageHorizontalStackView  [addImageButton]
+        setBaseImage()
     }
 }
 
 // MARK: - Method
-extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+extension RegisterViewController {
+    func addImageToStackView(image: UIImage){
+        let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
+        imageView.image = image
+        addImageHorizontalStackView.addLastBehind(view: imageView)
         
-        guard let selectedImage = info[.originalImage] as? UIImage else {
-            fatalError("error")
-    }
-    addImageToStackView(image: selectedImage)
-    picker.dismiss(animated: true)
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalTo: addImageHorizontalStackView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+        ])
+        
+        addImageHorizontalStackView.setNeedsDisplay()
     }
     
-    private func openLibrary() {
-        picker.sourceType = .photoLibrary
-        present(picker, animated: false, completion: nil)
+    func setBaseImage() {
+        addImageHorizontalStackView.addArrangedSubview(addImageButton)
+    
+        NSLayoutConstraint.activate([
+            addImageButton.heightAnchor.constraint(equalTo: addImageHorizontalStackView.heightAnchor),
+            addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor)
+        ])
     }
 }
 
@@ -74,3 +78,23 @@ extension RegisterViewController {
         present(alert, animated: true, completion: nil)
     }
 }
+
+// MARK: - UIImagePickerControllerDelegate
+extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let selectedImage = info[.originalImage] as? UIImage else {
+            fatalError("error")
+    }
+    addImageToStackView(image: selectedImage)
+    picker.dismiss(animated: true)
+    }
+    
+    private func openLibrary() {
+        picker.sourceType = .photoLibrary
+        present(picker, animated: false, completion: nil)
+    }
+}
+
+
