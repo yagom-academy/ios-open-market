@@ -2,12 +2,12 @@
 //  ProductView.swift
 //  OpenMarket
 //
-//  Created by 김태훈 on 2022/05/24.
+//  Created by Grumpy, OneTool on 2022/05/24.
 //
 
 import UIKit
 
-class ProductView: UIView {
+final class ProductView: UIView {
 
     lazy var mainStackView: UIStackView = {
        let stackView = UIStackView()

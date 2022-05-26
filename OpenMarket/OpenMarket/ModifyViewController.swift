@@ -2,7 +2,7 @@
 //  ModifyViewController.swift
 //  OpenMarket
 //
-//  Created by 김태훈 on 2022/05/24.
+//  Created by Grumpy, OneTool on 2022/05/24.
 //
 
 import UIKit
@@ -10,93 +10,59 @@ import UIKit
 class ModifyViewController: UIViewController {
     var product: Product?
     lazy var productView = ProductView(frame: view.frame)
-    var currency: Currency = .KRW
+    private var currency: Currency = .KRW
     weak var delegate: ListUpdatable?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = productView
         self.view.backgroundColor = .white
         
+        defineCollectionViewDelegate()
+        defineTextFieldDelegate()
+        setUpProductViewContent()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            
+            if self.productView.descriptionView.isFirstResponder {
+                productView.mainScrollView.scrollRectToVisible(productView.descriptionView.frame, animated: true)
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+    }
+    
+    private func setUpNavigationBar() {
         self.navigationItem.title = "상품수정"
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
-        self.navigationItem.rightBarButtonItem = doneButton
+        let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
+        self.navigationItem.rightBarButtonItem = requestButton
         self.navigationItem.hidesBackButton = true
-        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
-        backbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
-        self.navigationItem.leftBarButtonItem = backbutton
-        
-        productView.collectionView.delegate = self
-        productView.collectionView.dataSource = self
-        productView.priceField.delegate = self
-        productView.discountedPriceField.delegate = self
-        productView.stockField.delegate = self
-        
-        productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
-        fillData()
+        let cancelbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
+        cancelbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
+        self.navigationItem.leftBarButtonItem = cancelbutton
     }
     
-    func fillData() {
+    @objc private func requestModification() {
         guard let product = product else {
             return
         }
-        
-        productView.currencyField.selectedSegmentIndex = product.currency!.value
-        self.changeCurrency(productView.currencyField)
-        
-        productView.nameField.text = product.name
-        productView.priceField.text = String(product.price)
-        productView.stockField.text = String(product.stock)
-        productView.descriptionView.text = product.description
-        productView.discountedPriceField.text = String(product.discountedPrice)
-    }
-    
-    @objc func changeCurrency(_ sender: UISegmentedControl) {
-        let mode = sender.selectedSegmentIndex
-        if mode == Currency.KRW.value {
-            currency = Currency.KRW
-        } else if mode == Currency.USD.value {
-            currency = Currency.USD
-        }
-    }
-}
-
-extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return CGSize(width: collectionView.frame.width * 0.4, height: collectionView.frame.height)
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let images = product?.images else {
-            return .zero
-        }
-        return images.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as? ImageRegisterCell else {
-            return ImageRegisterCell()
-        }
-        guard let images = product?.images else {
-            return ImageRegisterCell()
-        }
-        cell.imageView.backgroundColor = .clear
-        cell.plusButton.isHidden = true
-        cell.imageView.requestImageDownload(url: images[indexPath.row].url)
-        return cell
-    }
-    
-    func requestModifyProduct() {
-        
-        
-    }
-    
-    @objc func cancelModification() {
-        guard let product = product else {
-            return
-        }
-        guard let data = makeModifyRequestBody(for: product) else {
+        guard let data = makeRequestBody() else {
             return
         }
         
@@ -107,11 +73,42 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func requestModification() {
+    @objc private func cancelModification() {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func makeModifyRequestBody(for product: Product) -> Data? {
+    private func setUpProductViewContent() {
+        guard let product = product else {
+            return
+        }
+        guard let currency = product.currency else {
+            return
+        }
+        setUpInitialCurrencyState(currency.value)
+        
+        productView.nameField.text = product.name
+        productView.priceField.text = String(product.price)
+        productView.stockField.text = String(product.stock)
+        productView.descriptionView.text = product.description
+        productView.discountedPriceField.text = String(product.discountedPrice)
+    }
+    
+    private func setUpInitialCurrencyState(_ value: Int) {
+        productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
+        productView.currencyField.selectedSegmentIndex = value
+        self.changeCurrency(productView.currencyField)
+    }
+    
+    @objc func changeCurrency(_ sender: UISegmentedControl) {
+        let mode = sender.selectedSegmentIndex
+        if mode == Currency.KRW.value {
+            currency = Currency.KRW
+        } else if mode == Currency.USD.value {
+            currency = Currency.USD
+        }
+    }
+    
+    private func makeRequestBody() -> Data? {
         guard productView.validTextField(productView.nameField) else {
             let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "취소", style: .default)
@@ -133,7 +130,7 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return data
     }
     
-    func detectModifiedContent() -> ProductToModify {
+    private func detectModifiedContent() -> ProductToModify {
         var modifyProduct: ProductToModify = ProductToModify()
         guard let product = product else {
             return modifyProduct
@@ -157,32 +154,41 @@ extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         return modifyProduct
     }
+}
+
+extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width * 0.4, height: collectionView.frame.height)
+    }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-            
-            if self.productView.descriptionView.isFirstResponder {
-                productView.mainScrollView.scrollRectToVisible(productView.descriptionView.frame, animated: true)
-            }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let images = product?.images else {
+            return .zero
         }
+        return images.count
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
-        self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as? ImageRegisterCell else {
+            return ImageRegisterCell()
+        }
+        guard let images = product?.images else {
+            return ImageRegisterCell()
+        }
+        cell.imageView.backgroundColor = .clear
+        cell.plusButton.isHidden = true
+        cell.imageView.requestImageDownload(url: images[indexPath.row].url)
+        return cell
     }
+}
+
+
+
+
+
+// MARK: - Common
+extension ModifyViewController {
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
 }
 
 extension ModifyViewController: UITextFieldDelegate {
@@ -193,5 +199,18 @@ extension ModifyViewController: UITextFieldDelegate {
             }
         }
         return false
+    }
+}
+
+extension ModifyViewController {
+    private func defineCollectionViewDelegate() {
+        productView.collectionView.delegate = self
+        productView.collectionView.dataSource = self
+    }
+    
+    private func defineTextFieldDelegate() {
+        productView.priceField.delegate = self
+        productView.discountedPriceField.delegate = self
+        productView.stockField.delegate = self
     }
 }

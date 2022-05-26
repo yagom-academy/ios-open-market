@@ -7,12 +7,15 @@
 
 import UIKit
 
+extension API {
+    static let maxSize = 300.0
+}
+
 final class RegisterViewController: UIViewController, UIImagePickerControllerDelegate {
     lazy var productView = ProductView(frame: view.frame)
     weak var delegate: ListUpdatable?
     private var currency: Currency = .KRW
     private var images: [UIImage] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = productView
@@ -21,7 +24,7 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
         defineCollectionViewDelegate()
         defineTextFieldDelegate()
         
-        setUpInitialCurrencyState()
+        productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,18 +55,12 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
     
     private func setUpNavigationBar() {
         self.navigationItem.title = "상품등록"
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestRegistration))
-        self.navigationItem.rightBarButtonItem = doneButton
+        let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestRegistration))
+        self.navigationItem.rightBarButtonItem = requestButton
         self.navigationItem.hidesBackButton = true
-        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelRegistration))
-        backbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
-        self.navigationItem.leftBarButtonItem = backbutton
-    }
-    
-    private func setUpInitialCurrencyState() {
-        productView.currencyField.addTarget(self, action: #selector(changeCurrency(_:)), for: .valueChanged)
-        productView.currencyField.selectedSegmentIndex = 0
-        self.changeCurrency(productView.currencyField)
+        let cancelbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelRegistration))
+        cancelbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
+        self.navigationItem.leftBarButtonItem = cancelbutton
     }
     
     @objc func changeCurrency(_ sender: UISegmentedControl) {
@@ -80,7 +77,7 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
     }
     
     @objc private func requestRegistration(_ sender: UIBarButtonItem) {
-        guard let data = makeRegisterPostBody() else {
+        guard let data = makeRequestBody() else {
             return
         }
         RequestAssistant.shared.requestRegisterAPI(body: data) { _ in
@@ -90,7 +87,7 @@ final class RegisterViewController: UIViewController, UIImagePickerControllerDel
         self.navigationController?.popViewController(animated: true)
     }
     
-    private func makeRegisterPostBody() -> Data? {
+    private func makeRequestBody() -> Data? {
         guard let name = productView.nameField.text, productView.validTextField(productView.nameField) else {
             let alert = UIAlertController(title: "상품명을 3자 이상 100자 이하로 입력해주세요.", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "닫기", style: .default)
@@ -215,11 +212,11 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
 
 extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let maxKBSize: Double = 300.0
+        
         guard let editedImage = info[.editedImage] as? UIImage else {
             return
         }
-        let image = resizeImageToFit(editedImage, at: maxKBSize)
+        let image = resizeImageToFit(editedImage, at: API.maxSize)
         
         images.append(image)
         dismiss(animated: true, completion: nil)
