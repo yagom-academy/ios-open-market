@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterEditBaseViewController: UIViewController{
+class RegisterEditBaseViewController: UIViewController {
     
     private enum Constant {
         static let rightNavigationButtonText = "Done"
@@ -82,8 +82,8 @@ class RegisterEditBaseViewController: UIViewController{
     }()
     
     lazy var nameTextField = generateTextField(placeholder: "상품명", keyboardType: .default)
-    lazy var priceTextField = generateTextField(placeholder: "상품가격", keyboardType: .numberPad)
-    lazy var discountPriceTextField = generateTextField(placeholder: "할인가격", keyboardType: .numberPad)
+    lazy var priceTextField = generateTextField(placeholder: "상품가격", keyboardType: .decimalPad)
+    lazy var discountPriceTextField = generateTextField(placeholder: "할인가격", keyboardType: .decimalPad)
     lazy var stockTextField = generateTextField(placeholder: "재고수량", keyboardType: .numberPad)
     
     lazy var currencySegmentedControl: UISegmentedControl = {
@@ -102,7 +102,8 @@ class RegisterEditBaseViewController: UIViewController{
     }()
 }
 
-// MARK: - Method
+// MARK: - Lifecycle Method
+
 extension RegisterEditBaseViewController {
     
     override func viewDidLoad() {
@@ -111,6 +112,21 @@ extension RegisterEditBaseViewController {
         setNavigationTitle()
         setConstraint()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        registerForKeyboardNotification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeRegisterForKeyboardNotification()
+    }
+}
+
+// MARK: - Method
+
+extension RegisterEditBaseViewController {
     
     private func setNavigationTitle() {
         navigationItem.title = mode.navigationItemTitle
@@ -164,7 +180,40 @@ extension RegisterEditBaseViewController {
     }
 }
 
+// MARK: - Keyboard Method
+
+extension RegisterEditBaseViewController {
+    
+    private func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeRegisterForKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardHide(_ notification: Notification) {
+        self.view.transform = .identity
+    }
+    
+    @objc private func keyBoardShow(notification: NSNotification) {
+        let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
+    }
+    
+    private func keyboardAnimate(keyboardRectangle: CGRect ,textView: UITextView) {
+        if keyboardRectangle.height > (self.view.frame.height - textView.frame.maxY){
+            self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height))
+        }
+    }
+}
+
 // MARK: - Action Method
+
 extension RegisterEditBaseViewController {
     
     @objc private func registerEditViewRightBarButtonTapped() {
