@@ -52,11 +52,21 @@ extension MainViewController {
         let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backbutton
         
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
         defineCollectionViewDelegate()
         
         setUpInitialState()
+    }
+    
+    @objc func pullToRefresh() {
+        self.collectionView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.collectionView.refreshControl?.endRefreshing()
+        }
     }
 }
 
