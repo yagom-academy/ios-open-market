@@ -25,6 +25,7 @@ struct HTTPManager {
         case productList(pageNumber: Int, itemsPerPage: Int)
         case productDetail(productNumber: Int)
         case productPost
+        case productPatch(productIdentifier: Int)
         
         var string: String {
             switch self {
@@ -36,6 +37,8 @@ struct HTTPManager {
                 return "/api/products/\(productNumber)"
             case .productPost:
                 return "/api/products/"
+            case .productPatch(let productIdentifier):
+                return "/api/products/\(productIdentifier)"
             }
         }
         
@@ -185,5 +188,52 @@ struct HTTPManager {
         data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
         return data
+    }
+    
+    func patchData(product: [String : Any], targetURL: TargetURL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
+        let requestURL = targetURL.requestURL
+        guard let url = URL(string: requestURL) else {
+            completionHandler(.failure(.invalidURL))
+            return nil
+        }
+        
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
+        request.httpMethod = "PATCH"
+        
+        request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+       
+        var product = product
+        product.updateValue("password", forKey: "secret")
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: product) else {
+            return nil
+        }
+        
+        request.httpBody = jsonData
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (StatusCode.successRange).contains(httpResponse.statusCode) else {
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
+                return
+            }
+        
+            switch httpResponse.statusCode {
+            case StatusCode.okSuccess where httpResponse.mimeType == ContentType.applicationJson:
+                guard let data = data else {
+                    completionHandler(.failure(.emptyData))
+                    return
+                }
+                completionHandler(.success(data))
+            default:
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
+            }
+        }
+        task.resume()
+        return task
     }
 }
