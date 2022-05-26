@@ -70,6 +70,11 @@ extension UpdateProductViewController {
     }
     
     @objc private func touchUpDoneButton() {
+        if images.count == 0 {
+            let alertController = Alert().showWarning(title: "이미지를 1개 이상 선택하세요.")
+            present(alertController, animated: true)
+            return
+        }
         if let product = product {
             HTTPManager().patchData(product: productInput, targetURL: .productPatch(productIdentifier: product.identifier)) { data in
                 return
