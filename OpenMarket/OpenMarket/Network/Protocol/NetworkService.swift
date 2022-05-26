@@ -4,7 +4,7 @@
 //  Created by Lingo, Quokka on 2022/05/11.
 //
 
-import Foundation
+import UIKit
 
 protocol NetworkService {
   func checkHealth(
@@ -21,4 +21,6 @@ protocol NetworkService {
     productID: Int,
     _ completion: @escaping (Result<Product, APINetworkError>) -> Void
   )
+  
+  func registerProduct(_ product: ProductRequest)
 }

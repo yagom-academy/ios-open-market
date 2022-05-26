@@ -8,7 +8,8 @@
 import UIKit
 
 final class ProductRegisterViewController: UIViewController {
-  var keyboardSize: CGRect?
+  private var keyboardSize: CGRect?
+  private var images = [UIImage]()
   
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
@@ -208,7 +209,30 @@ private extension ProductRegisterViewController {
   }
   
   @objc func closeButtonDidTap() {
+    guard let product = createProductForm() else { return }
+    
+    let service = APINetworkService(urlSession: URLSession.shared)
+    service.registerProduct(product)
     self.dismiss(animated: true)
+  }
+  
+  func createProductForm() -> ProductRequest? {
+    guard let productName = nameTextField.text,
+          let productPrice = priceTextField.text,
+          let discountedPrice = discountedPriceTextField.text,
+          let productStock = stockTextField.text,
+          let description = descriptionsTextView.text
+    else { return nil }
+    
+    return ProductRequest(
+      name: productName,
+      price: productPrice,
+      currency: currencySegment.selectedSegmentIndex == .zero ? .krw : .usd,
+      discountedPrice: discountedPrice,
+      stock: productStock,
+      description: description,
+      images: images
+    )
   }
 }
 
@@ -245,9 +269,12 @@ extension ProductRegisterViewController: UINavigationControllerDelegate, UIImage
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
   ) {
     if let image = info[.editedImage] as? UIImage {
+      let resizedImage = image.resize(with: imageStackView.frame.height)
+      self.images.append(resizedImage)
+      
       let imageView = UIImageView()
       imageView.contentMode = .scaleToFill
-      imageView.image = image.resize(with: imageStackView.frame.height)
+      imageView.image = resizedImage
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
       self.imageStackView.insertArrangedSubview(imageView, at: imageStackView.arrangedSubviews.count - 1)
       if imageStackView.arrangedSubviews.count == 6 {

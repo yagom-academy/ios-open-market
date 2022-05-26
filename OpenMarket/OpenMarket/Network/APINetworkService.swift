@@ -4,7 +4,7 @@
 //  Created by Lingo, Quokka on 2022/05/11.
 //
 
-import Foundation
+import UIKit
 
 fileprivate enum Constant {
   static let baseURL = "https://market-training.yagom-academy.kr/"
@@ -76,6 +76,50 @@ final class APINetworkService: NetworkService {
         completion(.failure(error))
       }
     }
+  }
+  
+  func registerProduct(_ product: ProductRequest) {
+    let urlString = Constant.baseURL + Constant.productDetailPath
+    guard let url = URL(string: urlString) else { return }
+    
+    let boundary = UUID().uuidString
+    var urlRequest = URLRequest(url: url)
+    urlRequest.httpMethod = "POST"
+    urlRequest.addValue("f81d1b5f-d1b7-11ec-9676-094e9d1692c2", forHTTPHeaderField: "identifier")
+    urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    
+    var data = Data()
+    data.appendString("\r\n--\(boundary)\r\n")
+    data.appendString("Content-Disposition: form-data; name=\"params\"\r\n")
+    data.appendString("Content-Type: application/json\r\n\r\n")
+    data.appendString("""
+    {
+    \"name\": \"\(product.name)\",
+    \"price\": \(product.price),
+    \"discounted_price\": \(product.discountedPrice),
+    \"currency\": \"\(product.currency.rawValue)\",
+    \"stock\": \(product.stock),
+    \"descriptions\": \"\(product.description)\",
+    \"secret\": \"7tyryc4yyp\"
+    }
+    """)
+    for image in product.images {
+      data.appendString("\r\n--\(boundary)\r\n")
+      data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"image.jpg\"\r\n")
+      data.appendString("Content-Type: image/jpg\r\n\r\n")
+      
+      guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
+      data.append(imageData)
+    }
+    data.appendString("\r\n--\(boundary)--\r\n")
+    urlRequest.httpBody = data
+    
+    URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+      guard error == nil else { return }
+      guard let response = response as? HTTPURLResponse,
+            (200..<300).contains(response.statusCode)
+      else { return }
+    }.resume()
   }
   
   private func request(
