@@ -45,6 +45,7 @@ final class MainViewController: UIViewController {
     configureNavigationBar()
     applySnapshot(animatingDifferences: false)
     collectionView.prefetchDataSource = self
+    collectionView.delegate = self
   }
   
   private func fetchPages() {
@@ -145,13 +146,16 @@ extension MainViewController {
 // MARK: - ViewController Delegate
 extension MainViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let detailViewController = DetailViewController()
     let detailAPIProvider = ApiProvider<DetailProduct>()
     detailAPIProvider.get(.editing(productId: pages[indexPath.row].id)) { data in
       guard let selectedProduct = try? data.get() else {
         return
       }
-      self.editingView.displayProductInformation(selectedProduct)
+      detailViewController.delegate = selectedProduct
+//      self.editingView.displayProductInformation(selectedProduct)
     }
+    navigationController?.pushViewController(detailViewController, animated: false)
   }
 }
 // MARK: - UICollectionViewDataSourcePrefetching
