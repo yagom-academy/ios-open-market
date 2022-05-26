@@ -65,6 +65,7 @@ final class RegistrationViewController: UIViewController {
         return
       }
     }
+    self.dismiss(animated: true, completion: nil)
   }
 }
 //MARK: - alert
