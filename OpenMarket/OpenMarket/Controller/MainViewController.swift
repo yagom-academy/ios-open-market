@@ -177,4 +177,17 @@ extension MainViewController: UICollectionViewDelegate {
             }
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = dataSource?.itemIdentifier(for: indexPath) else { return }
+        
+        let registerProductView = RegisterProductViewController()
+        let navigationController = UINavigationController(rootViewController: registerProductView)
+        navigationController.modalTransitionStyle = .coverVertical
+        navigationController.modalPresentationStyle = .fullScreen
+        
+        registerProductView.initialize(product: product)
+        
+        present(navigationController, animated: true)
+    }
 }
