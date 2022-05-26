@@ -1,5 +1,5 @@
-# 🛒 오픈 마켓1
-> 프로젝트 기간: 2022-05-09 ~ 2022-05-20
+# 🛒 오픈 마켓
+> 프로젝트 기간: 2022-05-09 ~ 2022-06-03
 > 
 > 팀원: [Safari](https://github.com/saafaaari), [dudu](https://github.com/firstDo)
 > 
@@ -15,6 +15,8 @@
 ## 👀 PR
 - [STEP 1](https://github.com/yagom-academy/ios-open-market/pull/136)
 - [STEP 2](https://github.com/yagom-academy/ios-open-market/pull/145)
+- [STEP 3](https://github.com/yagom-academy/ios-open-market/pull/156)
+- [STEP 4]()
 
 
 ## 🛠 개발환경 및 라이브러리
@@ -24,7 +26,7 @@
 
 
 ## 🔑 키워드
-- `Network`
+- `Network Get/Post/Petch`
 - `URLSession Mock Test`
 - `Json Decoding Strategy`
 - `XCTestExpection`
@@ -40,6 +42,9 @@
 - `NSCache`
 - `CollectionView Cell Prefecting`
 - `CollectionView Paging`
+- `TextFieldDelegate, TextViewDelegate`
+- `MultipartForm data`
+- `UIImagePickerController`
 
 ## ✨ 구현내용
 - Network 통신을 위한 타입 구현
@@ -57,7 +62,11 @@
 - `RefreshControl` 기능 구현
 - `UIActivityindicatorView` 기능 구현
 - 다운로드 취소 기능 구현
-
+- 제품 수정 및 등록 UI 구현
+- Text Field 입력 정보에 맞는 키보드 및 입력 제한 기능 구현
+- 제품 수정을 위한 네트워크 PETCH 기능 구현
+- 제품 등록을 위한 네트워크 POST 기능 구현
+- Image 데이터 압축 기능 구현
 
 ## 📖 학습내용
 - `JsonDecoder`의 Decoding Strategy
@@ -67,6 +76,10 @@
 - `UICompostionalLayout`, `UICollectionViewDiffableDataSource`, NSDiffableDataSourceSnapshot 를 이용한 `collectionView` 구현
 - `Network`에서 `data` 다운받을때 `paging` 방법
 - `URLSessionTask` `cancel` 메소드 사용 방법
+- 'UITextField' 텍스트에 제약을 주는 방법
+- `UITextField`의 inputAccessroyView 사용법
+- `MultipartForm data`, `JSON data` 를 이용한 post 통신, petch 통신
+- `UIImagePickerController`를 이용한 Image 가져오는 방법
 
 ## 🤔 STEP별 고민한 점 및 해결한 방법
 
@@ -88,7 +101,6 @@ protocol URLSessionProtocol {
 extension URLSession: URLSessionProtocol {}
 
 ```
-
 
 ```swift
 // DummyData를 data형태로 저장하고 있을 모델
@@ -420,4 +432,42 @@ final class AlertDirector {
 // 실제 사용
 AlertDirector(viewController: self).createErrorAlert()
 ```
- 
+
+## [STEP 3]
+
+
+### 1. textField에 입력제한을 두는 법
+
+가격, 할인가격, 재고 textField에는 양의 정수만 들어가야하는 제약사항이 있었습니다.
+TextFieldDelegate, TextViewDelegate를 채택하여 
+
+```swift
+textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+```
+
+### 2. cell에 x버튼 추가
+
+제품 등록 화면에서 등록한 이미지를 다시 사용자가 취소할 수 있도록 Cell 상단에 x버튼을 추가하여, 클릭시 등록한 이미지를 삭제할 수 있도록 구현하였습니다. 또한 x버튼을 클릭하면 cell 자신이 지워질 수 있도록 Cell에 클로저 프로퍼티를 추가하고, addTarget을 Cell내부에서 해주었습니다.
+
+![](https://i.imgur.com/ddrFKET.gif)
+
+### 3. multipart form - data
+
+상품을 서버에 등록하기 위해 `multipart form - data` 포멧을 사용하여 데이터를 등록하였습니다. 그 덕분에 서로다른 형식의 데이터를 동시에 보낼 수 있게 되었습니다. Model 데이터 부분은 Model 타입을 인코팅하였고, 이미지는 이미지를 데이터로 compactMap을 활용하여 변환 후 반복문을 통해 
+
+```swift
+let newLine = "\r\n"
+let boundaryPrefix = "--\(boundary)\r\n"
+let boundarySuffix = "\r\n--\(boundary)--\r\n"
+// ..중략
+for imageData in imageDatas {
+    data.appendString(boundaryPrefix)
+    data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n")
+    data.appendString("Content-Type: image/jpg\r\n\r\n")
+    data.append(imageData)
+    data.appendString(newLine)
+}
+```
+
+위와 같이 서버에 등록하였습니다.
