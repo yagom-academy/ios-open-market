@@ -26,6 +26,7 @@
 		0396412B283368CB00E0DE5A /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396412A283368CB00E0DE5A /* UIStackView+Extension.swift */; };
 		0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396412C2833705200E0DE5A /* Int+Extension.swift */; };
 		0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0396412E28337A5500E0DE5A /* CALayer+Extension.swift */; };
+		03D0695B283F807E00DDA5B3 /* DetailProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D0695A283F807E00DDA5B3 /* DetailProduct.swift */; };
 		AE2C0685282B966500D5A24C /* ApiProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2C0684282B966500D5A24C /* ApiProviderTests.swift */; };
 		AEAF783328327FAA00215F26 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAF783228327FAA00215F26 /* ListCell.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -35,7 +36,7 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		D67E6961283757870075284A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67E6960283757870075284A /* ImageCacheManager.swift */; };
 		D6FC9AF0283E751F00192E30 /* Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AEF283E751E00192E30 /* Params.swift */; };
-		D6FC9AF2283F1AE500192E30 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AF1283F1AE500192E30 /* EditView.swift */; };
+		D6FC9AF2283F1AE500192E30 /* EditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FC9AF1283F1AE500192E30 /* EditingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		0396412A283368CB00E0DE5A /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		0396412C2833705200E0DE5A /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		0396412E28337A5500E0DE5A /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		03D0695A283F807E00DDA5B3 /* DetailProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProduct.swift; sourceTree = "<group>"; };
 		AE2C0684282B966500D5A24C /* ApiProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProviderTests.swift; sourceTree = "<group>"; };
 		AEAF783228327FAA00215F26 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +82,7 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D67E6960283757870075284A /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		D6FC9AEF283E751E00192E30 /* Params.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Params.swift; sourceTree = "<group>"; };
-		D6FC9AF1283F1AE500192E30 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		D6FC9AF1283F1AE500192E30 /* EditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			children = (
 				036802E8282911100097DC62 /* Products.swift */,
 				D6FC9AEF283E751E00192E30 /* Params.swift */,
+				03D0695A283F807E00DDA5B3 /* DetailProduct.swift */,
 				0341E5CF282A2D4700DEC832 /* ApiProvider.swift */,
 				039161D7282B573600DFE033 /* URLSessionProtocol.swift */,
 				037A74112834C6BC001AC352 /* Endpoint.swift */,
@@ -141,7 +144,7 @@
 				AEAF783228327FAA00215F26 /* ListCell.swift */,
 				03301A5A2832B68400D58385 /* GridCell.swift */,
 				030874E2283CB06A005BDDB2 /* RegistrationView.swift */,
-				D6FC9AF1283F1AE500192E30 /* EditView.swift */,
+				D6FC9AF1283F1AE500192E30 /* EditingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -339,13 +342,14 @@
 				037A74122834C6BC001AC352 /* Endpoint.swift in Sources */,
 				036802E9282911100097DC62 /* Products.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
+				03D0695B283F807E00DDA5B3 /* DetailProduct.swift in Sources */,
 				039161D8282B573600DFE033 /* URLSessionProtocol.swift in Sources */,
 				0396412B283368CB00E0DE5A /* UIStackView+Extension.swift in Sources */,
 				0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */,
 				0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */,
 				0328725528377EB80056EAB3 /* Layout.swift in Sources */,
 				D6FC9AF0283E751F00192E30 /* Params.swift in Sources */,
-				D6FC9AF2283F1AE500192E30 /* EditView.swift in Sources */,
+				D6FC9AF2283F1AE500192E30 /* EditingView.swift in Sources */,
 				0341E5D0282A2D4700DEC832 /* ApiProvider.swift in Sources */,
 				AEAF783328327FAA00215F26 /* ListCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
