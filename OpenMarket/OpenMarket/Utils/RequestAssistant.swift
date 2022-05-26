@@ -75,7 +75,6 @@ final class RequestAssistant {
         let endpoint: Endpoint = .registerProudct
         
         sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
-            print(String(data: data!, encoding: .utf8))
             guard let data = data else {
                 return
             }

@@ -21,9 +21,9 @@ final class ModifyViewController: ProductViewController {
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
         self.navigationItem.rightBarButtonItem = requestButton
         self.navigationItem.hidesBackButton = true
-        let cancelbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
-        cancelbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
-        self.navigationItem.leftBarButtonItem = cancelbutton
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
+        cancelButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
+        self.navigationItem.leftBarButtonItem = cancelButton
     }
     
     @objc private func requestModification() {
