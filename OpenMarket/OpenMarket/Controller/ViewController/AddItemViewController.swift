@@ -16,17 +16,48 @@ final class AddItemViewController: UIViewController {
     @IBOutlet weak var stockTextField: UITextField!
     @IBOutlet weak var discriptinTextView: UITextView!
     
+    @IBOutlet private weak var myScrollView: UIScrollView!
     private let imagePicker = UIImagePickerController()
     private var imageArray: [UIImage] = [] {
         didSet {
             itemImageCollectionView.reloadData()
         }
     }
+    @objc private func keyboardWillShow(_ notification: Notification) {
+            guard let userInfo = notification.userInfo,
+                let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+                    return
+            }
+            
+            let contentInset = UIEdgeInsets(
+                top: 0.0,
+                left: 0.0,
+                bottom: keyboardFrame.height,
+                right: 0.0)
+            myScrollView.contentInset = contentInset
+            myScrollView.scrollIndicatorInsets = contentInset
+        }
+        
+        @objc private func keyboardWillHide() {
+            let contentInset = UIEdgeInsets.zero
+            myScrollView.contentInset = contentInset
+            myScrollView.scrollIndicatorInsets = contentInset
+        }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        setInitialView()
-    }
+            super.viewDidLoad()
+            setInitialView()
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(keyboardWillShow),
+                name: UIResponder.keyboardWillShowNotification,
+                object: nil)
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(keyboardWillHide),
+                name: UIResponder.keyboardWillHideNotification,
+                object: nil)
+        }
     
     private func setInitialView() {
         navigationItem.setLeftBarButton(makeCancelButton(), animated: true)

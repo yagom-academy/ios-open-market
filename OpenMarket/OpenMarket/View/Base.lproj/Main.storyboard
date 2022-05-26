@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vwT-x8-kfi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vwT-x8-kfi">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -80,77 +80,90 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="2kB-pR-ohE">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z1Y-OI-F9U">
                                 <rect key="frame" x="16" y="44" width="382" height="818"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="S6j-RX-Twx">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="134.5"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Xll-gK-tsM">
-                                            <size key="itemSize" width="128" height="128"/>
-                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        </collectionViewFlowLayout>
-                                        <cells/>
-                                    </collectionView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="o82-3A-Rvq">
-                                        <rect key="frame" x="0.0" y="149.5" width="382" height="145"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="2kB-pR-ohE">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="366.5"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RRw-gp-Mc9">
-                                                <rect key="frame" x="0.0" y="0.0" width="382" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="jqC-c0-Eef">
-                                                <rect key="frame" x="0.0" y="38" width="382" height="31"/>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="S6j-RX-Twx">
+                                                <rect key="frame" x="0.0" y="0.0" width="382" height="143.5"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Xll-gK-tsM">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="o82-3A-Rvq">
+                                                <rect key="frame" x="0.0" y="158.5" width="382" height="161"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uxr-5G-Yyo">
-                                                        <rect key="frame" x="0.0" y="0.0" width="279.5" height="31"/>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RRw-gp-Mc9">
+                                                        <rect key="frame" x="0.0" y="0.0" width="382" height="35"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="jqC-c0-Eef">
+                                                        <rect key="frame" x="0.0" y="42" width="382" height="35"/>
+                                                        <subviews>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uxr-5G-Yyo">
+                                                                <rect key="frame" x="0.0" y="0.0" width="279.5" height="35"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                            </textField>
+                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="78M-jQ-ENQ">
+                                                                <rect key="frame" x="286.5" y="0.0" width="95.5" height="36"/>
+                                                                <segments>
+                                                                    <segment title="KRW"/>
+                                                                    <segment title="USD"/>
+                                                                </segments>
+                                                            </segmentedControl>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="78M-jQ-ENQ" firstAttribute="width" secondItem="jqC-c0-Eef" secondAttribute="width" multiplier="0.25" id="paa-hw-mkt"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R5f-ah-9JI">
+                                                        <rect key="frame" x="0.0" y="84" width="382" height="35"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="78M-jQ-ENQ">
-                                                        <rect key="frame" x="286.5" y="0.0" width="95.5" height="32"/>
-                                                        <segments>
-                                                            <segment title="KRW"/>
-                                                            <segment title="USD"/>
-                                                        </segments>
-                                                    </segmentedControl>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sm3-ta-ypi">
+                                                        <rect key="frame" x="0.0" y="126" width="382" height="35"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
                                                 </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="78M-jQ-ENQ" firstAttribute="width" secondItem="jqC-c0-Eef" secondAttribute="width" multiplier="0.25" id="paa-hw-mkt"/>
-                                                </constraints>
                                             </stackView>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="R5f-ah-9JI">
-                                                <rect key="frame" x="0.0" y="76" width="382" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                            </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sm3-ta-ypi">
-                                                <rect key="frame" x="0.0" y="114" width="382" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                            </textField>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNN-Hk-LvH">
+                                                <rect key="frame" x="0.0" y="334.5" width="382" height="32"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
                                         </subviews>
                                     </stackView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNN-Hk-LvH">
-                                        <rect key="frame" x="0.0" y="309.5" width="382" height="508.5"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
                                 </subviews>
-                            </stackView>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="2kB-pR-ohE" secondAttribute="bottom" id="Ga5-Q2-eI3"/>
+                                    <constraint firstItem="2kB-pR-ohE" firstAttribute="leading" secondItem="z1Y-OI-F9U" secondAttribute="leading" id="H9e-cl-UTR"/>
+                                    <constraint firstItem="2kB-pR-ohE" firstAttribute="top" secondItem="z1Y-OI-F9U" secondAttribute="top" id="PaT-9H-z0l"/>
+                                    <constraint firstAttribute="trailing" secondItem="2kB-pR-ohE" secondAttribute="trailing" id="PoY-sU-rHH"/>
+                                    <constraint firstItem="2kB-pR-ohE" firstAttribute="width" secondItem="z1Y-OI-F9U" secondAttribute="width" id="oZs-IR-wvX"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YPP-zE-cq2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="S6j-RX-Twx" firstAttribute="height" secondItem="Our-2I-1Zz" secondAttribute="height" multiplier="0.15" id="Uoj-Op-2F1"/>
-                            <constraint firstItem="YPP-zE-cq2" firstAttribute="trailing" secondItem="2kB-pR-ohE" secondAttribute="trailing" constant="16" id="dzT-Yb-8xI"/>
-                            <constraint firstItem="YPP-zE-cq2" firstAttribute="bottom" secondItem="2kB-pR-ohE" secondAttribute="bottom" id="h8U-zc-dIZ"/>
-                            <constraint firstItem="2kB-pR-ohE" firstAttribute="top" secondItem="YPP-zE-cq2" secondAttribute="top" id="mWt-PF-pcE"/>
-                            <constraint firstItem="2kB-pR-ohE" firstAttribute="leading" secondItem="YPP-zE-cq2" secondAttribute="leading" constant="16" id="mpr-HY-e8X"/>
+                            <constraint firstItem="YPP-zE-cq2" firstAttribute="bottom" secondItem="z1Y-OI-F9U" secondAttribute="bottom" id="6OE-vx-rmZ"/>
+                            <constraint firstItem="S6j-RX-Twx" firstAttribute="height" secondItem="Our-2I-1Zz" secondAttribute="height" multiplier="0.16" id="M4f-p5-KDc"/>
+                            <constraint firstItem="o82-3A-Rvq" firstAttribute="height" secondItem="Our-2I-1Zz" secondAttribute="height" multiplier="0.18" id="TcW-GU-Lea"/>
+                            <constraint firstItem="YPP-zE-cq2" firstAttribute="trailing" secondItem="z1Y-OI-F9U" secondAttribute="trailing" constant="16" id="V8x-Dk-0PD"/>
+                            <constraint firstItem="z1Y-OI-F9U" firstAttribute="top" secondItem="YPP-zE-cq2" secondAttribute="top" id="eoE-CY-gBe"/>
+                            <constraint firstItem="z1Y-OI-F9U" firstAttribute="leading" secondItem="YPP-zE-cq2" secondAttribute="leading" constant="16" id="sfq-0A-cLY"/>
                         </constraints>
                     </view>
                     <connections>
@@ -158,6 +171,7 @@
                         <outlet property="discountPriceTextField" destination="R5f-ah-9JI" id="Aui-jS-TCu"/>
                         <outlet property="discriptinTextView" destination="ZNN-Hk-LvH" id="Q2l-xo-bsi"/>
                         <outlet property="itemImageCollectionView" destination="S6j-RX-Twx" id="vYC-Hd-9AG"/>
+                        <outlet property="myScrollView" destination="z1Y-OI-F9U" id="QIb-d4-yic"/>
                         <outlet property="nameTextField" destination="RRw-gp-Mc9" id="Iju-DH-UMI"/>
                         <outlet property="priceTextField" destination="uxr-5G-Yyo" id="c6t-DH-Zyk"/>
                         <outlet property="stockTextField" destination="sm3-ta-ypi" id="iu9-pw-12I"/>
@@ -165,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIF-Qb-yps" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1885.5072463768117" y="116.51785714285714"/>
+            <point key="canvasLocation" x="2106" y="124"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jDI-zh-Q8f">
