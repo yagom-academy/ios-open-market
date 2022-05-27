@@ -18,6 +18,7 @@
 		0341E5D0282A2D4700DEC832 /* ApiProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341E5CF282A2D4700DEC832 /* ApiProvider.swift */; };
 		0341E5D4282A391C00DEC832 /* MockURLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341E5D3282A391C00DEC832 /* MockURLSessionTests.swift */; };
 		0341E5D6282A43E700DEC832 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0341E5D5282A43E700DEC832 /* NetworkError.swift */; };
+		034A00082840B3340040BBD5 /* ProductUpdaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034A00072840B3340040BBD5 /* ProductUpdaterView.swift */; };
 		0357777F283E7F6B000BA184 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0357777E283E7F6B000BA184 /* Data+Extension.swift */; };
 		036802E9282911100097DC62 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036802E8282911100097DC62 /* Products.swift */; };
 		037A74122834C6BC001AC352 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037A74112834C6BC001AC352 /* Endpoint.swift */; };
@@ -65,6 +66,7 @@
 		0341E5CF282A2D4700DEC832 /* ApiProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProvider.swift; sourceTree = "<group>"; };
 		0341E5D3282A391C00DEC832 /* MockURLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTests.swift; sourceTree = "<group>"; };
 		0341E5D5282A43E700DEC832 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		034A00072840B3340040BBD5 /* ProductUpdaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdaterView.swift; sourceTree = "<group>"; };
 		0357777E283E7F6B000BA184 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		036802DD2829106A0097DC62 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		036802E8282911100097DC62 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				0328725428377EB80056EAB3 /* Layout.swift */,
 				AEAF783228327FAA00215F26 /* ListCell.swift */,
 				03301A5A2832B68400D58385 /* GridCell.swift */,
+				034A00072840B3340040BBD5 /* ProductUpdaterView.swift */,
 				030874E2283CB06A005BDDB2 /* RegistrationView.swift */,
 				D6FC9AF1283F1AE500192E30 /* EditingView.swift */,
 			);
@@ -363,6 +366,7 @@
 				0396412B283368CB00E0DE5A /* UIStackView+Extension.swift in Sources */,
 				0396412D2833705200E0DE5A /* Int+Extension.swift in Sources */,
 				0396412F28337A5500E0DE5A /* CALayer+Extension.swift in Sources */,
+				034A00082840B3340040BBD5 /* ProductUpdaterView.swift in Sources */,
 				0328725528377EB80056EAB3 /* Layout.swift in Sources */,
 				D6FC9AF0283E751F00192E30 /* Params.swift in Sources */,
 				D6FC9AF2283F1AE500192E30 /* EditingView.swift in Sources */,
