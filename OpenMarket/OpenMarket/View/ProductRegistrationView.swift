@@ -69,7 +69,7 @@ final class ProductRegistrationView: UIView {
     }()
     
     private let currencySegmentControl: UISegmentedControl = {
-        let segmentControl = UISegmentedControl(items: ["KRW", "USD"])
+        let segmentControl = UISegmentedControl(items: CurrencyType.inventory)
         segmentControl.selectedSegmentIndex = 0
         
         segmentControl.translatesAutoresizingMaskIntoConstraints = false

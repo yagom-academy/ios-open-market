@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Image {
+struct Image: Codable {
     let fileName: String
     let type: String
     let data: Data
