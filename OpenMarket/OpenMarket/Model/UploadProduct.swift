@@ -7,9 +7,9 @@
 
 struct UploadProduct: Encodable {
     let name: String?
-    let discountedPrice: UInt?
+    let discountedPrice: Double?
     let descriptions: String?
-    let price: UInt?
+    let price: Double?
     let stock: Int?
     let currency: Currency?
     let secret: String?

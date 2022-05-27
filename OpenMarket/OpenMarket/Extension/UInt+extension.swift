@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension UInt {
+extension Double {
     func priceFormat(currency : String?) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

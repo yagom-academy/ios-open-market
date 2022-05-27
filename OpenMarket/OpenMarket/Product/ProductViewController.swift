@@ -138,15 +138,15 @@ extension ProductViewController: UITextFieldDelegate {
             return (0...100).contains(finalText.count)
         case mainView?.productCostTextField:
             mainView?.productDiscountCostTextField.text = ""
-            return UInt(finalText) == nil ? false : true
+            return Double(finalText) == nil ? false : true
         case mainView?.productDiscountCostTextField:
-            guard let discountCost = UInt(finalText),
+            guard let discountCost = Double(finalText),
                   let costString = mainView?.productCostTextField.text,
-                  let cost = UInt(costString) else { return false }
+                  let cost = Double(costString) else { return false }
     
             return (0...cost).contains(discountCost)
         case mainView?.productStockTextField:
-            return UInt(finalText) == nil ? false : true
+            return Int(finalText) == nil ? false : true
         default:
             return false
         }

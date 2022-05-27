@@ -13,10 +13,10 @@ struct Product: Codable, Hashable {
     let name: String?
     let thumbnail: String?
     let currency: Currency?
-    let price: UInt?
+    let price: Double?
     let description: String?
-    let bargainPrice: UInt?
-    let discountedPrice: UInt?
+    let bargainPrice: Double?
+    let discountedPrice: Double?
     let stock: Int?
     let createdAt: String?
     let issuedAt: String?
