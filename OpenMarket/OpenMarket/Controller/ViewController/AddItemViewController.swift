@@ -114,8 +114,10 @@ final class AddItemViewController: UIViewController {
         guard let name = nameTextField.text else { return nil }
         guard let price = priceTextField.text else { return nil }
         let currency = currency
-        guard let discountedPrice = discountPriceTextField.text else { return nil }
-        guard let stock = stockTextField.text else { return nil }
+        guard var discountedPrice = discountPriceTextField.text else { return nil }
+        discountedPrice = discountedPrice.isEmpty ? "0" : discountedPrice
+        guard var stock = stockTextField.text else { return nil }
+        stock = stock.isEmpty ? "0" : stock
         guard let descriptions = discriptinTextView.text else { return nil }
         let secret = "zsxn8cy106"
 
