@@ -32,6 +32,7 @@ struct ProductsList: Decodable {
 }
 
 struct Page: Decodable, Hashable {
+  let uuid = UUID()
   let id: Int
   let venderId: Int
   let name: String
@@ -59,11 +60,11 @@ struct Page: Decodable, Hashable {
   }
   
   func hash(into hasher: inout Hasher) {
-    hasher.combine(id)
+    hasher.combine(uuid)
   }
 
   static func == (lhs: Page, rhs: Page) -> Bool {
-    lhs.id == rhs.id
+    lhs.uuid == rhs.uuid
   }
 }
 
