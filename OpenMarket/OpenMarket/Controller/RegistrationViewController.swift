@@ -72,6 +72,12 @@ final class RegistrationViewController: UIViewController {
   
   @objc private func postData() {
     let params = registrationView.setupParams()
+    
+    guard let params = params, !self.selectedImages.isEmpty else {
+      presentWarningAlert()
+      return
+    }
+    
     let group = DispatchGroup()
     DispatchQueue.global().async(group: group) {
       self.apiProvider.post(.registration, params, self.selectedImages) { result in
@@ -92,15 +98,25 @@ final class RegistrationViewController: UIViewController {
 //MARK: - alert
 extension RegistrationViewController {
   @objc private func presentAlert() {
-    let alert = UIAlertController(title: Constants.alertTitle,
-                                  message: Constants.alertMessage, preferredStyle: .alert)
-    let cancel = UIAlertAction(title: Constants.cancelText, style: .cancel, handler: nil)
-    let album = UIAlertAction(title: Constants.albumText, style: .default) { [weak self] (_) in
+    let alert = UIAlertController(title: Constants.pickerAlertTitle,
+                                  message: Constants.pickerAlertMessage, preferredStyle: .alert)
+    let cancel = UIAlertAction(title: Constants.pickerAlertCancelText, style: .cancel, handler: nil)
+    let album = UIAlertAction(title: Constants.pickerAlertAlbumText, style: .default) { [weak self] (_) in
       self?.presentAlbum()
     }
     
     alert.addAction(cancel)
     alert.addAction(album)
+    
+    present(alert, animated: true, completion: nil)
+  }
+  
+  private func presentWarningAlert() {
+    let alert = UIAlertController(title: Constants.warningAlertTitle,
+                                  message: Constants.warningAlertMessage, preferredStyle: .alert)
+    let cancel = UIAlertAction(title: Constants.warningAlertCancelText, style: .cancel, handler: nil)
+    
+    alert.addAction(cancel)
     
     present(alert, animated: true, completion: nil)
   }
