@@ -85,21 +85,13 @@ class ProductViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
-        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
-        
-        let keyboardHeight = keyboardFrame.cgRectValue.height
-        //mainView?.productDescriptionTextView.contentInset.bottom = keyboardHeight
         if mainView?.productDescriptionTextView.isFirstResponder == true {
             mainView?.frame.origin.y = -mainView!.productDescriptionTextView.frame.origin.y
         }
     }
     
     @objc private func keyboardWillHide(_ sender: Notification) {
-        //mainView?.productDescriptionTextView.contentInset.bottom = .zero
         mainView?.frame.origin.y = 0
-        print(mainView?.frame)
     }
     
     func removeNotification() {
