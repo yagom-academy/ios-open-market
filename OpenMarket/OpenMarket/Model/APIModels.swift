@@ -4,12 +4,15 @@
 //
 //  Created by 두기, minseong on 2022/05/16.
 //
+import Foundation
 
 struct HealthCheckerAPI: APIable {
     let host = "https://market-training.yagom-academy.kr/"
     let path = "healthChecker"
     let params: [String : String]? = nil
     let method: HttpMethod = .get
+    let header: [String : String] = [:]
+    let data: Data? = nil
 }
 
 struct ItemPageAPI: APIable {
@@ -22,6 +25,8 @@ struct ItemPageAPI: APIable {
                  "items_per_page" : String(itemPerPage) ]
     }
     let method: HttpMethod = .get
+    let header: [String : String] = [:]
+    let data: Data? = nil
 }
 
 struct ItemDetailAPI: APIable {
@@ -32,11 +37,24 @@ struct ItemDetailAPI: APIable {
     }
     let params: [String : String]? = nil
     let method: HttpMethod = .get
+    let header: [String : String] = [:]
+    let data: Data? = nil
 }
 
 struct ItemImageAPI: APIable {
     var host: String
     var path = ""
-    var params: [String : String]? = nil
-    var method: HttpMethod = .get
+    let params: [String : String]? = nil
+    let method: HttpMethod = .get
+    let header: [String : String] = [:]
+    let data: Data? = nil
+}
+
+struct PostItemAPI: APIable {
+    let host = "https://market-training.yagom-academy.kr/"
+    let path = "api/products/"
+    let params: [String : String]? = nil
+    let method: HttpMethod = .post
+    let header: [String : String]
+    var data: Data?
 }

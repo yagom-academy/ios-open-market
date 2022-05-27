@@ -33,12 +33,21 @@ struct NetworkHandler {
         var request = URLRequest(url: url)
         request.httpMethod = api.method.string
         
+        if api.method == .post {
+            for header in api.header {
+                request.addValue(header.value, forHTTPHeaderField: header.key)
+            }
+            
+            request.httpBody = api.data
+        }
+        
         session.receiveResponse(request: request) { responseResult in
             guard responseResult.error == nil else {
                 return response(.failure(.transportError))
             }
             
             guard let statusCode = (responseResult.response as? HTTPURLResponse)?.statusCode, (200...299).contains(statusCode) else {
+                print((responseResult.response as? HTTPURLResponse)?.statusCode)
                 return response(.failure(.responseError))
             }
             

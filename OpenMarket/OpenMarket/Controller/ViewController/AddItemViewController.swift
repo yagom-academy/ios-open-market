@@ -85,22 +85,77 @@ final class AddItemViewController: UIViewController {
         if let discountPriceInt = Int(discountPrice) {
             if discountPriceInt > priceInt {
                 showAlert(message: "할인 가격은 상품 가격보다 낮아야 합니다")
+                return
             }
             
             if discountPriceInt < 0 {
                 showAlert(message: "할인 가격을 정확히 입력해 주세요")
+                return
             }
             
         } else if !discountPrice.isEmpty {
             showAlert(message: "할인 가격을 정확히 입력해 주세요")
+            return
         }
         
         guard let stock = stockTextField.text else { return }
         
         if let stockInt = Int(stock), stockInt < 0 {
             showAlert(message: "상품 수량을 정확히 입력해 주세요")
+            return
         } else if !stock.isEmpty {
             showAlert(message: "상품 수량을 정확히 입력해 주세요")
+            return
+        }
+        
+        postItem()
+    }
+    private func makeData() -> Data? {
+        guard let name = nameTextField.text else { return nil }
+        guard let price = priceTextField.text else { return nil }
+        let currency = currency
+        guard let discountedPrice = discountPriceTextField.text else { return nil }
+        guard let stock = stockTextField.text else { return nil }
+        guard let descriptions = discriptinTextView.text else { return nil }
+        let secret = "aah47x2fwi"
+        
+        let data = """
+        {
+            \"name\": \(name),
+            \"price\": \(price),
+            \"currency\": \(currency),
+            \"discountedPrice\": \(discountedPrice),
+            \"stock\": \(stock),
+            \"descriptions\": \(descriptions),
+            \"secret\": \(secret)
+        }
+        """.data(using: .utf8)
+        
+        return data
+    }
+    
+    private func postItem() {
+        print("post")
+        let networkHandler = NetworkHandler()
+        let boundary = UUID().uuidString
+        let headers = ["identifier" : "0beea781-d1b8-11ec-9676-87744cf08245",
+                       "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
+        
+        var data = Data()
+        guard let itemData = makeData() else { return }
+                
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
+        data.append(itemData)
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"images\"; fileName=\"abc\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
+        data.append(imageArray[0].jpegData(compressionQuality: 1)!)
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        let itemAPI = PostItemAPI(header: headers, data: data)
+        networkHandler.request(api: itemAPI) { data in
+            print(data)
         }
     }
     
