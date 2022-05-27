@@ -77,16 +77,15 @@ struct NetworkManager<T: Decodable> {
             return
         }
         
-        let test = ProductToEncode(name: "test", descriptions: "desc", price: 123455, currency: .KRW, discountedPrice: 123, stock: 2122, secret: "password")
-        
         let boundary = generateBoundary()
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\"\(boundary)\"",
                          forHTTPHeaderField: "Content-Type")
-        request.addValue("dbc73b2c-d1b7-11ec-9676-f1b4483156c1", forHTTPHeaderField: "identifier")
-        request.httpBody = createBody(requestInfo: test, images: images, boundary: boundary)
+        request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
+        request.addValue("eddy123", forHTTPHeaderField: "accessId")
+        request.httpBody = createBody(requestInfo: params, images: images, boundary: boundary)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             print(String(data: data!, encoding: .utf8))
