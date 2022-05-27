@@ -52,3 +52,27 @@ final class ProductRegistrationViewController: UIViewController {
         self.present(self.imagePicker, animated: true)
     }
 }
+
+extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        var newImage: UIImage?
+        
+        if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            newImage = possibleImage
+        }
+        
+        let newImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.image = newImage
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+            return imageView
+        }()
+        
+        if baseView.imagesStackView.arrangedSubviews.count == 5 {
+            baseView.imageView.isHidden = true
+        }
+        baseView.imagesStackView.insertArrangedSubview(newImageView, at: .zero)
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
