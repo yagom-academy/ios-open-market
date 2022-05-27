@@ -74,6 +74,18 @@ final class MainViewController: UIViewController {
         return activityIndicator
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+       let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+       return control
+    }()
+    
+    @objc private func pullToRefresh(){
+        requestList()
+        collectionView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -105,6 +117,7 @@ extension MainViewController {
         collectionView.changeLayout(viewType: .list)
         collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+        collectionView.refreshControl = refreshControl
     }
     
     private func configureIndicator() {
@@ -117,7 +130,7 @@ extension MainViewController {
         snapshot.appendSections([.main])
         DispatchQueue.main.async { [weak self] in
             snapshot.appendItems(productInformations)
-            self?.dataSource.apply(snapshot, animatingDifferences: true)
+            self?.dataSource.apply(snapshot, animatingDifferences: false)
             self?.activityIndicator.stopAnimating()
         }
     }

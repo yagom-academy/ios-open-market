@@ -33,6 +33,7 @@ final class RegisterViewController: RegisterEditBaseViewController {
 extension RegisterViewController {
     func addImageToStackView(image: UIImage){
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
+        
         imageView.image = image
         addImageHorizontalStackView.addLastBehind(view: imageView)
         
@@ -82,7 +83,7 @@ extension RegisterViewController {
         var imageArray = [UIImage]()
         
         for subView in addImageHorizontalStackView.arrangedSubviews {
-            if let subView = subView as? UIImageView, let uiImage = subView.image?.resized(to: CGSize(width: 10, height: 10)) {
+            if let subView = subView as? UIImageView, let uiImage = subView.image {
                 imageArray.append(uiImage)
             }
         }
@@ -94,9 +95,11 @@ extension RegisterViewController {
             return
         }
         productListUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
-            print("성공")
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
         } registerErrorHandler: { error in
-            print(error.localizedDescription)
+            
         }
     }
 }

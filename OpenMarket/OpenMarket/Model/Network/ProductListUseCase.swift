@@ -71,14 +71,11 @@ struct ProductListUseCase {
         }
         """)
         
-        //테스트코드
-        print(String(data: data, encoding: .utf8))
-        
         for image in images {
             data.appendString(boundaryPrefix)
-            data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(registrationParameter.name).png\"\r\n")
-            data.appendString("Content-Type: image/png\r\n\r\n")
-            guard let imageData = image.pngData() else {
+            data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(registrationParameter.name).jpeg\"\r\n")
+            data.appendString("Content-Type: image/jpeg\r\n\r\n")
+            guard let imageData = image.jpegData(compressionQuality: 0.1) else {
                 return nil
             }
             data.append(imageData)
@@ -88,10 +85,6 @@ struct ProductListUseCase {
         request.httpBody = data
         
         let dataTask = network.requestData(urlRequest: request) { data, response in
-            //테스트 코드
-            if let data = data {
-                print(String(data: data, encoding: .utf8))
-            }
             completeHandler()
         } errorHandler: { error in
             registerErrorHandler(error)
