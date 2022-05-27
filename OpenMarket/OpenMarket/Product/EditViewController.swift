@@ -101,11 +101,7 @@ final class EditViewController: ProductViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.identifier, for: indexPath) as? ProductImageCell else {
                 return ProductImageCell()
             }
-            
-            cell.removeImage = { [weak self] in
-                self?.deleteSnapshot(images: [itemIdentifier])
-            }
-            
+
             cell.configure(image: itemIdentifier)
             cell.hideRemoveButton()
             

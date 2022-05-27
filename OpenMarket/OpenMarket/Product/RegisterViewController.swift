@@ -8,6 +8,8 @@
 import UIKit
 
 final class RegisterViewController: ProductViewController {
+    private let imagePickerController = UIImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -108,6 +110,34 @@ final class RegisterViewController: ProductViewController {
         }
         
         return dataSource
+    }
+    
+    private func deleteSnapshot(images: [UIImage]) {
+        snapshot?.deleteItems(images)
+        guard let snapshot = snapshot else { return }
+        
+        dataSource?.apply(snapshot)
+    }
+    
+    private func insertSnapshot(images: [UIImage]) {
+        DispatchQueue.main.async { [self] in
+            guard let lastItem = snapshot?.itemIdentifiers.last else { return }
+            snapshot?.insertItems(images, beforeItem: lastItem)
+            guard let snapshot = snapshot else { return }
+            
+            dataSource?.apply(snapshot, animatingDifferences: false)
+        }
+    }
+}
+
+// MARK: - ImageViewController Delegate
+
+extension RegisterViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        insertSnapshot(images: [image])
+        picker.dismiss(animated: true)
     }
 }
 

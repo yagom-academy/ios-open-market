@@ -18,7 +18,6 @@ class ProductViewController: UIViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>
     
     let networkManager = NetworkManager<Product>()
-    let imagePickerController = UIImagePickerController()
     
     var mainView: ProdctView?
     var dataSource: DataSource?
@@ -123,34 +122,6 @@ class ProductViewController: UIViewController {
             
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
-    }
-    
-    func deleteSnapshot(images: [UIImage]) {
-        snapshot?.deleteItems(images)
-        guard let snapshot = snapshot else { return }
-        
-        dataSource?.apply(snapshot)
-    }
-    
-    func insertSnapshot(images: [UIImage]) {
-        DispatchQueue.main.async { [self] in
-            guard let lastItem = snapshot?.itemIdentifiers.last else { return }
-            snapshot?.insertItems(images, beforeItem: lastItem)
-            guard let snapshot = snapshot else { return }
-            
-            dataSource?.apply(snapshot, animatingDifferences: false)
-        }
-    }
-}
-
-// MARK: - ImageViewController Delegate
-
-extension ProductViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.editedImage] as? UIImage else { return }
-        
-        insertSnapshot(images: [image])
-        picker.dismiss(animated: true)
     }
 }
 
