@@ -142,21 +142,22 @@ final class AddItemViewController: UIViewController {
         let boundary = UUID().uuidString
         let headers = ["identifier" : "99051fa9-d1b8-11ec-9676-978c137c9bee",
                        "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
-        let fileName = "꽃"
         var data = Data()
         guard let itemData = makeData() else { return }
-        let a = imageArray[0]
-        guard let imageData = a.jpegData(compressionQuality: 0.8) else {
-                    return
-                }
                 
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
         data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
         data.append(itemData)
-        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
-        data.append(imageData)
+        for (index, image) in imageArray.enumerated() {
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                        return
+                    }
+            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(index).jpg\"\r\n".data(using: .utf8)!)
+            data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
+            data.append(imageData)
+        }
+        
         data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
         let itemAPI = PostItemAPI(header: headers, data: data)
