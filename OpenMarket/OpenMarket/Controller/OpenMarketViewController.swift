@@ -80,6 +80,10 @@ final class OpenMarketViewController: UIViewController {
         let productRegistrationVC = UINavigationController(
             rootViewController: ProductRegistrationViewController()
         )
+        
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .white
+        productRegistrationVC.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         productRegistrationVC.modalPresentationStyle = .fullScreen
         self.present(productRegistrationVC, animated: true)
     }

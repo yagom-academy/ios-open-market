@@ -16,6 +16,7 @@ final class ProductRegistrationViewController: UIViewController {
         setupNavigationItems()
         setupView()
         bind()
+        setupKeyboardNotification()
     }
     
     private func setupView() {
@@ -39,6 +40,32 @@ final class ProductRegistrationViewController: UIViewController {
     
     @objc private func didTapDoneButton() { }
     
+    private func setupKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        let keyvoardHieght = keyboardFrame.cgRectValue.height
+        
+        if baseView.productDescription.isFirstResponder {
+            view.bounds.origin.y = 150
+            baseView.productDescription.contentInset.bottom = keyvoardHieght - 150
+        } else {
+            view.bounds.origin.y = 0
+            baseView.productDescription.contentInset.bottom = 0
+        }
+    }
+    
+    @objc private func keyboardWillHide() {
+        view.bounds.origin.y = 0
+        baseView.productDescription.contentInset.bottom = 0
+    }
+
     private func bind() {
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.allowsEditing = true
@@ -74,5 +101,9 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
         baseView.imagesStackView.insertArrangedSubview(newImageView, at: .zero)
         
         picker.dismiss(animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }

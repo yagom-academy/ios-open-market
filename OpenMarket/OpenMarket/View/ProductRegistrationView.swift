@@ -96,7 +96,7 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let productDescription: UITextView = {
+    let productDescription: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
