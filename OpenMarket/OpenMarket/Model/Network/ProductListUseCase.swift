@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ProductListUseCase {
     
@@ -35,5 +36,78 @@ struct ProductListUseCase {
             decodingErrorHandler(error)
         }
         return dataTask
+    }
+    
+    @discardableResult
+    func registerProduct(
+        registrationParameter: RegistrationParameter,
+        images: [UIImage],
+        completeHandler: @escaping () -> Void,
+        registerErrorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask? {
+        guard let url = OpenMarketApi.productRegister.url else {
+            return nil
+        }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue(Secret.registerIdentifier, forHTTPHeaderField: "identifier")
+        request.setValue("multipart/form-data; boundary=\(boundary)",
+                         forHTTPHeaderField: "Content-Type")
+        var data = Data()
+        let boundaryPrefix = "--\(boundary)\r\n"
+        data.appendString(boundaryPrefix)
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
+        data.appendString("""
+        {
+        \"name\": \"\(registrationParameter.name)\",
+        \"amount\": \"\(registrationParameter.price)\",
+        \"currency\": \"\(registrationParameter.currency.rawValue)\",
+        \"secret\": \"\(registrationParameter.secret)\",
+        \"descriptions\": \"\(registrationParameter.descriptions)\",
+        \"stock\": \"\(registrationParameter.stock)\",
+        \"discounted_price\": \"\(registrationParameter.discountedPrice)\"
+        }\r\n
+        """)
+        
+        //테스트코드
+        print(String(data: data, encoding: .utf8))
+        
+        for image in images {
+            data.appendString(boundaryPrefix)
+            data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(registrationParameter.name).png\"\r\n")
+            data.appendString("Content-Type: image/png\r\n\r\n")
+            guard let imageData = image.pngData() else {
+                return nil
+            }
+            data.append(imageData)
+            data.appendString("\r\n")
+        }
+        data.appendString(boundaryPrefix)
+        
+        request.httpBody = data
+        
+        
+        
+        let dataTask = network.requestData(urlRequest: request) { data, response in
+            //테스트 코드
+            if let data = data {
+                print(String(data: data, encoding: .utf8))
+            }
+            completeHandler()
+        } errorHandler: { error in
+            registerErrorHandler(error)
+        }
+        return dataTask
+    }
+    
+}
+
+extension Data {
+    mutating func appendString(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            self.append(data)
+        }
     }
 }

@@ -95,6 +95,8 @@ class RegisterEditBaseViewController: UIViewController {
     
     lazy var textView: UITextView = {
         let view = UITextView()
+        
+
         view.font = .preferredFont(forTextStyle: .body)
         view.text = "제품 상세 설명 textView 입니다."
         //다이나믹타입구현
@@ -184,6 +186,13 @@ extension RegisterEditBaseViewController {
 
 extension RegisterEditBaseViewController {
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        if touch?.view != textView {
+             self.textView.resignFirstResponder()
+         }
+     }
+    
     private func registerForKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -202,12 +211,13 @@ extension RegisterEditBaseViewController {
         let userInfo: NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
-            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
+        
+        keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
     }
     
     private func keyboardAnimate(keyboardRectangle: CGRect ,textView: UITextView) {
         if keyboardRectangle.height > (self.view.frame.height - textView.frame.maxY){
-            self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height))
+            //self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height))
         }
     }
 }
@@ -216,7 +226,7 @@ extension RegisterEditBaseViewController {
 
 extension RegisterEditBaseViewController {
     
-    @objc private func registerEditViewRightBarButtonTapped() {
+    @objc func registerEditViewRightBarButtonTapped() {
         
     }
     

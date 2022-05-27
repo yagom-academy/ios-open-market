@@ -23,3 +23,23 @@ extension UIStackView {
         }
     }
 }
+
+extension UIImage {
+    public func resized(to targetSize: CGSize) -> UIImage? {
+
+         let target = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
+         guard let cgImage = self.cgImage,
+             let context = CGContext(data: nil, width: Int(targetSize.width), height: Int(targetSize.height),
+                                     bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: cgImage.bytesPerRow,
+                                     space: cgImage.colorSpace ?? CGColorSpaceCreateDeviceRGB(),
+                                     bitmapInfo: cgImage.bitmapInfo.rawValue)
+             else {
+                 return self
+         }
+         context.interpolationQuality = .high
+         context.draw(cgImage, in: target)
+
+         let newImage = context.makeImage().flatMap { UIImage(cgImage: $0) }
+         return newImage ?? self
+     }
+}

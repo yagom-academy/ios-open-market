@@ -12,6 +12,11 @@ protocol URLSessionProtocol {
         with url: URL,
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
+    
+    func dataTask(
+        with urlRequest: URLRequest,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionProtocol {}

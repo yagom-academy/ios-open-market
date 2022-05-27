@@ -17,6 +17,13 @@ protocol NetworkAble {
         completeHandler: @escaping (Data?, URLResponse?) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask?
+    
+    @discardableResult
+    func requestData(
+        urlRequest: URLRequest,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask?
 }
 
 extension NetworkAble {
@@ -29,6 +36,37 @@ extension NetworkAble {
     ) -> URLSessionDataTask? {
         
         let dataTask = session.dataTask(with: url) { (data, response, error) in
+            
+            guard error == nil else {
+                errorHandler(NetworkError.sessionError)
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  (200..<300).contains(statusCode) else {
+                errorHandler(NetworkError.statusCodeError)
+                return
+            }
+            
+            guard let data = data else {
+                errorHandler(NetworkError.dataError)
+                return
+            }
+            
+            completeHandler(data, response)
+        }
+        dataTask.resume()
+        return dataTask
+    }
+    
+    @discardableResult
+    func requestData(
+        urlRequest: URLRequest,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask? {
+        
+        let dataTask = session.dataTask(with: urlRequest) { (data, response, error) in
             
             guard error == nil else {
                 errorHandler(NetworkError.sessionError)
