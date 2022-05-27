@@ -8,6 +8,14 @@
 import UIKit
 
 extension String {
+  var integer: Int {
+    if let number = Int(self) {
+      return number
+    } else {
+      return 0
+    }
+  }
+  
   func strikeThrough() -> NSAttributedString {
     let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: self)
     attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle,
