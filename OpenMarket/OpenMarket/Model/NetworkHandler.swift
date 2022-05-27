@@ -35,6 +35,8 @@ struct NetworkHandler {
         
         if api.method == .post {
             for header in api.header {
+                let a = header.key
+                let b = header.value
                 request.addValue(header.value, forHTTPHeaderField: header.key)
             }
             
@@ -48,6 +50,8 @@ struct NetworkHandler {
             
             guard let statusCode = (responseResult.response as? HTTPURLResponse)?.statusCode, (200...299).contains(statusCode) else {
                 print((responseResult.response as? HTTPURLResponse)?.statusCode)
+                let a = String(data: responseResult.data ?? Data(), encoding: .utf8)
+                print(a)
                 return response(.failure(.responseError))
             }
             

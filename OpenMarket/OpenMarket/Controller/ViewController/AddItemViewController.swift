@@ -117,19 +117,19 @@ final class AddItemViewController: UIViewController {
         guard let discountedPrice = discountPriceTextField.text else { return nil }
         guard let stock = stockTextField.text else { return nil }
         guard let descriptions = discriptinTextView.text else { return nil }
-        let secret = "aah47x2fwi"
-        
+        let secret = "zsxn8cy106"
+
         let data = """
-        {
-            \"name\": \(name),
-            \"price\": \(price),
-            \"currency\": \(currency),
-            \"discountedPrice\": \(discountedPrice),
-            \"stock\": \(stock),
-            \"descriptions\": \(descriptions),
-            \"secret\": \(secret)
-        }
-        """.data(using: .utf8)
+                {
+                \"name\": \"\(name)\",
+                \"price\": \(price),
+                \"currency\": \"\(currency)\",
+                \"discounted_price\": \(discountedPrice),
+                \"stock\": \(stock),
+                \"secret\": \"\(secret)\",
+                \"descriptions\": \"\(descriptions)\"
+                }
+                """.data(using: .utf8)!
         
         return data
     }
@@ -138,19 +138,23 @@ final class AddItemViewController: UIViewController {
         print("post")
         let networkHandler = NetworkHandler()
         let boundary = UUID().uuidString
-        let headers = ["identifier" : "0beea781-d1b8-11ec-9676-87744cf08245",
+        let headers = ["identifier" : "99051fa9-d1b8-11ec-9676-978c137c9bee",
                        "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
-        
+        let fileName = "꽃"
         var data = Data()
         guard let itemData = makeData() else { return }
+        let a = imageArray[0]
+        guard let imageData = a.jpegData(compressionQuality: 0.8) else {
+                    return
+                }
                 
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
         data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
         data.append(itemData)
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"images\"; fileName=\"abc\"\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n".data(using: .utf8)!)
         data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
-        data.append(imageArray[0].jpegData(compressionQuality: 1)!)
+        data.append(imageData)
         data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
         let itemAPI = PostItemAPI(header: headers, data: data)
