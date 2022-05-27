@@ -42,6 +42,7 @@ final class ProductRegisterViewController: UIViewController {
       static let productPrice = "상품가격"
       static let productDiscountPrice = "할인금액"
       static let productStock = "재고수량"
+      static let productDescription = "상품 정보를 입력해주세요"
     }
     
     enum Limit {
@@ -149,12 +150,17 @@ final class ProductRegisterViewController: UIViewController {
   
   private lazy var descriptionsTextView: UITextView = {
     let textView = UITextView()
-    textView.textColor = .black
+    textView.text = Const.Placeholder.productDescription
+    textView.textColor = .placeholderText
     textView.font = .preferredFont(forTextStyle: .subheadline)
     let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
     gesture.direction = .down
     textView.addGestureRecognizer(gesture)
     textView.delegate = self
+    
+    textView.layer.borderColor = UIColor.systemGray5.cgColor
+    textView.layer.borderWidth = 1.0
+    textView.layer.cornerRadius = 5.0
     return textView
   }()
   
@@ -327,11 +333,21 @@ extension ProductRegisterViewController: UITextViewDelegate {
       guard let keyboardheight = self.keyboardSize?.height else { return }
       self.view.transform = CGAffineTransform(translationX: .zero, y: -keyboardheight * 0.8)
     }
+    
+    if textView.text == Const.Placeholder.productDescription {
+      textView.textColor = .label
+      textView.text = nil
+    }
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
     UIView.animate(withDuration: 0.2) {
       self.view.transform = .identity
+    }
+    
+    if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      textView.textColor = .placeholderText
+      textView.text = Const.Placeholder.productDescription
     }
   }
 }
