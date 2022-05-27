@@ -119,6 +119,7 @@ final class AddItemViewController: UIViewController {
         guard var stock = stockTextField.text else { return nil }
         stock = stock.isEmpty ? "0" : stock
         guard let descriptions = discriptinTextView.text else { return nil }
+        let httpDescription = descriptions.replacingOccurrences(of: "\n", with: "\\n")
         let secret = "zsxn8cy106"
 
         let data = """
@@ -129,7 +130,7 @@ final class AddItemViewController: UIViewController {
                 \"discounted_price\": \(discountedPrice),
                 \"stock\": \(stock),
                 \"secret\": \"\(secret)\",
-                \"descriptions\": \"\(descriptions)\"
+                \"descriptions\": \"\(httpDescription)\"
                 }
                 """.data(using: .utf8)!
         
