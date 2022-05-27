@@ -19,7 +19,7 @@ extension UIStackView {
         if lastViewCount == 0 {
             self.insertArrangedSubview(view, at: 0)
         } else {
-            self.insertArrangedSubview(view, at: lastViewCount-1)
+            self.insertArrangedSubview(view, at: 0)
         }
     }
 }
@@ -27,15 +27,15 @@ extension UIStackView {
 extension UIImage {
     public func resized(to targetSize: CGSize) -> UIImage? {
 
-         let target = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
-         guard let cgImage = self.cgImage,
-             let context = CGContext(data: nil, width: Int(targetSize.width), height: Int(targetSize.height),
-                                     bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: cgImage.bytesPerRow,
-                                     space: cgImage.colorSpace ?? CGColorSpaceCreateDeviceRGB(),
-                                     bitmapInfo: cgImage.bitmapInfo.rawValue)
-             else {
-                 return self
-         }
+        let target = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
+        guard let cgImage = self.cgImage,
+              let context = CGContext(data: nil,
+                                      width: Int(targetSize.width),
+                                      height: Int(targetSize.height),
+                                      bitsPerComponent: cgImage.bitsPerComponent,
+                                      bytesPerRow: cgImage.bytesPerRow,
+                                      space: cgImage.colorSpace ?? CGColorSpaceCreateDeviceRGB(),
+                                      bitmapInfo: cgImage.bitmapInfo.rawValue) else { return self }
          context.interpolationQuality = .high
          context.draw(cgImage, in: target)
 

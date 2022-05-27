@@ -82,7 +82,7 @@ extension RegisterViewController {
         var imageArray = [UIImage]()
         
         for subView in addImageHorizontalStackView.arrangedSubviews {
-            if let subView = subView as? UIImageView, let uiImage = subView.image?.resized(to: CGSize(width: 1, height: 1)) {
+            if let subView = subView as? UIImageView, let uiImage = subView.image?.resized(to: CGSize(width: 10, height: 10)) {
                 imageArray.append(uiImage)
             }
         }
@@ -96,7 +96,7 @@ extension RegisterViewController {
         productListUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
             print("성공")
         } registerErrorHandler: { error in
-            print("error")
+            print(error.localizedDescription)
         }
     }
 }

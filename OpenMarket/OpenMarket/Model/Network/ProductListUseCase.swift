@@ -49,26 +49,26 @@ struct ProductListUseCase {
             return nil
         }
         
-        let boundary = "Boundary-\(UUID().uuidString)"
+        let boundary = UUID().uuidString
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue(Secret.registerIdentifier, forHTTPHeaderField: "identifier")
-        request.setValue("multipart/form-data; boundary=\(boundary)",
-                         forHTTPHeaderField: "Content-Type")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.addValue(Secret.registerIdentifier, forHTTPHeaderField: "identifier")
+        
         var data = Data()
-        let boundaryPrefix = "--\(boundary)\r\n"
+        let boundaryPrefix = "\r\n--\(boundary)\r\n"
         data.appendString(boundaryPrefix)
         data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
         data.appendString("""
         {
         \"name\": \"\(registrationParameter.name)\",
-        \"amount\": \"\(registrationParameter.price)\",
+        \"price\": \"\(registrationParameter.price)\",
         \"currency\": \"\(registrationParameter.currency.rawValue)\",
         \"secret\": \"\(registrationParameter.secret)\",
         \"descriptions\": \"\(registrationParameter.descriptions)\",
         \"stock\": \"\(registrationParameter.stock)\",
         \"discounted_price\": \"\(registrationParameter.discountedPrice)\"
-        }\r\n
+        }
         """)
         
         //테스트코드
@@ -82,13 +82,10 @@ struct ProductListUseCase {
                 return nil
             }
             data.append(imageData)
-            data.appendString("\r\n")
         }
-        data.appendString(boundaryPrefix)
+        data.appendString("\r\n--\(boundary)--\r\n")
         
         request.httpBody = data
-        
-        
         
         let dataTask = network.requestData(urlRequest: request) { data, response in
             //테스트 코드
@@ -101,7 +98,6 @@ struct ProductListUseCase {
         }
         return dataTask
     }
-    
 }
 
 extension Data {
