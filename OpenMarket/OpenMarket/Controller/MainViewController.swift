@@ -14,7 +14,12 @@ final class MainViewController: UIViewController {
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
-  private let apiProvider = ApiProvider<ProductsList>()
+  private let apiProvider = ApiProvider()
+  private lazy var collectionView = CollectionView()
+  private lazy var editingView = EditingView()
+  private lazy var dataSource = makeDataSource()
+  private var currentPageNumber = 1
+  private var productsList:ProductsList?
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -22,12 +27,6 @@ final class MainViewController: UIViewController {
       }
     }
   }
-  
-  private lazy var collectionView = CollectionView()
-  private lazy var editingView = EditingView()
-  private lazy var dataSource = makeDataSource()
-  private var currentPageNumber = 1
-  private var productsList:ProductsList?
   
   private lazy var segmentedControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: [Layout.list.string, Layout.grid.string])
@@ -56,7 +55,10 @@ final class MainViewController: UIViewController {
   
   private func fetchPages() {
     apiProvider.get(.productList(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
-      guard let products = try? data.get() else {
+      guard let data = try? data.get() else {
+        return
+      }
+      guard let products = try? JSONDecoder().decode(ProductsList.self, from: data) else {
         return
       }
       self.productsList = products

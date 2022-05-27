@@ -8,7 +8,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-  private let detailAPIProvider = ApiProvider<DetailProduct>()
+  private let detailAPIProvider = ApiProvider()
   private var product: DetailProduct?
   private var pageId: Int?
 
@@ -26,9 +26,13 @@ class DetailViewController: UIViewController {
       return
     }
     detailAPIProvider.get(.editing(productId: pageId)) { data in
-      guard let selectedProduct = try? data.get() else {
+      guard let data = try? data.get() else {
         return
       }
+      guard let selectedProduct = try? JSONDecoder().decode(DetailProduct.self, from: data) else {
+        return
+      }
+      
       self.product = selectedProduct
       DispatchQueue.main.async {
         self.configureNavigationBar()

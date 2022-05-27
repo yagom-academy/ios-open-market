@@ -20,7 +20,7 @@ final class RegistrationViewController: UIViewController {
     static let maxImageCount = 5
   }
   
-  private let apiProvider = ApiProvider<DetailProduct>()
+  private let apiProvider = ApiProvider()
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
   private var selectedImages: [ImageFile] = []
