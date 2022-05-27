@@ -130,20 +130,39 @@ class ProductUpdaterView: UIView {
     return stackView
   }()
   
-  func setupParams() -> Params {
+  func setupParams() -> Params? {
     var currency = ""
     if self.currencySegmentedControl.selectedSegmentIndex == 0 {
       currency = "KRW"
     } else {
       currency = "USD"
     }
-    let params = Params(name: self.nameTextField.text!,
-                        price: Int(self.priceTextField.text!)!,
-                        discountedPrice: Int(self.discountedPriceTextField.text!)!,
-                        stock: Int(self.stockTextField.text!)!,
+    guard let name = self.nameTextField.text,
+          let price = self.priceTextField.text,
+          let discountedPrice = self.discountedPriceTextField.text,
+          let stock = self.stockTextField.text,
+          let descriptions = self.descriptionTextView.text
+    else {
+      return nil
+    }
+    
+    guard name != "" &&
+            price != "" &&
+            discountedPrice != "" &&
+            stock != "" &&
+            descriptions != ""
+    else {
+      return nil
+    }
+    
+    let params = Params(name: name,
+                        price: price.integer,
+                        discountedPrice: discountedPrice.integer,
+                        stock: stock.integer,
                         currency: currency,
-                        descriptions: self.descriptionTextView.text!,
+                        descriptions: descriptions,
                         secret: Constants.secret)
     return params
   }
 }
+
