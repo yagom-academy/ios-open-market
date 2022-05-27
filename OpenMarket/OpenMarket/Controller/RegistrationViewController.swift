@@ -20,22 +20,20 @@ final class RegistrationViewController: UIViewController {
     static let maxImageCount = 5
   }
   
+  private let apiProvider = ApiProvider<DetailProduct>()
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
-  private let apiProvider = ApiProvider<DetailProduct>()
   private var selectedImages: [ImageFile] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    configureRegistration()
-    configureNavigationBar()
-    didTapAddImageButton()
-    picker.delegate = self
+    configureRegistrationView()
     addNotification()
     addGestureRecognizer()
+    picker.delegate = self
   }
   
-  private func configureRegistration() {
+  private func configureRegistrationView() {
     let safeArea = self.view.safeAreaLayoutGuide
     self.view.addSubview(registrationView)
     
@@ -45,6 +43,9 @@ final class RegistrationViewController: UIViewController {
       registrationView.topAnchor.constraint(equalTo: safeArea.topAnchor),
       registrationView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
     ])
+    
+    configureNavigationBar()
+    didTapAddImageButton()
   }
   
   private func configureNavigationBar() {
@@ -66,7 +67,7 @@ final class RegistrationViewController: UIViewController {
   
   private func didTapAddImageButton() {
     registrationView.addImageButton.addTarget(self,
-                                              action: #selector(presentAlert),
+                                              action: #selector(presentPickerAlert),
                                               for: .touchUpInside)
   }
   
@@ -97,7 +98,7 @@ final class RegistrationViewController: UIViewController {
 }
 //MARK: - alert
 extension RegistrationViewController {
-  @objc private func presentAlert() {
+  @objc private func presentPickerAlert() {
     let alert = UIAlertController(title: Constants.pickerAlertTitle,
                                   message: Constants.pickerAlertMessage, preferredStyle: .alert)
     let cancel = UIAlertAction(title: Constants.pickerAlertCancelText, style: .cancel, handler: nil)
@@ -121,10 +122,10 @@ extension RegistrationViewController {
     present(alert, animated: true, completion: nil)
   }
 }
-
+//MARK: - ImagePickerController
 extension RegistrationViewController: UIImagePickerControllerDelegate,
                                       UINavigationControllerDelegate {
-  func presentAlbum(){
+  func presentAlbum() {
     picker.sourceType = .photoLibrary
     picker.allowsEditing = true
     present(picker, animated: false, completion: nil)
@@ -135,11 +136,11 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
                              info: [UIImagePickerController.InfoKey : Any])
   {
     if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-      guard let resizePickerImage = resizeImage(image: image, newWidth: 300) else {
+      guard let resizePickerImage = resize(image: image, newWidth: 300) else {
         return
       }
-      registrationView.imageStackView.addArrangedSubview(setUpImage(image))
-      convertToImageFile(resizePickerImage)
+      registrationView.imageStackView.addArrangedSubview(setUpImageView(with: image))
+      convertToImageFile(from: resizePickerImage)
     }
     if self.selectedImages.count == Constants.maxImageCount {
       registrationView.addImageButton.isHidden = true
@@ -147,15 +148,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     dismiss(animated: true, completion: nil)
   }
   
-  func convertToImageFile(_ image: UIImage) {
-    guard let imageData = image.jpegData(compressionQuality: 1) else {
-      return
-    }
-    let imageFile = ImageFile(data: imageData)
-    self.selectedImages.append(imageFile)
-  }
-  
-  func setUpImage(_ image: UIImage) -> UIImageView {
+  func setUpImageView(with image: UIImage) -> UIImageView {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
     imageView.image = image
@@ -165,7 +158,15 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     return imageView
   }
   
-  func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+  func convertToImageFile(from image: UIImage) {
+    guard let imageData = image.jpegData(compressionQuality: 1) else {
+      return
+    }
+    let imageFile = ImageFile(data: imageData)
+    self.selectedImages.append(imageFile)
+  }
+  
+  func resize(image: UIImage, newWidth: CGFloat) -> UIImage? {
     let scale = newWidth / image.size.width
     let newHeight = image.size.height * scale
     UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
