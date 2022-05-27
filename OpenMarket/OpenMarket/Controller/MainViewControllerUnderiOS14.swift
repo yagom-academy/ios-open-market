@@ -17,6 +17,7 @@ class MainViewControllerUnderiOS14: BaseViewController {
         }
     }
     private var isFirstSnapshot = true
+    private var refresh = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class MainViewControllerUnderiOS14: BaseViewController {
         dataProvider.fetchData() { products in
             self.products.append(contentsOf: products)
         }
+        setUpRefreshControl()
     }
     
     // MARK: override function (non @objc)
@@ -38,6 +40,26 @@ class MainViewControllerUnderiOS14: BaseViewController {
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         listLayout = layout
+    }
+}
+
+// MARK: Refresh Control
+extension MainViewControllerUnderiOS14 {
+    func setUpRefreshControl() {
+        refresh.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        refresh.tintColor = UIColor.systemPink
+
+        collectionView?.refreshControl = refresh
+    }
+    
+    @objc func refreshCollectionView() {
+        dataProvider.pageNumber = 1
+        dataProvider.fetchData() { products in
+            self.products = products
+        }
+        DispatchQueue.main.async {
+            self.collectionView?.refreshControl?.endRefreshing()
+        }
     }
 }
 

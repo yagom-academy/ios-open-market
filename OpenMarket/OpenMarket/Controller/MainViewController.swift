@@ -14,6 +14,7 @@ class MainViewController: BaseViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
     private let dataProvider = DataProvider()
+    private var refresh = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class MainViewController: BaseViewController {
             }
         }
         collectionView?.delegate = self
+        setUpRefreshControl()
     }
     
     // MARK: override function (non @objc)
@@ -38,6 +40,37 @@ class MainViewController: BaseViewController {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         listLayout = layout
+    }
+}
+
+// MARK: Refresh Control
+@available(iOS 14.0, *)
+extension MainViewController {
+    func setUpRefreshControl() {
+        refresh.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        refresh.tintColor = UIColor.systemPink
+
+        collectionView?.refreshControl = refresh
+    }
+    
+    @objc func refreshCollectionView() {
+        dataProvider.pageNumber = 1
+        dataProvider.fetchData() { [self] products in
+            guard var currentSnapshot = currentSnapshot else {
+                return
+            }
+            currentSnapshot.deleteItems(currentSnapshot.itemIdentifiers)
+            currentSnapshot.appendItems(products)
+            dataSource?.apply(currentSnapshot)
+            
+            DispatchQueue.main.async {
+                self.refresh.endRefreshing()
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.collectionView?.refreshControl?.endRefreshing()
+        }
     }
 }
 

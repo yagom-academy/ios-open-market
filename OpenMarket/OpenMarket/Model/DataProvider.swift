@@ -8,7 +8,7 @@
 import UIKit
 
 class DataProvider {
-    private var pageNumber = 1
+    var pageNumber = 1
     private let itemsPerPage = 10
     private var isLoading = false
     
