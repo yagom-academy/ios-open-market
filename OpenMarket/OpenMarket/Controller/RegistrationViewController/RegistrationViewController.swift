@@ -52,7 +52,7 @@ final class RegistrationViewController: UIViewController {
     @objc private func didTapDoneButton() {
         let alert = UIAlertController(title: "Really?", message: nil, preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
-            self.dataExtraction()
+            self.extractData()
             self.dismiss(animated: true)
         }
         let noAction = UIAlertAction(title: "No", style: .destructive)
@@ -77,7 +77,7 @@ final class RegistrationViewController: UIViewController {
             secret: OpenMarket.secret.discription,
             descriptions: description,
             stock: stock,
-            imges: images)
+            images: images)
         
         self.network.postData(params: param, images: images, completionHandler: { result in
             DispatchQueue.main.async {

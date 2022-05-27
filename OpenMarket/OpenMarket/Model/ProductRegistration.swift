@@ -13,5 +13,5 @@ struct ProductRegistration: Codable {
     let secret: String
     let descriptions: String?
     let stock: Int?
-    let imges: [Image]?
+    let images: [Image]?
 }
