@@ -17,12 +17,16 @@ class EditingViewController: UIViewController {
   
   private var apiProvider = ApiProvider<DetailProduct>()
   private lazy var editingView = EditingView()
-  var delegate: DetailProduct?
+  private var detailProduct: DetailProduct?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     configureRegistrationView()
     configureView()
+  }
+  
+  func receiveImformation(for detailProduct: DetailProduct?) {
+    self.detailProduct = detailProduct
   }
   
   private func configureRegistrationView() {
@@ -40,7 +44,7 @@ class EditingViewController: UIViewController {
   }
   
   private func configureView() {
-    guard let product = delegate else {
+    guard let product = detailProduct else {
       return
     }
     editingView.displayInformation(of: product)
@@ -77,7 +81,7 @@ class EditingViewController: UIViewController {
   @objc private func postEditedData() {
     let params = editingView.setupParams()
     let group = DispatchGroup()
-    guard let product = self.delegate else {
+    guard let product = self.detailProduct else {
       return
     }
     

@@ -10,18 +10,22 @@ import UIKit
 class DetailViewController: UIViewController {
   private let detailAPIProvider = ApiProvider<DetailProduct>()
   private var product: DetailProduct?
-  var delegate: Page?
+  private var pageId: Int?
 
   override func viewDidLoad() {
     super.viewDidLoad()
     fetchDetailProductData()
   }
   
+  func receiveInformation(for id: Int) {
+    self.pageId = id
+  }
+  
   private func fetchDetailProductData() {
-    guard let page = delegate else {
+    guard let pageId = pageId else {
       return
     }
-    detailAPIProvider.get(.editing(productId: page.id)) { data in
+    detailAPIProvider.get(.editing(productId: pageId)) { data in
       guard let selectedProduct = try? data.get() else {
         return
       }
@@ -46,7 +50,7 @@ class DetailViewController: UIViewController {
     let editingViewController = EditingViewController()
     let navigationController = UINavigationController(rootViewController: editingViewController)
     navigationController.modalPresentationStyle = .fullScreen
-    editingViewController.delegate = self.product
+    editingViewController.receiveImformation(for: self.product)
     present(navigationController, animated: true, completion: nil)
   }
 }
