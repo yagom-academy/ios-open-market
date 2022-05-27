@@ -8,7 +8,11 @@
 import UIKit
 
 class EditingViewController: UIViewController {
-  private var apiProvider = ApiProvider<ProductsList>()
+  private enum Constants {
+    static let navigationBarTitle = "상품수정"
+  }
+  
+  private var apiProvider = ApiProvider<DetailProduct>()
   private lazy var editingView = EditingView()
   var delegate: DetailProduct?
   
@@ -38,7 +42,7 @@ class EditingViewController: UIViewController {
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                              target: self,
                                                              action: #selector(postEditedData))
-    self.navigationItem.title = "상품수정"
+    self.navigationItem.title = Constants.navigationBarTitle
     
     self.navigationController?.navigationBar.backgroundColor = .white
     self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
@@ -83,7 +87,7 @@ class EditingViewController: UIViewController {
     for image in images {
       let imageView = UIImageView()
       imageView.translatesAutoresizingMaskIntoConstraints = false
-      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
+      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
       imageView.loadImage(urlString: image.url)
       editingView.imageStackView.addArrangedSubviews(imageView)
     }
