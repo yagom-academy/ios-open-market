@@ -26,4 +26,3 @@ extension Alertable {
         viewController.present(alertController, animated: true)
     }
 }
-

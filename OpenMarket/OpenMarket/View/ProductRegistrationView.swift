@@ -25,9 +25,8 @@ final class ProductRegistrationView: UIView {
     
     var imageView: UIImageView = {
         let image = UIImageView()
-        image.backgroundColor = .systemGray4
         image.isUserInteractionEnabled = true
-        image.image = UIImage(systemName: "add")
+        image.image = UIImage(named: "sss")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
