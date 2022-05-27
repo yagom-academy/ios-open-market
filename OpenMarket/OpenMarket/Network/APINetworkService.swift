@@ -24,8 +24,10 @@ final class APINetworkService: NetworkService {
     _ completion: @escaping (Result<String, APINetworkError>) -> Void
   ) {
     let urlString = Constant.baseURL + Constant.healthCheckerPath
+    guard let url = URL(string: urlString) else { return }
+    let urlRequest = URLRequest(url: url)
     
-    self.request(url: urlString) { result in
+    self.request(with: urlRequest) { result in
       switch result {
       case let .success(data):
         guard let text = String(data: data, encoding: .utf8) else { return }
@@ -42,12 +44,13 @@ final class APINetworkService: NetworkService {
     _ completion: @escaping (Result<[Product], APINetworkError>) -> Void
   ) {
     let urlString = Constant.baseURL + Constant.productListPath
-    let url = makeURL(
+    guard let url = makeURL(
       url: urlString,
       queryItems: ["page_no": pageNumber, "items_per_page": itemsPerPage]
-    )
-    
-    self.request(url: url) { result in
+    ) else { return }
+    let urlRequset = URLRequest(url: url)
+
+    self.request(with: urlRequset) { result in
       switch result {
       case let .success(data):
         guard let apiResponse = try? JSONDecoder().decode(APIResponse.self, from: data)
@@ -65,8 +68,9 @@ final class APINetworkService: NetworkService {
     _ completion: @escaping (Result<Product, APINetworkError>) -> Void
   ) {
     let urlString = Constant.baseURL + Constant.productDetailPath + String(productID)
-    
-    self.request(url: urlString) { result in
+    guard let url = URL(string: urlString) else { return }
+    let urlRequest = URLRequest(url: url)
+    self.request(with: urlRequest) { result in
       switch result {
       case let .success(data):
         guard let product = try? JSONDecoder().decode(Product.self, from: data)
@@ -113,44 +117,15 @@ final class APINetworkService: NetworkService {
     }
     data.appendString("\r\n--\(boundary)--\r\n")
     urlRequest.httpBody = data
-    
-    URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-      guard error == nil else { return }
-      guard let response = response as? HTTPURLResponse,
-            (200..<300).contains(response.statusCode)
-      else { return }
-    }.resume()
+  
+    self.request(with: urlRequest) { _ in }
   }
   
   private func request(
-    url urlString: String,
+    with urlRequest: URLRequest,
     _ completion: @escaping (Result<Data, APINetworkError>) -> Void
   ) {
-    guard let url = URL(string: urlString) else { return }
-    
-    self.urlSession.dataTask(with: url) { data, response, error in
-      guard error == nil else { return }
-      guard let response = response as? HTTPURLResponse else { return }
-      guard let data = data else { return }
-      
-      switch response.statusCode {
-      case 200...299:
-        completion(.success(data))
-      case 400:
-        completion(.failure(.badRequest))
-      default:
-        break
-      }
-    }.resume()
-  }
-  
-  private func request(
-    url: URL?,
-    _ completion: @escaping (Result<Data, APINetworkError>) -> Void
-  ) {
-    guard let url = url else { return }
-    
-    self.urlSession.dataTask(with: url) { data, response, error in
+    self.urlSession.dataTask(with: urlRequest) { data, response, error in
       guard error == nil else { return }
       guard let response = response as? HTTPURLResponse else { return }
       guard let data = data else { return }
