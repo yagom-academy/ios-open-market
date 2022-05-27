@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RegistrationViewController: UIViewController {
+final class RegistrationViewController: UIViewController, Alertable {
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
     private let network = URLSessionProvider<ProductList>()
     let imagePicker = UIImagePickerController()
@@ -53,7 +53,6 @@ final class RegistrationViewController: UIViewController {
         let alert = UIAlertController(title: "Really?", message: nil, preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
             self.extractData()
-            self.dismiss(animated: true)
         }
         let noAction = UIAlertAction(title: "No", style: .destructive)
         alert.addActions(yesAction, noAction)
@@ -67,7 +66,7 @@ final class RegistrationViewController: UIViewController {
         let currency = (CurrencyType(rawValue: baseView.currencySegmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
         let stock = Int(baseView.productStock.text ?? "0")
         let description = baseView.productDescription.text
-        var images: [Image] = extractImage()
+        let images: [Image] = extractImage()
         
         let param = ProductRegistration(
             name: name,
@@ -80,9 +79,12 @@ final class RegistrationViewController: UIViewController {
             images: images)
         
         self.network.postData(params: param, completionHandler: { result in
-            DispatchQueue.main.async {
-                if case .failure(let error) = result {
-                    return
+            switch result {
+            case .success(_):
+                self.dismiss(animated: true)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(errorMessage: error.errorDescription ?? "", viewController: self)
                 }
             }
         })
