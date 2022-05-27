@@ -58,16 +58,21 @@ final class RegistrationViewController: UIViewController {
   
   @objc private func postData() {
     let params = registrationView.setupParams()
-    apiProvider.post(.registration, params, selectedImages) { result in
-      switch result {
-      case .success(_):
-        return
-      case .failure(let response):
-        print(response)
-        return
+    let group = DispatchGroup()
+    DispatchQueue.global().async(group: group) {
+      self.apiProvider.post(.registration, params, self.selectedImages) { result in
+        switch result {
+        case .success(_):
+          return
+        case .failure(let response):
+          print(response)
+          return
+        }
       }
     }
-    self.dismiss(animated: true, completion: nil)
+    group.notify(queue: .main) {
+      self.dismiss(animated: true, completion: nil)
+    }
   }
 }
 //MARK: - alert
