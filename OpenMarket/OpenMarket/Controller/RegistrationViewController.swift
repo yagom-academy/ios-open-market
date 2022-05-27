@@ -8,9 +8,18 @@
 import UIKit
 
 final class RegistrationViewController: UIViewController {
+  private enum Constants {
+    static let navigationBarTitle = "상품등록"
+    static let alertTitle = "사진 선택"
+    static let alertMessage = "사진을 등록하시겠습니까?"
+    static let cancelText = "취소"
+    static let albumText = "앨범"
+    static let maxImageCount = 5
+  }
+  
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
-  private let apiProvider = ApiProvider<ProductsList>()
+  private let apiProvider = ApiProvider<DetailProduct>()
   private var selectedImages: [ImageFile] = []
   
   override func viewDidLoad() {
@@ -42,7 +51,7 @@ final class RegistrationViewController: UIViewController {
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                              target: self,
                                                              action: #selector(postData))
-    self.navigationItem.title = "상품등록"
+    self.navigationItem.title = Constants.navigationBarTitle
     
     self.navigationController?.navigationBar.backgroundColor = .white
     self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
@@ -53,7 +62,9 @@ final class RegistrationViewController: UIViewController {
   }
   
   private func didTapAddImageButton() {
-    registrationView.addImageButton.addTarget(self, action: #selector(presentAlert), for: .touchUpInside)
+    registrationView.addImageButton.addTarget(self,
+                                              action: #selector(presentAlert),
+                                              for: .touchUpInside)
   }
   
   @objc private func postData() {
@@ -78,9 +89,10 @@ final class RegistrationViewController: UIViewController {
 //MARK: - alert
 extension RegistrationViewController {
   @objc private func presentAlert() {
-    let alert = UIAlertController(title: "선택", message: "선택", preferredStyle: .alert)
-    let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-    let album = UIAlertAction(title: "앨범", style: .default) { [weak self] (_) in
+    let alert = UIAlertController(title: Constants.alertTitle,
+                                  message: Constants.alertMessage, preferredStyle: .alert)
+    let cancel = UIAlertAction(title: Constants.cancelText, style: .cancel, handler: nil)
+    let album = UIAlertAction(title: Constants.albumText, style: .default) { [weak self] (_) in
       self?.presentAlbum()
     }
     
@@ -100,7 +112,9 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
   }
   
   func imagePickerController(_ picker: UIImagePickerController,
-                             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+                             didFinishPickingMediaWithInfo
+                             info: [UIImagePickerController.InfoKey : Any])
+  {
     if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
       guard let resizePickerImage = resizeImage(image: image, newWidth: 300) else {
         return
@@ -108,7 +122,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
       registrationView.imageStackView.addArrangedSubview(setUpImage(image))
       convertToImageFile(resizePickerImage)
     }
-    if self.selectedImages.count > 4 {
+    if self.selectedImages.count == Constants.maxImageCount {
       registrationView.addImageButton.isHidden = true
     }
     dismiss(animated: true, completion: nil)
@@ -118,7 +132,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     guard let imageData = image.jpegData(compressionQuality: 1) else {
       return
     }
-    let imageFile = ImageFile(fileName: "imageName.jpeg", type: "jpeg", data: imageData)
+    let imageFile = ImageFile(data: imageData)
     self.selectedImages.append(imageFile)
   }
   
@@ -127,7 +141,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     imageView.contentMode = .scaleAspectFit
     imageView.image = image
     imageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
+    imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
     
     return imageView
   }
