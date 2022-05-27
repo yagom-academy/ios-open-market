@@ -18,7 +18,6 @@ final class RegisterViewController: RegisterEditBaseViewController {
         imageButton.setImage(image, for: .normal)
         imageButton.backgroundColor = .systemGray5
         imageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
-        
         return imageButton
     }()
     
@@ -71,7 +70,6 @@ extension RegisterViewController {
     
     func wrapperRegistrationParameter() -> RegistrationParameter? {
         guard let name = nameTextField.text, name.count >= 3 else {
-            //알랏 띄워주기
             return nil
         }
         guard let descriptions = textView.text, descriptions.count < 1000 else {

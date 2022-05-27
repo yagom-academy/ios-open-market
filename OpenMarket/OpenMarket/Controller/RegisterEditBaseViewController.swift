@@ -123,12 +123,12 @@ extension RegisterEditBaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                registerForKeyboardNotification()
+        registerForKeyboardNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-                removeRegisterForKeyboardNotification()
+        removeRegisterForKeyboardNotification()
     }
 }
 
@@ -200,94 +200,44 @@ extension RegisterEditBaseViewController {
 
 extension RegisterEditBaseViewController {
     
-        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            let touch = touches.first
-            if touch?.view != textView {
-                 self.textView.resignFirstResponder()
-             }
-         }
-    
-        private func registerForKeyboardNotification() {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(keyboardWillShow),
-                                                   name: UIResponder.keyboardWillShowNotification,
-                                                   object: nil)
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(keyboardHide),
-                                                   name: UIResponder.keyboardWillHideNotification,
-                                                   object: nil)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        if touch?.view != textView {
+            self.textView.resignFirstResponder()
         }
+    }
     
-        private func removeRegisterForKeyboardNotification() {
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        }
+    private func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyBoardShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
     
-        @objc private func keyboardHide(_ notification: Notification) {
-            self.view.transform = .identity
-        }
+    private func removeRegisterForKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
-//        @objc private func keyBoardShow(notification: NSNotification) {
-//            let userInfo: NSDictionary = notification.userInfo! as NSDictionary
-//            let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//
-//            let contentInset = UIEdgeInsets(
-//                    top: 0.0,
-//                    left: 0.0,
-//                    bottom: keyboardRectangle.height,
-//                    right: 0.0)
-//            baseScrollView.contentInset = contentInset
-//            baseScrollView.scrollIndicatorInsets = contentInset
-//            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
-    //        }
+    @objc private func keyboardHide(_ notification: Notification) {
+        self.view.transform = .identity
+    }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        
-        let contentInset = UIEdgeInsets(
-            top: 0.0,
-            left: 0.0,
-            bottom: keyboardFrame.size.height,
-            right: 0.0)
-        baseScrollView.contentInset = contentInset
-        baseScrollView.scrollIndicatorInsets = contentInset
-        
-        let firstResponder = UIResponder.currentFirstResponder
-        
-        if let textView = firstResponder as? UITextView {
-            baseScrollView.scrollRectToVisible(textView.frame, animated: true)
-        }
+    @objc private func keyBoardShow(notification: NSNotification) {
+        let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
     }
     
     private func keyboardAnimate(keyboardRectangle: CGRect ,textView: UITextView) {
         if keyboardRectangle.height > (self.view.frame.height - textView.frame.maxY){
             self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height))
         }
-    }
-}
-
-extension UIResponder {
-
-    private static weak var firstResponder: UIResponder?
-
-    static var currentFirstResponder: UIResponder? {
-        firstResponder = nil
-
-        UIApplication.shared.sendAction(
-            #selector(UIResponder.findFirstResponder(_:)),
-            to: nil,
-            from: nil,
-            for: nil)
-
-        return firstResponder
-    }
-
-    @objc func findFirstResponder(_ sender: Any) {
-        UIResponder.firstResponder = self
     }
 }
 

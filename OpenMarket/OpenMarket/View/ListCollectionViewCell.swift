@@ -116,7 +116,6 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stock.text = "잔여수량: \(product.stock)"
             stock.textColor = .gray
         }
-//        setConstraint()
     }
     
     override func prepareForReuse() {
