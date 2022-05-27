@@ -1,5 +1,5 @@
 # 🛍 오픈 마켓
-> 프로젝트 기간 2022.05.09 ~ 2022-05-20
+> 프로젝트 기간 2022.05.09 ~ 2022.06.03  
 팀원 : [mmim](https://github.com/JoSH0318) [cathy](https://github.com/cathy171)
 
 
@@ -8,14 +8,20 @@
 - [UML](#uml)
 - [STEP 1](#step-1)
     + [고민했던 것들(트러블 슈팅)](#고민한-점트러블-슈팅)
+    + [질문사항](#질문사항)
     + [배운 개념](#배운-개념)
     + [PR 후 개선사항](#pr-후-개선사항)
 - [STEP 2](#step-2)
-    + [고민했던 것들(트러블 슈팅)](#고민한-점트러블-슈팅-1)
-    + [배운 개념](#배운-개념-1)
-    + [PR 후 개선사항](#pr-후-개선사항-1)
+    + [고민했던 것들(트러블 슈팅)](#고민한-점트러블-슈팅)
+    + [질문사항](#질문사항)
+    + [배운 개념](#배운-개념)
+    + [PR 후 개선사항](#pr-후-개선사항)
+- [II STEP 1](#ii-step-1)
+    + [고민했던 것들(트러블 슈팅)](#고민한-점트러블-슈팅)
+    + [질문사항](#질문사항)
+    + [배운 개념](#배운-개념)
+    + [PR 후 개선사항](#pr-후-개선사항)
 - [Ground Rules](#ground-rules)
-
 ---
 
 ## 프로젝트 목표
@@ -277,7 +283,144 @@ GridCell화면에서 첫번째 셀, 두번째 셀이 safeArea안에서 잡히지
 - escaping closure
 
 ### PR 후 개선사항
+---
 
+## II STEP 1
+### 고민한 점(트러블 슈팅)
+> 0️⃣ 이번 프로젝트는 무지함에서 오는 고민이 많았다. 여러가지 선택지나 가설을 통한 고민이 아닌 전혀 모르는 영역을 탐구하는 고민이 대부분이다. 
+
+1️⃣ 상품 등록/수정 페이지 UI 구현
+- 상품 등록/수정 페이지는 크게 3 파트로 나뉜다.
+    - 상단: 이미지가 들어가는 횡스크롤
+    - 중단: 텍스트필드가 들어있는 입력란들
+    - 하단: 긴 줄글을 입력하는 텍스트뷰
+- 이번 프로젝트의 가장 큰 목표 중에 CollectionView의 구현이 있다.
+- 따라서 CollectionView를 통한 구현을 고민했다.
+- 하지만 몇 가지 이유로 적합하지 않다고 판단됐다.
+    1. 굳이 Cell을 사용한 화면구현이 필요없다. CollectionView, TableView가 사용되는 가장 큰 이유는 반복되는 Cell들을 사용하기 위한이라고 생각한다. 이 화면에서는 반복되는 Cell이 없다고 판단됐다.
+    2. Cell protoType이 4가지 이상 존재해야한다.(이미지뷰, 버튼이 있는 뷰, 텍스트필드뷰, 텍스트뷰 등이 구현된 Cell) 하지만 이 요소들이 반복되지 않고, 한번만 쓰인다.
+    3. 상단의 scrollView 영역만 collectionView를 쓰는것도 생각해봤다. 하지만 이미지는 5개 이상 생성되지 않는다. 따라서 많은 Cell을 반복적으로 사용하는 collectionView에 적합하지 않다.
+> 따라서 상단은 scrollView, 중단은 stackView, 하단은 TextView로 구현하기로 결정했다.  
+![](https://i.imgur.com/sXgYrv9.png)
+
+2️⃣ HTTP POST 구현
+- 일단 POST API 명세서를 보면 헤더와 바디에 필요한 요구사항들을 확인할 수 있다.
+- 헤더 정보는 `request.setValue`를 통해 간단히 명시할 수 있다.
+- 하지만 `params`와 `images`가 다른 타입을 가졌기에 `Multipart/form-data`을 사용해야했다.
+- 일단 Multipart/form-data에 대한 고민을 했다.
+- Multipart/form-data는 다양한 타입을 POST할 때 사용하는 방식이다.
+- 때문에 헤더에 Content-Type으로 Multipart/form-data을 명시하고, boundary를 통해 다른 두 타입을 가진 각각의 바디를 구분하여 생성해주었다.
+```
+----------
+< header >
+* 필요한 header정보 입력
+* Content-Type: Multipart/form-data
+----------
+< Body >
+* Content-Disposition: MIME Type
+* Content-Type: 해당 바디의 Type
+* data
+
+----------
+< Body >
+* Content-Disposition: MIME Type
+* Content-Type: 해당 바디의 Type
+* data
+
+----------
+```
+- 서버가 요구하는 명확한 요구조건과 HTTP을 준수해야하기 때문에 오타가 날 경우, 통신이 안된다.
+- 오타와 같은 경우 그것을 찾기가 매우 어렵고, 많은 시간이 소모되는 것을 경험했다.
+- 때문에 오타와 문법에 각별히 신경써야했다.
+
+3️⃣ image POST
+- Multipart/form-data을 통해 image를 POST하기 위한 Body를 구현할 때 고민이 많았다.
+- 로컬에 저장된 image의 경로 정보를 통해 image를 POST하거나, image의 URL 정보를 POST하는게 아닐까 생각했다. 이런 잘못된 예상으로 인해 많은 시간을 소모했다.
+- API 명세를 살펴보면 image의 타입은 `file[]`로 되어있다. 
+- 때문에 URL과 같은 String타입 POST하는 것이 아니라는 새로운 가설을 세웠고, data 형식으로 http body에 append해주는 방법을 생각하게 됐다.
+- imagePickerController를 통해 선택된 사진을 UIImgaeView에 뿌리고, 그 UIImageView를 data형식으로 변환하여 http body에 append해주었다.
+
+4️⃣ 키보드가 화면을 가리는 문제
+- `textView` 입력할 때 키보드에 화면이 가려지는 문제가 있었다. 
+- `Notification`을 사용해서 뷰의 frame을 키보드 높이의 1/3만큼 올려주는 방법으로 해결하려했다. 
+- 또한 `UIPanGestureRecognizer`를 사용해서 사용자가 아래로 스와이프했을 때 키보드를 내려주도록 구현하였다. 
+- `UITextViewDelegate`를 통해 textView에서만 적용되게 구현하려했지만 textView가 아닌 다른 textField에도 모두 키보드에 대한 설정이 적용되어서 결국 해결하지 못했다.
+
+5️⃣ 모달로 화면 전환하는 방식
+```swift
+    let registrationVC = RegistrationViewController()
+    let navigationController = UINavigationController(rootViewController: registrationVC)
+    navigationController.modalPresentationStyle = .fullScreen
+    present(navigationController, animated: true, completion: nil)
+```
+위와 같이 매개변수로 루트뷰 컨트롤러가 될 뷰컨트롤러를 생성하고 그 뷰컨트롤러로 네비게이션 컨트롤러를 생성해주었다.
+
+6️⃣ POST와 비동기
+- Post를 하기 위해 navigationItem Done button을 트리거로 이용했다.
+- button을 클릭하면 아래와 같은 코드가 실행되게 구현했다.
+```swift
+self.apiProvider.patch(.editing(productId: product.id), params) { result in
+    switch result {
+    case .success(_):
+        return
+    case .failure(let response):
+        return
+    }
+}
+self.dismiss(animated: true, completion: nil)
+```
+- 하지만 이렇게 화면을 빠져나가 상품 리스트 화면으로 가게되면, post한 상품이 반영되지 않는다.
+- 이러한 버그가 생기는 이유에 대해서 몇가지 고민했고, 이러한 방법을 통해 해결했다.
+    1. post(서버와 통신)하는 메서드는 비동기이다. 때문에 switch문부터 시작하는 내부 코드블럭을 실행하기 이전에 dismiss가 된다. 따라서 화면을 빠져나간 시점에는 아직 post가 완료되지 않아 갱신되지 않는다. (post보다 상품리스트의 get을 통한 갱신이 더 빠르다.)
+    이 문제를 해결하기 위해 DispatchGroup을 통해 patch 메서드 내부 코드 블럭이 끝날 때까지 기다려주도록 했다. group.notify을 사용했고, 후행 클로저에 dismiss하는 코드를 구현했다.
+    3. 상품 리스트 화면의 viewWillapear 시점에 get을 통해 상품을 갱신한다. get 또한 비동기 메서드 이기 때문에 get을 완료하기 이전에 이미 viewWillApear 시점이 끝나버린다. (현재 가진 정보로 화면을 구성해버히고 지난간 느낌) 따라서 viewDidApear 시점에 get 메서드를 사용했다. 이미 화면의 라이프 사이클은 시작됐고, 그 직후 갱신된 정보를 반영하는 식으로 해결할 수 있었다. 
+
+7️⃣ 빈 문자열을 get, post할 수 있다?
+- 현재 서버는 빈 문자열 POST을 허용한다. price와 같은 Int 타입도 `" "`빈 문자열을 받을 수 있고, 예상하기론 nil값으로 서버에 저장되는 것 같다.
+- 따라서 정보중 하나라도 nil 상태의 상품을 Get하게 된다면, 디코드 오류가 생기게 된다. 
+- 현재 step까지는 상품 상세 화면을 구현하지 않아도 되기 때문에 이러한 nil 정보에 대해서 신경쓰지 않아도 된다고 판단했다.
+- 하지만 이번 프로젝트에서 POST나 PATCH 과정에서 빈 문자열 또는 잘못된 문자열을 보낼수 없도록 막는 것이 좋다고 판단했다.
+- name, price, discounted_price, stock, description 중 하나라도 입력이 누락됐다면 경고 Alert을 띄우는 것이 사용자 경험상 좋을 것이라고 생각했다. (📎입력을 누락하게 되면 빈문자열("")이 입력된다.) 
+- 또한 숫자를 입력해야하는 곳에 Int로 변환할 수 없는 값을 입력하면 0 값이 입력되게 구현했다. 
+> 이 후에 정보를 입력하지 않은 textField의 하이라이트를 주는 등 사용자 경험 측면에서 좀더 업그레이드 하고 싶다.
+
+
+### 질문사항
+1️⃣ textview부분만 키보드 내리는 것 적용하는 방법
+프로젝트 요구사항을 보면 키보드가 올라왔을 때 컨텐츠를 가리지 않도록 한다는 조건이 있습니다. 
+![](https://i.imgur.com/amUTGrJ.png)  
+중간에 있는 **상품명 ~ 재고수량 TextField**는 키보드가 가릴 일이 없습니다. 하지만 아래에 있는 **description textView**와 같은 경우는 가립니다!
+따라서 **description textView**를 클릭하여 키보드가 올라왔을 때만 view.origin.y를 올려주려했습니다 😭
+하지만 `NotificationCenter`가 키보드가 올라오는 액션(UIResponder.keyboardWillShowNotification)를 감지하여 origin을 올려주기 때문에  **description textView**의 키보드가 올라왔을 때만 origin을 올려주지 못했습니다.
+그래서 현재는 모든 키보드가 올라올 때, view.origin.y를 올라갑니다 😭
+어떠한 키워드로 공부하면 이점을 해결할 수 있을지, 또는 어떤 문제가 있는지 궁금합니다.🙇‍♂️
+
+
+2️⃣ 공통부분 상속으로 구현했을 때 private 접근제어자 사용하지 못하는 문제
+RegistrationView와 EditingView가 완벽히 겹치는 코드가 많아서 프로토콜과 상속을 통한 구현을 시도해봤습니다. 
+우선 protocol을 통해 구현하려고 했습니다. 저희 코드는 저장 프로퍼티를 많이 사용하고, 그 프로퍼티가 완벽히 겹칩니다. 때문에 protocol을 통해 구현하면 완벽히 같은 코드블럭도 똑같이 작성해야했습니다.(물론 코드 누락을 피할 수 있다는 장점이 생겼지만 중복코드가 여전히 존재하는 단점이...) 
+그래서 현재 ProductUpdator class를 통해 상속으로 구현했습니다. 하지만 super class의 모든 프로퍼티와 메서드의 접근제어자를 사용할 수 없어졌습니다. 결과적으로 은닉화/캡슐화가 잘된 것인가 라는 생각을 하게 됐습니다. 
+이 부분에서 저희가 사용한 상속이 올바른 방법인지 다른 방법이 있는지 궁금합니다.❤️‍🔥
+
+3️⃣ 빈 문자열이 post 가능한 것에 대한 질문
+위의 고민한 점에서(7️⃣ 빈 문자열을 get, post할 수 있다?) 언급했듯이 httpGet 했을때, price와 같은 Int 타입의 값에서 nil 값이 나옵니다! 
+예상하기론 
+1. 서버에서 빈 값을 nil로 바꾸어 저장했다. 
+2. 서버에서 Int 타입임에도 ""로 가지고 있다가 클라이언트로 넘어오면서 Int타입으로 받을 수 없어서 nil을 반환한다.
+이렇게 두가지로 예상해봤습니다.
+궁금한 점은 POST할 때 params의 price는 type이 number라고 기재되어있는데, 왜 빈배열("")을 POST 할 수 있는건지. 서버에서 어떤 방식으로 잘못된 정보를 취급하는 것인지 궁금합니다.🙇‍♀️
+
+### 배운 개념
+- H.I.G (Human Interface Guidelines)
+- HTTP
+- Keyboard 
+- 상속, 프로토콜
+- URLSession
+- HTTP POST/PATCH
+- Multipart-form data
+- imagePickerController
+- NotificationCenter
+- UIAlertController
 ---
 
 ## Ground Rules
