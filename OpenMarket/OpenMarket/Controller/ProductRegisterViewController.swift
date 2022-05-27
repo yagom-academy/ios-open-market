@@ -7,14 +7,60 @@
 
 import UIKit
 
+fileprivate enum SegmentIndex: Int, CaseIterable {
+  case krw = 0
+  case usd
+  
+  var title: String {
+    switch self {
+    case .krw:
+      return "KRW"
+    case .usd:
+      return "USD"
+    }
+  }
+  
+  static var indexs: [String] {
+    return Self.allCases.map { $0.title }
+  }
+}
+
 final class ProductRegisterViewController: UIViewController {
+  private enum Const {
+    enum Title {
+      static let navigationBar = "상품등록"
+    }
+      
+    enum Message {
+      static let alertSelect = "선택"
+      static let alertCancel = "취소"
+      static let alertAlbum = "앨범"
+    }
+    
+    enum Placeholder {
+      static let productName = "상품명"
+      static let productPrice = "상품가격"
+      static let productDiscountPrice = "할인금액"
+      static let productStock = "재고수량"
+    }
+    
+    enum Limit {
+      static let maximumUploadCount = 6
+      static let maximumTextCount = 10
+    }
+    
+    enum UI {
+      static let spacing = 20.0
+    }
+  }
+  
   private var keyboardSize: CGRect?
   private var images = [UIImage]()
   
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
-    stackView.spacing = 20.0
+    stackView.spacing = Const.UI.spacing
     stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
@@ -56,7 +102,7 @@ final class ProductRegisterViewController: UIViewController {
     let textField = UITextField()
     textField.borderStyle = .roundedRect
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = "상품명"
+    textField.placeholder = Const.Placeholder.productName
     return textField
   }()
   
@@ -73,13 +119,13 @@ final class ProductRegisterViewController: UIViewController {
     textField.borderStyle = .roundedRect
     textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = "상품가격"
+    textField.placeholder = Const.Placeholder.productPrice
     return textField
   }()
   
   private let currencySegment: UISegmentedControl = {
-    let segment = UISegmentedControl(items: ["KRW", "USD"])
-    segment.selectedSegmentIndex = 0
+    let segment = UISegmentedControl(items: SegmentIndex.indexs)
+    segment.selectedSegmentIndex = SegmentIndex.krw.rawValue
     return segment
   }()
   
@@ -88,7 +134,7 @@ final class ProductRegisterViewController: UIViewController {
     textField.borderStyle = .roundedRect
     textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = "할인금액"
+    textField.placeholder = Const.Placeholder.productDiscountPrice
     return textField
   }()
   
@@ -97,7 +143,7 @@ final class ProductRegisterViewController: UIViewController {
     textField.borderStyle = .roundedRect
     textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = "재고수량"
+    textField.placeholder = Const.Placeholder.productStock
     return textField
   }()
   
@@ -116,31 +162,47 @@ final class ProductRegisterViewController: UIViewController {
     super.viewDidLoad()
     self.configureUI()
     self.configureNavigationItem()
-    NotificationCenter.default.addObserver(self, selector: #selector(textViewDidTap), name: UIResponder.keyboardWillShowNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(textViewDidTap), name: UIResponder.keyboardWillHideNotification, object: nil)
+    self.configureNotification()
   }
   
-  @objc func swipeDownAction(_ sender: UISwipeGestureRecognizer) {
+  private func configureNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(textViewDidTap),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil)
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(textViewDidTap),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil)
+  }
+  
+  @objc private func swipeDownAction(_ sender: UISwipeGestureRecognizer) {
     self.view.endEditing(true)
   }
   
-  @objc func textViewDidTap(notification: Notification) {
-    guard let keyboardSize =
-            (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
-             as? NSValue)?.cgRectValue else {
-      return
-    }
+  @objc private func textViewDidTap(notification: Notification) {
+    guard let userInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
+          let keyboardSize = userInfo as? CGRect else { return }
     self.keyboardSize = keyboardSize
   }
   
-  @objc func addImageViewDidTap(_ sender: UIImageView) {
+  @objc private func addImageViewDidTap(_ sender: UIImageView) {
     self.presentActionSheet()
   }
   
   private func presentActionSheet() {
-    let alert = UIAlertController(title: "선택", message: nil, preferredStyle: .actionSheet)
-    let cancel = UIAlertAction(title: "취소", style: .cancel)
-    let album = UIAlertAction(title: "앨범", style: .default) { [weak self] _ in
+    let alert = UIAlertController(
+      title: Const.Message.alertSelect,
+      message: nil,
+      preferredStyle: .actionSheet)
+    let cancel = UIAlertAction(
+      title: Const.Message.alertCancel,
+      style: .cancel)
+    let album = UIAlertAction(
+      title: Const.Message.alertAlbum,
+      style: .default) { [weak self] _ in
       self?.presentAlbum()
     }
     alert.addAction(cancel)
@@ -179,27 +241,40 @@ private extension ProductRegisterViewController {
     self.productInputStackView.addArrangedSubview(stockTextField)
     
     NSLayoutConstraint.activate([
-      containerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      containerStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      containerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
-      containerStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
+      containerStackView.topAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.topAnchor),
+      containerStackView.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      containerStackView.leadingAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+        constant: Const.UI.spacing),
+      containerStackView.trailingAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+        constant: -Const.UI.spacing),
       
-      imageScrollView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.16),
+      imageScrollView.heightAnchor.constraint(
+        equalToConstant: view.frame.height * 0.16),
+      imageStackView.topAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.topAnchor),
+      imageStackView.bottomAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
+      imageStackView.leadingAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
+      imageStackView.trailingAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
+      imageStackView.heightAnchor.constraint(
+        equalTo: imageScrollView.heightAnchor),
       
-      imageStackView.topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
-      imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
-      imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
-      imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
-      imageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor),
-      
-      addImageView.widthAnchor.constraint(equalTo: addImageView.heightAnchor),
-      
-      priceTextField.widthAnchor.constraint(equalTo: currencySegment.widthAnchor, multiplier: 2.0)
+      addImageView.widthAnchor.constraint(
+        equalTo: addImageView.heightAnchor),
+      priceTextField.widthAnchor.constraint(
+        equalTo: currencySegment.widthAnchor,
+        multiplier: 2.0)
     ])
   }
   
   func configureNavigationItem() {
-    self.title = "상품등록"
+    self.title = Const.Title.navigationBar
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .cancel,
       target: self,
@@ -241,20 +316,16 @@ private extension ProductRegisterViewController {
 // MARK: - Delegate
 
 extension ProductRegisterViewController: UITextViewDelegate {
-  func textView(
-    _ textView: UITextView,
-    shouldChangeTextIn range: NSRange,
-    replacementText text: String
-  ) -> Bool {
-    guard let previousText = textView.text else { return false }
-    let newLength = previousText.count + text.count - range.length
-    return newLength <= 1000
+  func textViewDidChange(_ textView: UITextView) {
+    if textView.text.count > Const.Limit.maximumTextCount {
+      textView.deleteBackward()
+    }
   }
-
+  
   func textViewDidBeginEditing(_ textView: UITextView) {
     UIView.animate(withDuration: 0.2) {
       guard let keyboardheight = self.keyboardSize?.height else { return }
-      self.view.transform = CGAffineTransform(translationX: 0.0, y: -keyboardheight * 0.8)
+      self.view.transform = CGAffineTransform(translationX: .zero, y: -keyboardheight * 0.8)
     }
   }
   
@@ -265,7 +336,8 @@ extension ProductRegisterViewController: UITextViewDelegate {
   }
 }
 
-extension ProductRegisterViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+extension ProductRegisterViewController: UINavigationControllerDelegate {}
+extension ProductRegisterViewController: UIImagePickerControllerDelegate {
   func imagePickerController(
     _ picker: UIImagePickerController,
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
@@ -273,16 +345,23 @@ extension ProductRegisterViewController: UINavigationControllerDelegate, UIImage
     if let image = info[.editedImage] as? UIImage {
       let resizedImage = image.resize(with: imageStackView.frame.height)
       self.images.append(resizedImage)
-      
-      let imageView = UIImageView()
-      imageView.contentMode = .scaleToFill
-      imageView.image = resizedImage
-      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
-      self.imageStackView.insertArrangedSubview(imageView, at: imageStackView.arrangedSubviews.count - 1)
-      if imageStackView.arrangedSubviews.count == 6 {
+      let imageView = createImageView(with: resizedImage)
+      self.imageStackView.insertArrangedSubview(
+        imageView,
+        at: imageStackView.arrangedSubviews.count - 1
+      )
+      if imageStackView.arrangedSubviews.count == Const.Limit.maximumUploadCount {
         self.addImageView.isHidden = true
       }
     }
     self.dismiss(animated: true)
+  }
+  
+  private func createImageView(with image: UIImage) -> UIImageView {
+    let imageView = UIImageView(image: image)
+    imageView.contentMode = .scaleToFill
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+    return imageView
   }
 }
