@@ -50,12 +50,14 @@ class ProdctView: UIView {
         let stackView = UIStackView(arrangedSubviews: [productCostTextField, currencySegmentedControl])
         
         stackView.spacing = 8
+        stackView.alignment = .center
         return stackView
     }()
     
     let productCostTextField: UITextField = {
         let textField = UITextField()
         
+        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.makeToolBar()
         textField.setContentHuggingPriority(.lowest, for: .horizontal)
         textField.placeholder = "상품가격"
@@ -67,6 +69,7 @@ class ProdctView: UIView {
     let currencySegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["KRW", "USD"])
         
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
@@ -95,6 +98,10 @@ class ProdctView: UIView {
         let textView = UITextView()
         
         textView.makeToolBar()
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.systemGray5.cgColor
+        textView.layer.cornerRadius = 10
+        textView.setContentHuggingPriority(.lowest, for: .vertical)
         return textView
     }()
     
@@ -117,7 +124,7 @@ class ProdctView: UIView {
         
         NSLayoutConstraint.activate([
             baseStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            baseStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            baseStackView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
             baseStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             baseStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
@@ -188,8 +195,9 @@ private extension UITextView {
         let bar = UIToolbar()
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let hiddenButton = UIBarButtonItem(image: Constant.Image.keyboardDown, style: .plain, target: self, action: #selector(keyboardHidden))
-        bar.items = [space, hiddenButton]
         bar.sizeToFit()
+        bar.items = [space, hiddenButton]
+        
         
         inputAccessoryView = bar
     }
