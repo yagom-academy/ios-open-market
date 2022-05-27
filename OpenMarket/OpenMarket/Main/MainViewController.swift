@@ -105,7 +105,7 @@ extension MainViewController {
     private func requestData(pageNumber: Int) {
         let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount)
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<ProductList, NetworkErorr>) in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<ProductList, NetworkError>) in
             guard let self = self else { return }
             
             switch result {

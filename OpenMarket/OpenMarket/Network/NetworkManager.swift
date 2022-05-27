@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkErorr: Error {
+enum NetworkError: Error {
     case dataError
     case jsonError
     case severError
@@ -22,7 +22,7 @@ struct NetworkManager {
         self.session = session
     }
     
-    func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
+    func checkServerState(completion: @escaping (Result<String, NetworkError>) -> Void) {
         guard let urlRequst = EndPoint.serverState.urlRequest else {
             completion(.failure(.urlError))
             return
@@ -45,7 +45,7 @@ struct NetworkManager {
         }.resume()
     }
     
-    func request<T: Decodable>(endPoint: EndPoint, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
+    func request<T: Decodable>(endPoint: EndPoint, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let urlRequst = endPoint.urlRequest else {
             completion(.failure(.urlError))
             return

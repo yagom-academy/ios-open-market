@@ -54,7 +54,7 @@ final class EditViewController: ProductViewController {
         
         let endPoint = EndPoint.editProduct(id: id, sendData: data)
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkErorr>) in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
@@ -76,7 +76,7 @@ final class EditViewController: ProductViewController {
         
         let endPoint = EndPoint.requestProduct(id: id)
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkErorr>) in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
