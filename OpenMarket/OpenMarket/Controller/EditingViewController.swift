@@ -8,6 +8,7 @@
 import UIKit
 
 class EditingViewController: UIViewController {
+  private var apiProvider = ApiProvider<ProductsList>()
   private lazy var editingView = EditingView()
   var delegate: DetailProduct?
   
@@ -48,8 +49,26 @@ class EditingViewController: UIViewController {
   }
   
   @objc private func postEditedData() {
-//    let params = editingView.setupParams()
-    // patch
+    let params = editingView.setupParams()
+    let group = DispatchGroup()
+    guard let delegate = delegate else {
+      return
+    }
+
+    DispatchQueue.global().async(group: group) {
+      self.apiProvider.patch(.editing(productId: delegate.id), params) { result in
+        switch result {
+        case .success(_):
+          return
+        case .failure(let response):
+          print(response)
+          return
+        }
+      }
+    }
+    group.notify(queue: .main) {
+      self.dismiss(animated: true, completion: nil)
+    }
   }
   
   private func configureView() {
