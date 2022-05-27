@@ -44,6 +44,12 @@ class RegisterEditBaseViewController: UIViewController {
         action: #selector(registerEditViewLeftBarButtonTapped)
     )
     
+    private lazy var baseScrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var addImageScrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -95,11 +101,11 @@ class RegisterEditBaseViewController: UIViewController {
     
     lazy var textView: UITextView = {
         let view = UITextView()
-        
-
         view.font = .preferredFont(forTextStyle: .body)
         view.text = "제품 상세 설명 textView 입니다."
-        //다이나믹타입구현
+        view.layer.borderColor = UIColor.systemGray4.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 5
         return view
     }()
 }
@@ -117,12 +123,12 @@ extension RegisterEditBaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        registerForKeyboardNotification()
+                registerForKeyboardNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeRegisterForKeyboardNotification()
+                removeRegisterForKeyboardNotification()
     }
 }
 
@@ -138,7 +144,15 @@ extension RegisterEditBaseViewController {
     }
     
     func setConstraint() {
-        view.addSubview(addImageScrollView)
+        view.addSubview(baseScrollView)
+        NSLayoutConstraint.activate([
+            baseScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            baseScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            baseScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            baseScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        baseScrollView.addSubview(addImageScrollView)
         NSLayoutConstraint.activate([
             addImageScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             addImageScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -154,7 +168,7 @@ extension RegisterEditBaseViewController {
             addImageHorizontalStackView.heightAnchor.constraint(equalTo: addImageScrollView.heightAnchor)
         ])
         
-        view.addSubview(baseVerticalStackView)
+        baseScrollView.addSubview(baseVerticalStackView)
         NSLayoutConstraint.activate([
             baseVerticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             baseVerticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
@@ -163,7 +177,7 @@ extension RegisterEditBaseViewController {
         ])
         
         NSLayoutConstraint.activate([
-            currencySegmentedControl.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25)
+            currencySegmentedControl.widthAnchor.constraint(equalTo: baseScrollView.widthAnchor, multiplier: 0.25)
         ])
     }
     
@@ -186,39 +200,94 @@ extension RegisterEditBaseViewController {
 
 extension RegisterEditBaseViewController {
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        if touch?.view != textView {
-             self.textView.resignFirstResponder()
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            let touch = touches.first
+            if touch?.view != textView {
+                 self.textView.resignFirstResponder()
+             }
          }
-     }
     
-    private func registerForKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+        private func registerForKeyboardNotification() {
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(keyboardWillShow),
+                                                   name: UIResponder.keyboardWillShowNotification,
+                                                   object: nil)
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(keyboardHide),
+                                                   name: UIResponder.keyboardWillHideNotification,
+                                                   object: nil)
+        }
     
-    private func removeRegisterForKeyboardNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+        private func removeRegisterForKeyboardNotification() {
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
     
-    @objc private func keyboardHide(_ notification: Notification) {
-        self.view.transform = .identity
-    }
+        @objc private func keyboardHide(_ notification: Notification) {
+            self.view.transform = .identity
+        }
     
-    @objc private func keyBoardShow(notification: NSNotification) {
-        let userInfo: NSDictionary = notification.userInfo! as NSDictionary
-        let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
-        let keyboardRectangle = keyboardFrame.cgRectValue
+//        @objc private func keyBoardShow(notification: NSNotification) {
+//            let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+//            let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//
+//            let contentInset = UIEdgeInsets(
+//                    top: 0.0,
+//                    left: 0.0,
+//                    bottom: keyboardRectangle.height,
+//                    right: 0.0)
+//            baseScrollView.contentInset = contentInset
+//            baseScrollView.scrollIndicatorInsets = contentInset
+//            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
+    //        }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
         
-        keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
+        let contentInset = UIEdgeInsets(
+            top: 0.0,
+            left: 0.0,
+            bottom: keyboardFrame.size.height,
+            right: 0.0)
+        baseScrollView.contentInset = contentInset
+        baseScrollView.scrollIndicatorInsets = contentInset
+        
+        let firstResponder = UIResponder.currentFirstResponder
+        
+        if let textView = firstResponder as? UITextView {
+            baseScrollView.scrollRectToVisible(textView.frame, animated: true)
+        }
     }
     
     private func keyboardAnimate(keyboardRectangle: CGRect ,textView: UITextView) {
         if keyboardRectangle.height > (self.view.frame.height - textView.frame.maxY){
-            //self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height))
+            self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height))
         }
+    }
+}
+
+extension UIResponder {
+
+    private static weak var firstResponder: UIResponder?
+
+    static var currentFirstResponder: UIResponder? {
+        firstResponder = nil
+
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.findFirstResponder(_:)),
+            to: nil,
+            from: nil,
+            for: nil)
+
+        return firstResponder
+    }
+
+    @objc func findFirstResponder(_ sender: Any) {
+        UIResponder.firstResponder = self
     }
 }
 

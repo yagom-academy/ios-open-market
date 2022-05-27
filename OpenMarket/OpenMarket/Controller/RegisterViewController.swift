@@ -18,7 +18,7 @@ final class RegisterViewController: RegisterEditBaseViewController {
         imageButton.setImage(image, for: .normal)
         imageButton.backgroundColor = .systemGray5
         imageButton.addTarget(self, action: #selector(addImage), for: .touchUpInside)
-
+        
         return imageButton
     }()
     
@@ -33,8 +33,12 @@ final class RegisterViewController: RegisterEditBaseViewController {
 extension RegisterViewController {
     func addImageToStackView(image: UIImage){
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
-        
+        imageView.isUserInteractionEnabled = true
         imageView.image = image
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(deleteImageView))
+        gesture.direction = .up
+        imageView.addGestureRecognizer(gesture)
+        
         addImageHorizontalStackView.addLastBehind(view: imageView)
         
         NSLayoutConstraint.activate([
@@ -42,12 +46,23 @@ extension RegisterViewController {
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         
+        if addImageHorizontalStackView.arrangedSubviews.count == 6 {
+            addImageButton.isHidden = true
+        } else {
+            addImageButton.isHidden = false
+        }
         addImageHorizontalStackView.setNeedsDisplay()
+    }
+    
+    @objc private func deleteImageView(_ sender: UISwipeGestureRecognizer) {
+        guard let imageView = sender.view, let stackView = imageView.superview as? UIStackView else { return }
+        stackView.removeArrangedSubview(imageView)
+        imageView.removeFromSuperview()
     }
     
     func setBaseImage() {
         addImageHorizontalStackView.addArrangedSubview(addImageButton)
-    
+        
         NSLayoutConstraint.activate([
             addImageButton.heightAnchor.constraint(equalTo: addImageHorizontalStackView.heightAnchor),
             addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor)
@@ -137,9 +152,9 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
         
         guard let selectedImage = info[.originalImage] as? UIImage else {
             fatalError("error")
-    }
-    addImageToStackView(image: selectedImage)
-    picker.dismiss(animated: true)
+        }
+        addImageToStackView(image: selectedImage)
+        picker.dismiss(animated: true)
     }
     
     private func openLibrary() {
