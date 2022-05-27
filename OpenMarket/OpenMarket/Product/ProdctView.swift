@@ -152,12 +152,12 @@ class ProdctView: UIView {
         let stock = productStockTextField.text.flatMap { Int($0) } ?? .zero
         
         return UploadProduct(name: productNameTextField.text,
-                                 discountedPrice: discountedPrice,
-                                 descriptions: productDescriptionTextView.text,
-                                 price: price,
-                                 stock: stock,
-                                 currency: currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD,
-                                 secret: "password")
+                             discountedPrice: discountedPrice,
+                             descriptions: productDescriptionTextView.text,
+                             price: price,
+                             stock: stock,
+                             currency: currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD,
+                             secret: UserInformation.password)
     }
 }
 

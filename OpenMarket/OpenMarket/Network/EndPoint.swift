@@ -63,11 +63,11 @@ extension EndPoint {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         case .editProduct(_, let sendData):
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+            request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
             request.httpBody = try? JSONEncoder().encode(sendData)
         case .createProduct(let sendData):
             request.addValue("multipart/form-data; boundary=\(Self.boundary)", forHTTPHeaderField: "Content-Type")
-            request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+            request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
             request.httpBody = sendData
         }
         
