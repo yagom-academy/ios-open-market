@@ -33,6 +33,27 @@ class UpdateProductViewController: UIViewController {
     private var collectionView: UICollectionView?
     private var collectionViewLayout: UICollectionViewLayout?
     
+    lazy var numberPadLayout: NSLayoutConstraint? = {
+        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextCell else {
+            return nil
+        }
+        return cell.baseStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -270)
+    }()
+    
+    lazy var defaultPadLayout: NSLayoutConstraint? = {
+        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextCell else {
+            return nil
+        }
+        return cell.baseStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -305)
+    }()
+    
+    lazy var originPadLayout: NSLayoutConstraint? = {
+        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextCell else {
+            return nil
+        }
+        return cell.baseStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+    }()
+    
     func initialize(product: ProductDetail) {
         self.product = product
     }
@@ -59,6 +80,36 @@ class UpdateProductViewController: UIViewController {
         setUpCollectionView()
         
         setUpImagePicker()
+        
+        registerNotification()
+    }
+}
+
+extension UpdateProductViewController {
+    func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let keyboardBounds = notification.userInfo?["UIKeyboardBoundsUserInfoKey"]
+        guard let keyboardBounds = keyboardBounds as? NSValue else {return}
+        
+        if keyboardBounds.cgRectValue == CGRect(x: 0.0, y: 0.0, width: 375.0, height: 336.0) {
+            defaultPadLayout?.isActive = true
+            numberPadLayout?.isActive = false
+            originPadLayout?.isActive = false
+        } else {
+            defaultPadLayout?.isActive = false
+            numberPadLayout?.isActive = true
+            originPadLayout?.isActive = false
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notificationCenter: NotificationCenter) {
+        defaultPadLayout?.isActive = false
+        numberPadLayout?.isActive = false
+        originPadLayout?.isActive = true
     }
 }
 
