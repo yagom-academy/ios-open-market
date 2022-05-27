@@ -14,22 +14,6 @@ class RegisterEditBaseViewController: UIViewController {
         static let leftNavigationButtonText = "Cancel"
     }
     
-    enum Mode {
-        case add
-        case edit
-        
-        var navigationItemTitle: String {
-            switch self{
-            case .add:
-                return "상품등록"
-            case .edit:
-                return "상품수정"
-            }
-        }
-    }
-    
-    var mode: Mode = .add
-    
     private lazy var rightNavigationButton = UIBarButtonItem(
         title: Constant.rightNavigationButtonText,
         style: .plain,
@@ -93,7 +77,7 @@ class RegisterEditBaseViewController: UIViewController {
     lazy var stockTextField = generateTextField(placeholder: "재고수량", keyboardType: .numberPad)
     
     lazy var currencySegmentedControl: UISegmentedControl = {
-        let segment = UISegmentedControl(items: ["KRW", "USD"])
+        let segment = UISegmentedControl(items: [Currency.KRW, Currency.USD])
         segment.translatesAutoresizingMaskIntoConstraints = false
         segment.selectedSegmentIndex = 0
         return segment
@@ -137,7 +121,6 @@ extension RegisterEditBaseViewController {
 extension RegisterEditBaseViewController {
     
     private func setNavigationTitle() {
-        navigationItem.title = mode.navigationItemTitle
         navigationItem.rightBarButtonItem = rightNavigationButton
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = leftNavigationButton

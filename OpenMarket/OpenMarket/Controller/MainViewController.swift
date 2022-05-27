@@ -156,7 +156,6 @@ extension MainViewController {
     
     @objc private func mainViewRightBarButtonTapped() {
         let viewController = RegisterViewController()
-        viewController.mode = .add
         navigationController?.pushViewController(viewController, animated: true)
     }
     
