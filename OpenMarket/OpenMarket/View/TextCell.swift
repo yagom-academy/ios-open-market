@@ -65,6 +65,9 @@ class TextCell: UICollectionViewCell {
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
+        textView.layer.borderWidth = CGFloat(1)
+        textView.layer.cornerRadius = 5.0
+        textView.layer.borderColor = UIColor.systemGray.cgColor
         return textView
     }()
     
