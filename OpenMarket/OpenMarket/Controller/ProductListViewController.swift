@@ -5,9 +5,22 @@
 
 import UIKit
 
-fileprivate enum SegmentIndex: Int {
+fileprivate enum SegmentIndex: Int, CaseIterable {
   case list = 0
   case grid
+  
+  var title: String {
+    switch self {
+    case .list:
+      return "LIST"
+    case .grid:
+      return "GRID"
+    }
+  }
+  
+  static var indexs: [String] {
+    return Self.allCases.map { $0.title }
+  }
 }
 
 final class ProductListViewController: UIViewController {
@@ -30,10 +43,10 @@ final class ProductListViewController: UIViewController {
     action: #selector(addButtonDidTap))
 
   private lazy var segmentControl: UISegmentedControl = {
-    let segment = UISegmentedControl(items: ["LIST", "GRID"])
-    segment.setWidth(Constant.segmentWidth, forSegmentAt: .zero)
-    segment.setWidth(Constant.segmentWidth, forSegmentAt: 1)
-    segment.selectedSegmentIndex = .zero
+    let segment = UISegmentedControl(items: SegmentIndex.indexs)
+    segment.setWidth(Constant.segmentWidth, forSegmentAt: SegmentIndex.list.rawValue)
+    segment.setWidth(Constant.segmentWidth, forSegmentAt: SegmentIndex.grid.rawValue)
+    segment.selectedSegmentIndex = SegmentIndex.list.rawValue
     segment.addTarget(self, action: #selector(segmentControlDidTap), for: .valueChanged)
     return segment
   }()
