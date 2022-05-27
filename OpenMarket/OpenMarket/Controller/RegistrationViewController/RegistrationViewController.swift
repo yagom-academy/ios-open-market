@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductRegistrationViewController: UIViewController {
+final class RegistrationViewController: UIViewController {
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
     let imagePicker = UIImagePickerController()
     
@@ -80,7 +80,7 @@ final class ProductRegistrationViewController: UIViewController {
     }
 }
 
-extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         var newImage: UIImage?
         

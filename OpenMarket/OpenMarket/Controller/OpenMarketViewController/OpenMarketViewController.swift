@@ -78,7 +78,7 @@ final class OpenMarketViewController: UIViewController {
     
     @objc private func didTapAddButton() {
         let productRegistrationVC = UINavigationController(
-            rootViewController: ProductRegistrationViewController()
+            rootViewController: RegistrationViewController()
         )
         
         let navigationBarAppearance = UINavigationBarAppearance()
