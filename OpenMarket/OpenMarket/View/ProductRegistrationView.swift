@@ -15,20 +15,21 @@ final class ProductRegistrationView: UIView {
         return scrollView
     }()
     
-    private let imagesStackView: UIStackView = {
+    let imagesStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    let imageButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemGray4
-        button.setTitle("+", for: .normal)
-        button.setTitleColor(UIColor.systemBlue, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    var imageView: UIImageView = {
+        let image = UIImageView()
+        image.backgroundColor = .systemGray4
+        image.isUserInteractionEnabled = true
+        image.image = UIImage(systemName: "add")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
     }()
     
     private let TextFieldStackView: UIStackView = {
@@ -106,7 +107,7 @@ final class ProductRegistrationView: UIView {
     private func setupView() {
         addsubViews(imagesScrollView, TextFieldStackView, productDescription)
         imagesScrollView.addSubview(imagesStackView)
-        imagesStackView.addArrangedsubViews(imageButton)
+        imagesStackView.addArrangedsubViews(imageView)
         TextFieldStackView.addArrangedsubViews(productName, priceStackView, productBargenPrice, productStock)
         priceStackView.addArrangedsubViews(productPrice, currencySegmentControl)
         
@@ -126,7 +127,7 @@ final class ProductRegistrationView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            imageButton.widthAnchor.constraint(equalTo: imageButton.heightAnchor)
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
