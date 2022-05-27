@@ -23,7 +23,7 @@ class ProdctView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.directionalLayoutMargins = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
+        stackView.directionalLayoutMargins = .init(top: .zero, leading: 8, bottom: .zero, trailing: 8)
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
@@ -130,9 +130,9 @@ class ProdctView: UIView {
     func configure(product: Product) {
         DispatchQueue.main.async { [self] in
             productNameTextField.text = product.name
-            productCostTextField.text = "\(product.price ?? 0)"
-            productDiscountCostTextField.text = "\(product.discountedPrice ?? 0)"
-            productStockTextField.text = "\(product.stock ?? 0)"
+            productCostTextField.text = "\(product.price ?? .zero)"
+            productDiscountCostTextField.text = "\(product.discountedPrice ?? .zero)"
+            productStockTextField.text = "\(product.stock ?? .zero)"
             productDescriptionTextView.text = product.description
             
             switch product.currency {

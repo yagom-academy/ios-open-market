@@ -94,7 +94,7 @@ class ProductViewController: UIViewController {
     }
     
     @objc private func keyboardWillHidden(_ sender: Notification) {
-        mainView?.productDescriptionTextView.contentInset.bottom = 0
+        mainView?.productDescriptionTextView.contentInset.bottom = .zero
     }
     
     func removeNotification() {
@@ -131,7 +131,7 @@ extension ProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentString = textField.text ?? ""
         let finalText = makeFinalText(currentString, shouldChangeCharactersIn: range, replacementString: string)
-        if finalText.count == 0 { return true }
+        if finalText.count == .zero { return true }
         
         switch textField {
         case mainView?.productNameTextField:

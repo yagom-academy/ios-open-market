@@ -131,8 +131,8 @@ extension ProductGridCell {
             priceLabel.addStrikethrough()
         }
         
-        quantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
-        quantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
+        quantityLabel.textColor = data.stock == .zero ? .systemOrange : .systemGray3
+        quantityLabel.text = data.stock == .zero ? "품절" : "잔여수량: \(data.stock ?? .zero)"
         
         downloadImage(imageURL: data.thumbnail)
     }

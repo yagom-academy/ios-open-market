@@ -26,7 +26,7 @@ final class ProductListCell: UICollectionViewCell, ProductCell {
     private lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [thumbnailImageView, informationStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.directionalLayoutMargins = .init(top: 0, leading: 0, bottom: 0, trailing: 8)
+        stackView.directionalLayoutMargins = .init(top: .zero, leading: .zero, bottom: .zero, trailing: 8)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.spacing = 8
         return stackView
@@ -117,9 +117,9 @@ extension ProductListCell {
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .zero),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: .zero),
         ])
         
         NSLayoutConstraint.activate([
@@ -167,8 +167,8 @@ extension ProductListCell {
             priceLabel.addStrikethrough()
         }
         
-        quantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
-        quantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
+        quantityLabel.textColor = data.stock == .zero ? .systemOrange : .systemGray3
+        quantityLabel.text = data.stock == .zero ? "품절" : "잔여수량: \(data.stock ?? .zero)"
         
         downloadImage(imageURL: data.thumbnail)
     }
