@@ -46,7 +46,7 @@ final class RegistrationViewController: UIViewController {
         }
         let noAction = UIAlertAction(title: "No", style: .destructive)
         alert.addActions(yesAction, noAction)
-        alert.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     private func dataExtraction() {
@@ -87,8 +87,8 @@ final class RegistrationViewController: UIViewController {
                     return
                 }
             }
-            self.dismiss(animated: true)
         })
+        self.dismiss(animated: true)
     }
     
     private func setupKeyboardNotification() {
