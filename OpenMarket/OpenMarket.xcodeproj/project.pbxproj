@@ -19,6 +19,7 @@
 		304197DD282A07D700083790 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304197DC282A07D700083790 /* ProductList.swift */; };
 		304D31C22840D3EE0016B148 /* CurrencyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D31C12840D3EE0016B148 /* CurrencyType.swift */; };
 		304D31C42840D65F0016B148 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D31C32840D65F0016B148 /* AlertController.swift */; };
+		304D31C628411DA70016B148 /* RestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D31C528411DA70016B148 /* RestApi.swift */; };
 		30C06337282CA80200CACD3C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* Endpoint.swift */; };
 		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
 		30C06341282D131000CACD3C /* URLProductListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06340282D131000CACD3C /* URLProductListTests.swift */; };
@@ -83,6 +84,7 @@
 		304197DC282A07D700083790 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		304D31C12840D3EE0016B148 /* CurrencyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyType.swift; sourceTree = "<group>"; };
 		304D31C32840D65F0016B148 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		304D31C528411DA70016B148 /* RestApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApi.swift; sourceTree = "<group>"; };
 		30C06336282CA80200CACD3C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		30C0633E282D131000CACD3C /* URLProductCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLProductCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,6 +252,7 @@
 				8622BBB1282CA64200D1FAC0 /* NetworkError.swift */,
 				30C06336282CA80200CACD3C /* Endpoint.swift */,
 				30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */,
+				304D31C528411DA70016B148 /* RestApi.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				865B43D9283DFDD30005B484 /* Data.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				304D31C628411DA70016B148 /* RestApi.swift in Sources */,
 				8622BBB0282CA37C00D1FAC0 /* URLSessionProvider.swift in Sources */,
 				3008F3CD28337E990034C902 /* CALayer.swift in Sources */,
 				86CC60A128333F2C00AE2132 /* ListCell.swift in Sources */,

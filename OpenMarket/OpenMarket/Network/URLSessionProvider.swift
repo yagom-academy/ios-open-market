@@ -25,22 +25,13 @@ struct URLSessionProvider<T: Decodable> {
     
     func fetchData(
         from url: Endpoint,
-        completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
-            guard let url = url.url else {
-                completionHandler(.failure(.urlError))
-                return
-            }
-            
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = "GET"
-            
-            request(with: urlRequest, completionHandler: completionHandler)
-        }
-    
-    private func request(
-        with request: URLRequest,
         completionHandler: @escaping (Result<T, NetworkError>) -> Void
     ) {
+        
+        guard let request = makeURLRequest(restApi: .get, url: url) else {
+            return completionHandler(.failure(.urlError))
+        }
+        
         let task = session.dataTask(with: request) { data, urlResponse, error in
             
             guard error == nil else {
@@ -69,18 +60,25 @@ struct URLSessionProvider<T: Decodable> {
         task.resume()
     }
     
+    private func makeURLRequest(restApi: RestApi, url: Endpoint) -> URLRequest? {
+        guard let url = url.url else {
+            return nil
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = restApi.type
+        
+        return urlRequest
+    }
+    
     func postData(
         params: ProductRegistration,
         completionHandler: @escaping (Result<T, NetworkError>
         ) -> Void) {
         
-        
-        guard let url = Endpoint.productRegistration.url else {
-            return
+        guard var urlRequest = makeURLRequest(restApi: .post, url: Endpoint.productRegistration) else {
+            return completionHandler(.failure(.urlError))
         }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
         
         let boundary = UUID().uuidString
         
@@ -114,16 +112,16 @@ struct URLSessionProvider<T: Decodable> {
             return nil
         }
         
-        guard let images = params.images else {
-            return nil
-        }
-        
         body.appendString(boundaryPrefix)
         body.appendString("Content-Disposition: form-data; name=\"params\"")
         body.appendString(newline)
         body.appendString(newline)
         body.append(product)
         body.appendString(newline)
+        
+        guard let images = params.images else {
+            return nil
+        }
 
         for image in images {
             body.appendString(boundaryPrefix)
