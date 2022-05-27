@@ -50,10 +50,11 @@ final class EditViewController: ProductViewController {
     
     @objc override func doneButtonDidTapped() {
         guard let data = mainView?.makeEncodableModel() else { return }
+        guard let id = product.id else { return }
         
-        let endPoint = EndPoint.editProduct(id: product.id!, sendData: data)
+        let endPoint = EndPoint.editProduct(id: id, sendData: data)
         
-        networkManager.request(endPoint: endPoint) { [weak self] result in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkErorr>) in
             guard let self = self else { return }
             
             switch result {
@@ -75,7 +76,7 @@ final class EditViewController: ProductViewController {
         
         let endPoint = EndPoint.requestProduct(id: id)
         
-        networkManager.request(endPoint: endPoint) { [weak self] result in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkErorr>) in
             guard let self = self else { return }
             
             switch result {

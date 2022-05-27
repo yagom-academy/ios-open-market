@@ -14,7 +14,7 @@ final class MainViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Product>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Product>
     
-    private var networkManager = NetworkManager<ProductList>()
+    private var networkManager = NetworkManager()
     private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
     
     private var mainView: MainView?
@@ -100,7 +100,7 @@ extension MainViewController {
     private func requestData(pageNumber: Int) {
         let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount)
         
-        networkManager.request(endPoint: endPoint) { [weak self] result in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<ProductList, NetworkErorr>) in
             guard let self = self else { return }
             
             switch result {

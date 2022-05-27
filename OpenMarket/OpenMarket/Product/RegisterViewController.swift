@@ -42,7 +42,7 @@ final class RegisterViewController: ProductViewController {
         
         let endPoint = EndPoint.createProduct(sendData: sendData)
         
-        networkManager.request(endPoint: endPoint) { [weak self] result in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkErorr>) in
             guard let self = self else { return }
             
             switch result {

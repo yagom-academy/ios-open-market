@@ -17,7 +17,7 @@ class ProductViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, UIImage>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>
     
-    let networkManager = NetworkManager<Product>()
+    let networkManager = NetworkManager()
     
     var mainView: ProdctView?
     var dataSource: DataSource?

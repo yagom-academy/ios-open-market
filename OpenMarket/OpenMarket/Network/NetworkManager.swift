@@ -15,7 +15,7 @@ enum NetworkErorr: Error {
     case imageError
 }
 
-struct NetworkManager<T: Codable> {
+struct NetworkManager {
     private let session: URLSession
     
     init(session: URLSession = .customSession) {
@@ -45,7 +45,7 @@ struct NetworkManager<T: Codable> {
         }.resume()
     }
     
-    func request(endPoint: EndPoint, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
+    func request<T: Decodable>(endPoint: EndPoint, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
         guard let urlRequst = endPoint.urlRequest else {
             completion(.failure(.urlError))
             return
