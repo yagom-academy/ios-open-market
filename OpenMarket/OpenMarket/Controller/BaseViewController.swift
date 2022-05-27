@@ -27,6 +27,7 @@ extension BaseViewController {
         applyListLayout()
         applyGridLayout()
         configureHierarchy(collectionViewLayout: listLayout ?? UICollectionViewLayout())
+        collectionView?.backgroundColor = .systemBackground
     }
 }
 
