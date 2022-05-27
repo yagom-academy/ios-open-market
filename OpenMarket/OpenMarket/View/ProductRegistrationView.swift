@@ -44,6 +44,7 @@ final class ProductRegistrationView: UIView {
     private let productName: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
+        textField.clearButtonMode = .whileEditing
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -60,6 +61,8 @@ final class ProductRegistrationView: UIView {
     private let productPrice: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품 가격"
+        textField.clearButtonMode = .whileEditing
+        textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -68,6 +71,7 @@ final class ProductRegistrationView: UIView {
     private let currencySegmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["KRW", "USD"])
         segmentControl.selectedSegmentIndex = 0
+        
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
     }()
@@ -75,6 +79,8 @@ final class ProductRegistrationView: UIView {
     private let productBargenPrice: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인 가격"
+        textField.clearButtonMode = .whileEditing
+        textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -83,6 +89,8 @@ final class ProductRegistrationView: UIView {
     private let productStock: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고 수량"
+        textField.clearButtonMode = .whileEditing
+        textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
