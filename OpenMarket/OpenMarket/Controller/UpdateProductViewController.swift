@@ -166,7 +166,7 @@ extension UpdateProductViewController {
     }
     
     private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 80, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout)
         view.addSubview(collectionView ?? UICollectionView())
         layoutCollectionView()
     }
@@ -189,7 +189,7 @@ extension UpdateProductViewController {
             } else if sectionKind == .text {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.6))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
             } else {
@@ -208,7 +208,7 @@ extension UpdateProductViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
