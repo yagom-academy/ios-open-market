@@ -9,11 +9,13 @@ import UIKit
 
 final class ProductRegistrationViewController: UIViewController {
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
+    let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationItems()
         setupView()
+        bind()
     }
     
     private func setupView() {
@@ -36,4 +38,17 @@ final class ProductRegistrationViewController: UIViewController {
     }
     
     @objc private func didTapDoneButton() { }
+    
+    private func bind() {
+        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.allowsEditing = true
+        self.imagePicker.delegate = self
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddImageButton))
+        baseView.imageView.addGestureRecognizer(gesture)
+    }
+    
+    @objc private func didTapAddImageButton() {
+        self.present(self.imagePicker, animated: true)
+    }
 }
