@@ -20,20 +20,12 @@ private struct Product: APIable {
     var method: HTTPMethod = .get
 }
 
-private struct ProductRegistration: APIable {
-    var hostAPI: String = "https://market-training.yagom-academy.kr"
-    var path: String = "/api/products"
-    var param: [String : String]? = nil
-    var method: HTTPMethod = .post
-}
-
 final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>
     
     private lazy var dataSource = makeDataSource()
     private let product = Product()
-    private let productRegistration = ProductRegistration()
     private lazy var productView = ProductListView.init(frame: view.bounds)
     private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonDidTapped(_:)))
@@ -57,9 +49,18 @@ final class MainViewController: UIViewController {
         self.productView.indicatorView.startAnimating()
         configureView()
         registerCell()
-        executeGET()
-        executePOST()
         applySnapshot()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.global().async {
+            self.executeGET()
+        }
+        
+//        DispatchQueue.main.async {
+//            self.productView.collectionView.reloadData()
+//        }
     }
 }
 
@@ -105,22 +106,6 @@ extension MainViewController {
         dispatchGroup.enter()
         DispatchQueue.global().async(group: dispatchGroup) {
             self.networkManager.execute(with: self.product) { result in
-                switch result {
-                case .success(let result):
-                    self.item = result.pages
-                    dispatchGroup.leave()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
-    }
-    
-    private func executePOST() {
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        DispatchQueue.global().async(group: dispatchGroup) {
-            self.networkManager.execute(with: self.productRegistration) { result in
                 switch result {
                 case .success(let result):
                     self.item = result.pages

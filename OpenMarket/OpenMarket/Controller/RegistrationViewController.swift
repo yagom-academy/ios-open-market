@@ -229,6 +229,27 @@ extension RegistrationViewController: UICollectionViewDelegate {
     }
 }
 
+extension RegistrationViewController {
+    @objc func executePOST() {
+        let dispatchGroup = DispatchGroup()
+        let params = productDetailView.generateParameters()
+        DispatchQueue.global().async(group: dispatchGroup) {
+            self.networkManager.execute(with: self.productRegistration, params: params, images: self.networkImageArray) { result in
+                switch result {
+                case .success:
+                    print("success")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+}
+
 extension UIImage {
     func resize(newWidth: CGFloat) -> UIImage {
         let scale = newWidth / self.size.width

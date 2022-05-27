@@ -28,7 +28,7 @@ struct NetworkManager<T: Decodable> {
         self.session = session
     }
     
-    mutating func execute(with api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    mutating func execute(with api: APIable, params: ProductToEncode? = nil, images: [ImageInfo]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
         let successRange = 200...299
         
         switch api.method {
@@ -58,21 +58,12 @@ struct NetworkManager<T: Decodable> {
                 }
             }       
         case .post:
-            guard let url = URL(string: "https://user-images.githubusercontent.com/52434820/170450737-7b947b6b-6b14-462a-8166-fa907c382437.jpg") else {
-                return
-            }
-            
-            guard let data = try? Data(contentsOf: url) else {
-                return
-            }
-            
-            self.imageData = UIImage(data: data)
-            
-            let dummyImage = ImageInfo(fileName: "dummy.jpg", data: (imageData?.jpegData(compressionQuality: 0.8))!, type: "jpg")
-            
-            let boundary = generateBoundary()
-            
-            request(url: api.hostAPI + api.path, image: dummyImage, boundary: boundary)
+            guard let params = params,
+                  let images = images else {
+                      return
+                  }
+
+            request(url:api, params: params, images: images)
         case .put:
             print("put")
         case .delete:
@@ -80,20 +71,25 @@ struct NetworkManager<T: Decodable> {
         }
     }
     
-    func request(url: String, image: ImageInfo, boundary: String) {
-        guard let url = URL(string: url) else {
+    mutating func request(url: APIable, params: ProductToEncode, images: [ImageInfo]) {
+        let urlString = url.hostAPI + url.path
+        guard let url = URL(string: urlString) else {
             return
         }
         
-        let requestInfo = Products(id: 1, vendorId: 2, name: "eddy", thumbnail: url, currency: "KRW", price: 1234567, descriptions: "desc", bargainPrice: 10, discountedPrice: 1234557, stock: 123, createdAt: nil, issuedAt: nil, secret: "password")
+        let test = ProductToEncode(name: "test", descriptions: "desc", price: 123455, currency: .KRW, discountedPrice: 123, stock: 2122, secret: "password")
+        
+        let boundary = generateBoundary()
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\"\(boundary)\"",
                          forHTTPHeaderField: "Content-Type")
-        request.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
-        request.httpBody = createBody(requestInfo: requestInfo, image: image, boundary: boundary)
+        request.addValue("dbc73b2c-d1b7-11ec-9676-f1b4483156c1", forHTTPHeaderField: "identifier")
+        request.httpBody = createBody(requestInfo: test, images: images, boundary: boundary)
+        
         URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(String(data: data!, encoding: .utf8))
             guard error == nil else {
                 return
             }
@@ -113,15 +109,16 @@ struct NetworkManager<T: Decodable> {
         return "\(UUID().uuidString)"
     }
     
-    func createBody(requestInfo: Products, image: ImageInfo, boundary: String) -> Data? {
+    func createBody(requestInfo: ProductToEncode, images: [ImageInfo], boundary: String) -> Data? {
         var body: Data = Data()
                         
         guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
+            print("encoding error")
             return nil
         }
         
         body.append(convertDataToMultiPartForm(value: jsonData, boundary: boundary))
-        body.append(convertFileToMultiPartForm(imageInfo: image, boundary: boundary))
+        body.append(convertFileToMultiPartForm(imageInfo: images, boundary: boundary))
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         return body
     }
@@ -138,14 +135,16 @@ struct NetworkManager<T: Decodable> {
         return data
     }
     
-    func convertFileToMultiPartForm(imageInfo: ImageInfo, boundary: String) -> Data {
+    func convertFileToMultiPartForm(imageInfo: [ImageInfo], boundary: String) -> Data {
         var data: Data = Data()
-        data.append("--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: \(imageInfo.type.description)\r\n".data(using: .utf8)!)
-        data.append("\r\n".data(using: .utf8)!)
-        data.append(imageInfo.data)
-        data.append("\r\n".data(using: .utf8)!)
+        for imageInfo in imageInfo {
+            data.append("--\(boundary)\r\n".data(using: .utf8)!)
+            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"\r\n".data(using: .utf8)!)
+            data.append("Content-Type: \(imageInfo.type.description)\r\n".data(using: .utf8)!)
+            data.append("\r\n".data(using: .utf8)!)
+            data.append(imageInfo.data)
+            data.append("\r\n".data(using: .utf8)!)
+        }
         
         return data
     }
