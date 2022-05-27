@@ -17,7 +17,7 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_서버상태요청시_OK가_넘어오는지() {
         // given
         let promise = expectation(description: "will return OK message")
-        let sut = NetworkManager<String>()
+        let sut = NetworkManager()
         
         // when
         sut.checkServerState { result in
@@ -49,11 +49,11 @@ class NetworkTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         
         let mockSession = URLSession(configuration: configuration)
-        let sut = NetworkManager<ProductList>(session: mockSession)
+        let sut = NetworkManager(session: mockSession)
         let promise = expectation(description: "will return productList")
         
         // when
-        sut.request(endPoint: endPoint) { result in
+        sut.request(endPoint: endPoint) { (result: Result<ProductList, NetworkErorr>) in
             // then
             switch result {
             case .success(let list):
@@ -84,11 +84,11 @@ class NetworkTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         
         let mockSession = URLSession(configuration: configuration)
-        let sut = NetworkManager<ProductList>(session: mockSession)
+        let sut = NetworkManager(session: mockSession)
         let promise = expectation(description: "will return productList")
 
         // when
-        sut.request(endPoint: endPoint) { result in
+        sut.request(endPoint: endPoint) { (result: Result<ProductList, NetworkErorr>) in
             // then
             switch result {
             case .success(_):
