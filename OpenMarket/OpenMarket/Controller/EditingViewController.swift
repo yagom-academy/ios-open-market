@@ -58,6 +58,11 @@ class EditingViewController: UIViewController {
     guard let delegate = delegate else {
       return
     }
+    
+    guard let params = params else {
+      presentWarningAlert()
+      return
+    }
 
     DispatchQueue.global().async(group: group) {
       self.apiProvider.patch(.editing(productId: delegate.id), params) { result in
@@ -91,5 +96,15 @@ class EditingViewController: UIViewController {
       imageView.loadImage(urlString: image.url)
       editingView.imageStackView.addArrangedSubviews(imageView)
     }
+  }
+  
+  private func presentWarningAlert() {
+    let alert = UIAlertController(title: "입력하지 않은 정보가 있습니다.",
+                                  message: "입력 정보를 확인해주세요.", preferredStyle: .alert)
+    let cancel = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+    
+    alert.addAction(cancel)
+    
+    present(alert, animated: true, completion: nil)
   }
 }
