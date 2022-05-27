@@ -19,6 +19,10 @@ struct DummyData {
 }
 
 final class StubURLSession: URLSessionProtocol {
+    func dataTask(with urlRequest: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)
+    }
+    
     var dummyData: DummyData?
     
     init(dummy: DummyData) {

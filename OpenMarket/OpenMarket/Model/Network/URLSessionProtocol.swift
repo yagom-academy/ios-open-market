@@ -2,7 +2,7 @@
 //  URLSessionProtocol.swift
 //  OpenMarket
 //
-//  Created by SeoDongyeon on 2022/05/13.
+//  Created by 우롱차, Donnie on 2022/05/13.
 //
 
 import Foundation
@@ -10,6 +10,11 @@ import Foundation
 protocol URLSessionProtocol {
     func dataTask(
         with url: URL,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask
+    
+    func dataTask(
+        with urlRequest: URLRequest,
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionDataTask
 }

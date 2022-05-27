@@ -9,10 +9,14 @@ import UIKit
 
 final class MainCollectionView: UICollectionView {
     
+    enum LayoutType: Int {
+        case list = 0
+        case grid = 1
+    }
+    
     private lazy var listLayout: UICollectionViewCompositionalLayout = {
         let configure = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configure)
-        
         return layout
     }()
     
@@ -32,7 +36,7 @@ final class MainCollectionView: UICollectionView {
         return layout
     }()
     
-    func changeLayout(viewType: ViewType) {
+    func changeLayout(viewType: LayoutType) {
         switch viewType {
         case .list:
             setCollectionViewLayout(listLayout, animated: true)

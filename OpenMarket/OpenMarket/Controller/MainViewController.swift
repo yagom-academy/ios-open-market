@@ -12,11 +12,7 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    private let network = Network.shared
-    private let session: URLSessionProtocol = URLSession.shared
-    private var pageNo = 3
-    private var itemsPerPage = 40
-    
+    private let productListUseCase = ProductListUseCase()
     private lazy var collectionView: MainCollectionView = {
         let view = MainCollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         view.changeLayout(viewType: .list)
@@ -24,13 +20,13 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-        switch self.segmentedControl.selectedSegmentIndex {
-        case ViewType.list.rawValue:
+        switch MainCollectionView.LayoutType(rawValue: self.segmentedControl.selectedSegmentIndex) {
+        case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
             cell.accessories = [.disclosureIndicator()]
             cell.configureContent(productInformation: itemIdentifier)
             return cell
-        case ViewType.grid.rawValue:
+        case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.configureContent(productInformation: itemIdentifier)
             return cell
@@ -61,6 +57,12 @@ final class MainViewController: UIViewController {
         return segment
     }()
     
+    private lazy var rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(
+        barButtonSystemItem: .add,
+        target: self,
+        action: #selector(mainViewRightBarButtonTapped)
+    )
+    
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
@@ -71,65 +73,103 @@ final class MainViewController: UIViewController {
         activityIndicator.stopAnimating()
         return activityIndicator
     }()
-
+    
+    private lazy var refreshControl: UIRefreshControl = {
+       let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+       return control
+    }()
+    
+    @objc private func pullToRefresh(){
+        requestList()
+        collectionView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureSegmentedControl()
         configureCollectionView()
         configureIndicator()
-        network.requestDecodedData(pageNo: pageNo, itemsPerPage: itemsPerPage, delegate: self)
+        requestList()
+    }
+}
+
+// MARK: - Method
+extension MainViewController {
+    
+    private func requestList() {
+        productListUseCase.requestPageInformation { data in
+            self.setSnapshot(productInformations: data.pages)
+        } decodingErrorHandler: { error in
+            self.showErrorAlert(error: error)
+        }
     }
     
     private func configureSegmentedControl() {
         navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    @objc private func segmentedControlChanged(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case ViewType.list.rawValue:
-            collectionView.changeLayout(viewType: .list)
-            collectionView.reloadData()
-        case ViewType.grid.rawValue:
-            collectionView.changeLayout(viewType: .grid)
-            collectionView.reloadData()
-        default:
-            return
-        }
-    }
-
     private func configureCollectionView() {
         view.addSubview(collectionView)
         collectionView.changeLayout(viewType: .list)
         collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+        collectionView.refreshControl = refreshControl
     }
     
     private func configureIndicator() {
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
-}
-
-extension MainViewController: MainViewDelegate {
-    func setSnapshot(productInformations: [ProductInformation]) {
+    
+    private func setSnapshot(productInformations: [ProductInformation]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections([.main])
         DispatchQueue.main.async { [weak self] in
             snapshot.appendItems(productInformations)
-            self?.dataSource.apply(snapshot, animatingDifferences: true)
+            self?.dataSource.apply(snapshot, animatingDifferences: false)
             self?.activityIndicator.stopAnimating()
         }
     }
     
-    func showErrorAlert(error: Error) {
-        let networkError = error as? NetworkError
-        let alert = UIAlertController(title: networkError?.errorDescription,
-                                      message: "Error Occurred",
-                                      preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK",
-                                        style: .default)
-        alert.addAction(alertAction)
-        present(alert, animated: true)
+    private func showErrorAlert(error: Error) {
+        DispatchQueue.main.async {
+            let networkError = error as? NetworkError
+            let alert = UIAlertController(title: networkError?.errorDescription,
+                                          message: "Error Occurred",
+                                          preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "OK",
+                                            style: .default) { _ in
+                self.requestList()
+            }
+            alert.addAction(alertAction)
+            self.present(alert, animated: true)
+        }
+    }
+}
+
+// MARK: - Action Method
+extension MainViewController {
+    
+    @objc private func mainViewRightBarButtonTapped() {
+        let viewController = RegisterViewController()
+        viewController.mode = .add
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @objc private func segmentedControlChanged(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case MainCollectionView.LayoutType.list.rawValue:
+            collectionView.changeLayout(viewType: .list)
+            collectionView.reloadData()
+        case MainCollectionView.LayoutType.grid.rawValue:
+            collectionView.changeLayout(viewType: .grid)
+            collectionView.reloadData()
+        default:
+            return
+        }
     }
 }

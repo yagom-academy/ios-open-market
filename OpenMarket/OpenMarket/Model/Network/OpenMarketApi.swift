@@ -6,13 +6,13 @@
 //
 
 import Foundation
-import UIKit
 
 enum OpenMarketApi {
     private static let hostUrl = "https://market-training.yagom-academy.kr/"
     
     case pageInformation(pageNo: Int, itemsPerPage: Int)
     case productDetail(productNumber: Int)
+    case productRegister
     
     private var urlString: String {
         switch self {
@@ -20,12 +20,14 @@ enum OpenMarketApi {
             return Self.hostUrl + "api/products?page_no=\(pageNo)&items_per_page=\(itemsPerPage)"
         case .productDetail(let productNumber):
             return Self.hostUrl + "api/products/\(productNumber)"
+        case .productRegister:
+            return Self.hostUrl + "api/products"
         }
     }
     
     var url: URL? {
         switch self {
-        case .pageInformation, .productDetail:
+        case .pageInformation, .productDetail, .productRegister:
             let urlComponents = URLComponents(string: self.urlString)
             return urlComponents?.url ?? nil
         }
