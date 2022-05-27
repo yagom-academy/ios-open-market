@@ -8,7 +8,7 @@
 import UIKit
 
 private extension Constant.Image {
-    static let xmark = UIImage(systemName: "xmark.circle.fill")
+    static let xmark = UIImage(named: "xmark")
 }
 
 final class ProductImageCell: UICollectionViewCell {
@@ -26,7 +26,6 @@ final class ProductImageCell: UICollectionViewCell {
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(Constant.Image.xmark, for: .normal)
-        button.tintColor = .black
         return button
     }()
     
@@ -45,17 +44,17 @@ final class ProductImageCell: UICollectionViewCell {
         contentView.addSubview(productImageView)
         
         NSLayoutConstraint.activate([
-            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12)
         ])
         
         contentView.addSubview(removeButton)
         
         NSLayoutConstraint.activate([
-            removeButton.topAnchor.constraint(equalTo: productImageView.topAnchor, constant: -8),
-            removeButton.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8)
+            removeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            removeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
