@@ -100,9 +100,11 @@ final class AddItemViewController: UIViewController {
         
         guard let stock = stockTextField.text else { return }
         
-        if let stockInt = Int(stock), stockInt < 0 {
+        if let stockInt = Int(stock) {
+            if stockInt < 0 {
             showAlert(message: "상품 수량을 정확히 입력해 주세요")
-            return
+                return
+            }
         } else if !stock.isEmpty {
             showAlert(message: "상품 수량을 정확히 입력해 주세요")
             return
