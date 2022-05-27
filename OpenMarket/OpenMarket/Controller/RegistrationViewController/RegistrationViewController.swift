@@ -9,6 +9,7 @@ import UIKit
 
 final class RegistrationViewController: UIViewController {
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
+    private let network = URLSessionProvider<ProductList>()
     let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
@@ -35,10 +36,60 @@ final class RegistrationViewController: UIViewController {
     }
     
     @objc private func didTapCancelButton() {
-        self.navigationController?.dismiss(animated: true)
+        dismiss(animated: true)
     }
     
-    @objc private func didTapDoneButton() { }
+    @objc private func didTapDoneButton() {
+        let alert = UIAlertController(title: "Really?", message: nil, preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
+            self.dataExtraction()
+        }
+        let noAction = UIAlertAction(title: "No", style: .destructive)
+        alert.addActions(yesAction, noAction)
+        alert.present(alert, animated: true)
+    }
+    
+    private func dataExtraction() {
+        let name = baseView.productName.text
+        let price = Int(baseView.productPrice.text ?? "0")
+        let discountedPrice = Int(baseView.productBargenPrice.text ?? "0")
+        let currency = (CurrencyType(rawValue: baseView.currencySegmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
+        let stock = Int(baseView.productStock.text ?? "0")
+        let description = baseView.productDescription.text
+        var images: [Image] = []
+        
+        let param = ProductRegistration(
+            name: name,
+            price: price,
+            discountedPrice: discountedPrice,
+            currency: currency,
+            secret: OpenMarket.secret.discription,
+            descriptions: description,
+            stock: stock,
+            imges: images)
+        
+        baseView.imagesStackView.arrangedSubviews.forEach { UIView in
+            guard let UIimage = UIView as? UIImageView else {
+                return
+            }
+            
+            guard let data = UIimage.image?.jpegData(compressionQuality: 0.1) else {
+                return
+            }
+            
+            let image = Image(fileName: "?", type: "?", data: data)
+            images.append(image)
+        }
+        
+        self.network.postData(params: param, images: images, completionHandler: { result in
+            DispatchQueue.main.async {
+                if case .failure(let error) = result {
+                    return
+                }
+            }
+            self.dismiss(animated: true)
+        })
+    }
     
     private func setupKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -65,7 +116,7 @@ final class RegistrationViewController: UIViewController {
         view.bounds.origin.y = 0
         baseView.productDescription.contentInset.bottom = 0
     }
-
+    
     private func bind() {
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.allowsEditing = true

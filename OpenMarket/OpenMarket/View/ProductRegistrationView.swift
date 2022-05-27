@@ -41,7 +41,7 @@ final class ProductRegistrationView: UIView {
         return stackView
     }()
     
-    private let productName: UITextField = {
+    let productName: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.clearButtonMode = .whileEditing
@@ -50,7 +50,7 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let priceStackView: UIStackView = {
+    let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
@@ -58,7 +58,7 @@ final class ProductRegistrationView: UIView {
         return stackView
     }()
     
-    private let productPrice: UITextField = {
+    let productPrice: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품 가격"
         textField.clearButtonMode = .whileEditing
@@ -68,15 +68,14 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let currencySegmentControl: UISegmentedControl = {
+    let currencySegmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: CurrencyType.inventory)
         segmentControl.selectedSegmentIndex = 0
-        
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
     }()
     
-    private let productBargenPrice: UITextField = {
+    let productBargenPrice: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인 가격"
         textField.clearButtonMode = .whileEditing
@@ -86,7 +85,7 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let productStock: UITextField = {
+    let productStock: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고 수량"
         textField.clearButtonMode = .whileEditing

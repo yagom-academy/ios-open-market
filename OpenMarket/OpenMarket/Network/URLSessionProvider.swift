@@ -7,6 +7,15 @@
 
 import UIKit
 
+enum OpenMarket: String {
+    case identifier = "5fbc34e4-d1b8-11ec-9676-f7ffe1d75e84"
+    case secret = "qb19a7ac0m"
+    
+    var discription: String {
+        return self.rawValue
+    }
+}
+
 struct URLSessionProvider<T: Decodable> {
     private let session: URLSessionProtocol
     
@@ -76,7 +85,7 @@ struct URLSessionProvider<T: Decodable> {
         
         let boundary = UUID().uuidString
         
-        urlRequest.addValue("cd706a3e-66db-11ec-9626-796401f2341a", forHTTPHeaderField: "identifier")
+        urlRequest.addValue(OpenMarket.identifier.discription, forHTTPHeaderField: "identifier")
         urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         urlRequest.httpBody = createBody(params: params, images: images, boundary: boundary)
