@@ -105,6 +105,9 @@ final class ProductRegisterViewController: UIViewController {
     let textView = UITextView()
     textView.textColor = .black
     textView.font = .preferredFont(forTextStyle: .subheadline)
+    let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
+    gesture.direction = .down
+    textView.addGestureRecognizer(gesture)
     textView.delegate = self
     return textView
   }()
@@ -117,8 +120,7 @@ final class ProductRegisterViewController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(textViewDidTap), name: UIResponder.keyboardWillHideNotification, object: nil)
   }
   
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    super.touchesBegan(touches, with: event)
+  @objc func swipeDownAction(_ sender: UISwipeGestureRecognizer) {
     self.view.endEditing(true)
   }
   
@@ -250,14 +252,14 @@ extension ProductRegisterViewController: UITextViewDelegate {
   }
 
   func textViewDidBeginEditing(_ textView: UITextView) {
-    UIView.animate(withDuration: 0.3) {
+    UIView.animate(withDuration: 0.2) {
       guard let keyboardheight = self.keyboardSize?.height else { return }
-      self.view.transform = (CGAffineTransform(translationX: 0.0, y: -keyboardheight * 0.8))
+      self.view.transform = CGAffineTransform(translationX: 0.0, y: -keyboardheight * 0.8)
     }
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
-    UIView.animate(withDuration: 0.3) {
+    UIView.animate(withDuration: 0.2) {
       self.view.transform = .identity
     }
   }
