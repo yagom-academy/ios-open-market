@@ -8,31 +8,13 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-  var delegate: Page?
+  private let detailAPIProvider = ApiProvider<DetailProduct>()
   private var product: DetailProduct?
-  let detailAPIProvider = ApiProvider<DetailProduct>()
+  var delegate: Page?
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.fetchDetailProductData()
-  }
-  
-  private func configureNavigationBar() {
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
-                                                             target: self,
-                                                             action: #selector(presentEditingView))
-    self.navigationItem.title = product?.name
-    
-    self.navigationController?.navigationBar.backgroundColor = .white
-    self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
-  }
-  
-  @objc private func presentEditingView() {
-    let editingViewController = EditingViewController()
-    let navigationController = UINavigationController(rootViewController: editingViewController)
-    navigationController.modalPresentationStyle = .fullScreen
-    editingViewController.delegate = product
-    present(navigationController, animated: true, completion: nil)
+    fetchDetailProductData()
   }
   
   private func fetchDetailProductData() {
@@ -48,6 +30,24 @@ class DetailViewController: UIViewController {
         self.configureNavigationBar()
       }
     }
+  }
+  
+  private func configureNavigationBar() {
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                             target: self,
+                                                             action: #selector(presentEditingView))
+    self.navigationItem.title = self.product?.name
+    
+    self.navigationController?.navigationBar.backgroundColor = .white
+    self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
+  }
+  
+  @objc private func presentEditingView() {
+    let editingViewController = EditingViewController()
+    let navigationController = UINavigationController(rootViewController: editingViewController)
+    navigationController.modalPresentationStyle = .fullScreen
+    editingViewController.delegate = self.product
+    present(navigationController, animated: true, completion: nil)
   }
 }
 
