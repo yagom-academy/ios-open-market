@@ -7,9 +7,9 @@
 
 import UIKit
 
-enum Currency: String {
-    case KRW
-    case USD
+enum Currency: String, Encodable {
+    case KRW = "KRW"
+    case USD = "USD"
 }
 
 enum PlaceHolder: String {
@@ -93,6 +93,21 @@ final class ProductDetailView: UIView {
             self.entireStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.entireStackView.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
+    }
+    
+    func generateParameters() -> ProductToEncode {
+            let name = self.productNameTextField.text ?? ""
+            let descriptions = self.descriptionTextView.text ?? ""
+            let priceString = self.priceTextField.text ?? ""
+            let price = Int(priceString) ?? 0
+            let currency = self.segmentedContol.selectedSegmentIndex == 0 ? Currency.KRW : Currency.USD
+            let discountedPriceString = self.discountedPriceTextField.text ?? ""
+            let discountedPrice = Int(discountedPriceString) ?? 0
+            let stockString = self.stockTextField.text ?? ""
+            let stock = Int(stockString) ?? 0
+            let secret = "password"
+            
+        return ProductToEncode(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
     }
 }
 
