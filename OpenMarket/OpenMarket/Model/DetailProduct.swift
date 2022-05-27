@@ -10,14 +10,14 @@ import Foundation
 struct DetailProduct: Decodable {
   let id: Int
   let venderId: Int
-  let name: String
-  let description: String
-  let thumbnail: String
+  let name: String?
+  let description: String?
+  let thumbnail: String?
   let currency: String
-  let price: Int
-  let bargainPrice: Int
-  let discountedPrice: Int
-  let stock: Int
+  let price: Int?
+  let bargainPrice: Int?
+  let discountedPrice: Int?
+  let stock: Int?
   let images: [Image]
   let vendors: Vendor
   let createdAt: String
