@@ -71,7 +71,6 @@ struct URLSessionProvider<T: Decodable> {
     
     func postData(
         params: ProductRegistration,
-        images: [Image],
         completionHandler: @escaping (Result<T, NetworkError>
         ) -> Void) {
         
@@ -88,7 +87,7 @@ struct URLSessionProvider<T: Decodable> {
         urlRequest.addValue(OpenMarket.identifier.discription, forHTTPHeaderField: "identifier")
         urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        urlRequest.httpBody = createBody(params: params, images: images, boundary: boundary)
+        urlRequest.httpBody = createBody(params: params, boundary: boundary)
         let task = session.dataTask(with: urlRequest) { _, urlResponse, error in
             
             guard error == nil else {
@@ -105,13 +104,17 @@ struct URLSessionProvider<T: Decodable> {
         task.resume()
     }
     
-    func createBody(params: ProductRegistration, images: [Image], boundary: String) -> Data? {
+    func createBody(params: ProductRegistration, boundary: String) -> Data? {
         var body = Data()
         let newline = "\r\n"
         let boundaryPrefix = "--\(boundary)\r\n"
         let boundarySuffix = "\r\n--\(boundary)--\r\n"
         
         guard let product = try? Json.encoder.encode(params) else {
+            return nil
+        }
+        
+        guard let images = params.images else {
             return nil
         }
         

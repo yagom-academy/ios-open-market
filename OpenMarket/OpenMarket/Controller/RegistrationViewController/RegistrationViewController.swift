@@ -79,7 +79,7 @@ final class RegistrationViewController: UIViewController {
             stock: stock,
             images: images)
         
-        self.network.postData(params: param, images: images, completionHandler: { result in
+        self.network.postData(params: param, completionHandler: { result in
             DispatchQueue.main.async {
                 if case .failure(let error) = result {
                     return
