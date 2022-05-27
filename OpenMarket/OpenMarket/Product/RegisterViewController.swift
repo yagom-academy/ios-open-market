@@ -62,11 +62,11 @@ final class RegisterViewController: ProductViewController {
         guard let uploadProduct = mainView?.makeEncodableModel() else { return nil }
 
         let images = snapshot.itemIdentifiers[0..<snapshot.numberOfItems - 1]
-        let imageDatas = images.compactMap { $0.jpegData(compressionQuality: 0.5) }
+        let imageDatas = images.compactMap { compress(image: $0) }
         
         var data = Data()
         let boundary = EndPoint.boundary
-        let fileName = "dummyName"
+        let userName = "두파리"
 
         let newLine = "\r\n"
         let boundaryPrefix = "--\(boundary)\r\n"
@@ -79,7 +79,7 @@ final class RegisterViewController: ProductViewController {
         
         for imageData in imageDatas {
             data.appendString(boundaryPrefix)
-            data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n")
+            data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(userName + UUID().uuidString).jpg\"\r\n")
             data.appendString("Content-Type: image/jpg\r\n\r\n")
             data.append(imageData)
             data.appendString(newLine)
@@ -89,6 +89,19 @@ final class RegisterViewController: ProductViewController {
         return data
     }
     
+    private func compress(image: UIImage) -> Data? {
+        guard var jpegData = image.jpegData(compressionQuality: 1.0) else { return nil }
+
+        while jpegData.count >= 300 * 1024 {
+            guard let image = UIImage(data: jpegData) else { return nil }
+            guard let data = image.jpegData(compressionQuality: 0.8) else { return nil }
+            
+            jpegData = data
+        }
+
+        return jpegData
+    }
+
     // MARK: - CollectionView DataSource
     
     override func makeDataSource() -> DataSource? {
@@ -135,9 +148,28 @@ final class RegisterViewController: ProductViewController {
 extension RegisterViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
+        guard let targetWidth = mainView?.collectionView.bounds.height else { return }
         
-        insertSnapshot(images: [image])
+        let resizeImage = image.resize(newWidth: targetWidth)
+        
+        insertSnapshot(images: [resizeImage])
         picker.dismiss(animated: true)
+    }
+}
+
+// MARK: - UIImage
+
+private extension UIImage {
+    func resize(newWidth: CGFloat) -> UIImage {
+        let newHeight = newWidth
+        
+        let size = CGSize(width: newWidth, height: newHeight)
+        let render = UIGraphicsImageRenderer(size: size)
+        let renderImage = render.image { context in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+        
+        return renderImage
     }
 }
 
