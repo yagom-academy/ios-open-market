@@ -23,6 +23,22 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
+    private var currency: String = "KRW"
+    private var currencyType: CurrencyType = .KRW {
+        didSet {
+            if currencyType == .KRW {
+                currency = "KRW"
+            } else {
+                currency = "USD"
+            }
+            print(currency)
+        }
+    }
+    
+    private enum CurrencyType: Int {
+        case KRW = 0
+        case USD
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,14 +56,6 @@ final class AddItemViewController: UIViewController {
         setLayout()
         addKeyboardToolbar()
         addKeyboardObserver()
-    }
-    
-    @objc private func touchCancelButton() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func touchDoneButton() {
-        checkComponents()
     }
     
     private func showAlert(message: String) {
@@ -94,6 +102,19 @@ final class AddItemViewController: UIViewController {
         } else if !stock.isEmpty {
             showAlert(message: "상품 수량을 정확히 입력해 주세요")
         }
+    }
+    
+    @objc private func touchCancelButton() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func touchDoneButton() {
+        checkComponents()
+    }
+    
+    @IBAction private func changeCurrencySegment(_ sender: UISegmentedControl) {
+        guard let segmentType = CurrencyType(rawValue: sender.selectedSegmentIndex) else { return }
+        currencyType = segmentType
     }
 }
 // MARK: - aboutCell
