@@ -9,6 +9,10 @@ import UIKit
 
 final class RegisterViewController: RegisterEditBaseViewController {
     
+    private enum Constant {
+        static let navigationTitle = "상품등록"
+    }
+    
     private let picker = UIImagePickerController()
     private let productListUseCase = ProductListUseCase()
     
@@ -25,6 +29,7 @@ final class RegisterViewController: RegisterEditBaseViewController {
         super.viewDidLoad()
         picker.delegate = self
         setBaseImage()
+        navigationItem.title = Constant.navigationTitle
     }
 }
 
@@ -51,12 +56,6 @@ extension RegisterViewController {
             addImageButton.isHidden = false
         }
         addImageHorizontalStackView.setNeedsDisplay()
-    }
-    
-    @objc private func deleteImageView(_ sender: UISwipeGestureRecognizer) {
-        guard let imageView = sender.view, let stackView = imageView.superview as? UIStackView else { return }
-        stackView.removeArrangedSubview(imageView)
-        imageView.removeFromSuperview()
     }
     
     func setBaseImage() {
@@ -102,19 +101,6 @@ extension RegisterViewController {
         }
         return imageArray
     }
-    
-    @objc override func registerEditViewRightBarButtonTapped() {
-        guard let registrationParameter = wrapperRegistrationParameter() else {
-            return
-        }
-        productListUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
-            }
-        } registerErrorHandler: { error in
-            
-        }
-    }
 }
 
 // MARK: - Action Method
@@ -141,6 +127,26 @@ extension RegisterViewController {
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
+    
+    @objc private func deleteImageView(_ sender: UISwipeGestureRecognizer) {
+        guard let imageView = sender.view, let stackView = imageView.superview as? UIStackView else { return }
+        stackView.removeArrangedSubview(imageView)
+        imageView.removeFromSuperview()
+    }
+    
+    @objc override func registerEditViewRightBarButtonTapped() {
+        guard let registrationParameter = wrapperRegistrationParameter() else {
+            return
+        }
+        productListUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+        } registerErrorHandler: { error in
+            
+        }
+    }
+    
 }
 
 // MARK: - UIImagePickerControllerDelegate
