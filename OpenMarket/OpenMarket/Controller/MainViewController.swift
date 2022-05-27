@@ -40,12 +40,18 @@ final class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    fetchPages()
     configureView()
     configureNavigationBar()
     applySnapshot(animatingDifferences: false)
     collectionView.prefetchDataSource = self
     collectionView.delegate = self
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    self.currentPageNumber = 1
+    self.pages = []
+    self.fetchPages()
   }
   
   private func fetchPages() {
