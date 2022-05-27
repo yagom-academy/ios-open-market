@@ -64,7 +64,7 @@ final class EditingView: ProductUpdaterView {
       ])
   }
   
-  func displayProductInformation(_ detailProduct: DetailProduct) {
+  func displayInformation(of detailProduct: DetailProduct) {
     self.nameTextField.text = detailProduct.name
     self.priceTextField.text = detailProduct.price?.description
     self.discountedPriceTextField.text = detailProduct.discountedPrice?.description
