@@ -10,6 +10,7 @@ import Foundation
 enum HttpMethod {
   static let get = "GET"
   static let post = "POST"
+  static let patch = "PATCH"
 }
 
 struct ApiProvider<T: Decodable> {
@@ -117,4 +118,48 @@ extension ApiProvider {
   }
 }
 
+extension ApiProvider {
+  func patch(_ endpoint: Endpoint, _ params: Params,
+            completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+    
+    guard let url = endpoint.url else {
+      completionHandler(.failure(.invalid))
+      return
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = HttpMethod.patch
+    request.setValue("8de44ec8-d1b8-11ec-9676-43acdce229f5", forHTTPHeaderField: "identifier")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.httpBody = setupBody(params)
+    
+    session.dataTask(with: request) { data, response, error in
+      guard error == nil else {
+        completionHandler(.failure(.invalid))
+        return
+      }
+      guard let response = response as? HTTPURLResponse,
+            (200..<300).contains(response.statusCode)
+      else {
+        completionHandler(.failure(.statusCodeError))
+        return
+      }
+      guard let data = data else {
+        completionHandler(.failure(.invalid))
+        return
+      }
+      
+      completionHandler(.success(data))
+    }.resume()
+  }
+  
+  func setupBody(_ params: Params) -> Data? {
+    guard let jsonData = try? JSONEncoder().encode(params) else {
+      return nil
+    }
+    var body = Data()
+    body.append(jsonData)
+    return body
+  }
+}
 
