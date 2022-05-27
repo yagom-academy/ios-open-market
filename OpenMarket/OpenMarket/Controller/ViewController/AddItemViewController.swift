@@ -47,13 +47,52 @@ final class AddItemViewController: UIViewController {
     }
     
     @objc private func touchDoneButton() {
+        checkComponents()
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        
+        alert.addAction(yesAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func checkComponents(){
         if imageArray.count == 0 {
-            let alert = UIAlertController(title: nil, message: "이미지는 최소 1장 이상\n 등록 되어야 합니다", preferredStyle: .alert)
-            let yesAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            showAlert(message: "이미지는 최소 1장 이상\n 등록 되어야 합니다")
+            return
+        }
+        
+        if let name = nameTextField.text, name.replacingOccurrences(of: " ", with: "").count < 3 {
+            showAlert(message: "상품명을 3글자 이상 입력해주세요")
+            return
+        }
+        
+        guard let price = priceTextField.text else { return }
+        guard let discountPrice = discountPriceTextField.text else { return }
+        guard let priceInt = Int(price), priceInt > 0 else { showAlert(message: "상품 가격을 정확히 입력해 주세요"); return }
+        
+        if let discountPriceInt = Int(discountPrice) {
+            if discountPriceInt > priceInt {
+                showAlert(message: "할인 가격은 상품 가격보다 낮아야 합니다")
+            }
             
-            alert.addAction(yesAction)
+            if discountPriceInt < 0 {
+                showAlert(message: "할인 가격을 정확히 입력해 주세요")
+            }
             
-            present(alert, animated: true, completion: nil)
+        } else if !discountPrice.isEmpty {
+            showAlert(message: "할인 가격을 정확히 입력해 주세요")
+        }
+        
+        guard let stock = stockTextField.text else { return }
+        
+        if let stockInt = Int(stock), stockInt < 0 {
+            showAlert(message: "상품 수량을 정확히 입력해 주세요")
+        } else if !stock.isEmpty {
+            showAlert(message: "상품 수량을 정확히 입력해 주세요")
         }
     }
 }
