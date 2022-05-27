@@ -16,13 +16,23 @@ final class RegistrationViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationItems()
         setupView()
-        bind()
         setupKeyboardNotification()
     }
     
     private func setupView() {
+        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.allowsEditing = true
+        self.imagePicker.delegate = self
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddImageButton))
+        baseView.imageView.addGestureRecognizer(gesture)
+        
         view = baseView
         view.backgroundColor = .systemBackground
+    }
+    
+    @objc private func didTapAddImageButton() {
+        self.present(self.imagePicker, animated: true)
     }
     
     private func setupNavigationItems() {
@@ -43,20 +53,21 @@ final class RegistrationViewController: UIViewController {
         let alert = UIAlertController(title: "Really?", message: nil, preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
             self.dataExtraction()
+            self.dismiss(animated: true)
         }
         let noAction = UIAlertAction(title: "No", style: .destructive)
         alert.addActions(yesAction, noAction)
         present(alert, animated: true)
     }
     
-    private func dataExtraction() {
+    private func extractData() {
         let name = baseView.productName.text
         let price = Int(baseView.productPrice.text ?? "0")
         let discountedPrice = Int(baseView.productBargenPrice.text ?? "0")
         let currency = (CurrencyType(rawValue: baseView.currencySegmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
         let stock = Int(baseView.productStock.text ?? "0")
         let description = baseView.productDescription.text
-        var images: [Image] = []
+        var images: [Image] = extractImage()
         
         let param = ProductRegistration(
             name: name,
@@ -115,19 +126,6 @@ final class RegistrationViewController: UIViewController {
     @objc private func keyboardWillHide() {
         view.bounds.origin.y = 0
         baseView.productDescription.contentInset.bottom = 0
-    }
-    
-    private func bind() {
-        self.imagePicker.sourceType = .photoLibrary
-        self.imagePicker.allowsEditing = true
-        self.imagePicker.delegate = self
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddImageButton))
-        baseView.imageView.addGestureRecognizer(gesture)
-    }
-    
-    @objc private func didTapAddImageButton() {
-        self.present(self.imagePicker, animated: true)
     }
 }
 
