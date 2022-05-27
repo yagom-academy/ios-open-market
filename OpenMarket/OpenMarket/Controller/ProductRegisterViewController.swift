@@ -47,7 +47,7 @@ final class ProductRegisterViewController: UIViewController {
     
     enum Limit {
       static let maximumUploadCount = 6
-      static let maximumTextCount = 10
+      static let maximumTextCount = 1000
     }
     
     enum UI {

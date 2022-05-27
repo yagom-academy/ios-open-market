@@ -100,10 +100,10 @@ final class APINetworkService: NetworkService {
     {
     \"name\": \"\(product.name)\",
     \"price\": \(product.price),
-    \"discounted_price\": \(product.discountedPrice),
+    \"discounted_price\": \(product.discountedPrice == "" ? "0" : product.discountedPrice),
     \"currency\": \"\(product.currency.rawValue)\",
-    \"stock\": \(product.stock),
-    \"descriptions\": \"\(product.description)\",
+    \"stock\": \(product.stock == "" ? "0" : product.stock),
+    \"descriptions\": \"\(product.description.replacingOccurrences(of: "\n", with: "\\n"))\",
     \"secret\": \"9vylftzug8\"
     }
     """)
