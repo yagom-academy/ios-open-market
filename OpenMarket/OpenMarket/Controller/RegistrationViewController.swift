@@ -10,7 +10,17 @@ import UIKit
 final class RegistrationViewController: UIViewController, UINavigationControllerDelegate {
     let imagePicker = UIImagePickerController()
     var imageArray = [UIImage]()
-    let rightNavigationButton = UIBarButtonItem(title: "Done", style: .done, target: nil, action: nil)
+    let doneButton = UIBarButtonItem()
+    private let productRegistration = ProductRegistration()
+    private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
+    private var networkImageArray = [ImageInfo]()
+
+    private struct ProductRegistration: APIable {
+        var hostAPI: String = "https://market-training.yagom-academy.kr"
+        var path: String = "/api/products"
+        var param: [String : String]? = nil
+        var method: HTTPMethod = .post
+    }
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -43,8 +53,16 @@ final class RegistrationViewController: UIViewController, UINavigationController
         setLayout()
         self.navigationController?.navigationBar.topItem?.title = "Cancel"
         self.title = "상품등록"
-        self.navigationItem.rightBarButtonItem = rightNavigationButton
-        rightNavigationButton.isEnabled = false
+        configureDoneButton()
+    }
+    
+    func configureDoneButton() {
+        self.navigationItem.rightBarButtonItem = doneButton
+//        doneButton.isEnabled = false
+        doneButton.title = "Done"
+        doneButton.style = .done
+        doneButton.target = self
+        doneButton.action = #selector(executePOST)
     }
     
     func setLayout() {
@@ -154,8 +172,21 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
             if imageCapacity > 300 {
                 let resizedImage = image.resize(newWidth: 80)
                 self.imageArray.append(resizedImage)
+                
+                guard let imageData = resizedImage.jpegData(compressionQuality: 1) else {
+                    return
+                }
+                
+                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                self.networkImageArray.append(imageInfo)
             } else {
                 self.imageArray.append(image)
+                guard let imageData = image.jpegData(compressionQuality: 1) else {
+                    return
+                }
+                
+                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                self.networkImageArray.append(imageInfo)
             }
             
             DispatchQueue.main.async {
