@@ -79,6 +79,18 @@ final class RegistrationViewController: UIViewController {
             stock: stock,
             imges: images)
         
+        self.network.postData(params: param, images: images, completionHandler: { result in
+            DispatchQueue.main.async {
+                if case .failure(let error) = result {
+                    return
+                }
+            }
+        })
+    }
+    
+    func extractImage() -> [Image] {
+        var images: [Image] = []
+        
         baseView.imagesStackView.arrangedSubviews.forEach { UIView in
             guard let UIimage = UIView as? UIImageView else {
                 return
@@ -91,15 +103,7 @@ final class RegistrationViewController: UIViewController {
             let image = Image(fileName: "?", type: "?", data: data)
             images.append(image)
         }
-        
-        self.network.postData(params: param, images: images, completionHandler: { result in
-            DispatchQueue.main.async {
-                if case .failure(let error) = result {
-                    return
-                }
-            }
-        })
-        self.dismiss(animated: true)
+        return images
     }
     
     private func setupKeyboardNotification() {
