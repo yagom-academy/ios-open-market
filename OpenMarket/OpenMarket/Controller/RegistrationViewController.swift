@@ -10,10 +10,13 @@ import UIKit
 final class RegistrationViewController: UIViewController {
   private enum Constants {
     static let navigationBarTitle = "상품등록"
-    static let alertTitle = "사진 선택"
-    static let alertMessage = "사진을 등록하시겠습니까?"
-    static let cancelText = "취소"
-    static let albumText = "앨범"
+    static let pickerAlertTitle = "사진 선택"
+    static let pickerAlertMessage = "사진을 등록하시겠습니까?"
+    static let pickerAlertCancelText = "취소"
+    static let pickerAlertAlbumText = "앨범"
+    static let warningAlertTitle = "입력하지 않은 정보가 있습니다."
+    static let warningAlertMessage = "다시 한번 확인해주세요."
+    static let warningAlertCancelText = "확인"
     static let maxImageCount = 5
   }
   
