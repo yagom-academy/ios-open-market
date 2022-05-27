@@ -167,6 +167,7 @@ extension UpdateProductViewController {
     
     private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout)
+        collectionView?.backgroundColor = .systemBackground
         view.addSubview(collectionView ?? UICollectionView())
         layoutCollectionView()
     }
