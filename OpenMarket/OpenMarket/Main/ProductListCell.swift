@@ -7,6 +7,11 @@
 
 import UIKit
 
+private extension Constant.Image {
+    
+    static let chevron = UIImage(systemName: "chevron.forward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+}
+
 final class ProductListCell: UICollectionViewCell, ProductCell {
     private var imageDownloadTask: URLSessionDataTask?
     
@@ -63,7 +68,7 @@ final class ProductListCell: UICollectionViewCell, ProductCell {
     private let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(systemName: "chevron.forward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+        imageView.image = Constant.Image.chevron
         imageView.tintColor = .systemGray3
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -135,7 +140,7 @@ extension ProductListCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        thumbnailImageView.image = .photo
+        thumbnailImageView.image = Constant.Image.photo
         nameLabel.text = nil
         priceLabel.attributedText = nil
         priceLabel.text = nil

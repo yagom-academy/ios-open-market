@@ -6,7 +6,7 @@
 
 import UIKit
 
-private enum Constant {
+private extension Constant {
     static let requestItemCount = 20
 }
 

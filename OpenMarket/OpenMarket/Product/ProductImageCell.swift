@@ -7,6 +7,10 @@
 
 import UIKit
 
+private extension Constant.Image {
+    static let xmark = UIImage(systemName: "xmark.circle.fill")
+}
+
 final class ProductImageCell: UICollectionViewCell {
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
@@ -21,7 +25,7 @@ final class ProductImageCell: UICollectionViewCell {
         let button = UIButton()
         
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        button.setImage(Constant.Image.xmark, for: .normal)
         button.tintColor = .black
         return button
     }()
@@ -59,7 +63,7 @@ final class ProductImageCell: UICollectionViewCell {
         productImageView.image = image
         removeButton.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
                 
-        if productImageView.image == .plus {
+        if productImageView.image == Constant.Image.plus {
             removeButton.isHidden = true
         }
     }

@@ -11,7 +11,7 @@ final class RegisterViewController: ProductViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        applySnapshot(images: [.plus])
+        applySnapshot(images: [Constant.Image.plus])
         configurePickerController()
         registerNotification()
     }

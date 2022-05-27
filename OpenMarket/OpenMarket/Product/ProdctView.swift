@@ -7,6 +7,10 @@
 
 import UIKit
 
+private extension Constant.Image {
+    static let keyboardDown = UIImage(systemName: "keyboard.chevron.compact.down")
+}
+
 class ProdctView: UIView {
     private lazy var baseStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [collectionView,
@@ -163,7 +167,7 @@ private extension UITextField {
     func makeToolBar() {
         let bar = UIToolbar()
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let hiddenButton = UIBarButtonItem(image: .downKeyboard, style: .plain, target: self, action: #selector(keyboardHidden))
+        let hiddenButton = UIBarButtonItem(image: Constant.Image.keyboardDown, style: .plain, target: self, action: #selector(keyboardHidden))
         bar.items = [space, hiddenButton]
         bar.sizeToFit()
         
@@ -183,7 +187,7 @@ private extension UITextView {
     func makeToolBar() {
         let bar = UIToolbar()
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let hiddenButton = UIBarButtonItem(image: .downKeyboard, style: .plain, target: self, action: #selector(keyboardHidden))
+        let hiddenButton = UIBarButtonItem(image: Constant.Image.keyboardDown, style: .plain, target: self, action: #selector(keyboardHidden))
         bar.items = [space, hiddenButton]
         bar.sizeToFit()
         

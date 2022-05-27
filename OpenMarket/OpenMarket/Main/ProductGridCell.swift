@@ -104,7 +104,7 @@ extension ProductGridCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        thumbnailImageView.image = .photo
+        thumbnailImageView.image = Constant.Image.photo
         nameLabel.text = nil
         priceLabel.attributedText = nil
         priceLabel.text = nil
