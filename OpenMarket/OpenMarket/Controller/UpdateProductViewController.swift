@@ -126,9 +126,26 @@ extension UpdateProductViewController {
             present(alertController, animated: true)
             return
         }
+
+        if productInput.keys.contains("descriptions") {
+            guard var description = productInput["descriptions"] as? String else {
+                return
+            }
+            
+            productInput["descriptions"] = description.replacingOccurrences(of: "\n", with: "\\n")
+        }
+        
         if let product = product {
             HTTPManager().patchData(product: productInput, targetURL: .productPatch(productIdentifier: product.identifier)) { data in
-                return
+                switch data {
+                case .success(let data):
+                    guard let decodedData = try? JSONDecoder().decode(Product.self, from: data) else {
+                        return
+                    }
+                    return
+                case .failure(let error):
+                    return
+                }
             }
             dismiss(animated: true)
             return
@@ -270,7 +287,8 @@ extension UpdateProductViewController: UICollectionViewDataSource {
                 cell.discountedPriceTextField.text = String(product.price - product.bargainPrice)
                 cell.stockTextField.text = String(product.stock)
                 cell.segmentedControl.selectedSegmentIndex = product.currency == "KRW" ? 0 : 1
-                cell.descriptionTextView.text = product.description
+                
+                cell.descriptionTextView.text = product.description.replacingOccurrences(of: "\\n", with: "\n")
             }
             
             setUpDelegate(cell: cell)
