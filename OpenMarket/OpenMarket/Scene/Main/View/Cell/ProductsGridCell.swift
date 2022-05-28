@@ -135,7 +135,12 @@ final class ProductsGridCell: UICollectionViewCell, BaseCell {
         layer.cornerRadius = 10
     }
     
-    func updateLabel(data: Item) {
+    func configure(data: Item, imageCacheManager: ImageCacheManager) {
+        updateLabel(data: data)
+        updateImage(url: data.thumbnail, imageCacheManager: imageCacheManager)
+    }
+    
+    private func updateLabel(data: Item) {
         productNameLabel.text = data.name
         
         if data.discountedPrice == 0 {
@@ -150,10 +155,10 @@ final class ProductsGridCell: UICollectionViewCell, BaseCell {
         }
         
         stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
-        stockLabel.text = data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) "
+        stockLabel.update(stockStatus: data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) ")
     }
     
-    func updateImage(url: URL, imageCacheManager: ImageCacheManager) {
+    private func updateImage(url: URL, imageCacheManager: ImageCacheManager) {
         indicatorView.startAnimating()
         
         let task = productImageView.loadImage(url: url, imageCacheManager: imageCacheManager) {

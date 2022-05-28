@@ -1,5 +1,5 @@
 //
-//  EditView.swift
+//  ManagingView.swift
 //  OpenMarket
 //
 //  Created by 박세리 on 2022/05/24.
@@ -71,15 +71,8 @@ final class ManagingView: UIView {
         return collectionView
     }()
     
-    let productNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "상품명"
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        textField.adjustsFontForContentSizeCategory = true
-        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        textField.keyboardType = .default
-        return textField
+    lazy var productNameTextField: UITextField = {
+        setUpTextField(placeholder: "상품명", keyboardType: .default)
     }()
     
     private lazy var productPriceStackView: UIStackView = {
@@ -90,15 +83,8 @@ final class ManagingView: UIView {
         return stackView
     }()
     
-    let productPriceTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "상품가격"
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        textField.adjustsFontForContentSizeCategory = true
-        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        textField.keyboardType = .numberPad
-        return textField
+    lazy var productPriceTextField: UITextField = {
+        setUpTextField(placeholder: "상품가격", keyboardType: .numberPad)
     }()
     
     let productCurrencySegmentedControl: UISegmentedControl = {
@@ -107,26 +93,12 @@ final class ManagingView: UIView {
         return segmentedControl
     }()
     
-    let productDiscountedTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "할인금액"
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        textField.adjustsFontForContentSizeCategory = true
-        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        textField.keyboardType = .numberPad
-        return textField
+    lazy var productDiscountedTextField: UITextField = {
+        setUpTextField(placeholder: "할인금액", keyboardType: .numberPad)
     }()
     
-    let productStockTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "재고수량"
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        textField.adjustsFontForContentSizeCategory = true
-        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        textField.keyboardType = .numberPad
-        return textField
+    lazy var productStockTextField: UITextField = {
+        setUpTextField(placeholder: "재고수량", keyboardType: .numberPad)
     }()
     
     let productDescriptionTextView: UITextView = {
@@ -186,7 +158,18 @@ final class ManagingView: UIView {
     }
     
     private func setUpAttribute() {
-        backgroundColor = .systemBackground
+        backgroundColor = .white
+    }
+    
+    private func setUpTextField(placeholder: String, keyboardType: UIKeyboardType) -> UITextField {
+        let textField = UITextField()
+        textField.placeholder = placeholder
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        textField.adjustsFontForContentSizeCategory = true
+        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        textField.keyboardType = keyboardType
+        return textField
     }
     
     func setUpBarItem(title: String) {

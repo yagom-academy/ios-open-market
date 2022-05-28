@@ -42,7 +42,7 @@ extension MainViewController {
         navigationItem.titleView = mainView.segmentControl
         navigationItem.rightBarButtonItem = mainView.addButton
         mainView.addButton.target = self
-        mainView.addButton.action = #selector(moveRegisterView)
+        mainView.addButton.action = #selector(addButtonDidTap)
     }
     
     private func setUpCollectionView() {
@@ -70,7 +70,7 @@ extension MainViewController {
         mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
     }
     
-    @objc private func moveRegisterView() {
+    @objc private func addButtonDidTap() {
         let registerViewController = RegisterViewController()
         registerViewController.modalPresentationStyle = .fullScreen
         self.present(registerViewController, animated: true)
@@ -93,8 +93,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
 
-                    cell.updateImage(url: item.thumbnail, imageCacheManager: self.viewModel.imageCacheManager)
-                    cell.updateLabel(data: item)
+                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
                     
                     return cell
                     
@@ -105,8 +104,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
 
-                    cell.updateImage(url: item.thumbnail, imageCacheManager: self.viewModel.imageCacheManager)
-                    cell.updateLabel(data: item)
+                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
                     
                     return cell
                 }
@@ -157,12 +155,12 @@ extension MainViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let id = viewModel.snapshot?.itemIdentifiers[indexPath.item].id {
+        if let id = viewModel.snapshot?.itemIdentifiers[safe: indexPath.item]?.id {
             viewModel.requestProductDetail(by: id) { productDetail in
                 DispatchQueue.main.async {
-                    let modifyView = ModifyViewController(productDetail: productDetail)
-                    modifyView.modalPresentationStyle = .fullScreen
-                    self.present(modifyView, animated: true)
+                    let modifyViewController = ModifyViewController(productDetail: productDetail)
+                    modifyViewController.modalPresentationStyle = .fullScreen
+                    self.present(modifyViewController, animated: true)
                 }
             }
         }

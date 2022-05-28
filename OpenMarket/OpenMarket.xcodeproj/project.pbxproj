@@ -16,6 +16,7 @@
 		A13387A22833759D00950EA2 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13387A12833759C00950EA2 /* AlertBuilder.swift */; };
 		A13387A4283375ED00950EA2 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13387A3283375ED00950EA2 /* UIViewController.swift */; };
 		A17840CD282A238700DAB50D /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17840CC282A238700DAB50D /* StubURLSession.swift */; };
+		A18014DA28426D9000F8B7E0 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18014D928426D9000F8B7E0 /* Collection.swift */; };
 		A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A3ECCA282A55E1000A440C /* EndPoint.swift */; };
 		A1A3ECCE282A56C0000A440C /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A3ECCD282A56C0000A440C /* APIProvider.swift */; };
 		A1D0E1032829F5FE00451BF8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D0E1022829F5FE00451BF8 /* MainView.swift */; };
@@ -75,6 +76,7 @@
 		A13387A12833759C00950EA2 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		A13387A3283375ED00950EA2 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		A17840CC282A238700DAB50D /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
+		A18014D928426D9000F8B7E0 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		A1A3ECCA282A55E1000A440C /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		A1A3ECCD282A56C0000A440C /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		A1D0E1022829F5FE00451BF8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				A128FB95283E45AA00B96535 /* UITextView.swift */,
 				A128FB97283E482B00B96535 /* UITextField.swift */,
 				A128FB9B283E4D3100B96535 /* UIView.swift */,
+				A18014D928426D9000F8B7E0 /* Collection.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 				DA9AE549282A4513003BA8B2 /* HTTPMethod.swift in Sources */,
 				A13387A22833759D00950EA2 /* AlertBuilder.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				A18014DA28426D9000F8B7E0 /* Collection.swift in Sources */,
 				DAA968DD283D0DBA00CDA7B1 /* AlertDelegate.swift in Sources */,
 				DAA968E6283E71B800CDA7B1 /* ManagingViewController.swift in Sources */,
 				A1FC1BCE28377FC700EC14DD /* UIImageView.swift in Sources */,

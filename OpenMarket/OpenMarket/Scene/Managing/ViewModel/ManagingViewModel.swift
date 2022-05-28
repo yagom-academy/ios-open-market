@@ -20,7 +20,7 @@ class ManagingViewModel {
     let productsAPIServie = APIProvider<Products>()
     var images: [ImageInfo] = []
     
-    weak var delegate: EditAlertDelegate?
+    weak var delegate: ManagingAlertDelegate?
     
     func generateUUID() -> String {
         return UUID().uuidString + ".jpg"

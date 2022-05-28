@@ -12,6 +12,6 @@ protocol MainAlertDelegate: AnyObject {
     func showAlertRequestDetailError(with error: Error)
 }
 
-protocol EditAlertDelegate: AnyObject {
+protocol ManagingAlertDelegate: AnyObject {
     func showAlertRequestError(with error: Error)
 }

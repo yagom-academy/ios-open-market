@@ -1,5 +1,5 @@
 //
-//  EditViewController.swift
+//  ManagingViewController.swift
 //  OpenMarket
 //
 //  Created by 박세리 on 2022/05/25.
@@ -43,6 +43,8 @@ class ManagingViewController: UIViewController {
         
         managingView.productNameTextField.delegate = self
         managingView.productPriceTextField.delegate = self
+        
+        managingView.productNameTextField.becomeFirstResponder()
     }
     
     private func setUpKeyboardNotification() {
@@ -84,7 +86,7 @@ class ManagingViewController: UIViewController {
     }
 }
 
-extension ManagingViewController: EditAlertDelegate {
+extension ManagingViewController: ManagingAlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)
