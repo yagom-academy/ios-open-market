@@ -116,6 +116,12 @@ final class MainView: UIView {
         case .grid:
             collectionView.collectionViewLayout = gridLayout
             self.layoutStatus = .grid
+            setUpGridScroll()
         }
+    }
+    
+    private func setUpGridScroll() {
+        let currentOffset = collectionView.contentOffset
+        collectionView.setContentOffset(CGPoint(x: currentOffset.x, y: currentOffset.y - 230), animated: false)
     }
 }

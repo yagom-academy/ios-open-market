@@ -52,6 +52,7 @@ final class RegisterViewController: ManagingViewController {
     private func checkInputValidation() -> Bool {
         guard managingView.productNameTextField.text?.count ?? 0 >= 3 else {
             showAlertInputError(with: .productNameIsTooShort)
+            
             return false
         }
         
@@ -125,7 +126,7 @@ extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate,
         if viewModel.images.count < 6 {
             self.present(imagePicker, animated: true)
         } else {
-            showAlertInputError(with: .imageIsFull)
+            showAlertInputError(with: .exceededNumberOfImages)
         }
     }
     

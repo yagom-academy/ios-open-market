@@ -63,7 +63,6 @@ extension MainViewController {
     
     @objc private func refreshControlValueChanged() {
         viewModel.resetItemList()
-        mainView.collectionView.reloadData()
         mainView.collectionView.refreshControl?.endRefreshing()
     }
     

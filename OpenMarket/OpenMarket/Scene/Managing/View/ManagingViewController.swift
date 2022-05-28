@@ -27,6 +27,7 @@ class ManagingViewController: UIViewController {
         setUpKeyboardNotification()
         setUpTextView()
         setUpTextField()
+        setUpTapGesture()
     }
     
     func setUpTextView() {
@@ -39,6 +40,9 @@ class ManagingViewController: UIViewController {
         managingView.productPriceTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
         managingView.productDiscountedTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
         managingView.productStockTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
+        
+        managingView.productNameTextField.delegate = self
+        managingView.productPriceTextField.delegate = self
     }
     
     private func setUpKeyboardNotification() {
@@ -97,6 +101,22 @@ extension ManagingViewController: EditAlertDelegate {
             .setTitle(Constants.inputErrorAlertTitle)
             .setMessage(error.localizedDescription)
             .setConfirmTitle(Constants.inputErrorAlertConfirmTitle)
+            .setConfirmHandler {
+                switch error {
+                case .productNameIsTooShort:
+                    self.managingView.productNameTextField.becomeFirstResponder()
+                case .productPriceIsEmpty:
+                    self.managingView.productPriceTextField.becomeFirstResponder()
+                case .discountedPriceHigherThanPrice:
+                    self.managingView.productDiscountedTextField.becomeFirstResponder()
+                case .productImageIsEmpty:
+                    return
+                case .exceededNumberOfImages:
+                    return
+                case .descriptionIsTooLong:
+                    self.managingView.productDescriptionTextView.becomeFirstResponder()
+                }
+            }
             .showAlert()
     }
 }
@@ -111,5 +131,29 @@ extension ManagingViewController: UITextViewDelegate {
             return true
         }
         return range.location < 1000
+    }
+}
+
+extension ManagingViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if (textField.isEqual(managingView.productNameTextField)) {
+            managingView.productPriceTextField.becomeFirstResponder()
+            return true
+        }
+        return true
+    }
+}
+
+extension ManagingViewController: UIGestureRecognizerDelegate {
+
+    private func setUpTapGesture() {
+        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+        tapGesture.delegate = self
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 }
