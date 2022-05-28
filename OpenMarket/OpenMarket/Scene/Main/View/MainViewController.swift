@@ -31,8 +31,7 @@ final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.items = []
-        viewModel.requestProducts(by: viewModel.currentPage)
+        viewModel.resetItemList()
     }
 }
 
@@ -48,6 +47,8 @@ extension MainViewController {
     
     private func setUpCollectionView() {
         mainView.collectionView.delegate = self
+        mainView.collectionView.refreshControl = UIRefreshControl()
+        mainView.collectionView.refreshControl?.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
     }
     
     private func setUpSegmentControl() {
@@ -56,7 +57,14 @@ extension MainViewController {
     
     private func setUpViewModel() {
         viewModel.datasource = makeDataSource()
+        viewModel.snapshot = viewModel.makeSnapshot()
         viewModel.delegate = self
+    }
+    
+    @objc private func refreshControlValueChanged() {
+        viewModel.resetItemList()
+        mainView.collectionView.reloadData()
+        mainView.collectionView.refreshControl?.endRefreshing()
     }
     
     @objc private func segmentControlValueChanged() {
@@ -139,19 +147,24 @@ extension MainViewController: UICollectionViewDelegate {
             return
         }
         
-        if indexPath.row >= viewModel.items.count - 3 {
+        guard let snapshot = viewModel.snapshot else {
+            return
+        }
+        
+        if indexPath.row >= snapshot.numberOfItems - 3 {
             viewModel.currentPage += 1
             viewModel.requestProducts(by: viewModel.currentPage)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let id = viewModel.items[indexPath.row].id
-        viewModel.requestProductDetail(by: id) { productDetail in
-            DispatchQueue.main.async {
-                let modifyView = ModifyViewController(productDetail: productDetail)
-                modifyView.modalPresentationStyle = .fullScreen
-                self.present(modifyView, animated: true)
+        if let id = viewModel.snapshot?.itemIdentifiers[indexPath.item].id {
+            viewModel.requestProductDetail(by: id) { productDetail in
+                DispatchQueue.main.async {
+                    let modifyView = ModifyViewController(productDetail: productDetail)
+                    modifyView.modalPresentationStyle = .fullScreen
+                    self.present(modifyView, animated: true)
+                }
             }
         }
     }

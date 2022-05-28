@@ -24,8 +24,8 @@ final class MainViewModel {
     lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIService)
     
     var datasource: DataSource?
+    var snapshot: Snapshot?
     private(set) var products: Products?
-    var items: [Item] = []
     var currentPage = 1
     
     weak var delegate: MainAlertDelegate?
@@ -37,8 +37,7 @@ final class MainViewModel {
             switch result {
             case .success(let products):
                 self?.products = products
-                self?.items.append(contentsOf: products.items)
-                self?.applySnapshot()
+                self?.applySnapshot(products: products.items)
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.delegate?.showAlertRequestError(with: error)
@@ -61,13 +60,27 @@ final class MainViewModel {
             }
         }
     }
-
-    private func applySnapshot() {
-        DispatchQueue.main.async {
-            var snapshot = Snapshot()
-            snapshot.appendSections(Section.allCases)
-            snapshot.appendItems(self.items, toSection: .main)
-            self.datasource?.apply(snapshot)
+    
+    func makeSnapshot() -> Snapshot? {
+        var snapshot = datasource?.snapshot()
+        snapshot?.deleteAllItems()
+        snapshot?.appendSections(Section.allCases)
+        return snapshot
+    }
+    
+    private func applySnapshot(products: [Item]) {
+        DispatchQueue.main.async { [self] in
+            snapshot?.appendItems(products)
+            
+            guard let snapshot = snapshot else { return }
+            
+            datasource?.apply(snapshot, animatingDifferences: false)
         }
+    }
+    
+    func resetItemList() {
+        currentPage = 1
+        snapshot = makeSnapshot()
+        requestProducts(by: currentPage)
     }
 }
