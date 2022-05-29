@@ -10,7 +10,7 @@ import UIKit
 final class RegistrationViewController: UIViewController, Alertable {
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
     private let network = URLSessionProvider<ProductList>()
-    let imagePicker = UIImagePickerController()
+    private let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,14 +52,24 @@ final class RegistrationViewController: UIViewController, Alertable {
     @objc private func didTapDoneButton() {
         let alert = UIAlertController(title: "Really?", message: nil, preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
-            self.extractData()
+            self.postProduct()
+            self.dismiss(animated: true)
         }
         let noAction = UIAlertAction(title: "No", style: .destructive)
         alert.addActions(yesAction, noAction)
         present(alert, animated: true)
     }
     
-    private func extractData() {
+    private func postProduct() {
+        let newProduct = extractData()
+        self.network.postData(params: newProduct) { result in
+            if case .failure(let error) = result {
+                self.showAlert(errorMessage: error.errorDescription ?? "", viewController: self)
+            }
+        }
+    }
+    
+    private func extractData() -> ProductRegistration {
         let name = baseView.productName.text
         let price = Int(baseView.productPrice.text ?? "0")
         let discountedPrice = Int(baseView.productBargenPrice.text ?? "0")
@@ -78,19 +88,10 @@ final class RegistrationViewController: UIViewController, Alertable {
             stock: stock,
             images: images)
         
-        self.network.postData(params: param, completionHandler: { result in
-            switch result {
-            case .success(_):
-                self.dismiss(animated: true)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(errorMessage: error.errorDescription ?? "", viewController: self)
-                }
-            }
-        })
+        return param
     }
     
-    func extractImage() -> [Image] {
+    private func extractImage() -> [Image] {
         var images: [Image] = []
         
         baseView.imagesStackView.arrangedSubviews.forEach { UIView in

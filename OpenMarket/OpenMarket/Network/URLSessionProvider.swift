@@ -102,7 +102,7 @@ struct URLSessionProvider<T: Decodable> {
         task.resume()
     }
     
-    func createBody(params: ProductRegistration, boundary: String) -> Data? {
+    private func createBody(params: ProductRegistration, boundary: String) -> Data? {
         var body = Data()
         let newline = "\r\n"
         let boundaryPrefix = "--\(boundary)\r\n"
