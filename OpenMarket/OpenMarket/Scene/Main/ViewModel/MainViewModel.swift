@@ -19,8 +19,7 @@ final class MainViewModel {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
-    private let productsAPIService = APIProvider<Products>()
-    private let productsDetailAPIService = APIProvider<ProductDetail>()
+    private let productsAPIService = APIProvider()
     lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIService)
     
     var datasource: DataSource?
@@ -33,7 +32,7 @@ final class MainViewModel {
     func requestProducts(by page: Int) {
         let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: Constants.itemsCountPerPage)
         
-        productsAPIService.retrieveProduct(with: endpoint) { [weak self] result in
+        productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<Products, Error>) in
             switch result {
             case .success(let products):
                 self?.products = products
@@ -49,7 +48,7 @@ final class MainViewModel {
     func requestProductDetail(by id: Int, completion: @escaping (ProductDetail) -> Void) {
         let endpoint = EndPointStorage.productsDetail(productID: id)
         
-        productsDetailAPIService.retrieveProduct(with: endpoint) { [weak self] result in
+        productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<ProductDetail, Error>) in
             switch result {
             case .success(let productDetail):
                 completion(productDetail)
@@ -69,12 +68,10 @@ final class MainViewModel {
     }
     
     private func applySnapshot(products: [Item]) {
-        DispatchQueue.main.async { [self] in
-            snapshot?.appendItems(products)
-            
-            guard let snapshot = snapshot else { return }
-            
-            datasource?.apply(snapshot, animatingDifferences: false)
+        DispatchQueue.main.async {
+            self.snapshot?.appendItems(products)
+            guard let snapshot = self.snapshot else { return }
+            self.datasource?.apply(snapshot, animatingDifferences: false)
         }
     }
     

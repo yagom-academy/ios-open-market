@@ -24,7 +24,7 @@ class ManagingViewModel {
     
     var datasource: DataSource?
     
-    let productsAPIServie = APIProvider<Products>()
+    let productsAPIServie = APIProvider()
     var images: [ImageInfo] = []
     
     weak var delegate: ManagingAlertDelegate?

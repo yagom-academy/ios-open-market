@@ -9,9 +9,9 @@ import UIKit
 
 final class ImageCacheManager {
     let cache = NSCache<NSURL, UIImage>()
-    let apiService: APIProvider<Products>
+    let apiService: APIProvider
     
-    init(apiService: APIProvider<Products>) {
+    init(apiService: APIProvider) {
         self.apiService = apiService
         self.cache.countLimit = 100
     }
