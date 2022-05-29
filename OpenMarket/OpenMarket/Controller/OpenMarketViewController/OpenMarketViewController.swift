@@ -28,6 +28,11 @@ final class OpenMarketViewController: UIViewController {
         setupAddButton()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.collectionView?.reloadData()
+        fetchData(from: .productList(page: 1, itemsPerPage: 110))
+    }
+    
     private func fetchData(from: Endpoint) {
         network?.fetchData(from: from, completionHandler: { result in
             switch result {
