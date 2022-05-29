@@ -13,7 +13,7 @@ final class ModifyViewController: ManagingViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpViews()
+        setUpView()
         setUpBarItems()
         setUpViewModel()
     }
@@ -31,19 +31,9 @@ final class ModifyViewController: ManagingViewController {
 // MARK: SetUp Method
 
 extension ModifyViewController {
-    private func setUpViews() {
-        managingView.productNameTextField.text = productDetail.name
-        managingView.productPriceTextField.text = String(productDetail.price)
-        managingView.productDiscountedTextField.text = String(productDetail.discountedPrice)
-        managingView.productStockTextField.text = String(productDetail.stock)
-        managingView.productDescriptionTextView.text = productDetail.productsDescription
+    private func setUpView() {
         viewModel.setUpImages(with: productDetail.images)
-        
-        if productDetail.currency == .KRW {
-            managingView.productCurrencySegmentedControl.selectedSegmentIndex = .zero
-        } else {
-            managingView.productCurrencySegmentedControl.selectedSegmentIndex = 1
-        }
+        managingView.setUpView(data: productDetail)
     }
     
     private func setUpBarItems() {

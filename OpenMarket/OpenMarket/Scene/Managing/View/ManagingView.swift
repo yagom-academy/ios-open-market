@@ -185,6 +185,20 @@ final class ManagingView: UIView {
         navigationBarItem.title = title
     }
     
+    func setUpView(data: ProductDetail) {
+        productNameTextField.text = data.name
+        productPriceTextField.text = String(data.price)
+        productDiscountedTextField.text = String(data.discountedPrice)
+        productStockTextField.text = String(data.stock)
+        productDescriptionTextView.text = data.productsDescription
+        
+        if data.currency == .KRW {
+            productCurrencySegmentedControl.selectedSegmentIndex = .zero
+        } else {
+            productCurrencySegmentedControl.selectedSegmentIndex = 1
+        }
+    }
+    
     private func registerCollectionViewCell() {
         collectionView.register(
             ProductsHorizontalCell.self,
