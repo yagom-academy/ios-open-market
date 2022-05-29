@@ -10,11 +10,13 @@ private enum Section: Int {
     case main
 }
 
+
 final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>
     
     private lazy var dataSource = makeDataSource()
+
     private lazy var productView = ProductListView.init(frame: view.bounds)
     private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonDidTapped(_:)))
@@ -29,6 +31,7 @@ final class MainViewController: UIViewController {
                 self.applySnapshot()
                 self.productView.indicatorView.stopAnimating()
             })
+
         }
     }
     
@@ -47,6 +50,7 @@ final class MainViewController: UIViewController {
         DispatchQueue.global().async {
             self.executeGET()
         }
+
     }
 }
 
@@ -76,6 +80,7 @@ extension MainViewController {
     private func setNavigation() {
         navigationItem.titleView = productView.segmentedControl
         navigationItem.rightBarButtonItem = plusButton
+
         
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .systemGray6
@@ -87,11 +92,13 @@ extension MainViewController {
 
 // MARK: - setup DataSource
 extension MainViewController {
+
     private func executeGET() {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         DispatchQueue.global().async(group: dispatchGroup) {
             self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
+
                 switch result {
                 case .success(let result):
                     self.item = result.pages
@@ -108,7 +115,7 @@ extension MainViewController {
         productView.collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
         productView.collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
     }
-    
+
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(
             collectionView: productView.collectionView,
@@ -135,6 +142,7 @@ extension MainViewController {
                     }
                     
                     cell.configureCell(presenter)
+
                     
                     return cell
                 }
@@ -158,3 +166,4 @@ extension MainViewController: UICollectionViewDelegate {
         self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
+
