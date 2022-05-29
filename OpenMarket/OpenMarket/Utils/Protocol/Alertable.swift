@@ -20,9 +20,11 @@ protocol Alertable {
 
 extension Alertable {
     func showAlert(errorMessage: String, viewController: UIViewController) {
-        let alertController = UIAlertController(title: Const.Alert.title, message: errorMessage, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: Const.Alert.okAction, style: .default)
-        alertController.addAction(alertAction)
-        viewController.present(alertController, animated: true)
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: Const.Alert.title, message: errorMessage, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: Const.Alert.okAction, style: .default)
+            alertController.addAction(alertAction)
+            viewController.present(alertController, animated: true)
+        }
     }
 }
