@@ -7,16 +7,19 @@
 
 import Foundation
 
-enum RestApi {
+enum Http {
     case get
     case post
+    case patch
     
-    var type: String {
+    var method: String {
         switch self {
         case .get:
             return "GET"
         case .post:
             return "POST"
+        case .patch:
+            return "PATCH"
         }
     }
 }
