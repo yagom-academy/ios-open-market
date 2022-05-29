@@ -83,7 +83,7 @@ final class RegistrationViewController: UIViewController, Alertable {
             price: price,
             discountedPrice: discountedPrice,
             currency: currency,
-            secret: OpenMarket.secret.discription,
+            secret: OpenMarket.secret.description,
             descriptions: description,
             stock: stock,
             images: images)
