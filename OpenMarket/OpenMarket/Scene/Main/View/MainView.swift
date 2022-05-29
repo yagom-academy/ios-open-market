@@ -133,18 +133,25 @@ final class MainView: UIView {
         
         switch layoutStatus {
         case .list:
+            print(collectionView.contentOffset.y)
             collectionView.collectionViewLayout = listLayout
             setUpListScroll()
             self.layoutStatus = .list
+            print(collectionView.contentOffset.y)
         case .grid:
+            print(collectionView.contentOffset.y)
             collectionView.collectionViewLayout = gridLayout
             setUpGridScroll()
             self.layoutStatus = .grid
+            print(collectionView.contentOffset.y)
         }
     }
     
     private func setUpListScroll() {
         let currentOffset = collectionView.contentOffset
+        
+        guard currentOffset.y > 0 else { return }
+        
         collectionView.setContentOffset(
             CGPoint(
                 x: currentOffset.x,
