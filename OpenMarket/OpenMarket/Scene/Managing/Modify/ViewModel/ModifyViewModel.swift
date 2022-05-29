@@ -15,7 +15,8 @@ final class ModifyViewModel: ManagingViewModel {
     }
     
     private func requestImage(url: URL) {
-        productsAPIServie.requestImage(with: url) { result in
+        productsAPIServie.requestImage(with: url) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.images.append(ImageInfo(fileName: self.generateUUID(), data: data, type: Constants.jpg))

@@ -22,9 +22,9 @@ class ManagingViewModel {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageInfo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ImageInfo>
     
-    var datasource: DataSource?
-    
     let productsAPIServie = APIProvider()
+    
+    var datasource: DataSource?
     var images: [ImageInfo] = []
     
     weak var delegate: ManagingAlertDelegate?

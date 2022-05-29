@@ -17,7 +17,7 @@ final class MainView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        addSubviews() 
+        addSubviews()
         setUpAttribute()
         registerCollectionViewCell()
     }
@@ -26,7 +26,7 @@ final class MainView: UIView {
         case list = 0
         case grid = 1
     }
-
+    
     var layoutStatus: LayoutStatus = .list {
         didSet {
             self.collectionView.reloadData()
@@ -51,12 +51,21 @@ final class MainView: UIView {
     }()
     
     private let listLayout: UICollectionViewCompositionalLayout = {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.15))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(0.15)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 1
+        )
         
         let section = NSCollectionLayoutSection(group: group)
         
@@ -66,18 +75,31 @@ final class MainView: UIView {
     }()
     
     private let gridLayout: UICollectionViewCompositionalLayout = {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/2),
-                                              heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1/2),
+            heightDimension: .fractionalHeight(1.0)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.3))
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(0.3)
+        )
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 2
+        )
         group.interItemSpacing = .fixed(14)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 8, bottom: 10, trailing: 8)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 10,
+            leading: 8,
+            bottom: 10,
+            trailing: 8
+        )
         section.interGroupSpacing = 8
         
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -112,16 +134,32 @@ final class MainView: UIView {
         switch layoutStatus {
         case .list:
             collectionView.collectionViewLayout = listLayout
+            setUpListScroll()
             self.layoutStatus = .list
         case .grid:
             collectionView.collectionViewLayout = gridLayout
-            self.layoutStatus = .grid
             setUpGridScroll()
+            self.layoutStatus = .grid
         }
+    }
+    
+    private func setUpListScroll() {
+        let currentOffset = collectionView.contentOffset
+        collectionView.setContentOffset(
+            CGPoint(
+                x: currentOffset.x,
+                y: currentOffset.y + collectionView.frame.height * 0.3 - 10
+            ), animated: false
+        )
     }
     
     private func setUpGridScroll() {
         let currentOffset = collectionView.contentOffset
-        collectionView.setContentOffset(CGPoint(x: currentOffset.x, y: currentOffset.y - 230), animated: false)
+        collectionView.setContentOffset(
+            CGPoint(
+                x: currentOffset.x,
+                y: currentOffset.y - collectionView.frame.height * 0.3 + 10
+            ), animated: false
+        )
     }
 }
