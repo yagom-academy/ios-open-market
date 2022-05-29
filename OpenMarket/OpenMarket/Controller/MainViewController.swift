@@ -10,22 +10,11 @@ private enum Section: Int {
     case main
 }
 
-private struct Product: APIable {
-    var hostAPI: String = "https://market-training.yagom-academy.kr"
-    var path: String = "/api/products"
-    var param: [String : String]? = [
-        "page_no": "1",
-        "items_per_page": "10"
-    ]
-    var method: HTTPMethod = .get
-}
-
 final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>
     
     private lazy var dataSource = makeDataSource()
-    private let product = Product()
     private lazy var productView = ProductListView.init(frame: view.bounds)
     private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonDidTapped(_:)))
@@ -33,7 +22,7 @@ final class MainViewController: UIViewController {
         return plusButton
     }()
     
-    private let networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
+    private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private lazy var item: [Products] = [] {
         didSet {
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
@@ -49,8 +38,19 @@ final class MainViewController: UIViewController {
         self.productView.indicatorView.startAnimating()
         configureView()
         registerCell()
-        executeAPI()
         applySnapshot()
+        productView.collectionView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.global().async {
+            self.executeGET()
+        }
+        
+//        DispatchQueue.main.async {
+//            self.productView.collectionView.reloadData()
+//        }
     }
 }
 
@@ -91,11 +91,11 @@ extension MainViewController {
 
 // MARK: - setup DataSource
 extension MainViewController {
-    private func executeAPI() {
+    private func executeGET() {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         DispatchQueue.global().async(group: dispatchGroup) {
-            self.networkManager.execute(with: self.product) { result in
+            self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
                 switch result {
                 case .success(let result):
                     self.item = result.pages
@@ -152,5 +152,13 @@ extension MainViewController {
         snapShot.appendSections([.main])
         snapShot.appendItems(item)
         dataSource.apply(snapShot, animatingDifferences: animatingDifferences)
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let productDetailViewController = ProductDetailViewController()
+        productDetailViewController.id = item[indexPath.row].id
+        self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }

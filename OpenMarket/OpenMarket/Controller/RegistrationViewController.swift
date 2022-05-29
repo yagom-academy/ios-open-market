@@ -10,7 +10,9 @@ import UIKit
 final class RegistrationViewController: UIViewController, UINavigationControllerDelegate {
     let imagePicker = UIImagePickerController()
     var imageArray = [UIImage]()
-    let rightNavigationButton = UIBarButtonItem(title: "Done", style: .done, target: nil, action: nil)
+    let doneButton = UIBarButtonItem()
+    private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
+    private var networkImageArray = [ImageInfo]()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -34,17 +36,28 @@ final class RegistrationViewController: UIViewController, UINavigationController
         self.view.addSubview(entireScrollView)
         entireScrollView.addSubview(collectionView)
         entireScrollView.addSubview(productDetailView)
+        
         self.view.backgroundColor = .white
         productDetailView.backgroundColor = .white
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         imagePicker.delegate = self
+        
         collectionView.register(RegistrationViewCell.self, forCellWithReuseIdentifier: RegistrationViewCell.identifier)
         setLayout()
+        configureBarButton()
+    }
+    
+    func configureBarButton() {
         self.navigationController?.navigationBar.topItem?.title = "Cancel"
         self.title = "상품등록"
-        self.navigationItem.rightBarButtonItem = rightNavigationButton
-        rightNavigationButton.isEnabled = false
+        self.navigationItem.rightBarButtonItem = doneButton
+//        doneButton.isEnabled = false
+        doneButton.title = "Done"
+        doneButton.style = .done
+        doneButton.target = self
+        doneButton.action = #selector(executePOST)
     }
     
     func setLayout() {
@@ -154,8 +167,21 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
             if imageCapacity > 300 {
                 let resizedImage = image.resize(newWidth: 80)
                 self.imageArray.append(resizedImage)
+                
+                guard let imageData = resizedImage.jpegData(compressionQuality: 1) else {
+                    return
+                }
+                
+                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                self.networkImageArray.append(imageInfo)
             } else {
                 self.imageArray.append(image)
+                guard let imageData = image.jpegData(compressionQuality: 1) else {
+                    return
+                }
+                
+                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                self.networkImageArray.append(imageInfo)
             }
             
             DispatchQueue.main.async {
@@ -198,28 +224,24 @@ extension RegistrationViewController: UICollectionViewDelegate {
     }
 }
 
-extension UIImage {
-    func resize(newWidth: CGFloat) -> UIImage {
-        let scale = newWidth / self.size.width
-        let newHeight = self.size.height * scale
-
-        let size = CGSize(width: newWidth, height: newHeight)
-        let renderer = UIGraphicsImageRenderer(size: size)
-        let renderedImage = renderer.image { context in
-            self.draw(in: CGRect(origin: .zero, size: size))
+extension RegistrationViewController {
+    @objc func executePOST() {
+        let dispatchGroup = DispatchGroup()
+        let params = productDetailView.generateParameters()
+        DispatchQueue.global().async(group: dispatchGroup) {
+            self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
+                switch result {
+                case .success:
+                    print("success")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
         }
         
-        return renderedImage
-    }
-    
-    func checkImageCapacity() -> Double {
-        var capacity: Double = 0.0
-        guard let data = self.pngData() else {
-            return 0.0
+        dispatchGroup.notify(queue: .main) {
+            self.navigationController?.popViewController(animated: true)
         }
-        
-        capacity = Double(data.count) / 1024
-        
-        return capacity
     }
 }
+

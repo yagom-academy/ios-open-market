@@ -5,7 +5,7 @@
 //  Created by Eddy, marisol on 2022/05/10.
 //
 
-import Foundation
+import UIKit
 
 enum NetworkError: Error {
     case error
@@ -14,19 +14,26 @@ enum NetworkError: Error {
     case decode
 }
 
+struct ImageInfo {
+    let fileName: String
+    let data: Data
+    let type: String
+}
+
 struct NetworkManager<T: Decodable> {
     var session: URLSessionProtocol
+    var imageData: UIImage?
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
     
-    func execute(with api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    mutating func execute(with endPoint: Endpoint, httpMethod: HTTPMethod, params: Encodable? = nil, images: [ImageInfo]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
         let successRange = 200...299
         
-        switch api.method {
+        switch httpMethod {
         case .get:
-            session.dataTask(with: api) { response in
+            session.dataTask(with: endPoint) { response in
                 guard response.error == nil else {
                     completion(.failure(.error))
                     return
@@ -51,11 +58,118 @@ struct NetworkManager<T: Decodable> {
                 }
             }       
         case .post:
-            print("post")
-        case .put:
-            print("put")
+            guard let params = params as? ProductToEncode,
+                  let images = images else {
+                      return
+                  }
+
+            requestPOST(endPoint: .productRegistration, params: params, images: images)
+        case .patch:
+            guard let params = params as? PatchRequest else {
+                return
+            }
+
+            requestPATCH(endPoint: endPoint, params: params)
         case .delete:
             print("delete")
         }
+    }
+    
+    mutating func requestPOST(endPoint: Endpoint, params: ProductToEncode, images: [ImageInfo]) {
+        let boundary = generateBoundary()
+        
+        guard let url = endPoint.url else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("multipart/form-data; boundary=\"\(boundary)\"",
+                         forHTTPHeaderField: "Content-Type")
+        request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
+        request.addValue("eddy123", forHTTPHeaderField: "accessId")
+        request.httpBody = createPOSTBody(requestInfo: params, images: images, boundary: boundary)
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
+                return
+            }
+            
+        }.resume()
+    }
+    
+    func generateBoundary() -> String {
+        return "\(UUID().uuidString)"
+    }
+    
+    func createPOSTBody(requestInfo: ProductToEncode, images: [ImageInfo], boundary: String) -> Data? {
+        var body: Data = Data()
+                        
+        guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
+            print("encoding error")
+            return nil
+        }
+        
+        body.append(convertDataToMultiPartForm(value: jsonData, boundary: boundary))
+        body.append(convertFileToMultiPartForm(imageInfo: images, boundary: boundary))
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        return body
+    }
+    
+    func createPATCHBody(requestInfo: PatchRequest) -> Data? {
+        var body: Data = Data()
+        
+        guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
+            print("encoding error")
+            return nil
+        }
+        
+        body.append(jsonData)
+        return body
+    }
+    
+    func convertDataToMultiPartForm(value: Data, boundary: String) -> Data {
+        var data: Data = Data()
+        data.append("--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"params\"\r\n".data(using: .utf8)!)
+        data.append("Content-Type: application/json\r\n".data(using: .utf8)!)
+        data.append("\r\n".data(using: .utf8)!)
+        data.append(value)
+        data.append("\r\n".data(using: .utf8)!)
+        
+        return data
+    }
+    
+    func convertFileToMultiPartForm(imageInfo: [ImageInfo], boundary: String) -> Data {
+        var data: Data = Data()
+        for imageInfo in imageInfo {
+            data.append("--\(boundary)\r\n".data(using: .utf8)!)
+            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"\r\n".data(using: .utf8)!)
+            data.append("Content-Type: \(imageInfo.type.description)\r\n".data(using: .utf8)!)
+            data.append("\r\n".data(using: .utf8)!)
+            data.append(imageInfo.data)
+            data.append("\r\n".data(using: .utf8)!)
+        }
+        
+        return data
+    }
+    
+    func requestPATCH(endPoint: Endpoint, params: PatchRequest) {
+        guard let url = endPoint.url else {
+            return
+        }
+                
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
+        request.httpBody = createPATCHBody(requestInfo: params)
     }
 }

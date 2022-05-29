@@ -19,8 +19,6 @@ final class RegistrationViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        contentView.addSubview(button)
-        makeProductImage()
         fatalError("init(coder:) has not been implemented")
     }
     
