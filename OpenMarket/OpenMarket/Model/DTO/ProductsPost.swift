@@ -11,7 +11,7 @@ struct ProductsPost: Encodable {
     let name: String
     let descriptions: String
     let price: Double
-    let currency: String
+    let currency: Currency
     let discountedPrice: Double?
     let stock: Int?
     let secret: String

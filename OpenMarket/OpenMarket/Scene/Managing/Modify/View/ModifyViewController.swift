@@ -39,7 +39,7 @@ extension ModifyViewController {
         managingView.productDescriptionTextView.text = productDetail.productsDescription
         viewModel.setUpImages(with: productDetail.images)
         
-        if productDetail.currency == "KRW" {
+        if productDetail.currency == .KRW {
             managingView.productCurrencySegmentedControl.selectedSegmentIndex = .zero
         } else {
             managingView.productCurrencySegmentedControl.selectedSegmentIndex = 1

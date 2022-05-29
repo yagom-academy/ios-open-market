@@ -118,7 +118,7 @@ extension RegisterViewController {
         let productName = managingView.productNameTextField.text ?? ""
         let descriptions = managingView.productDescriptionTextView.text ?? ""
         let productPrice = Double(managingView.productPriceTextField.text ?? "0") ?? .zero
-        let currency = managingView.productCurrencySegmentedControl.selectedSegmentIndex == .zero ? "KRW" : "USD"
+        let currency = managingView.productCurrencySegmentedControl.selectedSegmentIndex == .zero ? Currency.KRW : Currency.USD
         let discountedPrice = Double(managingView.productDiscountedTextField.text ?? "0")
         let stock = Int(managingView.productStockTextField.text ?? "0")
         let secret = "rwfkpko1fp"

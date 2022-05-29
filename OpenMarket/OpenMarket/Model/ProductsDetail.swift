@@ -12,7 +12,7 @@ struct ProductDetail: Decodable {
     let vendorID: Int
     let name: String
     let thumbnail: URL
-    let currency: String
+    let currency: Currency
     let price: Int
     let productsDescription: String?
     let bargainPrice: Int?
@@ -70,4 +70,3 @@ struct Vendor: Decodable {
         case issuedAt = "issued_at"
     }
 }
-
