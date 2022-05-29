@@ -151,4 +151,15 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
     ) -> Int {
         return productList?.count ?? .zero
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = productList?[indexPath.item] else {
+            return
+        }
+                
+        let reviseController = UINavigationController(rootViewController: ReviseViewController(product: product))
+        reviseController.modalPresentationStyle = .fullScreen
+
+        self.present(reviseController, animated: true)
+    }
 }

@@ -34,6 +34,7 @@
 		865B43E1283E1EA60005B484 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43E0283E1EA60005B484 /* RegistrationViewController.swift */; };
 		865B43E3283E25A10005B484 /* ProductRegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43E2283E25A10005B484 /* ProductRegistrationView.swift */; };
 		8665CC482841158100DBBE27 /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8665CC472841158100DBBE27 /* Alertable.swift */; };
+		8665CC6D28438A3E00DBBE27 /* ReviseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */; };
 		869BD31A282D04EF00284FAE /* MockURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD319282D04EF00284FAE /* MockURLSessionTest.swift */; };
 		869BD321282D053000284FAE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBC2282CAC4F00D1FAC0 /* MockURLSession.swift */; };
 		869BD337282D0DA100284FAE /* URLHealthcheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */; };
@@ -102,6 +103,7 @@
 		865B43E0283E1EA60005B484 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		865B43E2283E25A10005B484 /* ProductRegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationView.swift; sourceTree = "<group>"; };
 		8665CC472841158100DBBE27 /* Alertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
+		8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviseViewController.swift; sourceTree = "<group>"; };
 		869BD317282D04EF00284FAE /* MockURLSessionTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockURLSessionTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869BD319282D04EF00284FAE /* MockURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTest.swift; sourceTree = "<group>"; };
 		869BD334282D0DA100284FAE /* URLHealthcheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLHealthcheckerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +190,7 @@
 			children = (
 				865B43E0283E1EA60005B484 /* RegistrationViewController.swift */,
 				304D31C12840D3EE0016B148 /* CurrencyType.swift */,
+				8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */,
 			);
 			path = RegistrationViewController;
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 			files = (
 				86A637D92835E02C00830118 /* SegmentControl.swift in Sources */,
 				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
+				8665CC6D28438A3E00DBBE27 /* ReviseViewController.swift in Sources */,
 				304D31C22840D3EE0016B148 /* CurrencyType.swift in Sources */,
 				3008F3EB2837A4FB0034C902 /* CustomCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
