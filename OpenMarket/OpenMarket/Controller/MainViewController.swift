@@ -10,22 +10,11 @@ private enum Section: Int {
     case main
 }
 
-private struct Product: APIable {
-    var hostAPI: String = "https://market-training.yagom-academy.kr"
-    var path: String = "/api/products"
-    var param: [String : String]? = [
-        "page_no": "1",
-        "items_per_page": "10"
-    ]
-    var method: HTTPMethod = .get
-}
-
 final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>
     
     private lazy var dataSource = makeDataSource()
-    private let product = Product()
     private lazy var productView = ProductListView.init(frame: view.bounds)
     private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonDidTapped(_:)))
