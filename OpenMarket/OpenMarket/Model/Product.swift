@@ -18,4 +18,6 @@ struct Product: Decodable {
     let stock: Int?
     let createdAt: String?
     let issuedAt: String?
+    let images: [Image]?
+    let descriptions: String?
 }
