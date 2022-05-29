@@ -140,12 +140,12 @@ final class AddItemViewController: UIViewController {
     }
     
     private func postItem() {
-        print("post")
         let networkHandler = NetworkHandler()
         let boundary = UUID().uuidString
         let headers = ["identifier" : "99051fa9-d1b8-11ec-9676-978c137c9bee",
                        "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
         var data = Data()
+        
         guard let itemData = makeData() else { return }
                 
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
@@ -164,9 +164,7 @@ final class AddItemViewController: UIViewController {
         data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
         let itemAPI = PostItemAPI(header: headers, data: data)
-        networkHandler.request(api: itemAPI) { data in
-            print(data)
-        }
+        networkHandler.request(api: itemAPI){_ in }
     }
     
     @objc private func touchCancelButton() {
