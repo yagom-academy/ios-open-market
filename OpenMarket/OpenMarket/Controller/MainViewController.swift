@@ -39,6 +39,7 @@ final class MainViewController: UIViewController {
         configureView()
         registerCell()
         applySnapshot()
+        productView.collectionView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -94,7 +95,7 @@ extension MainViewController {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         DispatchQueue.global().async(group: dispatchGroup) {
-            self.networkManager.execute(with: self.product) { result in
+            self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
                 switch result {
                 case .success(let result):
                     self.item = result.pages
@@ -151,5 +152,13 @@ extension MainViewController {
         snapShot.appendSections([.main])
         snapShot.appendItems(item)
         dataSource.apply(snapShot, animatingDifferences: animatingDifferences)
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let productDetailViewController = ProductDetailViewController()
+        productDetailViewController.id = item[indexPath.row].id
+        self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
