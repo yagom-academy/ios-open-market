@@ -16,21 +16,14 @@ struct Response {
 }
 
 protocol URLSessionProtocol {
-    func dataTask(with api: APIable, completionHandler: @escaping DataTaskCompletionHandler) 
+    func dataTask(with endPoint: Endpoint, completionHandler: @escaping DataTaskCompletionHandler)
 }
 
 extension URLSession: URLSessionProtocol {
-    func dataTask(with api: APIable, completionHandler: @escaping DataTaskCompletionHandler) {
-        let hostAPI = api.hostAPI
-        let path = api.path
-        var urlComponent = URLComponents(string: hostAPI + path)
+    func dataTask(with endPoint: Endpoint, completionHandler: @escaping DataTaskCompletionHandler) {
         
-        urlComponent?.queryItems = api.param?.map {
-            URLQueryItem(name: $0.key, value: $0.value)
-        }
-        
-        guard let url = urlComponent?.url else {
-             return
+        guard let url = endPoint.url else {
+            return
         }
         
         dataTask(with: url) { data, response, error in

@@ -28,12 +28,12 @@ struct NetworkManager<T: Decodable> {
         self.session = session
     }
     
-    mutating func execute(with api: APIable, params: ProductToEncode? = nil, images: [ImageInfo]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    mutating func execute(with endPoint: Endpoint, httpMethod: HTTPMethod, params: Encodable? = nil, images: [ImageInfo]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
         let successRange = 200...299
         
-        switch api.method {
+        switch httpMethod {
         case .get:
-            session.dataTask(with: api) { response in
+            session.dataTask(with: endPoint) { response in
                 guard response.error == nil else {
                     completion(.failure(.error))
                     return
@@ -58,26 +58,29 @@ struct NetworkManager<T: Decodable> {
                 }
             }       
         case .post:
-            guard let params = params,
+            guard let params = params as? ProductToEncode,
                   let images = images else {
                       return
                   }
 
-            request(url:api, params: params, images: images)
-        case .put:
-            print("put")
+            requestPOST(endPoint: .productRegistration, params: params, images: images)
+        case .patch:
+            guard let params = params as? PatchRequest else {
+                return
+            }
+
+            requestPATCH(endPoint: endPoint, params: params)
         case .delete:
             print("delete")
         }
     }
     
-    mutating func request(url: APIable, params: ProductToEncode, images: [ImageInfo]) {
-        let urlString = url.hostAPI + url.path
-        guard let url = URL(string: urlString) else {
+    mutating func requestPOST(endPoint: Endpoint, params: ProductToEncode, images: [ImageInfo]) {
+        let boundary = generateBoundary()
+        
+        guard let url = endPoint.url else {
             return
         }
-        
-        let boundary = generateBoundary()
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -85,10 +88,9 @@ struct NetworkManager<T: Decodable> {
                          forHTTPHeaderField: "Content-Type")
         request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
         request.addValue("eddy123", forHTTPHeaderField: "accessId")
-        request.httpBody = createBody(requestInfo: params, images: images, boundary: boundary)
+        request.httpBody = createPOSTBody(requestInfo: params, images: images, boundary: boundary)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            print(String(data: data!, encoding: .utf8))
             guard error == nil else {
                 return
             }
@@ -108,7 +110,7 @@ struct NetworkManager<T: Decodable> {
         return "\(UUID().uuidString)"
     }
     
-    func createBody(requestInfo: ProductToEncode, images: [ImageInfo], boundary: String) -> Data? {
+    func createPOSTBody(requestInfo: ProductToEncode, images: [ImageInfo], boundary: String) -> Data? {
         var body: Data = Data()
                         
         guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
@@ -119,6 +121,18 @@ struct NetworkManager<T: Decodable> {
         body.append(convertDataToMultiPartForm(value: jsonData, boundary: boundary))
         body.append(convertFileToMultiPartForm(imageInfo: images, boundary: boundary))
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        return body
+    }
+    
+    func createPATCHBody(requestInfo: PatchRequest) -> Data? {
+        var body: Data = Data()
+        
+        guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
+            print("encoding error")
+            return nil
+        }
+        
+        body.append(jsonData)
         return body
     }
     
@@ -146,5 +160,16 @@ struct NetworkManager<T: Decodable> {
         }
         
         return data
+    }
+    
+    func requestPATCH(endPoint: Endpoint, params: PatchRequest) {
+        guard let url = endPoint.url else {
+            return
+        }
+                
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
+        request.httpBody = createPATCHBody(requestInfo: params)
     }
 }
