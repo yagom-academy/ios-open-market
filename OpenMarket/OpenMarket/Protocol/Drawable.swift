@@ -22,7 +22,6 @@ protocol Drawable: UIView {
     func configurePriceStackView()
     func configureProductInfoStackView()
     func configureEntireStackViewLayout()
-    func generateParameters() -> ProductToEncode
     func makeStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat) -> UIStackView
 }
 
@@ -77,21 +76,6 @@ extension Drawable {
         ])
     }
     
-    func generateParameters() -> ProductToEncode {
-            let name = self.productNameTextField.text ?? ""
-            let descriptions = self.descriptionTextView.text ?? ""
-            let priceString = self.priceTextField.text ?? ""
-            let price = Int(priceString) ?? 0
-            let currency = self.segmentedControl.selectedSegmentIndex == 0 ? Currency.KRW : Currency.USD
-            let discountedPriceString = self.discountedPriceTextField.text ?? ""
-            let discountedPrice = Int(discountedPriceString) ?? 0
-            let stockString = self.stockTextField.text ?? ""
-            let stock = Int(stockString) ?? 0
-            let secret = "c7ne65d5oc"
-            
-        return ProductToEncode(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
-    }
-    
     func makeStackView(axis: NSLayoutConstraint.Axis, alignment: UIStackView.Alignment, distribution: UIStackView.Distribution, spacing: CGFloat) -> UIStackView {
         let stackView = UIStackView()
         
@@ -109,6 +93,7 @@ final class TestView: UIView, Drawable {
     lazy var entireStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 20)
     lazy var productInfoStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 10)
     lazy var priceStackView = makeStackView(axis: .horizontal, alignment: .fill, distribution: .fill, spacing: 3)
+    
     var priceTextField = UITextField()
     var segmentedControl = UISegmentedControl(items: [Currency.KRW.rawValue, Currency.USD.rawValue])
     var productNameTextField = UITextField()
@@ -116,7 +101,6 @@ final class TestView: UIView, Drawable {
     var stockTextField = UITextField()
     var descriptionTextView: UITextView = {
         let textView = UITextView()
-        
         textView.isEditable = true
         
         return textView

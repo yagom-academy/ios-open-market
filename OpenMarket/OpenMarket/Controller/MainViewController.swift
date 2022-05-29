@@ -47,10 +47,6 @@ final class MainViewController: UIViewController {
         DispatchQueue.global().async {
             self.executeGET()
         }
-        
-//        DispatchQueue.main.async {
-//            self.productView.collectionView.reloadData()
-//        }
     }
 }
 

@@ -24,7 +24,6 @@ final class RegistrationViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
         button.setImage(nil, for: .normal)
         makeProductImage()
     }

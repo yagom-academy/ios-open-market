@@ -58,12 +58,12 @@ struct NetworkManager<T: Decodable> {
                 }
             }       
         case .post:
-            guard let params = params as? ProductToEncode,
+            guard let params = params as? PostRequest,
                   let images = images else {
                       return
                   }
 
-            requestPOST(endPoint: .productRegistration, params: params, images: images)
+            requestPOST(endPoint: endPoint, params: params, images: images)
         case .patch:
             guard let params = params as? PatchRequest else {
                 return
@@ -74,8 +74,15 @@ struct NetworkManager<T: Decodable> {
             print("delete")
         }
     }
-    
-    mutating func requestPOST(endPoint: Endpoint, params: ProductToEncode, images: [ImageInfo]) {
+}
+
+// MARK: - POST
+extension NetworkManager {
+    private func generateBoundary() -> String {
+        return "\(UUID().uuidString)"
+    }
+
+    mutating private func requestPOST(endPoint: Endpoint, params: PostRequest, images: [ImageInfo]) {
         let boundary = generateBoundary()
         
         guard let url = endPoint.url else {
@@ -102,41 +109,24 @@ struct NetworkManager<T: Decodable> {
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
                 return
             }
-            
         }.resume()
     }
-    
-    func generateBoundary() -> String {
-        return "\(UUID().uuidString)"
-    }
-    
-    func createPOSTBody(requestInfo: ProductToEncode, images: [ImageInfo], boundary: String) -> Data? {
+
+    private func createPOSTBody(requestInfo: PostRequest, images: [ImageInfo], boundary: String) -> Data? {
         var body: Data = Data()
                         
         guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
-            print("encoding error")
             return nil
         }
         
         body.append(convertDataToMultiPartForm(value: jsonData, boundary: boundary))
         body.append(convertFileToMultiPartForm(imageInfo: images, boundary: boundary))
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
         return body
     }
     
-    func createPATCHBody(requestInfo: PatchRequest) -> Data? {
-        var body: Data = Data()
-        
-        guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
-            print("encoding error")
-            return nil
-        }
-        
-        body.append(jsonData)
-        return body
-    }
-    
-    func convertDataToMultiPartForm(value: Data, boundary: String) -> Data {
+    private func convertDataToMultiPartForm(value: Data, boundary: String) -> Data {
         var data: Data = Data()
         data.append("--\(boundary)\r\n".data(using: .utf8)!)
         data.append("Content-Disposition: form-data; name=\"params\"\r\n".data(using: .utf8)!)
@@ -148,7 +138,7 @@ struct NetworkManager<T: Decodable> {
         return data
     }
     
-    func convertFileToMultiPartForm(imageInfo: [ImageInfo], boundary: String) -> Data {
+    private func convertFileToMultiPartForm(imageInfo: [ImageInfo], boundary: String) -> Data {
         var data: Data = Data()
         for imageInfo in imageInfo {
             data.append("--\(boundary)\r\n".data(using: .utf8)!)
@@ -161,8 +151,23 @@ struct NetworkManager<T: Decodable> {
         
         return data
     }
+}
+
+// MARK: - PATCH
+extension NetworkManager {
+    private func createPATCHBody(requestInfo: PatchRequest) -> Data? {
+        var body: Data = Data()
+        
+        guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
+            return nil
+        }
+        
+        body.append(jsonData)
+        
+        return body
+    }
     
-    func requestPATCH(endPoint: Endpoint, params: PatchRequest) {
+    private func requestPATCH(endPoint: Endpoint, params: PatchRequest) {
         guard let url = endPoint.url else {
             return
         }

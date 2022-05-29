@@ -8,11 +8,12 @@
 import UIKit
 
 final class RegistrationViewController: UIViewController, UINavigationControllerDelegate {
-    let imagePicker = UIImagePickerController()
-    var imageArray = [UIImage]()
-    let doneButton = UIBarButtonItem()
+    private let imagePicker = UIImagePickerController()
+    private var imageArray = [UIImage]()
+    private let doneButton = UIBarButtonItem()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var networkImageArray = [ImageInfo]()
+    private let productDetailView = ProductDetailView()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,13 +24,11 @@ final class RegistrationViewController: UIViewController, UINavigationController
         return collectionView
     }()
     
-    let entireScrollView: UIScrollView = {
+    private let entireScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
         return scrollView
     }()
-    
-    let productDetailView = ProductDetailView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,18 +48,18 @@ final class RegistrationViewController: UIViewController, UINavigationController
         configureBarButton()
     }
     
-    func configureBarButton() {
+    private func configureBarButton() {
         self.navigationController?.navigationBar.topItem?.title = "Cancel"
         self.title = "상품등록"
         self.navigationItem.rightBarButtonItem = doneButton
-//        doneButton.isEnabled = false
+        
         doneButton.title = "Done"
         doneButton.style = .done
         doneButton.target = self
         doneButton.action = #selector(executePOST)
     }
     
-    func setLayout() {
+    private func setLayout() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         productDetailView.translatesAutoresizingMaskIntoConstraints = false
         entireScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +86,7 @@ final class RegistrationViewController: UIViewController, UINavigationController
         ])
     }
     
-    @objc func pickImage(_ sender: UIButton) {
+    @objc private func pickImage(_ sender: UIButton) {
         let actionSheet = UIAlertController()
         
         let importFromAlbum = UIAlertAction(title: "앨범에서 가져오기", style: .default) { _ in
@@ -127,7 +126,6 @@ extension RegistrationViewController: UICollectionViewDataSource {
         }
         
         cell.button.addTarget(self, action: #selector(self.pickImage(_:)), for: .touchUpInside)
-        
         cell.contentView.addSubview(cell.button)
         
         if imageArray.count > indexPath.row {
@@ -225,9 +223,10 @@ extension RegistrationViewController: UICollectionViewDelegate {
 }
 
 extension RegistrationViewController {
-    @objc func executePOST() {
+    @objc private func executePOST() {
         let dispatchGroup = DispatchGroup()
         let params = productDetailView.generateParameters()
+        
         DispatchQueue.global().async(group: dispatchGroup) {
             self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
                 switch result {
@@ -244,4 +243,3 @@ extension RegistrationViewController {
         }
     }
 }
-

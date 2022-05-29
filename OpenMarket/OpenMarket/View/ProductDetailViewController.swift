@@ -2,7 +2,7 @@
 //  ProductDetailViewController.swift
 //  OpenMarket
 //
-//  Created by marisol on 2022/05/28.
+//  Created by Eddy, marisol on 2022/05/28.
 //
 
 import UIKit
@@ -32,6 +32,7 @@ final class ProductDetailViewController: UIViewController {
             guard let id = self.id else {
                 return
             }
+            
             self.networkManager.execute(with: .productEdit(productId: id), httpMethod: .get) { result in
                 switch result {
                 case .success(let result):

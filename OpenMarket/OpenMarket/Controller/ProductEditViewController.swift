@@ -9,10 +9,13 @@ import UIKit
 
 class ProductEditViewController: UIViewController {
     var productDetail: ProductDetail?
-    var imageArray = [UIImage]()
-    let doneButton = UIBarButtonItem()
+    private var imageArray = [UIImage]()
+    private var imageCount: Int = 1
+    private let doneButton = UIBarButtonItem()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var networkImageArray = [ImageInfo]()
+    private let productEditView = ProductEditView()
+    private var presenter = Presenter()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,45 +26,46 @@ class ProductEditViewController: UIViewController {
         return collectionView
     }()
     
-    let entireScrollView: UIScrollView = {
+    private let entireScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
         return scrollView
     }()
     
-    let productDetailView = ProductDetailView()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(entireScrollView)
         entireScrollView.addSubview(collectionView)
-        entireScrollView.addSubview(productDetailView)
+        entireScrollView.addSubview(productEditView)
         
         self.view.backgroundColor = .white
-        productDetailView.backgroundColor = .white
+        productEditView.backgroundColor = .white
         
         collectionView.dataSource = self
         collectionView.delegate = self
         
         collectionView.register(EditViewCell.self, forCellWithReuseIdentifier: EditViewCell.identifier)
+        
         setLayout()
         configureBarButton()
+        setData()
+        setImage()
     }
     
-    func configureBarButton() {
+    private func configureBarButton() {
         self.navigationController?.navigationBar.topItem?.title = "Cancel"
         self.title = "상품수정"
         self.navigationItem.rightBarButtonItem = doneButton
-//        doneButton.isEnabled = false
+        
         doneButton.title = "Done"
         doneButton.style = .done
         doneButton.target = self
         doneButton.action = #selector(executePATCH)
     }
     
-    func setLayout() {
+    private func setLayout() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        productDetailView.translatesAutoresizingMaskIntoConstraints = false
+        productEditView.translatesAutoresizingMaskIntoConstraints = false
         entireScrollView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -75,28 +79,46 @@ class ProductEditViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: entireScrollView.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: entireScrollView.safeAreaLayoutGuide.topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: entireScrollView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: productDetailView.topAnchor, constant: -10),
+            collectionView.bottomAnchor.constraint(equalTo: productEditView.topAnchor, constant: -10),
             collectionView.heightAnchor.constraint(equalToConstant: 160),
             
-            productDetailView.widthAnchor.constraint(equalTo: entireScrollView.widthAnchor),
-            productDetailView.leadingAnchor.constraint(equalTo: entireScrollView.leadingAnchor),
-            productDetailView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
-            productDetailView.trailingAnchor.constraint(equalTo: entireScrollView.trailingAnchor),
-            productDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            productEditView.widthAnchor.constraint(equalTo: entireScrollView.widthAnchor),
+            productEditView.leadingAnchor.constraint(equalTo: entireScrollView.leadingAnchor),
+            productEditView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
+            productEditView.trailingAnchor.constraint(equalTo: entireScrollView.trailingAnchor),
+            productEditView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func setData() {
+        guard let productDetail = productDetail else {
+            return
+        }
+        
+        presenter = presenter.setData(of: productDetail)
+    }
+    
+    private func setImage() {
+        guard let images = presenter.images else {
+            return
+        }
+        
+        imageCount = images.count
     }
 }
 
 extension ProductEditViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let imageCount = imageArray.count + 1
-        return imageCount < 5 ? imageCount : 5
+        return imageCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditViewCell.identifier, for: indexPath) as? EditViewCell else {
             return UICollectionViewCell()
         }
+        
+        cell.setImage(presenter)
+        productEditView.setEditView(presenter)
         
         return cell
     }
@@ -117,13 +139,15 @@ extension ProductEditViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ProductEditViewController {
-    @objc func executePATCH() {
+    @objc private func executePATCH() {
         let dispatchGroup = DispatchGroup()
-        let params = productDetailView.generateParameters()
+        let params = productEditView.generateParameters()
+        
         DispatchQueue.global().async(group: dispatchGroup) {
             guard let productID = self.productDetail?.id else {
                 return
             }
+            
             self.networkManager.execute(with: .productEdit(productId: productID), httpMethod: .patch, params: params) { result in
                 switch result {
                 case .success:

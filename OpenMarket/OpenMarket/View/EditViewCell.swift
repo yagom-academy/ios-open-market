@@ -13,7 +13,6 @@ final class EditViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageView)
         makeProductImage()
     }
     
@@ -27,7 +26,26 @@ final class EditViewCell: UICollectionViewCell {
         makeProductImage()
     }
     
-    func makeProductImage() {
+    private func makeProductImage() {
         imageView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.width)
+    }
+    
+    func setImage(_ presenter: Presenter) {
+        guard let productImages = presenter.images else {
+            return
+        }
+        
+        for image in productImages {
+            guard let url = URL(string: image) else {
+                return
+            }
+            
+            guard let data = try? Data(contentsOf: url) else {
+                return
+            }
+            
+            imageView.image = UIImage(data: data)
+            contentView.addSubview(imageView)
+        }
     }
 }

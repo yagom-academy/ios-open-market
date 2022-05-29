@@ -41,7 +41,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(_ presenter: Presenter) {
-        setCellUI(presenter)
+        configureCellUI(presenter)
         configurePriceUI(presenter)
         configureProductUI(presenter)
         configureAccessoryUI(presenter)
@@ -51,7 +51,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
 
 // MARK: - setup UI
 extension ListCollectionViewCell {
-    private func setCellUI(_ presenter: Presenter) {
+    private func configureCellUI(_ presenter: Presenter) {
         productName.text = presenter.productName
         
         guard let imageUrl = presenter.productImage else {

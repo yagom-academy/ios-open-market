@@ -5,7 +5,7 @@
 //  Created by Eddy, marisol on 2022/05/21.
 //
 
-import Foundation
+import UIKit
 
 struct Presenter {
     var productImage: String?
@@ -13,6 +13,10 @@ struct Presenter {
     var price: String?
     var bargainPrice: String?
     var stock: String?
+    var description: String?
+    var discountedPrice: String?
+    var currency: String?
+    var images: [String]?
     
     mutating func setData(of product: Products) -> Presenter {
         var presenter = Presenter()
@@ -39,6 +43,39 @@ struct Presenter {
         } else {
             presenter.stock = "잔여수량: \(productStock)"
         }
+        
+        return presenter
+    }
+    
+    mutating func setData(of productDetail: ProductDetail) -> Presenter {
+        var presenter = Presenter()
+        
+        presenter.images = productDetail.images?.compactMap { image in
+            image.url
+        }
+        
+        presenter.productName = productDetail.name
+        
+        let productPrice = productDetail.price ?? 0
+        
+        let formattedPrice = formatNumber(price: productPrice)
+        presenter.price = "\(formattedPrice)"
+        
+        let productDiscountedPrice = productDetail.discountedPrice ?? 0
+        
+        let formattedDiscountedPrice = formatNumber(price: productDiscountedPrice)
+        presenter.discountedPrice = "\(formattedDiscountedPrice)"
+        
+        let productStock = productDetail.stock ?? 0
+        
+        if productStock == 0 {
+            presenter.stock = "0"
+        } else {
+            presenter.stock = "\(productStock)"
+        }
+    
+        presenter.currency = productDetail.currency
+        presenter.description = productDetail.description
         
         return presenter
     }

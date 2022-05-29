@@ -1,25 +1,13 @@
 //
-//  ProductDetailView.swift
+//  ProductEditView.swift
 //  OpenMarket
 //
-//  Created by Eddy, marisol on 2022/05/24.
+//  Created by marisol on 2022/05/28.
 //
 
 import UIKit
 
-enum Currency: String, Encodable {
-    case KRW = "KRW"
-    case USD = "USD"
-}
-
-enum PlaceHolder: String {
-    case productName = "상품명"
-    case price = "상품가격"
-    case discountedPrice = "할인금액"
-    case stock = "재고수량"
-}
-
-final class ProductDetailView: UIView, Drawable {
+final class ProductEditView: UIView, Drawable {
     lazy var entireStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 20)
     lazy var productInfoStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 10)
     lazy var priceStackView = makeStackView(axis: .horizontal, alignment: .fill, distribution: .fill, spacing: 3)
@@ -45,9 +33,16 @@ final class ProductDetailView: UIView, Drawable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func generateParameters() -> PostRequest {
+    func setEditView(_ presenter: Presenter) {
+        setProductName(presenter)
+        setPrice(presenter)
+        setStock(presenter)
+        setDescription(presenter)
+    }
+    
+    func generateParameters() -> PatchRequest {
             let name = self.productNameTextField.text ?? ""
-            let descriptions = self.descriptionTextView.text ?? ""
+            let description = self.descriptionTextView.text ?? ""
             let priceString = self.priceTextField.text ?? ""
             let price = Int(priceString) ?? 0
             let currency = self.segmentedControl.selectedSegmentIndex == 0 ? Currency.KRW : Currency.USD
@@ -56,7 +51,32 @@ final class ProductDetailView: UIView, Drawable {
             let stockString = self.stockTextField.text ?? ""
             let stock = Int(stockString) ?? 0
             let secret = "c7ne65d5oc"
-            
-        return PostRequest(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+        
+        return PatchRequest(name: name, description: description, thumbnailID: nil , price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+    }
+}
+
+// MARK: - setup UI
+extension ProductEditView {
+    private func setProductName(_ presenter: Presenter) {
+        productNameTextField.text = presenter.productName
+    }
+    
+    private func setPrice(_ presenter: Presenter) {
+        priceTextField.text = presenter.price
+        discountedPriceTextField.text = presenter.discountedPrice
+        if presenter.currency == Currency.KRW.rawValue {
+            segmentedControl.selectedSegmentIndex = 0
+        } else {
+            segmentedControl.selectedSegmentIndex = 1
+        }
+    }
+    
+    private func setStock(_ presenter: Presenter) {
+        stockTextField.text = presenter.stock
+    }
+    
+    private func setDescription(_ presenter: Presenter) {
+        descriptionTextView.text = presenter.description
     }
 }
