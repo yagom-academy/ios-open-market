@@ -21,7 +21,7 @@ class ManagingViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.addSubview(managingView)
+        view = managingView
     }
     
     override func viewDidLoad() {

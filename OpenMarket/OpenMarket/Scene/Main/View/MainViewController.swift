@@ -18,7 +18,7 @@ final class MainViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.addSubview(mainView)
+        view = mainView
     }
     
     override func viewDidLoad() {

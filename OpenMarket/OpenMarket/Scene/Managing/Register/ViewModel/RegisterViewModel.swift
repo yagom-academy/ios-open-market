@@ -30,7 +30,7 @@ final class RegisterViewModel: ManagingViewModel{
     
     func insert(image: UIImage) {
         guard let data = image.jpegData(compressionQuality: 0.5) else { return }
-        images.insert(ImageInfo(fileName: generateUUID(), data: data, type: Constants.jpg), at: 0)
+        images.insert(ImageInfo(fileName: generateUUID(), data: data, type: Constants.jpg), at: .zero)
         applySnapshot()
     }
     
