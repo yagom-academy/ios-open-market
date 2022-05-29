@@ -133,17 +133,13 @@ final class MainView: UIView {
         
         switch layoutStatus {
         case .list:
-            print(collectionView.contentOffset.y)
             collectionView.collectionViewLayout = listLayout
             setUpListScroll()
             self.layoutStatus = .list
-            print(collectionView.contentOffset.y)
         case .grid:
-            print(collectionView.contentOffset.y)
             collectionView.collectionViewLayout = gridLayout
             setUpGridScroll()
             self.layoutStatus = .grid
-            print(collectionView.contentOffset.y)
         }
     }
     
