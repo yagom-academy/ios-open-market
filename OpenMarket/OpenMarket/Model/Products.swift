@@ -11,10 +11,9 @@ struct Products: Codable, Hashable {
     let id: Int?
     let vendorId: Int?
     let name: String?
-    let thumbnail: URL?
+    let thumbnail: String?
     let currency: String?
     let price: Int?
-    let descriptions: String?
     let bargainPrice: Int?
     let discountedPrice: Int?
     let stock: Int?
@@ -23,7 +22,7 @@ struct Products: Codable, Hashable {
     let secret: String?
     
     private enum CodingKeys: String, CodingKey {
-        case id, name, thumbnail, currency, price, stock, descriptions, secret
+        case id, name, thumbnail, currency, price, stock, secret
         case vendorId = "vendor_id"
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
@@ -43,6 +42,23 @@ struct ProductToEncode: Encodable {
     
     private enum CodingKeys: String, CodingKey {
         case name, descriptions, price, currency, stock, secret
+        case discountedPrice = "discounted_price"
+    }
+}
+
+struct PatchRequest: Encodable {
+    let name: String
+    let descriptions: String
+    let thumbnailID: Int
+    let price: Int
+    let currency: Currency
+    let discountedPrice: Int
+    let stock: Int
+    let secret: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case name, descriptions, price, currency, stock, secret
+        case thumbnailID = "thumbnail_id"
         case discountedPrice = "discounted_price"
     }
 }

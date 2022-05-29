@@ -17,7 +17,7 @@ struct Presenter {
     mutating func setData(of product: Products) -> Presenter {
         var presenter = Presenter()
         
-        let urlString = product.thumbnail?.absoluteString
+        let urlString = product.thumbnail
         presenter.productImage = urlString
         presenter.productName = product.name
         
