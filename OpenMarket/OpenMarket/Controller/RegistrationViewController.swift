@@ -11,16 +11,8 @@ final class RegistrationViewController: UIViewController, UINavigationController
     let imagePicker = UIImagePickerController()
     var imageArray = [UIImage]()
     let doneButton = UIBarButtonItem()
-    private let productRegistration = ProductRegistration()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var networkImageArray = [ImageInfo]()
-
-    private struct ProductRegistration: APIable {
-        var hostAPI: String = "https://market-training.yagom-academy.kr"
-        var path: String = "/api/products"
-        var param: [String : String]? = nil
-        var method: HTTPMethod = .post
-    }
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -44,19 +36,22 @@ final class RegistrationViewController: UIViewController, UINavigationController
         self.view.addSubview(entireScrollView)
         entireScrollView.addSubview(collectionView)
         entireScrollView.addSubview(productDetailView)
+        
         self.view.backgroundColor = .white
         productDetailView.backgroundColor = .white
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         imagePicker.delegate = self
+        
         collectionView.register(RegistrationViewCell.self, forCellWithReuseIdentifier: RegistrationViewCell.identifier)
         setLayout()
-        self.navigationController?.navigationBar.topItem?.title = "Cancel"
-        self.title = "상품등록"
-        configureDoneButton()
+        configureBarButton()
     }
     
-    func configureDoneButton() {
+    func configureBarButton() {
+        self.navigationController?.navigationBar.topItem?.title = "Cancel"
+        self.title = "상품등록"
         self.navigationItem.rightBarButtonItem = doneButton
 //        doneButton.isEnabled = false
         doneButton.title = "Done"
@@ -234,7 +229,7 @@ extension RegistrationViewController {
         let dispatchGroup = DispatchGroup()
         let params = productDetailView.generateParameters()
         DispatchQueue.global().async(group: dispatchGroup) {
-            self.networkManager.execute(with: self.productRegistration, params: params, images: self.networkImageArray) { result in
+            self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
                 switch result {
                 case .success:
                     print("success")
@@ -250,28 +245,3 @@ extension RegistrationViewController {
     }
 }
 
-extension UIImage {
-    func resize(newWidth: CGFloat) -> UIImage {
-        let scale = newWidth / self.size.width
-        let newHeight = self.size.height * scale
-
-        let size = CGSize(width: newWidth, height: newHeight)
-        let renderer = UIGraphicsImageRenderer(size: size)
-        let renderedImage = renderer.image { context in
-            self.draw(in: CGRect(origin: .zero, size: size))
-        }
-        
-        return renderedImage
-    }
-    
-    func checkImageCapacity() -> Double {
-        var capacity: Double = 0.0
-        guard let data = self.pngData() else {
-            return 0.0
-        }
-        
-        capacity = Double(data.count) / 1024
-        
-        return capacity
-    }
-}
