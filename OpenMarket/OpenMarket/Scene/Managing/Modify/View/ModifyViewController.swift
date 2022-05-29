@@ -26,7 +26,11 @@ final class ModifyViewController: ManagingViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+// MARK: SetUp Method
+
+extension ModifyViewController {
     private func setUpViews() {
         managingView.productNameTextField.text = productDetail.name
         managingView.productPriceTextField.text = String(productDetail.price)
@@ -36,14 +40,14 @@ final class ModifyViewController: ManagingViewController {
         viewModel.setUpImages(with: productDetail.images)
         
         if productDetail.currency == "KRW" {
-            managingView.productCurrencySegmentedControl.selectedSegmentIndex = 0
+            managingView.productCurrencySegmentedControl.selectedSegmentIndex = .zero
         } else {
             managingView.productCurrencySegmentedControl.selectedSegmentIndex = 1
         }
     }
     
     private func setUpBarItems() {
-        managingView.setUpBarItem(title: "상품수정")
+        managingView.setUpBarItem(title: Constants.modifyBarItemTitle)
         managingView.navigationBarItem.leftBarButtonItem?.target = self
         managingView.navigationBarItem.leftBarButtonItem?.action = #selector(didTapCancelButton)
         
@@ -55,16 +59,24 @@ final class ModifyViewController: ManagingViewController {
         viewModel.datasource = makeDataSource()
         viewModel.delegate = self
     }
-    
+}
+
+// MARK: Objc Method
+
+extension ModifyViewController {
     @objc private func didTapDoneButton() {
         if checkInputValidation() {
-            // 수정해서 통신하는 로직
+            // TODO: PATCH API
             self.dismiss(animated: true)
         }
     }
-    
+}
+
+// MARK: Validation Method
+
+extension ModifyViewController {
     private func checkInputValidation() -> Bool {
-        guard managingView.productNameTextField.text?.count ?? 0 >= 3 else {
+        guard managingView.productNameTextField.text?.count ?? .zero >= 3 else {
             showAlertInputError(with: .productNameIsTooShort)
             return false
         }
@@ -73,8 +85,8 @@ final class ModifyViewController: ManagingViewController {
             showAlertInputError(with: .productPriceIsEmpty)
             return false
         }
-
-        let discountedPrice = Int(managingView.productDiscountedTextField.text ?? "0") ?? 0
+        
+        let discountedPrice = Int(managingView.productDiscountedTextField.text ?? "0") ?? .zero
         
         guard productPrice >= discountedPrice else {
             showAlertInputError(with: .discountedPriceHigherThanPrice)
@@ -85,7 +97,7 @@ final class ModifyViewController: ManagingViewController {
     }
 }
 
-//MARK: extension
+// MARK: Datasource
 
 extension ModifyViewController {
     private func makeDataSource() -> UICollectionViewDiffableDataSource<ModifyViewModel.Section, ImageInfo> {
@@ -99,7 +111,7 @@ extension ModifyViewController {
                 }
                 
                 cell.updateImage(imageInfo: image)
-
+                
                 return cell
             })
         return dataSource

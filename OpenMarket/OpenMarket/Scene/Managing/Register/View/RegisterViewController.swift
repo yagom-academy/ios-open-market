@@ -18,9 +18,13 @@ final class RegisterViewController: ManagingViewController {
         setUpImagePicker()
         viewModel.setUpDefaultImage()
     }
-    
+}
+
+// MARK: SetUp Method
+
+extension RegisterViewController {
     private func setUpBarItems() {
-        managingView.setUpBarItem(title: "상품등록")
+        managingView.setUpBarItem(title: Constants.registerBarItemTitle)
         managingView.navigationBarItem.leftBarButtonItem?.target = self
         managingView.navigationBarItem.leftBarButtonItem?.action = #selector(didTapCancelButton)
         
@@ -37,7 +41,11 @@ final class RegisterViewController: ManagingViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
     }
-    
+}
+
+// MARK: Objc Method
+
+extension RegisterViewController {
     @objc private func didTapDoneButton() {
         if checkInputValidation() {
             viewModel.removeLastImage()
@@ -48,9 +56,13 @@ final class RegisterViewController: ManagingViewController {
             }
         }
     }
-    
+}
+
+// MARK: Validation Method
+
+extension RegisterViewController {
     private func checkInputValidation() -> Bool {
-        guard managingView.productNameTextField.text?.count ?? 0 >= 3 else {
+        guard managingView.productNameTextField.text?.count ?? .zero >= 3 else {
             showAlertInputError(with: .productNameIsTooShort)
             
             return false
@@ -60,8 +72,8 @@ final class RegisterViewController: ManagingViewController {
             showAlertInputError(with: .productPriceIsEmpty)
             return false
         }
-
-        let discountedPrice = Int(managingView.productDiscountedTextField.text ?? "0") ?? 0
+        
+        let discountedPrice = Int(managingView.productDiscountedTextField.text ?? "0") ?? .zero
         
         guard productPrice >= discountedPrice else {
             showAlertInputError(with: .discountedPriceHigherThanPrice)
@@ -75,27 +87,9 @@ final class RegisterViewController: ManagingViewController {
         
         return true
     }
-    
-    private func makeProductsPost() -> ProductsPost {
-        let productName = managingView.productNameTextField.text ?? ""
-        let descriptions = managingView.productDescriptionTextView.text ?? ""
-        let productPrice = Double(managingView.productPriceTextField.text ?? "0") ?? 0
-        let currency = managingView.productCurrencySegmentedControl.selectedSegmentIndex == 0 ? "KRW" : "USD"
-        let discountedPrice = Double(managingView.productDiscountedTextField.text ?? "0")
-        let stock = Int(managingView.productStockTextField.text ?? "0")
-        let secret = "rwfkpko1fp"
-        let images = viewModel.images
-        
-        return ProductsPost(name: productName,
-                     descriptions: descriptions,
-                     price: productPrice,
-                     currency: currency,
-                     discountedPrice: discountedPrice,
-                     stock: stock,
-                     secret: secret,
-                     image: images)
-    }
 }
+
+// MARK: Datasource & Post Object
 
 extension RegisterViewController {
     private func makeDataSource() -> UICollectionViewDiffableDataSource<RegisterViewModel.Section, ImageInfo> {
@@ -110,14 +104,34 @@ extension RegisterViewController {
                 
                 cell.updateImage(imageInfo: image)
                 cell.delegate = self
-
+                
                 if indexPath.row == (self.viewModel.images.count - 1) {
                     cell.addPlusButton()
                 }
-
+                
                 return cell
             })
         return dataSource
+    }
+    
+    private func makeProductsPost() -> ProductsPost {
+        let productName = managingView.productNameTextField.text ?? ""
+        let descriptions = managingView.productDescriptionTextView.text ?? ""
+        let productPrice = Double(managingView.productPriceTextField.text ?? "0") ?? .zero
+        let currency = managingView.productCurrencySegmentedControl.selectedSegmentIndex == .zero ? "KRW" : "USD"
+        let discountedPrice = Double(managingView.productDiscountedTextField.text ?? "0")
+        let stock = Int(managingView.productStockTextField.text ?? "0")
+        let secret = "rwfkpko1fp"
+        let images = viewModel.images
+        
+        return ProductsPost(name: productName,
+                            descriptions: descriptions,
+                            price: productPrice,
+                            currency: currency,
+                            discountedPrice: discountedPrice,
+                            stock: stock,
+                            secret: secret,
+                            image: images)
     }
 }
 

@@ -8,6 +8,13 @@
 import UIKit
 
 class ManagingViewModel {
+    enum Constants {
+        static let dotJPG = ".jpg"
+        static let plus = "plus"
+        static let jpg = "jpg"
+        static let png = "png"
+    }
+    
     enum Section: CaseIterable {
         case main
     }
@@ -23,7 +30,7 @@ class ManagingViewModel {
     weak var delegate: ManagingAlertDelegate?
     
     func generateUUID() -> String {
-        return UUID().uuidString + ".jpg"
+        return UUID().uuidString + Constants.dotJPG
     }
     
     func applySnapshot() {

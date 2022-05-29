@@ -23,14 +23,14 @@ final class RegisterViewModel: ManagingViewModel{
     }
     
     func setUpDefaultImage() {
-        guard let plus = UIImage(named: "plus")?.pngData() else { return }
-        images.append(ImageInfo(fileName: "plusButton", data: plus, type: "png"))
+        guard let plus = UIImage(named: Constants.plus)?.pngData() else { return }
+        images.append(ImageInfo(fileName: Constants.plus, data: plus, type: Constants.png))
         applySnapshot()
     }
     
     func insert(image: UIImage) {
         guard let data = image.jpegData(compressionQuality: 0.5) else { return }
-        images.insert(ImageInfo(fileName: generateUUID(), data: data, type: "jpg"), at: 0)
+        images.insert(ImageInfo(fileName: generateUUID(), data: data, type: Constants.jpg), at: 0)
         applySnapshot()
     }
     

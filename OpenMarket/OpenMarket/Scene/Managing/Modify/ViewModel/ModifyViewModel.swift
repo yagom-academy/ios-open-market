@@ -18,7 +18,7 @@ final class ModifyViewModel: ManagingViewModel {
         productsAPIServie.requestImage(with: url) { result in
             switch result {
             case .success(let data):
-                self.images.append(ImageInfo(fileName: self.generateUUID(), data: data, type: "jpg"))
+                self.images.append(ImageInfo(fileName: self.generateUUID(), data: data, type: Constants.jpg))
                 self.applySnapshot()
             case .failure(let error):
                 self.delegate?.showAlertRequestError(with: error)

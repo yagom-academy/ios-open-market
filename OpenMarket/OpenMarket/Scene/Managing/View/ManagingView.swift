@@ -8,6 +8,15 @@
 import UIKit
 
 final class ManagingView: UIView {
+    private enum Constants {
+        static let productNamePlaceholder = "상품명"
+        static let productPricePlaceholder = "상품가격"
+        static let productDiscountedPlaceholder = "할인금액"
+        static let productStcokPlaceholder = "재고수량"
+        static let KRW = "KRW"
+        static let USD = "USD"
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
@@ -72,7 +81,7 @@ final class ManagingView: UIView {
     }()
     
     lazy var productNameTextField: UITextField = {
-        setUpTextField(placeholder: "상품명", keyboardType: .default)
+        setUpTextField(placeholder: Constants.productNamePlaceholder, keyboardType: .default)
     }()
     
     private lazy var productPriceStackView: UIStackView = {
@@ -84,21 +93,21 @@ final class ManagingView: UIView {
     }()
     
     lazy var productPriceTextField: UITextField = {
-        setUpTextField(placeholder: "상품가격", keyboardType: .numberPad)
+        setUpTextField(placeholder: Constants.productPricePlaceholder, keyboardType: .numberPad)
     }()
     
     let productCurrencySegmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: ["KRW", "USD"])
+        let segmentedControl = UISegmentedControl(items: [Constants.KRW, Constants.USD])
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
     
     lazy var productDiscountedTextField: UITextField = {
-        setUpTextField(placeholder: "할인금액", keyboardType: .numberPad)
+        setUpTextField(placeholder: Constants.productDiscountedPlaceholder, keyboardType: .numberPad)
     }()
     
     lazy var productStockTextField: UITextField = {
-        setUpTextField(placeholder: "재고수량", keyboardType: .numberPad)
+        setUpTextField(placeholder: Constants.productStcokPlaceholder, keyboardType: .numberPad)
     }()
     
     let productDescriptionTextView: UITextView = {

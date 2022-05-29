@@ -60,7 +60,11 @@ extension MainViewController {
         viewModel.snapshot = viewModel.makeSnapshot()
         viewModel.delegate = self
     }
-    
+}
+
+// MARK: Objc Method
+
+extension MainViewController {
     @objc private func refreshControlValueChanged() {
         viewModel.resetItemList()
         mainView.collectionView.refreshControl?.endRefreshing()
@@ -75,7 +79,6 @@ extension MainViewController {
         registerViewController.modalPresentationStyle = .fullScreen
         self.present(registerViewController, animated: true)
     }
-    
 }
 
 // MARK: Datasource
@@ -92,7 +95,7 @@ extension MainViewController {
                         for: indexPath) as? ProductsListCell else {
                         return UICollectionViewCell()
                     }
-
+                    
                     cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
                     
                     return cell
@@ -103,7 +106,7 @@ extension MainViewController {
                         for: indexPath) as? ProductsGridCell else {
                         return UICollectionViewCell()
                     }
-
+                    
                     cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
                     
                     return cell

@@ -22,7 +22,7 @@ struct ProductDetail: Decodable {
     let issuedAt: String?
     let images: [ProductImage]
     let vendor: Vendor?
-
+    
     private enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
