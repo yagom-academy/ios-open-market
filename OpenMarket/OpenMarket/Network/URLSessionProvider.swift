@@ -11,7 +11,7 @@ enum OpenMarket: String {
     case identifier = "5fbc34e4-d1b8-11ec-9676-f7ffe1d75e84"
     case secret = "qb19a7ac0m"
     
-    var discription: String {
+    var description: String {
         return self.rawValue
     }
 }
@@ -28,7 +28,7 @@ struct URLSessionProvider<T: Decodable> {
         completionHandler: @escaping (Result<T, NetworkError>) -> Void
     ) {
         
-        guard let request = makeURLRequest(restApi: .get, url: url) else {
+        guard let request = makeURLRequest(httpMethod: .get, url: url) else {
             return completionHandler(.failure(.urlError))
         }
         
@@ -60,29 +60,18 @@ struct URLSessionProvider<T: Decodable> {
         task.resume()
     }
     
-    private func makeURLRequest(restApi: RestApi, url: Endpoint) -> URLRequest? {
-        guard let url = url.url else {
-            return nil
-        }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = restApi.type
-        
-        return urlRequest
-    }
-    
     func postData(
         params: ProductRegistration,
         completionHandler: @escaping (Result<T, NetworkError>
         ) -> Void) {
         
-        guard var urlRequest = makeURLRequest(restApi: .post, url: Endpoint.productRegistration) else {
+        guard var urlRequest = makeURLRequest(httpMethod: .post, url: Endpoint.productRegistration) else {
             return completionHandler(.failure(.urlError))
         }
         
         let boundary = UUID().uuidString
         
-        urlRequest.addValue(OpenMarket.identifier.discription, forHTTPHeaderField: "identifier")
+        urlRequest.addValue(OpenMarket.identifier.description, forHTTPHeaderField: "identifier")
         urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         urlRequest.httpBody = createBody(params: params, boundary: boundary)
@@ -100,6 +89,48 @@ struct URLSessionProvider<T: Decodable> {
             }
         }
         task.resume()
+    }
+    
+    func patchData(product: ProductRegistration, id: Int, completionHandler: @escaping (Result<T, NetworkError>
+    ) -> Void) {
+        
+        guard var urlRequest = makeURLRequest(httpMethod: .patch, url: .detailProduct(id: id)) else {
+            return completionHandler(.failure(.urlError))
+        }
+        
+        guard let product = try? Json.encoder.encode(product) else {
+            return
+        }
+                
+        urlRequest.addValue(OpenMarket.identifier.description, forHTTPHeaderField: "identifier")
+        urlRequest.httpBody = product
+        
+        let task = session.dataTask(with: urlRequest) { _, urlResponse, error in
+            guard error == nil else {
+                completionHandler(.failure(.clientError))
+                return
+            }
+            
+            guard let httpResponse = urlResponse as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                completionHandler(.failure(.statusCodeError))
+                return
+            }
+        }
+        task.resume()
+    }
+}
+
+extension URLSessionProvider {
+    private func makeURLRequest(httpMethod: Http, url: Endpoint) -> URLRequest? {
+        guard let url = url.url else {
+            return nil
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.method
+        
+        return urlRequest
     }
     
     private func createBody(params: ProductRegistration, boundary: String) -> Data? {
