@@ -130,6 +130,10 @@ final class RegistrationViewController: UIViewController, Alertable {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     @objc private func keyboardWillHide() {
         view.bounds.origin.y = 0
         baseView.productDescription.contentInset.bottom = 0
@@ -138,18 +142,12 @@ final class RegistrationViewController: UIViewController, Alertable {
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        var newImage: UIImage?
-        
-        if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            newImage = possibleImage
+       
+        guard let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return
         }
         
-        let newImageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.image = newImage
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
-            return imageView
-        }()
+        let newImageView = convertSize(in: possibleImage)
         
         if baseView.imagesStackView.arrangedSubviews.count == 5 {
             baseView.imageView.isHidden = true
@@ -159,7 +157,40 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         picker.dismiss(animated: true, completion: nil)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
+    private func convertSize(in image: UIImage) -> UIImageView {
+        let newImage = UIImageView()
+        newImage.widthAnchor.constraint(equalTo: newImage.heightAnchor).isActive = true
+
+        if image.getSize() > 300 {
+            newImage.image = image.resize(newWidth: baseView.imageView.image?.size.width ?? 0)
+        }
+        
+        newImage.image = image
+        return newImage
+    }
+}
+
+extension UIImage {
+    
+    func getSize() -> Double {
+        guard let data = self.jpegData(compressionQuality: 1) else {
+            return .zero
+        }
+        
+        let size = Double(data.count) / 1024
+        return size
+    }
+    
+    func resize(newWidth: CGFloat) -> UIImage {
+        let scale = newWidth / self.size.width
+        let newHeight = self.size.height * scale
+        
+        let size = CGSize(width: newWidth, height: newHeight)
+        let render = UIGraphicsImageRenderer(size: size)
+        let renderImage = render.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: size))
+        }
+        
+        return renderImage
     }
 }
