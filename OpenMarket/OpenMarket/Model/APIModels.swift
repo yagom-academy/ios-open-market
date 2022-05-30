@@ -11,8 +11,7 @@ struct HealthCheckerAPI: APIable {
     let path = "healthChecker"
     let params: [String : String]? = nil
     let method: HttpMethod = .get
-    let header: [String : String] = [:]
-    let data: Data? = nil
+    let itemComponents: ItemComponents? = nil
 }
 
 struct ItemPageAPI: APIable {
@@ -25,8 +24,7 @@ struct ItemPageAPI: APIable {
                  "items_per_page" : String(itemPerPage) ]
     }
     let method: HttpMethod = .get
-    let header: [String : String] = [:]
-    let data: Data? = nil
+    let itemComponents: ItemComponents? = nil
 }
 
 struct ItemDetailAPI: APIable {
@@ -37,8 +35,7 @@ struct ItemDetailAPI: APIable {
     }
     let params: [String : String]? = nil
     let method: HttpMethod = .get
-    let header: [String : String] = [:]
-    let data: Data? = nil
+    let itemComponents: ItemComponents? = nil
 }
 
 struct ItemImageAPI: APIable {
@@ -46,8 +43,7 @@ struct ItemImageAPI: APIable {
     var path = ""
     let params: [String : String]? = nil
     let method: HttpMethod = .get
-    let header: [String : String] = [:]
-    let data: Data? = nil
+    let itemComponents: ItemComponents? = nil
 }
 
 struct PostItemAPI: APIable {
@@ -55,6 +51,5 @@ struct PostItemAPI: APIable {
     let path = "api/products/"
     let params: [String : String]? = nil
     let method: HttpMethod = .post
-    let header: [String : String]
-    var data: Data?
+    let itemComponents: ItemComponents?
 }

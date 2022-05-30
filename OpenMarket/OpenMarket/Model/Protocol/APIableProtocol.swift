@@ -10,7 +10,6 @@ protocol APIable {
     var path: String { get }
     var params: [String : String]? { get }
     var method: HttpMethod { get }
-    var header: [String : String] { get }
-    var data: Data? { get }
+    var itemComponents: ItemComponents? { get }
 }
 
