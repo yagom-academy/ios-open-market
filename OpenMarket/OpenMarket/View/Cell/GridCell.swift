@@ -69,8 +69,7 @@ final class GridCell: UICollectionViewCell, CustomCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupBorder()
-        addSubViews()
-        constraintLayout()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -154,26 +153,31 @@ final class GridCell: UICollectionViewCell, CustomCell {
 }
 
 extension GridCell {
-    private func addSubViews() {
-        contentView.addsubViews(thumbnailImageView, cellStackView)
-        cellStackView.addArrangedsubViews(informationStackView)
-        informationStackView.addArrangedsubViews(nameLabel, pricestackView, stockLabel)
-        pricestackView.addArrangedsubViews(priceLabel, bargenLabel)
-    }
     
-    private func constraintLayout() {
-        NSLayoutConstraint.activate([
-            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            thumbnailImageView.bottomAnchor.constraint(equalTo: cellStackView.topAnchor),
-            thumbnailImageView.widthAnchor.constraint(equalToConstant: 150),
-            thumbnailImageView.heightAnchor.constraint(equalToConstant: 150),
-            thumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-        ])
+    private func setupView() {
         
-        NSLayoutConstraint.activate([
-            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
-        ])
+        addSubViews()
+        constraintLayout()
+        
+        func addSubViews() {
+            contentView.addsubViews(thumbnailImageView, cellStackView)
+            cellStackView.addArrangedsubViews(informationStackView)
+            informationStackView.addArrangedsubViews(nameLabel, pricestackView, stockLabel)
+            pricestackView.addArrangedsubViews(priceLabel, bargenLabel)
+        }
+    
+        func constraintLayout() {
+            NSLayoutConstraint.activate([
+                thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+                thumbnailImageView.bottomAnchor.constraint(equalTo: cellStackView.topAnchor),
+                thumbnailImageView.widthAnchor.constraint(equalToConstant: 150),
+                thumbnailImageView.heightAnchor.constraint(equalToConstant: 150),
+                thumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+                cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+                cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            ])
+        }
     }
 }

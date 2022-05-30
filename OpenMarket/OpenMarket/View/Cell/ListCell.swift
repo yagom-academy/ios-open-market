@@ -73,8 +73,7 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addsubViews()
-        constraintLayout()
+        setupView()
         setupBorder()
     }
     
@@ -161,45 +160,45 @@ final class ListCell: UICollectionViewCell, CustomCell {
 // MARK: - layout
 
 extension ListCell {
-    private func addsubViews() {
-        contentView.addsubViews(thumbnailImageView, nameLabel, priceStackView, stockLabel, accessoryLabel)
-        priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
-     }
     
-    private func constraintLayout() {
-        NSLayoutConstraint.activate([
-            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-        ])
+    private func setupView() {
         
-        NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
-            nameLabel.widthAnchor.constraint(equalToConstant: frame.width / 2),
-            nameLabel.heightAnchor.constraint(equalToConstant: 20)
-        ])
+        addsubViews()
+        constraintLayout()
         
-        NSLayoutConstraint.activate([
-            priceStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            priceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            priceStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
-            priceStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+        func addsubViews() {
+            contentView.addsubViews(thumbnailImageView, nameLabel, priceStackView, stockLabel, accessoryLabel)
+            priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
+         }
         
-        NSLayoutConstraint.activate([
-            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stockLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
-            stockLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            stockLabel.widthAnchor.constraint(equalToConstant: 100)
-        ])
+        func constraintLayout() {
+            NSLayoutConstraint.activate([
+                thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+                thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+           
+                nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+                nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
+                nameLabel.widthAnchor.constraint(equalToConstant: frame.width / 2),
+                nameLabel.heightAnchor.constraint(equalToConstant: 20),
+           
+                priceStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
+                priceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                priceStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
+                priceStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+                stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+                stockLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
+                stockLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
+                stockLabel.widthAnchor.constraint(equalToConstant: 100),
+           
+                accessoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+                accessoryLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
+                accessoryLabel.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
+                accessoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+                accessoryLabel.widthAnchor.constraint(equalToConstant: 15)
+            ])
+        }
         
-        NSLayoutConstraint.activate([
-            accessoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            accessoryLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
-            accessoryLabel.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
-            accessoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            accessoryLabel.widthAnchor.constraint(equalToConstant: 15)
-        ])
     }
 }
