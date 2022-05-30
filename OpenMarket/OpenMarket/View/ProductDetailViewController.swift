@@ -14,12 +14,16 @@ final class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        setView()
         configureBarButton()
         executeGET()
     }
     
-    func configureBarButton() {
+    private func setView() {
+        self.view.backgroundColor = .white
+    }
+    
+    private func configureBarButton() {
         let editButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
         self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationItem.rightBarButtonItem = editButton

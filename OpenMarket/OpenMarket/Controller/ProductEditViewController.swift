@@ -33,6 +33,14 @@ final class ProductEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setViewDelegate()
+        setView()
+        setLayout()
+        configureBarButton()
+        setData()
+    }
+    
+    private func setView() {
         self.view.addSubview(entireScrollView)
         entireScrollView.addSubview(collectionView)
         entireScrollView.addSubview(productEditView)
@@ -40,14 +48,12 @@ final class ProductEditViewController: UIViewController {
         self.view.backgroundColor = .white
         productEditView.backgroundColor = .white
         
+        collectionView.register(EditViewCell.self, forCellWithReuseIdentifier: EditViewCell.identifier)
+    }
+    
+    private func setViewDelegate() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        
-        collectionView.register(EditViewCell.self, forCellWithReuseIdentifier: EditViewCell.identifier)
-        
-        setLayout()
-        configureBarButton()
-        setData()
     }
     
     private func configureBarButton() {

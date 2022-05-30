@@ -32,6 +32,13 @@ final class RegistrationViewController: UIViewController, UINavigationController
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setViewDelegate()
+        setView()
+        setLayout()
+        configureBarButton()
+    }
+    
+    private func setView() {
         self.view.addSubview(entireScrollView)
         entireScrollView.addSubview(collectionView)
         entireScrollView.addSubview(productDetailView)
@@ -39,13 +46,13 @@ final class RegistrationViewController: UIViewController, UINavigationController
         self.view.backgroundColor = .white
         productDetailView.backgroundColor = .white
         
+        collectionView.register(RegistrationViewCell.self, forCellWithReuseIdentifier: RegistrationViewCell.identifier)
+    }
+    
+    private func setViewDelegate() {
         collectionView.dataSource = self
         collectionView.delegate = self
         imagePicker.delegate = self
-        
-        collectionView.register(RegistrationViewCell.self, forCellWithReuseIdentifier: RegistrationViewCell.identifier)
-        setLayout()
-        configureBarButton()
     }
     
     private func configureBarButton() {
