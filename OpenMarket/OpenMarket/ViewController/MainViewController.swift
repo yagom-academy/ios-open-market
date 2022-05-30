@@ -45,6 +45,7 @@ extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationItems()
+        setUpCollectionViewCellRegister()
         self.view.addSubview(collectionView)
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
@@ -100,7 +101,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
             return
         }
-        modifyViewController.modalPresentationStyle = .fullScreen
         modifyViewController.delegate = self
         let id = products[indexPath.row].id
         RequestAssistant.shared.requestDetailAPI(productId: id) { result in
@@ -127,6 +127,13 @@ private extension MainViewController {
         self.navigationItem.titleView = arrangeModeSegmentedControl
         self.navigationItem.rightBarButtonItem = plusButton
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
+    }
+    
+    private func setUpCollectionViewCellRegister() {
+        collectionView
+            .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
+        collectionView
+            .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
     }
     
     private func requestProductListData() {
@@ -171,7 +178,6 @@ private extension MainViewController {
             return
         }
         registerViewController.delegate = self
-        registerViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(registerViewController, animated: true)
     }
     
@@ -185,13 +191,9 @@ private extension MainViewController {
         switch currentArrangeMode {
         case .list:
             collectionView.setCollectionViewLayout(listLayout, animated: true) { [weak self] _ in self?.collectionView.reloadData() }
-            collectionView
-                .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
             self.collectionView.reloadData()
         case .grid:
             collectionView.setCollectionViewLayout(gridLayout, animated: true) { [weak self] _ in self?.collectionView.reloadData() }
-            collectionView
-                .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
             self.collectionView.reloadData()
         }
     }
