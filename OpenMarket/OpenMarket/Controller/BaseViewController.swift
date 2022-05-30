@@ -26,7 +26,7 @@ extension BaseViewController {
         setUpNavigationItem()
         applyListLayout()
         applyGridLayout()
-        configureHierarchy(collectionViewLayout: listLayout ?? UICollectionViewLayout())
+        configureHierarchy(collectionViewLayout: listLayout)
         collectionView?.backgroundColor = .systemBackground
     }
 }
@@ -89,7 +89,11 @@ extension BaseViewController {
 
 // MARK: Layout Collection View
 extension BaseViewController {
-    func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
+    func configureHierarchy(collectionViewLayout: UICollectionViewLayout?) {
+        guard let collectionViewLayout = collectionViewLayout else {
+            return
+        }
+
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout ?? collectionViewLayout)
         view.addSubview(collectionView ?? UICollectionView())
         layoutCollectionView()
