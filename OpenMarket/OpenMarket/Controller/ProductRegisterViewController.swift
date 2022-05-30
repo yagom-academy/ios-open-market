@@ -82,7 +82,7 @@ final class ProductRegisterViewController: UIViewController {
     return stackView
   }()
   
-  private lazy var addImageView: UIImageView = {
+  private lazy var registerImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = UIImage(named: "add")
     imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -237,7 +237,7 @@ private extension ProductRegisterViewController {
     self.containerStackView.addArrangedSubview(descriptionsTextView)
     
     self.imageScrollView.addSubview(imageStackView)
-    self.imageStackView.addArrangedSubview(addImageView)
+    self.imageStackView.addArrangedSubview(registerImageView)
     
     self.productPriceStackView.addArrangedSubview(priceTextField)
     self.productPriceStackView.addArrangedSubview(currencySegment)
@@ -272,8 +272,8 @@ private extension ProductRegisterViewController {
       imageStackView.heightAnchor.constraint(
         equalTo: imageScrollView.heightAnchor),
       
-      addImageView.widthAnchor.constraint(
-        equalTo: addImageView.heightAnchor),
+      registerImageView.widthAnchor.constraint(
+        equalTo: registerImageView.heightAnchor),
       priceTextField.widthAnchor.constraint(
         equalTo: currencySegment.widthAnchor,
         multiplier: Const.UI.priceTextFieldWidthRatio)
@@ -370,7 +370,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate {
         at: imageStackView.arrangedSubviews.count - 1
       )
       if imageStackView.arrangedSubviews.count == Const.Limit.maximumUploadCount {
-        self.addImageView.isHidden = true
+        self.registerImageView.isHidden = true
       }
     }
     self.dismiss(animated: true)
