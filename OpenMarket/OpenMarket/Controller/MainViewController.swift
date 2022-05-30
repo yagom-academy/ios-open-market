@@ -33,7 +33,10 @@ class MainViewController: BaseViewController {
     override func switchCollectionViewLayout() {
         super.switchCollectionViewLayout()
         self.configureDataSource()
-        dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
+        guard let currentSnapshot = currentSnapshot else {
+            return
+        }
+        dataSource?.apply(currentSnapshot)
     }
     
     override func applyListLayout() {
@@ -111,14 +114,14 @@ extension MainViewController {
     }
     
     private func updateSnapshot(products: [Product]) {
-        currentSnapshot = dataSource?.snapshot()
+        guard var currentSnapshot = dataSource?.snapshot() else { return }
         if isFirstSnapshot {
-            currentSnapshot?.appendSections([.main])
+            currentSnapshot.appendSections([.main])
             isFirstSnapshot = false
         }
-        currentSnapshot?.appendItems(products)
-        dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
-        
+        currentSnapshot.appendItems(products)
+        self.currentSnapshot = currentSnapshot
+        dataSource?.apply(currentSnapshot)
     }
 }
 
