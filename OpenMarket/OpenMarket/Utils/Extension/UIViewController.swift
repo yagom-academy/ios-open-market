@@ -19,6 +19,7 @@ extension UIViewController {
         if let action = action {
             let yesAction = UIAlertAction(title: ok, style: .default) { _ in
                 action()
+                self.dismiss(animated: true)
             }
             alert.addAction(yesAction)
         } else {
