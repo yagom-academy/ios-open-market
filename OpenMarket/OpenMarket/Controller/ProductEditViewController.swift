@@ -143,12 +143,27 @@ extension ProductEditViewController {
             self.networkManager.execute(with: .productEdit(productId: productID), httpMethod: .patch, params: params) { result in
                 switch result {
                 case .success:
-                    print("success")
-                case .failure(let error):
-                    print(error.localizedDescription)
+                    self.showSuccessAlert()
+                case .failure:
+                    self.showFailureAlert()
                 }
             }
         }
         self.navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - Alert
+extension ProductEditViewController {
+    private func showSuccessAlert() {
+        let alert = UIAlertController(title: "수정 완료", message: "수정에 성공했습니다!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
+    
+    private func showFailureAlert() {
+        let alert = UIAlertController(title: "수정 실패", message: "수정에 실패했습니다!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
     }
 }
