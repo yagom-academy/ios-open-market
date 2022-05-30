@@ -155,16 +155,8 @@ extension NetworkManager {
 
 // MARK: - PATCH
 extension NetworkManager {
-    private func createPATCHBody(requestInfo: PatchRequest) -> Data? {
-        var body: Data = Data()
-        
-        guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
-            return nil
-        }
-        
-        body.append(jsonData)
-        
-        return body
+    private func createPATCHBody(requestInfo: PatchRequest) -> Data? {        
+        return try? JSONEncoder().encode(requestInfo)
     }
     
     private func requestPATCH(endPoint: Endpoint, params: PatchRequest) {
@@ -176,5 +168,18 @@ extension NetworkManager {
         request.httpMethod = "PATCH"
         request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
         request.httpBody = createPATCHBody(requestInfo: params)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
+                return
+            }
+        }.resume()
     }
 }

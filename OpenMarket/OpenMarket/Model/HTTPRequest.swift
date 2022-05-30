@@ -24,7 +24,7 @@ struct PostRequest: Encodable {
 
 struct PatchRequest: Encodable {
     let name: String?
-    let description: String?
+    let descriptions: String?
     let thumbnailID: Int?
     let price: Int?
     let currency: Currency?
@@ -33,7 +33,7 @@ struct PatchRequest: Encodable {
     let secret: String?
     
     private enum CodingKeys: String, CodingKey {
-        case name, description, price, currency, stock, secret
+        case name, descriptions, price, currency, stock, secret
         case thumbnailID = "thumbnail_id"
         case discountedPrice = "discounted_price"
     }
