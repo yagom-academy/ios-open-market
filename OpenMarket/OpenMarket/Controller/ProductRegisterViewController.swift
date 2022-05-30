@@ -27,31 +27,32 @@ fileprivate enum SegmentIndex: Int, CaseIterable {
 
 final class ProductRegisterViewController: UIViewController {
   private enum Const {
-    enum Title {
-      static let navigationBar = "상품등록"
-    }
-      
-    enum Message {
-      static let alertSelect = "선택"
-      static let alertCancel = "취소"
-      static let alertAlbum = "앨범"
-    }
-    
-    enum Placeholder {
-      static let productName = "상품명"
-      static let productPrice = "상품가격"
-      static let productDiscountPrice = "할인금액"
-      static let productStock = "재고수량"
-      static let productDescription = "상품 정보를 입력해주세요"
-    }
+    static let ProductRegister_Title = "상품등록"
+    static let ProductRegister_Message_Alert_Select = "선택"
+    static let ProductRegister_Message_Alert_Cancel = "취소"
+    static let ProductRegister_Message_Alert_Album = "앨범"
+    static let ProductRegister_Placeholder_Name = "상품명"
+    static let ProductRegister_Placeholder_Price = "상품가격"
+    static let ProductRegister_Placeholder_DiscountPrice = "할인금액"
+    static let ProductRegister_Placeholder_Stock = "재고수량"
+    static let ProductRegister_Placeholder_Description = "상품 정보를 입력해주세요."
     
     enum Limit {
       static let maximumUploadCount = 6
       static let maximumTextCount = 1000
+      static let duration = 0.2
     }
     
     enum UI {
-      static let spacing = 20.0
+      static let containerStackViewSpacing = 20.0
+      static let imageStackViewSpacing = 10.0
+      static let productInputStackViewSpacing = 5.0
+      static let productPriceStackViewSpacing = 5.0
+      static let descriptionsTextViewBorderWidth = 1.0
+      static let descriptionsTextViewCornerRadius = 5.0
+      static let imageScrollViewHeightRatio = 0.16
+      static let priceTextFieldWidthRatio = 2.0
+      static let keyboardHeightRatio = 0.8
     }
   }
   
@@ -61,7 +62,7 @@ final class ProductRegisterViewController: UIViewController {
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
-    stackView.spacing = Const.UI.spacing
+    stackView.spacing = Const.UI.containerStackViewSpacing
     stackView.translatesAutoresizingMaskIntoConstraints = false
     return stackView
   }()
@@ -77,7 +78,7 @@ final class ProductRegisterViewController: UIViewController {
     stackView.translatesAutoresizingMaskIntoConstraints = false
     stackView.axis = .horizontal
     stackView.distribution = .fillEqually
-    stackView.spacing = 10.0
+    stackView.spacing = Const.UI.imageStackViewSpacing
     return stackView
   }()
   
@@ -95,7 +96,7 @@ final class ProductRegisterViewController: UIViewController {
     let stackView = UIStackView()
     stackView.axis = .vertical
     stackView.distribution = .fillEqually
-    stackView.spacing = 5.0
+    stackView.spacing = Const.UI.productInputStackViewSpacing
     return stackView
   }()
   
@@ -103,7 +104,7 @@ final class ProductRegisterViewController: UIViewController {
     let textField = UITextField()
     textField.borderStyle = .roundedRect
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = Const.Placeholder.productName
+    textField.placeholder = Const.ProductRegister_Placeholder_Name
     return textField
   }()
   
@@ -111,7 +112,7 @@ final class ProductRegisterViewController: UIViewController {
     let stackView = UIStackView()
     stackView.axis = .horizontal
     stackView.distribution = .fill
-    stackView.spacing = 5.0
+    stackView.spacing = Const.UI.productPriceStackViewSpacing
     return stackView
   }()
   
@@ -120,7 +121,7 @@ final class ProductRegisterViewController: UIViewController {
     textField.borderStyle = .roundedRect
     textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = Const.Placeholder.productPrice
+    textField.placeholder = Const.ProductRegister_Placeholder_Price
     return textField
   }()
   
@@ -135,7 +136,7 @@ final class ProductRegisterViewController: UIViewController {
     textField.borderStyle = .roundedRect
     textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = Const.Placeholder.productDiscountPrice
+    textField.placeholder = Const.ProductRegister_Placeholder_DiscountPrice
     return textField
   }()
   
@@ -144,13 +145,13 @@ final class ProductRegisterViewController: UIViewController {
     textField.borderStyle = .roundedRect
     textField.keyboardType = .numberPad
     textField.font = .preferredFont(forTextStyle: .subheadline)
-    textField.placeholder = Const.Placeholder.productStock
+    textField.placeholder = Const.ProductRegister_Placeholder_Stock
     return textField
   }()
   
   private lazy var descriptionsTextView: UITextView = {
     let textView = UITextView()
-    textView.text = Const.Placeholder.productDescription
+    textView.text = Const.ProductRegister_Placeholder_Description
     textView.textColor = .placeholderText
     textView.font = .preferredFont(forTextStyle: .subheadline)
     let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
@@ -159,8 +160,8 @@ final class ProductRegisterViewController: UIViewController {
     textView.delegate = self
     
     textView.layer.borderColor = UIColor.systemGray5.cgColor
-    textView.layer.borderWidth = 1.0
-    textView.layer.cornerRadius = 5.0
+    textView.layer.borderWidth = Const.UI.descriptionsTextViewBorderWidth
+    textView.layer.cornerRadius = Const.UI.descriptionsTextViewCornerRadius
     return textView
   }()
   
@@ -200,14 +201,14 @@ final class ProductRegisterViewController: UIViewController {
   
   private func presentActionSheet() {
     let alert = UIAlertController(
-      title: Const.Message.alertSelect,
+      title: Const.ProductRegister_Message_Alert_Select,
       message: nil,
       preferredStyle: .actionSheet)
     let cancel = UIAlertAction(
-      title: Const.Message.alertCancel,
+      title: Const.ProductRegister_Message_Alert_Cancel,
       style: .cancel)
     let album = UIAlertAction(
-      title: Const.Message.alertAlbum,
+      title: Const.ProductRegister_Message_Alert_Album,
       style: .default) { [weak self] _ in
       self?.presentAlbum()
     }
@@ -253,13 +254,13 @@ private extension ProductRegisterViewController {
         equalTo: view.safeAreaLayoutGuide.bottomAnchor),
       containerStackView.leadingAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-        constant: Const.UI.spacing),
+        constant: Const.UI.containerStackViewSpacing),
       containerStackView.trailingAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-        constant: -Const.UI.spacing),
+        constant: -Const.UI.containerStackViewSpacing),
       
       imageScrollView.heightAnchor.constraint(
-        equalToConstant: view.frame.height * 0.16),
+        equalToConstant: view.frame.height * Const.UI.imageScrollViewHeightRatio),
       imageStackView.topAnchor.constraint(
         equalTo: imageScrollView.contentLayoutGuide.topAnchor),
       imageStackView.bottomAnchor.constraint(
@@ -275,12 +276,12 @@ private extension ProductRegisterViewController {
         equalTo: addImageView.heightAnchor),
       priceTextField.widthAnchor.constraint(
         equalTo: currencySegment.widthAnchor,
-        multiplier: 2.0)
+        multiplier: Const.UI.priceTextFieldWidthRatio)
     ])
   }
   
   func configureNavigationItem() {
-    self.title = Const.Title.navigationBar
+    self.title = Const.ProductRegister_Title
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .cancel,
       target: self,
@@ -329,25 +330,27 @@ extension ProductRegisterViewController: UITextViewDelegate {
   }
   
   func textViewDidBeginEditing(_ textView: UITextView) {
-    UIView.animate(withDuration: 0.2) {
+    UIView.animate(withDuration: Const.Limit.duration) {
       guard let keyboardheight = self.keyboardSize?.height else { return }
-      self.view.transform = CGAffineTransform(translationX: .zero, y: -keyboardheight * 0.8)
+      self.view.transform = CGAffineTransform(
+        translationX: .zero,
+        y: -keyboardheight * Const.UI.keyboardHeightRatio)
     }
     
-    if textView.text == Const.Placeholder.productDescription {
+    if textView.text == Const.ProductRegister_Placeholder_Description {
       textView.textColor = .label
       textView.text = nil
     }
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
-    UIView.animate(withDuration: 0.2) {
+    UIView.animate(withDuration: Const.Limit.duration) {
       self.view.transform = .identity
     }
     
     if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
       textView.textColor = .placeholderText
-      textView.text = Const.Placeholder.productDescription
+      textView.text = Const.ProductRegister_Placeholder_Description
     }
   }
 }
