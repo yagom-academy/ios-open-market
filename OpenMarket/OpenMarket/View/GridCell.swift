@@ -129,12 +129,13 @@ final class GridCell: UICollectionViewCell {
     
     if page.discountedPrice == 0 {
       self.priceLabel.isHidden = true
-      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice.formatToDecimal())"
+      self.bargainPriceLabel.text = "\(page.currency.text)\(page.bargainPrice.formatToDecimal())"
       self.bargainPriceLabel.textColor = .systemGray
     } else {
       self.priceLabel.textColor = .systemRed
-      self.priceLabel.attributedText = "\(page.currency)\(page.price.formatToDecimal())".strikeThrough()
-      self.bargainPriceLabel.text = "\(page.currency)\(page.bargainPrice.formatToDecimal())"
+      self.priceLabel
+        .attributedText = "\(page.currency.text)\(page.price.formatToDecimal())".strikeThrough()
+      self.bargainPriceLabel.text = "\(page.currency.text)\(page.bargainPrice.formatToDecimal())"
       self.bargainPriceLabel.textColor = .systemGray
     }
     
