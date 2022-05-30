@@ -8,9 +8,14 @@
 import UIKit
 
 class DataProvider {
-    var pageNumber = 1
+    private var pageNumber = 1
     private let itemsPerPage = 10
     private var isLoading = false
+    
+    func reloadData(completionHandler: @escaping ([Product]) -> Void) {
+        pageNumber = 1
+        fetchData(completionHandler: completionHandler)
+    }
     
     func fetchData(completionHandler: @escaping ([Product]) -> Void) {
         if isLoading {

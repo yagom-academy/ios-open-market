@@ -59,8 +59,7 @@ extension MainViewController {
     }
     
     @objc func refreshCollectionView() {
-        dataProvider.pageNumber = 1
-        dataProvider.fetchData() { [self] products in
+        dataProvider.reloadData() { [self] products in
             guard var currentSnapshot = currentSnapshot else {
                 return
             }

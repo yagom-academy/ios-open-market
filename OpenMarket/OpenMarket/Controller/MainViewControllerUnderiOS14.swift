@@ -53,8 +53,7 @@ extension MainViewControllerUnderiOS14 {
     }
     
     @objc func refreshCollectionView() {
-        dataProvider.pageNumber = 1
-        dataProvider.fetchData() { products in
+        dataProvider.reloadData() { products in
             self.products = products
         }
         DispatchQueue.main.async {
