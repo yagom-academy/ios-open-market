@@ -195,7 +195,7 @@ extension AddItemViewController: UICollectionViewDelegate {
 }
 
 //MARK: - imagePicker
-extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension AddItemViewController: UIImagePickerControllerDelegate {
     private func selectPhoto(where: UIImagePickerController.SourceType) {
         imagePicker.sourceType = `where`
         imagePicker.allowsEditing = true
@@ -210,6 +210,8 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true)
     }
 }
+
+extension AddItemViewController: UINavigationControllerDelegate { }
 
 //MARK: - aboutView
 extension AddItemViewController {
