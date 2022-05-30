@@ -8,8 +8,6 @@
 import UIKit
 
 final class RegistrationView: ProductUpdaterView {
-//  enum
-//  
   override init() {
     super.init()
     configureLayout()
