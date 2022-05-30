@@ -140,20 +140,7 @@ final class AddItemViewController: UIViewController {
             networkHandler.request(api: makeComponents()) { _ in }
             showAlert(message: "상품 등록이 완료되었습니다", action: popViewController)
         } catch {
-            switch error {
-            case PostItemError.imageError:
-                showAlert(message: "이미지는 최소 1장 이상\n 등록 되어야 합니다", action: nil)
-            case PostItemError.nameError:
-                showAlert(message: "상품명을 3글자 이상 입력해주세요", action: nil)
-            case PostItemError.priceError:
-                showAlert(message: "상품 가격을 정확히 입력해 주세요", action: nil)
-            case PostItemError.discountPriceError:
-                showAlert(message: "할인 가격을 정확히 입력해 주세요", action: nil)
-            case PostItemError.stockError:
-                showAlert(message: "상품 수량을 정확히 입력해 주세요", action: nil)
-            default:
-                showAlert(message: "알 수 없는 오류", action: nil)
-            }
+            showAlert(message: error.localizedDescription, action: nil)
         }
     }
     
