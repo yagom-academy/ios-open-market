@@ -131,6 +131,39 @@ class ProductUpdaterView: UIView {
   }()
   
   func setupParams() -> Params? {
+    let currentCurrency = verifyCurrency()
+    
+    guard let name = self.nameTextField.text,
+          let price = self.priceTextField.text,
+          let discountedPrice = self.discountedPriceTextField.text,
+          let stock = self.stockTextField.text,
+          let descriptions = self.descriptionTextView.text
+    else {
+      return nil
+    }
+
+    let trimmedName = name.trimmingCharacters(in: .whitespaces)
+
+    guard !trimmedName.isEmpty &&
+            !price.isEmpty &&
+            !discountedPrice.isEmpty &&
+            !stock.isEmpty &&
+            !descriptions.isEmpty
+    else {
+      return nil
+    }
+
+    let params = Params(name: trimmedName,
+                        price: price.integer,
+                        discountedPrice: discountedPrice.integer,
+                        stock: stock.integer,
+                        currency: currentCurrency,
+                        descriptions: descriptions,
+                        secret: Constants.secret)
+    return params
+  }
+  
+  private func verifyCurrency() -> Currency {
     var currency: Currency
     switch self.currencySegmentedControl.selectedSegmentIndex {
     case Currency.won.number:
@@ -140,32 +173,7 @@ class ProductUpdaterView: UIView {
     default:
       currency = Currency.won
     }
-    guard let name = self.nameTextField.text,
-          let price = self.priceTextField.text,
-          let discountedPrice = self.discountedPriceTextField.text,
-          let stock = self.stockTextField.text,
-          let descriptions = self.descriptionTextView.text
-    else {
-      return nil
-    }
-    
-    guard !name.isEmpty &&
-            !price.isEmpty &&
-            !discountedPrice.isEmpty &&
-            !stock.isEmpty &&
-            !descriptions.isEmpty
-    else {
-      return nil
-    }
-    
-    let params = Params(name: name,
-                        price: price.integer,
-                        discountedPrice: discountedPrice.integer,
-                        stock: stock.integer,
-                        currency: currency,
-                        descriptions: descriptions,
-                        secret: Constants.secret)
-    return params
+    return currency
   }
 }
 
