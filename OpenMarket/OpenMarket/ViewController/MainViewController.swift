@@ -6,7 +6,7 @@
 
 import UIKit
 
-protocol ListUpdatable: NSObject {
+protocol ListUpdateDelegate: NSObject {
     func refreshProductList()
 }
 
@@ -274,7 +274,7 @@ extension MainViewController {
     }
 }
 
-extension MainViewController: ListUpdatable {
+extension MainViewController: ListUpdateDelegate {
     func refreshProductList() {
         products = []
         requestProductListData()
