@@ -76,8 +76,8 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         lastDataTask = imageCache.loadImage(
             urlString: product.thumbnail,
             completionHandler: { image in
-                DispatchQueue.main.async {
-                    self.productImage.image = image
+                DispatchQueue.main.async { [weak self] in
+                    self?.productImage.image = image
                 }
             }
         )

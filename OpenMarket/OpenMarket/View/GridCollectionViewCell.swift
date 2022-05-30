@@ -10,7 +10,6 @@ import UIKit
 final class GridCollectionViewCell: UICollectionViewCell {
     
     private lazy var productImage = UIImageView()
-    private var network = Network()
     private let imageCache = ImageCache.shared
     private var lastDataTask: URLSessionDataTask?
     
@@ -93,8 +92,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
         lastDataTask = imageCache.loadImage(
             urlString: product.thumbnail,
             completionHandler: { image in
-                DispatchQueue.main.async {
-                    self.productImage.image = image
+                DispatchQueue.main.async { [weak self] in
+                    self?.productImage.image = image
                 }
             }
         )

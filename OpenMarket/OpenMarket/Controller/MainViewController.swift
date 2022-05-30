@@ -12,15 +12,20 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    private let productListUseCase = ProductListUseCase()
+    private let productListUseCase = ProductListUseCase(
+        network: Network(),
+        jsonDecoder: JSONDecoder(),
+        pageInfoManager: PageInfoManager()
+    )
+    
     private lazy var collectionView: MainCollectionView = {
         let view = MainCollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         view.changeLayout(viewType: .list)
         return view
     }()
     
-    private lazy var dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
-        switch MainCollectionView.LayoutType(rawValue: self.segmentedControl.selectedSegmentIndex) {
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
+        switch MainCollectionView.LayoutType(rawValue: self?.segmentedControl.selectedSegmentIndex ?? 0) {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewListCell() }
             cell.accessories = [.disclosureIndicator()]
@@ -30,7 +35,7 @@ final class MainViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else { return UICollectionViewCell() }
             cell.configureContent(productInformation: itemIdentifier)
             return cell
-        default:
+        case .none:
             return UICollectionViewCell()
         }
     }
@@ -82,8 +87,6 @@ final class MainViewController: UIViewController {
     
     @objc private func pullToRefresh(){
         requestList()
-        collectionView.reloadData()
-        refreshControl.endRefreshing()
     }
     
     override func viewDidLoad() {
@@ -98,12 +101,15 @@ final class MainViewController: UIViewController {
 
 // MARK: - Method
 extension MainViewController {
-    
     private func requestList() {
-        productListUseCase.requestPageInformation { data in
-            self.setSnapshot(productInformations: data.pages)
-        } decodingErrorHandler: { error in
-            self.showErrorAlert(error: error)
+        productListUseCase.requestPageInformation { [weak self] data in
+            DispatchQueue.main.async {
+                self?.setSnapshot(productInformations: data.pages)
+                self?.collectionView.reloadData()
+                self?.refreshControl.endRefreshing()
+            }
+        } errorHandler: { [weak self] error in
+            self?.showErrorAlert(error: error)
         }
     }
     
@@ -160,14 +166,14 @@ extension MainViewController {
     }
     
     @objc private func segmentedControlChanged(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case MainCollectionView.LayoutType.list.rawValue:
+        switch MainCollectionView.LayoutType(rawValue: sender.selectedSegmentIndex) {
+        case .list:
             collectionView.changeLayout(viewType: .list)
             collectionView.reloadData()
-        case MainCollectionView.LayoutType.grid.rawValue:
+        case .grid:
             collectionView.changeLayout(viewType: .grid)
             collectionView.reloadData()
-        default:
+        case .none:
             return
         }
     }

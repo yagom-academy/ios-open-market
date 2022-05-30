@@ -11,10 +11,16 @@ final class RegisterViewController: RegisterEditBaseViewController {
     
     private enum Constant {
         static let navigationTitle = "상품등록"
+        static let maximumImageViewCount = 6
+        static let alertOk = "확인"
     }
     
     private let picker = UIImagePickerController()
-    private let productListUseCase = ProductListUseCase()
+    private let productRegisterUseCase = ProductRegisterUseCase(
+        network: Network(),
+        jsonDecoder: JSONDecoder(),
+        pageInfoManager: PageInfoManager()
+    )
     
     private lazy var addImageButton: UIButton = {
         let imageButton = UIButton()
@@ -35,7 +41,7 @@ final class RegisterViewController: RegisterEditBaseViewController {
 
 // MARK: - Method
 extension RegisterViewController {
-    func addImageToStackView(image: UIImage){
+    private func addImageToStackView(image: UIImage) {
         let imageView = UIImageView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
         imageView.isUserInteractionEnabled = true
         imageView.image = image
@@ -46,52 +52,24 @@ extension RegisterViewController {
         addImageHorizontalStackView.addLastBehind(view: imageView)
         
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalTo: addImageHorizontalStackView.heightAnchor),
+            imageView.heightAnchor.constraint(equalTo: addImageScrollView.heightAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         
-        if addImageHorizontalStackView.arrangedSubviews.count == 6 {
-            addImageButton.isHidden = true
-        } else {
-            addImageButton.isHidden = false
-        }
+        addImageButton.isHidden = (addImageHorizontalStackView.arrangedSubviews.count == Constant.maximumImageViewCount)
         addImageHorizontalStackView.setNeedsDisplay()
     }
     
-    func setBaseImage() {
+   private func setBaseImage() {
         addImageHorizontalStackView.addArrangedSubview(addImageButton)
         
         NSLayoutConstraint.activate([
-            addImageButton.heightAnchor.constraint(equalTo: addImageHorizontalStackView.heightAnchor),
+            addImageButton.heightAnchor.constraint(equalTo: addImageScrollView.heightAnchor),
             addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor)
         ])
     }
     
-    func wrapperRegistrationParameter() -> RegistrationParameter? {
-        guard let name = nameTextField.text, name.count >= 3 else {
-            return nil
-        }
-        guard let descriptions = textView.text, descriptions.count < 1000 else {
-            return nil
-        }
-        guard let price = Double(priceTextField.text ?? "0"), price >= 0 else {
-            return nil
-        }
-        guard let selectedText = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex), let currency = Currency(rawValue: selectedText) else {
-            return nil
-        }
-        guard let discountedPrice = Double(discountPriceTextField.text ?? "0"), discountedPrice >= 0 else {
-            return nil
-        }
-        guard let stock = Int(stockTextField.text ?? "0"), stock >= 0 else {
-            return nil
-        }
-        let secret = Secret.registerSecret
-        
-        return RegistrationParameter(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
-    }
-    
-    func wrapperImage() -> [UIImage] {
+   private func wrapperImage() -> [UIImage] {
         var imageArray = [UIImage]()
         
         for subView in addImageHorizontalStackView.arrangedSubviews {
@@ -99,7 +77,21 @@ extension RegisterViewController {
                 imageArray.append(uiImage)
             }
         }
+       
         return imageArray
+    }
+    
+    private func showErrorAlert(error: Error) {
+        DispatchQueue.main.async {
+            let useCaseError = error as? ErrorAlertProtocol
+            let alert = UIAlertController(title: UseCaseError.alertTitle,
+                                          message: useCaseError?.alertMessage,
+                                          preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: Constant.alertOk,
+                                            style: .default)
+            alert.addAction(alertAction)
+            self.present(alert, animated: true)
+        }
     }
 }
 
@@ -138,12 +130,12 @@ extension RegisterViewController {
         guard let registrationParameter = wrapperRegistrationParameter() else {
             return
         }
-        productListUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
+        productRegisterUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
+            DispatchQueue.main.async { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }
-        } registerErrorHandler: { error in
-            
+        } registerErrorHandler: { [weak self] error in
+            self?.showErrorAlert(error: error)
         }
     }
     
@@ -155,7 +147,8 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let selectedImage = info[.originalImage] as? UIImage else {
-            fatalError("error")
+            showErrorAlert(error: UseCaseError.imageError)
+            return
         }
         addImageToStackView(image: selectedImage)
         picker.dismiss(animated: true)

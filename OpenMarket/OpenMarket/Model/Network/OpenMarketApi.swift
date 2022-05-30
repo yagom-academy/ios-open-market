@@ -26,10 +26,7 @@ enum OpenMarketApi {
     }
     
     var url: URL? {
-        switch self {
-        case .pageInformation, .productDetail, .productRegister:
             let urlComponents = URLComponents(string: self.urlString)
-            return urlComponents?.url ?? nil
-        }
+            return urlComponents?.url
     }
 }
