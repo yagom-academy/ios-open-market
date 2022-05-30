@@ -132,35 +132,53 @@ class ProductUpdaterView: UIView {
   
   func setupParams() -> Params? {
     let currentCurrency = verifyCurrency()
+ 
+    guard let name = checkStringCondition(self.nameTextField.text),
+          let price = checkNumberCondition(self.priceTextField.text),
+          let discountedPrice = checkNumberCondition(self.discountedPriceTextField.text),
+          let stock = checkNumberCondition(self.stockTextField.text),
+          let descriptions = checkStringCondition(self.descriptionTextView.text)
+    else {
+      return nil
+    }
     
-    guard let name = self.nameTextField.text,
-          let price = self.priceTextField.text,
-          let discountedPrice = self.discountedPriceTextField.text,
-          let stock = self.stockTextField.text,
-          let descriptions = self.descriptionTextView.text
-    else {
-      return nil
-    }
-
-    let trimmedName = name.trimmingCharacters(in: .whitespaces)
-
-    guard !trimmedName.isEmpty &&
-            !price.isEmpty &&
-            !discountedPrice.isEmpty &&
-            !stock.isEmpty &&
-            !descriptions.isEmpty
-    else {
-      return nil
-    }
-
-    let params = Params(name: trimmedName,
-                        price: price.integer,
-                        discountedPrice: discountedPrice.integer,
-                        stock: stock.integer,
+    let params = Params(name: name,
+                        price: price,
+                        discountedPrice: discountedPrice,
+                        stock: stock,
                         currency: currentCurrency,
                         descriptions: descriptions,
                         secret: Constants.secret)
     return params
+  }
+  
+  private func checkStringCondition(_ text: String?) -> String? {
+    guard let validText = text else {
+      return nil
+    }
+    
+    let trimmedText = validText.trimmingCharacters(in: .whitespaces)
+    guard !trimmedText.isEmpty else {
+      return nil
+    }
+    return trimmedText
+  }
+  
+  private func checkNumberCondition(_ text: String?) -> Int? {
+    guard let validText = text else {
+      return nil
+    }
+    
+    let trimmedText = validText.trimmingCharacters(in: .whitespaces)
+    guard !trimmedText.isEmpty else {
+      return nil
+    }
+    
+    guard let number = trimmedText.integer else {
+      return nil
+    }
+    
+    return number
   }
   
   private func verifyCurrency() -> Currency {
