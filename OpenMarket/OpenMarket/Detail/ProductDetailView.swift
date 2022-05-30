@@ -27,7 +27,7 @@ final class ProductDetailView: UIView {
         return stackview
     }()
     
-    private let productImageCollectionView: UICollectionView = {
+    let productImageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .horizontalFullGrid)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
