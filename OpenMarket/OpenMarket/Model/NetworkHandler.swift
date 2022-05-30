@@ -34,11 +34,7 @@ struct NetworkHandler {
         request.httpMethod = api.method.string
         
         if api.method == .post {
-            for header in api.header {
-                request.addValue(header.value, forHTTPHeaderField: header.key)
-            }
-            
-            request.httpBody = api.data
+            request = makePostData(api: api, requset2: request)!
         }
         
         session.receiveResponse(request: request) { responseResult in
@@ -61,7 +57,7 @@ struct NetworkHandler {
                 \"currency\": \"\(components.currency)\",
                 \"discounted_price\": \(components.discountedPrice),
                 \"stock\": \(components.stock),
-                \"secret\": \"\(components.secret)\",
+                \"secret\": \"zsxn8cy106\",
                 \"descriptions\": \"\(components.descriptions)\"
                 }
                 """.data(using: .utf8)!
@@ -69,20 +65,24 @@ struct NetworkHandler {
         return data
     }
     
-    func postItem(model: ItemComponents) {
+    private func makePostData(api: APIable, requset2: URLRequest) -> URLRequest? {
         let boundary = UUID().uuidString
-        let headers = ["identifier" : "99051fa9-d1b8-11ec-9676-978c137c9bee",
-                       "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
-        var data = Data()
+        var request = requset2
         
-        guard let itemData = makeData(components: model) else { return }
+        request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var data = Data()
+        guard let model = api.itemComponents else { return nil}
+        
+        guard let itemData = makeData(components: model) else { return nil }
                 
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
         data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
         data.append(itemData)
         for (index, image) in model.imageArray.enumerated() {
             guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-                        return
+                        return nil
                     }
             data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
             data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(index).jpg\"\r\n".data(using: .utf8)!)
@@ -92,7 +92,7 @@ struct NetworkHandler {
         
         data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
-        let itemAPI = PostItemAPI(header: headers, data: data)
-        request(api: itemAPI){_ in }
+        request.httpBody = data
+        return request
     }
 }

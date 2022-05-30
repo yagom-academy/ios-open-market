@@ -13,7 +13,6 @@ struct ItemComponents {
     let currency: String
     let discountedPrice: Int
     let stock: Int
-    let secret: String
     let descriptions: String
     let imageArray: [UIImage]
 }
@@ -112,10 +111,11 @@ final class AddItemViewController: UIViewController {
             return
         }
         
-        networkHandler.postItem(model: makeComponents())
+        networkHandler.request(api: makeComponents()) { _ in
+        }
     }
     
-    private func makeComponents() -> ItemComponents {
+    private func makeComponents() -> APIable {
         let name = nameTextField.text ?? ""
         let price = Int(priceTextField.text ?? "") ?? 0
         let currency = currencyType.rawValue
@@ -123,9 +123,10 @@ final class AddItemViewController: UIViewController {
         let stock = Int(stockTextField.text ?? "") ?? 0
         let descriptions = discriptinTextView.text
         let httpDescription = descriptions?.replacingOccurrences(of: "\n", with: "\\n") ?? ""
-        let secret = "zsxn8cy106"
         
-        return ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret, descriptions: httpDescription, imageArray: imageArray)
+        let item = ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock,  descriptions: httpDescription, imageArray: imageArray)
+        
+        return PostItemAPI(itemComponents: item)
     }
     
     @objc private func touchCancelButton() {
