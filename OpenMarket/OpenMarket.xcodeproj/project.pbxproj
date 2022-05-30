@@ -118,6 +118,8 @@
 			children = (
 				0341E5D5282A43E700DEC832 /* NetworkError.swift */,
 				0341E5CF282A2D4700DEC832 /* HttpProvider.swift */,
+				D67E6960283757870075284A /* ImageCacheManager.swift */,
+				037A74112834C6BC001AC352 /* Endpoint.swift */,
 				AE82C0092834FE9400A0EFDC /* Extensions */,
 			);
 			path = Util;
@@ -140,8 +142,6 @@
 				03D0695A283F807E00DDA5B3 /* DetailProduct.swift */,
 				D66EAACF28407E6F00A9583D /* EditingProduct.swift */,
 				AE22B57D28445BE80081FF05 /* Currency.swift */,
-				037A74112834C6BC001AC352 /* Endpoint.swift */,
-				D67E6960283757870075284A /* ImageCacheManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
