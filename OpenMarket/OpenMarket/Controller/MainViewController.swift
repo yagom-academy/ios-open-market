@@ -11,8 +11,9 @@ final class MainViewController: UIViewController {
     case main
   }
   
-  enum Size {
-    static let itemsPerViewFrame: Double = 10.0
+  private enum Constants {
+    static let itemsPerView: Double = 10.0
+    static let itemsPerPage: Int = 20
   }
   
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
@@ -52,7 +53,7 @@ final class MainViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     self.currentPageNumber = 1
-    self.pages = []
+    self.pages.removeAll()
     self.fetchPages()
   }
   
@@ -165,7 +166,7 @@ extension MainViewController: UICollectionViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let contentOffsetY = scrollView.contentOffset.y
     let collectionViewContentSize = self.collectionView.contentSize.height
-    let paginationY = collectionViewContentSize * (Size.itemsPerViewFrame / CGFloat(pages.count))
+    let paginationY = collectionViewContentSize * (Constants.itemsPerView / CGFloat(pages.count))
     
     if contentOffsetY > collectionViewContentSize - paginationY {
       currentPageNumber += 1
