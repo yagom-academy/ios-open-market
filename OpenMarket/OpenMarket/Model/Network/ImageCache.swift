@@ -8,8 +8,6 @@
 import UIKit
 
 protocol Cacheable {
-    var imageCache: NSCache<NSString, UIImage> { get }
-    var network: NetworkAble { get }
     func loadImage(urlString: String, completionHandler: @escaping (UIImage?) -> Void) -> URLSessionDataTask?
 }
 
@@ -29,10 +27,13 @@ final class ImageCache: Cacheable {
         guard let url = URL(string: urlString) else { return nil }
         
         let dataTask = network.requestData(url: url) { data, response in
-            guard let data = data, let image = UIImage(data: data) else { return }
+            guard let data = data, let image = UIImage(data: data) else {
+                completionHandler(nil)
+                return }
             self.imageCache.setObject(image, forKey: urlString as NSString)
             completionHandler(image)
         } errorHandler: { error in
+            completionHandler(nil)
         }
         return dataTask
     }

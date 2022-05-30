@@ -12,6 +12,13 @@ class RegisterEditBaseViewController: UIViewController {
     private enum Constant {
         static let rightNavigationButtonText = "Done"
         static let leftNavigationButtonText = "Cancel"
+        static let nameTextFieldPlaceHolder = "상품명"
+        static let priceTextFieldPlaceHolder = "상품가격"
+        static let discountPriceTextFieldPlaceHolder = "할인가격"
+        static let stockTextFieldPlaceHolder = "재고수량"
+        static let priceDefaultValue = "0"
+        static let discountePriceTextValue = "0"
+        static let stockDefaultValue = "0"
     }
     
     private lazy var rightNavigationButton = UIBarButtonItem(
@@ -34,13 +41,13 @@ class RegisterEditBaseViewController: UIViewController {
         return view
     }()
     
-    lazy var addImageScrollView: UIScrollView = {
+    private(set) lazy var addImageScrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    lazy var addImageHorizontalStackView: UIStackView = {
+    private(set) lazy var addImageHorizontalStackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
@@ -50,7 +57,7 @@ class RegisterEditBaseViewController: UIViewController {
         return view
     }()
     
-    lazy var baseVerticalStackView: UIStackView = {
+    private(set) lazy var baseVerticalStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [
             nameTextField,
             priceCurrencyStackView,
@@ -71,22 +78,21 @@ class RegisterEditBaseViewController: UIViewController {
         return view
     }()
     
-    lazy var nameTextField = generateTextField(placeholder: "상품명", keyboardType: .default)
-    lazy var priceTextField = generateTextField(placeholder: "상품가격", keyboardType: .decimalPad)
-    lazy var discountPriceTextField = generateTextField(placeholder: "할인가격", keyboardType: .decimalPad)
-    lazy var stockTextField = generateTextField(placeholder: "재고수량", keyboardType: .numberPad)
+    private lazy var nameTextField = generateTextField(placeholder: Constant.nameTextFieldPlaceHolder, keyboardType: .default)
+    private lazy var priceTextField = generateTextField(placeholder: Constant.priceTextFieldPlaceHolder, keyboardType: .decimalPad)
+    private lazy var discountPriceTextField = generateTextField(placeholder: Constant.discountPriceTextFieldPlaceHolder, keyboardType: .decimalPad)
+    private lazy var stockTextField = generateTextField(placeholder: Constant.stockTextFieldPlaceHolder, keyboardType: .numberPad)
     
-    lazy var currencySegmentedControl: UISegmentedControl = {
+    private(set) lazy var currencySegmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: [Currency.KRW.rawValue, Currency.USD.rawValue])
         segment.translatesAutoresizingMaskIntoConstraints = false
         segment.selectedSegmentIndex = 0
         return segment
     }()
     
-    lazy var textView: UITextView = {
+    private(set) lazy var textView: UITextView = {
         let view = UITextView()
         view.font = .preferredFont(forTextStyle: .body)
-        view.text = "제품 상세 설명 textView 입니다."
         view.layer.borderColor = UIColor.systemGray4.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 5
@@ -103,10 +109,6 @@ extension RegisterEditBaseViewController {
         view.backgroundColor = .white
         setNavigationTitle()
         setConstraint()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         registerForKeyboardNotification()
     }
     
@@ -124,6 +126,35 @@ extension RegisterEditBaseViewController {
         navigationItem.rightBarButtonItem = rightNavigationButton
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = leftNavigationButton
+    }
+    
+    func wrapperRegistrationParameter() -> RegistrationParameter? {
+        guard let name = nameTextField.text else {
+            return nil
+        }
+        guard let descriptions = textView.text else {
+            return nil
+        }
+        guard let price = Double(priceTextField.text ?? Constant.priceDefaultValue) else {
+            return nil
+        }
+        guard let selectedText = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex), let currency = Currency(rawValue: selectedText) else {
+            return nil
+        }
+        guard let discountedPrice = Double(discountPriceTextField.text ?? Constant.discountePriceTextValue) else {
+            return nil
+        }
+        guard let stock = Int(stockTextField.text ?? Constant.stockDefaultValue) else {
+            return nil
+        }
+        
+        let secret = setSecret()
+        
+        return RegistrationParameter(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+    }
+    
+    func setSecret() -> String {
+        return Secret.registerSecret
     }
     
     func setConstraint() {
@@ -148,7 +179,7 @@ extension RegisterEditBaseViewController {
             addImageHorizontalStackView.leadingAnchor.constraint(equalTo: addImageScrollView.leadingAnchor),
             addImageHorizontalStackView.trailingAnchor.constraint(equalTo: addImageScrollView.trailingAnchor),
             addImageHorizontalStackView.topAnchor.constraint(equalTo: addImageScrollView.topAnchor),
-            addImageHorizontalStackView.heightAnchor.constraint(equalTo: addImageScrollView.heightAnchor)
+            addImageHorizontalStackView.bottomAnchor.constraint(equalTo: addImageScrollView.bottomAnchor)
         ])
         
         baseScrollView.addSubview(baseVerticalStackView)
@@ -183,13 +214,6 @@ extension RegisterEditBaseViewController {
 
 extension RegisterEditBaseViewController {
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        if touch?.view != textView {
-            self.textView.resignFirstResponder()
-        }
-    }
-    
     private func registerForKeyboardNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyBoardShow),
@@ -211,7 +235,9 @@ extension RegisterEditBaseViewController {
     }
     
     @objc private func keyBoardShow(notification: NSNotification) {
-        let userInfo: NSDictionary = notification.userInfo! as NSDictionary
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
+            return
+        }
         let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)

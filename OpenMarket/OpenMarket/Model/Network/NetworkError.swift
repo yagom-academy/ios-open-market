@@ -7,10 +7,24 @@
 
 import Foundation
 
-enum NetworkError: Error, LocalizedError {
+enum NetworkError: Error, LocalizedError, ErrorAlertProtocol {
     case urlError
     case sessionError
     case statusCodeError
     case dataError
-    case decodingError
+    
+    static var alertTitle = "네트워크 통신 에러"
+
+    var alertMessage: String {
+        switch self {
+        case .urlError:
+           return "url 에러입니다."
+        case .sessionError:
+            return "세션 에러입니다."
+        case .statusCodeError:
+            return "서버 통신 오류입니다."
+        case .dataError:
+            return "데이터 포멧 오류입니다."
+        }
+    }
 }
