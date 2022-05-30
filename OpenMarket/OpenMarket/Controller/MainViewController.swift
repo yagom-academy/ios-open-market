@@ -11,6 +11,10 @@ final class MainViewController: UIViewController {
     case main
   }
   
+  enum Size {
+    static let itemsPerViewFrame: Double = 10.0
+  }
+  
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
@@ -42,7 +46,6 @@ final class MainViewController: UIViewController {
     configureView()
     configureNavigationBar()
     applySnapshot(animatingDifferences: false)
-    collectionView.prefetchDataSource = self
     collectionView.delegate = self
   }
   
@@ -158,15 +161,13 @@ extension MainViewController: UICollectionViewDelegate {
     detailViewController.receiveInformation(for: pages[indexPath.row].id)
     navigationController?.pushViewController(detailViewController, animated: false)
   }
-}
-// MARK: - UICollectionViewDataSourcePrefetching
-extension MainViewController: UICollectionViewDataSourcePrefetching {
-  func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-    guard productsList?.hasNext == true else {
-      return
-    }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let contentOffsetY = scrollView.contentOffset.y
+    let collectionViewContentSize = self.collectionView.contentSize.height
+    let paginationY = collectionViewContentSize * (Size.itemsPerViewFrame / CGFloat(pages.count))
     
-    if indexPaths.last?.row == pages.count - 1 {
+    if contentOffsetY > collectionViewContentSize - paginationY {
       currentPageNumber += 1
       fetchPages()
     }
