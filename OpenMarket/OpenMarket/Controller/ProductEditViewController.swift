@@ -9,8 +9,6 @@ import UIKit
 
 class ProductEditViewController: UIViewController {
     var productDetail: ProductDetail?
-    private var imageArray = [UIImage]()
-    private var imageCount: Int = 1
     private let doneButton = UIBarButtonItem()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var networkImageArray = [ImageInfo]()
@@ -49,7 +47,6 @@ class ProductEditViewController: UIViewController {
         setLayout()
         configureBarButton()
         setData()
-        setImage()
     }
     
     private func configureBarButton() {
@@ -97,27 +94,18 @@ class ProductEditViewController: UIViewController {
         
         presenter = presenter.setData(of: productDetail)
     }
-    
-    private func setImage() {
-        guard let images = presenter.images else {
-            return
-        }
-        
-        imageCount = images.count
-    }
 }
 
 extension ProductEditViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageCount
+        return presenter.images?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditViewCell.identifier, for: indexPath) as? EditViewCell else {
             return UICollectionViewCell()
         }
-        
-        cell.setImage(presenter)
+//        cell.setImage(presenter.images?[indexPath.row])
         productEditView.setEditView(presenter)
         
         return cell
