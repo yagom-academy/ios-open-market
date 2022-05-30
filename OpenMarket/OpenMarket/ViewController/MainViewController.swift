@@ -25,8 +25,8 @@ enum ArrangeMode: String, CaseIterable {
 }
 
 extension API {
-    static let numbers = 1
-    static let pages = 100
+    static let numbers: Int = 1
+    static let pages: Int = 100
 }
 
 final class MainViewController: UIViewController {
