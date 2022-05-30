@@ -20,7 +20,7 @@ fileprivate enum SegmentIndex: Int, CaseIterable {
     }
   }
   
-  static var indexs: [String] {
+  static var titles: [String] {
     return Self.allCases.map { $0.title }
   }
 }
@@ -125,7 +125,7 @@ final class ProductRegisterViewController: UIViewController {
   }()
   
   private let currencySegment: UISegmentedControl = {
-    let segment = UISegmentedControl(items: SegmentIndex.indexs)
+    let segment = UISegmentedControl(items: SegmentIndex.titles)
     segment.selectedSegmentIndex = SegmentIndex.krw.rawValue
     return segment
   }()
