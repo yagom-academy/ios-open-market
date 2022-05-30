@@ -7,15 +7,6 @@
 
 import UIKit
 
-enum ProductManagementType: String {
-    case Registration = "상품 등록"
-    case correction = "상품 수정"
-    
-    var type: String {
-        return self.rawValue
-    }
-}
-
 class ProductManagementViewController: UIViewController {
     lazy var baseView = ProductRegistrationView(frame: view.frame)
     var productManagementType: ProductManagementType?
