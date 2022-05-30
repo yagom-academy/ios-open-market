@@ -9,11 +9,12 @@ import UIKit
 
 final class ProductEditViewController: UIViewController {
     var productDetail: ProductDetail?
-    private let doneButton = UIBarButtonItem()
-    private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var networkImageArray = [ImageInfo]()
-    private let productEditView = ProductEditView()
+    private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var presenter = Presenter()
+    
+    private let productEditView = ProductEditView()
+    private let doneButton = UIBarButtonItem()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
