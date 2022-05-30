@@ -23,7 +23,7 @@ final class MainViewController: UIViewController {
         
         return plusButton
     }()
-    private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidTapped(_:)))
+    private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(cancelButtonDidTapped(_:)))
     
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private lazy var item: [Products] = [] {

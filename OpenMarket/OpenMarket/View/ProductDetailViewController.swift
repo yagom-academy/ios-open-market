@@ -11,7 +11,7 @@ final class ProductDetailViewController: UIViewController {
     var id: Int?
     private var productDetail: ProductDetail?
     private var networkManager = NetworkManager<ProductDetail>(session: URLSession.shared)
-    private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidTapped(_:)))
+    private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(cancelButtonDidTapped(_:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
