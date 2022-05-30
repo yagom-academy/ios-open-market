@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditingViewController: UIViewController {
+final class EditingViewController: UIViewController {
   private enum Constants {
     static let navigationBarTitle = "상품수정"
     static let warningAlertTitle = "입력하지 않은 정보가 있습니다."
