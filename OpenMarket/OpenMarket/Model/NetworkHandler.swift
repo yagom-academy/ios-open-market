@@ -18,10 +18,12 @@ struct NetworkHandler {
     private func makeURL(api: APIable) -> URL? {
         var component = URLComponents(string: api.host + api.path)
         
-        component?.queryItems = api.params?.compactMap {
-            URLQueryItem(name: $0.key, value: $0.value)
+        if api.method == .get {
+            component?.queryItems = api.params?.compactMap {
+                URLQueryItem(name: $0.key, value: $0.value)
+            }
         }
-        
+
         return component?.url
     }
     
