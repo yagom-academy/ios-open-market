@@ -8,7 +8,8 @@
 import UIKit
 
 extension API {
-    static let maxSize = 300.0
+    static let maxSize: Double = 300.0
+    static let maxImageNumber: Int = 5
 }
 
 final class RegisterViewController: ProductViewController {
@@ -142,7 +143,7 @@ extension RegisterViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let imageNumber = images.count + 1
         
-        return imageNumber <= 5 ? imageNumber : 5
+        return imageNumber <= API.maxImageNumber ? imageNumber : API.maxImageNumber
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
