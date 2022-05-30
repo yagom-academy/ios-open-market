@@ -59,7 +59,7 @@ class ProductUpdaterView: UIView {
   
   let currencySegmentedControl: UISegmentedControl = {
     let segmentedControl = UISegmentedControl(items: [Currency.won.text, Currency.dollar.text])
-    segmentedControl.selectedSegmentIndex = 0
+    segmentedControl.selectedSegmentIndex = Currency.won.optionNumber
     segmentedControl.translatesAutoresizingMaskIntoConstraints = false
     segmentedControl.setContentCompressionResistancePriority(.required, for: .horizontal)
     return segmentedControl
