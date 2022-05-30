@@ -84,7 +84,6 @@ class TextCell: UICollectionViewCell {
         }
         
         attribute()
-        segmentedControl.addTarget(self, action: #selector(changeValue), for: .valueChanged)
         return segmentedControl
     }()
     
@@ -108,6 +107,7 @@ class TextCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubViews()
         layout()
+        segmentedControl.addTarget(self, action: #selector(changeValue), for: .valueChanged)
     }
     
     required init?(coder: NSCoder) {
