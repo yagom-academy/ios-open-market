@@ -51,6 +51,8 @@ final class MainViewController: UIViewController {
         appearance.backgroundColor = .systemBackground
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        navigationItem.backButtonTitle = ""
     }
     
     @objc private func addButtonDidTapped() {

@@ -25,6 +25,7 @@ protocol AlertBuilderable {
     func setSecondActionStyle(_ style: UIAlertAction.Style) -> Self
     func setSecondAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self
     func setCancelButton() -> Self
+    
     func show()
 }
 
@@ -95,10 +96,10 @@ final class AlertBuilder: AlertBuilderable {
         cancelAction.style = .cancel
         return self
     }
-    
+
     func show() {
         let alert = UIAlertController(title: alert.title, message: alert.message, preferredStyle: alert.style)
-        
+
         [firstAction, secondAction, okAction, cancelAction].forEach { actionButton in
             if actionButton.title != nil {
                 let action = UIAlertAction(title: actionButton.title, style: actionButton.style, handler: actionButton.action)

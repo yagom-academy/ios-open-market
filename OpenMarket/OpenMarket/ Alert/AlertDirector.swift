@@ -26,9 +26,30 @@ final class AlertDirector {
         AlertBuilder(viewController: viewController)
             .setAlertStyle(.actionSheet)
             .setFirstActionTitle("앨범")
-            .setSecondActionTitle("카메라")
             .setFirstAction(albumAction)
+            .setSecondActionTitle("카메라")
             .setSecondAction(cameraAction)
+            .setCancelButton()
+            .show()
+    }
+    
+    func createProductEditActionSheet(editAction: @escaping (UIAlertAction) -> Void, deleteAction: @escaping (UIAlertAction) -> Void) {
+        AlertBuilder(viewController: viewController)
+            .setAlertStyle(.actionSheet)
+            .setFirstActionTitle("수정")
+            .setFirstAction(editAction)
+            .setSecondActionTitle("삭제")
+            .setSecondAction(deleteAction)
+            .setSecondActionStyle(.destructive)
+            .setCancelButton()
+            .show()
+    }
+    
+    func createInputPasswordAlert(okAction: @escaping (UIAlertAction) -> Void) {
+        AlertBuilder(viewController: viewController)
+            .setTitle("암호를 입력해주세요")
+            .setFirstActionTitle("확인")
+            .setFirstAction(okAction)
             .setCancelButton()
             .show()
     }

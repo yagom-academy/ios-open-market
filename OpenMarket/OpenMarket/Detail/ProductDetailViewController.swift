@@ -46,6 +46,33 @@ final class ProductDetailViewController: UIViewController {
     private func configureView() {
         mainView?.configure(data: product)
         configureCollectionView()
+        configureNavigationBar()
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
+        navigationItem.title = product.name
+    }
+    
+    @objc private func editButtonDidTapped() {
+        AlertDirector(viewController: self).createProductEditActionSheet { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.navigationController?.pushViewController(EditViewController(product: self.product), animated: true)
+        } deleteAction: { [weak self] _ in
+            let alert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle:.alert)
+            alert.addTextField()
+            
+            let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+                guard let text = alert.textFields?.first?.text else { return }
+                // MARK: ToDO: Delete Product
+            }
+            
+            let cancelAction = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            self?.present(alert, animated: true)
+        }
     }
     
     private func configureCollectionView() {
