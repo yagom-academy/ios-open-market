@@ -29,7 +29,8 @@ final class DetailViewController: UIViewController {
       guard let data = try? data.get() else {
         return
       }
-      guard let selectedProduct = try? JSONDecoder().decode(DetailProduct.self, from: data) else {
+      guard let selectedProduct = try? JSONDecoder().decode(DetailProduct.self, from: data)
+      else {
         return
       }
       

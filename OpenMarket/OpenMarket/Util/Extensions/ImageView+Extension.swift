@@ -14,7 +14,9 @@ extension UIImageView {
       self.image = cacheImage
       return
     }
-    guard let url = URL(string: urlString) else { return }
+    guard let url = URL(string: urlString) else {
+      return
+    }
     URLSession.shared.dataTask(with: url) { data, response, error in
       if let _ = error {
         DispatchQueue.main.async { [weak self] in

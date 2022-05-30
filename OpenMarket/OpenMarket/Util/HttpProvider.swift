@@ -20,7 +20,10 @@ struct HttpProvider {
     self.session = session
   }
   
-  func excuteDataTask(with request: URLRequest, _ completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+  func excuteDataTask(
+    with request: URLRequest,
+    _ completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+  ) {
     session.dataTask(with: request) { data, response, error in
       guard error == nil else {
         completionHandler(.failure(.invalid))
@@ -41,9 +44,10 @@ struct HttpProvider {
     }.resume()
   }
   
-  func get(_ endpoint: Endpoint,
-           completionHandler: @escaping (Result<Data, NetworkError>) -> Void)
-  {
+  func get(
+    _ endpoint: Endpoint,
+    completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+  ) {
     guard let url = endpoint.url else {
       completionHandler(.failure(.invalid))
       return
@@ -55,9 +59,12 @@ struct HttpProvider {
     excuteDataTask(with: request, completionHandler)
   }
   
-  func post(_ endpoint: Endpoint, _ params: Params, _ images: [ImageFile],
-            completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-    
+  func post(
+    _ endpoint: Endpoint,
+    _ params: Params,
+    _ images: [ImageFile],
+    completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+  ) {
     guard let url = endpoint.url else {
       completionHandler(.failure(.invalid))
       return
@@ -98,9 +105,11 @@ struct HttpProvider {
     return body
   }
   
-  func patch(_ endpoint: Endpoint, _ params: Params,
-             completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-    
+  func patch(
+    _ endpoint: Endpoint,
+    _ params: Params,
+    completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+  ) {
     guard let url = endpoint.url else {
       completionHandler(.failure(.invalid))
       return

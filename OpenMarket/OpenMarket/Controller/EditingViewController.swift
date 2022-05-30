@@ -107,10 +107,16 @@ final class EditingViewController: UIViewController {
   }
   
   private func presentWarningAlert() {
-    let alert = UIAlertController(title: Constants.warningAlertTitle,
-                                  message: Constants.warningAlertMessage, preferredStyle: .alert)
-    let cancel = UIAlertAction(title: Constants.warningAlertCancelText,
-                               style: .cancel, handler: nil)
+    let alert = UIAlertController(
+      title: Constants.warningAlertTitle,
+      message: Constants.warningAlertMessage,
+      preferredStyle: .alert
+    )
+    let cancel = UIAlertAction(
+      title: Constants.warningAlertCancelText,
+      style: .cancel,
+      handler: nil
+    )
     
     alert.addAction(cancel)
     

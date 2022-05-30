@@ -66,9 +66,11 @@ final class RegistrationViewController: UIViewController {
   }
   
   private func didTapAddImageButton() {
-    registrationView.addImageButton.addTarget(self,
-                                              action: #selector(presentPickerAlert),
-                                              for: .touchUpInside)
+    registrationView.addImageButton.addTarget(
+      self,
+      action: #selector(presentPickerAlert),
+      for: .touchUpInside
+    )
   }
   
   @objc private func postData() {
@@ -99,10 +101,20 @@ final class RegistrationViewController: UIViewController {
 //MARK: - alert
 extension RegistrationViewController {
   @objc private func presentPickerAlert() {
-    let alert = UIAlertController(title: Constants.pickerAlertTitle,
-                                  message: Constants.pickerAlertMessage, preferredStyle: .alert)
-    let cancel = UIAlertAction(title: Constants.pickerAlertCancelText, style: .cancel, handler: nil)
-    let album = UIAlertAction(title: Constants.pickerAlertAlbumText, style: .default) { [weak self] (_) in
+    let alert = UIAlertController(
+      title: Constants.pickerAlertTitle,
+      message: Constants.pickerAlertMessage,
+      preferredStyle: .alert
+    )
+    let cancel = UIAlertAction(
+      title: Constants.pickerAlertCancelText,
+      style: .cancel,
+      handler: nil
+    )
+    let album = UIAlertAction(
+      title: Constants.pickerAlertAlbumText,
+      style: .default
+    ) { [weak self] (_) in
       self?.presentAlbum()
     }
     
@@ -113,9 +125,16 @@ extension RegistrationViewController {
   }
   
   private func presentWarningAlert() {
-    let alert = UIAlertController(title: Constants.warningAlertTitle,
-                                  message: Constants.warningAlertMessage, preferredStyle: .alert)
-    let cancel = UIAlertAction(title: Constants.warningAlertCancelText, style: .cancel, handler: nil)
+    let alert = UIAlertController(
+      title: Constants.warningAlertTitle,
+      message: Constants.warningAlertMessage,
+      preferredStyle: .alert
+    )
+    let cancel = UIAlertAction(
+      title: Constants.warningAlertCancelText,
+      style: .cancel,
+      handler: nil
+    )
     
     alert.addAction(cancel)
     
@@ -131,10 +150,11 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     present(picker, animated: false, completion: nil)
   }
   
-  func imagePickerController(_ picker: UIImagePickerController,
-                             didFinishPickingMediaWithInfo
-                             info: [UIImagePickerController.InfoKey : Any])
-  {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo
+    info: [UIImagePickerController.InfoKey : Any]
+  ) {
     if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
       guard let resizePickerImage = resize(image: image, newWidth: 300) else {
         return

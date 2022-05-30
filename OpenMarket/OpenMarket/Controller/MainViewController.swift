@@ -36,9 +36,11 @@ final class MainViewController: UIViewController {
   private lazy var segmentedControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: [Layout.list.string, Layout.grid.string])
     segment.selectedSegmentIndex = Layout.list.rawValue
-    segment.addTarget(self,
-                      action: #selector(changeCollectionViewLayout(_:)),
-                      for: .valueChanged)
+    segment.addTarget(
+      self,
+      action: #selector(changeCollectionViewLayout(_:)),
+      for: .valueChanged
+    )
     return segment
   }()
   
@@ -115,8 +117,7 @@ extension MainViewController {
           guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ListCell.identifier,
             for: indexPath
-          ) as? ListCell
-          else {
+          ) as? ListCell else {
             return nil
           }
           DispatchQueue.main.async {
@@ -130,8 +131,7 @@ extension MainViewController {
           guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: GridCell.identifier,
             for: indexPath
-          ) as? GridCell
-          else {
+          ) as? GridCell else {
             return nil
           }
           DispatchQueue.main.async {
@@ -157,7 +157,10 @@ extension MainViewController {
 }
 // MARK: - ViewController Delegate
 extension MainViewController: UICollectionViewDelegate {
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath
+  ) {
     let detailViewController = DetailViewController()
     detailViewController.receiveInformation(for: pages[indexPath.row].id)
     navigationController?.pushViewController(detailViewController, animated: false)
