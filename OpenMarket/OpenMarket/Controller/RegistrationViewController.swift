@@ -24,7 +24,6 @@ final class RegistrationViewController: UIViewController {
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
   private var selectedImages: [ImageFile] = []
-  private var keyboardHeight = 0.0
   
   override func viewDidLoad() {
     super.viewDidLoad()
