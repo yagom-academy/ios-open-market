@@ -94,8 +94,13 @@ extension BaseViewController {
             return
         }
 
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout ?? collectionViewLayout)
-        view.addSubview(collectionView ?? UICollectionView())
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        
+        guard let collectionView = collectionView else {
+            return
+        }
+        
+        view.addSubview(collectionView)
         layoutCollectionView()
     }
     
