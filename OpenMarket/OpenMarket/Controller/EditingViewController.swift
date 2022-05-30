@@ -23,6 +23,8 @@ final class EditingViewController: UIViewController {
     super.viewDidLoad()
     configureRegistrationView()
     configureView()
+    addGestureRecognizer()
+    editingView.descriptionTextView.delegate = self
   }
   
   func receiveImformation(for detailProduct: DetailProduct?) {
@@ -121,5 +123,21 @@ final class EditingViewController: UIViewController {
     alert.addAction(cancel)
     
     present(alert, animated: true, completion: nil)
+  }
+}
+
+extension EditingViewController: UITextViewDelegate {
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    let scrollViewHeightScale = EditingView.Constants.scrollViewHeightScale
+    let anchorSpacing = EditingView.Constants.anchorSpacing
+    if self.view.frame.origin.y == 0 {
+      self.view.frame.origin.y -= self.view.frame.height * scrollViewHeightScale - anchorSpacing
+    }
+  }
+
+  func textViewDidEndEditing(_ textView: UITextView) {
+    if self.view.frame.origin.y != 0 {
+      self.view.frame.origin.y = 0
+    }
   }
 }

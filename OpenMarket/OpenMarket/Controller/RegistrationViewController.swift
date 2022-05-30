@@ -24,19 +24,20 @@ final class RegistrationViewController: UIViewController {
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
   private var selectedImages: [ImageFile] = []
+  private var keyboardHeight = 0.0
   
   override func viewDidLoad() {
     super.viewDidLoad()
     configureRegistrationView()
-    addNotification()
     addGestureRecognizer()
     picker.delegate = self
+    registrationView.descriptionTextView.delegate = self
   }
   
   private func configureRegistrationView() {
     let safeArea = self.view.safeAreaLayoutGuide
     self.view.addSubview(registrationView)
-    
+    self.view.backgroundColor = .white
     NSLayoutConstraint.activate([
       registrationView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
       registrationView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
@@ -194,5 +195,21 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     let newImage = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     return newImage
+  }
+}
+
+extension RegistrationViewController: UITextViewDelegate {
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    let scrollViewHeightScale = RegistrationView.Constants.scrollViewHeightScale
+    let anchorSpacing = RegistrationView.Constants.anchorSpacing
+    if self.view.frame.origin.y == 0 {
+      self.view.frame.origin.y -= self.view.frame.height * scrollViewHeightScale - anchorSpacing
+    }
+  }
+
+  func textViewDidEndEditing(_ textView: UITextView) {
+    if self.view.frame.origin.y != 0 {
+      self.view.frame.origin.y = 0
+    }
   }
 }
