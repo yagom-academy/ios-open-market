@@ -20,6 +20,7 @@
 		304D31C22840D3EE0016B148 /* CurrencyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D31C12840D3EE0016B148 /* CurrencyType.swift */; };
 		304D31C42840D65F0016B148 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D31C32840D65F0016B148 /* AlertController.swift */; };
 		304D31C628411DA70016B148 /* RestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D31C528411DA70016B148 /* RestApi.swift */; };
+		304D31CE2843C3E00016B148 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304D31CD2843C3E00016B148 /* UIImage.swift */; };
 		30C06337282CA80200CACD3C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06336282CA80200CACD3C /* Endpoint.swift */; };
 		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
 		30C06341282D131000CACD3C /* URLProductListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06340282D131000CACD3C /* URLProductListTests.swift */; };
@@ -86,6 +87,7 @@
 		304D31C12840D3EE0016B148 /* CurrencyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyType.swift; sourceTree = "<group>"; };
 		304D31C32840D65F0016B148 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		304D31C528411DA70016B148 /* RestApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApi.swift; sourceTree = "<group>"; };
+		304D31CD2843C3E00016B148 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		30C06336282CA80200CACD3C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		30C0633E282D131000CACD3C /* URLProductCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLProductCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,35 +166,23 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		304D31B5283E29150016B148 /* CollectionViewCell */ = {
+		304D31B5283E29150016B148 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				3008F3EA2837A4FB0034C902 /* CustomCell.swift */,
 				86CC60A028333F2C00AE2132 /* ListCell.swift */,
 				3008F3D62834FB760034C902 /* GridCell.swift */,
 			);
-			path = CollectionViewCell;
+			path = Cell;
 			sourceTree = "<group>";
 		};
-		304D31BF2840D2A00016B148 /* OpenMarketViewController */ = {
+		304D31CF2843DB090016B148 /* enum */ = {
 			isa = PBXGroup;
 			children = (
-				86A637D82835E02C00830118 /* SegmentControl.swift */,
-				3008F3E628363EBC0034C902 /* LayoutType.swift */,
-				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
-				304D31B5283E29150016B148 /* CollectionViewCell */,
-			);
-			path = OpenMarketViewController;
-			sourceTree = "<group>";
-		};
-		304D31C02840D2EC0016B148 /* RegistrationViewController */ = {
-			isa = PBXGroup;
-			children = (
-				865B43E0283E1EA60005B484 /* RegistrationViewController.swift */,
 				304D31C12840D3EE0016B148 /* CurrencyType.swift */,
-				8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */,
+				3008F3E628363EBC0034C902 /* LayoutType.swift */,
 			);
-			path = RegistrationViewController;
+			path = enum;
 			sourceTree = "<group>";
 		};
 		3074A67F214CC99E2D34BAF3 /* Pods */ = {
@@ -215,8 +205,10 @@
 		30C06347282D16DF00CACD3C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				304D31C02840D2EC0016B148 /* RegistrationViewController */,
-				304D31BF2840D2A00016B148 /* OpenMarketViewController */,
+				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
+				865B43E0283E1EA60005B484 /* RegistrationViewController.swift */,
+				8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */,
+				304D31CF2843DB090016B148 /* enum */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -224,7 +216,9 @@
 		30C06348282D16E700CACD3C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				304D31B5283E29150016B148 /* Cell */,
 				865B43E2283E25A10005B484 /* ProductRegistrationView.swift */,
+				86A637D82835E02C00830118 /* SegmentControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -308,6 +302,7 @@
 				3008F3EC2837A8F30034C902 /* UICollectionViewCell.swift */,
 				865B43D8283DFDD30005B484 /* Data.swift */,
 				304D31C32840D65F0016B148 /* AlertController.swift */,
+				304D31CD2843C3E00016B148 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -591,6 +586,7 @@
 				3008F3E928374F7F0034C902 /* UIImageView.swift in Sources */,
 				865B43DB283DFE310005B484 /* ProductRegistration.swift in Sources */,
 				3008F3D72834FB760034C902 /* GridCell.swift in Sources */,
+				304D31CE2843C3E00016B148 /* UIImage.swift in Sources */,
 				3008F3E728363EBC0034C902 /* LayoutType.swift in Sources */,
 				304D31C42840D65F0016B148 /* AlertController.swift in Sources */,
 				3008F3ED2837A8F30034C902 /* UICollectionViewCell.swift in Sources */,

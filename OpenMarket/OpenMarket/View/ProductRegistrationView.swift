@@ -40,7 +40,7 @@ final class ProductRegistrationView: UIView {
         return stackView
     }()
     
-    let productName: UITextField = {
+    var productName: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.clearButtonMode = .whileEditing
