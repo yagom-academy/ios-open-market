@@ -23,19 +23,10 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
-    private var currency: String = "KRW"
-    private var currencyType: CurrencyType = .KRW {
-        didSet {
-            if currencyType == .KRW {
-                currency = "KRW"
-            } else {
-                currency = "USD"
-            }
-        }
-    }
+    private var currencyType: CurrencyType = .KRW
     
-    private enum CurrencyType: Int {
-        case KRW = 0
+    private enum CurrencyType: String {
+        case KRW
         case USD
     }
     
@@ -114,7 +105,7 @@ final class AddItemViewController: UIViewController {
     private func makeData() -> Data? {
         guard let name = nameTextField.text else { return nil }
         guard let price = priceTextField.text else { return nil }
-        let currency = currency
+        let currency = currencyType.rawValue
         guard var discountedPrice = discountPriceTextField.text else { return nil }
         discountedPrice = discountedPrice.isEmpty ? "0" : discountedPrice
         guard var stock = stockTextField.text else { return nil }
@@ -175,8 +166,11 @@ final class AddItemViewController: UIViewController {
     }
     
     @IBAction private func changeCurrencySegment(_ sender: UISegmentedControl) {
-        guard let segmentType = CurrencyType(rawValue: sender.selectedSegmentIndex) else { return }
-        currencyType = segmentType
+        if sender.selectedSegmentIndex == 0 {
+            self.currencyType = .KRW
+        } else {
+            self.currencyType = .USD
+        }
     }
 }
 // MARK: - aboutCell
