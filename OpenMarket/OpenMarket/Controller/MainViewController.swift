@@ -133,8 +133,8 @@ extension MainViewController: UICollectionViewDelegate {
         guard let product = currentSnapshot?.itemIdentifiers.last else {return}
         guard currentSnapshot?.indexOfItem(product) != indexPath.row else {
             dataProvider.fetchData() { products in
-                DispatchQueue.main.async { [self] in
-                    updateSnapshot(products: products)
+                DispatchQueue.main.async { [weak self] in
+                    self?.updateSnapshot(products: products)
                 }
             }
             return
