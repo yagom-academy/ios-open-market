@@ -17,7 +17,7 @@ class MainViewControllerUnderiOS14: BaseViewController {
         }
     }
     private var isFirstSnapshot = true
-    private var refresh = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,10 +46,10 @@ class MainViewControllerUnderiOS14: BaseViewController {
 // MARK: Refresh Control
 extension MainViewControllerUnderiOS14 {
     func setUpRefreshControl() {
-        refresh.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
-        refresh.tintColor = UIColor.systemPink
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        refreshControl.tintColor = UIColor.systemPink
 
-        collectionView?.refreshControl = refresh
+        collectionView?.refreshControl = refreshControl
     }
     
     @objc func refreshCollectionView() {

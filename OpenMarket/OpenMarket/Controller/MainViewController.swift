@@ -14,7 +14,7 @@ class MainViewController: BaseViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
     private let dataProvider = DataProvider()
-    private var refresh = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +47,10 @@ class MainViewController: BaseViewController {
 @available(iOS 14.0, *)
 extension MainViewController {
     func setUpRefreshControl() {
-        refresh.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
-        refresh.tintColor = UIColor.systemPink
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        refreshControl.tintColor = UIColor.systemPink
 
-        collectionView?.refreshControl = refresh
+        collectionView?.refreshControl = refreshControl
     }
     
     @objc func refreshCollectionView() {
@@ -64,7 +64,7 @@ extension MainViewController {
             dataSource?.apply(currentSnapshot)
             
             DispatchQueue.main.async {
-                self.refresh.endRefreshing()
+                self.refreshControl.endRefreshing()
             }
         }
         
