@@ -68,50 +68,42 @@ final class AddItemViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func checkComponents(){
+    private func checkComponents() throws {
         if imageArray.count == 0 {
-            showAlert(message: "이미지는 최소 1장 이상\n 등록 되어야 합니다")
-            return
+            throw PostItemError.imageError
         }
         
         if let name = nameTextField.text, name.replacingOccurrences(of: " ", with: "").count < 3 {
-            showAlert(message: "상품명을 3글자 이상 입력해주세요")
-            return
+            throw PostItemError.nameError
         }
         
         guard let price = priceTextField.text else { return }
         guard let discountPrice = discountPriceTextField.text else { return }
-        guard let priceInt = Int(price), priceInt > 0 else { showAlert(message: "상품 가격을 정확히 입력해 주세요"); return }
+        guard let priceInt = Int(price), priceInt > 0 else {
+            throw PostItemError.priceError
+        }
         
         if let discountPriceInt = Int(discountPrice) {
             if discountPriceInt > priceInt {
-                showAlert(message: "할인 가격은 상품 가격보다 낮아야 합니다")
-                return
+                throw PostItemError.discountPriceError
             }
             
             if discountPriceInt < 0 {
-                showAlert(message: "할인 가격을 정확히 입력해 주세요")
-                return
+                throw PostItemError.discountPriceError
             }
             
         } else if !discountPrice.isEmpty {
-            showAlert(message: "할인 가격을 정확히 입력해 주세요")
-            return
+            throw PostItemError.discountPriceError
         }
         
         guard let stock = stockTextField.text else { return }
         
         if let stockInt = Int(stock) {
             if stockInt < 0 {
-            showAlert(message: "상품 수량을 정확히 입력해 주세요")
-                return
+                throw PostItemError.stockError
             }
         } else if !stock.isEmpty {
-            showAlert(message: "상품 수량을 정확히 입력해 주세요")
-            return
-        }
-        
-        networkHandler.request(api: makeComponents()) { _ in
+            throw PostItemError.stockError
         }
     }
     
@@ -134,7 +126,26 @@ final class AddItemViewController: UIViewController {
     }
     
     @objc private func touchDoneButton() {
-        checkComponents()
+        do {
+            try checkComponents()
+            networkHandler.request(api: makeComponents()) { _ in }
+            showAlert(message: "상품 등록이 완료되었습니다", action: popViewController)
+        } catch {
+            switch error {
+            case PostItemError.imageError:
+                showAlert(message: "이미지는 최소 1장 이상\n 등록 되어야 합니다", action: nil)
+            case PostItemError.nameError:
+                showAlert(message: "상품명을 3글자 이상 입력해주세요", action: nil)
+            case PostItemError.priceError:
+                showAlert(message: "상품 가격을 정확히 입력해 주세요", action: nil)
+            case PostItemError.discountPriceError:
+                showAlert(message: "할인 가격을 정확히 입력해 주세요", action: nil)
+            case PostItemError.stockError:
+                showAlert(message: "상품 수량을 정확히 입력해 주세요", action: nil)
+            default:
+                showAlert(message: "알 수 없는 오류", action: nil)
+            }
+        }
     }
     
     @IBAction private func changeCurrencySegment(_ sender: UISegmentedControl) {

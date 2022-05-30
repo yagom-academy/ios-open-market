@@ -11,6 +11,7 @@
 		AC12F11E283486C70044462D /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC12F11C283486C70044462D /* ListCell.xib */; };
 		AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */; };
 		AC326F73283285DA00303ADC /* APIableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC326F72283285DA00303ADC /* APIableProtocol.swift */; };
+		AC4558162844D132003DC759 /* PostItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4558152844D132003DC759 /* PostItemError.swift */; };
 		AC5F81E0283E04820006A2BB /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5F81DF283E04820006A2BB /* Extension + UIImage.swift */; };
 		ACA8E2BB282B85F600B36F46 /* NetworkHandlerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA8E2BA282B85F600B36F46 /* NetworkHandlerTest.swift */; };
 		ACA9600A282A7D9A00CBA9D1 /* ItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */; };
@@ -58,6 +59,7 @@
 		AC12F11C283486C70044462D /* ListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
 		AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		AC326F72283285DA00303ADC /* APIableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIableProtocol.swift; sourceTree = "<group>"; };
+		AC4558152844D132003DC759 /* PostItemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItemError.swift; sourceTree = "<group>"; };
 		AC5F81DF283E04820006A2BB /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
 		ACA8E2B8282B85F600B36F46 /* NetworkHandlerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkHandlerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA8E2BA282B85F600B36F46 /* NetworkHandlerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandlerTest.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				E5BEAFFD282B7AF9001B7BDD /* APIError.swift */,
+				AC4558152844D132003DC759 /* PostItemError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				ACA9600A282A7D9A00CBA9D1 /* ItemProtocol.swift in Sources */,
 				E5DF52622836395500CBBC45 /* ImageCacheManager.swift in Sources */,
 				E5DF525F2835332300CBBC45 /* ItemCellable.swift in Sources */,
+				AC4558162844D132003DC759 /* PostItemError.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				E525336E2832915F0032F533 /* HttpMethod.swift in Sources */,
 				E5BEAFFE282B7AF9001B7BDD /* APIError.swift in Sources */,
