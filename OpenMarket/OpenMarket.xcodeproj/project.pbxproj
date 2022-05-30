@@ -25,6 +25,7 @@
 		30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06338282CA86A00CACD3C /* URLSessionProtocol.swift */; };
 		30C06341282D131000CACD3C /* URLProductListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C06340282D131000CACD3C /* URLProductListTests.swift */; };
 		30E59BA72844C73100BADC7B /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E59BA62844C73100BADC7B /* UIViewController.swift */; };
+		30E59BA92844E2EB00BADC7B /* ProductManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E59BA82844E2EB00BADC7B /* ProductManagementViewController.swift */; };
 		839AA0705AAF9CB71ABFA93C /* Pods_OpenMarket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41E7C73D6CEC0E4BB2132759 /* Pods_OpenMarket.framework */; };
 		8610B2AA28295DB300EB00AF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8610B2A928295DB300EB00AF /* .swiftlint.yml */; };
 		8610B2B4282A052600EB00AF /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610B2B3282A052600EB00AF /* Product.swift */; };
@@ -35,7 +36,7 @@
 		865B43DD283DFE540005B484 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43DC283DFE540005B484 /* Image.swift */; };
 		865B43E1283E1EA60005B484 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43E0283E1EA60005B484 /* RegistrationViewController.swift */; };
 		865B43E3283E25A10005B484 /* ProductRegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43E2283E25A10005B484 /* ProductRegistrationView.swift */; };
-		8665CC6D28438A3E00DBBE27 /* ReviseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */; };
+		8665CC6D28438A3E00DBBE27 /* CorrectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8665CC6C28438A3E00DBBE27 /* CorrectionViewController.swift */; };
 		869BD31A282D04EF00284FAE /* MockURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD319282D04EF00284FAE /* MockURLSessionTest.swift */; };
 		869BD321282D053000284FAE /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBC2282CAC4F00D1FAC0 /* MockURLSession.swift */; };
 		869BD337282D0DA100284FAE /* URLHealthcheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BD336282D0DA100284FAE /* URLHealthcheckerTests.swift */; };
@@ -93,6 +94,7 @@
 		30C0633E282D131000CACD3C /* URLProductCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLProductCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30C06340282D131000CACD3C /* URLProductListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProductListTests.swift; sourceTree = "<group>"; };
 		30E59BA62844C73100BADC7B /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		30E59BA82844E2EB00BADC7B /* ProductManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManagementViewController.swift; sourceTree = "<group>"; };
 		41E7C73D6CEC0E4BB2132759 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		593F13E1FB6D05FB04F2E5F9 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 		8610B2A928295DB300EB00AF /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = ../.swiftlint.yml; sourceTree = "<group>"; };
@@ -105,7 +107,7 @@
 		865B43DC283DFE540005B484 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		865B43E0283E1EA60005B484 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		865B43E2283E25A10005B484 /* ProductRegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationView.swift; sourceTree = "<group>"; };
-		8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviseViewController.swift; sourceTree = "<group>"; };
+		8665CC6C28438A3E00DBBE27 /* CorrectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionViewController.swift; sourceTree = "<group>"; };
 		869BD317282D04EF00284FAE /* MockURLSessionTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockURLSessionTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869BD319282D04EF00284FAE /* MockURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTest.swift; sourceTree = "<group>"; };
 		869BD334282D0DA100284FAE /* URLHealthcheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLHealthcheckerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,9 +206,10 @@
 		30C06347282D16DF00CACD3C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				30E59BA82844E2EB00BADC7B /* ProductManagementViewController.swift */,
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				865B43E0283E1EA60005B484 /* RegistrationViewController.swift */,
-				8665CC6C28438A3E00DBBE27 /* ReviseViewController.swift */,
+				8665CC6C28438A3E00DBBE27 /* CorrectionViewController.swift */,
 				304D31CF2843DB090016B148 /* enum */,
 			);
 			path = Controller;
@@ -568,7 +571,7 @@
 			files = (
 				86A637D92835E02C00830118 /* SegmentControl.swift in Sources */,
 				30C06339282CA86A00CACD3C /* URLSessionProtocol.swift in Sources */,
-				8665CC6D28438A3E00DBBE27 /* ReviseViewController.swift in Sources */,
+				8665CC6D28438A3E00DBBE27 /* CorrectionViewController.swift in Sources */,
 				304D31C22840D3EE0016B148 /* CurrencyType.swift in Sources */,
 				3008F3EB2837A4FB0034C902 /* CustomCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
@@ -580,6 +583,7 @@
 				865B43DB283DFE310005B484 /* ProductRegistration.swift in Sources */,
 				3008F3D72834FB760034C902 /* GridCell.swift in Sources */,
 				304D31CE2843C3E00016B148 /* UIImage.swift in Sources */,
+				30E59BA92844E2EB00BADC7B /* ProductManagementViewController.swift in Sources */,
 				3008F3E728363EBC0034C902 /* LayoutType.swift in Sources */,
 				304D31C42840D65F0016B148 /* AlertController.swift in Sources */,
 				3008F3ED2837A8F30034C902 /* UICollectionViewCell.swift in Sources */,

@@ -7,16 +7,16 @@
 
 import UIKit
 
-final class ReviseViewController: UIViewController {
-    private lazy var baseView = ProductRegistrationView(frame: view.frame)
+final class CorrectionViewController: ProductManagementViewController {
     private let network = URLSessionProvider<Product>()
     private let product: Product
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view = baseView
+        productManagementType = ProductManagementType.correction
         setupNavigationItems()
-        getData()
+        getDetailData()
     }
     
     init(product: Product) {
@@ -26,6 +26,21 @@ final class ReviseViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func getDetailData() {
+        guard let id = product.id else {
+            return
+        }
+
+        network.fetchData(from: .detailProduct(id: id)) { result in
+            switch result {
+            case .success(let product):
+                self.setupView(product: product)
+            case .failure(let error):
+                self.showAlert(title: "Error", message: error.errorDescription)
+            }
+        }
     }
     
     private func setupView(product: Product) {
@@ -66,40 +81,17 @@ final class ReviseViewController: UIViewController {
         return imageView
     }
     
-    private func getData() {
+    private func patchData(product: Product) {
         guard let id = product.id else {
             return
         }
         
-        network.fetchData(from: .detailProduct(id: id)) { result in
-            switch result {
-            case .success(let product):
-                self.setupView(product: product)
-            case .failure(let error):
+        let productRegistration = extractData()
+
+        network.patchData(product: productRegistration, id: id) { result in
+            if case .failure(let error) = result {
                 self.showAlert(title: "Error", message: error.errorDescription)
             }
         }
-    }
-}
-
-// MARK: - NavigationBar
-
-extension ReviseViewController {
-    private func setupNavigationItems() {
-        self.navigationItem.title = "상품수정"
-        
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
-        navigationItem.leftBarButtonItem = cancelButton
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
-        navigationItem.rightBarButtonItem = doneButton
-    }
-    
-    @objc private func didTapCancelButton() {
-        dismiss(animated: true)
-    }
-    
-    @objc private func didTapDoneButton() {
-        self.showAlert(title: "Really?", ok: "Yes", cancel: "No")
     }
 }

@@ -137,7 +137,7 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
             return
         }
         
-        let reviseController = UINavigationController(rootViewController: ReviseViewController(product: product))
+        let reviseController = UINavigationController(rootViewController: CorrectionViewController(product: product))
         reviseController.modalPresentationStyle = .fullScreen
         
         self.present(reviseController, animated: true)
