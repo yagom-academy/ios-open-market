@@ -74,7 +74,7 @@ final class ProductRegistrationView: UIView {
         return segmentControl
     }()
     
-    let productBargenPrice: UITextField = {
+    let productDiscountedPrice: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인 가격"
         textField.clearButtonMode = .whileEditing
@@ -119,7 +119,7 @@ final class ProductRegistrationView: UIView {
             addsubViews(imagesScrollView, TextFieldStackView, productDescription)
             imagesScrollView.addSubview(imagesStackView)
             imagesStackView.addArrangedsubViews(imageView)
-            TextFieldStackView.addArrangedsubViews(productName, priceStackView, productBargenPrice, productStock)
+            TextFieldStackView.addArrangedsubViews(productName, priceStackView, productDiscountedPrice, productStock)
             priceStackView.addArrangedsubViews(productPrice, currencySegmentControl)
         }
 

@@ -47,7 +47,7 @@ final class CorrectionViewController: ProductManagementViewController {
             baseView.productName.text = product.name
             baseView.productPrice.text = product.price?.description
             baseView.currencySegmentControl.selectedSegmentIndex = 0
-            baseView.productBargenPrice.text = product.discountedPrice?.description
+            baseView.productDiscountedPrice.text = product.discountedPrice?.description
             baseView.productStock.text = product.stock?.description
             baseView.productDescription.text = product.description
             

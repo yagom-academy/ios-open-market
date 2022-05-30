@@ -15,7 +15,7 @@ class ProductManagementViewController: UIViewController {
     func extractData() -> ProductRegistration {
         let name = baseView.productName.text
         let price = Int(baseView.productPrice.text ?? "0")
-        let discountedPrice = Int(baseView.productBargenPrice.text ?? "0")
+        let discountedPrice = Int(baseView.productDiscountedPrice.text ?? "0")
         let currency = (CurrencyType(rawValue: baseView.currencySegmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
         let stock = Int(baseView.productStock.text ?? "0")
         let description = baseView.productDescription.text
