@@ -149,7 +149,7 @@ struct HTTPManager {
             }
         
             switch httpResponse.statusCode {
-            case StatusCode.okSuccess where httpResponse.mimeType == ContentType.applicationJson:
+            case StatusCode.createdSuccess where httpResponse.mimeType == ContentType.applicationJson:
                 guard let data = data else {
                     completionHandler(.failure(.emptyData))
                     return
@@ -223,7 +223,7 @@ struct HTTPManager {
             }
         
             switch httpResponse.statusCode {
-            case StatusCode.okSuccess where httpResponse.mimeType == ContentType.applicationJson:
+            case StatusCode.acceptedSuccess where httpResponse.mimeType == ContentType.applicationJson:
                 guard let data = data else {
                     completionHandler(.failure(.emptyData))
                     return
