@@ -7,6 +7,17 @@
 
 import UIKit
 
+struct ItemComponents {
+    let name: String
+    let price: Int
+    let currency: String
+    let discountedPrice: Int
+    let stock: Int
+    let secret: String
+    let descriptions: String
+    let imageArray: [UIImage]
+}
+
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
     @IBOutlet private weak var curruncySegment: UISegmentedControl!
@@ -16,6 +27,7 @@ final class AddItemViewController: UIViewController {
     @IBOutlet private weak var stockTextField: UITextField!
     @IBOutlet private weak var discriptinTextView: UITextView!
     @IBOutlet private weak var myScrollView: UIScrollView!
+    private let networkHandler = NetworkHandler()
     private let maxImageCount = 5
     private let imagePicker = UIImagePickerController()
     private var imageArray: [UIImage] = [] {
@@ -100,61 +112,20 @@ final class AddItemViewController: UIViewController {
             return
         }
         
-        postItem()
-    }
-    private func makeData() -> Data? {
-        guard let name = nameTextField.text else { return nil }
-        guard let price = priceTextField.text else { return nil }
-        let currency = currencyType.rawValue
-        guard var discountedPrice = discountPriceTextField.text else { return nil }
-        discountedPrice = discountedPrice.isEmpty ? "0" : discountedPrice
-        guard var stock = stockTextField.text else { return nil }
-        stock = stock.isEmpty ? "0" : stock
-        guard let descriptions = discriptinTextView.text else { return nil }
-        let httpDescription = descriptions.replacingOccurrences(of: "\n", with: "\\n")
-        let secret = "zsxn8cy106"
-
-        let data = """
-                {
-                \"name\": \"\(name)\",
-                \"price\": \(price),
-                \"currency\": \"\(currency)\",
-                \"discounted_price\": \(discountedPrice),
-                \"stock\": \(stock),
-                \"secret\": \"\(secret)\",
-                \"descriptions\": \"\(httpDescription)\"
-                }
-                """.data(using: .utf8)!
-        
-        return data
+        networkHandler.postItem(model: makeComponents())
     }
     
-    private func postItem() {
-        let networkHandler = NetworkHandler()
-        let boundary = UUID().uuidString
-        let headers = ["identifier" : "99051fa9-d1b8-11ec-9676-978c137c9bee",
-                       "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
-        var data = Data()
+    private func makeComponents() -> ItemComponents {
+        let name = nameTextField.text ?? ""
+        let price = Int(priceTextField.text ?? "") ?? 0
+        let currency = currencyType.rawValue
+        let discountedPrice = Int(discountPriceTextField.text ?? "") ?? 0
+        let stock = Int(stockTextField.text ?? "") ?? 0
+        let descriptions = discriptinTextView.text
+        let httpDescription = descriptions?.replacingOccurrences(of: "\n", with: "\\n") ?? ""
+        let secret = "zsxn8cy106"
         
-        guard let itemData = makeData() else { return }
-                
-        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
-        data.append(itemData)
-        for (index, image) in imageArray.enumerated() {
-            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-                        return
-                    }
-            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(index).jpg\"\r\n".data(using: .utf8)!)
-            data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
-            data.append(imageData)
-        }
-        
-        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
-        
-        let itemAPI = PostItemAPI(header: headers, data: data)
-        networkHandler.request(api: itemAPI){_ in }
+        return ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret, descriptions: httpDescription, imageArray: imageArray)
     }
     
     @objc private func touchCancelButton() {

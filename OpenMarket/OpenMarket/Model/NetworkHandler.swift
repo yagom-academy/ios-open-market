@@ -49,17 +49,50 @@ struct NetworkHandler {
             guard let statusCode = (responseResult.response as? HTTPURLResponse)?.statusCode, (200...299).contains(statusCode) else {
                 return response(.failure(.responseError))
             }
-            
-            switch api.method {
-            case .get:
-                response(.success(responseResult.data))
-            case .post:
-                response(.success(responseResult.data))
-            case .delete:
-                response(.success(responseResult.data))
-            case .patch:
-                response(.success(responseResult.data))
-            }
+            response(.success(responseResult.data))
         }
+    }
+    
+    private func makeData(components: ItemComponents) -> Data? {
+        let data = """
+                {
+                \"name\": \"\(components.name)\",
+                \"price\": \(components.price),
+                \"currency\": \"\(components.currency)\",
+                \"discounted_price\": \(components.discountedPrice),
+                \"stock\": \(components.stock),
+                \"secret\": \"\(components.secret)\",
+                \"descriptions\": \"\(components.descriptions)\"
+                }
+                """.data(using: .utf8)!
+        
+        return data
+    }
+    
+    func postItem(model: ItemComponents) {
+        let boundary = UUID().uuidString
+        let headers = ["identifier" : "99051fa9-d1b8-11ec-9676-978c137c9bee",
+                       "Content-Type" : "multipart/form-data; boundary=\(boundary)"]
+        var data = Data()
+        
+        guard let itemData = makeData(components: model) else { return }
+                
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
+        data.append(itemData)
+        for (index, image) in model.imageArray.enumerated() {
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                        return
+                    }
+            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(index).jpg\"\r\n".data(using: .utf8)!)
+            data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
+            data.append(imageData)
+        }
+        
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        let itemAPI = PostItemAPI(header: headers, data: data)
+        request(api: itemAPI){_ in }
     }
 }
