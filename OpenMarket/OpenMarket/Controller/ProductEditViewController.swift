@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductEditViewController: UIViewController {
+final class ProductEditViewController: UIViewController {
     var productDetail: ProductDetail?
     private let doneButton = UIBarButtonItem()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)

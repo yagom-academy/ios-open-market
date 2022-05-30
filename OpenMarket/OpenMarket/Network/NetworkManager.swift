@@ -21,8 +21,7 @@ struct ImageInfo {
 }
 
 struct NetworkManager<T: Decodable> {
-    var session: URLSessionProtocol
-    var imageData: UIImage?
+    private var session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
         self.session = session
