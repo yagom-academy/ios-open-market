@@ -1,5 +1,5 @@
 //
-//  Products.swift
+//  PageInformation.swift
 //  OpenMarket
 //
 //  Created by cathy, mmim.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductsList: Decodable {
+struct PageInformation: Decodable {
   let pageNumber: Int
   let itemsPerPage: Int
   let totalCount: Int

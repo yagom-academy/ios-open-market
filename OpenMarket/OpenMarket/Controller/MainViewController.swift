@@ -23,7 +23,7 @@ final class MainViewController: UIViewController {
   private lazy var editingView = EditingView()
   private lazy var dataSource = makeDataSource()
   private var currentPageNumber = 1
-  private var productsList:ProductsList?
+  private var productsList:PageInformation?
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -61,7 +61,7 @@ final class MainViewController: UIViewController {
       guard let data = try? data.get() else {
         return
       }
-      guard let products = try? JSONDecoder().decode(ProductsList.self, from: data) else {
+      guard let products = try? JSONDecoder().decode(PageInformation.self, from: data) else {
         return
       }
       self.productsList = products
