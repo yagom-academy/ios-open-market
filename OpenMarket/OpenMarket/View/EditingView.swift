@@ -72,9 +72,9 @@ final class EditingView: ProductUpdaterView {
     self.descriptionTextView.text = detailProduct.description
     switch detailProduct.currency {
     case .won:
-      self.currencySegmentedControl.selectedSegmentIndex = Currency.won.number
+      self.currencySegmentedControl.selectedSegmentIndex = Currency.won.optionNumber
     case .dollar:
-      self.currencySegmentedControl.selectedSegmentIndex = Currency.dollar.number
+      self.currencySegmentedControl.selectedSegmentIndex = Currency.dollar.optionNumber
     }
   }
 }

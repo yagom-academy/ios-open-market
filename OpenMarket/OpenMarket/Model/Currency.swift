@@ -15,7 +15,7 @@ enum Currency: String, Codable {
     return self.rawValue
   }
   
-  var number: Int {
+  var optionNumber: Int {
     switch self {
     case .won:
       return 0

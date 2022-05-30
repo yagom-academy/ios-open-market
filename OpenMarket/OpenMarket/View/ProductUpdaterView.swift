@@ -166,9 +166,9 @@ class ProductUpdaterView: UIView {
   private func verifyCurrency() -> Currency {
     var currency: Currency
     switch self.currencySegmentedControl.selectedSegmentIndex {
-    case Currency.won.number:
+    case Currency.won.optionNumber:
       currency = Currency.won
-    case Currency.dollar.number:
+    case Currency.dollar.optionNumber:
       currency = Currency.dollar
     default:
       currency = Currency.won
