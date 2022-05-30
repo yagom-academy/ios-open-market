@@ -2,7 +2,7 @@
 //  EndPoint.swift
 //  OpenMarket
 //
-//  Created by marisol on 2022/05/29.
+//  Created by Eddy, marisol on 2022/05/29.
 //
 
 import Foundation

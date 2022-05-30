@@ -5,7 +5,7 @@
 //  Created by Eddy, marisol on 2022/05/10.
 //
 
-import UIKit
+import Foundation
 
 enum NetworkError: Error {
     case error
@@ -59,12 +59,14 @@ struct NetworkManager<T: Decodable> {
         case .post:
             guard let params = params as? PostRequest,
                   let images = images else {
+                      completion(.failure(.data))
                       return
                   }
 
             requestPOST(endPoint: endPoint, params: params, images: images)
         case .patch:
             guard let params = params as? PatchRequest else {
+                completion(.failure(.data))
                 return
             }
 
