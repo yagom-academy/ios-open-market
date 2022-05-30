@@ -104,13 +104,16 @@ extension ProductGridCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        thumbnailImageView.image = UIImage(systemName: "photo.on.rectangle.angled")
+        thumbnailImageView.image = Constant.Image.photo
         nameLabel.text = nil
         priceLabel.attributedText = nil
         priceLabel.text = nil
         bargainPriceLabel.text = nil
         quantityLabel.textColor = .label
         quantityLabel.text = nil
+        
+        imageDownloadTask?.suspend()
+        imageDownloadTask?.cancel()
     }
     
     func configure(data: Product) {
@@ -128,8 +131,8 @@ extension ProductGridCell {
             priceLabel.addStrikethrough()
         }
         
-        quantityLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray3
-        quantityLabel.text = data.stock == 0 ? "품절" : "잔여수량: \(data.stock ?? 0)"
+        quantityLabel.textColor = data.stock == .zero ? .systemOrange : .systemGray3
+        quantityLabel.text = data.stock == .zero ? "품절" : "잔여수량: \(data.stock ?? .zero)"
         
         downloadImage(imageURL: data.thumbnail)
     }

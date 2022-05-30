@@ -9,6 +9,6 @@ import UIKit
 
 struct AlertAction {
     var title: String?
-    var alertActionStyle: UIAlertAction.Style = .default
+    var style: UIAlertAction.Style = .default
     var action: ((UIAlertAction) -> Void)?
 }

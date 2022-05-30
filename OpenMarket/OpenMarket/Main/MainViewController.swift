@@ -6,11 +6,7 @@
 
 import UIKit
 
-private enum Section {
-    case main
-}
-
-private enum Constant {
+private extension Constant {
     static let requestItemCount = 20
 }
 
@@ -18,11 +14,13 @@ final class MainViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Product>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Product>
     
+    private var networkManager = NetworkManager()
+    private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
+    
     private var mainView: MainView?
     private var dataSource: DataSource?
     private var snapshot: Snapshot?
-    private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
-    private var networkManager = NetworkManager<ProductList>()
+    
     private var pageNumber = 1
     
     override func viewDidLoad() {
@@ -48,11 +46,29 @@ final class MainViewController: UIViewController {
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
         navigationItem.titleView = cellLayoutSegmentControl
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .systemBackground
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        navigationItem.backButtonTitle = ""
+    }
+    
+    @objc private func addButtonDidTapped() {
+        let registerViewController = RegisterViewController()
+        registerViewController.delegate = self
+        
+        let registerNavigationController = UINavigationController(rootViewController: registerViewController)
+        registerNavigationController.modalPresentationStyle = .fullScreen
+        
+        present(registerNavigationController, animated: true)
     }
     
     private func configureCollectionView() {
         mainView?.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
         mainView?.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
+        mainView?.collectionView.delegate = self
         mainView?.collectionView.prefetchDataSource = self
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
@@ -61,6 +77,10 @@ final class MainViewController: UIViewController {
     private func configureRefreshControl() {
         mainView?.collectionView.refreshControl = UIRefreshControl()
         mainView?.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc private func handleRefreshControl() {
+        resetData()
     }
     
     private func configureSegmentControl() {
@@ -74,26 +94,10 @@ final class MainViewController: UIViewController {
         cellLayoutSegmentControl.selectedSegmentIndex = 0
         cellLayoutSegmentControl.addTarget(self, action: #selector(segmentValueDidChanged), for: .valueChanged)
     }
-}
-
-// MARK: - Action Method
-
-extension MainViewController {
-    @objc private func addButtonDidTapped() {
-        // empty
-    }
     
     @objc private func segmentValueDidChanged() {
         mainView?.changeLayout(index: cellLayoutSegmentControl.selectedSegmentIndex)
         mainView?.collectionView.reloadData()
-    }
-    
-    @objc private func handleRefreshControl() {
-        pageNumber = 1
-        snapshot = makeSnapshot()
-
-        ImageManager.shared.clearCache()
-        requestData(pageNumber: pageNumber)
     }
 }
 
@@ -101,9 +105,9 @@ extension MainViewController {
 
 extension MainViewController {
     private func requestData(pageNumber: Int) {
-        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount, httpMethod: .get)
+        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount)
         
-        networkManager.request(endPoint: endPoint) { [weak self] result in
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<ProductList, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
@@ -117,9 +121,30 @@ extension MainViewController {
                     self.mainView?.collectionView.refreshControl?.stop()
                 }
             case .failure(_):
-                AlertDirector(viewController: self).createErrorAlert()
+                AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
             }
         }
+    }
+    
+    private func resetData() {
+        pageNumber = 1
+        snapshot = makeSnapshot()
+
+        ImageManager.shared.clearCache()
+        requestData(pageNumber: pageNumber)
+    }
+}
+
+//MARK: - CollectionView Delegate
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = snapshot?.itemIdentifiers[indexPath.item] else { return }
+        
+        let productDetailViewController = ProductDetailViewController(product: product)
+        // editViewController.delegate = self
+
+        navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
 
@@ -160,9 +185,7 @@ extension MainViewController {
         DispatchQueue.main.async { [self] in
             snapshot?.appendItems(products)
             
-            guard let snapshot = snapshot else {
-                return
-            }
+            guard let snapshot = snapshot else { return }
             
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
@@ -177,9 +200,7 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     }
     
     private func prefetchData(_ indexPaths: [IndexPath]) {
-        guard let indexPath = indexPaths.last else {
-            return
-        }
+        guard let indexPath = indexPaths.last else { return }
         
         let section = indexPath.row / Constant.requestItemCount
         
@@ -187,5 +208,13 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
             pageNumber += 1
             requestData(pageNumber: pageNumber)
         }
+    }
+}
+
+//MARK: - ProductViewController Delegate
+
+extension MainViewController: ProductViewControllerDelegate {
+    func refreshData() {
+        resetData()
     }
 }

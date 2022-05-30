@@ -9,26 +9,32 @@ import UIKit
 
 protocol AlertBuilderable {
     var alert: Alert { get }
-    var alertOkAction: AlertAction { get }
-    var alertCancelAction: AlertAction { get }
+    var firstAction: AlertAction { get }
+    var secondAction: AlertAction { get }
+    var okAction: AlertAction { get }
+    var cancelAction: AlertAction { get }
     var targetViewController: UIViewController { get }
     
     func setTitle(_ title: String) -> Self
     func setMessage(_ message: String) -> Self
-    func setPreferredStyle(_ style: UIAlertController.Style) -> Self
-    func setOkActionTitle(_ title: String) -> Self
-    func setOkActionStyle(_ style: UIAlertAction.Style) -> Self
-    func setOkAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self
-    func setCencelActionTitle(_ title: String) -> Self
-    func setCencelActionStyle(_ style: UIAlertAction.Style) -> Self
-    func setCencelAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self
+    func setAlertStyle(_ style: UIAlertController.Style) -> Self
+    func setFirstActionTitle(_ title: String) -> Self
+    func setFirstActionStyle(_ style: UIAlertAction.Style) -> Self
+    func setFirstAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self
+    func setSecondActionTitle(_ title: String) -> Self
+    func setSecondActionStyle(_ style: UIAlertAction.Style) -> Self
+    func setSecondAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self
+    func setCancelButton() -> Self
+    
     func show()
 }
 
 final class AlertBuilder: AlertBuilderable {
     var alert = Alert()
-    var alertOkAction = AlertAction()
-    var alertCancelAction = AlertAction()
+    var firstAction = AlertAction()
+    var secondAction = AlertAction()
+    var okAction = AlertAction()
+    var cancelAction = AlertAction()
     var targetViewController: UIViewController
     
     init(viewController: UIViewController) {
@@ -45,54 +51,64 @@ final class AlertBuilder: AlertBuilderable {
         return self
     }
     
-    func setPreferredStyle(_ style: UIAlertController.Style) -> Self {
-        alert.preferredStyle = style
+    func setAlertStyle(_ style: UIAlertController.Style) -> Self {
+        alert.style = style
         return self
     }
     
-    func setOkActionTitle(_ title: String) -> Self {
-        alertOkAction.title = title
+    func setFirstActionTitle(_ title: String) -> Self {
+        firstAction.title = title
         return self
     }
     
-    func setOkActionStyle(_ style: UIAlertAction.Style) -> Self {
-        alertOkAction.alertActionStyle = style
+    func setFirstActionStyle(_ style: UIAlertAction.Style) -> Self {
+        firstAction.style = style
         return self
     }
     
-    func setOkAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self {
-        alertOkAction.action = action
+    func setFirstAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self {
+        firstAction.action = action
         return self
     }
     
-    func setCencelActionTitle(_ title: String) -> Self {
-        alertCancelAction.title = title
+    func setSecondActionTitle(_ title: String) -> Self {
+        secondAction.title = title
         return self
     }
     
-    func setCencelActionStyle(_ style: UIAlertAction.Style) -> Self {
-        alertCancelAction.alertActionStyle = style
+    func setSecondActionStyle(_ style: UIAlertAction.Style) -> Self {
+        secondAction.style = style
         return self
     }
     
-    func setCencelAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self {
-        alertCancelAction.action = action
+    func setSecondAction(_ action: @escaping ((UIAlertAction) -> Void)) -> Self {
+        secondAction.action = action
         return self
     }
     
+    func setOkButton() -> Self {
+        okAction.title = "확인"
+        return self
+    }
+    
+    func setCancelButton() -> Self {
+        cancelAction.title = "취소"
+        cancelAction.style = .cancel
+        return self
+    }
+
     func show() {
-        let alert = UIAlertController(title: alert.title, message: alert.message, preferredStyle: alert.preferredStyle)
-        
-        if alertOkAction.title != nil {
-            let action = UIAlertAction(title: alertOkAction.title, style: alertOkAction.alertActionStyle, handler: alertOkAction.action)
-            alert.addAction(action)
+        let alert = UIAlertController(title: alert.title, message: alert.message, preferredStyle: alert.style)
+
+        [firstAction, secondAction, okAction, cancelAction].forEach { actionButton in
+            if actionButton.title != nil {
+                let action = UIAlertAction(title: actionButton.title, style: actionButton.style, handler: actionButton.action)
+                alert.addAction(action)
+            }
         }
         
-        if alertCancelAction.title != nil {
-            let action = UIAlertAction(title: alertCancelAction.title, style: alertCancelAction.alertActionStyle, handler: alertCancelAction.action)
-            alert.addAction(action)
+        DispatchQueue.main.async { [self] in
+            targetViewController.present(alert, animated: true)
         }
-        
-        targetViewController.present(alert, animated: true)
     }
 }

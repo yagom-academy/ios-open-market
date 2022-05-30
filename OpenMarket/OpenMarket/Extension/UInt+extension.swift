@@ -1,5 +1,5 @@
 //
-//  Double+extension.swift
+//  UInt+extension.swift
 //  OpenMarket
 //
 //  Created by dudu, safari on 2022/05/14.

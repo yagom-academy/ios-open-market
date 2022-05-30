@@ -14,11 +14,43 @@ final class AlertDirector {
         self.viewController = viewController
     }
     
-    func createErrorAlert() {
+    func createErrorAlert(message: String) {
         AlertBuilder(viewController: viewController)
             .setTitle("에러 발생")
-            .setMessage("데이터를 불러오지 못했습니다.")
-            .setOkActionTitle("확인")
+            .setMessage(message)
+            .setOkButton()
+            .show()
+    }
+    
+    func createImageSelectActionSheet(albumAction: @escaping (UIAlertAction) -> Void, cameraAction: @escaping (UIAlertAction) -> Void) {
+        AlertBuilder(viewController: viewController)
+            .setAlertStyle(.actionSheet)
+            .setFirstActionTitle("앨범")
+            .setFirstAction(albumAction)
+            .setSecondActionTitle("카메라")
+            .setSecondAction(cameraAction)
+            .setCancelButton()
+            .show()
+    }
+    
+    func createProductEditActionSheet(editAction: @escaping (UIAlertAction) -> Void, deleteAction: @escaping (UIAlertAction) -> Void) {
+        AlertBuilder(viewController: viewController)
+            .setAlertStyle(.actionSheet)
+            .setFirstActionTitle("수정")
+            .setFirstAction(editAction)
+            .setSecondActionTitle("삭제")
+            .setSecondAction(deleteAction)
+            .setSecondActionStyle(.destructive)
+            .setCancelButton()
+            .show()
+    }
+    
+    func createInputPasswordAlert(okAction: @escaping (UIAlertAction) -> Void) {
+        AlertBuilder(viewController: viewController)
+            .setTitle("암호를 입력해주세요")
+            .setFirstActionTitle("확인")
+            .setFirstAction(okAction)
+            .setCancelButton()
             .show()
     }
 }

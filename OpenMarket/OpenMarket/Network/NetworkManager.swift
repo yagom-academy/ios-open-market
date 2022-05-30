@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkErorr: Error {
+enum NetworkError: Error {
     case dataError
     case jsonError
     case severError
@@ -15,15 +15,15 @@ enum NetworkErorr: Error {
     case imageError
 }
 
-struct NetworkManager<T: Codable> {
+struct NetworkManager {
     private let session: URLSession
     
     init(session: URLSession = .customSession) {
         self.session = session
     }
     
-    func checkServerState(completion: @escaping (Result<String, NetworkErorr>) -> Void) {
-        guard let urlRequst = EndPoint.serverState(httpMethod: .get).urlRequst else {
+    func checkServerState(completion: @escaping (Result<String, NetworkError>) -> Void) {
+        guard let urlRequst = EndPoint.serverState.urlRequest else {
             completion(.failure(.urlError))
             return
         }
@@ -45,8 +45,8 @@ struct NetworkManager<T: Codable> {
         }.resume()
     }
     
-    func request(endPoint: EndPoint, completion: @escaping (Result<T, NetworkErorr>) -> Void) {
-        guard let urlRequst = endPoint.urlRequst else {
+    func request<T: Decodable>(endPoint: EndPoint, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        guard let urlRequst = endPoint.urlRequest else {
             completion(.failure(.urlError))
             return
         }
@@ -65,10 +65,7 @@ struct NetworkManager<T: Codable> {
             }
             
             do {
-                let jsonDecoder = JSONDecoder()
-                jsonDecoder.dateDecodingStrategy = .formatted(.dateFormatter)
-                
-                let result = try jsonDecoder.decode(T.self, from: data)
+                let result = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(result))
             } catch {
                 completion(.failure(.jsonError))
@@ -76,14 +73,4 @@ struct NetworkManager<T: Codable> {
             }
         }.resume()
     }
-}
-
-//MARK: - Extension DateFormatter
-
-private extension DateFormatter {
-    static let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss.SS"
-        return dateFormatter
-    }()
 }

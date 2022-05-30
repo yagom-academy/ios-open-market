@@ -17,7 +17,7 @@ class NetworkTests: XCTestCase {
     func test_네트워크에_서버상태요청시_OK가_넘어오는지() {
         // given
         let promise = expectation(description: "will return OK message")
-        let sut = NetworkManager<String>()
+        let sut = NetworkManager()
         
         // when
         sut.checkServerState { result in
@@ -36,10 +36,10 @@ class NetworkTests: XCTestCase {
     
     func test_네트워크통신없이_요청시_성공하는_경우() {
         // given
-        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10, httpMethod: .get)
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10)
         
         MockURLProtocol.requsetHandler = { requset in
-            let urlReponse = HTTPURLResponse(url: endPoint.urlRequst!.url!, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
+            let urlReponse = HTTPURLResponse(url: endPoint.urlRequest!.url!, statusCode: 200, httpVersion: "2.0", headerFields: nil)!
             let dummyData = DummyData().data!
             
             return (urlReponse, dummyData)
@@ -49,11 +49,11 @@ class NetworkTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         
         let mockSession = URLSession(configuration: configuration)
-        let sut = NetworkManager<ProductList>(session: mockSession)
+        let sut = NetworkManager(session: mockSession)
         let promise = expectation(description: "will return productList")
         
         // when
-        sut.request(endPoint: endPoint) { result in
+        sut.request(endPoint: endPoint) { (result: Result<ProductList, NetworkErorr>) in
             // then
             switch result {
             case .success(let list):
@@ -71,10 +71,10 @@ class NetworkTests: XCTestCase {
     
     func test_네트워크통신없이_요청시_실패하는_경우() {
         // given
-        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10, httpMethod: .get)
+        let endPoint = EndPoint.requestList(page: 1, itemsPerPage: 10)
         
         MockURLProtocol.requsetHandler = { requset in
-            let urlReponse = HTTPURLResponse(url: endPoint.urlRequst!.url!, statusCode: 404, httpVersion: "2.0", headerFields: nil)!
+            let urlReponse = HTTPURLResponse(url: endPoint.urlRequest!.url!, statusCode: 404, httpVersion: "2.0", headerFields: nil)!
             let dummyData = DummyData().data!
             
             return (urlReponse, dummyData)
@@ -84,11 +84,11 @@ class NetworkTests: XCTestCase {
         configuration.protocolClasses = [MockURLProtocol.self]
         
         let mockSession = URLSession(configuration: configuration)
-        let sut = NetworkManager<ProductList>(session: mockSession)
+        let sut = NetworkManager(session: mockSession)
         let promise = expectation(description: "will return productList")
 
         // when
-        sut.request(endPoint: endPoint) { result in
+        sut.request(endPoint: endPoint) { (result: Result<ProductList, NetworkErorr>) in
             // then
             switch result {
             case .success(_):
