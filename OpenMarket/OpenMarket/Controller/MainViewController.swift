@@ -34,6 +34,8 @@ class MainViewController: BaseViewController {
         super.switchCollectionViewLayout()
         self.configureDataSource()
         guard let currentSnapshot = currentSnapshot else {
+            let alert = Alert().showWarning(title: "data 불러오지 못함")
+            present(alert, animated: true)
             return
         }
         dataSource?.apply(currentSnapshot)
