@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RegistrationViewController: UIViewController, Alertable {
+final class RegistrationViewController: UIViewController {
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
     private let network = URLSessionProvider<ProductList>()
     private let imagePicker = UIImagePickerController()
@@ -50,21 +50,14 @@ final class RegistrationViewController: UIViewController, Alertable {
     }
     
     @objc private func didTapDoneButton() {
-        let alert = UIAlertController(title: "Really?", message: nil, preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
-            self.postProduct()
-            self.dismiss(animated: true)
-        }
-        let noAction = UIAlertAction(title: "No", style: .destructive)
-        alert.addActions(yesAction, noAction)
-        present(alert, animated: true)
+        self.showAlert(title: "Really?", ok: "Yes", cancel: "No", action: postProduct)
     }
     
     private func postProduct() {
         let newProduct = extractData()
         self.network.postData(params: newProduct) { result in
             if case .failure(let error) = result {
-                self.showAlert(errorMessage: error.errorDescription ?? "", viewController: self)
+                self.showAlert(title: "Error", message: error.errorDescription)
             }
         }
     }

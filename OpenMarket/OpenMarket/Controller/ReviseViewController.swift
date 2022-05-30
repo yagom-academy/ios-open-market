@@ -71,15 +71,8 @@ final class ReviseViewController: UIViewController {
     }
     
     @objc private func didTapDoneButton() {
-        let alert = UIAlertController(title: "Really?", message: nil, preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { _ in
-            self.dismiss(animated: true)
-        }
-        let noAction = UIAlertAction(title: "No", style: .destructive)
-        alert.addActions(yesAction, noAction)
-        present(alert, animated: true)
+        self.showAlert(title: "Really?", ok: "Yes", cancel: "No")
     }
-    
 }
 
 extension ReviseViewController {
