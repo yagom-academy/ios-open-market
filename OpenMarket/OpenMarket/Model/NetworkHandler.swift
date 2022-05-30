@@ -34,7 +34,8 @@ struct NetworkHandler {
         request.httpMethod = api.method.string
         
         if api.method == .post {
-            request = makePostData(api: api, requset2: request)!
+            guard let urlRequest = makePostData(api: api, urlRequest: request) else { return }
+            request = urlRequest
         }
         
         session.receiveResponse(request: request) { responseResult in
@@ -65,9 +66,9 @@ struct NetworkHandler {
         return data
     }
     
-    private func makePostData(api: APIable, requset2: URLRequest) -> URLRequest? {
+    private func makePostData(api: APIable, urlRequest: URLRequest) -> URLRequest? {
         let boundary = UUID().uuidString
-        var request = requset2
+        var request = urlRequest
         
         request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
