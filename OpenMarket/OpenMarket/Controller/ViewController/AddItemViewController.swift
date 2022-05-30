@@ -31,7 +31,6 @@ final class AddItemViewController: UIViewController {
             } else {
                 currency = "USD"
             }
-            print(currency)
         }
     }
     
@@ -213,7 +212,11 @@ extension AddItemViewController: UICollectionViewDelegate {
                 self.selectPhoto(where: .photoLibrary)
             }
             let cameraAction = UIAlertAction(title: "카메라", style: .default){_ in
-                self.selectPhoto(where: .camera)
+                if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+                    self.selectPhoto(where: .camera)
+                } else {
+                    self.showAlert(message: "카메라를 사용할 수 없습니다")
+                }
             }
             let cancelAction = UIAlertAction(title: "취소", style: .cancel)
             alert.addAction(cameraAction)
