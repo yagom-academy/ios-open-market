@@ -9,11 +9,11 @@ import XCTest
 @testable import OpenMarket
 
 class ApiProviderTests: XCTestCase {
-  var sut: ApiProvider!
+  var sut: HttpProvider!
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    sut = ApiProvider()
+    sut = HttpProvider()
   }
   
   override func tearDownWithError() throws {

@@ -1,5 +1,5 @@
 //
-//  URLSessionProvider.swift
+//  HttpProvider.swift
 //  OpenMarket
 //
 //  Created by cathy, mmim.
@@ -13,7 +13,7 @@ enum HttpMethod {
   static let patch = "PATCH"
 }
 
-struct ApiProvider {
+struct HttpProvider {
   private let session: URLSession
   
   init(session: URLSession = URLSession.shared) {

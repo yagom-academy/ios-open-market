@@ -8,7 +8,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-  private let detailAPIProvider = ApiProvider()
+  private let detailAPIProvider = HttpProvider()
   private var product: DetailProduct?
   private var pageId: Int?
 

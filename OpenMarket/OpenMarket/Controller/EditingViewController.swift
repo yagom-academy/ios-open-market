@@ -15,7 +15,7 @@ class EditingViewController: UIViewController {
     static let warningAlertCancelText = "확인"
   }
   
-  private var apiProvider = ApiProvider()
+  private var apiProvider = HttpProvider()
   private lazy var editingView = EditingView()
   private var detailProduct: DetailProduct?
   

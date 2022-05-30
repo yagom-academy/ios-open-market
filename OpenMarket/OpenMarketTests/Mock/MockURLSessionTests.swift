@@ -9,7 +9,7 @@ import XCTest
 @testable import OpenMarket
 
 final class MockURLSessionTests: XCTestCase {
-  var sut: ApiProvider!
+  var sut: HttpProvider!
   let mockData = MockData().loadData()!
   
   override func setUpWithError() throws {
@@ -17,7 +17,7 @@ final class MockURLSessionTests: XCTestCase {
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
     let urlSession = URLSession(configuration: configuration)
-    sut = ApiProvider(session: urlSession)
+    sut = HttpProvider(session: urlSession)
   }
   
   override func tearDownWithError() throws {
@@ -41,7 +41,7 @@ final class MockURLSessionTests: XCTestCase {
       // then
       switch data {
       case .success(let data):
-        guard let products = try? JSONDecoder().decode(ProductsList.self, from: data) else {
+        guard let products = try? JSONDecoder().decode(PageInformation.self, from: data) else {
           return
         }
         XCTAssertEqual(products.pageNumber, 1)
@@ -69,7 +69,7 @@ final class MockURLSessionTests: XCTestCase {
       // then
       switch data {
       case .success(let data):
-        guard let products = try? JSONDecoder().decode(ProductsList.self, from: data) else {
+        guard let products = try? JSONDecoder().decode(PageInformation.self, from: data) else {
           return
         }
         XCTAssertEqual(products.pages.count, 10)
@@ -97,7 +97,7 @@ final class MockURLSessionTests: XCTestCase {
       // then
       switch data {
       case .success(let data):
-        guard let products = try? JSONDecoder().decode(ProductsList.self, from: data) else {
+        guard let products = try? JSONDecoder().decode(PageInformation.self, from: data) else {
           return
         }
         XCTAssertEqual(products.pages.first?.id, 20)

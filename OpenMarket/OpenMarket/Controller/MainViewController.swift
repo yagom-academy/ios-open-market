@@ -18,7 +18,7 @@ final class MainViewController: UIViewController {
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
-  private let apiProvider = ApiProvider()
+  private let apiProvider = HttpProvider()
   private lazy var collectionView = CollectionView()
   private lazy var editingView = EditingView()
   private lazy var dataSource = makeDataSource()
