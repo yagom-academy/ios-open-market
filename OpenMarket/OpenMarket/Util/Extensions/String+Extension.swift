@@ -8,11 +8,11 @@
 import UIKit
 
 extension String {
-  var integer: Int {
+  var integer: Int? {
     if let number = Int(self) {
       return number
     } else {
-      return 0
+      return nil
     }
   }
   
