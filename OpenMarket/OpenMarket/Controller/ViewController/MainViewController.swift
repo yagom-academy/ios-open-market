@@ -85,7 +85,7 @@ final class MainViewController: UIViewController {
     }
     
     
-    private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) {
+    private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) -> CellComponents {
         let name = self.items[indexPath.row].name
         let price = (self.items[indexPath.row].currency + String(self.items[indexPath.row].price)).strikethrough()
         let isDiscounted = self.items[indexPath.row].discountedPrice == 0 ? false : true
@@ -94,11 +94,7 @@ final class MainViewController: UIViewController {
         let stockLabel = self.items[indexPath.row].stock == 0 ?  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1) : #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         let thumnailURL = self.items[indexPath.row].thumbnail
         
-        let cellComponents = CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel, thumbnailURL: thumnailURL)
-        
-        itemCell.configureCell(components: cellComponents)
-        
-        self.myActivityIndicator.stopAnimating()
+        return CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel, thumbnailURL: thumnailURL)
     }
     
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
@@ -122,11 +118,13 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if cellType == .list {
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  "\(ListCell.self)", for: indexPath) as? ListCell else { return ListCell() }
-            setCellComponents(itemCell: listCell, indexPath: indexPath)
+            listCell.configureCell(components: setCellComponents(itemCell: listCell, indexPath: indexPath))
+            myActivityIndicator.stopAnimating()
             return listCell
         } else {
             guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(GridCell.self)", for: indexPath) as? GridCell else { return GridCell() }
-            setCellComponents(itemCell: gridCell, indexPath: indexPath)
+            gridCell.configureCell(components: setCellComponents(itemCell: gridCell, indexPath: indexPath))
+            myActivityIndicator.stopAnimating()
             return gridCell
         }
     }
