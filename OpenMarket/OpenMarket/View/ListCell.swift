@@ -138,10 +138,14 @@ final class ListCell: UICollectionViewCell {
       totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
       totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       
-      thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor,
-                                                multiplier: 1.1),
-      accessoryImageView.widthAnchor.constraint(equalTo: accessoryImageView.heightAnchor,
-                                                multiplier: 0.75)
+      thumbnailImageView.widthAnchor.constraint(
+        equalTo: thumbnailImageView.heightAnchor,
+        multiplier: 1.1
+      ),
+      accessoryImageView.widthAnchor.constraint(
+        equalTo: accessoryImageView.heightAnchor,
+        multiplier: 0.75
+      )
     ])
   }
   

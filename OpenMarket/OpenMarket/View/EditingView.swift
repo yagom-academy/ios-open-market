@@ -28,40 +28,54 @@ final class EditingView: ProductUpdaterView {
     totalStackView.addArrangedSubviews(imageScrollView, textFieldStackView, descriptionTextView)
     self.addSubview(totalStackView)
     
-    NSLayoutConstraint.activate(
-      [totalStackView
-        .leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.anchorSpacing),
-       totalStackView
-        .trailingAnchor
-        .constraint(equalTo: self.trailingAnchor, constant: -Constants.anchorSpacing),
-       totalStackView
-        .topAnchor.constraint(equalTo: self.topAnchor, constant: Constants.anchorSpacing),
-       totalStackView
-        .bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constants.anchorSpacing),
-       
-       currencySegmentedControl
-        .widthAnchor
-        .constraint(equalTo: self.widthAnchor, multiplier: Constants.currencyWidthScale),
-       
-       
-       imageScrollView
-        .heightAnchor
-        .constraint(equalTo: self.heightAnchor, multiplier: Constants.scrollViewHeightScale),
-       
-       imageStackView
-        .leadingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
-       imageStackView
-        .trailingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
-       imageStackView
-        .topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
-       imageStackView
-        .bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
-       imageStackView
-        .heightAnchor.constraint(equalTo: imageScrollView.frameLayoutGuide.heightAnchor),
-       descriptionTextView
-        .heightAnchor
-        .constraint(equalTo: self.heightAnchor, multiplier: Constants.textViewHeightScale)
-      ])
+    NSLayoutConstraint.activate([
+      totalStackView.leadingAnchor.constraint(
+        equalTo: self.leadingAnchor,
+        constant: Constants.anchorSpacing
+      ),
+      totalStackView.trailingAnchor.constraint(
+        equalTo: self.trailingAnchor,
+        constant: -Constants.anchorSpacing
+      ),
+      totalStackView.topAnchor.constraint(
+        equalTo: self.topAnchor,
+        constant: Constants.anchorSpacing
+      ),
+      totalStackView.bottomAnchor.constraint(
+        equalTo: self.bottomAnchor,
+        constant: -Constants.anchorSpacing
+      ),
+      
+      currencySegmentedControl.widthAnchor.constraint(
+        equalTo: self.widthAnchor,
+        multiplier: Constants.currencyWidthScale
+      ),
+      
+      imageScrollView.heightAnchor.constraint(
+        equalTo: self.heightAnchor,
+        multiplier: Constants.scrollViewHeightScale
+      ),
+      
+      imageStackView.leadingAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.leadingAnchor
+      ),
+      imageStackView.trailingAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.trailingAnchor
+      ),
+      imageStackView.topAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.topAnchor
+      ),
+      imageStackView.bottomAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.bottomAnchor
+      ),
+      imageStackView.heightAnchor.constraint(
+        equalTo: imageScrollView.frameLayoutGuide.heightAnchor
+      ),
+      descriptionTextView.heightAnchor.constraint(
+        equalTo: self.heightAnchor,
+        multiplier: Constants.textViewHeightScale
+      )
+    ])
   }
   
   func displayInformation(of detailProduct: DetailProduct) {

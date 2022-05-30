@@ -116,10 +116,14 @@ final class GridCell: UICollectionViewCell {
       totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
       totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       
-      thumbnailImageView.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor,
-                                                multiplier: 1.1),
-      thumbnailImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor,
-                                                 multiplier: 0.5)
+      thumbnailImageView.widthAnchor.constraint(
+        equalTo: thumbnailImageView.heightAnchor,
+        multiplier: 1.1
+      ),
+      thumbnailImageView.heightAnchor.constraint(
+        equalTo: self.contentView.heightAnchor,
+        multiplier: 0.5
+      )
     ])
   }
   
