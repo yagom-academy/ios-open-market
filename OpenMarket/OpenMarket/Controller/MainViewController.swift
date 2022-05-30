@@ -23,6 +23,7 @@ final class MainViewController: UIViewController {
         
         return plusButton
     }()
+    private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidTapped(_:)))
     
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private lazy var item: [Products] = [] {
@@ -56,6 +57,7 @@ extension MainViewController {
     private func configureView() {
         self.view = productView
         view.backgroundColor = .white
+        self.navigationItem.backBarButtonItem = cancelButton
         setNavigation()
         
         NSLayoutConstraint.activate([
@@ -72,6 +74,10 @@ extension MainViewController {
         let registrationViewController = RegistrationViewController()
         
         self.navigationController?.pushViewController(registrationViewController, animated: true)
+    }
+    
+    @objc private func cancelButtonDidTapped(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func setNavigation() {

@@ -11,6 +11,7 @@ final class ProductDetailViewController: UIViewController {
     var id: Int?
     private var productDetail: ProductDetail?
     private var networkManager = NetworkManager<ProductDetail>(session: URLSession.shared)
+    private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidTapped(_:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,7 @@ final class ProductDetailViewController: UIViewController {
     private func configureBarButton() {
         let editButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
         self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationItem.backBarButtonItem = cancelButton
         self.navigationItem.rightBarButtonItem = editButton
     }
     
@@ -64,5 +66,9 @@ final class ProductDetailViewController: UIViewController {
         alertController.addAction(delete)
         alertController.addAction(cancel)
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc private func cancelButtonDidTapped(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
     }
 }

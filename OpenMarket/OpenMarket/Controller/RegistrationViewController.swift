@@ -56,7 +56,7 @@ final class RegistrationViewController: UIViewController, UINavigationController
     }
     
     private func configureBarButton() {
-        self.navigationController?.navigationBar.topItem?.title = "Cancel"
+        self.navigationItem.leftBarButtonItem?.title = "Cancel"
         self.title = "상품등록"
         self.navigationItem.rightBarButtonItem = doneButton
         

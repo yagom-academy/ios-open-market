@@ -56,11 +56,9 @@ final class ProductEditViewController: UIViewController {
         collectionView.delegate = self
     }
     
-    private func configureBarButton() {
-        self.navigationController?.navigationBar.topItem?.title = "Cancel"
+    private func configureBarButton() {        
         self.title = "상품수정"
         self.navigationItem.rightBarButtonItem = doneButton
-        
         doneButton.title = "Done"
         doneButton.style = .done
         doneButton.target = self
