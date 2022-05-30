@@ -8,14 +8,15 @@
 import UIKit
 
 class ImageCacheManager {
-    static let shared = NSCache<NSString, UIImage>()
+    static let shared = ImageCacheManager()
+    let NScache = NSCache<NSString, UIImage>()
     private init() {}
 }
 
 extension UIImageView {
     func loadImage(_ urlString: String) {
         let cacheKey = NSString(string: urlString)
-        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+        if let cachedImage = ImageCacheManager.shared.NScache.object(forKey: cacheKey) {
             self.image = cachedImage
             
             return
@@ -33,7 +34,7 @@ extension UIImageView {
             
             DispatchQueue.main.async { [weak self] in
                 if let data = data, let image = UIImage(data: data) {
-                    ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+                    ImageCacheManager.shared.NScache.setObject(image, forKey: cacheKey)
                     self?.image = image
                 }
             }
