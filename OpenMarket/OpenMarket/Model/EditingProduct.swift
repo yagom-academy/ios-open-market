@@ -17,7 +17,7 @@ struct EditingProduct: Encodable {
   let stock: Int
   let secret: String
   
-  enum CodingKeys: String, CodingKey {
+  private enum CodingKeys: String, CodingKey {
     case name, descriptions, price, currency, stock, secret
     case thumbnailId = "thumbnail_id"
     case discountedPrice = "discounted_price"
