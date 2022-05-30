@@ -7,16 +7,16 @@
 
 import Foundation
 
-enum Currency: Int {
-    case won = 0
-    case dollar = 1
+enum Currency: String {
+    case won = "KRW"
+    case dollar = "USD"
     
-    var description: String {
+    var number: Int {
         switch self {
         case .won:
-            return "KRW"
+            return 0
         case .dollar:
-            return "USD"
+            return 1
         }
     }
 }

@@ -58,7 +58,7 @@ class ProductUpdaterView: UIView {
   }()
   
   let currencySegmentedControl: UISegmentedControl = {
-    let segmentedControl = UISegmentedControl(items: [Currency.won.description, Currency.dollar.description])
+    let segmentedControl = UISegmentedControl(items: [Currency.won.rawValue, Currency.dollar.rawValue])
     segmentedControl.selectedSegmentIndex = 0
     segmentedControl.translatesAutoresizingMaskIntoConstraints = false
     segmentedControl.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -133,12 +133,12 @@ class ProductUpdaterView: UIView {
   func setupParams() -> Params? {
     var currency = ""
     switch self.currencySegmentedControl.selectedSegmentIndex {
-    case Currency.won.rawValue:
-      currency = Currency.won.description
-    case Currency.dollar.rawValue:
-      currency = Currency.dollar.description
+    case Currency.won.number:
+      currency = Currency.won.rawValue
+    case Currency.dollar.number:
+      currency = Currency.dollar.rawValue
     default:
-      currency = Currency.won.description
+      currency = Currency.won.rawValue
     }
     guard let name = self.nameTextField.text,
           let price = self.priceTextField.text,
