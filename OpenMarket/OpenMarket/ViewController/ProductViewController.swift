@@ -11,7 +11,6 @@ class ProductViewController: UIViewController {
     lazy var productView = ProductView(frame: view.frame)
     weak var delegate: ListUpdatable?
     var currency: Currency = .KRW
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = productView
@@ -65,11 +64,10 @@ class ProductViewController: UIViewController {
 
 extension ProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.keyboardType == .numberPad {
-            if CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string)) {
-                return true
-            }
+        if Int(string) != nil || string == "" {
+            return true
         }
+        
         return false
     }
 }
