@@ -139,10 +139,10 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = snapshot?.itemIdentifiers[indexPath.item] else { return }
         
-        let editViewController = EditViewController(product: product)
-        editViewController.delegate = self
+        let productDetailViewController = ProductDetailViewController(product: product)
+        // editViewController.delegate = self
 
-        navigationController?.pushViewController(editViewController, animated: true)
+        navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
 
