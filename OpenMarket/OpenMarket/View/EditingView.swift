@@ -70,10 +70,13 @@ final class EditingView: ProductUpdaterView {
     self.discountedPriceTextField.text = detailProduct.discountedPrice?.description
     self.stockTextField.text = detailProduct.stock?.description
     self.descriptionTextView.text = detailProduct.description
-    if detailProduct.currency == "KWR" {
-      self.currencySegmentedControl.selectedSegmentIndex = 0
-    } else {
-      self.currencySegmentedControl.selectedSegmentIndex = 1
+    switch detailProduct.currency {
+    case Currency.won.description:
+      self.currencySegmentedControl.selectedSegmentIndex = Currency.won.rawValue
+    case Currency.dollar.description:
+      self.currencySegmentedControl.selectedSegmentIndex = Currency.dollar.rawValue
+    default:
+      self.currencySegmentedControl.selectedSegmentIndex = Currency.won.rawValue
     }
   }
 }
