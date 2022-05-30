@@ -37,7 +37,7 @@ struct Page: Decodable, Hashable {
   let venderId: Int
   let name: String
   let thumbnail: String
-  let currency: String
+  let currency: Currency
   let price: Int
   let bargainPrice: Int
   let discountedPrice: Int

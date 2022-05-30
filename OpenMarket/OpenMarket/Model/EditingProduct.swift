@@ -12,7 +12,7 @@ struct EditingProduct: Encodable {
   let descriptions: String
   let thumbnailId: Int
   let price: Int
-  let currency: String
+  let currency: Currency
   let discountedPrice: Int
   let stock: Int
   let secret: String

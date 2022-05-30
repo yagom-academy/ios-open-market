@@ -12,7 +12,7 @@ struct Params: Encodable {
   let price: Int
   let discountedPrice: Int
   let stock: Int
-  let currency: String
+  let currency: Currency
   let descriptions: String
   let secret: String
   

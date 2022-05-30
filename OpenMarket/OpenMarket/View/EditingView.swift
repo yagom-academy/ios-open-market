@@ -71,12 +71,10 @@ final class EditingView: ProductUpdaterView {
     self.stockTextField.text = detailProduct.stock?.description
     self.descriptionTextView.text = detailProduct.description
     switch detailProduct.currency {
-    case Currency.won.rawValue:
+    case .won:
       self.currencySegmentedControl.selectedSegmentIndex = Currency.won.number
-    case Currency.dollar.rawValue:
+    case .dollar:
       self.currencySegmentedControl.selectedSegmentIndex = Currency.dollar.number
-    default:
-      self.currencySegmentedControl.selectedSegmentIndex = Currency.won.number
     }
   }
 }
