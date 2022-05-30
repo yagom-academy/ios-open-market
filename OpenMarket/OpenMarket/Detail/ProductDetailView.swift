@@ -24,13 +24,18 @@ final class ProductDetailView: UIView {
         
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .vertical
+        stackview.directionalLayoutMargins = .init(top: .zero, leading: 8, bottom: .zero, trailing: 8)
+        stackview.isLayoutMarginsRelativeArrangement = true
+        stackview.spacing = 8
         return stackview
     }()
     
     let productImageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .horizontalFullGrid)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -74,7 +79,6 @@ final class ProductDetailView: UIView {
     
     private let bargainPriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray3
         label.textAlignment = .center
         return label
     }()
@@ -87,11 +91,16 @@ final class ProductDetailView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureView()
         configureLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureView() {
+        backgroundColor = .systemBackground
     }
     
     private func configureLayout() {
@@ -112,38 +121,32 @@ final class ProductDetailView: UIView {
             baseStackView.trailingAnchor.constraint(equalTo: baseScrollView.trailingAnchor),
             baseStackView.widthAnchor.constraint(equalTo: baseScrollView.widthAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            productImageCollectionView.widthAnchor.constraint(equalTo: productImageCollectionView.heightAnchor)
+        ])
     }
     
     func configure(data: Product) {
-        nameLabel.text = data.name
-        
-        priceLabel.text = data.price?.priceFormat(currency: data.currency?.rawValue)
-        bargainPriceLabel.text = data.bargainPrice?.priceFormat(currency: data.currency?.rawValue)
-        
-        if data.price == data.bargainPrice {
-            bargainPriceLabel.isHidden = true
-            priceLabel.textColor = .systemGray3
-        } else {
-            bargainPriceLabel.isHidden = false
-            priceLabel.textColor = .systemRed
-            priceLabel.addStrikethrough()
+        DispatchQueue.main.async { [self] in
+            nameLabel.text = data.name
+            
+            priceLabel.text = data.price?.priceFormat(currency: data.currency?.rawValue)
+            bargainPriceLabel.text = data.bargainPrice?.priceFormat(currency: data.currency?.rawValue)
+            
+            if data.price == data.bargainPrice {
+                bargainPriceLabel.isHidden = true
+            } else {
+                bargainPriceLabel.isHidden = false
+                priceLabel.textColor = .systemRed
+                priceLabel.addStrikethrough()
+            }
+            
+            stockLabel.textColor = data.stock == .zero ? .systemOrange : .systemGray3
+            stockLabel.text = data.stock == .zero ? "품절" : "남은 수량: \(data.stock ?? .zero)"
+            
+            descriptionLabel.text = data.description
         }
-        
-        stockLabel.textColor = data.stock == .zero ? .systemOrange : .systemGray3
-        stockLabel.text = data.stock == .zero ? "품절" : "잔여수량: \(data.stock ?? .zero)"
-        
-        descriptionLabel.text = data.description
-        descriptionLabel.text = """
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-                dummy Data dummy Data dummy Data dummy Data dummy Data dummy Data
-        """
     }
 }
 
@@ -153,13 +156,13 @@ private extension UICollectionViewLayout {
     static let horizontalFullGrid: UICollectionViewCompositionalLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
+        item.contentInsets = .init(top: 0, leading: 12, bottom: 12, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1), heightDimension: .fractionalHeight(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .groupPagingCentered
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
