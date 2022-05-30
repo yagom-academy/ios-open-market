@@ -149,11 +149,11 @@ class ProductUpdaterView: UIView {
       return nil
     }
     
-    guard name != "" &&
-            price != "" &&
-            discountedPrice != "" &&
-            stock != "" &&
-            descriptions != ""
+    guard !name.isEmpty &&
+            !price.isEmpty &&
+            !discountedPrice.isEmpty &&
+            !stock.isEmpty &&
+            !descriptions.isEmpty
     else {
       return nil
     }
