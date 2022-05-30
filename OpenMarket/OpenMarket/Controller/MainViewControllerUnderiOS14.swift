@@ -23,7 +23,14 @@ class MainViewControllerUnderiOS14: BaseViewController {
         super.viewDidLoad()
         setUpCollectionView()
         view.backgroundColor = .systemBackground
-        dataProvider.fetchData() { products in
+        dataProvider.fetchProductListData() { products in
+            guard let products = products else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+                return
+            }
             self.products.append(contentsOf: products)
         }
         setUpRefreshControl()
@@ -54,6 +61,13 @@ extension MainViewControllerUnderiOS14 {
     
     @objc func refreshCollectionView() {
         dataProvider.reloadData() { products in
+            guard let products = products else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없다", completionHandler: nil)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+                return
+            }
             self.products = products
         }
         DispatchQueue.main.async {
@@ -116,7 +130,14 @@ extension MainViewControllerUnderiOS14: UICollectionViewDataSource {
 extension MainViewControllerUnderiOS14: UICollectionViewDelegate {
     func collectionView( _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let _ = products[safe: indexPath.row + 1] else {
-            dataProvider.fetchData { products in
+            dataProvider.fetchProductListData { products in
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true)
+                    }
+                    return
+                }
                 self.products.append(contentsOf: products)
             }
             return
@@ -131,18 +152,17 @@ extension MainViewControllerUnderiOS14: UICollectionViewDelegate {
         navigationController.modalTransitionStyle = .coverVertical
         navigationController.modalPresentationStyle = .fullScreen
         
-        HTTPManager().loadData(targetURL: .productDetail(productNumber: product.identifier)) { productDetail in
-            switch productDetail {
-            case .success(let productDetail):
-                guard let decodedData = try? JSONDecoder().decode(ProductDetail.self, from: productDetail) else {
-                    return
+        dataProvider.fetchProductDetailData(productIdentifier: product.identifier) { decodedData in
+            guard let decodedData = decodedData else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
                 }
-                registerProductView.initialize(product: decodedData)
-                DispatchQueue.main.async { [self] in
-                    present(navigationController, animated: true)
-                }
-            case .failure(_):
                 return
+            }
+            registerProductView.initialize(product: decodedData)
+            DispatchQueue.main.async { [self] in
+                present(navigationController, animated: true)
             }
         }
     }

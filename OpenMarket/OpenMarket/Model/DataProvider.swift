@@ -12,12 +12,34 @@ class DataProvider {
     private let itemsPerPage = 10
     private var isLoading = false
     
-    func reloadData(completionHandler: @escaping ([Product]) -> Void) {
+    func reloadData(completionHandler: @escaping ([Product]?) -> Void) {
         pageNumber = 1
-        fetchData(completionHandler: completionHandler)
+        fetchProductListData(completionHandler: completionHandler)
     }
     
-    func fetchData(completionHandler: @escaping ([Product]) -> Void) {
+    func patchProductData(prductIdentifier: Int, productInput: [String: Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+        HTTPManager().patchData(product: productInput, targetURL: .productPatch(productIdentifier: prductIdentifier)) { data in
+            completionHandler(data)
+        }
+    }
+    
+    func postProductData(images: [UIImage], productInput: [String: Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+        HTTPManager().postProductData(images: images, product: productInput, completionHandler: completionHandler)
+    }
+    
+    func fetchProductDetailData(productIdentifier: Int, completionHandler: @escaping (ProductDetail?) -> Void) {
+        HTTPManager().loadData(targetURL: .productDetail(productNumber: productIdentifier)) { [self] data in
+            switch data {
+            case .success(let data):
+                guard let product = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }
+                completionHandler(product)
+            case .failure(_):
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    func fetchProductListData(completionHandler: @escaping ([Product]?) -> Void) {
         if isLoading {
             return
         }
@@ -34,8 +56,8 @@ class DataProvider {
                 completionHandler(products)
                 pageNumber += 1
                 isLoading = false
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure(_):
+                completionHandler(nil)
             }
         }
     }

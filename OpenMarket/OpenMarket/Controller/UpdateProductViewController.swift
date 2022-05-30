@@ -54,6 +54,21 @@ class UpdateProductViewController: UIViewController {
         return cell.baseStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
     }()
     
+    lazy var completionHandler: (Result<Data, NetworkError>) -> Void = { data in
+        switch data {
+        case .success(_):
+            DispatchQueue.main.async {
+                self.dismiss(animated: true)
+            }
+        case .failure(_):
+            let alert = Alert().showWarning(title: "경고", message: "실패했습니다", completionHandler: nil)
+            DispatchQueue.main.async {
+                self.present(alert, animated: true)
+            }
+            return
+        }
+    }
+    
     func initialize(product: ProductDetail) {
         self.product = product
     }
@@ -126,44 +141,18 @@ extension UpdateProductViewController {
             present(alertController, animated: true)
             return
         }
-
-        if productInput.keys.contains("descriptions") {
-            guard var description = productInput["descriptions"] as? String else {
-                return
-            }
-            
-            productInput["descriptions"] = description.replacingOccurrences(of: "\n", with: "\\n")
-        }
         
         if let product = product {
-            HTTPManager().patchData(product: productInput, targetURL: .productPatch(productIdentifier: product.identifier)) { data in
-                switch data {
-                case .success(let data):
-                    guard let decodedData = try? JSONDecoder().decode(Product.self, from: data) else {
-                        return
-                    }
-                    return
-                case .failure(let error):
+            if productInput.keys.contains("descriptions") {
+                guard let description = productInput["descriptions"] as? String else {
                     return
                 }
+                productInput["descriptions"] = description.replacingOccurrences(of: "\n", with: "\\n")
             }
-            dismiss(animated: true)
+            DataProvider().patchProductData(prductIdentifier: product.identifier, productInput: productInput, completionHandler: completionHandler)
             return
         }
-        
-        HTTPManager().postProductData(images: images, product: productInput) { data in
-            switch data {
-            case .success(let data):
-                guard let decodedData = try? JSONDecoder().decode(Product.self, from: data) else {
-                    return
-                }
-                return
-            case .failure(let error):
-                return
-            }
-        }
-        
-        dismiss(animated: true)
+        DataProvider().postProductData(images: images, productInput: productInput, completionHandler: completionHandler)
     }
     
     @objc private func touchUpCancelButton() {

@@ -20,7 +20,14 @@ class MainViewController: BaseViewController {
         super.viewDidLoad()
         registerCell()
         configureDataSource()
-        dataProvider.fetchData() { products in
+        dataProvider.fetchProductListData() { products in
+            guard let products = products else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+                return
+            }
             DispatchQueue.main.async { [self] in
                 updateSnapshot(products: products)
             }
@@ -60,6 +67,13 @@ extension MainViewController {
     
     @objc func refreshCollectionView() {
         dataProvider.reloadData() { [self] products in
+            guard let products = products else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+                return
+            }
             guard var currentSnapshot = currentSnapshot else {
                 return
             }
@@ -132,7 +146,14 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let product = currentSnapshot?.itemIdentifiers.last else {return}
         guard currentSnapshot?.indexOfItem(product) != indexPath.row else {
-            dataProvider.fetchData() { products in
+            dataProvider.fetchProductListData() { products in
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true)
+                    }
+                    return
+                }
                 DispatchQueue.main.async { [weak self] in
                     self?.updateSnapshot(products: products)
                 }
@@ -148,19 +169,19 @@ extension MainViewController: UICollectionViewDelegate {
         let navigationController = UINavigationController(rootViewController: registerProductView)
         navigationController.modalTransitionStyle = .coverVertical
         navigationController.modalPresentationStyle = .fullScreen
-        
-        HTTPManager().loadData(targetURL: .productDetail(productNumber: product.identifier)) { productDetail in
-            switch productDetail {
-            case .success(let productDetail):
-                guard let decodedData = try? JSONDecoder().decode(ProductDetail.self, from: productDetail) else {
-                    return
+                
+        dataProvider.fetchProductDetailData(productIdentifier: product.identifier) { decodedData in
+            guard let decodedData = decodedData else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
                 }
-                registerProductView.initialize(product: decodedData)
-                DispatchQueue.main.async { [self] in
-                    present(navigationController, animated: true)
-                }
-            case .failure(_):
                 return
+            }
+            registerProductView.initialize(product: decodedData)
+            DispatchQueue.main.async { [self] in
+                present(navigationController, animated: true)
             }
         }
     }
