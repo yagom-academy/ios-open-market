@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940171CB2844BA230068E32F /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940171CA2844BA230068E32F /* ProductDetailViewController.swift */; };
 		941DA8EE283741FE0021CFCB /* UICollectionViewCell+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */; };
 		941DA8F0283784C70021CFCB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8EF283784C70021CFCB /* ImageManager.swift */; };
 		941DA8F2283785120021CFCB /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8F1283785110021CFCB /* URLSession+extension.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		940171CA2844BA230068E32F /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+extension.swift"; sourceTree = "<group>"; };
 		941DA8EF283784C70021CFCB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		941DA8F1283785110021CFCB /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
@@ -122,6 +124,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		940171C92844B9F10068E32F /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				940171CA2844BA230068E32F /* ProductDetailViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		942CE24D282930D9006C6648 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +248,7 @@
 				9B2232F328375C03006E186C /*  Alert */,
 				94881795282D362200217C2A /* Extension */,
 				9BB17ED1282CBFCE009BE432 /* Main */,
+				940171C92844B9F10068E32F /* Detail */,
 				9B0EE41D283C732400888A3E /* Product */,
 				942CE26228294DF8006C6648 /* Network */,
 				942CE24D282930D9006C6648 /* Model */,
@@ -362,6 +373,7 @@
 			files = (
 				9B0EE41F283C73F100888A3E /* EditViewController.swift in Sources */,
 				94E2C09B2840639F001E633B /* Constant.swift in Sources */,
+				940171CB2844BA230068E32F /* ProductDetailViewController.swift in Sources */,
 				94E2C093283C7D9C001E633B /* ProductImageCell.swift in Sources */,
 				941DA8F2283785120021CFCB /* URLSession+extension.swift in Sources */,
 				9BB17ED3282CC022009BE432 /* MainView.swift in Sources */,
