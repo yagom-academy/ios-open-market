@@ -59,9 +59,14 @@ final class AddItemViewController: UIViewController {
         addKeyboardObserver()
     }
     
-    private func showAlert(message: String) {
+    private func showAlert(message: String, action:(() -> ())?  ) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        let yesAction = UIAlertAction(title: "확인", style: .default) { _ in
+            guard let action = action else {
+                return
+            }
+            action()
+        }
         
         alert.addAction(yesAction)
         
@@ -121,8 +126,12 @@ final class AddItemViewController: UIViewController {
         return PostItemAPI(itemComponents: item)
     }
     
-    @objc private func touchCancelButton() {
+    private func popViewController(){
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func touchCancelButton() {
+        popViewController()
     }
     
     @objc private func touchDoneButton() {
@@ -192,7 +201,7 @@ extension AddItemViewController: UICollectionViewDelegate {
                 if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
                     self.selectPhoto(where: .camera)
                 } else {
-                    self.showAlert(message: "카메라를 사용할 수 없습니다")
+                    self.showAlert(message: "카메라를 사용할 수 없습니다", action: nil)
                 }
             }
             let cancelAction = UIAlertAction(title: "취소", style: .cancel)
