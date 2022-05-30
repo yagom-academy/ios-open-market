@@ -116,12 +116,13 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if cellType == .list {
+        switch cellType {
+        case .list:
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  "\(ListCell.self)", for: indexPath) as? ListCell else { return ListCell() }
             listCell.configureCell(components: setCellComponents(itemCell: listCell, indexPath: indexPath))
             myActivityIndicator.stopAnimating()
             return listCell
-        } else {
+        case .grid:
             guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(GridCell.self)", for: indexPath) as? GridCell else { return GridCell() }
             gridCell.configureCell(components: setCellComponents(itemCell: gridCell, indexPath: indexPath))
             myActivityIndicator.stopAnimating()
