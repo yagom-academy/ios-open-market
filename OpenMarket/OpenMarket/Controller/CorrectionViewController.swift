@@ -51,6 +51,9 @@ final class CorrectionViewController: ProductManagementViewController {
             baseView.productStock.text = product.stock?.description
             baseView.productDescription.text = product.description
             
+            let imageImagePicker = baseView.imagesStackView.arrangedSubviews.first
+            imageImagePicker?.removeFromSuperview()
+            
             product.images?.forEach { image in
                 let imageView = convertImageView(from: image.url) ?? UIImageView()
                 self.baseView.imagesStackView.addArrangedSubview(imageView)
@@ -76,6 +79,8 @@ final class CorrectionViewController: ProductManagementViewController {
         }
         
         let imageView = UIImageView(image: image)
+        
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         
         return imageView
     }

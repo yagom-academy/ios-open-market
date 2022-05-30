@@ -30,7 +30,7 @@ final class OpenMarketViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         self.collectionView?.reloadData()
-        fetchData(from: .productList(page: 1, itemsPerPage: 110))
+        self.fetchData(from: .productList(page: 1, itemsPerPage: 110))
     }
     
     private func fetchData(from: Endpoint) {

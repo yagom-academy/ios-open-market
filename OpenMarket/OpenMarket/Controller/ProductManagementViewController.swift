@@ -36,6 +36,9 @@ class ProductManagementViewController: UIViewController {
     
     private func extractImage() -> [Image] {
         var images: [Image] = []
+        let imagePicker = baseView.imagesStackView.arrangedSubviews.last
+        
+        imagePicker?.removeFromSuperview()
         
         baseView.imagesStackView.arrangedSubviews.forEach { UIView in
             guard let UIimage = UIView as? UIImageView else {
