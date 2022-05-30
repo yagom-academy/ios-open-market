@@ -8,9 +8,9 @@
 import UIKit
 
 final class ReviseViewController: UIViewController {
-    private let product: Product
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
     private let network = URLSessionProvider<Product>()
+    private let product: Product
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,54 +29,22 @@ final class ReviseViewController: UIViewController {
     }
     
     private func setupView(product: Product) {
-        baseView.productName.text = product.name
-        baseView.productPrice.text = product.price?.description
-        baseView.currencySegmentControl.selectedSegmentIndex = 0
-        baseView.productBargenPrice.text = product.bargainPrice?.description
-        baseView.productStock.text = product.stock?.description
-        baseView.productDescription.text = product.description
-        
-        product.images?.forEach { image in
-            let imageView = convertImageView(from: image.url) ?? UIImageView()
-            self.baseView.imagesStackView.addArrangedSubview(imageView)
-        }
-    }
-    
-    private func getData() {
-        network.fetchData(from: .detailProduct(id: product.id!)) { result in
-            switch result {
-            case .success(let product):
-                DispatchQueue.main.async {
-                    self.setupView(product: product)
-                }
-            case .failure(let error):
-                print(error)
+        DispatchQueue.main.async { [self] in
+            baseView.productName.text = product.name
+            baseView.productPrice.text = product.price?.description
+            baseView.currencySegmentControl.selectedSegmentIndex = 0
+            baseView.productBargenPrice.text = product.bargainPrice?.description
+            baseView.productStock.text = product.stock?.description
+            baseView.productDescription.text = product.description
+            
+            product.images?.forEach { image in
+                let imageView = convertImageView(from: image.url) ?? UIImageView()
+                self.baseView.imagesStackView.addArrangedSubview(imageView)
             }
         }
     }
     
-    private func setupNavigationItems() {
-        self.navigationItem.title = "상품수정"
-        
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
-        navigationItem.leftBarButtonItem = cancelButton
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
-        navigationItem.rightBarButtonItem = doneButton
-    }
-    
-    
-    @objc private func didTapCancelButton() {
-        dismiss(animated: true)
-    }
-    
-    @objc private func didTapDoneButton() {
-        self.showAlert(title: "Really?", ok: "Yes", cancel: "No")
-    }
-}
-
-extension ReviseViewController {
-    func convertImageView(from urlString: String?) -> UIImageView? {
+    private func convertImageView(from urlString: String?) -> UIImageView? {
         guard let imageString = urlString else {
             return nil
         }
@@ -96,5 +64,42 @@ extension ReviseViewController {
         let imageView = UIImageView(image: image)
         
         return imageView
+    }
+    
+    private func getData() {
+        guard let id = product.id else {
+            return
+        }
+        
+        network.fetchData(from: .detailProduct(id: id)) { result in
+            switch result {
+            case .success(let product):
+                self.setupView(product: product)
+            case .failure(let error):
+                self.showAlert(title: "Error", message: error.errorDescription)
+            }
+        }
+    }
+}
+
+// MARK: - NavigationBar
+
+extension ReviseViewController {
+    private func setupNavigationItems() {
+        self.navigationItem.title = "상품수정"
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        navigationItem.leftBarButtonItem = cancelButton
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
+        navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    @objc private func didTapCancelButton() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func didTapDoneButton() {
+        self.showAlert(title: "Really?", ok: "Yes", cancel: "No")
     }
 }

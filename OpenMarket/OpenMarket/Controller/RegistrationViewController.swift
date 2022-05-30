@@ -7,6 +7,13 @@
 
 import UIKit
 
+//protocol Add {}
+//
+//extension Add {
+////    var baseView = ProductRegistrationView(frame: Self.self)
+//    let network = URLSessionProvider<ProductList>()
+//}
+
 final class RegistrationViewController: UIViewController {
     private lazy var baseView = ProductRegistrationView(frame: view.frame)
     private let network = URLSessionProvider<ProductList>()
@@ -28,29 +35,10 @@ final class RegistrationViewController: UIViewController {
         baseView.imageView.addGestureRecognizer(gesture)
         
         view = baseView
-        view.backgroundColor = .systemBackground
     }
     
     @objc private func didTapAddImageButton() {
         self.present(self.imagePicker, animated: true)
-    }
-    
-    private func setupNavigationItems() {
-        self.navigationItem.title = "상품등록"
-        
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
-        navigationItem.leftBarButtonItem = cancelButton
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
-        navigationItem.rightBarButtonItem = doneButton
-    }
-    
-    @objc private func didTapCancelButton() {
-        dismiss(animated: true)
-    }
-    
-    @objc private func didTapDoneButton() {
-        self.showAlert(title: "Really?", ok: "Yes", cancel: "No", action: postProduct)
     }
     
     private func postProduct() {
@@ -101,7 +89,33 @@ final class RegistrationViewController: UIViewController {
         }
         return images
     }
+}
+
+// MARK: - NavigationBar
+
+extension RegistrationViewController {
+    private func setupNavigationItems() {
+        self.navigationItem.title = "상품등록"
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        navigationItem.leftBarButtonItem = cancelButton
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
+        navigationItem.rightBarButtonItem = doneButton
+    }
     
+    @objc private func didTapDoneButton() {
+        self.showAlert(title: "Really?", ok: "Yes", cancel: "No", action: postProduct)
+    }
+    
+    @objc private func didTapCancelButton() {
+        dismiss(animated: true)
+    }
+}
+
+// MARK: - Keyboard
+
+extension RegistrationViewController {
     private func setupKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
@@ -132,6 +146,8 @@ final class RegistrationViewController: UIViewController {
         baseView.productDescription.contentInset.bottom = 0
     }
 }
+
+// MARK: - UIImagePicker
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {

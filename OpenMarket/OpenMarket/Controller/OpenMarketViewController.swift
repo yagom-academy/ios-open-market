@@ -43,36 +43,11 @@ final class OpenMarketViewController: UIViewController {
             }
         })
     }
-    
-    private func setupCollectionView() {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.minimumLineSpacing = 10
-        
-        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
-        view.addSubview(collectionView ?? UICollectionView())
-        collectionView?.dataSource = self
-        collectionView?.delegate = self
-        collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
-        collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
-    }
-    
-    private func setupSegmentControl() {
-        self.navigationItem.titleView = segmentControl
-        segmentControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
-    }
-    
-    @objc private func didChangeSegment(_ sender: UISegmentedControl) {
-        
-        if let currentLayout = LayoutType(rawValue: sender.selectedSegmentIndex) {
-            layoutType = currentLayout
-        }
-        
-        DispatchQueue.main.async {
-            self.collectionView?.reloadData()
-        }
-    }
-    
+}
+
+// MARK: - navigationBar
+
+extension OpenMarketViewController {
     private func setupAddButton() {
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -92,37 +67,42 @@ final class OpenMarketViewController: UIViewController {
         productRegistrationVC.modalPresentationStyle = .fullScreen
         self.present(productRegistrationVC, animated: true)
     }
-}
-
-extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        
-        switch layoutType {
-        case .list:
-            return CGSize(width: view.frame.width, height: view.frame.height / 14)
-        case .grid:
-            return CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
-        }
+    
+    private func setupSegmentControl() {
+        self.navigationItem.titleView = segmentControl
+        segmentControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAt section: Int
-    ) -> UIEdgeInsets {
+    @objc private func didChangeSegment(_ sender: UISegmentedControl) {
         
-        switch layoutType {
-        case .list:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        case .grid:
-            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        if let currentLayout = LayoutType(rawValue: sender.selectedSegmentIndex) {
+            layoutType = currentLayout
+        }
+        
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
         }
     }
 }
+
+// MARK: - CollectionView
+
+extension OpenMarketViewController {
+    private func setupCollectionView() {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.minimumLineSpacing = 10
+        
+        collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
+        view.addSubview(collectionView ?? UICollectionView())
+        collectionView?.dataSource = self
+        collectionView?.delegate = self
+        collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+        collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
+    }
+}
+
+// MARK: - CollectionView DataSource, Delegate
 
 extension OpenMarketViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(
@@ -156,10 +136,42 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
         guard let product = productList?[indexPath.item] else {
             return
         }
-                
+        
         let reviseController = UINavigationController(rootViewController: ReviseViewController(product: product))
         reviseController.modalPresentationStyle = .fullScreen
-
+        
         self.present(reviseController, animated: true)
+    }
+}
+
+// MARK: - FlowLayout
+
+extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        
+        switch layoutType {
+        case .list:
+            return CGSize(width: view.frame.width, height: view.frame.height / 14)
+        case .grid:
+            return CGSize(width: view.frame.width / 2.2, height: view.frame.height / 3)
+        }
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        
+        switch layoutType {
+        case .list:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        case .grid:
+            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        }
     }
 }
