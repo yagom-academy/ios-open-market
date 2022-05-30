@@ -194,4 +194,3 @@ class ProductUpdaterView: UIView {
     return currency
   }
 }
-
