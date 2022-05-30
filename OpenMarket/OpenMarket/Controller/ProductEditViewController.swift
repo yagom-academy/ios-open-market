@@ -128,10 +128,9 @@ extension ProductEditViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductEditViewController {
     @objc private func executePATCH() {
-        let dispatchGroup = DispatchGroup()
         let params = productEditView.generateParameters()
         
-        DispatchQueue.global().async(group: dispatchGroup) {
+        DispatchQueue.global().async {
             guard let productID = self.productDetail?.id else {
                 return
             }
@@ -145,9 +144,6 @@ extension ProductEditViewController {
                 }
             }
         }
-        
-        dispatchGroup.notify(queue: .main) {
-            self.navigationController?.popViewController(animated: true)
-        }
+        self.navigationController?.popViewController(animated: true)
     }
 }

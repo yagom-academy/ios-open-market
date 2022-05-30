@@ -224,10 +224,9 @@ extension RegistrationViewController: UICollectionViewDelegate {
 
 extension RegistrationViewController {
     @objc private func executePOST() {
-        let dispatchGroup = DispatchGroup()
         let params = productDetailView.generateParameters()
         
-        DispatchQueue.global().async(group: dispatchGroup) {
+        DispatchQueue.global().async {
             self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
                 switch result {
                 case .success:
@@ -238,8 +237,6 @@ extension RegistrationViewController {
             }
         }
         
-        dispatchGroup.notify(queue: .main) {
-            self.navigationController?.popViewController(animated: true)
-        }
+        self.navigationController?.popViewController(animated: true)
     }
 }

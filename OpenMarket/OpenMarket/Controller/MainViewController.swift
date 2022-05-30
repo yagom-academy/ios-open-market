@@ -47,10 +47,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.global().async {
-            self.executeGET()
-        }
-
+        self.executeGET()
     }
 }
 
@@ -94,15 +91,12 @@ extension MainViewController {
 extension MainViewController {
 
     private func executeGET() {
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        DispatchQueue.global().async(group: dispatchGroup) {
+        DispatchQueue.global().async {
             self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
 
                 switch result {
                 case .success(let result):
                     self.item = result.pages
-                    dispatchGroup.leave()
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

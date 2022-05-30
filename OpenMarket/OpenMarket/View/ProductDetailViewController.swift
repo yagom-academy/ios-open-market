@@ -26,9 +26,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func executeGET() {
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        DispatchQueue.global().async(group: dispatchGroup) {
+        DispatchQueue.global().async {
             guard let id = self.id else {
                 return
             }
@@ -37,7 +35,6 @@ final class ProductDetailViewController: UIViewController {
                 switch result {
                 case .success(let result):
                     self.productDetail = result
-                    dispatchGroup.leave()
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
