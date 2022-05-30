@@ -77,7 +77,7 @@ class RegisterEditBaseViewController: UIViewController {
     lazy var stockTextField = generateTextField(placeholder: "재고수량", keyboardType: .numberPad)
     
     lazy var currencySegmentedControl: UISegmentedControl = {
-        let segment = UISegmentedControl(items: [Currency.KRW, Currency.USD])
+        let segment = UISegmentedControl(items: [Currency.KRW.rawValue, Currency.USD.rawValue])
         segment.translatesAutoresizingMaskIntoConstraints = false
         segment.selectedSegmentIndex = 0
         return segment
