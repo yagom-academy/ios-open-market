@@ -125,7 +125,7 @@ extension RegistrationViewController {
 //MARK: - ImagePickerController
 extension RegistrationViewController: UIImagePickerControllerDelegate,
                                       UINavigationControllerDelegate {
-  func presentAlbum() {
+  private func presentAlbum() {
     picker.sourceType = .photoLibrary
     picker.allowsEditing = true
     present(picker, animated: false, completion: nil)
@@ -148,7 +148,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     dismiss(animated: true, completion: nil)
   }
   
-  func setUpImageView(with image: UIImage) -> UIImageView {
+  private func setUpImageView(with image: UIImage) -> UIImageView {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
     imageView.image = image
@@ -158,7 +158,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     return imageView
   }
   
-  func convertToImageFile(from image: UIImage) {
+  private func convertToImageFile(from image: UIImage) {
     guard let imageData = image.jpegData(compressionQuality: 1) else {
       return
     }
@@ -166,7 +166,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     self.selectedImages.append(imageFile)
   }
   
-  func resize(image: UIImage, newWidth: CGFloat) -> UIImage? {
+  private func resize(image: UIImage, newWidth: CGFloat) -> UIImage? {
     let scale = newWidth / image.size.width
     let newHeight = image.size.height * scale
     UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
