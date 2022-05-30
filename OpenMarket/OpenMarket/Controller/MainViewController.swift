@@ -130,7 +130,8 @@ extension MainViewController {
 @available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let _ = collectionView.cellForItem(at: IndexPath(row: indexPath.row + 1, section: 0)) else {
+        guard let product = currentSnapshot?.itemIdentifiers.last else {return}
+        guard currentSnapshot?.indexOfItem(product) != indexPath.row else {
             dataProvider.fetchData() { products in
                 DispatchQueue.main.async { [self] in
                     updateSnapshot(products: products)
