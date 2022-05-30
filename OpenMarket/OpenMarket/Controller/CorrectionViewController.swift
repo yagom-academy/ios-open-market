@@ -8,13 +8,12 @@
 import UIKit
 
 final class CorrectionViewController: ProductManagementViewController {
-    private let network = URLSessionProvider<Product>()
     private let product: Product
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view = baseView
-        productManagementType = ProductManagementType.correction
+        productManagementType = ManagementType.correction
         setupNavigationItems()
         getDetailData()
     }
@@ -81,7 +80,7 @@ final class CorrectionViewController: ProductManagementViewController {
         return imageView
     }
     
-    private func patchData(product: Product) {
+    private func patchData() {
         guard let id = product.id else {
             return
         }
@@ -93,5 +92,27 @@ final class CorrectionViewController: ProductManagementViewController {
                 self.showAlert(title: "Error", message: error.errorDescription)
             }
         }
+    }
+}
+
+// MARK: - navigationBar
+
+extension CorrectionViewController {
+    private func setupNavigationItems() {
+        self.navigationItem.title = productManagementType?.type
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        navigationItem.leftBarButtonItem = cancelButton
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
+        navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    @objc private func didTapCancelButton() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func didTapDoneButton() {
+        self.showAlert(title: "Really", ok: "ok", cancel: "cancel", action: patchData)
     }
 }

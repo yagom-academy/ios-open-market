@@ -8,8 +8,9 @@
 import UIKit
 
 class ProductManagementViewController: UIViewController {
+    let network = URLSessionProvider<Product>()
     lazy var baseView = ProductRegistrationView(frame: view.frame)
-    var productManagementType: ProductManagementType?
+    var productManagementType: ManagementType?
     
     func extractData() -> ProductRegistration {
         let name = baseView.productName.text
@@ -33,7 +34,7 @@ class ProductManagementViewController: UIViewController {
         return param
     }
     
-    func extractImage() -> [Image] {
+    private func extractImage() -> [Image] {
         var images: [Image] = []
         
         baseView.imagesStackView.arrangedSubviews.forEach { UIView in
@@ -49,29 +50,6 @@ class ProductManagementViewController: UIViewController {
             images.append(image)
         }
         return images
-    }
-}
-
-
-// MARK: - navigationBar
-
-extension ProductManagementViewController { 
-    func setupNavigationItems() {
-        self.navigationItem.title = productManagementType?.type
-        
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
-        navigationItem.leftBarButtonItem = cancelButton
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
-        navigationItem.rightBarButtonItem = doneButton
-    }
-    
-    @objc private func didTapCancelButton() {
-        dismiss(animated: true)
-    }
-    
-    @objc private func didTapDoneButton() {
-        self.showAlert(title: "Really?", ok: "Yes", cancel: "No")
     }
 }
 

@@ -8,12 +8,11 @@
 import UIKit
 
 final class RegistrationViewController: ProductManagementViewController {
-    private let network = URLSessionProvider<ProductList>()
     private let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productManagementType = ProductManagementType.Registration
+        productManagementType = ManagementType.Registration
         setupView()
         setupNavigationItems()
         setupKeyboardNotification()
@@ -73,5 +72,27 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         
         newImage.image = image
         return newImage
+    }
+}
+
+// MARK: - navigationBar
+
+extension RegistrationViewController {
+    private func setupNavigationItems() {
+        self.navigationItem.title = productManagementType?.type
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        navigationItem.leftBarButtonItem = cancelButton
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
+        navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    @objc private func didTapCancelButton() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func didTapDoneButton() {
+        self.showAlert(title: "Really", ok: "ok", cancel: "no", action: postProduct)
     }
 }
