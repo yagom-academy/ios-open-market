@@ -70,19 +70,20 @@ final class MainViewController: UIViewController {
     }
     
     private func changeCellType() {
+        myActivityIndicator.isHidden = false
+        myActivityIndicator.startAnimating()
+        
         if cellType == .list {
-            myActivityIndicator.isHidden = false
-            myActivityIndicator.startAnimating()
             setListLayout()
             openMarketCollectionView.setListPosition()
         } else {
-            myActivityIndicator.isHidden = false
-            myActivityIndicator.startAnimating()
             setGridLayout()
             openMarketCollectionView.setGirdPosition()
         }
+        
         openMarketCollectionView.reloadData()
     }
+    
     
     private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) {
         let name = self.items[indexPath.row].name
