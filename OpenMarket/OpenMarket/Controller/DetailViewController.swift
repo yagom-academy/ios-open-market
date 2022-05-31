@@ -42,9 +42,8 @@ final class DetailViewController: UIViewController {
       
       self.product = selectedProduct
       DispatchQueue.main.async {
-        self.configureDetailView()
         self.configureNavigationBar()
-        self.detailView.setUpDetailInformation(of: self.product!)
+        self.detailView.setUpDetailInformation(of: self.product)
       }
     }
   }

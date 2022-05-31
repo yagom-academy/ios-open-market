@@ -179,10 +179,12 @@ class DetailView: UIView {
     ])
   }
   
-  func setUpDetailInformation(of detailProduct: DetailProduct) {
-    guard let price = detailProduct.price?.formatToDecimal(),
-          let bargainPrice = detailProduct.bargainPrice?.formatToDecimal(),
-          let stock = detailProduct.stock?.formatToDecimal()
+  func setUpDetailInformation(of detailProduct: DetailProduct?) {
+    guard let price = detailProduct?.price?.formatToDecimal(),
+          let bargainPrice = detailProduct?.bargainPrice?.formatToDecimal(),
+          let stock = detailProduct?.stock?.formatToDecimal(),
+          let images = detailProduct?.images,
+          let currency = detailProduct?.currency.text
     else {
       return
     }
@@ -191,11 +193,10 @@ class DetailView: UIView {
       setUpImage(of: images)
     }
     
-    let currency = detailProduct.currency.text
-    self.nameLabel.text = detailProduct.name
-    self.descriptionLabel.text = detailProduct.description
+    self.nameLabel.text = detailProduct?.name
+    self.descriptionLabel.text = detailProduct?.description
     
-    if detailProduct.discountedPrice == 0 {
+    if detailProduct?.discountedPrice == 0 {
       self.priceLabel.isHidden = true
       self.bargainPriceLabel.text = "\(currency) \(bargainPrice)"
     } else {
@@ -204,7 +205,7 @@ class DetailView: UIView {
       self.bargainPriceLabel.text = "\(currency) \(bargainPrice)"
     }
     
-    if detailProduct.stock == 0 {
+    if detailProduct?.stock == 0 {
       self.stockLabel.textColor = .systemYellow
       self.stockLabel.text = "품절"
     } else {
