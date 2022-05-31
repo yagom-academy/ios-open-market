@@ -130,8 +130,10 @@ extension EditingViewController: UITextViewDelegate {
   func textViewDidBeginEditing(_ textView: UITextView) {
     let scrollViewHeightScale = EditingView.Constants.scrollViewHeightScale
     let anchorSpacing = EditingView.Constants.anchorSpacing
+    let raisingHeight  = self.view.frame.height * scrollViewHeightScale - anchorSpacing
     if self.view.frame.origin.y == 0 {
-      self.view.frame.origin.y -= self.view.frame.height * scrollViewHeightScale - anchorSpacing
+      self.view.frame.origin.y -= raisingHeight
+      textView.contentInset.bottom = raisingHeight
     }
   }
 

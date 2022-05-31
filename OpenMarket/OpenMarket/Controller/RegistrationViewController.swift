@@ -201,8 +201,10 @@ extension RegistrationViewController: UITextViewDelegate {
   func textViewDidBeginEditing(_ textView: UITextView) {
     let scrollViewHeightScale = RegistrationView.Constants.scrollViewHeightScale
     let anchorSpacing = RegistrationView.Constants.anchorSpacing
+    let raisingHeight  = self.view.frame.height * scrollViewHeightScale - anchorSpacing
     if self.view.frame.origin.y == 0 {
-      self.view.frame.origin.y -= self.view.frame.height * scrollViewHeightScale - anchorSpacing
+      self.view.frame.origin.y -= raisingHeight
+      textView.contentInset.bottom = raisingHeight
     }
   }
 
