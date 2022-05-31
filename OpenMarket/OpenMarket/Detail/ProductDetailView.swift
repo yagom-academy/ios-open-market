@@ -17,6 +17,7 @@ final class ProductDetailView: UIView {
     private lazy var baseStackView: UIStackView = {
         let stackview = UIStackView(arrangedSubviews: [
             productImageCollectionView,
+            pageLabel,
             nameAndStockStackView,
             priceStackView,
             descriptionLabel
@@ -30,13 +31,19 @@ final class ProductDetailView: UIView {
         return stackview
     }()
     
-    let productImageCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .horizontalFullGrid)
+    lazy var productImageCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.isScrollEnabled = false
         return collectionView
+    }()
+        
+    let pageLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
     }()
     
     private lazy var nameAndStockStackView: UIStackView = {
@@ -148,24 +155,27 @@ final class ProductDetailView: UIView {
             descriptionLabel.text = data.description
         }
     }
-}
-
-// MARK: - CollectionView Layout
-
-private extension UICollectionViewLayout {
-    static let horizontalFullGrid: UICollectionViewCompositionalLayout = {
+    
+    private func configureCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: 0, leading: 12, bottom: 12, trailing: 0)
+        item.contentInsets = .init(top: .zero, leading: 12, bottom: .zero, trailing: .zero)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1), heightDimension: .fractionalHeight(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        section.visibleItemsInvalidationHandler = { [weak self] visibleItems, point, environment in
+            guard let currentPage = visibleItems.last?.indexPath.row else { return }
+            guard let totalItemCount = self?.productImageCollectionView.numberOfItems(inSection: 0) else { return }
+            
+            self?.pageLabel.text = "\(currentPage + 1)/\(totalItemCount)"
+        }
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
-    }()
+    }
 }
-
