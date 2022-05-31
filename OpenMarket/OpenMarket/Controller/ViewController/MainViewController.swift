@@ -1,12 +1,12 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - MainViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     @IBOutlet private weak var openMarketCollectionView: UICollectionView!
     @IBOutlet private weak var collectionViewSegment: UISegmentedControl!
     @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
@@ -69,92 +69,70 @@ final class ViewController: UIViewController {
         }
     }
     
-    private func getImage(itemCell: ItemCellable ,url: String, indexPath: IndexPath) {
-        if let cachedImage = ImageCacheManager.shared.object(forKey: url as NSString) {
-            DispatchQueue.main.async {
-                if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                    itemCell.configureImage(image: cachedImage)
-                }
-            }
-            return
-        }
-        
-        networkHandler.request(api: ItemImageAPI(host: url)) { data in
-            switch data {
-            case .success(let data):
-                guard let data = data else { return }
-                guard let image = UIImage(data: data) else { return }
-                DispatchQueue.main.async {
-                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                        itemCell.configureImage(image: image)
-                        ImageCacheManager.shared.setObject(image, forKey: url as NSString)
-                    }
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                    if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                        guard let failImage = UIImage(systemName: "xmark.app") else { return }
-                        itemCell.configureImage(image: failImage)
-                    }
-                }
-            }
-        }
-    }
-    
     private func changeCellType() {
+        myActivityIndicator.isHidden = false
+        myActivityIndicator.startAnimating()
+        
         if cellType == .list {
-            myActivityIndicator.isHidden = false
-            myActivityIndicator.startAnimating()
             setListLayout()
             openMarketCollectionView.setListPosition()
         } else {
-            myActivityIndicator.isHidden = false
-            myActivityIndicator.startAnimating()
             setGridLayout()
             openMarketCollectionView.setGirdPosition()
         }
+        
         openMarketCollectionView.reloadData()
     }
     
-    private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) {
+    
+    private func setCellComponents(itemCell: ItemCellable, indexPath: IndexPath) -> CellComponents {
+        let name = self.items[indexPath.row].name
+        let price = (self.items[indexPath.row].currency + String(self.items[indexPath.row].price)).strikethrough()
+        let isDiscounted = self.items[indexPath.row].discountedPrice == 0 ? false : true
+        let bargainPrice = self.items[indexPath.row].currency + String(self.items[indexPath.row].bargainPrice)
+        let stock = self.items[indexPath.row].stock == 0 ? "품절" : "잔여수량 : \(self.items[indexPath.row].stock)"
+        let stockLabel = self.items[indexPath.row].stock == 0 ?  #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1) : #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
         let thumnailURL = self.items[indexPath.row].thumbnail
         
-        self.getImage(itemCell: itemCell, url: thumnailURL, indexPath: indexPath)
-        
-        DispatchQueue.main.async {
-            if self.openMarketCollectionView.indexPath(for: itemCell) == indexPath {
-                itemCell.configureCell(items: self.items, indexPath: indexPath)
-            }
-            self.myActivityIndicator.stopAnimating()
-        }
+        return CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel, thumbnailURL: thumnailURL)
     }
     
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         guard let segmentType = CellType(rawValue: sender.selectedSegmentIndex) else { return }
         cellType = segmentType
     }
+    
+    @IBAction func touchAddButton(_ sender: UIBarButtonItem) {
+        guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
+        addVC.title = "상품 등록"
+        addVC.setDelegate(target: self)
+        navigationController?.pushViewController(addVC, animated: true)
+    }
 }
 // MARK: - CollectionView Cell
-extension ViewController: UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if cellType == .list {
+        switch cellType {
+        case .list:
             guard let listCell = collectionView.dequeueReusableCell(withReuseIdentifier:  "\(ListCell.self)", for: indexPath) as? ListCell else { return ListCell() }
-            setCellComponents(itemCell: listCell, indexPath: indexPath)
+            listCell.configureCell(components: setCellComponents(itemCell: listCell, indexPath: indexPath))
+            myActivityIndicator.stopAnimating()
             return listCell
-        } else {
+        case .grid:
             guard let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(GridCell.self)", for: indexPath) as? GridCell else { return GridCell() }
-            setCellComponents(itemCell: gridCell, indexPath: indexPath)
+            gridCell.configureCell(components: setCellComponents(itemCell: gridCell, indexPath: indexPath))
+            myActivityIndicator.stopAnimating()
             return gridCell
         }
     }
 }
 
 // MARK: - CollectionView Prefetching
-extension ViewController: UICollectionViewDataSourcePrefetching {
+extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         guard hasNext else {
             return
@@ -168,7 +146,7 @@ extension ViewController: UICollectionViewDataSourcePrefetching {
 }
 
 // MARK: - CollectionView Layout
-extension ViewController {
+extension MainViewController {
     private func setListLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(openMarketCollectionView.frame.height * 0.1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -192,5 +170,13 @@ extension ViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         openMarketCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
+    }
+}
+
+extension MainViewController: AddItemViewControllerDelegate {
+    func upDate() {
+        items = []
+        pageNumber = 1
+        getItemPage()
     }
 }

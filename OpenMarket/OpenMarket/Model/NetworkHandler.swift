@@ -18,10 +18,12 @@ struct NetworkHandler {
     private func makeURL(api: APIable) -> URL? {
         var component = URLComponents(string: api.host + api.path)
         
-        component?.queryItems = api.params?.compactMap {
-            URLQueryItem(name: $0.key, value: $0.value)
+        if api.method == .get {
+            component?.queryItems = api.params?.compactMap {
+                URLQueryItem(name: $0.key, value: $0.value)
+            }
         }
-        
+
         return component?.url
     }
     
@@ -33,6 +35,11 @@ struct NetworkHandler {
         var request = URLRequest(url: url)
         request.httpMethod = api.method.string
         
+        if api.method == .post {
+            guard let urlRequest = makePostData(api: api, urlRequest: request) else { return }
+            request = urlRequest
+        }
+        
         session.receiveResponse(request: request) { responseResult in
             guard responseResult.error == nil else {
                 return response(.failure(.transportError))
@@ -41,17 +48,54 @@ struct NetworkHandler {
             guard let statusCode = (responseResult.response as? HTTPURLResponse)?.statusCode, (200...299).contains(statusCode) else {
                 return response(.failure(.responseError))
             }
-            
-            switch api.method {
-            case .get:
-                response(.success(responseResult.data))
-            case .post:
-                response(.success(responseResult.data))
-            case .delete:
-                response(.success(responseResult.data))
-            case .patch:
-                response(.success(responseResult.data))
-            }
+            response(.success(responseResult.data))
         }
+    }
+    
+    private func makeData(components: ItemComponents) -> Data? {
+        let data = """
+                {
+                \"name\": \"\(components.name)\",
+                \"price\": \(components.price),
+                \"currency\": \"\(components.currency)\",
+                \"discounted_price\": \(components.discountedPrice),
+                \"stock\": \(components.stock),
+                \"secret\": \"zsxn8cy106\",
+                \"descriptions\": \"\(components.descriptions)\"
+                }
+                """.data(using: .utf8)!
+        
+        return data
+    }
+    
+    private func makePostData(api: APIable, urlRequest: URLRequest) -> URLRequest? {
+        let boundary = UUID().uuidString
+        var request = urlRequest
+        
+        request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var data = Data()
+        guard let model = api.itemComponents else { return nil}
+        
+        guard let itemData = makeData(components: model) else { return nil }
+                
+        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
+        data.append(itemData)
+        for (index, image) in model.imageArray.enumerated() {
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                        return nil
+                    }
+            data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(index).jpg\"\r\n".data(using: .utf8)!)
+            data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
+            data.append(imageData)
+        }
+        
+        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request.httpBody = data
+        return request
     }
 }
