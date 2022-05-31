@@ -74,7 +74,7 @@ extension MainViewController {
 
 // MARK: - Delegate
 extension MainViewController {
-   private func defineCollectionViewDelegate() {
+    private func defineCollectionViewDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -96,27 +96,48 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
+        guard let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else {
             return
         }
-        modifyViewController.delegate = self
         let id = products[indexPath.row].id
-        RequestAssistant.shared.requestDetailAPI(productId: id) { result in
-            switch result {
-            case .success(let data):
-                modifyViewController.product = data
-                DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(modifyViewController, animated: true)
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    self.showAlert(alertTitle: "데이터 로드 실패")
-                }
-            }
-        }
+           RequestAssistant.shared.requestDetailAPI(productId: id) { result in
+               switch result {
+               case .success(let data):
+                   detailViewController.product = data
+                   DispatchQueue.main.async {
+                       self.navigationController?.pushViewController(detailViewController, animated: true)
+                   }
+               case .failure(_):
+                   DispatchQueue.main.async {
+                       self.activityIndicator.stopAnimating()
+                       self.showAlert(alertTitle: "데이터 로드 실패")
+                   }
+               }
+           }
     }
 }
+
+//func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//    guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
+//        return
+//    }
+//    modifyViewController.delegate = self
+//    let id = products[indexPath.row].id
+//    RequestAssistant.shared.requestDetailAPI(productId: id) { result in
+//        switch result {
+//        case .success(let data):
+//            modifyViewController.product = data
+//            DispatchQueue.main.async {
+//                self.navigationController?.pushViewController(modifyViewController, animated: true)
+//            }
+//        case .failure(_):
+//            DispatchQueue.main.async {
+//                self.activityIndicator.stopAnimating()
+//                self.showAlert(alertTitle: "데이터 로드 실패")
+//            }
+//        }
+//    }
+//}
 
 // MARK: - Private Method
 private extension MainViewController {
