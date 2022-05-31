@@ -100,20 +100,20 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return
         }
         let id = products[indexPath.row].id
-           RequestAssistant.shared.requestDetailAPI(productId: id) { result in
-               switch result {
-               case .success(let data):
-                   detailViewController.product = data
-                   DispatchQueue.main.async {
-                       self.navigationController?.pushViewController(detailViewController, animated: true)
-                   }
-               case .failure(_):
-                   DispatchQueue.main.async {
-                       self.activityIndicator.stopAnimating()
-                       self.showAlert(alertTitle: "데이터 로드 실패")
-                   }
-               }
-           }
+        RequestAssistant.shared.requestDetailAPI(productId: id) { result in
+            switch result {
+            case .success(let data):
+                detailViewController.product = data
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(detailViewController, animated: true)
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.showAlert(alertTitle: "데이터 로드 실패")
+                }
+            }
+        }
     }
 }
 

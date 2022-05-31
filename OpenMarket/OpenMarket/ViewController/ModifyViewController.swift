@@ -9,6 +9,7 @@ import UIKit
 
 final class ModifyViewController: ProductViewController {
     var product: Product?
+    weak var delegate: ProductUpdateDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()

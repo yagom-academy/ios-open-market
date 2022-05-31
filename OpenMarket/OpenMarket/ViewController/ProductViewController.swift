@@ -9,7 +9,7 @@ import UIKit
 
 class ProductViewController: UIViewController {
     lazy var productView = ProductView(frame: view.frame)
-    weak var delegate: ListUpdateDelegate?
+    
     var currency: Currency = .KRW
     override func viewDidLoad() {
         super.viewDidLoad()

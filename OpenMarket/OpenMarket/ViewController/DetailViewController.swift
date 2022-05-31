@@ -211,8 +211,12 @@ class DetailViewController: UIViewController {
     }
     
     func presentModifiation() {
-        let modification = ModifyViewController()
-        present(modification, animated: true)
+        guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
+            return
+        }
+        modifyViewController.delegate = self
+        modifyViewController.product = product
+        self.navigationController?.pushViewController(modifyViewController, animated: true)
     }
     
     func requestDelete() {
@@ -265,5 +269,33 @@ extension DetailViewController: UIScrollViewDelegate {
         let contentIndex = round((targetContentOffset.pointee.x) / cellWidthWithSpace)
         let contentOffset = CGPoint(x: contentIndex * cellWidthWithSpace, y: targetContentOffset.pointee.y)
         targetContentOffset.pointee = contentOffset
+    }
+}
+
+extension DetailViewController: ProductUpdateDelegate {
+    func requestProductData() {
+        guard let id = product?.id else {
+            return
+        }
+        product = nil
+        RequestAssistant.shared.requestDetailAPI(productId: id) { result in
+            switch result {
+            case .success(let data):
+                self.product = data
+                print("# 1 product : \(self.product)")
+                DispatchQueue.main.async {
+                    self.configureContents()
+                    //self.view.layoutIfNeeded()
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showAlert(alertTitle: "데이터 로드 실패")
+                }
+            }
+        }
+    }
+    
+    func refreshProduct() {
+        requestProductData()
     }
 }

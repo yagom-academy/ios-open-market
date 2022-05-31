@@ -14,6 +14,8 @@ extension API {
 
 final class RegisterViewController: ProductViewController {
     private var images: [UIImage] = []
+    weak var delegate: ListUpdateDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
