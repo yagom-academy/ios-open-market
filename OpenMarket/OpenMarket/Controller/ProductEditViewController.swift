@@ -100,11 +100,6 @@ final class ProductEditViewController: UIViewController {
             productEditView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-    private func setData() {
-        presenter = presenter.setData(of: productDetail)
-        productEditView.setEditView(presenter)
-    }
 }
 
 extension ProductEditViewController: UICollectionViewDataSource {
@@ -117,9 +112,6 @@ extension ProductEditViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 //        cell.setImage(presenter.images?[indexPath.row])
-    
-        
-        
         return cell
     }
 }
@@ -172,5 +164,13 @@ extension ProductEditViewController {
         let alert = UIAlertController(title: Alert.editFailureTitle, message: Alert.editFailureMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
+    }
+}
+
+// MARK: - Set Presenter
+extension ProductEditViewController {
+    private func setData() {
+        presenter = presenter.setData(of: productDetail)
+        productEditView.setEditView(presenter)
     }
 }
