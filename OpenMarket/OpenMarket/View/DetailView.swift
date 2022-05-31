@@ -116,6 +116,7 @@ class DetailView: UIView {
   private let totalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
+    stackView.spacing = 20.0
     stackView.alignment = .fill
     stackView.distribution = .fill
     stackView.translatesAutoresizingMaskIntoConstraints = false
