@@ -38,7 +38,7 @@ final class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         requestData()
         configureView()
-        
+        registerNotification()
     }
     
     // MARK: - Configure
@@ -82,6 +82,12 @@ final class ProductDetailViewController: UIViewController {
         mainView?.productImageCollectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: UICollectionView.elementKindSectionFooter)
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(forName: .update, object: "patch", queue: .main) { [weak self] _ in
+            self?.requestData()
+        }
     }
     
     // MARK: - CollectionView DataSource
@@ -186,6 +192,7 @@ final class ProductDetailViewController: UIViewController {
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .update, object: nil)
                     self.navigationController?.popViewController(animated: true)
                 }
             case .failure(_):

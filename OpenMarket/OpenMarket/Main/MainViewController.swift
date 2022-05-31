@@ -29,6 +29,7 @@ final class MainViewController: UIViewController {
         configureNavigationBar()
         configureRefreshControl()
         requestData(pageNumber: pageNumber)
+        registerNotification()
     }
     
     override func loadView() {
@@ -71,6 +72,12 @@ final class MainViewController: UIViewController {
         mainView?.collectionView.prefetchDataSource = self
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(forName: .update, object: nil, queue: .main) { [weak self] _ in
+            self?.resetData()
+        }
     }
     
     private func configureRefreshControl() {

@@ -48,7 +48,7 @@ final class RegisterViewController: ProductViewController {
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    // MARK: - Todo Notification Post
+                    NotificationCenter.default.post(name: .update, object: nil)
                     self.dismiss(animated: true)
                 }
             case .failure(_):

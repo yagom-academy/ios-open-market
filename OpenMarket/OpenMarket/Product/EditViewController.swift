@@ -60,7 +60,7 @@ final class EditViewController: ProductViewController {
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    // MARK: - Todo Notification Post
+                    NotificationCenter.default.post(name: .update, object: "patch")
                     self.navigationController?.popViewController(animated: true)
                 }
             case .failure(_):
