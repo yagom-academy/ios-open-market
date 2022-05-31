@@ -23,17 +23,6 @@ struct Presenter {
         self.productImage = urlString
         self.productName = product.name
         
-        let productPrice = product.price ?? 0
-        let productCurrency = product.currency ?? ""
-        
-        let formattedPrice = formatNumber(price: productPrice)
-        self.price = "\(productCurrency) \(formattedPrice)"
-        
-        let productBargainPrice = product.bargainPrice ?? 0
-        
-        let formattedBargainPrice = formatNumber(price: productBargainPrice)
-        self.bargainPrice = "\(productCurrency) \(formattedBargainPrice)"
-        
         let productStock = product.stock ?? 0
         self.stock = String(productStock)
         
@@ -48,14 +37,10 @@ struct Presenter {
         self.productName = productDetail.name
         
         let productPrice = productDetail.price ?? 0
-        
-        let formattedPrice = formatNumber(price: productPrice)
-        self.price = "\(formattedPrice)"
+        self.price = String(productPrice)
         
         let productDiscountedPrice = productDetail.discountedPrice ?? 0
-        
-        let formattedDiscountedPrice = formatNumber(price: productDiscountedPrice)
-        self.discountedPrice = "\(formattedDiscountedPrice)"
+        self.discountedPrice = String(productDiscountedPrice)
         
         let productStock = productDetail.stock ?? 0
         self.stock = String(productStock)

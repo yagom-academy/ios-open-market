@@ -14,6 +14,7 @@ final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>
     
+    private var presenter = Presenter()
     private lazy var dataSource = makeDataSource()
 
     private lazy var productView = ProductListView.init(frame: view.bounds)
@@ -115,14 +116,9 @@ extension MainViewController {
         let dataSource = DataSource(
             collectionView: productView.collectionView,
             cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
-                var presenter = Presenter()
-                presenter = presenter.setData(of: product)
-                
-                if presenter.stock == Stock.zero {
-                    presenter.stock = Stock.soldOut
-                } else {
-                    presenter.stock = "\(Stock.stock) \(presenter.stock ?? "")"
-                }
+                self.setData(product)
+                self.setPrice(product)
+                self.setStock(product)
                 
                 guard let layoutType = LayoutType(rawValue: self.productView.segmentedControl.selectedSegmentIndex) else { return UICollectionViewCell() }
                 
@@ -131,8 +127,7 @@ extension MainViewController {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell else {
                         return UICollectionViewCell()
                     }
-                    
-                    cell.configureCell(presenter)
+                    cell.configureCell(self.presenter)
                     
                     return cell
                     
@@ -140,8 +135,7 @@ extension MainViewController {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell else {
                         return UICollectionViewCell()
                     }
-                    
-                    cell.configureCell(presenter)
+                    cell.configureCell(self.presenter)
                     
                     return cell
                 }
@@ -166,3 +160,30 @@ extension MainViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - Set Presenter
+extension MainViewController {
+    private func setData(_ product: Products) {
+        presenter = presenter.setData(of: product)
+    }
+    
+    private func setPrice(_ product: Products) {
+        let productCurrency = product.currency ?? ""
+        
+        let bargainPrice = product.bargainPrice ?? 0
+        let price = product.price ?? 0
+        
+        let formattedBargainPrice = bargainPrice.formatNumber()
+        let formattedPrice = price.formatNumber()
+        
+        presenter.bargainPrice = "\(productCurrency) \(formattedBargainPrice)"
+        presenter.price = "\(productCurrency) \(formattedPrice)"
+    }
+    
+    private func setStock(_ product: Products) {
+        if presenter.stock == Stock.zero {
+            presenter.stock = Stock.soldOut
+        } else {
+            presenter.stock = "\(Stock.stock) \(presenter.stock ?? "")"
+        }
+    }
+}
