@@ -21,6 +21,8 @@ class RegisterEditBaseViewController: UIViewController {
         static let stockDefaultValue = "0"
     }
     
+    var keyBoardSize: CGFloat = 0
+    
     private lazy var rightNavigationButton = UIBarButtonItem(
         title: Constant.rightNavigationButtonText,
         style: .plain,
@@ -96,6 +98,7 @@ class RegisterEditBaseViewController: UIViewController {
         view.layer.borderColor = UIColor.systemGray4.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 5
+        view.delegate = self
         return view
     }()
 }
@@ -219,20 +222,11 @@ extension RegisterEditBaseViewController {
                                                selector: #selector(keyBoardShow),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-    }
+     }
     
     private func removeRegisterForKeyboardNotification() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardHide(_ notification: Notification) {
-        self.view.transform = .identity
-    }
+     }
     
     @objc private func keyBoardShow(notification: NSNotification) {
         guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
@@ -240,13 +234,7 @@ extension RegisterEditBaseViewController {
         }
         let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
-        keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: textView)
-    }
-    
-    private func keyboardAnimate(keyboardRectangle: CGRect ,textView: UITextView) {
-        if keyboardRectangle.height > (self.view.frame.height - textView.frame.maxY){
-            self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height))
-        }
+        keyBoardSize = keyboardRectangle.height
     }
 }
 
@@ -262,3 +250,15 @@ extension RegisterEditBaseViewController {
         navigationController?.popViewController(animated: true)
     }
 }
+
+
+extension RegisterEditBaseViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.view.frame.origin.y = 0 - keyBoardSize
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.view.frame.origin.y = 0
+    }
+}
+
