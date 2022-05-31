@@ -12,6 +12,7 @@ enum NetworkError: Error {
     case data
     case statusCode
     case decode
+    case request
 }
 
 struct ImageInfo {
@@ -63,14 +64,57 @@ struct NetworkManager<T: Decodable> {
                       return
                   }
 
-            requestPOST(endPoint: endPoint, params: params, images: images)
+            guard let request = requestPOST(endPoint: endPoint, params: params, images: images) else {
+                completion(.failure(.request))
+                return
+            }
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard error == nil else {
+                    completion(.failure(.error))
+                    return
+                }
+                
+                guard let _ = data else {
+                    completion(.failure(.data))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
+                    completion(.failure(.statusCode))
+                    return
+                }
+            }.resume()
+            
         case .patch:
             guard let params = params as? PatchRequest else {
                 completion(.failure(.data))
                 return
             }
 
-            requestPATCH(endPoint: endPoint, params: params)
+            guard let request = requestPATCH(endPoint: endPoint, params: params) else {
+                completion(.failure(.request))
+                return
+            }
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    completion(.failure(.error))
+                    return
+                }
+                
+                guard let _ = data else {
+                    completion(.failure(.data))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
+                    print("hello")
+                    completion(.failure(.statusCode))
+                    return
+                }
+            }.resume()
+            
         case .delete:
             print("delete")
         }
@@ -83,11 +127,11 @@ extension NetworkManager {
         return "\(UUID().uuidString)"
     }
 
-    mutating private func requestPOST(endPoint: Endpoint, params: PostRequest, images: [ImageInfo]) {
+    mutating private func requestPOST(endPoint: Endpoint, params: PostRequest, images: [ImageInfo]) -> URLRequest? {
         let boundary = generateBoundary()
         
         guard let url = endPoint.url else {
-            return
+            return nil
         }
         
         var request = URLRequest(url: url)
@@ -98,19 +142,7 @@ extension NetworkManager {
         request.addValue("eddy123", forHTTPHeaderField: "accessId")
         request.httpBody = createPOSTBody(requestInfo: params, images: images, boundary: boundary)
 
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                return
-            }
-            
-            guard let _ = data else {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                return
-            }
-        }.resume()
+        return request
     }
 
     private func createPOSTBody(requestInfo: PostRequest, images: [ImageInfo], boundary: String) -> Data? {
@@ -160,27 +192,16 @@ extension NetworkManager {
         return try? JSONEncoder().encode(requestInfo)
     }
     
-    private func requestPATCH(endPoint: Endpoint, params: PatchRequest) {
+    private func requestPATCH(endPoint: Endpoint, params: PatchRequest) -> URLRequest? {
         guard let url = endPoint.url else {
-            return
+            return nil
         }
                 
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.addValue(UserInformation.identifer, forHTTPHeaderField: "identifier")
         request.httpBody = createPATCHBody(requestInfo: params)
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let _ = data else {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                return
-            }
-        }.resume()
+        
+        return request
     }
 }
