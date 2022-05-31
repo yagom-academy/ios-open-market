@@ -108,6 +108,7 @@ final class ProductDetailView: UIView {
     
     private func configureView() {
         backgroundColor = .systemBackground
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureLayout() {

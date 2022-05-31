@@ -13,11 +13,11 @@ final class ProductDetailViewController: UIViewController {
     
     private let networkManager = NetworkManager()
     
-    private var mainView: ProductDetailView?
+    private var mainView = ProductDetailView(frame: .zero)
     private let product: Product
     
     private var dataSource: DataSource?
-    private var snapshot: Snapshot?
+    private var snapshot = Snapshot()
     
     init(product: Product) {
         self.product = product
@@ -26,12 +26,6 @@ final class ProductDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func loadView() {
-        super.loadView()
-        mainView = ProductDetailView(frame: view.bounds)
-        view = mainView
     }
     
     override func viewDidLoad() {
@@ -44,9 +38,22 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - Configure
     
     private func configureView() {
-        mainView?.configure(data: product)
+        configureMainView()
         configureCollectionView()
         configureNavigationBar()
+    }
+    
+    private func configureMainView() {
+        view.addSubview(mainView)
+        
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        mainView.configure(data: product)
     }
     
     private func configureNavigationBar() {
@@ -78,7 +85,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        mainView?.productImageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
+        mainView.productImageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
     }
@@ -92,8 +99,6 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - CollectionView DataSource
     
     private func makeDataSource() -> DataSource? {
-        guard let mainView = mainView else { return nil }
-        
         let datasource = DataSource(collectionView: mainView.productImageCollectionView) { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.identifier, for: indexPath) as? ProductImageCell ?? ProductImageCell()
             
@@ -106,17 +111,16 @@ final class ProductDetailViewController: UIViewController {
         return datasource
     }
     
-    private func makeSnapshot() -> Snapshot? {
-        var snapshot = dataSource?.snapshot()
-        snapshot?.deleteAllItems()
-        snapshot?.appendSections([.main])
+    private func makeSnapshot() -> Snapshot {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        
         return snapshot
     }
     
     private func applySnapshot(images: [UIImage]) {
         DispatchQueue.main.async { [self] in
-            snapshot?.appendItems(images)
-            guard let snapshot = snapshot else { return }
+            snapshot.appendItems(images)
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
     }
@@ -133,7 +137,7 @@ final class ProductDetailViewController: UIViewController {
             
             switch result {
             case .success(let data):
-                self.mainView?.configure(data: data)
+                self.mainView.configure(data: data)
                 let imagesUrl = data.images?.compactMap { $0.url }
                 imagesUrl?.forEach({ url in
                     self.requestImage(urlString: url)
