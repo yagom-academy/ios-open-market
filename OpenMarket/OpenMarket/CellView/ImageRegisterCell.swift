@@ -50,6 +50,7 @@ final class ImageRegisterCell: UICollectionViewCell {
         imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
         plusButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         plusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         plusButton.widthAnchor.constraint(equalToConstant: 100).isActive = true

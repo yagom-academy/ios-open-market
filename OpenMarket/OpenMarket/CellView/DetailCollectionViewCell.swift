@@ -18,6 +18,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     let pageLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
         return label
     }()
     
@@ -26,7 +27,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         return stackView
     }()
     
@@ -35,6 +36,8 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(imageView)
         mainStackView.addArrangedSubview(pageLabel)
+        
+        setupLayoutConstraint()
     }
     
     required init?(coder: NSCoder) {
@@ -42,6 +45,19 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     }
     
     func setupLayoutConstraint() {
+        
+        imageView.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: mainStackView.centerYAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: mainStackView.topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor).isActive = true
+        
+        
+        imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.95).isActive = true
+
+        
         mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -49,8 +65,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         mainStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         mainStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
-        imageView.widthAnchor.constraint(equalTo: mainStackView.widthAnchor).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.7).isActive = true
+        
+
     }
 }

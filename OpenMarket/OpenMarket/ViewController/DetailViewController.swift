@@ -26,7 +26,7 @@ class DetailViewController: UIViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return scrollView
     }()
     
@@ -37,25 +37,30 @@ class DetailViewController: UIViewController {
         stackView.distribution = .fill
         stackView.spacing = 5
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         return stackView
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(for: .title3, weight: .semibold)
         return label
     }()
     
     let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        label.font = .preferredFont(forTextStyle: .title3)
+        label.textColor = .systemGray
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(for: .body, weight: .semibold)
         label.textAlignment = .right
         return label
     }()
@@ -64,6 +69,7 @@ class DetailViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
+        label.font = .preferredFont(for: .body, weight: .semibold)
         return label
     }()
     
@@ -76,7 +82,7 @@ class DetailViewController: UIViewController {
     let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .equalCentering
+        stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -84,10 +90,10 @@ class DetailViewController: UIViewController {
     var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
-        collectionViewLayout.minimumLineSpacing = 20
+        //collectionViewLayout.minimumLineSpacing = 20
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = true
         collectionView.showsVerticalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
         collectionView.isPagingEnabled = true
@@ -115,8 +121,8 @@ class DetailViewController: UIViewController {
     func setupLayoutConstraints() {
         mainScrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         mainScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        mainScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        mainScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        mainScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15).isActive = true
+        mainScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15).isActive = true
         mainScrollView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         mainScrollView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         
@@ -129,7 +135,7 @@ class DetailViewController: UIViewController {
         collectionView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.45).isActive = true
-        collectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        //collectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         informationStackView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor).isActive = true
         informationStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor).isActive = true
@@ -145,11 +151,32 @@ class DetailViewController: UIViewController {
         guard let product = product else {
             return
         }
+        
+        guard let currency = product.currency?.rawValue else {
+            return
+        }
         nameLabel.text = product.name
-        stockLabel.text = String(product.stock)
-        priceLabel.text = String(product.price)
-        bargainPriceLabel.text = String(product.bargainPrice)
+        stockLabel.text = "남은 수량 : \(String(product.stock))"
+        priceLabel.text = "\(currency) \(String(product.price))"
+        
+        if product.discountedPrice != .zero {
+            guard let price = priceLabel.text else {
+                return
+            }
+            priceLabel.textColor = .red
+            priceLabel.attributedText = setTextAttribute(of: price, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+            bargainPriceLabel.text = "\(currency) \(String(product.bargainPrice))"
+        }
+        
+        
         descriptionLabel.text = product.description
+    }
+    
+    private func setTextAttribute(of target: String, attributes: [NSAttributedString.Key: Any]) -> NSAttributedString {
+        let attributedText = NSMutableAttributedString(string: target)
+        attributedText.addAttributes(attributes, range: (target as NSString).range(of: target))
+        
+        return attributedText
     }
 }
 
@@ -164,7 +191,8 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         cell.imageView.requestImageDownload(url: images[indexPath.row].url)
-        cell.pageLabel.text = String(indexPath.row + 1)
+//        cell.imageView.backgroundColor = .systemRed
+        cell.pageLabel.text = "\(String(indexPath.row + 1)) / \(images.count)"
         
         
         return cell
