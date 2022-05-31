@@ -231,19 +231,17 @@ extension UpdateProductViewController: UICollectionViewDataSource {
             }
             
             if let _ = product {
-                cell.plusButton.isHidden = true
-                cell.imageView.isHidden = false
-                cell.imageView.image = images[indexPath.row]
+                cell.hidePlusButton()
+                cell.setImageView(with: images[indexPath.row])
                 return cell
             }
             
             if images.count != indexPath.row {
-                cell.plusButton.isHidden = true
-                cell.imageView.isHidden = false
+                cell.hidePlusButton()
                 guard let image = images[safe: indexPath.row] else {
                     return collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyCell", for: indexPath)
                 }
-                cell.imageView.image = image
+                cell.setImageView(with: image)
                 return cell
             }
             return cell
@@ -289,7 +287,7 @@ extension UpdateProductViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ImageCell else { return }
-        if !cell.plusButton.isHidden {
+        if !cell.isPlusButtonHidden {
             self.present(self.imagePicker, animated: true)
         }
     }

@@ -13,13 +13,13 @@ class ImageCell: UICollectionViewCell {
         return view
     }()
     
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    let plusButton: UIButton = {
+    private let plusButton: UIButton = {
         let button = UIButton()
         
         func attribute() {
@@ -33,6 +33,10 @@ class ImageCell: UICollectionViewCell {
         
         return button
     }()
+    
+    var isPlusButtonHidden: Bool {
+        return plusButton.isHidden
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -63,6 +67,15 @@ class ImageCell: UICollectionViewCell {
             imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
+    }
+    
+    func hidePlusButton() {
+        plusButton.isHidden = true
+        imageView.isHidden = false
+    }
+    
+    func setImageView(with image: UIImage) {
+        imageView.image = image
     }
     
     override func prepareForReuse() {
