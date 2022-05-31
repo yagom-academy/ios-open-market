@@ -83,7 +83,7 @@ class UpdateProductViewController: UIViewController {
         super.viewDidLoad()
         if let product = product {
             product.images.forEach { image in
-                DataProvider().fetchImage(urlString: image.url) { [self] image in
+                DataProvider.shared.fetchImage(urlString: image.url) { [self] image in
                     self.images.append(image)
                 }
             }
@@ -149,10 +149,10 @@ extension UpdateProductViewController {
                 }
                 productInput["descriptions"] = description.replacingOccurrences(of: "\n", with: "\\n")
             }
-            DataProvider().patchProductData(prductIdentifier: product.identifier, productInput: productInput, completionHandler: completionHandler)
+            DataSender.shared.patchProductData(prductIdentifier: product.identifier, productInput: productInput, completionHandler: completionHandler)
             return
         }
-        DataProvider().postProductData(images: images, productInput: productInput, completionHandler: completionHandler)
+        DataSender.shared.postProductData(images: images, productInput: productInput, completionHandler: completionHandler)
     }
     
     @objc private func touchUpCancelButton() {

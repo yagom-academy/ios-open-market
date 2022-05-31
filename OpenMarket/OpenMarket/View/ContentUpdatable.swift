@@ -22,7 +22,7 @@ extension ContentUpdatable {
         self.setUpStockLabel(stock: product.stock)
         self.setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        let imageFetchTask = DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
+        let imageFetchTask = DataProvider.shared.fetchImage(urlString: product.thumbnail) { [self] image in
             DispatchQueue.main.async { [self] in
                 cellUIComponent.thumbnailImageView.image = image
             }

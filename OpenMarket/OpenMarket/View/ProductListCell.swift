@@ -182,7 +182,7 @@ extension ProductListCell {
         setUpStockLabel(stock: product.stock)
         setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        imageFetchTask = DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
+        imageFetchTask = DataProvider.shared.fetchImage(urlString: product.thumbnail) { [self] image in
             DispatchQueue.main.async { [self] in
                 cellUIComponent.thumbnailImageView.image = image
             }

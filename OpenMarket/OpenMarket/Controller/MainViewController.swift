@@ -13,14 +13,13 @@ class MainViewController: BaseViewController {
     private var gridCellRegisteration: UICollectionView.CellRegistration<ProductGridCell, Product>?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
-    private let dataProvider = DataProvider()
     private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
         configureDataSource()
-        dataProvider.fetchProductListData() { products in
+        DataProvider.shared.fetchProductListData() { products in
             guard let products = products else {
                 let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
                 DispatchQueue.main.async {
@@ -66,7 +65,7 @@ extension MainViewController {
     }
     
     @objc func refreshCollectionView() {
-        dataProvider.reloadData() { [self] products in
+        DataProvider.shared.reloadData() { [self] products in
             guard let products = products else {
                 let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
                 DispatchQueue.main.async {
@@ -146,7 +145,7 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let product = currentSnapshot?.itemIdentifiers.last else {return}
         guard currentSnapshot?.indexOfItem(product) != indexPath.row else {
-            dataProvider.fetchProductListData() { products in
+            DataProvider.shared.fetchProductListData() { products in
                 guard let products = products else {
                     let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
                     DispatchQueue.main.async {
@@ -170,7 +169,7 @@ extension MainViewController: UICollectionViewDelegate {
         navigationController.modalTransitionStyle = .coverVertical
         navigationController.modalPresentationStyle = .fullScreen
                 
-        dataProvider.fetchProductDetailData(productIdentifier: product.identifier) { decodedData in
+        DataProvider.shared.fetchProductDetailData(productIdentifier: product.identifier) { decodedData in
             guard let decodedData = decodedData else {
                 let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
                 
