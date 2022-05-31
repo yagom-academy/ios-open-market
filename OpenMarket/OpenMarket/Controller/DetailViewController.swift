@@ -49,10 +49,10 @@ final class DetailViewController: UIViewController {
     self.view.addSubview(detailView)
     self.view.backgroundColor = .white
     NSLayoutConstraint.activate([
-      detailView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-      detailView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-      detailView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-      detailView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+      detailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+      detailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+      detailView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+      detailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
     ])
   }
 
