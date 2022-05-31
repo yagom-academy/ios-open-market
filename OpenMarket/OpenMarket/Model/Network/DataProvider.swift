@@ -8,25 +8,19 @@
 import UIKit
 
 class DataProvider {
+    static let shared = DataProvider()
+    
     private var pageNumber = 1
     private let itemsPerPage = 10
     private var isLoading = false
+    
+    private init() { }
     
     func reloadData(completionHandler: @escaping ([Product]?) -> Void) {
         pageNumber = 1
         fetchProductListData(completionHandler: completionHandler)
     }
-    
-    func patchProductData(prductIdentifier: Int, productInput: [String: Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        HTTPManager().patchData(product: productInput, targetURL: .productPatch(productIdentifier: prductIdentifier)) { data in
-            completionHandler(data)
-        }
-    }
-    
-    func postProductData(images: [UIImage], productInput: [String: Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        HTTPManager().postProductData(images: images, product: productInput, completionHandler: completionHandler)
-    }
-    
+        
     func fetchProductDetailData(productIdentifier: Int, completionHandler: @escaping (ProductDetail?) -> Void) {
         HTTPManager().loadData(targetURL: .productDetail(productNumber: productIdentifier)) { [self] data in
             switch data {
