@@ -23,7 +23,7 @@ struct Params: Encodable {
 }
 
 struct ImageFile {
-  let fileName: String = "imageName.jpeg"
+  let fileName: String
   let type: String = "jpeg"
   let data: Data
 }

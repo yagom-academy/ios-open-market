@@ -182,8 +182,17 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     guard let imageData = image.jpegData(compressionQuality: 1) else {
       return
     }
-    let imageFile = ImageFile(data: imageData)
+    let imageName = generateImageName()
+    let imageFile = ImageFile(fileName: imageName, data: imageData)
     self.selectedImages.append(imageFile)
+  }
+  
+  private func generateImageName() -> String {
+    let date = Date()
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let imageName = "\(dateFormatter.string(from: date)).jpeg"
+    return imageName
   }
   
   private func resize(image: UIImage, newWidth: CGFloat) -> UIImage? {
