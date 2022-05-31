@@ -69,8 +69,17 @@ class UpdateProductViewController: UIViewController {
         }
     }
     
-    func initialize(product: ProductDetail) {
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    convenience init(product: ProductDetail) {
+        self.init()
         self.product = product
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
     override func loadView() {

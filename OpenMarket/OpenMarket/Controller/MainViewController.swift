@@ -163,11 +163,6 @@ extension MainViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = dataSource?.itemIdentifier(for: indexPath) else { return }
-        
-        let registerProductView = UpdateProductViewController()
-        let navigationController = UINavigationController(rootViewController: registerProductView)
-        navigationController.modalTransitionStyle = .coverVertical
-        navigationController.modalPresentationStyle = .fullScreen
                 
         DataProvider.shared.fetchProductDetailData(productIdentifier: product.identifier) { decodedData in
             guard let decodedData = decodedData else {
@@ -178,9 +173,13 @@ extension MainViewController: UICollectionViewDelegate {
                 }
                 return
             }
-            registerProductView.initialize(product: decodedData)
-            DispatchQueue.main.async { [self] in
-                present(navigationController, animated: true)
+            
+            DispatchQueue.main.async {
+                let registerProductView = UpdateProductViewController(product: decodedData)
+                let navigationController = UINavigationController(rootViewController: registerProductView)
+                navigationController.modalTransitionStyle = .coverVertical
+                navigationController.modalPresentationStyle = .fullScreen
+                self.present(navigationController, animated: true)
             }
         }
     }

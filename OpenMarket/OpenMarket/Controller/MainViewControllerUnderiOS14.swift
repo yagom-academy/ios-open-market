@@ -145,11 +145,6 @@ extension MainViewControllerUnderiOS14: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = products[safe: indexPath.row] else { return }
         
-        let registerProductView = UpdateProductViewController()
-        let navigationController = UINavigationController(rootViewController: registerProductView)
-        navigationController.modalTransitionStyle = .coverVertical
-        navigationController.modalPresentationStyle = .fullScreen
-        
         DataProvider.shared.fetchProductDetailData(productIdentifier: product.identifier) { decodedData in
             guard let decodedData = decodedData else {
                 let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
@@ -158,9 +153,13 @@ extension MainViewControllerUnderiOS14: UICollectionViewDelegate {
                 }
                 return
             }
-            registerProductView.initialize(product: decodedData)
-            DispatchQueue.main.async { [self] in
-                present(navigationController, animated: true)
+            
+            DispatchQueue.main.async {
+                let registerProductView = UpdateProductViewController(product: decodedData)
+                let navigationController = UINavigationController(rootViewController: registerProductView)
+                navigationController.modalTransitionStyle = .coverVertical
+                navigationController.modalPresentationStyle = .fullScreen
+                self.present(navigationController, animated: true)
             }
         }
     }
