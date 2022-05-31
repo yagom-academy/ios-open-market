@@ -200,35 +200,6 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension RegistrationViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let actionSheet = UIAlertController()
-        
-        let importFromAlbum = UIAlertAction(title: "앨범에서 가져오기", style: .default) { _ in
-            self.imagePicker.sourceType = .savedPhotosAlbum
-            self.imagePicker.allowsEditing = true
-            self.present(self.imagePicker, animated: true, completion: nil)
-        }
-        
-        let takePhoto = UIAlertAction(title: "카메라로 사진 찍기", style: .default) { _ in
-            self.imagePicker.sourceType = .camera
-            self.imagePicker.cameraCaptureMode = .photo
-            self.imagePicker.allowsEditing = true
-            self.present(self.imagePicker, animated: true, completion: nil)
-        }
-        
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        actionSheet.addAction(importFromAlbum)
-        actionSheet.addAction(takePhoto)
-        actionSheet.addAction(cancel)
-        
-        self.present(actionSheet, animated: true, completion: nil)
-    }
-}
-
 extension RegistrationViewController {
     @objc private func executePOST() {
         let params = productDetailView.generateParameters()
