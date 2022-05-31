@@ -15,7 +15,6 @@ class MainViewControllerUnderiOS14: BaseViewController {
             }
         }
     }
-    private var isFirstSnapshot = true
     private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
