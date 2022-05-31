@@ -110,6 +110,25 @@ final class APIProvider: Provider {
         }
     }
     
+    func deleteProduct(
+        with endpoint: Requestable,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let urlRequest = endpoint.generateUrlRequest()
+        
+        switch urlRequest {
+        case .success(let urlRequest):
+            urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                self?.checkError(with: data, response, error) { result in
+                    completion(.success(()))
+                }
+            }.resume()
+        case .failure(let error):
+            print(error.localizedDescription)
+            completion(.failure(error))
+        }
+    }
+    
     @discardableResult
     func requestImage(
         with url: URL,
