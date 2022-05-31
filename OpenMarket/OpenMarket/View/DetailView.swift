@@ -53,6 +53,7 @@ class DetailView: UIView {
     let label = UILabel()
     label.textAlignment = .right
     label.font = .systemFont(ofSize: Constants.body)
+    label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     label.textColor = .systemGray
     return label
   }()
@@ -77,6 +78,7 @@ class DetailView: UIView {
     stackView.alignment = .trailing
     stackView.distribution = .fillEqually
     stackView.spacing = Constants.spacing
+    stackView.setContentCompressionResistancePriority(.required, for: .horizontal)
     return stackView
   }()
   
