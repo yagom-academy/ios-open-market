@@ -63,7 +63,7 @@ struct HTTPManager {
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
-                completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
+                completionHandler(.failure(.responseError(error: error)))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
@@ -76,7 +76,7 @@ struct HTTPManager {
             case StatusCode.okSuccess:
                 completionHandler(.success(httpResponse))
             default:
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
+                completionHandler(.failure(.invalidRequest(statusCode: httpResponse.statusCode)))
             }
         }
         task.resume()
@@ -92,7 +92,7 @@ struct HTTPManager {
         }
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
-                completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
+                completionHandler(.failure(.responseError(error: error)))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
@@ -109,7 +109,7 @@ struct HTTPManager {
                 }
                 completionHandler(.success(data))
             default:
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
+                completionHandler(.failure(.invalidRequest(statusCode: httpResponse.statusCode)))
             }
         }
         task.resume()
@@ -139,7 +139,7 @@ struct HTTPManager {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
+                completionHandler(.failure(.responseError(error: error)))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
@@ -156,7 +156,7 @@ struct HTTPManager {
                 }
                 completionHandler(.success(data))
             default:
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
+                completionHandler(.failure(.invalidRequest(statusCode: httpResponse.statusCode)))
             }
         }
         task.resume()
@@ -211,7 +211,7 @@ struct HTTPManager {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                completionHandler(.failure(.invalidStatusCode(error: error, statusCode: nil)))
+                completionHandler(.failure(.responseError(error: error)))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
@@ -228,7 +228,7 @@ struct HTTPManager {
                 }
                 completionHandler(.success(data))
             default:
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: httpResponse.statusCode)))
+                completionHandler(.failure(.invalidRequest(statusCode: httpResponse.statusCode)))
             }
         }
         task.resume()
