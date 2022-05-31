@@ -176,7 +176,7 @@ extension UpdateProductViewController {
             if sectionKind == .image {
                 let itemContentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .fractionalWidth(0.4))
-                section = NSCollectionLayoutSection.setUpSection(itemContentInsets: itemContentInsets, groupSize: groupSize, orthogonalScrollingBehavior: .continuousGroupLeadingBoundary)
+                section = NSCollectionLayoutSection.setUpSection(itemContentInsets: itemContentInsets, groupSize: groupSize, orthogonalScrollingBehavior: .continuous)
             } else if sectionKind == .text {
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.6))
                 section = NSCollectionLayoutSection.setUpSection(groupSize: groupSize)
