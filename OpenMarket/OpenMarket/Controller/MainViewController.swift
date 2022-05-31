@@ -11,10 +11,20 @@ final class MainViewController: UIViewController {
     case main
   }
   
+  private enum Constants {
+    static let itemsPerView: Double = 10.0
+    static let itemsPerPage: Int = 20
+  }
+  
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
-  private let urlProvider = ApiProvider<ProductsList>()
+  private let apiProvider = HttpProvider()
+  private lazy var collectionView = CollectionView()
+  private lazy var editingView = EditingView()
+  private lazy var dataSource = makeDataSource()
+  private var currentPageNumber = 1
+  private var productsList:PageInformation?
   private var pages: [Page] = [] {
     didSet {
       DispatchQueue.main.async {
@@ -23,32 +33,38 @@ final class MainViewController: UIViewController {
     }
   }
   
-  private lazy var collectionView = CollectionView()
-  private lazy var dataSource = makeDataSource()
-  private var currentPageNumber = 1
-  private var productsList:ProductsList?
-  
   private lazy var segmentedControl: UISegmentedControl = {
     let segment = UISegmentedControl(items: [Layout.list.string, Layout.grid.string])
     segment.selectedSegmentIndex = Layout.list.rawValue
-    segment.addTarget(self,
-                      action: #selector(changeCollectionViewLayout(_:)),
-                      for: .valueChanged)
+    segment.addTarget(
+      self,
+      action: #selector(changeCollectionViewLayout(_:)),
+      for: .valueChanged
+    )
     return segment
   }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    fetchPages()
     configureView()
     configureNavigationBar()
     applySnapshot(animatingDifferences: false)
-    collectionView.prefetchDataSource = self
+    collectionView.delegate = self
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    self.currentPageNumber = 1
+    self.pages.removeAll()
+    self.fetchPages()
   }
   
   private func fetchPages() {
-    urlProvider.get(.productList(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
-      guard let products = try? data.get() else {
+    apiProvider.get(.productList(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
+      guard let data = try? data.get() else {
+        return
+      }
+      guard let products = try? JSONDecoder().decode(PageInformation.self, from: data) else {
         return
       }
       self.productsList = products
@@ -67,8 +83,15 @@ final class MainViewController: UIViewController {
     navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
     navigationItem.titleView = segmentedControl
     navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add,
-                                              target: .none,
-                                              action: .none)
+                                              target: self,
+                                              action: #selector(presentRegistrationViewController))
+  }
+  
+  @objc private func presentRegistrationViewController() {
+    let registrationVC = RegistrationViewController()
+    let navigationController = UINavigationController(rootViewController: registrationVC)
+    navigationController.modalPresentationStyle = .fullScreen
+    present(navigationController, animated: true, completion: nil)
   }
   
   @objc private func changeCollectionViewLayout(_ sender: UISegmentedControl) {
@@ -94,8 +117,7 @@ extension MainViewController {
           guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ListCell.identifier,
             for: indexPath
-          ) as? ListCell
-          else {
+          ) as? ListCell else {
             return nil
           }
           DispatchQueue.main.async {
@@ -109,8 +131,7 @@ extension MainViewController {
           guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: GridCell.identifier,
             for: indexPath
-          ) as? GridCell
-          else {
+          ) as? GridCell else {
             return nil
           }
           DispatchQueue.main.async {
@@ -134,14 +155,23 @@ extension MainViewController {
     dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
   }
 }
-// MARK: - UICollectionViewDataSourcePrefetching
-extension MainViewController: UICollectionViewDataSourcePrefetching {
-  func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-    guard productsList?.hasNext == true else {
-      return
-    }
+// MARK: - ViewController Delegate
+extension MainViewController: UICollectionViewDelegate {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath
+  ) {
+    let detailViewController = DetailViewController()
+    detailViewController.receiveInformation(for: pages[indexPath.row].id)
+    navigationController?.pushViewController(detailViewController, animated: false)
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let contentOffsetY = scrollView.contentOffset.y
+    let collectionViewContentSize = self.collectionView.contentSize.height
+    let paginationY = collectionViewContentSize * (Constants.itemsPerView / CGFloat(pages.count))
     
-    if indexPaths.last?.row == pages.count - 1 {
+    if contentOffsetY > collectionViewContentSize - paginationY {
       currentPageNumber += 1
       fetchPages()
     }

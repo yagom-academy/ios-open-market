@@ -1,5 +1,5 @@
 //
-//  Products.swift
+//  PageInformation.swift
 //  OpenMarket
 //
 //  Created by cathy, mmim.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductsList: Decodable {
+struct PageInformation: Decodable {
   let pageNumber: Int
   let itemsPerPage: Int
   let totalCount: Int
@@ -32,11 +32,12 @@ struct ProductsList: Decodable {
 }
 
 struct Page: Decodable, Hashable {
+  let uuid = UUID()
   let id: Int
   let venderId: Int
   let name: String
   let thumbnail: String
-  let currency: String
+  let currency: Currency
   let price: Int
   let bargainPrice: Int
   let discountedPrice: Int
@@ -59,11 +60,11 @@ struct Page: Decodable, Hashable {
   }
   
   func hash(into hasher: inout Hasher) {
-    hasher.combine(id)
+    hasher.combine(uuid)
   }
 
   static func == (lhs: Page, rhs: Page) -> Bool {
-    lhs.id == rhs.id
+    lhs.uuid == rhs.uuid
   }
 }
 
