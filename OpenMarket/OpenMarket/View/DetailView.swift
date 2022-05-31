@@ -187,7 +187,9 @@ class DetailView: UIView {
       return
     }
     
-    setUpImage(of: detailProduct.images)
+    if imageStackView.subviews.isEmpty {
+      setUpImage(of: images)
+    }
     
     let currency = detailProduct.currency.text
     self.nameLabel.text = detailProduct.name
