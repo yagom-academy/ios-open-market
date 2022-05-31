@@ -67,21 +67,25 @@ final class ProductDetailViewController: UIViewController {
             
             self.navigationController?.pushViewController(EditViewController(product: self.product), animated: true)
         } deleteAction: { [weak self] _ in
-            let alert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle:.alert)
-            alert.addTextField()
-            
-            let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-                guard let password = alert.textFields?.first?.text else { return }
-                guard let id = self?.product.id else { return }
-                
-                self?.requestPassword(id: id, userPassword: password)
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .default)
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            self?.present(alert, animated: true)
+            self?.showInputPasswordAlert()
         }
+    }
+    
+    private func showInputPasswordAlert() {
+        let alert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle:.alert)
+        alert.addTextField()
+        
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            guard let password = alert.textFields?.first?.text else { return }
+            guard let id = self?.product.id else { return }
+            
+            self?.requestPassword(id: id, userPassword: password)
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
     
     private func configureCollectionView() {
@@ -161,8 +165,7 @@ final class ProductDetailViewController: UIViewController {
     
     private func requestPassword(id: Int, userPassword: String) {
         let params = ["secret": "\(userPassword)"]
-        let sendData = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-        
+        guard let sendData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else { return }
         let endPoint = EndPoint.requestProductPassword(id: id, sendData: sendData)
         
         networkManager.request(endPoint: endPoint) { [weak self] result in

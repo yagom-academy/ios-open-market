@@ -40,7 +40,7 @@ struct NetworkManager {
                 completion(.failure(.dataError))
                 return
             }
-            //completion(.success(text.trimmingCharacters(in:CharacterSet(charactersIn: "\""))))
+            
             completion(.success(text))
         }.resume()
     }
