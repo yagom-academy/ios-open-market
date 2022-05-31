@@ -10,6 +10,12 @@ import UIKit
 struct ProductRegisterUseCase {
     private let network: NetworkAble
     private let jsonEncoder: JSONEncoder
+    
+    private enum Constant {
+        static let maximumImageSize = 300 * 1024
+        static let resizeWidthValue: CGFloat = 100
+        static let compressionQualityValue: CGFloat = 1
+    }
 
     init(network: NetworkAble, jsonEncoder: JSONEncoder){
         self.network = network
@@ -45,18 +51,39 @@ struct ProductRegisterUseCase {
         data.appendString(boundaryPrefix)
         data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
         
-        guard let params = try? jsonEncoder.encode(registrationParameter) else { return nil }
-        guard let paramsData = String(data: params, encoding: .utf8) else { return nil }
+        guard let params = try? jsonEncoder.encode(registrationParameter) else {
+            registerErrorHandler(UseCaseError.encodingError)
+            return nil
+        }
+        guard let paramsData = String(data: params, encoding: .utf8) else {
+            registerErrorHandler(UseCaseError.encodingError)
+            return nil
+        }
         data.appendString(paramsData)
         
         for image in images {
             data.appendString(boundaryPrefix)
             data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(registrationParameter.name).jpeg\"\r\n")
             data.appendString("Content-Type: image/jpeg\r\n\r\n")
-            guard let imageData = image.jpegData(compressionQuality: 0.1) else {
+            
+            var appendedData = Data()
+            guard let imageData = image.jpegData(compressionQuality: Constant.compressionQualityValue) else {
+                registerErrorHandler(UseCaseError.imageError)
                 return nil
             }
-            data.append(imageData)
+            appendedData = imageData
+    
+            if appendedData.count > Constant.maximumImageSize {
+                let resizeValue = image.resize(newWidth: Constant.resizeWidthValue)
+                guard let resizedImageData = resizeValue.jpegData(compressionQuality: Constant.compressionQualityValue),
+                      resizedImageData.count < Constant.maximumImageSize else {
+                    registerErrorHandler(UseCaseError.imageError)
+                    return nil
+                }
+                appendedData = resizedImageData
+            }
+            
+            data.append(appendedData)
         }
         data.appendString("\r\n--\(boundary)--\r\n")
         
@@ -71,7 +98,7 @@ struct ProductRegisterUseCase {
     }
     
     func checkValidation(registrationParameter parameter: RegistrationParameter) -> UseCaseError? {
-        guard parameter.name.count < 3 else {
+        guard parameter.name.count > 3 else {
             return UseCaseError.nameError
         }
         guard parameter.descriptions.count < 1000 else {
