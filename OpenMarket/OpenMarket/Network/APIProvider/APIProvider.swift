@@ -87,6 +87,29 @@ final class APIProvider: Provider {
         }
     }
     
+    func retrieveSecret(
+        with endpoint: Requestable,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+        let urlRequest = endpoint.generateUrlRequest()
+        
+        switch urlRequest {
+        case .success(let urlRequest):
+            urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                self?.checkError(with: data, response, error) { result in
+                    switch result {
+                    case .success(let data):
+                        completion(.success(String(data: data, encoding: .utf8) ?? ""))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            }.resume()
+        case .failure(let error):
+            completion(.failure(error))
+        }
+    }
+    
     @discardableResult
     func requestImage(
         with url: URL,
