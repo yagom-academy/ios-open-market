@@ -72,8 +72,36 @@ final class RequestAssistant {
     }
     
     func requestRegisterAPI(body: Data, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
-        let endpoint: Endpoint = .registerProudct
+        let endpoint: Endpoint = .registerProduct
         
+        sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
+            guard let data = data else {
+                return
+            }
+            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
+                completionHandler(.failure(.failDecode))
+                return
+            }
+            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+        })
+    }
+    
+    func requestSecretAPI(productId: Int, body: Data, completionHandler: @escaping ((Result<String, OpenMarketError>) -> Void)) {
+        let endpoint: Endpoint = .productSecret(productId: productId)
+        sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
+            print("# \(String(data: data!, encoding: .utf8))")
+            
+            guard let data = data else {
+                return
+            }
+            if let result = String(data: data, encoding: .utf8) {
+                self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            }
+        })
+    }
+    
+    func requestDeleteAPI(productId: Int, productSecret: String, body: Data, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+        let endpoint: Endpoint = .productDelete(productId: productId, productSecret: productSecret)
         sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
@@ -106,12 +134,14 @@ final class RequestAssistant {
     }
 }
 
-enum Endpoint {
+enum Endpoint: Equatable {
     case productList(nubmers: Int, pages: Int)
     case productDetail(productId: Int)
     case healthCheck
     case modifyProduct(productId: Int)
-    case registerProudct
+    case registerProduct
+    case productSecret(productId: Int)
+    case productDelete(productId: Int, productSecret: String)
 }
 
 extension Endpoint {
@@ -125,8 +155,12 @@ extension Endpoint {
             return .makeForEndpoint("/healthChecker")
         case .modifyProduct(let productId):
             return .makeForEndpoint("/api/products/\(productId)")
-        case .registerProudct:
+        case .registerProduct:
             return .makeForEndpoint("/api/products")
+        case .productSecret(let productId):
+            return .makeForEndpoint("/api/products/\(productId)/secret")
+        case .productDelete(let productId, let productSecret):
+            return .makeForEndpoint("/api/products/\(productId)/\(productSecret)")
         }
     }
     
@@ -136,8 +170,10 @@ extension Endpoint {
             return "GET"
         case .modifyProduct(_):
             return "PATCH"
-        case .registerProudct:
+        case .registerProduct, .productSecret(_):
             return "POST"
+        case .productDelete(_, _):
+            return "DELETE"
         }
     }
 }
