@@ -98,6 +98,7 @@ final class ProductEditViewController: UIViewController {
         }
         
         presenter = presenter.setData(of: productDetail)
+        productEditView.setEditView(presenter)
     }
 }
 
@@ -111,7 +112,8 @@ extension ProductEditViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 //        cell.setImage(presenter.images?[indexPath.row])
-        productEditView.setEditView(presenter)
+    
+        
         
         return cell
     }
