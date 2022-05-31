@@ -101,13 +101,13 @@ class DetailViewController: UIViewController {
     var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
-        //collectionViewLayout.minimumLineSpacing = 20
+        collectionViewLayout.minimumLineSpacing = 20
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.showsVerticalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
-        collectionView.isPagingEnabled = true
+        collectionView.decelerationRate = .fast
         collectionView.contentInsetAdjustmentBehavior = .never
         
         return collectionView
@@ -255,3 +255,15 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
+extension DetailViewController: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let cellWidth = collectionView.frame.width
+        let spaceBetweenCell = flowLayout.minimumLineSpacing
+        let cellWidthWithSpace = cellWidth + spaceBetweenCell
+        
+        let contentIndex = round((targetContentOffset.pointee.x) / cellWidthWithSpace)
+        let contentOffset = CGPoint(x: contentIndex * cellWidthWithSpace, y: targetContentOffset.pointee.y)
+        targetContentOffset.pointee = contentOffset
+    }
+}
