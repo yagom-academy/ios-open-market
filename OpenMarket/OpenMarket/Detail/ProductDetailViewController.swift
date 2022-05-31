@@ -65,10 +65,8 @@ final class ProductDetailViewController: UIViewController {
             
             let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
                 guard let password = alert.textFields?.first?.text else { return }
-                // MARK: ToDO: Delete Product
                 guard let id = self?.product.id else { return }
                 
-                self?.deleteData(id: id, password: password)
             }
             
             let cancelAction = UIAlertAction(title: "취소", style: .default)
