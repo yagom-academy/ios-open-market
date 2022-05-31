@@ -8,6 +8,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
+  private lazy var detailView = DetailView()
   private let detailAPIProvider = HttpProvider()
   private var product: DetailProduct?
   private var pageId: Int?
@@ -36,11 +37,24 @@ final class DetailViewController: UIViewController {
       
       self.product = selectedProduct
       DispatchQueue.main.async {
+        self.configureDetailView()
         self.configureNavigationBar()
       }
     }
   }
   
+  private func configureDetailView() {
+    let safeArea = self.view.safeAreaLayoutGuide
+    self.view.addSubview(detailView)
+    self.view.backgroundColor = .white
+    NSLayoutConstraint.activate([
+      detailView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      detailView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+      detailView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+      detailView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+    ])
+  }
+
   private func configureNavigationBar() {
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                              target: self,
