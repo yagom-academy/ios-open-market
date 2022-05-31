@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol RefreshDelegate: AnyObject {
+    func defaultRefresh()
+}
+
 final class RegisterViewController: RegisterEditBaseViewController {
+    
+    weak var delegate: RefreshDelegate?
     
     private enum Constant {
         static let navigationTitle = "상품등록"
@@ -131,6 +137,7 @@ extension RegisterViewController {
         }
         productRegisterUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
             DispatchQueue.main.async { [weak self] in
+                self?.delegate?.defaultRefresh()
                 self?.navigationController?.popViewController(animated: true)
             }
         } registerErrorHandler: { [weak self] error in
