@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ValueObserable: AnyObject {
+protocol TextCellDelegate: AnyObject {
     func observeSegmentIndex(value: String)
 }
 
@@ -42,7 +42,7 @@ fileprivate class RegisterTextField: UITextField {
 }
 
 class TextCell: UICollectionViewCell, TextProtocol {
-    weak var delegate: ValueObserable?
+    weak var delegate: TextCellDelegate?
     
     private let nameTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "상품명")

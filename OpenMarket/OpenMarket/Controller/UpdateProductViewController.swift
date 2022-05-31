@@ -266,7 +266,7 @@ extension UpdateProductViewController: UICollectionViewDataSource {
     }
 }
 
-extension UpdateProductViewController: ValueObserable {
+extension UpdateProductViewController: TextCellDelegate {
     func observeSegmentIndex(value: String) {
         productInput.setCurrency(with: value)
     }
