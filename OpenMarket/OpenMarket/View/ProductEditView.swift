@@ -65,10 +65,14 @@ extension ProductEditView {
     private func setPrice(_ presenter: Presenter) {
         priceTextField.text = presenter.price
         discountedPriceTextField.text = presenter.discountedPrice
-        if presenter.currency == Currency.KRW.rawValue {
+        
+        switch Currency(rawValue: presenter.currency ?? "0") {
+        case .KRW:
             segmentedControl.selectedSegmentIndex = 0
-        } else {
+        case .USD:
             segmentedControl.selectedSegmentIndex = 1
+        case .none:
+            segmentedControl.selectedSegmentIndex = 0
         }
     }
     
