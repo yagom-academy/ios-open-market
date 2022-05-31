@@ -22,7 +22,7 @@ class DataProvider {
     }
         
     func fetchProductDetailData(productIdentifier: Int, completionHandler: @escaping (ProductDetail?) -> Void) {
-        HTTPManager().loadData(targetURL: .productDetail(productNumber: productIdentifier)) { [self] data in
+        HTTPManager().loadData(targetURL: .productDetail(productNumber: productIdentifier)) { [weak self] data in
             switch data {
             case .success(let data):
                 guard let product = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }

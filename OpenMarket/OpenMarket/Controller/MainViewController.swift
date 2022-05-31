@@ -27,8 +27,8 @@ class MainViewController: BaseViewController {
                 }
                 return
             }
-            DispatchQueue.main.async { [self] in
-                updateSnapshot(products: products)
+            DispatchQueue.main.async { [weak self] in
+                self?.updateSnapshot(products: products)
             }
         }
         collectionView?.delegate = self
@@ -65,28 +65,28 @@ extension MainViewController {
     }
     
     @objc func refreshCollectionView() {
-        DataProvider.shared.reloadData() { [self] products in
+        DataProvider.shared.reloadData() { [weak self] products in
             guard let products = products else {
                 let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
-                DispatchQueue.main.async {
-                    self.present(alert, animated: true)
+                DispatchQueue.main.async { [weak self] in 
+                    self?.present(alert, animated: true)
                 }
                 return
             }
-            guard var currentSnapshot = currentSnapshot else {
+            guard var currentSnapshot = self?.currentSnapshot else {
                 return
             }
             currentSnapshot.deleteItems(currentSnapshot.itemIdentifiers)
             currentSnapshot.appendItems(products)
-            dataSource?.apply(currentSnapshot)
+            self?.dataSource?.apply(currentSnapshot)
             
-            DispatchQueue.main.async {
-                self.refreshControl.endRefreshing()
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshControl.endRefreshing()
             }
         }
         
-        DispatchQueue.main.async {
-            self.collectionView?.refreshControl?.endRefreshing()
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView?.refreshControl?.endRefreshing()
         }
     }
 }
@@ -95,7 +95,7 @@ extension MainViewController {
 @available(iOS 14.0, *)
 extension MainViewController {
     private func registerCell() {
-        listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { [self] (cell, indexPath, item) in            
+        listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, item) in
             cell.update(newItem: item)
         }
         
@@ -111,8 +111,8 @@ extension MainViewController {
             return
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { [self] (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            if baseView.segmentedControl.selectedSegmentIndex == 0 {
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { [weak self] (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            if self?.baseView.segmentedControl.selectedSegmentIndex == 0 {
                 return collectionView.dequeueConfiguredReusableCell(using: listCellRegisteration, for: indexPath, item: itemIdentifier)
             } else {
                 return collectionView.dequeueConfiguredReusableCell(using: gridCellRegisteration, for: indexPath, item: itemIdentifier)
@@ -141,8 +141,8 @@ extension MainViewController: UICollectionViewDelegate {
             DataProvider.shared.fetchProductListData() { products in
                 guard let products = products else {
                     let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
-                    DispatchQueue.main.async {
-                        self.present(alert, animated: true)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.present(alert, animated: true)
                     }
                     return
                 }
@@ -161,18 +161,18 @@ extension MainViewController: UICollectionViewDelegate {
             guard let decodedData = decodedData else {
                 let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
                 
-                DispatchQueue.main.async {
-                    self.present(alert, animated: true)
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(alert, animated: true)
                 }
                 return
             }
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 let registerProductView = UpdateProductViewController(product: decodedData)
                 let navigationController = UINavigationController(rootViewController: registerProductView)
                 navigationController.modalTransitionStyle = .coverVertical
                 navigationController.modalPresentationStyle = .fullScreen
-                self.present(navigationController, animated: true)
+                self?.present(navigationController, animated: true)
             }
         }
     }

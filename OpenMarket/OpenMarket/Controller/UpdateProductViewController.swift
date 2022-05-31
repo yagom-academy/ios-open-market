@@ -25,8 +25,8 @@ class UpdateProductViewController: UIViewController {
     private let imagePicker = UIImagePickerController()
     private var images: [UIImage] = [] {
         didSet {
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView?.reloadData()
             }
         }
     }
@@ -43,13 +43,13 @@ class UpdateProductViewController: UIViewController {
     lazy var completionHandler: (Result<Data, NetworkError>) -> Void = { data in
         switch data {
         case .success(_):
-            DispatchQueue.main.async {
-                self.dismiss(animated: true)
+            DispatchQueue.main.async { [weak self] in
+                self?.dismiss(animated: true)
             }
         case .failure(_):
             let alert = Alert().showWarning(title: "경고", message: "실패했습니다", completionHandler: nil)
-            DispatchQueue.main.async {
-                self.present(alert, animated: true)
+            DispatchQueue.main.async { [weak self] in
+                self?.present(alert, animated: true)
             }
             return
         }
@@ -79,8 +79,8 @@ class UpdateProductViewController: UIViewController {
         
         if let product = product {
             product.images.forEach { image in
-                DataProvider.shared.fetchImage(urlString: image.url) { [self] image in
-                    self.images.append(image)
+                DataProvider.shared.fetchImage(urlString: image.url) { [weak self] image in
+                    self?.images.append(image)
                 }
             }
         }
@@ -277,16 +277,16 @@ extension UpdateProductViewController: UICollectionViewDelegate {
                         didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ImageCell else { return }
         if !cell.isPlusButtonHidden {
-            self.present(self.imagePicker, animated: true)
+            present(imagePicker, animated: true)
         }
     }
 }
 
 extension UpdateProductViewController {
     private func setUpImagePicker() {
-        self.imagePicker.sourceType = .photoLibrary
-        self.imagePicker.allowsEditing = true
-        self.imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
     }
 }
 

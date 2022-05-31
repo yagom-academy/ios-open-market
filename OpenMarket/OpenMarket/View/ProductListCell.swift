@@ -177,9 +177,9 @@ extension ProductListCell {
         setUpStockLabel(stock: product.stock)
         setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        imageFetchTask = DataProvider.shared.fetchImage(urlString: product.thumbnail) { [self] image in
-            DispatchQueue.main.async { [self] in
-                cellUIComponent.thumbnailImageView.image = image
+        imageFetchTask = DataProvider.shared.fetchImage(urlString: product.thumbnail) { [weak self] image in
+            DispatchQueue.main.async { [weak self] in
+                self?.cellUIComponent.thumbnailImageView.image = image
             }
         }
     }
