@@ -33,7 +33,7 @@ final class ModifyViewController: ProductViewController {
         }
         
         RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data) { [self]_ in
-            delegate?.refreshProductList()
+            delegate?.refreshProduct()
         }
         
         self.navigationController?.popViewController(animated: true)

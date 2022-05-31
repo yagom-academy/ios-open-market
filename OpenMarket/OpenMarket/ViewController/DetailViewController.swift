@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ProductUpdateDelegate: NSObject {
+    func refreshProduct()
+}
+
 class DetailViewController: UIViewController {
     var product: Product?
     let numberFormatter: NumberFormatter = NumberFormatter()
@@ -22,9 +26,9 @@ class DetailViewController: UIViewController {
         }
         self.navigationItem.title = "\(productName)"
         self.navigationItem.hidesBackButton = true
-        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: nil, action: #selector(requestCancel))
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(requestCancel))
         self.navigationItem.leftBarButtonItem = backButton
-        let sheetButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: nil, action: #selector(requestSheet))
+        let sheetButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(requestSheet))
         self.navigationItem.rightBarButtonItem = sheetButton
 
 
@@ -87,6 +91,7 @@ class DetailViewController: UIViewController {
     let descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         return label
     }()
     
@@ -146,7 +151,6 @@ class DetailViewController: UIViewController {
         collectionView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.45).isActive = true
-        //collectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         informationStackView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor).isActive = true
         informationStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor).isActive = true
@@ -166,6 +170,7 @@ class DetailViewController: UIViewController {
         guard let currency = product.currency?.rawValue else {
             return
         }
+        
         nameLabel.text = product.name
         stockLabel.text = "남은 수량 : \(numberFormatter.numberFormatString(for: Double(product.stock)))"
         priceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for:product.price))"
@@ -191,7 +196,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc private func requestCancel() {
-        dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func requestSheet() {
@@ -200,7 +205,7 @@ class DetailViewController: UIViewController {
         let modify = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
             self?.presentModifiation()
         }
-        let delete = UIAlertAction(title: "삭제", style: .default) { [weak self] _ in
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             self?.requestDelete()
         }
         alert.addAction(cancel)
