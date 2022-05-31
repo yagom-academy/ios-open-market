@@ -50,8 +50,8 @@ extension MainViewController {
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
         requestProductListData()
-        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem = backbutton
+        let backButton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backButton
         
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)

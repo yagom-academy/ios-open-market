@@ -16,7 +16,17 @@ class DetailViewController: UIViewController {
         setupLayoutConstraints()
         configureContents()
         defineCollectionViewDelegate()
-        
+        guard let productName = product?.name else {
+            return
+        }
+        self.navigationItem.title = "\(productName)"
+        self.navigationItem.hidesBackButton = true
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: nil, action: #selector(requestCancel))
+        self.navigationItem.leftBarButtonItem = backButton
+        let sheetButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: nil, action: #selector(requestSheet))
+        self.navigationItem.rightBarButtonItem = sheetButton
+
+
         collectionView.register(DetailCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "detailCell")
     }
     
@@ -177,6 +187,35 @@ class DetailViewController: UIViewController {
         attributedText.addAttributes(attributes, range: (target as NSString).range(of: target))
         
         return attributedText
+    }
+    
+    @objc private func requestCancel() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func requestSheet() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let modify = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
+            self?.presentModifiation()
+        }
+        let delete = UIAlertAction(title: "삭제", style: .default) { [weak self] _ in
+            self?.requestDelete()
+        }
+        alert.addAction(cancel)
+        alert.addAction(modify)
+        alert.addAction(delete)
+        
+        present(alert, animated: true)
+    }
+    
+    func presentModifiation() {
+        let modification = ModifyViewController()
+        present(modification, animated: true)
+    }
+    
+    func requestDelete() {
+        return
     }
 }
 
