@@ -85,11 +85,12 @@ class UpdateProductViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.backgroundColor = .systemBackground
-        setUpNavigationItem()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavigationItem()
+        
         if let product = product {
             product.images.forEach { image in
                 DataProvider.shared.fetchImage(urlString: image.url) { [self] image in
