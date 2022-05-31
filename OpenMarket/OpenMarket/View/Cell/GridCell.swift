@@ -1,4 +1,17 @@
+//
+//  GridCell.swift
+//  OpenMarket
+//
+//  Created by song on 2022/05/17.
+//
+
 import UIKit
+
+fileprivate enum Const {
+    static let soldOut = "품절"
+    static let stock = "재고수량"
+    static let empty = ""
+}
 
 final class GridCell: UICollectionViewCell, CustomCell {
     private let cellStackView: UIStackView = {
@@ -13,7 +26,6 @@ final class GridCell: UICollectionViewCell, CustomCell {
     
     private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -30,7 +42,6 @@ final class GridCell: UICollectionViewCell, CustomCell {
 
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name Label"
         label.contentMode = .scaleAspectFit
         return label
     }()
@@ -46,21 +57,18 @@ final class GridCell: UICollectionViewCell, CustomCell {
 
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "Price Label"
         label.textColor = .lightGray
         return label
     }()
     
     private let bargenLabel: UILabel = {
         let label = UILabel()
-        label.text = "Bargen Label"
         label.textColor = .lightGray
         return label
     }()
     
     private let stockLabel: UILabel = {
         let label = UILabel()
-        label.text = "Stock Label"
         label.textColor = .lightGray
         return label
     }()
@@ -111,13 +119,13 @@ final class GridCell: UICollectionViewCell, CustomCell {
     private func loadStock(data: Product) {
         
         if data.stock == 0 {
-            stockLabel.text = "품절"
+            stockLabel.text = Const.soldOut
             stockLabel.textColor = .systemYellow
         } else {
             guard let stock = data.stock else {
                 return
             }
-            stockLabel.text = "재고수량: \(stock)"
+            stockLabel.text = "\(Const.stock): \(stock)"
         }
     }
     
@@ -132,7 +140,7 @@ final class GridCell: UICollectionViewCell, CustomCell {
         
         if data.discountedPrice == 0 {
             priceLabel.text = "\(currency) \(price)"
-            bargenLabel.text = ""
+            bargenLabel.text = Const.empty
         } else {
             priceLabel.textColor = .systemRed
             priceLabel.attributedText = "\(currency) \(price) ".strikeThrough()
@@ -150,6 +158,8 @@ final class GridCell: UICollectionViewCell, CustomCell {
         stockLabel.textColor = .lightGray
     }
 }
+
+// MARK: - Layout
 
 extension GridCell {
     

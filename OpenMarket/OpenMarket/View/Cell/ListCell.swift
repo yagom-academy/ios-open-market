@@ -7,10 +7,16 @@
 
 import UIKit
 
+fileprivate enum Const {
+    static let soldOut = "품절"
+    static let stock = "재고수량"
+    static let empty = ""
+    static let indicator = "chevron.right"
+}
+
 final class ListCell: UICollectionViewCell, CustomCell {
     private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -18,7 +24,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name Label"
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -35,7 +40,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "Price Label"
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.textColor = .lightGray
         label.contentMode = .scaleAspectFit
@@ -44,7 +48,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let bargenLabel: UILabel = {
         let label = UILabel()
-        label.text = "Bargen Label"
         label.textColor = .lightGray
         label.contentMode = .scaleAspectFit
         return label
@@ -52,7 +55,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let stockLabel: UILabel = {
         let label = UILabel()
-        label.text = "Stock Label"
         label.textColor = .lightGray
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +64,7 @@ final class ListCell: UICollectionViewCell, CustomCell {
     private let accessoryLabel: UILabel = {
         let label = UILabel()
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.lightGray)
+        attachment.image = UIImage(systemName: Const.indicator)?.withTintColor(.lightGray)
         let attachmentString = NSAttributedString(attachment: attachment)
         let attributedStr = NSMutableAttributedString(string: attachmentString.description)
         label.attributedText = attachmentString
@@ -116,13 +118,13 @@ final class ListCell: UICollectionViewCell, CustomCell {
     private func loadStock(data: Product) {
         
         if data.stock == 0 {
-            stockLabel.text = "품절"
+            stockLabel.text = Const.soldOut
             stockLabel.textColor = .systemYellow
         } else {
             guard let stock = data.stock else {
                 return
             }
-            stockLabel.text = "재고수량: \(stock)"
+            stockLabel.text = "\(Const.stock): \(stock)"
         }
     }
     
@@ -137,7 +139,7 @@ final class ListCell: UICollectionViewCell, CustomCell {
         
         if data.discountedPrice == 0 {
             priceLabel.text = "\(currency) \(price)"
-            bargenLabel.text = ""
+            bargenLabel.text = Const.empty
         } else {
             priceLabel.textColor = .systemRed
             priceLabel.attributedText = "\(currency) \(price) ".strikeThrough()
@@ -156,7 +158,7 @@ final class ListCell: UICollectionViewCell, CustomCell {
     }
 }
 
-// MARK: - layout
+// MARK: - Layout
 
 extension ListCell {
     

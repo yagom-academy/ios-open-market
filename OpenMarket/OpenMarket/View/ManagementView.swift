@@ -7,7 +7,18 @@
 
 import UIKit
 
-final class ProductRegistrationView: UIView {
+fileprivate enum Const {
+  static let addImage = "sss"
+    
+    enum Product {
+        static let name = "상품명"
+        static let price = "상품가격"
+        static let discountedPrice = "할인가격"
+        static let stock = "재고수량"
+    }
+}
+
+final class ManagementView: UIView {
     private let imagesScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .systemBackground
@@ -23,15 +34,15 @@ final class ProductRegistrationView: UIView {
         return stackView
     }()
     
-    var imageView: UIImageView = {
+    var addImageView: UIImageView = {
         let image = UIImageView()
         image.isUserInteractionEnabled = true
-        image.image = UIImage(named: "sss")
+        image.image = UIImage(named: Const.addImage)
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    private let TextFieldStackView: UIStackView = {
+    private let textFieldStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
@@ -40,9 +51,9 @@ final class ProductRegistrationView: UIView {
         return stackView
     }()
     
-    var productName: UITextField = {
+    var nameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품명"
+        textField.placeholder = Const.Product.name
         textField.clearButtonMode = .whileEditing
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -57,9 +68,9 @@ final class ProductRegistrationView: UIView {
         return stackView
     }()
     
-    let productPrice: UITextField = {
+    let priceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품 가격"
+        textField.placeholder = Const.Product.price
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
@@ -67,16 +78,16 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    let currencySegmentControl: UISegmentedControl = {
+    let segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: CurrencyType.inventory)
         segmentControl.selectedSegmentIndex = 0
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
     }()
     
-    let productDiscountedPrice: UITextField = {
+    let discountedPriceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "할인 가격"
+        textField.placeholder = Const.Product.discountedPrice
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
@@ -84,9 +95,9 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    let productStock: UITextField = {
+    let stockTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "재고 수량"
+        textField.placeholder = Const.Product.stock
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
@@ -94,7 +105,7 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    let productDescription: UITextView = {
+    let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -109,6 +120,12 @@ final class ProductRegistrationView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+//MARK: - Layout
+
+extension ManagementView {
     
     private func setupView() {
         
@@ -116,13 +133,13 @@ final class ProductRegistrationView: UIView {
         constraintLayout()
         
         func addsubView() {
-            addsubViews(imagesScrollView, TextFieldStackView, productDescription)
+            addsubViews(imagesScrollView, textFieldStackView, descriptionTextView)
             imagesScrollView.addSubview(imagesStackView)
-            imagesStackView.addArrangedsubViews(imageView)
-            TextFieldStackView.addArrangedsubViews(productName, priceStackView, productDiscountedPrice, productStock)
-            priceStackView.addArrangedsubViews(productPrice, currencySegmentControl)
+            imagesStackView.addArrangedsubViews(addImageView)
+            textFieldStackView.addArrangedsubViews(nameTextField, priceStackView, discountedPriceTextField, stockTextField)
+            priceStackView.addArrangedsubViews(priceTextField, segmentControl)
         }
-
+        
         func constraintLayout() {
             NSLayoutConstraint.activate([
                 imagesScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -136,19 +153,19 @@ final class ProductRegistrationView: UIView {
                 imagesStackView.trailingAnchor.constraint(equalTo: imagesScrollView.trailingAnchor),
                 imagesStackView.heightAnchor.constraint(equalTo: imagesScrollView.heightAnchor),
                 
-                imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-
-                TextFieldStackView.topAnchor.constraint(equalTo: imagesScrollView.bottomAnchor, constant: 10),
-                TextFieldStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-                TextFieldStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-                TextFieldStackView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2),
+                addImageView.widthAnchor.constraint(equalTo: addImageView.heightAnchor),
                 
-                currencySegmentControl.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3),
+                textFieldStackView.topAnchor.constraint(equalTo: imagesScrollView.bottomAnchor, constant: 10),
+                textFieldStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+                textFieldStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+                textFieldStackView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2),
                 
-                productDescription.topAnchor.constraint(equalTo: TextFieldStackView.bottomAnchor, constant: 10),
-                productDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-                productDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-                productDescription.bottomAnchor.constraint(equalTo: bottomAnchor)
+                segmentControl.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3),
+                
+                descriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 10),
+                descriptionTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+                descriptionTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+                descriptionTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         }
     }

@@ -9,16 +9,16 @@ import UIKit
 
 class ProductManagementViewController: UIViewController {
     let network = URLSessionProvider<Product>()
-    lazy var baseView = ProductRegistrationView(frame: view.frame)
+    lazy var baseView = ManagementView(frame: view.frame)
     var productManagementType: ManagementType?
     
     func extractData() -> ProductRegistration {
-        let name = baseView.productName.text
-        let price = Int(baseView.productPrice.text ?? "0")
-        let discountedPrice = Int(baseView.productDiscountedPrice.text ?? "0")
-        let currency = (CurrencyType(rawValue: baseView.currencySegmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
-        let stock = Int(baseView.productStock.text ?? "0")
-        let description = baseView.productDescription.text
+        let name = baseView.nameTextField.text
+        let price = Int(baseView.priceTextField.text ?? "0")
+        let discountedPrice = Int(baseView.discountedPriceTextField.text ?? "0")
+        let currency = (CurrencyType(rawValue: baseView.segmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
+        let stock = Int(baseView.stockTextField.text ?? "0")
+        let description = baseView.descriptionTextView.text
         let images: [Image] = extractImage()
        
         let param = ProductRegistration(
@@ -72,12 +72,12 @@ extension ProductManagementViewController {
         
         let keyvoardHieght = keyboardFrame.cgRectValue.height
         
-        if baseView.productDescription.isFirstResponder {
+        if baseView.descriptionTextView.isFirstResponder {
             view.bounds.origin.y = 150
-            baseView.productDescription.contentInset.bottom = keyvoardHieght - 150
+            baseView.descriptionTextView.contentInset.bottom = keyvoardHieght - 150
         } else {
             view.bounds.origin.y = 0
-            baseView.productDescription.contentInset.bottom = 0
+            baseView.descriptionTextView.contentInset.bottom = 0
         }
     }
     
@@ -87,6 +87,6 @@ extension ProductManagementViewController {
     
     @objc private func keyboardWillHide() {
         view.bounds.origin.y = 0
-        baseView.productDescription.contentInset.bottom = 0
+        baseView.descriptionTextView.contentInset.bottom = 0
     }
 }
