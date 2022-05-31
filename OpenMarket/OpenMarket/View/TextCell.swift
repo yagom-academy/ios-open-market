@@ -19,7 +19,7 @@ fileprivate class RegisterTextField: UITextField {
     init(placeholder: String) {
         super.init(frame: .zero)
         self.placeholder = placeholder
-        setUpLeftView()
+        setUpLeftPadding()
         attribute()
     }
     
@@ -35,7 +35,7 @@ fileprivate class RegisterTextField: UITextField {
         self.layer.borderColor = UIColor.systemGray.cgColor
     }
     
-    private func setUpLeftView() {
+    private func setUpLeftPadding() {
         self.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 10.0, height: 0.0))
         self.leftViewMode = .always
     }
