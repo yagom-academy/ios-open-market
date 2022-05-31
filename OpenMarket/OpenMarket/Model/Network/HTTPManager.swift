@@ -4,7 +4,7 @@
 //
 //  Created by papri, Tiana on 10/05/2022.
 //
-import UIKit
+import Foundation
 
 fileprivate enum StatusCode {
     static let okSuccess = 200
@@ -117,7 +117,7 @@ struct HTTPManager {
     }
     
     @discardableResult
-    func postProductData(images: [UIImage], product: [String : Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
+    func postProductData(images: [Data], product: [String : Any], completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
         let requestURL = TargetURL.productPost.requestURL
         guard let url = URL(string: requestURL) else {
             completionHandler(.failure(.invalidURL))
@@ -163,7 +163,7 @@ struct HTTPManager {
         return task
     }
     
-    func createMultipartBody(images: [UIImage], product: [String : Any], boundary: String) -> Data? {
+    func createMultipartBody(images: [Data], product: [String : Any], boundary: String) -> Data? {
         var data = Data()
         var product = product
         product.updateValue("80sgmjjk9v", forKey: "secret")
@@ -178,12 +178,10 @@ struct HTTPManager {
         for (index, image) in images.enumerated() {
             data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
             let fileName = "image" + "\(index)"
-            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-                 return nil
-            }
+            
             data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).jpg\"\r\n".data(using: .utf8)!)
             data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
-            data.append(imageData)
+            data.append(image)
         }
         data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
         
