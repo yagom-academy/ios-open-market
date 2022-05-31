@@ -10,7 +10,7 @@ final class MainViewController: UIViewController {
     private enum Constants {
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "다시요청하기"
-        static let loadImageErrorAlertConfirmTitle = "확인"
+        static let requestDetailErrorAlertConfirmTitle = "확인"
     }
     
     private lazy var mainView = MainView(frame: view.bounds)
@@ -18,7 +18,7 @@ final class MainViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.addSubview(mainView)
+        view = mainView
     }
     
     override func viewDidLoad() {
@@ -27,7 +27,11 @@ final class MainViewController: UIViewController {
         setUpCollectionView()
         setUpSegmentControl()
         setUpViewModel()
-        viewModel.requestProducts(by: viewModel.currentPage)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.resetItemList()
     }
 }
 
@@ -37,10 +41,14 @@ extension MainViewController {
     private func setUpNavigationItem() {
         navigationItem.titleView = mainView.segmentControl
         navigationItem.rightBarButtonItem = mainView.addButton
+        mainView.addButton.target = self
+        mainView.addButton.action = #selector(addButtonDidTap)
     }
     
     private func setUpCollectionView() {
         mainView.collectionView.delegate = self
+        mainView.collectionView.refreshControl = UIRefreshControl()
+        mainView.collectionView.refreshControl?.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
     }
     
     private func setUpSegmentControl() {
@@ -49,13 +57,28 @@ extension MainViewController {
     
     private func setUpViewModel() {
         viewModel.datasource = makeDataSource()
+        viewModel.snapshot = viewModel.makeSnapshot()
         viewModel.delegate = self
+    }
+}
+
+// MARK: Objc Method
+
+extension MainViewController {
+    @objc private func refreshControlValueChanged() {
+        viewModel.resetItemList()
+        mainView.collectionView.refreshControl?.endRefreshing()
     }
     
     @objc private func segmentControlValueChanged() {
         mainView.setUpLayout(segmentIndex: mainView.segmentControl.selectedSegmentIndex)
     }
     
+    @objc private func addButtonDidTap() {
+        let registerViewController = RegisterViewController()
+        registerViewController.modalPresentationStyle = .fullScreen
+        self.present(registerViewController, animated: true)
+    }
 }
 
 // MARK: Datasource
@@ -68,25 +91,23 @@ extension MainViewController {
                 switch self.mainView.layoutStatus {
                 case .list:
                     guard let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: ListCollectionViewCell.identifier,
-                        for: indexPath) as? ListCollectionViewCell else {
+                        withReuseIdentifier: ProductsListCell.identifier,
+                        for: indexPath) as? ProductsListCell else {
                         return UICollectionViewCell()
                     }
-
-                    cell.updateImage(url: item.thumbnail)
-                    cell.updateLabel(data: item)
+                    
+                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
                     
                     return cell
                     
                 case .grid:
                     guard let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: GridCollectionViewCell.identifier,
-                        for: indexPath) as? GridCollectionViewCell else {
+                        withReuseIdentifier: ProductsGridCell.identifier,
+                        for: indexPath) as? ProductsGridCell else {
                         return UICollectionViewCell()
                     }
-
-                    cell.updateImage(url: item.thumbnail)
-                    cell.updateLabel(data: item)
+                    
+                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
                     
                     return cell
                 }
@@ -97,7 +118,7 @@ extension MainViewController {
 
 // MARK: AlertDelegate
 
-extension MainViewController: AlertDelegate {
+extension MainViewController: MainAlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)
@@ -106,6 +127,14 @@ extension MainViewController: AlertDelegate {
             .setConfirmHandler {
                 self.viewModel.requestProducts(by: self.viewModel.currentPage)
             }
+            .showAlert()
+    }
+    
+    func showAlertRequestDetailError(with error: Error) {
+        self.alertBuilder
+            .setTitle(Constants.requestErrorAlertTitle)
+            .setMessage(error.localizedDescription)
+            .setConfirmTitle(Constants.requestDetailErrorAlertConfirmTitle)
             .showAlert()
     }
 }
@@ -118,9 +147,25 @@ extension MainViewController: UICollectionViewDelegate {
             return
         }
         
-        if indexPath.row >= viewModel.items.count - 3 {
+        guard let snapshot = viewModel.snapshot else {
+            return
+        }
+        
+        if indexPath.row >= snapshot.numberOfItems - 3 {
             viewModel.currentPage += 1
             viewModel.requestProducts(by: viewModel.currentPage)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let id = viewModel.snapshot?.itemIdentifiers[safe: indexPath.item]?.id {
+            viewModel.requestProductDetail(by: id) { productDetail in
+                DispatchQueue.main.async {
+                    let modifyViewController = ModifyViewController(productDetail: productDetail)
+                    modifyViewController.modalPresentationStyle = .fullScreen
+                    self.present(modifyViewController, animated: true)
+                }
+            }
         }
     }
 }

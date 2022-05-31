@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell {
+final class ProductsGridCell: UICollectionViewCell, BaseCell {
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     private enum Constants {
         static let completedState = 3
     }
@@ -52,20 +56,20 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private lazy var indicatorView: UIActivityIndicatorView = {
+    private let indicatorView: UIActivityIndicatorView = {
         let indicatorView = UIActivityIndicatorView()
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
         return indicatorView
     }()
     
-    private lazy var productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.textAlignment = .center
@@ -73,14 +77,14 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var productionPriceLabel: UILabel = {
+    private let productionPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemRed
         label.textAlignment = .center
         return label
     }()
     
-    private lazy var sellingPriceLabel: UILabel = {
+    private let sellingPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray2
         label.textAlignment = .center
@@ -88,7 +92,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray2
         label.textAlignment = .center
@@ -131,7 +135,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 10
     }
     
-    func updateLabel(data: Item) {
+    func configure(data: Item, imageCacheManager: ImageCacheManager) {
+        updateLabel(data: data)
+        updateImage(url: data.thumbnail, imageCacheManager: imageCacheManager)
+    }
+    
+    private func updateLabel(data: Item) {
         productNameLabel.text = data.name
         
         if data.discountedPrice == 0 {
@@ -146,13 +155,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
         }
         
         stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
-        stockLabel.text = data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) "
+        stockLabel.update(stockStatus: data.stock == 0 ? "품절 " : "잔여수량 : \(data.stock) ")
     }
     
-    func updateImage(url: URL) {
+    private func updateImage(url: URL, imageCacheManager: ImageCacheManager) {
         indicatorView.startAnimating()
         
-        let task = productImageView.loadImage(url: url) {
+        let task = productImageView.loadImage(url: url, imageCacheManager: imageCacheManager) {
             DispatchQueue.main.async {
                 self.indicatorView.stopAnimating()
             }

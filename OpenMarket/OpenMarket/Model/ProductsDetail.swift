@@ -12,17 +12,17 @@ struct ProductDetail: Decodable {
     let vendorID: Int
     let name: String
     let thumbnail: URL
-    let currency: String
+    let currency: Currency
     let price: Int
-    let productsDescription: String
-    let bargainPrice: Int
+    let productsDescription: String?
+    let bargainPrice: Int?
     let discountedPrice: Int
     let stock: Int
-    let createdAt: String
-    let issuedAt: String
+    let createdAt: String?
+    let issuedAt: String?
     let images: [ProductImage]
-    let vendor: Vendor
-
+    let vendor: Vendor?
+    
     private enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
@@ -51,7 +51,7 @@ struct ProductImage: Decodable {
     private enum CodingKeys: String, CodingKey {
         case id
         case url
-        case thumbnailURL = "thumbnail"
+        case thumbnailURL = "thumbnail_url"
         case isSuccess = "succeed"
         case issuedAt = "issued_at"
     }
@@ -70,4 +70,3 @@ struct Vendor: Decodable {
         case issuedAt = "issued_at"
     }
 }
-
