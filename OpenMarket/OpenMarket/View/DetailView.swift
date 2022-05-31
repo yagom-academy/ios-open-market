@@ -157,7 +157,36 @@ class DetailView: UIView {
     ])
   }
   
-  func displayDetailInformation() {
+  func setUpDetailInformation(of detailProduct: DetailProduct) {
+    setUpImage(of: detailProduct.images)
+    self.nameLabel.text = detailProduct.name
+    self.descriptionLabel.text = detailProduct.description
     
+    if detailProduct.discountedPrice == 0 {
+      self.priceLabel.isHidden = true
+      self.bargainPriceLabel.text = "\(detailProduct.currency.text)\(detailProduct.bargainPrice!.formatToDecimal())"
+    } else {
+      self.priceLabel.textColor = .systemRed
+      self.priceLabel
+        .attributedText = "\(detailProduct.currency.text)\(detailProduct.price!.formatToDecimal())".strikeThrough()
+      self.bargainPriceLabel.text = "\(detailProduct.currency.text)\(detailProduct.bargainPrice!.formatToDecimal())"
+    }
+    
+    if detailProduct.stock == 0 {
+      self.stockLabel.textColor = .systemYellow
+      self.stockLabel.text = "품절"
+    } else {
+      self.stockLabel.textColor = .systemGray
+      self.stockLabel.text = "남은 수량 : \(detailProduct.stock)"
+    }
+  }
+  
+  private func setUpImage(of images: [Image]) {
+    images.forEach { image in
+      let imageView = UIImageView()
+      imageView.loadImage(urlString: image.url)
+      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
+      imageStackView.addArrangedSubview(imageView)
+    }
   }
 }
