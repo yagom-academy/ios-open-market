@@ -34,21 +34,21 @@ class UpdateProductViewController: UIViewController {
     private var collectionViewLayout: UICollectionViewLayout?
     
     lazy var numberPadLayout: NSLayoutConstraint? = {
-        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextCell else {
+        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextProtocol else {
             return nil
         }
         return cell.baseStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -270)
     }()
     
     lazy var defaultPadLayout: NSLayoutConstraint? = {
-        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextCell else {
+        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextProtocol else {
             return nil
         }
         return cell.baseStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -305)
     }()
     
     lazy var originPadLayout: NSLayoutConstraint? = {
-        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextCell else {
+        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextProtocol else {
             return nil
         }
         return cell.baseStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)

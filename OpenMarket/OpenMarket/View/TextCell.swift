@@ -11,6 +11,10 @@ protocol ValueObserable: AnyObject {
     func observeSegmentIndex(value: String)
 }
 
+protocol TextProtocol {
+    var baseStackView: UIStackView { get }
+}
+
 fileprivate class RegisterTextField: UITextField {
     init(placeholder: String) {
         super.init(frame: .zero)
@@ -37,7 +41,7 @@ fileprivate class RegisterTextField: UITextField {
     }
 }
 
-class TextCell: UICollectionViewCell {
+class TextCell: UICollectionViewCell, TextProtocol {
     weak var delegate: ValueObserable?
     
     let nameTextField: UITextField = {
