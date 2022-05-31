@@ -162,6 +162,7 @@ extension MainViewController {
     
     @objc private func mainViewRightBarButtonTapped() {
         let viewController = RegisterViewController()
+        viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -176,5 +177,12 @@ extension MainViewController {
         case .none:
             return
         }
+    }
+}
+
+// MARK: - RefreshDelegate
+extension MainViewController: RefreshDelegate {
+    func defaultRefresh() {
+        requestList()
     }
 }
