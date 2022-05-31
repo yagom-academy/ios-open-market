@@ -50,9 +50,9 @@ final class ProductEditView: UIView, Drawable {
             let discountedPrice = Int(discountedPriceString) ?? 0
             let stockString = self.stockTextField.text ?? ""
             let stock = Int(stockString) ?? 0
-            let secret = "c7ne65d5oc"
+            
         
-        return PatchRequest(name: name, descriptions: description, thumbnailID: nil , price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+        return PatchRequest(name: name, descriptions: description, thumbnailID: nil , price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: UserInformation.secret)
     }
 }
 

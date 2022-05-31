@@ -94,10 +94,10 @@ extension NetworkManager {
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\"\(boundary)\"",
                          forHTTPHeaderField: "Content-Type")
-        request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
+        request.addValue(UserInformation.identifer, forHTTPHeaderField: "identifier")
         request.addValue("eddy123", forHTTPHeaderField: "accessId")
         request.httpBody = createPOSTBody(requestInfo: params, images: images, boundary: boundary)
-        
+
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 return
@@ -167,7 +167,7 @@ extension NetworkManager {
                 
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
-        request.addValue("affb87d9-d1b7-11ec-9676-d3cd1a738d6f", forHTTPHeaderField: "identifier")
+        request.addValue(UserInformation.identifer, forHTTPHeaderField: "identifier")
         request.httpBody = createPATCHBody(requestInfo: params)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
