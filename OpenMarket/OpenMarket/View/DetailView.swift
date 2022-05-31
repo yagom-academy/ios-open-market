@@ -215,7 +215,10 @@ class DetailView: UIView {
     images.forEach { image in
       let imageView = UIImageView()
       imageView.loadImage(urlString: image.url)
-      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1).isActive = true
+      imageView.widthAnchor.constraint(
+        equalTo: imageView.heightAnchor,
+        multiplier: 1
+      ).isActive = true
       imageStackView.addArrangedSubview(imageView)
     }
   }
