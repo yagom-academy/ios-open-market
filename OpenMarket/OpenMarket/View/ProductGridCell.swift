@@ -11,7 +11,7 @@ class ProductGridCell: UICollectionViewCell, ContentUpdatable {
     static let reuseIdentifier = "product-grid-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
     var item: Product? = nil
-    var imageFetchTask: URLSessionDataTask?
+    private var imageFetchTask: URLSessionDataTask?
     
     //MARK: - stackView
     private let baseStackView: UIStackView = {
