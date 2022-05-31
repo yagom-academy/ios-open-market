@@ -138,41 +138,68 @@ class DetailView: UIView {
       totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
       totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
       
-      imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.45),
-      infoStackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.15),
+      imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
       
-      imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.leadingAnchor),
-      imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.trailingAnchor),
-      imageStackView.topAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.topAnchor),
-      imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.bottomAnchor),
-      imageStackView.heightAnchor.constraint(equalTo: imageStackView.heightAnchor, multiplier: 1),
+      imageStackView.leadingAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.leadingAnchor
+      ),
+      imageStackView.trailingAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.trailingAnchor
+      ),
+      imageStackView.topAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.topAnchor
+      ),
+      imageStackView.bottomAnchor.constraint(
+        equalTo: imageScrollView.contentLayoutGuide.bottomAnchor
+      ),
+      imageStackView.heightAnchor.constraint(
+        equalTo: imageScrollView.frameLayoutGuide.heightAnchor, multiplier: 1
+      ),
       
       descriptionLabel.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor),
       descriptionLabel.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor),
       descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor),
       descriptionLabel.bottomAnchor.constraint(equalTo: descriptionView.bottomAnchor),
       
-      descriptionView.leadingAnchor.constraint(equalTo: descriptionScrollView.contentLayoutGuide.leadingAnchor),
-      descriptionView.trailingAnchor.constraint(equalTo: descriptionScrollView.contentLayoutGuide.trailingAnchor),
-      descriptionView.topAnchor.constraint(equalTo: descriptionScrollView.contentLayoutGuide.topAnchor),
-      descriptionView.bottomAnchor.constraint(equalTo: descriptionScrollView.contentLayoutGuide.bottomAnchor),
-      descriptionView.widthAnchor.constraint(equalTo: descriptionScrollView.widthAnchor, multiplier: 1)
+      descriptionView.leadingAnchor.constraint(
+        equalTo: descriptionScrollView.contentLayoutGuide.leadingAnchor
+      ),
+      descriptionView.trailingAnchor.constraint(
+        equalTo: descriptionScrollView.contentLayoutGuide.trailingAnchor
+      ),
+      descriptionView.topAnchor.constraint(
+        equalTo: descriptionScrollView.contentLayoutGuide.topAnchor
+      ),
+      descriptionView.bottomAnchor.constraint(
+        equalTo: descriptionScrollView.contentLayoutGuide.bottomAnchor
+      ),
+      descriptionView.widthAnchor.constraint(
+        equalTo: descriptionScrollView.widthAnchor, multiplier: 1
+      )
     ])
   }
   
   func setUpDetailInformation(of detailProduct: DetailProduct) {
+    guard let price = detailProduct.price?.formatToDecimal(),
+          let bargainPrice = detailProduct.bargainPrice?.formatToDecimal(),
+          let stock = detailProduct.stock?.formatToDecimal()
+    else {
+      return
+    }
+    
     setUpImage(of: detailProduct.images)
+    
+    let currency = detailProduct.currency.text
     self.nameLabel.text = detailProduct.name
     self.descriptionLabel.text = detailProduct.description
     
     if detailProduct.discountedPrice == 0 {
       self.priceLabel.isHidden = true
-      self.bargainPriceLabel.text = "\(detailProduct.currency.text)\(detailProduct.bargainPrice!.formatToDecimal())"
+      self.bargainPriceLabel.text = "\(currency) \(bargainPrice)"
     } else {
       self.priceLabel.textColor = .systemRed
-      self.priceLabel
-        .attributedText = "\(detailProduct.currency.text)\(detailProduct.price!.formatToDecimal())".strikeThrough()
-      self.bargainPriceLabel.text = "\(detailProduct.currency.text)\(detailProduct.bargainPrice!.formatToDecimal())"
+      self.priceLabel.attributedText = "\(currency) \(price)".strikeThrough()
+      self.bargainPriceLabel.text = "\(currency) \(bargainPrice)"
     }
     
     if detailProduct.stock == 0 {
