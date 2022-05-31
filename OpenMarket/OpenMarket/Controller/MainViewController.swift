@@ -161,8 +161,8 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let productDetailViewController = ProductDetailViewController()
-        productDetailViewController.id = item[indexPath.row].id
+        let productDetailViewController = ProductDetailViewController(products: item[indexPath.row])
+        
         self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }

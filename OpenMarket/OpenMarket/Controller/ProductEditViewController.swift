@@ -8,7 +8,7 @@
 import UIKit
 
 final class ProductEditViewController: UIViewController {
-    var productDetail: ProductDetail?
+    private var productDetail: ProductDetail?
     private var networkImageArray = [ImageInfo]()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var presenter = Presenter()
@@ -135,20 +135,20 @@ extension ProductEditViewController {
     @objc private func executePATCH() {
         let params = productEditView.generateParameters()
         
-        DispatchQueue.global().async {
-            guard let productID = self.productDetail?.id else {
-                return
-            }
-            
-            self.networkManager.execute(with: .productEdit(productId: productID), httpMethod: .patch, params: params) { result in
-                switch result {
-                case .success:
-                    self.showSuccessAlert()
-                case .failure:
-                    self.showFailureAlert()
-                }
+        
+        guard let productID = self.productDetail?.id else {
+            return
+        }
+        
+        self.networkManager.execute(with: .productEdit(productId: productID), httpMethod: .patch, params: params) { result in
+            switch result {
+            case .success:
+                self.showSuccessAlert()
+            case .failure:
+                self.showFailureAlert()
             }
         }
+    
         self.navigationController?.popViewController(animated: true)
     }
 }
