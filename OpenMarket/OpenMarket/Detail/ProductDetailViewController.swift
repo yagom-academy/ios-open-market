@@ -57,7 +57,9 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
+        if product.vendorId == UserInformation.id {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
+        }
         navigationItem.title = product.name
     }
     
@@ -142,10 +144,11 @@ final class ProductDetailViewController: UIViewController {
             switch result {
             case .success(let data):
                 self.mainView.configure(data: data)
-                let imagesUrl = data.images?.compactMap { $0.url }
-                imagesUrl?.forEach({ url in
-                    self.requestImage(urlString: url)
-                })
+                data.images?
+                    .compactMap { $0.url }
+                    .forEach { url in
+                        self.requestImage(urlString: url)
+                    }
             case .failure(_):
                 AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
             }
