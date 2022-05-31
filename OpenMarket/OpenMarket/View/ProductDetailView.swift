@@ -33,7 +33,7 @@ final class ProductDetailView: UIView, Drawable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func generateParameters() -> PostRequest {
+    func makeProduct() -> ProductForPOST {
             let name = self.productNameTextField.text ?? ""
             let descriptions = self.descriptionTextView.text ?? ""
             let priceString = self.priceTextField.text ?? ""
@@ -44,6 +44,6 @@ final class ProductDetailView: UIView, Drawable {
             let stockString = self.stockTextField.text ?? ""
             let stock = Int(stockString) ?? 0
             
-        return PostRequest(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: UserInformation.secret)
+        return ProductForPOST(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: UserInformation.secret)
     }
 }

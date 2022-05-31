@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostRequest: Encodable {
+struct ProductForPOST: Encodable {
     let name: String?
     let descriptions: String?
     let price: Int?
@@ -22,7 +22,7 @@ struct PostRequest: Encodable {
     }
 }
 
-struct PatchRequest: Encodable {
+struct ProductForPatch: Encodable {
     let name: String?
     let descriptions: String?
     let thumbnailID: Int?

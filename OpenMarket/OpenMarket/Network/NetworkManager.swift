@@ -58,7 +58,7 @@ struct NetworkManager<T: Decodable> {
                 }
             }       
         case .post:
-            guard let params = params as? PostRequest,
+            guard let params = params as? ProductForPOST,
                   let images = images else {
                       completion(.failure(.data))
                       return
@@ -87,7 +87,7 @@ struct NetworkManager<T: Decodable> {
             }.resume()
             
         case .patch:
-            guard let params = params as? PatchRequest else {
+            guard let params = params as? ProductForPatch else {
                 completion(.failure(.data))
                 return
             }
@@ -127,7 +127,7 @@ extension NetworkManager {
         return "\(UUID().uuidString)"
     }
 
-    mutating private func requestPOST(endPoint: Endpoint, params: PostRequest, images: [ImageInfo]) -> URLRequest? {
+    mutating private func requestPOST(endPoint: Endpoint, params: ProductForPOST, images: [ImageInfo]) -> URLRequest? {
         let boundary = generateBoundary()
         
         guard let url = endPoint.url else {
@@ -145,7 +145,7 @@ extension NetworkManager {
         return request
     }
 
-    private func createPOSTBody(requestInfo: PostRequest, images: [ImageInfo], boundary: String) -> Data? {
+    private func createPOSTBody(requestInfo: ProductForPOST, images: [ImageInfo], boundary: String) -> Data? {
         var body: Data = Data()
                         
         guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
@@ -188,11 +188,11 @@ extension NetworkManager {
 
 // MARK: - PATCH
 extension NetworkManager {
-    private func createPATCHBody(requestInfo: PatchRequest) -> Data? {        
+    private func createPATCHBody(requestInfo: ProductForPatch) -> Data? {        
         return try? JSONEncoder().encode(requestInfo)
     }
     
-    private func requestPATCH(endPoint: Endpoint, params: PatchRequest) -> URLRequest? {
+    private func requestPATCH(endPoint: Endpoint, params: ProductForPatch) -> URLRequest? {
         guard let url = endPoint.url else {
             return nil
         }

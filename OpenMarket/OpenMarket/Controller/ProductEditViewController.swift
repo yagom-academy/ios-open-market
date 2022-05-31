@@ -132,7 +132,7 @@ extension ProductEditViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProductEditViewController {
     @objc private func executePATCH() {
-        let params = productEditView.generateParameters()
+        let params = productEditView.makeProduct()
         
         
         guard let productID = self.productDetail.id else {
