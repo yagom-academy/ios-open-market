@@ -40,27 +40,32 @@ class ImageCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layout()
+        imageView.isHidden = true
+        configureHierarochy()
+        plusButtonLayout()
+        imageLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func layout() {
+    private func configureHierarchy() {
         view.addSubview(plusButton)
         view.addSubview(imageView)
         contentView.addSubview(view)
-        
-        imageView.isHidden = true
-        
+    }
+    
+    private func plusButtonLayout() {
         NSLayoutConstraint.activate([
             plusButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             plusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             plusButton.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             plusButton.heightAnchor.constraint(equalTo: contentView.heightAnchor),
         ])
-        
+    }
+    
+    private func imageLayout() {
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
