@@ -99,6 +99,9 @@ class RegisterEditBaseViewController: UIViewController {
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 5
         view.delegate = self
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
+        gesture.direction = .down
+        view.addGestureRecognizer(gesture)
         return view
     }()
 }
@@ -209,6 +212,9 @@ extension RegisterEditBaseViewController {
         NSLayoutConstraint.activate([
             field.heightAnchor.constraint(equalToConstant: 35)
         ])
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
+        gesture.direction = .down
+        field.addGestureRecognizer(gesture)
         return field
     }
 }
@@ -249,8 +255,12 @@ extension RegisterEditBaseViewController {
     @objc private func registerEditViewLeftBarButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+    
+    
+    @objc func swipeDownAction(_ sender: UISwipeGestureRecognizer) {
+        self.view.endEditing(true)
+    }
 }
-
 
 extension RegisterEditBaseViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
