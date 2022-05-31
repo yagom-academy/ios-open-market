@@ -27,7 +27,7 @@ class ProductListCell: UICollectionViewCell, ContentUpdatable {
         return imageView
     }()
     
-    let seperatorView: UIView = {
+    private let seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .placeholderText
         return view
