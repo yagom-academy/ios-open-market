@@ -20,13 +20,13 @@ class ProductViewController: UIViewController {
         productView.currencyField.selectedSegmentIndex = currency.value
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -34,7 +34,7 @@ class ProductViewController: UIViewController {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            self.productView.mainScrollView.contentSize = .init(width: self.productView.mainScrollView.frame.width, height: self.productView.mainScrollView.frame.height + keyboardSize.height - 140)
             
             if self.productView.descriptionView.isFirstResponder {
                 productView.mainScrollView.scrollRectToVisible(productView.descriptionView.frame, animated: true)
@@ -43,7 +43,9 @@ class ProductViewController: UIViewController {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        self.productView.mainScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.productView.mainScrollView.contentSize = .init(width: self.productView.mainScrollView.frame.width, height: self.productView.mainScrollView.frame.height - keyboardSize.height + 140)
+        }
     }
     
     @objc func changeCurrency(_ sender: UISegmentedControl) {
@@ -55,10 +57,21 @@ class ProductViewController: UIViewController {
         }
     }
     
+    @objc private func cancelRequest(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     private func defineTextFieldDelegate() {
         productView.priceField.delegate = self
         productView.discountedPriceField.delegate = self
         productView.stockField.delegate = self
+    }
+    
+    func setUpNavigationBar() {
+        self.navigationItem.hidesBackButton = true
+        let cancelbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelRequest))
+        cancelbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
+        self.navigationItem.leftBarButtonItem = cancelbutton
     }
 }
 

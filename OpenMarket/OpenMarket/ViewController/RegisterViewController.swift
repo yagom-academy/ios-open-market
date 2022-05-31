@@ -21,18 +21,11 @@ final class RegisterViewController: ProductViewController {
         defineCollectionViewDelegate()
     }
     
-    private func setUpNavigationBar() {
+    override func setUpNavigationBar() {
+        super.setUpNavigationBar()
         self.navigationItem.title = "상품등록"
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestRegistration))
         self.navigationItem.rightBarButtonItem = requestButton
-        self.navigationItem.hidesBackButton = true
-        let cancelbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelRegistration))
-        cancelbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
-        self.navigationItem.leftBarButtonItem = cancelbutton
-    }
-    
-    @objc private func cancelRegistration(_ sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func requestRegistration(_ sender: UIBarButtonItem) {
@@ -50,7 +43,6 @@ final class RegisterViewController: ProductViewController {
             showAlert(alertTitle: "상품명을 3자 이상 100자 이하로 입력해주세요.")
             return nil
         }
-        
         guard productView.validTextView(productView.descriptionView) else {
             showAlert(alertTitle: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.")
             return nil
@@ -178,19 +170,14 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     
     private func resizeImageToFit(_ editedImage: UIImage, at maxSize: Double) -> UIImage {
         var image = editedImage
-        guard let imagaDataSize = image.jpegData(compressionQuality: 1.0)?.count else {
-            return image
-        }
-        var imageSize: Double = Double(imagaDataSize) / 1024
+        var imageSize = image.size()
         
         guard let cellSize = productView.collectionView.visibleCells.first?.frame.size else {
             return image
         }
         if imageSize > maxSize {
             image = image.resize(target: cellSize)
-            if let imagaDataSize = image.jpegData(compressionQuality: 1.0)?.count {
-                imageSize = Double(imagaDataSize) / 1024
-            }
+            imageSize = image.size()
         }
         
         while imageSize > maxSize {
@@ -200,9 +187,7 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
             } else {
                 image = image.resize(ratio: 2.0)
             }
-            if let imagaDataSize = image.jpegData(compressionQuality: 1.0)?.count {
-                imageSize = Double(imagaDataSize) / 1024
-            }
+            imageSize = image.size()
         }
         return image
     }

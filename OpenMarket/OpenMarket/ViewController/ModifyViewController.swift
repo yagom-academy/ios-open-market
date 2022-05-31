@@ -16,14 +16,11 @@ final class ModifyViewController: ProductViewController {
         setUpProductViewContent()
     }
     
-    private func setUpNavigationBar() {
+    override func setUpNavigationBar() {
+        super.setUpNavigationBar()
         self.navigationItem.title = "상품수정"
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
         self.navigationItem.rightBarButtonItem = requestButton
-        self.navigationItem.hidesBackButton = true
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
-        cancelButton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
-        self.navigationItem.leftBarButtonItem = cancelButton
     }
     
     @objc private func requestModification() {
@@ -38,10 +35,6 @@ final class ModifyViewController: ProductViewController {
             delegate?.refreshProductList()
         }
         
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func cancelModification() {
         self.navigationController?.popViewController(animated: true)
     }
     

@@ -31,4 +31,12 @@ extension UIImage {
         }
         return renderedImage
     }
+    
+    func size() -> CGFloat {
+        guard let imageDataSize = self.jpegData(compressionQuality: 1.0)?.count else {
+            return 0.0
+        }
+        let imageSize = Double(imageDataSize) / 1024
+        return imageSize
+    }
 }
