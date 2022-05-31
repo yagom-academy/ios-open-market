@@ -17,6 +17,10 @@ struct ItemComponents {
     let imageArray: [UIImage]
 }
 
+protocol AddItemViewControllerDelegate {
+    func upDate()
+}
+
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
     @IBOutlet private weak var curruncySegment: UISegmentedControl!
@@ -34,6 +38,8 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
+    private var delegate: AddItemViewControllerDelegate?
+    
     private var currencyType: CurrencyType = .KRW
     
     private enum CurrencyType: String {
@@ -126,19 +132,26 @@ final class AddItemViewController: UIViewController {
         return PostItemAPI(itemComponents: item)
     }
     
+    func setDelegate(target: AddItemViewControllerDelegate) {
+        delegate = target
+    }
+    
     private func popViewController(){
         navigationController?.popViewController(animated: true)
     }
     
     @objc private func touchCancelButton() {
-        popViewController()
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func touchDoneButton() {
         do {
             try checkComponents()
             networkHandler.request(api: makeComponents()) { _ in }
-            showAlert(message: "상품 등록이 완료되었습니다", action: popViewController)
+            showAlert(message: "상품 등록이 완료되었습니다") {
+                self.popViewController()
+                self.delegate?.upDate()
+            }
         } catch {
             showAlert(message: error.localizedDescription, action: nil)
         }
