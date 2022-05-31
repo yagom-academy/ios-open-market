@@ -72,12 +72,7 @@ extension ProductGridCell {
 }
 
 @available(iOS 14.0, *)
-extension ProductGridCell {
-    func update(newItem: Product) {
-        guard item != newItem else { return }
-        item = newItem
-    }
-    
+extension ProductGridCell {    
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
         state.item = self.item
