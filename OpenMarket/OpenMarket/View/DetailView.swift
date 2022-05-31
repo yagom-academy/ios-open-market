@@ -207,7 +207,7 @@ class DetailView: UIView {
       self.stockLabel.text = "품절"
     } else {
       self.stockLabel.textColor = .systemGray
-      self.stockLabel.text = "남은 수량 : \(detailProduct.stock)"
+      self.stockLabel.text = "남은 수량 : \(stock)"
     }
   }
   
