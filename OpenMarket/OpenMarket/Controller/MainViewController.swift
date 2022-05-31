@@ -95,17 +95,14 @@ extension MainViewController {
 
 // MARK: - setup DataSource
 extension MainViewController {
-
     private func executeGET() {
-        DispatchQueue.global().async {
-            self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
+        self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
 
-                switch result {
-                case .success(let result):
-                    self.item = result.pages
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            switch result {
+            case .success(let result):
+                self.item = result.pages
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }

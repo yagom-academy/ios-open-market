@@ -233,16 +233,16 @@ extension RegistrationViewController {
     @objc private func executePOST() {
         let params = productDetailView.generateParameters()
         
-        DispatchQueue.global().async {
-            self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
-                switch result {
-                case .success:
-                    self.showSuccessAlert()
-                case .failure:
-                    self.showFailureAlert()
-                }
+        
+        self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
+            switch result {
+            case .success:
+                self.showSuccessAlert()
+            case .failure:
+                self.showFailureAlert()
             }
         }
+    
         
         self.navigationController?.popViewController(animated: true)
     }
