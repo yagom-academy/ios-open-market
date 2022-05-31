@@ -68,7 +68,7 @@ struct HTTPManager {
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   StatusCode.okSuccess == httpResponse.statusCode else {
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: (response as? HTTPURLResponse)?.statusCode)))
                 return
             }
             
@@ -97,7 +97,7 @@ struct HTTPManager {
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (StatusCode.successRange).contains(httpResponse.statusCode) else {
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: (response as? HTTPURLResponse)?.statusCode)))
                 return
             }
         
@@ -144,7 +144,7 @@ struct HTTPManager {
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (StatusCode.successRange).contains(httpResponse.statusCode) else {
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: (response as? HTTPURLResponse)?.statusCode)))
                 return
             }
         
@@ -216,7 +216,7 @@ struct HTTPManager {
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (StatusCode.successRange).contains(httpResponse.statusCode) else {
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: nil)))
+                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: (response as? HTTPURLResponse)?.statusCode)))
                 return
             }
         
