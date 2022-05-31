@@ -15,11 +15,11 @@ final class DetailViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    configureDetailView()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     fetchDetailProductData()
   }
   
