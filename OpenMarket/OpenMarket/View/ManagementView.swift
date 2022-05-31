@@ -123,7 +123,7 @@ final class ManagementView: UIView {
 }
 
 
-//MARK: - Layout
+// MARK: - Layout
 
 extension ManagementView {
     

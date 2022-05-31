@@ -7,6 +7,15 @@
 
 import UIKit
 
+fileprivate enum Const {
+    static let error = "ERROR"
+    static let cancel = "cancel"
+    static let done = "Done"
+    static let really = "Really?"
+    static let postSuccesse = "postSuccesse"
+    
+}
+
 final class RegistrationViewController: ProductManagementViewController {
     private let imagePicker = UIImagePickerController()
     
@@ -24,7 +33,7 @@ final class RegistrationViewController: ProductManagementViewController {
         self.imagePicker.delegate = self
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddImageButton))
-        baseView.imageView.addGestureRecognizer(gesture)
+        baseView.addImageView.addGestureRecognizer(gesture)
         
         view = baseView
     }
@@ -38,11 +47,11 @@ final class RegistrationViewController: ProductManagementViewController {
         self.network.postData(params: newProduct) { result in
             switch result {
             case .success(_):
-                self.showAlert(title: "post 성공") {
+                self.showAlert(title: Const.postSuccesse) {
                     self.dismiss(animated: true)
                 }
             case .failure(let error):
-                self.showAlert(title: "Error", message: error.errorDescription)
+                self.showAlert(title: Const.error, message: error.errorDescription)
             }
         }
     }
@@ -64,7 +73,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         let newImageView = convertSize(in: possibleImage)
         
         if baseView.imagesStackView.arrangedSubviews.count == 5 {
-            baseView.imageView.isHidden = true
+            baseView.addImageView.isHidden = true
         }
         baseView.imagesStackView.insertArrangedSubview(newImageView, at: .zero)
         
@@ -76,7 +85,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         newImage.widthAnchor.constraint(equalTo: newImage.heightAnchor).isActive = true
 
         if image.getSize() > 300 {
-            newImage.image = image.resize(newWidth: baseView.imageView.image?.size.width ?? 0)
+            newImage.image = image.resize(newWidth: baseView.addImageView.image?.size.width ?? 0)
         }
         
         newImage.image = image
@@ -91,7 +100,7 @@ extension RegistrationViewController {
         self.navigationItem.title = productManagementType?.type
         
         let cancelButton = UIBarButtonItem(
-            title: "Cancel",
+            title: Const.cancel,
             style: .plain,
             target: self,
             action: #selector(didTapCancelButton)
@@ -99,7 +108,7 @@ extension RegistrationViewController {
         navigationItem.leftBarButtonItem = cancelButton
         
         let doneButton = UIBarButtonItem(
-            title: "Done",
+            title: Const.done,
             style: .plain,
             target: self,
             action: #selector(didTapDoneButton)
@@ -112,6 +121,6 @@ extension RegistrationViewController {
     }
     
     @objc private func didTapDoneButton() {
-        self.showAlert(title: "Really", ok: "ok", cancel: "no", action: postProduct)
+        self.showAlert(title: Const.really, cancel: Const.cancel, action: postProduct)
     }
 }

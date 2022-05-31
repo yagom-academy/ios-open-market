@@ -7,6 +7,13 @@
 
 import UIKit
 
+fileprivate enum Const {
+    static let error = "ERROR"
+    static let cancel = "cancel"
+    static let done = "Done"
+    static let really = "Really?"
+}
+
 final class CorrectionViewController: ProductManagementViewController {
     private let product: Product
 
@@ -38,19 +45,19 @@ final class CorrectionViewController: ProductManagementViewController {
             case .success(let product):
                 self.setupView(product: product)
             case .failure(let error):
-                self.showAlert(title: "Error", message: error.errorDescription)
+                self.showAlert(title: Const.error, message: error.errorDescription)
             }
         }
     }
     
     private func setupView(product: Product) {
         DispatchQueue.main.async { [self] in
-            baseView.productName.text = product.name
-            baseView.productPrice.text = product.price?.description
-            baseView.currencySegmentControl.selectedSegmentIndex = 0
-            baseView.productDiscountedPrice.text = product.discountedPrice?.description
-            baseView.productStock.text = product.stock?.description
-            baseView.productDescription.text = product.description
+            baseView.nameTextField.text = product.name
+            baseView.priceTextField.text = product.price?.description
+            baseView.segmentControl.selectedSegmentIndex = 0
+            baseView.discountedPriceTextField.text = product.discountedPrice?.description
+            baseView.stockTextField.text = product.stock?.description
+            baseView.descriptionTextView.text = product.description
             
             let imageImagePicker = baseView.imagesStackView.arrangedSubviews.first
             imageImagePicker?.removeFromSuperview()
@@ -97,7 +104,7 @@ final class CorrectionViewController: ProductManagementViewController {
 
         network.patchData(product: productRegistration, id: id) { result in
             if case .failure(let error) = result {
-                self.showAlert(title: "Error", message: error.errorDescription)
+                self.showAlert(title: Const.error, message: error.errorDescription)
             }
         }
     }
@@ -110,10 +117,10 @@ extension CorrectionViewController {
     private func setupNavigationItems() {
         self.navigationItem.title = productManagementType?.type
         
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        let cancelButton = UIBarButtonItem(title: Const.cancel, style: .plain, target: self, action: #selector(didTapCancelButton))
         navigationItem.leftBarButtonItem = cancelButton
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
+        let doneButton = UIBarButtonItem(title: Const.done, style: .plain, target: self, action: #selector(didTapDoneButton))
         navigationItem.rightBarButtonItem = doneButton
     }
     
@@ -122,6 +129,6 @@ extension CorrectionViewController {
     }
     
     @objc private func didTapDoneButton() {
-        self.showAlert(title: "Really", ok: "ok", cancel: "cancel", action: patchData)
+        self.showAlert(title: Const.really, cancel: Const.cancel, action: patchData)
     }
 }

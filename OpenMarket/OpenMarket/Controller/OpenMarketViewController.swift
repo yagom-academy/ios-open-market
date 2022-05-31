@@ -6,6 +6,10 @@
 
 import UIKit
 
+fileprivate enum Const {
+    static let error = "ERROR"
+}
+
 final class OpenMarketViewController: UIViewController {
     private let segmentControl = SegmentControl(items: LayoutType.inventory)
     private var layoutType = LayoutType.list
@@ -39,13 +43,13 @@ final class OpenMarketViewController: UIViewController {
             case .success(let data):
                 self.productList = data.pages
             case .failure(let error):
-                self.showAlert(title: "ERROR", message: error.errorDescription)
+                self.showAlert(title: Const.error, message: error.errorDescription)
             }
         })
     }
 }
 
-// MARK: - navigationBar
+// MARK: - NavigationBar
 
 extension OpenMarketViewController {
     

@@ -7,6 +7,10 @@
 
 import UIKit
 
+fileprivate enum Const {
+    static let zero = "0"
+}
+
 class ProductManagementViewController: UIViewController {
     let network = URLSessionProvider<Product>()
     lazy var baseView = ManagementView(frame: view.frame)
@@ -14,10 +18,10 @@ class ProductManagementViewController: UIViewController {
     
     func extractData() -> ProductRegistration {
         let name = baseView.nameTextField.text
-        let price = Int(baseView.priceTextField.text ?? "0")
-        let discountedPrice = Int(baseView.discountedPriceTextField.text ?? "0")
+        let price = Int(baseView.priceTextField.text ?? Const.zero)
+        let discountedPrice = Int(baseView.discountedPriceTextField.text ?? Const.zero)
         let currency = (CurrencyType(rawValue: baseView.segmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
-        let stock = Int(baseView.stockTextField.text ?? "0")
+        let stock = Int(baseView.stockTextField.text ?? Const.zero)
         let description = baseView.descriptionTextView.text
         let images: [Image] = extractImage()
        
