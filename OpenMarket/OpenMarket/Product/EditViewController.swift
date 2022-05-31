@@ -60,7 +60,7 @@ final class EditViewController: ProductViewController {
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    self.delegate?.refreshData()
+                    // MARK: - Todo Notification Post
                     self.navigationController?.popViewController(animated: true)
                 }
             case .failure(_):

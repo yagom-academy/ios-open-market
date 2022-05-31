@@ -57,7 +57,6 @@ final class MainViewController: UIViewController {
     
     @objc private func addButtonDidTapped() {
         let registerViewController = RegisterViewController()
-        registerViewController.delegate = self
         
         let registerNavigationController = UINavigationController(rootViewController: registerViewController)
         registerNavigationController.modalPresentationStyle = .fullScreen
@@ -208,13 +207,5 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
             pageNumber += 1
             requestData(pageNumber: pageNumber)
         }
-    }
-}
-
-//MARK: - ProductViewController Delegate
-
-extension MainViewController: ProductViewControllerDelegate {
-    func refreshData() {
-        resetData()
     }
 }
