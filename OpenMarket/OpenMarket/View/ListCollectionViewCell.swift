@@ -20,7 +20,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     private var cellContentLayouts: [NSLayoutConstraint]?
     private lazy var listContentView = UIListContentView(configuration: .subtitleCell())
     private lazy var productImage = UIImageView()
-    private let network = Network.shared
+    private let imageCache = ImageCache.shared
     private var lastDataTask: URLSessionDataTask?
     
     private let stock: UILabel = {
@@ -29,6 +29,15 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         label.numberOfLines = 2
         return label
     }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setConstraint()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private func setConstraint() {
         guard cellContentLayouts == nil else { return }
@@ -64,7 +73,14 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         
         var configure = defaultListConfiguration()
         lastDataTask?.cancel()
-        lastDataTask = network.setImageFromUrl(imageUrl: product.thumbnail, imageView: productImage)
+        lastDataTask = imageCache.loadImage(
+            urlString: product.thumbnail,
+            completionHandler: { image in
+                DispatchQueue.main.async { [weak self] in
+                    self?.productImage.image = image
+                }
+            }
+        )
         configure.text = product.name
         configure.textProperties.font = .preferredFont(forTextStyle: .headline)
         configure.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
@@ -100,7 +116,6 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stock.text = "잔여수량: \(product.stock)"
             stock.textColor = .gray
         }
-        setConstraint()
     }
     
     override func prepareForReuse() {

@@ -5,76 +5,97 @@
 //  Created by 우롱차, Donnie on 2022/05/20.
 //
 
-import UIKit
+import Foundation
 
-protocol MainViewDelegate: UIViewController {
-    func setSnapshot(productInformations: [ProductInformation])
-    func showErrorAlert(error: Error)
-}
-
-final class Network: NetworkAble {
+struct Network: NetworkAble {
     
-    static let shared = Network()
-    private let imageCache = NSCache<NSString, UIImage>()
-    private let decoder = JSONDecoder()
     let session: URLSessionProtocol
     
-    private init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
+}
+
+protocol NetworkAble {
     
-    func setImageFromUrl(imageUrl: URL, imageView: UIImageView) -> URLSessionDataTask? {
-        let cacheKey = imageUrl.absoluteString as NSString
+    var session: URLSessionProtocol { get }
+    
+    @discardableResult
+    func requestData(
+        url: URL,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask?
+    
+    @discardableResult
+    func requestData(
+        urlRequest: URLRequest,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask?
+}
+
+extension NetworkAble {
+    
+    @discardableResult
+    func requestData(
+        url: URL,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask? {
         
-        if let image = imageCache.object(forKey: cacheKey) {
-            imageView.image = image
-            return nil
-        }
-        
-        guard let dataTask = requestData(url: imageUrl, completeHandler: {
-            data, error in
+        let dataTask = session.dataTask(with: url) { (data, response, error) in
             
-            guard let data = data, let image = UIImage(data: data) else {
+            guard error == nil else {
+                errorHandler(NetworkError.sessionError)
                 return
             }
             
-            DispatchQueue.main.async {
-                self.imageCache.setObject(image, forKey: cacheKey)
-                imageView.image = image
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  (200..<300).contains(statusCode) else {
+                errorHandler(NetworkError.statusCodeError)
+                return
             }
-        }, errorHandler: {
-            error in
-        }) else {
-            return nil
+            
+            guard let data = data else {
+                errorHandler(NetworkError.dataError)
+                return
+            }
+            
+            completeHandler(data, response)
         }
+        dataTask.resume()
         return dataTask
     }
     
-    func setImageFromUrl(imageUrl imageUrlString: String, imageView: UIImageView) -> URLSessionDataTask? {
-        guard let url = URL(string: imageUrlString) else {
-            return nil
-        }
-        return setImageFromUrl(imageUrl: url, imageView: imageView)
-    }
-    
-    func requestDecodedData(pageNo: Int, itemsPerPage: Int, delegate: MainViewDelegate?) {
-        guard let url = OpenMarketApi.pageInformation(pageNo: pageNo, itemsPerPage: itemsPerPage).url else {
-            DispatchQueue.main.async {
-                delegate?.showErrorAlert(error: NetworkError.urlError)
-            }
-            return
-        }
+    @discardableResult
+    func requestData(
+        urlRequest: URLRequest,
+        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        errorHandler: @escaping (Error) -> Void
+    ) -> URLSessionDataTask? {
         
-        requestData(url: url) { data, urlResponse in
-            guard let data = data,
-                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
-            DispatchQueue.main.async {
-                delegate?.setSnapshot(productInformations: pageInformation.pages)
+        let dataTask = session.dataTask(with: urlRequest) { (data, response, error) in
+            
+            guard error == nil else {
+                errorHandler(NetworkError.sessionError)
+                return
             }
-        } errorHandler: { error in
-            DispatchQueue.main.async {
-                delegate?.showErrorAlert(error: error)
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  (200..<300).contains(statusCode) else {
+                errorHandler(NetworkError.statusCodeError)
+                return
             }
+            
+            guard let data = data else {
+                errorHandler(NetworkError.dataError)
+                return
+            }
+            
+            completeHandler(data, response)
         }
+        dataTask.resume()
+        return dataTask
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 final class GridCollectionViewCell: UICollectionViewCell {
     
     private lazy var productImage = UIImageView()
-    private var netWork = Network.shared
+    private let imageCache = ImageCache.shared
     private var lastDataTask: URLSessionDataTask?
     
     private lazy var productTitle: UILabel = {
@@ -89,7 +89,14 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let stringDiscountedPrice = numberFormatter.string(for: product.discountedPrice) ?? ""
         
         lastDataTask?.cancel()
-        lastDataTask = netWork.setImageFromUrl(imageUrl: product.thumbnail, imageView: productImage)
+        lastDataTask = imageCache.loadImage(
+            urlString: product.thumbnail,
+            completionHandler: { image in
+                DispatchQueue.main.async { [weak self] in
+                    self?.productImage.image = image
+                }
+            }
+        )
         productTitle.text = product.name
         
         if product.discountedPrice == 0 {
