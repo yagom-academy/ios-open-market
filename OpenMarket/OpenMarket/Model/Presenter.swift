@@ -35,12 +35,7 @@ struct Presenter {
         self.bargainPrice = "\(productCurrency) \(formattedBargainPrice)"
         
         let productStock = product.stock ?? 0
-        
-        if productStock == 0 {
-            self.stock = "품절"
-        } else {
-            self.stock = "잔여수량: \(productStock)"
-        }
+        self.stock = String(productStock)
         
         return self
     }
@@ -63,12 +58,7 @@ struct Presenter {
         self.discountedPrice = "\(formattedDiscountedPrice)"
         
         let productStock = productDetail.stock ?? 0
-        
-        if productStock == 0 {
-            self.stock = "0"
-        } else {
-            self.stock = "\(productStock)"
-        }
+        self.stock = String(productStock)
     
         self.currency = productDetail.currency
         self.description = productDetail.description

@@ -117,7 +117,13 @@ extension MainViewController {
             cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
                 var presenter = Presenter()
                 presenter = presenter.setData(of: product)
-
+                
+                if presenter.stock == Stock.zero {
+                    presenter.stock = Stock.soldOut
+                } else {
+                    presenter.stock = "\(Stock.stock) \(presenter.stock ?? "")"
+                }
+                
                 guard let layoutType = LayoutType(rawValue: self.productView.segmentedControl.selectedSegmentIndex) else { return UICollectionViewCell() }
                 
                 switch layoutType {
