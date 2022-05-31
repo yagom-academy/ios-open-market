@@ -9,15 +9,13 @@ import UIKit
 
 struct ProductRegisterUseCase {
     private let network: NetworkAble
-    private let jsonDecoder: JSONDecoder
-    private let pageInfoManager: PageInfoManager
+    private let jsonEncoder: JSONEncoder
 
-    init(network: Network, jsonDecoder: JSONDecoder, pageInfoManager: PageInfoManager){
+    init(network: NetworkAble, jsonEncoder: JSONEncoder){
         self.network = network
-        self.jsonDecoder = jsonDecoder
-        self.pageInfoManager = pageInfoManager
+        self.jsonEncoder = jsonEncoder
     }
-    
+
     @discardableResult
     func registerProduct(
         registrationParameter: RegistrationParameter,
@@ -46,17 +44,10 @@ struct ProductRegisterUseCase {
         let boundaryPrefix = "\r\n--\(boundary)\r\n"
         data.appendString(boundaryPrefix)
         data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
-        data.appendString("""
-        {
-        \"name\": \"\(registrationParameter.name)\",
-        \"price\": \"\(registrationParameter.price)\",
-        \"currency\": \"\(registrationParameter.currency.rawValue)\",
-        \"secret\": \"\(registrationParameter.secret)\",
-        \"descriptions\": \"\(registrationParameter.descriptions)\",
-        \"stock\": \"\(registrationParameter.stock)\",
-        \"discounted_price\": \"\(registrationParameter.discountedPrice)\"
-        }
-        """)
+        
+        guard let params = try? jsonEncoder.encode(registrationParameter) else { return nil }
+        guard let paramsData = String(data: params, encoding: .utf8) else { return nil }
+        data.appendString(paramsData)
         
         for image in images {
             data.appendString(boundaryPrefix)
@@ -97,6 +88,5 @@ struct ProductRegisterUseCase {
         }
         return nil
     }
-    
-
 }
+
