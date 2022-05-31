@@ -79,7 +79,6 @@ final class ProductDetailViewController: UIViewController {
     
     private func configureCollectionView() {
         mainView?.productImageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
-        mainView?.productImageCollectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: UICollectionView.elementKindSectionFooter)
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
     }
@@ -102,15 +101,6 @@ final class ProductDetailViewController: UIViewController {
             cell.hideRemoveButton()
             
             return cell
-        }
-        
-        datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionFooter else { return nil }
-            
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UICollectionView.elementKindSectionFooter, for: indexPath)
-            
-            view.backgroundColor = .systemRed
-            return view
         }
         
         return datasource
