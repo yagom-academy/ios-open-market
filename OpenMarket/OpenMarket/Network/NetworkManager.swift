@@ -22,8 +22,8 @@ struct NetworkManager {
         self.session = session
     }
     
-    func checkServerState(completion: @escaping (Result<String, NetworkError>) -> Void) {
-        guard let urlRequst = EndPoint.serverState.urlRequest else {
+    func request(endPoint: EndPoint, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        guard let urlRequst = endPoint.urlRequest else {
             completion(.failure(.urlError))
             return
         }
@@ -40,8 +40,8 @@ struct NetworkManager {
                 completion(.failure(.dataError))
                 return
             }
-            
-            completion(.success(text.trimmingCharacters(in:CharacterSet(charactersIn: "\""))))
+            //completion(.success(text.trimmingCharacters(in:CharacterSet(charactersIn: "\""))))
+            completion(.success(text))
         }.resume()
     }
     

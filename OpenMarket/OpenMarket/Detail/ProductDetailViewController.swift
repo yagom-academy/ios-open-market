@@ -67,6 +67,7 @@ final class ProductDetailViewController: UIViewController {
                 guard let password = alert.textFields?.first?.text else { return }
                 guard let id = self?.product.id else { return }
                 
+                self?.requestPassword(id: id, userPassword: password)
             }
             
             let cancelAction = UIAlertAction(title: "취소", style: .default)
@@ -125,7 +126,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     // MARK: - NetWork Method
-
+    
     private func requestData() {
         guard let id = product.id else { return }
         
@@ -158,6 +159,24 @@ final class ProductDetailViewController: UIViewController {
         }
     }
     
+    private func requestPassword(id: Int, userPassword: String) {
+        let params = ["secret": "\(userPassword)"]
+        let sendData = try! JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        
+        let endPoint = EndPoint.requestProductPassword(id: id, sendData: sendData)
+        
+        networkManager.request(endPoint: endPoint) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let productPassword):
+                self.deleteData(id: id, password: productPassword)
+            case .failure(_):
+                AlertDirector(viewController: self).createErrorAlert(message: "비밀번호가 틀렸습니다")
+            }
+        }
+    }
+    
     private func deleteData(id: Int, password: String) {
         let endPoint = EndPoint.deleteProuct(id: id, secret: password)
         
@@ -166,9 +185,11 @@ final class ProductDetailViewController: UIViewController {
             
             switch result {
             case .success(_):
-                self.navigationController?.popViewController(animated: true)
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
             case .failure(_):
-                AlertDirector(viewController: self).createErrorAlert(message: "제품을 삭제하지 못하였습니다.")
+                AlertDirector(viewController: self).createErrorAlert(message: "제품을 삭제하지 못했습니다.")
             }
         }
     }

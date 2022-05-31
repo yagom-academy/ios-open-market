@@ -21,6 +21,7 @@ enum EndPoint {
     case editProduct(id: Int, sendData: UploadProduct)
     case createProduct(sendData: Data)
     case deleteProuct(id: Int, secret: String)
+    case requestProductPassword(id: Int, sendData: Data)
     
     static let boundary = UUID().uuidString
     private static let host = "https://market-training.yagom-academy.kr/"
@@ -41,6 +42,8 @@ extension EndPoint {
             return URL(string: Self.host + "api/products")
         case .deleteProuct(let id, let secret):
             return URL(string: Self.host + "api/products/\(id)/\(secret)")
+        case .requestProductPassword(let id, _):
+            return URL(string: Self.host + "api/products/\(id)/secret")
         }
     }
     
@@ -50,7 +53,7 @@ extension EndPoint {
             return .get
         case .editProduct(_, _):
             return .patch
-        case .createProduct(_):
+        case .createProduct(_), .requestProductPassword(_, _):
             return .post
         case .deleteProuct(_, _):
             return .delete
@@ -77,6 +80,10 @@ extension EndPoint {
         case .deleteProuct(_, _):
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
+        case .requestProductPassword(_, let sendData):
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
+            request.httpBody = sendData
         }
         
         return request
