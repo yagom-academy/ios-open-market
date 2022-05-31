@@ -31,7 +31,7 @@ final class ProductDetailView: UIView {
         return stackview
     }()
     
-    lazy var productImageCollectionView: UICollectionView = {
+    private(set) lazy var productImageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ final class ProductDetailView: UIView {
         return collectionView
     }()
         
-    let pageLabel: UILabel = {
+    private let pageLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
@@ -92,7 +92,7 @@ final class ProductDetailView: UIView {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = .zero
         return label
     }()
     
@@ -174,8 +174,6 @@ final class ProductDetailView: UIView {
             self?.pageLabel.text = "\(currentPage + 1)/\(totalItemCount)"
         }
         
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        return layout
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
