@@ -18,6 +18,8 @@ final class RegisterViewController: ProductViewController {
         registerNotification()
     }
     
+    // MARK: - Configure Method
+    
     override func configureCollectionView() {
         super.configureCollectionView()
         mainView?.collectionView.delegate = self

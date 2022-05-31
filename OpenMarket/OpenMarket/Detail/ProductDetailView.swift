@@ -135,6 +135,27 @@ final class ProductDetailView: UIView {
         ])
     }
     
+    private func configureCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: .zero, leading: 12, bottom: .zero, trailing: .zero)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1), heightDimension: .fractionalHeight(1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        section.visibleItemsInvalidationHandler = { [weak self] visibleItems, point, environment in
+            guard let currentPage = visibleItems.last?.indexPath.row else { return }
+            guard let totalItemCount = self?.productImageCollectionView.numberOfItems(inSection: 0) else { return }
+            
+            self?.pageLabel.text = "\(currentPage + 1)/\(totalItemCount)"
+        }
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
     func configure(data: Product) {
         DispatchQueue.main.async { [self] in
             nameLabel.text = data.name
@@ -155,26 +176,5 @@ final class ProductDetailView: UIView {
             
             descriptionLabel.text = data.description
         }
-    }
-    
-    private func configureCollectionViewLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: .zero, leading: 12, bottom: .zero, trailing: .zero)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalHeight(1), heightDimension: .fractionalHeight(1))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPagingCentered
-        
-        section.visibleItemsInvalidationHandler = { [weak self] visibleItems, point, environment in
-            guard let currentPage = visibleItems.last?.indexPath.row else { return }
-            guard let totalItemCount = self?.productImageCollectionView.numberOfItems(inSection: 0) else { return }
-            
-            self?.pageLabel.text = "\(currentPage + 1)/\(totalItemCount)"
-        }
-        
-        return UICollectionViewCompositionalLayout(section: section)
     }
 }

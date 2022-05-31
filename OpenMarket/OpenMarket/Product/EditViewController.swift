@@ -26,7 +26,7 @@ final class EditViewController: ProductViewController {
         registerNotification()
     }
     
-    // MARK: - Configure
+    // MARK: - Configure Method
     
     override func configureNavigationBar() {
         super.configureNavigationBar()
