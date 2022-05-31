@@ -1,13 +1,15 @@
 //
-//  UICollectionViewCell+Extension.swift
+//  Identifiable.swift
 //  OpenMarket
 //
 //  Created by Lingo, Quokka on 2022/05/17.
 //
 
-import UIKit
+protocol Identifiable {
+  static var identifier: String { get }
+}
 
-extension UICollectionViewCell {
+extension Identifiable {
   static var identifier: String {
     return String(describing: self)
   }

@@ -7,4 +7,4 @@
 
 import UIKit
 
-final class EmptyCollectionViewCell: UICollectionViewCell {}
+final class EmptyCollectionViewCell: UICollectionViewCell, Identifiable {}

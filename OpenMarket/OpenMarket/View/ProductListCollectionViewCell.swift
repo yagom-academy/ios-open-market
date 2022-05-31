@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductListCollectionViewCell: UICollectionViewCell {
+final class ProductListCollectionViewCell: UICollectionViewCell, Identifiable {
   private let containerStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .horizontal
@@ -94,14 +94,7 @@ final class ProductListCollectionViewCell: UICollectionViewCell {
     self.priceLabel.isHidden = product.discountedPrice == .zero
     self.priceLabel.setStrike(text: "\(product.currency.rawValue) \(product.price.toDecimal)")
     self.bargainPriceLabel.text = "\(product.currency.rawValue) \(product.bargainPrice.toDecimal)"
-    self.productImageView.image = UIImage(data: convertImageFromData(url: product.thumbnail))
-  }
-  
-  private func convertImageFromData(url urlString: String) -> Data {
-    guard let url = URL(string: urlString),
-          let data = try? Data(contentsOf: url)
-    else { return Data() }
-    return data
+    self.productImageView.setImage(with: product.thumbnail)
   }
 }
 
