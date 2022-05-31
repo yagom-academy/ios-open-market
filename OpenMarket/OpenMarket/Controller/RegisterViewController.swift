@@ -18,8 +18,7 @@ final class RegisterViewController: RegisterEditBaseViewController {
     private let picker = UIImagePickerController()
     private let productRegisterUseCase = ProductRegisterUseCase(
         network: Network(),
-        jsonDecoder: JSONDecoder(),
-        pageInfoManager: PageInfoManager()
+        jsonEncoder: JSONEncoder()
     )
     
     private lazy var addImageButton: UIButton = {

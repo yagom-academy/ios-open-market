@@ -9,15 +9,19 @@ import UIKit
 
 struct ProductRegisterUseCase {
     private let network: NetworkAble
-    private let jsonDecoder: JSONDecoder
-    private let pageInfoManager: PageInfoManager
-
-    init(network: Network, jsonDecoder: JSONDecoder, pageInfoManager: PageInfoManager){
-        self.network = network
-        self.jsonDecoder = jsonDecoder
-        self.pageInfoManager = pageInfoManager
-    }
+    private let jsonEncoder: JSONEncoder
     
+    private enum Constant {
+        static let maximumImageSize = 300 * 1024
+        static let resizeWidthValue: CGFloat = 100
+        static let compressionQualityValue: CGFloat = 1
+    }
+
+    init(network: NetworkAble, jsonEncoder: JSONEncoder){
+        self.network = network
+        self.jsonEncoder = jsonEncoder
+    }
+
     @discardableResult
     func registerProduct(
         registrationParameter: RegistrationParameter,
@@ -46,26 +50,40 @@ struct ProductRegisterUseCase {
         let boundaryPrefix = "\r\n--\(boundary)\r\n"
         data.appendString(boundaryPrefix)
         data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
-        data.appendString("""
-        {
-        \"name\": \"\(registrationParameter.name)\",
-        \"price\": \"\(registrationParameter.price)\",
-        \"currency\": \"\(registrationParameter.currency.rawValue)\",
-        \"secret\": \"\(registrationParameter.secret)\",
-        \"descriptions\": \"\(registrationParameter.descriptions)\",
-        \"stock\": \"\(registrationParameter.stock)\",
-        \"discounted_price\": \"\(registrationParameter.discountedPrice)\"
+        
+        guard let params = try? jsonEncoder.encode(registrationParameter) else {
+            registerErrorHandler(UseCaseError.encodingError)
+            return nil
         }
-        """)
+        guard let paramsData = String(data: params, encoding: .utf8) else {
+            registerErrorHandler(UseCaseError.encodingError)
+            return nil
+        }
+        data.appendString(paramsData)
         
         for image in images {
             data.appendString(boundaryPrefix)
             data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(registrationParameter.name).jpeg\"\r\n")
             data.appendString("Content-Type: image/jpeg\r\n\r\n")
-            guard let imageData = image.jpegData(compressionQuality: 0.1) else {
+            
+            var appendedData = Data()
+            guard let imageData = image.jpegData(compressionQuality: Constant.compressionQualityValue) else {
+                registerErrorHandler(UseCaseError.imageError)
                 return nil
             }
-            data.append(imageData)
+            appendedData = imageData
+    
+            if appendedData.count > Constant.maximumImageSize {
+                let resizeValue = image.resize(newWidth: Constant.resizeWidthValue)
+                guard let resizedImageData = resizeValue.jpegData(compressionQuality: Constant.compressionQualityValue),
+                      resizedImageData.count < Constant.maximumImageSize else {
+                    registerErrorHandler(UseCaseError.imageError)
+                    return nil
+                }
+                appendedData = resizedImageData
+            }
+            
+            data.append(appendedData)
         }
         data.appendString("\r\n--\(boundary)--\r\n")
         
@@ -80,7 +98,7 @@ struct ProductRegisterUseCase {
     }
     
     func checkValidation(registrationParameter parameter: RegistrationParameter) -> UseCaseError? {
-        guard parameter.name.count < 3 else {
+        guard parameter.name.count > 3 else {
             return UseCaseError.nameError
         }
         guard parameter.descriptions.count < 1000 else {
@@ -97,6 +115,5 @@ struct ProductRegisterUseCase {
         }
         return nil
     }
-    
-
 }
+

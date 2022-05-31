@@ -15,6 +15,8 @@ enum UseCaseError: Error, LocalizedError, ErrorAlertProtocol {
     case discountedPriceError
     case stockError
     case imageError
+    case encodingError
+    case imageSizeError
     static var alertTitle = "입력 에러!"
 
     var alertMessage: String {
@@ -33,6 +35,10 @@ enum UseCaseError: Error, LocalizedError, ErrorAlertProtocol {
             return "재고는 0이상이어야 합니다."
         case .imageError:
             return "이미지가 올바르지 않습니다."
+        case .encodingError:
+            return "인코딩에 실패하였습니다."
+        case .imageSizeError:
+            return "이미지 사이즈 오류입니다."
         }
     }
 }
