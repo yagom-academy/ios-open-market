@@ -9,6 +9,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
     var product: Product?
+    let numberFormatter: NumberFormatter = NumberFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,8 +167,8 @@ class DetailViewController: UIViewController {
             return
         }
         nameLabel.text = product.name
-        stockLabel.text = "남은 수량 : \(String(product.stock))"
-        priceLabel.text = "\(currency) \(String(product.price))"
+        stockLabel.text = "남은 수량 : \(numberFormatter.numberFormatString(for: Double(product.stock)))"
+        priceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for:product.price))"
         
         if product.discountedPrice != .zero {
             guard let price = priceLabel.text else {
@@ -175,7 +176,7 @@ class DetailViewController: UIViewController {
             }
             priceLabel.textColor = .red
             priceLabel.attributedText = setTextAttribute(of: price, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
-            bargainPriceLabel.text = "\(currency) \(String(product.bargainPrice))"
+            bargainPriceLabel.text = "\(currency) \(numberFormatter.numberFormatString(for:product.bargainPrice))"
         }
         
         
@@ -230,7 +231,6 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         cell.imageView.requestImageDownload(url: images[indexPath.row].url)
-//        cell.imageView.backgroundColor = .systemRed
         cell.pageLabel.text = "\(String(indexPath.row + 1)) / \(images.count)"
         
         
