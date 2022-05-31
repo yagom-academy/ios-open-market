@@ -160,7 +160,7 @@ extension UpdateProductViewController {
     
     private func configureHierarchy(collectionViewLayout: UICollectionViewLayout?) {
         guard let collectionViewLayout = collectionViewLayout else { return }
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         
         guard let collectionView = collectionView else { return }
     
