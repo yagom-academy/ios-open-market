@@ -95,14 +95,7 @@ extension MainViewController {
 @available(iOS 14.0, *)
 extension MainViewController {
     private func registerCell() {
-        listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { [self] (cell, indexPath, item) in
-            guard let sectionIdentifier = currentSnapshot?.sectionIdentifiers[indexPath.section] else {
-                return
-            }
-            let numberOfItemsInSection = currentSnapshot?.numberOfItems(inSection: sectionIdentifier)
-            let isLastCell = indexPath.item + 1 == numberOfItemsInSection
-            cell.seperatorView.isHidden = isLastCell
-            
+        listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { [self] (cell, indexPath, item) in            
             cell.update(newItem: item)
         }
         

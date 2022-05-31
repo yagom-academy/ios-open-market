@@ -141,11 +141,6 @@ extension ProductListCell {
 
 @available(iOS 14.0, *)
 extension ProductListCell {
-    func update(newItem: Product) {
-        guard item != newItem else { return }
-        item = newItem
-    }
-    
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
         state.item = self.item
