@@ -8,7 +8,7 @@
 import UIKit
 
 final class ProductEditViewController: UIViewController {
-    private var productDetail: ProductDetail?
+    private var productDetail: ProductDetail
     private var networkImageArray = [ImageInfo]()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var presenter = Presenter()
@@ -30,6 +30,15 @@ final class ProductEditViewController: UIViewController {
         
         return scrollView
     }()
+    
+    init(productDetail: ProductDetail) {
+        self.productDetail = productDetail
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,10 +102,6 @@ final class ProductEditViewController: UIViewController {
     }
     
     private func setData() {
-        guard let productDetail = productDetail else {
-            return
-        }
-        
         presenter = presenter.setData(of: productDetail)
         productEditView.setEditView(presenter)
     }
@@ -138,7 +143,7 @@ extension ProductEditViewController {
         let params = productEditView.generateParameters()
         
         
-        guard let productID = self.productDetail?.id else {
+        guard let productID = self.productDetail.id else {
             return
         }
         
