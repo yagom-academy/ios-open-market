@@ -225,7 +225,27 @@ class DetailViewController: UIViewController {
     }
     
     func requestDelete() {
+        let alert = UIAlertController(title: "비밀번호를 입력하세요.", message: nil, preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { field in
+            field.isSecureTextEntry = true
+            field.placeholder = "Password"
+        })
+        let ok = UIAlertAction(title: "확인", style: .default, handler: {_ in
+            self.checkSecret(password: (alert.textFields?.first?.text)!)
+            
+        })
+        let cancel = UIAlertAction(title: "닫기", style: .default)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        present(alert, animated: true)
         return
+    }
+    
+    func checkSecret(password: String) {
+        var str: Data = "{ \"secret\":\"\(password)\"}".data(using: .utf8)!
+        RequestAssistant.shared.requestSecretAPI(productId: product!.id, body: str, completionHandler: { data in
+            print("# \(data)")
+        })
     }
 }
 
