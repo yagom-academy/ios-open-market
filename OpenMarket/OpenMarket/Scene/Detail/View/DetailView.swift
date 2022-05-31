@@ -49,7 +49,6 @@ final class DetailView: UIView {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .footnote)
         label.textAlignment = .center
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -72,7 +71,6 @@ final class DetailView: UIView {
         label.textColor = .systemGray3
         label.textAlignment = .right
         label.font = .preferredFont(forTextStyle: .title3)
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -91,7 +89,6 @@ final class DetailView: UIView {
         label.textColor = .red
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .callout)
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -99,13 +96,12 @@ final class DetailView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .callout)
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = .zero
         return label
     }()
     
@@ -159,7 +155,7 @@ final class DetailView: UIView {
     private func updateLabel(data: ProductDetail) {
         nameLabel.text = data.name
         
-        if data.discountedPrice == 0 {
+        if data.discountedPrice == .zero {
             priceLabel.isHidden = true
             sellingPriceLabel.text = "\(data.currency)  \(data.price.toDecimal())"
         } else {
@@ -169,8 +165,8 @@ final class DetailView: UIView {
             sellingPriceLabel.text =  "\(data.currency)  \(data.bargainPrice.toDecimal())"
         }
         
-        stockLabel.textColor = data.stock == 0 ? .systemOrange : .systemGray
-        stockLabel.text = data.stock == 0 ? "품절 " : "남은수량 : \(data.stock) "
+        stockLabel.textColor = data.stock == .zero ? .systemOrange : .systemGray
+        stockLabel.text = data.stock == .zero ? "품절 " : "남은수량 : \(data.stock) "
         descriptionLabel.text = data.productsDescription
     }
     

@@ -18,6 +18,8 @@ final class DetailViewModel {
     var datasource: DataSource?
     var snapshot: Snapshot?
     
+    weak var delegate: ManagingAlertDelegate?
+    
     private let productsAPIService = APIProvider()
     
     func setUpImages(with images: [ProductImage]) {
@@ -31,9 +33,10 @@ final class DetailViewModel {
             guard let self = self else { return }
             switch result {
             case .success(let image):
-                self.applySnapshot(images: [ImageInfo(fileName: UUID().uuidString, data: image, type: "")])
+                let imageInfo = [ImageInfo(fileName: UUID().uuidString, data: image, type: "")]
+                self.applySnapshot(image: imageInfo)
             case .failure(let error):
-                break
+                self.delegate?.showAlertRequestError(with: error)
             }
         }
     }
@@ -46,7 +49,7 @@ final class DetailViewModel {
             case .success(let secret):
                 completion(secret)
             case .failure(let error):
-                print(error.localizedDescription)
+                self?.delegate?.showAlertRequestError(with: error)
             }
         }
     }
@@ -54,12 +57,12 @@ final class DetailViewModel {
     func deleteProduct(by productID: Int, secret: String, completion: @escaping () -> Void) {
         let endpoint = EndPointStorage.productsDelete(productID: productID, secret: secret)
         
-        productsAPIService.deleteProduct(with: endpoint) { result in
+        productsAPIService.deleteProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success(_):
                 completion()
             case .failure(let error):
-                print(error.localizedDescription)
+                self?.delegate?.showAlertRequestError(with: error)
             }
         }
     }
@@ -71,9 +74,9 @@ final class DetailViewModel {
         return snapshot
     }
     
-    private func applySnapshot(images: [ImageInfo]) {
+    private func applySnapshot(image: [ImageInfo]) {
         DispatchQueue.main.async {
-            self.snapshot?.appendItems(images)
+            self.snapshot?.appendItems(image)
             guard let snapshot = self.snapshot else { return }
             self.datasource?.apply(snapshot, animatingDifferences: false)
         }
