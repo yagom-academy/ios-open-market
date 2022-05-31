@@ -92,7 +92,7 @@ extension ListCollectionViewCell {
         
         stock.text = presenter.stock
         
-        if presenter.stock != "품절" {
+        if presenter.stock != Stock.soldOut {
             stock.textColor = .systemGray2
         } else {
             stock.textColor = .systemYellow

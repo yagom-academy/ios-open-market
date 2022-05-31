@@ -57,15 +57,19 @@ final class ProductDetailViewController: UIViewController {
     
     @objc func editButtonDidTapped() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let edit = UIAlertAction(title: "수정", style: .default) {_ in
-            let productEditViewController = ProductEditViewController()
-            productEditViewController.productDetail = self.productDetail
+        let edit = UIAlertAction(title: Alert.edit, style: .default) {_ in
+            guard let productDetail = self.productDetail else {
+                return
+            }
+            
+            let productEditViewController = ProductEditViewController(productDetail: productDetail)
+
             self.navigationController?.pushViewController(productEditViewController, animated: true)
         }
         
-        let delete = UIAlertAction(title: "삭제", style: .destructive, handler: nil)
+        let delete = UIAlertAction(title: Alert.delete, style: .destructive, handler: nil)
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel) {_ in
+        let cancel = UIAlertAction(title: Alert.cancel, style: .cancel) {_ in
             self.dismiss(animated: true, completion: nil)
         }
         

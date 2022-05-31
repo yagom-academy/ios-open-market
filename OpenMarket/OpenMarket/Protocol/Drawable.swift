@@ -39,7 +39,7 @@ extension Drawable {
     
     func configurePriceStackView() {
         priceTextField.borderStyle = .roundedRect
-        priceTextField.placeholder = PlaceHolder.price.rawValue
+        priceTextField.placeholder = Product.price
         priceTextField.keyboardType = .numberPad
         segmentedControl.selectedSegmentIndex = 0
         
@@ -51,14 +51,14 @@ extension Drawable {
     
     func configureProductInfoStackView() {
         productNameTextField.borderStyle = .roundedRect
-        productNameTextField.placeholder = PlaceHolder.productName.rawValue
+        productNameTextField.placeholder = Product.productName
         
         discountedPriceTextField.borderStyle = .roundedRect
-        discountedPriceTextField.placeholder = PlaceHolder.discountedPrice.rawValue
+        discountedPriceTextField.placeholder = Product.discountedPrice
         discountedPriceTextField.keyboardType = .numberPad
         
         stockTextField.borderStyle = .roundedRect
-        stockTextField.placeholder = PlaceHolder.stock.rawValue
+        stockTextField.placeholder = Product.stock
         stockTextField.keyboardType = .numberPad
     }
     

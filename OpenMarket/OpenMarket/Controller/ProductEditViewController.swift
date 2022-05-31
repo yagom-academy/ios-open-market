@@ -163,14 +163,14 @@ extension ProductEditViewController {
 // MARK: - Alert
 extension ProductEditViewController {
     private func showSuccessAlert() {
-        let alert = UIAlertController(title: "수정 완료", message: "수정에 성공했습니다!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: Alert.editSuccessTitle, message: Alert.editSuccessMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
     }
     
     private func showFailureAlert() {
-        let alert = UIAlertController(title: "수정 실패", message: "수정에 실패했습니다!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: Alert.editFailureTitle, message: Alert.editFailureMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
     }
 }

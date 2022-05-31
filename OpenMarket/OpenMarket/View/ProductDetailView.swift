@@ -7,18 +7,6 @@
 
 import UIKit
 
-enum Currency: String, Encodable {
-    case KRW = "KRW"
-    case USD = "USD"
-}
-
-enum PlaceHolder: String {
-    case productName = "상품명"
-    case price = "상품가격"
-    case discountedPrice = "할인금액"
-    case stock = "재고수량"
-}
-
 final class ProductDetailView: UIView, Drawable {
     lazy var entireStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 20)
     lazy var productInfoStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 10)

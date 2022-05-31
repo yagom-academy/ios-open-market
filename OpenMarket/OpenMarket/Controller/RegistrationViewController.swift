@@ -96,20 +96,20 @@ final class RegistrationViewController: UIViewController, UINavigationController
     @objc private func pickImage(_ sender: UIButton) {
         let actionSheet = UIAlertController()
         
-        let importFromAlbum = UIAlertAction(title: "앨범에서 가져오기", style: .default) { _ in
+        let importFromAlbum = UIAlertAction(title: Alert.album, style: .default) { _ in
             self.imagePicker.sourceType = .savedPhotosAlbum
             self.imagePicker.allowsEditing = true
             self.present(self.imagePicker, animated: true, completion: nil)
         }
         
-        let takePhoto = UIAlertAction(title: "카메라로 사진 찍기", style: .default) { _ in
+        let takePhoto = UIAlertAction(title: Alert.camera, style: .default) { _ in
             self.imagePicker.sourceType = .camera
             self.imagePicker.cameraCaptureMode = .photo
             self.imagePicker.allowsEditing = true
             self.present(self.imagePicker, animated: true, completion: nil)
         }
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
+        let cancel = UIAlertAction(title: Alert.cancel, style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -222,14 +222,14 @@ extension RegistrationViewController {
 // MARK: - Alert
 extension RegistrationViewController {
     private func showSuccessAlert() {
-        let alert = UIAlertController(title: "등록 완료", message: "등록에 성공했습니다!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: Alert.saveSuccessTitle, message: Alert.saveSuccessMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
     }
     
     private func showFailureAlert() {
-        let alert = UIAlertController(title: "등록 실패", message: "등록에 실패했습니다!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: Alert.saveFailureTitle, message: Alert.saveFailureMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
     }
 }
