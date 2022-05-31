@@ -107,11 +107,7 @@ final class ProductListCell: UICollectionViewCell, ProductCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
 
-// MARK: - ProductListCell Method
-
-extension ProductListCell {
     private func configureLayout() {
         contentView.addSubview(mainStackView)
         

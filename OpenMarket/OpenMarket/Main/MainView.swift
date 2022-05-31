@@ -55,16 +55,18 @@ final class MainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
+        configureView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
 
-// MARK: - MainView Method
-
-extension MainView {
+    private func configureView() {
+        backgroundColor = .systemBackground
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     private func configureLayout() {
         addSubview(collectionView)
         

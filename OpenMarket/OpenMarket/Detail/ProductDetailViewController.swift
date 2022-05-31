@@ -13,7 +13,7 @@ final class ProductDetailViewController: UIViewController {
     
     private let networkManager = NetworkManager()
     
-    private var mainView = ProductDetailView(frame: .zero)
+    private let mainView = ProductDetailView(frame: .zero)
     private let product: Product
     
     private var dataSource: DataSource?
@@ -35,7 +35,7 @@ final class ProductDetailViewController: UIViewController {
         registerNotification()
     }
     
-    // MARK: - Configure
+    // MARK: - Configure Method
     
     private func configureView() {
         configureMainView()
