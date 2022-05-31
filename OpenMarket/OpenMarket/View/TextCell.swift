@@ -44,30 +44,30 @@ fileprivate class RegisterTextField: UITextField {
 class TextCell: UICollectionViewCell, TextProtocol {
     weak var delegate: ValueObserable?
     
-    let nameTextField: UITextField = {
+    private let nameTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "상품명")
         return textField
     }()
     
-    let priceTextField: UITextField = {
+    private let priceTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "상품가격")
         textField.keyboardType = .numberPad
         return textField
     }()
     
-    let discountedPriceTextField: UITextField = {
+    private let discountedPriceTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "할인금액")
         textField.keyboardType = .numberPad
         return textField
     }()
     
-    let stockTextField: UITextField = {
+    private let stockTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "재고수량")
         textField.keyboardType = .numberPad
         return textField
     }()
     
-    let descriptionTextView: UITextView = {
+    private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.layer.borderWidth = CGFloat(1)
         textView.layer.cornerRadius = 5.0
@@ -75,7 +75,7 @@ class TextCell: UICollectionViewCell, TextProtocol {
         return textView
     }()
     
-    let segmentedControl: UISegmentedControl = {
+    private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["KRW","USD"])
 
         func attribute() {
@@ -100,7 +100,7 @@ class TextCell: UICollectionViewCell, TextProtocol {
         return stackView
     }()
     
-    let priceStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
@@ -147,5 +147,33 @@ class TextCell: UICollectionViewCell, TextProtocol {
         } else {
             delegate?.observeSegmentIndex(value: "USD")
         }
+    }
+    
+    func setElement(name: String, price: Int, bargainPrice: Int, stock: Int, currency: String, description: String) {
+        nameTextField.text = name
+        priceTextField.text = String(price)
+        discountedPriceTextField.text = String(price - bargainPrice)
+        stockTextField.text = String(stock)
+        
+        segmentedControl.selectedSegmentIndex = currency == "KRW" ? 0 : 1
+        
+        descriptionTextView.text = description.replacingOccurrences(of: "\\n", with: "\n")
+    }
+    
+    func setUpDelegate() {
+        guard let delegate = delegate as? UITextFieldDelegate else {
+            return
+        }
+
+        stockTextField.delegate = delegate
+        nameTextField.delegate = delegate
+        priceTextField.delegate = delegate
+        discountedPriceTextField.delegate = delegate
+        
+        guard let delegate  = delegate as? UITextViewDelegate else {
+            return
+        }
+        
+        descriptionTextView.delegate = delegate
     }
 }

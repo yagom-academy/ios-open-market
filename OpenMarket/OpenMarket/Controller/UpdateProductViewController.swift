@@ -251,29 +251,18 @@ extension UpdateProductViewController: UICollectionViewDataSource {
             }
             
             if let product = product {
-                cell.nameTextField.text = product.name
-                cell.priceTextField.text = String(product.price)
-                cell.discountedPriceTextField.text = String(product.price - product.bargainPrice)
-                cell.stockTextField.text = String(product.stock)
-                cell.segmentedControl.selectedSegmentIndex = product.currency == "KRW" ? 0 : 1
-                
-                cell.descriptionTextView.text = product.description.replacingOccurrences(of: "\\n", with: "\n")
+                cell.setElement(name: product.name,
+                                price: product.price,
+                                bargainPrice: product.price - product.bargainPrice,
+                                stock: product.stock,
+                                currency: product.currency,
+                                description: product.description)
             }
-            
-            setUpDelegate(cell: cell)
+            cell.delegate = self
+            cell.setUpDelegate()
 
             return cell
         }
-    }
-    
-    private func setUpDelegate(cell: TextCell) {
-        cell.stockTextField.delegate = self
-        cell.nameTextField.delegate = self
-        cell.priceTextField.delegate = self
-        cell.discountedPriceTextField.delegate = self
-        cell.descriptionTextView.delegate = self
-        
-        cell.delegate = self
     }
 }
 
