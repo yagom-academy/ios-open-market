@@ -65,15 +65,4 @@ struct Presenter {
         
         return self
     }
-    
-    private func formatNumber(price: Int) -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        guard let formattedPrice = numberFormatter.string(from: NSNumber(value: price)) else {
-            return ""
-        }
-        
-        return formattedPrice
-    }
 }

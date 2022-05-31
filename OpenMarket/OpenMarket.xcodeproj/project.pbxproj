@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6442E2AF2845F069007F2FE0 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6442E2AE2845F069007F2FE0 /* Int+.swift */; };
 		6447D28C2835D69A005570BC /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447D28B2835D69A005570BC /* Products.swift */; };
 		6447D28F2835DF1F005570BC /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447D28E2835DF1F005570BC /* String+.swift */; };
 		6447D2C12838BC37005570BC /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6447D2C02838BC37005570BC /* UIImageView+.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6442E2AE2845F069007F2FE0 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		6447D28B2835D69A005570BC /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		6447D28E2835DF1F005570BC /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		6447D2C02838BC37005570BC /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				B3F7D96E283520C30079ED84 /* CALayer+.swift */,
 				6447D28E2835DF1F005570BC /* String+.swift */,
 				B3F7D9982837674C0079ED84 /* UIStackView+.swift */,
+				6442E2AE2845F069007F2FE0 /* Int+.swift */,
 				6447D2C02838BC37005570BC /* UIImageView+.swift */,
 				B3C4B6BA284269AC009AB73E /* UIImage+.swift */,
 			);
@@ -374,6 +377,7 @@
 				B32C2BF728327B4000381A0E /* ListCollectionViewCell.swift in Sources */,
 				64E900C4282AAF7300FD415B /* HTTPMethod.swift in Sources */,
 				B3F7D96D28348AA00079ED84 /* GridCollectionViewCell.swift in Sources */,
+				6442E2AF2845F069007F2FE0 /* Int+.swift in Sources */,
 				6476B36B283CD3E5006B7F66 /* ProductDetailView.swift in Sources */,
 				B34973D6282A0AE0001F9B42 /* URLSessionProtocol.swift in Sources */,
 				B31DF4EC2845B2CB00AA8022 /* Currency.swift in Sources */,
