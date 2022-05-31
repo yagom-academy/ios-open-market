@@ -41,7 +41,7 @@ class ImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         imageView.isHidden = true
-        configureHierarochy()
+        configureHierarchy()
         plusButtonLayout()
         imageLayout()
     }
