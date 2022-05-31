@@ -20,8 +20,8 @@ class UpdateProductViewController: UIViewController {
         }
     }
     
+    private var productInput = ProductInput()
     private var product: ProductDetail?
-    private var productInput: [String: Any] = [:]
     private let imagePicker = UIImagePickerController()
     private var images: [UIImage] = [] {
         didSet {
@@ -129,17 +129,13 @@ extension UpdateProductViewController {
             return
         }
         
+        productInput.convertDescription()
+        
         if let product = product {
-            if productInput.keys.contains("descriptions") {
-                guard let description = productInput["descriptions"] as? String else {
-                    return
-                }
-                productInput["descriptions"] = description.replacingOccurrences(of: "\n", with: "\\n")
-            }
-            DataSender.shared.patchProductData(prductIdentifier: product.identifier, productInput: productInput, completionHandler: completionHandler)
+            DataSender.shared.patchProductData(prductIdentifier: product.identifier, productInput: productInput.getProductInput(), completionHandler: completionHandler)
             return
         }
-        DataSender.shared.postProductData(images: images, productInput: productInput, completionHandler: completionHandler)
+        DataSender.shared.postProductData(images: images, productInput: productInput.getProductInput(), completionHandler: completionHandler)
     }
     
     @objc private func touchUpCancelButton() {
@@ -285,7 +281,7 @@ extension UpdateProductViewController: UICollectionViewDataSource {
 
 extension UpdateProductViewController: ValueObserable {
     func observeSegmentIndex(value: String) {
-        productInput["currency"] = value
+        productInput.setCurrency(with: value)
     }
 }
 
@@ -329,13 +325,13 @@ extension UpdateProductViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField.placeholder {
         case "상품명":
-            productInput["name"] = textField.text
+            productInput.setName(with: textField.text)
         case "상품가격":
-            productInput["price"] = Int(textField.text ?? "0")
+            productInput.setPrice(with: textField.text)
         case "할인금액":
-            productInput["discounted_price"] = Int(textField.text ?? "0")
+            productInput.setDiscountedPrice(with: textField.text)
         case "재고수량":
-            productInput["stock"] = Int(textField.text ?? "0")
+            productInput.setStock(with: textField.text)
         default:
             break
         }
@@ -345,6 +341,6 @@ extension UpdateProductViewController: UITextFieldDelegate {
 
 extension UpdateProductViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        productInput["descriptions"] = textView.text
+        productInput.setDescriptions(with: textView.text)
     }
 }
