@@ -7,13 +7,24 @@
 
 import UIKit
 
+fileprivate enum Attribute {
+    enum Quality {
+        static let highest: CGFloat = 1
+    }
+    
+    enum Size {
+        static let kilobyte: Double = 1024
+    }
+}
+
 extension UIImage {
+    
     func getSize() -> Double {
-        guard let data = self.jpegData(compressionQuality: 1) else {
+        guard let data = self.jpegData(compressionQuality: Attribute.Quality.highest) else {
             return .zero
         }
         
-        let size = Double(data.count) / 1024
+        let size = Double(data.count) / Attribute.Size.kilobyte
         return size
     }
     

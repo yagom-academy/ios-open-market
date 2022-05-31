@@ -7,10 +7,14 @@
 
 import UIKit
 
+fileprivate enum Const {
+    static let ok = "OK"
+}
+
 extension UIViewController {
     func showAlert(title: String?,
                    message: String? = nil,
-                   ok: String? = "OK",
+                   ok: String? = Const.ok,
                    cancel: String? = nil,
                    action: (() -> Void)? = nil
     ) {

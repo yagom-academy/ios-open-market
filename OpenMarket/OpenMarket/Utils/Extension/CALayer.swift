@@ -9,7 +9,13 @@ import UIKit
 
 extension CALayer {
     @discardableResult
-    func addBorder(edges: [UIRectEdge], color: UIColor, thickness: CGFloat, bottomLeftSpacing: CGFloat = 0, radius: CGFloat = 0) -> CALayer {
+    func addBorder(
+        edges: [UIRectEdge],
+        color: UIColor,
+        thickness: CGFloat,
+        bottomLeftSpacing: CGFloat = 0,
+        radius: CGFloat = 0
+    ) -> CALayer {
         let border = CALayer()
         for edge in edges {
             switch edge {

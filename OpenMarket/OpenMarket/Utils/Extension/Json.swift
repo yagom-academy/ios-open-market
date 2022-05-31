@@ -14,6 +14,7 @@ struct Json {
         encoder.keyEncodingStrategy = .convertToSnakeCase
         return encoder
     }()
+    
     private init() {}
 }
 

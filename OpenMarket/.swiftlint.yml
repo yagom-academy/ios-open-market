@@ -10,6 +10,8 @@ disabled_rules:
 - empty_enum_arguments
 - xctfail_message
 - legacy_constructor
+- nesting
+- private_over_fileprivate
 
 excluded:
 - Pods
