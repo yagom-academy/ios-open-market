@@ -63,9 +63,12 @@ final class ProductDetailViewController: UIViewController {
             let alert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle:.alert)
             alert.addTextField()
             
-            let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-                guard let text = alert.textFields?.first?.text else { return }
+            let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                guard let password = alert.textFields?.first?.text else { return }
                 // MARK: ToDO: Delete Product
+                guard let id = self?.product.id else { return }
+                
+                self?.deleteData(id: id, password: password)
             }
             
             let cancelAction = UIAlertAction(title: "취소", style: .default)
@@ -153,6 +156,21 @@ final class ProductDetailViewController: UIViewController {
                 self?.applySnapshot(images: [image])
             case .failure(_):
                 break
+            }
+        }
+    }
+    
+    private func deleteData(id: Int, password: String) {
+        let endPoint = EndPoint.deleteProuct(id: id, secret: password)
+        
+        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                self.navigationController?.popViewController(animated: true)
+            case .failure(_):
+                AlertDirector(viewController: self).createErrorAlert(message: "제품을 삭제하지 못하였습니다.")
             }
         }
     }
