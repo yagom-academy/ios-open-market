@@ -171,21 +171,11 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     private func resizeImageToFit(_ editedImage: UIImage, at maxSize: Double) -> UIImage {
         var image = editedImage
         var imageSize = image.size()
-        
-        guard let cellSize = productView.collectionView.visibleCells.first?.frame.size else {
-            return image
-        }
-        if imageSize > maxSize {
-            image = image.resize(target: cellSize)
-            imageSize = image.size()
-        }
-        
         while imageSize > maxSize {
             let ratio = (imageSize / maxSize)
-            if ratio > 2 {
-                image = image.resize(ratio: ratio)
-            } else {
-                image = image.resize(ratio: 2.0)
+            image = image.resize(ratio: ratio)
+            if image.size() > imageSize {
+                image = image.compress(ratio: ratio)
             }
             imageSize = image.size()
         }
