@@ -12,11 +12,13 @@ fileprivate enum Const {
 }
 
 extension UIViewController {
-    func showAlert(title: String?,
-                   message: String? = nil,
-                   ok: String? = Const.ok,
-                   cancel: String? = nil,
-                   action: (() -> Void)? = nil
+    
+    func showAlert(
+        title: String?,
+        message: String? = nil,
+        ok: String? = Const.ok,
+        cancel: String? = nil,
+        action: (() -> Void)? = nil
     ) {
         DispatchQueue.main.async { [weak self] in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -1,7 +1,6 @@
 import UIKit
 
 final class GridCell: UICollectionViewCell, CustomCell {
-    
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical

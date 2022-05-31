@@ -28,6 +28,7 @@ final class CorrectionViewController: ProductManagementViewController {
     }
     
     private func getDetailData() {
+        
         guard let id = product.id else {
             return
         }
@@ -62,6 +63,7 @@ final class CorrectionViewController: ProductManagementViewController {
     }
     
     private func convertImageView(from urlString: String?) -> UIImageView? {
+        
         guard let imageString = urlString else {
             return nil
         }
@@ -86,6 +88,7 @@ final class CorrectionViewController: ProductManagementViewController {
     }
     
     private func patchData() {
+        
         guard let id = product.id else {
             return
         }
@@ -103,6 +106,7 @@ final class CorrectionViewController: ProductManagementViewController {
 // MARK: - navigationBar
 
 extension CorrectionViewController {
+    
     private func setupNavigationItems() {
         self.navigationItem.title = productManagementType?.type
         

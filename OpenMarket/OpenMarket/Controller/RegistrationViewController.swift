@@ -51,7 +51,11 @@ final class RegistrationViewController: ProductManagementViewController {
 // MARK: - UIImagePicker
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
        
         guard let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
             return
@@ -86,10 +90,20 @@ extension RegistrationViewController {
     private func setupNavigationItems() {
         self.navigationItem.title = productManagementType?.type
         
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
+        let cancelButton = UIBarButtonItem(
+            title: "Cancel",
+            style: .plain,
+            target: self,
+            action: #selector(didTapCancelButton)
+        )
         navigationItem.leftBarButtonItem = cancelButton
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDoneButton))
+        let doneButton = UIBarButtonItem(
+            title: "Done",
+            style: .plain,
+            target: self,
+            action: #selector(didTapDoneButton)
+        )
         navigationItem.rightBarButtonItem = doneButton
     }
     

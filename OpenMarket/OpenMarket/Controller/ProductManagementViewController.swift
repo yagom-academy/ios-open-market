@@ -37,7 +37,6 @@ class ProductManagementViewController: UIViewController {
     private func extractImage() -> [Image] {
         var images: [Image] = []
         let imagePicker = baseView.imagesStackView.arrangedSubviews.last
-        
         imagePicker?.removeFromSuperview()
         
         baseView.imagesStackView.arrangedSubviews.forEach { UIView in
@@ -59,12 +58,14 @@ class ProductManagementViewController: UIViewController {
 // MARK: - Keyboard
 
 extension ProductManagementViewController {
+    
     func setupKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     @objc private func keyboardWillShow(notification: Notification) {
+        
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }

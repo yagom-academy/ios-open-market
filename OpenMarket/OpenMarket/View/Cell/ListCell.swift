@@ -8,7 +8,6 @@
 import UIKit
 
 final class ListCell: UICollectionViewCell, CustomCell {
-    
     private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "flame")

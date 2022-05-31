@@ -19,6 +19,7 @@ struct Json {
 }
 
 extension Decodable {
+    
     static func parse(data: Data) -> Self? {
         Json.decoder.keyDecodingStrategy = .convertFromSnakeCase
         

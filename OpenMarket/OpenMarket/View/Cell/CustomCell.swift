@@ -8,5 +8,6 @@
 import UIKit
 
 protocol CustomCell: UICollectionViewCell {
+    
     func configure(data: Product)
 }

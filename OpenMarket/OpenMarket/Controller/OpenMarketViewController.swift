@@ -38,8 +38,8 @@ final class OpenMarketViewController: UIViewController {
             switch result {
             case .success(let data):
                 self.productList = data.pages
-            case .failure(_):
-                return
+            case .failure(let error):
+                self.showAlert(title: "ERROR", message: error.errorDescription)
             }
         })
     }
@@ -48,6 +48,7 @@ final class OpenMarketViewController: UIViewController {
 // MARK: - navigationBar
 
 extension OpenMarketViewController {
+    
     private func setupAddButton() {
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
@@ -88,6 +89,7 @@ extension OpenMarketViewController {
 // MARK: - CollectionView
 
 extension OpenMarketViewController {
+    
     private func setupCollectionView() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
@@ -95,6 +97,7 @@ extension OpenMarketViewController {
         
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
         view.addSubview(collectionView ?? UICollectionView())
+        
         collectionView?.dataSource = self
         collectionView?.delegate = self
         collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
@@ -105,6 +108,7 @@ extension OpenMarketViewController {
 // MARK: - CollectionView DataSource, Delegate
 
 extension OpenMarketViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
@@ -147,6 +151,7 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
 // MARK: - FlowLayout
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,

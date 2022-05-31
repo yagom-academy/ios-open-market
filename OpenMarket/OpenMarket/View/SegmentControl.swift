@@ -8,6 +8,7 @@
 import UIKit
 
 final class SegmentControl: UISegmentedControl {
+    
     override init(items: [Any]?) {
         super.init(items: items)
         setupSegment()

@@ -21,19 +21,19 @@ extension NetworkError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unknownError:
-            return "알수없는 에러입니다"
+            return "unknownError"
         case .statusCodeError:
-            return "상태코드 에러입니다"
+            return "statusCodeError"
         case .decodeError:
-            return "디코드 에러입니다"
+            return "decodeError"
         case .urlError:
-            return "잘못된url입니다"
+            return "urlError"
         case .clientError:
-            return "클라이언트 에러입니다"
+            return "clientError"
         case .dataError:
-            return "데이터가 없습니다."
+            return "dataError"
         case .imageError:
-            return "이미지 에러입니다"
+            return "imageError"
 
         }
     }

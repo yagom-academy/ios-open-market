@@ -134,6 +134,7 @@ struct URLSessionProvider<T: Decodable> {
 }
 
 extension URLSessionProvider {
+    
     private func makeURLRequest(httpMethod: Http, url: Endpoint) -> URLRequest? {
         guard let url = url.url else {
             return nil
