@@ -156,6 +156,7 @@ extension UpdateProductViewController {
     private func registerCell() {
         collectionView?.register(ImageCell.self, forCellWithReuseIdentifier: "ImageCell")
         collectionView?.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
+        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "EmptyCell")
     }
     
     private func configureHierarchy(collectionViewLayout: UICollectionViewLayout?) {
@@ -230,7 +231,7 @@ extension UpdateProductViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyCell", for: indexPath)
             }
             
             if let _ = product {
@@ -244,7 +245,7 @@ extension UpdateProductViewController: UICollectionViewDataSource {
                 cell.plusButton.isHidden = true
                 cell.imageView.isHidden = false
                 guard let image = images[safe: indexPath.row] else {
-                    return UICollectionViewCell()
+                    return collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyCell", for: indexPath)
                 }
                 cell.imageView.image = image
                 return cell
@@ -252,7 +253,7 @@ extension UpdateProductViewController: UICollectionViewDataSource {
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextCell", for: indexPath) as? TextCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: "EmptyCell", for: indexPath)
             }
             
             if let product = product {
