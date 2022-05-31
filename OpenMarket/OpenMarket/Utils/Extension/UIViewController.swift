@@ -14,23 +14,24 @@ extension UIViewController {
                    cancel: String? = nil,
                    action: (() -> Void)? = nil
     ) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        if let action = action {
-            let yesAction = UIAlertAction(title: ok, style: .default) { _ in
-                action()
-                self.dismiss(animated: true)
+        DispatchQueue.main.async { [weak self] in
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            if let action = action {
+                let yesAction = UIAlertAction(title: ok, style: .default) { _ in
+                    action()
+                }
+                alert.addAction(yesAction)
+            } else {
+                let yesAction = UIAlertAction(title: ok, style: .default)
+                alert.addAction(yesAction)
             }
-            alert.addAction(yesAction)
-        } else {
-            let yesAction = UIAlertAction(title: ok, style: .default)
-            alert.addAction(yesAction)
+            
+            if let cancel = cancel {
+                let cancelAction = UIAlertAction(title: cancel, style: .destructive)
+                alert.addAction(cancelAction)
+            }
+            self?.present(alert, animated: true)
         }
-        
-        if let cancel = cancel {
-            let cancelAction = UIAlertAction(title: cancel, style: .destructive)
-            alert.addAction(cancelAction)
-        }
-        present(alert, animated: true)
     }
 }

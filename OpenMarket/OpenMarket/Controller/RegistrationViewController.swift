@@ -32,11 +32,16 @@ final class RegistrationViewController: ProductManagementViewController {
     @objc private func didTapAddImageButton() {
         self.present(self.imagePicker, animated: true)
     }
-    
+   
     private func postProduct() {
         let newProduct = extractData()
         self.network.postData(params: newProduct) { result in
-            if case .failure(let error) = result {
+            switch result {
+            case .success(_):
+                self.showAlert(title: "post 성공") {
+                    self.dismiss(animated: true)
+                }
+            case .failure(let error):
                 self.showAlert(title: "Error", message: error.errorDescription)
             }
         }

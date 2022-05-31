@@ -75,7 +75,7 @@ struct URLSessionProvider<T: Decodable> {
         urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         urlRequest.httpBody = createBody(params: params, boundary: boundary)
-        let task = session.dataTask(with: urlRequest) { _, urlResponse, error in
+        let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
             
             guard error == nil else {
                 completionHandler(.failure(.clientError))
@@ -87,6 +87,18 @@ struct URLSessionProvider<T: Decodable> {
                 completionHandler(.failure(.statusCodeError))
                 return
             }
+            
+            guard let data = data else {
+                completionHandler(.failure(.dataError))
+                return
+            }
+            
+            guard let resultData = T.parse(data: data) else {
+                completionHandler(.failure(.decodeError))
+                return
+            }
+            
+            completionHandler(.success(resultData))
         }
         task.resume()
     }
