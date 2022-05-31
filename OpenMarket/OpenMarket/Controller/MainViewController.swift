@@ -10,7 +10,6 @@ private enum Section: Int {
     case main
 }
 
-
 final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>
@@ -32,7 +31,6 @@ final class MainViewController: UIViewController {
                 self.applySnapshot()
                 self.productView.indicatorView.stopAnimating()
             })
-
         }
     }
     
@@ -128,7 +126,6 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    
                     cell.configureCell(presenter)
                     
                     return cell
@@ -139,7 +136,6 @@ extension MainViewController {
                     }
                     
                     cell.configureCell(presenter)
-
                     
                     return cell
                 }
