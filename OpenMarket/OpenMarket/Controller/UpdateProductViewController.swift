@@ -100,7 +100,7 @@ class UpdateProductViewController: UIViewController {
         }
         collectionViewLayout = createLayout()
         
-        configureHierarchy(collectionViewLayout: collectionViewLayout ?? UICollectionViewLayout())
+        configureHierarchy(collectionViewLayout: collectionViewLayout)
         registerCell()
         setUpCollectionView()
         
@@ -181,10 +181,14 @@ extension UpdateProductViewController {
         collectionView?.register(TextCell.self, forCellWithReuseIdentifier: "TextCell")
     }
     
-    private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
+    private func configureHierarchy(collectionViewLayout: UICollectionViewLayout?) {
+        guard let collectionViewLayout = collectionViewLayout else { return }
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 100, width: self.view.frame.width, height: self.view.frame.height - 100), collectionViewLayout: collectionViewLayout)
-        collectionView?.backgroundColor = .systemBackground
-        view.addSubview(collectionView ?? UICollectionView())
+        
+        guard let collectionView = collectionView else { return }
+    
+        collectionView.backgroundColor = .systemBackground
+        view.addSubview(collectionView)
         layoutCollectionView()
     }
     
