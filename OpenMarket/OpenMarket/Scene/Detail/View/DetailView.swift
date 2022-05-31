@@ -152,6 +152,7 @@ final class DetailView: UIView {
     }
     
     func setUpView(data: ProductDetail) {
+        totalIndex = data.images.count
         updateLabel(data: data)
     }
     
@@ -190,7 +191,7 @@ final class DetailView: UIView {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
-        section.visibleItemsInvalidationHandler = { (items, offset, env) -> Void in
+        section.visibleItemsInvalidationHandler = { (items, offset, environment) -> Void in
             let currentIndex = items.last?.indexPath.row ?? 0
             self.indexLabel.text = "\(currentIndex + 1)/\(self.totalIndex)"
         }

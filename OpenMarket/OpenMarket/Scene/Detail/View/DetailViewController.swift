@@ -8,6 +8,10 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
+    private enum Constants {
+        static let vendorName = "마이노"
+    }
+    
     lazy var mainView = DetailView(frame: view.bounds)
     private let productDetail: ProductDetail
     private let viewModel = DetailViewModel()
@@ -23,20 +27,28 @@ final class DetailViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        mainView = DetailView(frame: view.bounds)
         view = mainView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViewModel()
-        mainView.totalIndex = productDetail.images.count
+        setUpNavigationItem()
         viewModel.setUpImages(with: productDetail.images)
         mainView.setUpView(data: productDetail)
+    }
+    
+    private func setUpNavigationItem() {
         navigationItem.title = productDetail.name
-        if productDetail.vendor?.name == "마이노" {
+        if productDetail.vendor?.name == Constants.vendorName {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapComposeButton))
         }
+    }
+    
+    private func setUpViewModel() {
+        viewModel.datasource = makeDataSource()
+        viewModel.snapshot = viewModel.makeSnapshot()
+        //        viewModel.delegate = self
     }
     
     @objc private func didTapComposeButton() {
@@ -77,12 +89,6 @@ final class DetailViewController: UIViewController {
         }
         
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func setUpViewModel() {
-        viewModel.datasource = makeDataSource()
-        viewModel.snapshot = viewModel.makeSnapshot()
-        //        viewModel.delegate = self
     }
 }
 
