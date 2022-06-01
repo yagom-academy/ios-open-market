@@ -136,6 +136,35 @@ struct HttpProvider {
 }
 
 extension HttpProvider {
+  func serachSecret(
+    _ endpoint: Endpoint, _ secret: Secret,
+    completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+  ) {
+    guard let url = endpoint.url else {
+      completionHandler(.failure(.invalid))
+      return
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = HttpMethod.post
+    request.setValue("8de44ec8-d1b8-11ec-9676-43acdce229f5", forHTTPHeaderField: "identifier")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.httpBody = setupBody(secret)
+    
+    executeDataTask(with: request, completionHandler)
+  }
+  
+  func setupBody(_ secret: Secret) -> Data? {
+    guard let jsonData = try? JSONEncoder().encode(secret) else {
+      return nil
+    }
+    var body = Data()
+    body.append(jsonData)
+    return body
+  }
+}
+
+extension HttpProvider {
   func delete(
     _ endpoint: Endpoint,
     completionHandler: @escaping (Result<Data, NetworkError>) -> Void
