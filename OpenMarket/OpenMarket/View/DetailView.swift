@@ -34,6 +34,13 @@ class DetailView: UIView {
     return scrollView
   }()
   
+  private let pageControl: UIPageControl = {
+    let pageControl = UIPageControl()
+    pageControl.pageIndicatorTintColor = .systemGray5
+    pageControl.currentPageIndicatorTintColor = .systemGray
+    return pageControl
+  }()
+  
   //MARK: - Middle part of View
   private let nameLabel: UILabel = {
     let label = UILabel()
