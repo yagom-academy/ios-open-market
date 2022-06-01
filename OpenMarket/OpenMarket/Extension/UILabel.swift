@@ -8,9 +8,11 @@
 import UIKit
 
 extension UILabel {
-    func addStrikeThrough(price: String) {
+    func addStrikeThrough() {
+        guard let text = self.text else { return }
+        
         let strikeThroughAttributedString = NSAttributedString(
-            string: price,
+            string: text,
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
         self.attributedText = strikeThroughAttributedString

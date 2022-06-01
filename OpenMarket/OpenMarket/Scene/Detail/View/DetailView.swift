@@ -148,26 +148,37 @@ final class DetailView: UIView {
     }
     
     func setUpView(data: ProductDetail) {
-        totalIndex = data.images.count
+        guard let imagesCount = data.images?.count else { return }
+        totalIndex = imagesCount
         updateLabel(data: data)
     }
     
     private func updateLabel(data: ProductDetail) {
-        nameLabel.text = data.name
+        guard let name = data.name,
+              let currency = data.currency?.rawValue,
+              let price = data.price?.toDecimal(),
+              let barginPrice = data.bargainPrice?.toDecimal(),
+              let stock = data.stock,
+              let description = data.description
+        else {
+            return
+        }
+        
+        nameLabel.text = name
         
         if data.discountedPrice == .zero {
             priceLabel.isHidden = true
-            sellingPriceLabel.text = "\(data.currency)  \(data.price.toDecimal())"
+            sellingPriceLabel.text = "\(currency)  \(price)"
         } else {
             priceLabel.isHidden = false
-            priceLabel.addStrikeThrough(price: String(data.price))
-            priceLabel.text = "\(data.currency)  \(data.price.toDecimal())"
-            sellingPriceLabel.text =  "\(data.currency)  \(data.bargainPrice.toDecimal())"
+            priceLabel.addStrikeThrough()
+            priceLabel.text = "\(currency)  \(price)"
+            sellingPriceLabel.text = "\(currency)  \(barginPrice)"
         }
         
-        stockLabel.textColor = data.stock == .zero ? .systemOrange : .systemGray
-        stockLabel.text = data.stock == .zero ? "품절 " : "남은수량 : \(data.stock) "
-        descriptionLabel.text = data.productsDescription
+        stockLabel.textColor = stock == .zero ? .systemOrange : .systemGray
+        stockLabel.text = stock == .zero ? "품절 " : "남은수량 : \(stock) "
+        descriptionLabel.text = description
     }
     
     private func registerCollectionViewCell() {

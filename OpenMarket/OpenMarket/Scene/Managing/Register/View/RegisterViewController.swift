@@ -50,7 +50,7 @@ extension RegisterViewController {
     @objc private func didTapDoneButton() {
         if checkInputValidation() {
             viewModel.removeLastImage()
-            viewModel.requestPost(makeProductsPost()) {
+            viewModel.requestPost(makeProductUpload()) {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true)
                 }
@@ -115,7 +115,7 @@ extension RegisterViewController {
         return dataSource
     }
     
-    private func makeProductsPost() -> ProductsPost {
+    private func makeProductUpload() -> ProductRequest {
         let productName = managingView.productNameTextField.text ?? ""
         let descriptions = managingView.productDescriptionTextView.text ?? ""
         let productPrice = Double(managingView.productPriceTextField.text ?? "0") ?? .zero
@@ -125,14 +125,14 @@ extension RegisterViewController {
         let secret = "rwfkpko1fp"
         let images = viewModel.snapshotItem()
         
-        return ProductsPost(name: productName,
-                            descriptions: descriptions,
-                            price: productPrice,
-                            currency: currency,
-                            discountedPrice: discountedPrice,
-                            stock: stock,
-                            secret: secret,
-                            image: images)
+        return ProductRequest(name: productName,
+                             descriptions: descriptions,
+                             price: productPrice,
+                             currency: currency,
+                             discountedPrice: discountedPrice,
+                             stock: stock,
+                             secret: secret,
+                             images: images)
     }
 }
 

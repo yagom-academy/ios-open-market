@@ -111,7 +111,7 @@ extension ModifyViewController {
         return dataSource
     }
     
-    private func makeProductsModify() -> ProductsPatch {
+    private func makeProductsModify() -> ProductRequest {
         let productName = managingView.productNameTextField.text ?? ""
         let descriptions = managingView.productDescriptionTextView.text ?? ""
         let productPrice = Double(managingView.productPriceTextField.text ?? "0") ?? .zero
@@ -120,7 +120,7 @@ extension ModifyViewController {
         let stock = Int(managingView.productStockTextField.text ?? "0")
         let secret = "rwfkpko1fp"
         
-        return ProductsPatch(name: productName,
+        return ProductRequest(name: productName,
                              descriptions: descriptions,
                              price: productPrice,
                              currency: currency,

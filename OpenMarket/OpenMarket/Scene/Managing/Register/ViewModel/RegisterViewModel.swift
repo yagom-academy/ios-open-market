@@ -7,8 +7,8 @@
 import UIKit
 
 final class RegisterViewModel: ManagingViewModel {
-    func requestPost(_ productsPost: ProductsPost, completion: @escaping () -> ()) {
-        let endpoint = EndPointStorage.productsPost(productsPost)
+    func requestPost(_ productUpload: ProductRequest, completion: @escaping () -> ()) {
+        let endpoint = EndPointStorage.productPost(productUpload)
         
         productsAPIServie.registerProduct(with: endpoint) { [weak self] result in
             switch result {

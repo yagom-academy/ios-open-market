@@ -61,7 +61,7 @@ extension Requestable {
             return .failure(error)
         }
         
-        if let productsPost = bodyParameters as? ProductsPost,
+        if let productsPost = bodyParameters as? ProductRequest,
            let body = generateBody(productsPost) {
             urlRequest.httpBody = body
         }
@@ -72,16 +72,16 @@ extension Requestable {
         return .success(urlRequest)
     }
     
-    private func generateBody(_ productsPost: ProductsPost) -> Data? {
+    private func generateBody(_ productsPost: ProductRequest) -> Data? {
         var body: Data = Data()
-        let boundary = productsPost.boundary
+        let boundary = productsPost.boundary ?? ""
                         
         guard let jsonData = try? JSONEncoder().encode(productsPost) else {
             return nil
         }
         
         body.append(convertDataToMultiPartForm(jsonData: jsonData, boundary: boundary))
-        productsPost.image.forEach { image in
+        productsPost.images?.forEach { image in
             body.append(convertFileToMultiPartForm(imageInfo: image, boundary: boundary))
         }
         body.appendString("--\(boundary)--\r\n")

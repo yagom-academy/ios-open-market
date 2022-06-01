@@ -180,13 +180,23 @@ final class ManagingView: UIView {
     }
     
     func setUpView(data: ProductDetail) {
-        productNameTextField.text = data.name
-        productPriceTextField.text = "\(Int(data.price))"
-        productDiscountedTextField.text = "\(Int(data.discountedPrice))"
-        productStockTextField.text = "\(data.stock)"
-        productDescriptionTextView.text = data.productsDescription
+        guard let name = data.name,
+              let currency = data.currency,
+              let price = data.price,
+              let discountedPrice = data.discountedPrice,
+              let stock = data.stock,
+              let description = data.description
+        else {
+            return
+        }
         
-        if data.currency == .KRW {
+        productNameTextField.text = name
+        productPriceTextField.text = "\(Int(price))"
+        productDiscountedTextField.text = "\(Int(discountedPrice))"
+        productStockTextField.text = "\(stock)"
+        productDescriptionTextView.text = description
+        
+        if currency == .KRW {
             productCurrencySegmentedControl.selectedSegmentIndex = .zero
         } else {
             productCurrencySegmentedControl.selectedSegmentIndex = 1

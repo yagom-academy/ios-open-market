@@ -84,8 +84,8 @@ extension MainViewController {
 // MARK: Datasource
 
 extension MainViewController {
-    private func makeDataSource() -> UICollectionViewDiffableDataSource<MainViewModel.Section, Item> {
-        let dataSource = UICollectionViewDiffableDataSource<MainViewModel.Section, Item>(
+    private func makeDataSource() -> UICollectionViewDiffableDataSource<MainViewModel.Section, ProductDetail> {
+        let dataSource = UICollectionViewDiffableDataSource<MainViewModel.Section, ProductDetail>(
             collectionView: mainView.collectionView,
             cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell in
                 switch self.mainView.layoutStatus {
@@ -143,7 +143,7 @@ extension MainViewController: MainAlertDelegate {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard viewModel.products?.hasNext == true else {
+        guard viewModel.productList?.hasNext == true else {
             return
         }
         

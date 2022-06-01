@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     private enum Constants {
-        static let vendorName = "마이노"
+        static let vendorId = 81
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "확인"
         static let modifyActionTitle = "수정"
@@ -47,7 +47,7 @@ final class DetailViewController: UIViewController {
     
     private func setUpNavigationItem() {
         navigationItem.title = productDetail.name
-        if productDetail.vendor?.name == Constants.vendorName {
+        if productDetail.vendor?.id == Constants.vendorId {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapComposeButton))
         }
     }
@@ -101,7 +101,7 @@ final class DetailViewController: UIViewController {
     
     private func deleteProduct(_ secret: String) {
         // rwfkpko1fp
-        self.viewModel.requestSecret(by: self.productDetail.id, secret: ProductSecret(secret: secret)) { secret in
+        self.viewModel.requestSecret(by: self.productDetail.id, secret: ProductRequest(secret: secret)) { secret in
             self.viewModel.deleteProduct(by: self.productDetail.id, secret: secret) {
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)

@@ -22,9 +22,10 @@ final class DetailViewModel {
     
     private let productsAPIService = APIProvider()
     
-    func setUpImages(with images: [ProductImage]) {
-        images.forEach { image in
-            requestImage(url: image.url)
+    func setUpImages(with images: [ProductImage]?) {
+        images?.forEach { image in
+            guard let url = image.url else { return }
+            requestImage(url: url)
         }
     }
     
@@ -41,8 +42,8 @@ final class DetailViewModel {
         }
     }
     
-    func requestSecret(by productID: Int, secret: ProductSecret, completion: @escaping (String) -> Void) {
-        let endpoint = EndPointStorage.productsSecret(productID: productID, secret: secret)
+    func requestSecret(by productID: Int?, secret: ProductRequest, completion: @escaping (String) -> Void) {
+        let endpoint = EndPointStorage.productSecret(productID: productID, body: secret)
         
         productsAPIService.retrieveSecret(with: endpoint) { [weak self] (result: Result<String, Error>) in
             switch result {
@@ -54,8 +55,8 @@ final class DetailViewModel {
         }
     }
     
-    func deleteProduct(by productID: Int, secret: String, completion: @escaping () -> Void) {
-        let endpoint = EndPointStorage.productsDelete(productID: productID, secret: secret)
+    func deleteProduct(by productID: Int?, secret: String, completion: @escaping () -> Void) {
+        let endpoint = EndPointStorage.productDelete(productID: productID, secret: secret)
         
         productsAPIService.deleteProduct(with: endpoint) { [weak self] result in
             switch result {

@@ -8,9 +8,10 @@
 import UIKit
 
 final class ModifyViewModel: ManagingViewModel {
-    func setUpImages(with images: [ProductImage]) {
-        images.forEach { image in
-            requestImage(url: image.url)
+    func setUpImages(with images: [ProductImage]?) {
+        images?.forEach { image in
+            guard let url = image.url else { return }
+            requestImage(url: url)
         }
     }
     
@@ -27,8 +28,8 @@ final class ModifyViewModel: ManagingViewModel {
         }
     }
     
-    func requestPatch(productID: Int, _ productsPatch: ProductsPatch, completion: @escaping () -> ()) {
-        let endpoint = EndPointStorage.productsModify(productID: productID, productsPatch: productsPatch)
+    func requestPatch(productID: Int?, _ productPatch: ProductRequest, completion: @escaping () -> ()) {
+        let endpoint = EndPointStorage.productModify(productID: productID, body: productPatch)
         
         productsAPIServie.updateProduct(with: endpoint) { [weak self] result in
             switch result {
