@@ -12,7 +12,7 @@ final class DetailViewController: UIViewController {
   private let detailAPIProvider = HttpProvider()
   private var product: DetailProduct?
   private var pageId: Int?
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     configureDetailView()
@@ -59,18 +59,34 @@ final class DetailViewController: UIViewController {
       detailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
     ])
   }
-
+  
   private func configureNavigationBar() {
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
                                                              target: self,
-                                                             action: #selector(presentEditingView))
+                                                             action: #selector(presentActionSheet))
     self.navigationItem.title = self.product?.name
     
     self.navigationController?.navigationBar.backgroundColor = .white
     self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
   }
   
-  @objc private func presentEditingView() {
+  @objc private func presentActionSheet() {
+    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let editAction = UIAlertAction(title: "수정", style: UIAlertAction.Style.default) { [weak self] (_) in
+      self?.presentEditingView()
+    }
+    let deleteAction = UIAlertAction(title: "삭제", style: UIAlertAction.Style.destructive) { [weak self] (_) in
+      //delete 호출
+    }
+    let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel)
+    
+    alert.addAction(editAction)
+    alert.addAction(deleteAction)
+    alert.addAction(cancelAction)
+    present(alert, animated: true)
+  }
+  
+  private func presentEditingView() {
     let editingViewController = EditingViewController()
     let navigationController = UINavigationController(rootViewController: editingViewController)
     navigationController.modalPresentationStyle = .fullScreen
