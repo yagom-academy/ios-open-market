@@ -60,8 +60,8 @@ class ImageCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             plusButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             plusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            plusButton.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             plusButton.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+            plusButton.widthAnchor.constraint(equalTo: plusButton.heightAnchor),
         ])
     }
     

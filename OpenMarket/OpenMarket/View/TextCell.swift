@@ -119,12 +119,11 @@ class TextCell: UICollectionViewCell, TextProtocol {
     }
     
     private func layout() {
-        let inset = CGFloat(5)
         NSLayoutConstraint.activate([
-            baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
-            baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
-            baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset)
+            baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
         
         NSLayoutConstraint.activate([

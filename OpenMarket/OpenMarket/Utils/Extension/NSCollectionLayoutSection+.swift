@@ -26,6 +26,7 @@ extension NSCollectionLayoutSection {
         if let orthogonalScrollingBehavior = orthogonalScrollingBehavior {
             customedSection.orthogonalScrollingBehavior = orthogonalScrollingBehavior
         }
+        customedSection.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 20, bottom: 0, trailing: 20)
         
         return customedSection
     }
