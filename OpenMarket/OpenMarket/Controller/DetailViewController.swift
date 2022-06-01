@@ -10,6 +10,15 @@ import UIKit
 final class DetailViewController: UIViewController {
   private enum Constants {
     static let venderId: Int = 82
+    static let editTitle = "수정"
+    static let deleteTitle = "삭제"
+    static let cancelTitle = "취소"
+    static let continueTitle = "계속"
+    static let confirmTitle = "확인"
+    static let alertInputTitle = "password을 입력하세요."
+    static let alertInputPlaceholder = "password 입력"
+    static let wrongAlertTitle = "password가 일치하지 않습니다."
+    static let wrongAlertMessage = "다시 시도해주세요."
   }
   
   private lazy var detailView = DetailView()
