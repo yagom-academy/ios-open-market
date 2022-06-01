@@ -78,7 +78,9 @@ extension MainViewController {
                 guard var currentSnapshot = self?.currentSnapshot else {
                     return
                 }
+                currentSnapshot.deleteItems(currentSnapshot.itemIdentifiers)
                 currentSnapshot.appendItems(products)
+                self?.currentSnapshot = currentSnapshot
                 self?.dataSource?.apply(currentSnapshot)
                 
                 DispatchQueue.main.async { [weak self] in
