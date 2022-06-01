@@ -181,7 +181,7 @@ final class DetailViewController: UIViewController {
     }
     self.detailAPIProvider.searchSecret(
       .searchingSecret(productId: pageId),
-      Secret(secret: inputPassword)
+      inputPassword
     ) { result in
       switch result {
       case .success(let data):
