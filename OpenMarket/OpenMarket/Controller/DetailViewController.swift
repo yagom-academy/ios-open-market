@@ -118,7 +118,7 @@ final class DetailViewController: UIViewController {
     let editingViewController = EditingViewController()
     let navigationController = UINavigationController(rootViewController: editingViewController)
     navigationController.modalPresentationStyle = .fullScreen
-    editingViewController.receiveImformation(for: self.product)
+    editingViewController.receiveInformation(for: self.product)
     present(navigationController, animated: true, completion: nil)
   }
   
