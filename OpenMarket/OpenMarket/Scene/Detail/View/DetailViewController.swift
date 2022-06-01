@@ -41,7 +41,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         setUpViewModel()
         setUpNavigationItem()
-        viewModel.setUpImages(with: productDetail.images)
+        viewModel.setUpImages(with: productDetail.imageInfos)
         mainView.setUpView(data: productDetail)
     }
     

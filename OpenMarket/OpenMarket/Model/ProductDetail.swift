@@ -20,7 +20,7 @@ struct ProductDetail: Codable, Hashable {
     let stock: Int?
     let createdAt: String?
     let issuedAt: String?
-    let images: [ProductImage]?
+    let imageInfos: [ProductImage]?
     let vendor: Vendor?
     
     private enum CodingKeys: String, CodingKey {
@@ -36,7 +36,7 @@ struct ProductDetail: Codable, Hashable {
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
-        case images
+        case imageInfos = "images"
         case vendor = "vendors"
     }
 }

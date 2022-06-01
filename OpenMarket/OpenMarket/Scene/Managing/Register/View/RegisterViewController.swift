@@ -132,7 +132,7 @@ extension RegisterViewController {
                              discountedPrice: discountedPrice,
                              stock: stock,
                              secret: secret,
-                             images: images)
+                             imageInfos: images)
     }
 }
 

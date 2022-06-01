@@ -148,7 +148,7 @@ final class DetailView: UIView {
     }
     
     func setUpView(data: ProductDetail) {
-        guard let imagesCount = data.images?.count else { return }
+        guard let imagesCount = data.imageInfos?.count else { return }
         totalIndex = imagesCount
         updateLabel(data: data)
     }

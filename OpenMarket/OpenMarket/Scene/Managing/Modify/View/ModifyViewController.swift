@@ -32,7 +32,7 @@ final class ModifyViewController: ManagingViewController {
 
 extension ModifyViewController {
     private func setUpView() {
-        viewModel.setUpImages(with: productDetail.images)
+        viewModel.setUpImages(with: productDetail.imageInfos)
         managingView.setUpView(data: productDetail)
     }
     

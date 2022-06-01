@@ -17,14 +17,15 @@ struct ProductRequest: Encodable {
     var discountedPrice: Double?
     var stock: Int?
     var secret: String?
-    var images: [ImageInfo]?
+    var imageInfos: [ImageInfo]?
     var boundary: String? = UUID().uuidString
     
     enum CodingKeys: String, CodingKey {
         case pageNumber = "page_no"
         case perPages = "items_per_page"
         case discountedPrice = "discounted_price"
-        case name, descriptions, price, currency, stock, secret, images
+        case imageInfos = "images"
+        case name, descriptions, price, currency, stock, secret
     }
 }
 

@@ -81,7 +81,7 @@ extension Requestable {
         }
         
         body.append(convertDataToMultiPartForm(jsonData: jsonData, boundary: boundary))
-        productsPost.images?.forEach { image in
+        productsPost.imageInfos?.forEach { image in
             body.append(convertFileToMultiPartForm(imageInfo: image, boundary: boundary))
         }
         body.appendString("--\(boundary)--\r\n")
