@@ -22,7 +22,7 @@ class DataProvider {
     }
         
     func fetchProductDetailData(productIdentifier: Int, completionHandler: @escaping (ProductDetail?) -> Void) {
-        HTTPManager().loadData(targetURL: .productDetail(productNumber: productIdentifier)) { [weak self] data in
+        HTTPManager().loadData(targetURL: .productDetail(productNumber: productIdentifier)) { data in
             switch data {
             case .success(let data):
                 guard let product = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }
@@ -56,6 +56,7 @@ class DataProvider {
         }
     }
     
+    @discardableResult
     func fetchImage(urlString: String, completionHandler: @escaping (UIImage) -> Void) -> URLSessionDataTask? {
         guard let url = URL(string: urlString) else {
             return nil

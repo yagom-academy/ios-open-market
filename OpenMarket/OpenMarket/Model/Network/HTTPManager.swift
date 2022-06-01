@@ -90,28 +90,8 @@ struct HTTPManager {
             completionHandler(.failure(.invalidURL))
             return nil
         }
-        let task = urlSession.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completionHandler(.failure(.responseError(error: error)))
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (StatusCode.successRange).contains(httpResponse.statusCode) else {
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: (response as? HTTPURLResponse)?.statusCode)))
-                return
-            }
+        let task = urlSession.dataTask(with: url, completionHandler: dataTaskCompletionHandler(statusCode: StatusCode.okSuccess, completionHandler: completionHandler))
         
-            switch httpResponse.statusCode {
-            case StatusCode.okSuccess where httpResponse.mimeType == ContentType.applicationJson:
-                guard let data = data else {
-                    completionHandler(.failure(.emptyData))
-                    return
-                }
-                completionHandler(.success(data))
-            default:
-                completionHandler(.failure(.invalidRequest(statusCode: httpResponse.statusCode)))
-            }
-        }
         task.resume()
         return task
     }
@@ -137,28 +117,7 @@ struct HTTPManager {
         }
         request.httpBody = data
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completionHandler(.failure(.responseError(error: error)))
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (StatusCode.successRange).contains(httpResponse.statusCode) else {
-                completionHandler(.failure(.invalidStatusCode(error: nil, statusCode: (response as? HTTPURLResponse)?.statusCode)))
-                return
-            }
-        
-            switch httpResponse.statusCode {
-            case StatusCode.createdSuccess where httpResponse.mimeType == ContentType.applicationJson:
-                guard let data = data else {
-                    completionHandler(.failure(.emptyData))
-                    return
-                }
-                completionHandler(.success(data))
-            default:
-                completionHandler(.failure(.invalidRequest(statusCode: httpResponse.statusCode)))
-            }
-        }
+        let task = URLSession.shared.dataTask(with: request, completionHandler: dataTaskCompletionHandler(statusCode: StatusCode.createdSuccess, completionHandler: completionHandler))
         task.resume()
         return task
     }
@@ -188,6 +147,7 @@ struct HTTPManager {
         return data
     }
     
+    @discardableResult
     func patchData(product: [String : Any], targetURL: TargetURL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
         let requestURL = targetURL.requestURL
         guard let url = URL(string: requestURL) else {
@@ -209,7 +169,16 @@ struct HTTPManager {
         
         request.httpBody = jsonData
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request,
+                                              completionHandler:
+                                                dataTaskCompletionHandler(statusCode: StatusCode.acceptedSuccess,
+                                                completionHandler: completionHandler))
+        task.resume()
+        return task
+    }
+    
+    private func dataTaskCompletionHandler(statusCode: Int, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) -> (Data?, URLResponse?, Error?) -> Void {
+        let completionHandler: (Data?, URLResponse?, Error?) -> Void = { data, response, error in
             if let error = error {
                 completionHandler(.failure(.responseError(error: error)))
                 return
@@ -221,7 +190,7 @@ struct HTTPManager {
             }
         
             switch httpResponse.statusCode {
-            case StatusCode.acceptedSuccess where httpResponse.mimeType == ContentType.applicationJson:
+            case statusCode where httpResponse.mimeType == ContentType.applicationJson:
                 guard let data = data else {
                     completionHandler(.failure(.emptyData))
                     return
@@ -231,7 +200,7 @@ struct HTTPManager {
                 completionHandler(.failure(.invalidRequest(statusCode: httpResponse.statusCode)))
             }
         }
-        task.resume()
-        return task
+        
+        return completionHandler
     }
 }
