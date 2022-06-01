@@ -16,9 +16,10 @@ final class OpenMarketViewController: UIViewController {
     private let segmentControl = SegmentControl(items: LayoutType.inventory)
     private var layoutType = LayoutType.list
     private var collectionView: UICollectionView?
+    private var hasNetxPage = true
     private var page = 1
     private var network: URLSessionProvider<ProductList>?
-    private var productList: [DetailProduct]? {
+    private var productList: [DetailProduct] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
@@ -36,15 +37,17 @@ final class OpenMarketViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.collectionView?.reloadData()
-        self.fetchData(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
+        self.productList.removeAll()
+        self.fetchData(from: .productList(page: 1, itemsPerPage: Const.itemPerPage))
     }
     
     private func fetchData(from: Endpoint) {
         network?.fetchData(from: from, completionHandler: { result in
             switch result {
             case .success(let data):
-                self.productList = data.pages
+                self.hasNetxPage = data.hasNext
+                self.page = data.pageNo ?? .zero
+                self.productList.append(contentsOf: data.pages ?? [])
             case .failure(let error):
                 self.showAlert(title: Const.error, message: error.errorDescription)
             }
@@ -114,6 +117,7 @@ extension OpenMarketViewController {
         
         collectionView?.dataSource = self
         collectionView?.delegate = self
+        collectionView?.prefetchDataSource = self
         collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
         collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
     }
@@ -122,26 +126,21 @@ extension OpenMarketViewController {
         self.fetchData(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
         self.collectionView?.refreshControl?.endRefreshing()
     }
-    
-    private func paging(from: Endpoint) {
-        
-        network?.fetchData(from: from, completionHandler: { [weak self] result in
-            switch result {
-            case .success(let data):
-                data.pages?.forEach { self?.productList?.append($0) }
-            case .failure(let error):
-                self?.showAlert(title: Const.error, message: error.errorDescription)
-            }
-        })
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        if maximumOffset < currentOffset {
-            page += 1
-            paging(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
+}
+
+
+// MARK: - CollectionViewDataSourcePrefetching
+
+extension OpenMarketViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let last = indexPaths.last else {
+            return
+        }
+
+        let currentPage = last.row / 20
+
+        if currentPage + 1 == page, hasNetxPage == true {
+            fetchData(from: .productList(page: page + 1, itemsPerPage: Const.itemPerPage))
         }
     }
 }
@@ -155,9 +154,7 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         
-        guard let product = productList?[indexPath.item] else {
-            return UICollectionViewCell()
-        }
+        let product = productList[indexPath.item]
         
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: layoutType.cell.identifier,
@@ -174,20 +171,17 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return productList?.count ?? .zero
+        return productList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let product = productList?[indexPath.item] else {
-            return
-        }
+        let product = productList[indexPath.item]
         
         let reviseController = UINavigationController(rootViewController: EditViewController(product: product))
         reviseController.modalPresentationStyle = .fullScreen
         
         self.present(reviseController, animated: true)
     }
-    
 }
 
 // MARK: - FlowLayout
