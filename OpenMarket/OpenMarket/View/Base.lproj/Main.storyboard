@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vwT-x8-kfi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vwT-x8-kfi">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -330,6 +330,7 @@
                         <outlet property="descriptionTextView" destination="BuE-Vi-OHX" id="mkc-ts-9Qx"/>
                         <outlet property="discountedPriceLabel" destination="rQO-jC-0Xx" id="7Cq-ud-L0P"/>
                         <outlet property="imageNumberLabel" destination="tO7-Da-1mR" id="k0P-Ei-pal"/>
+                        <outlet property="itemImageCollectionView" destination="mFq-mA-P4H" id="7DY-3B-ZoX"/>
                         <outlet property="itemNameLabel" destination="j88-Iy-ceW" id="3uo-XA-TSI"/>
                         <outlet property="myActivityIndicator" destination="DOo-dA-fGs" id="tZD-lP-ITw"/>
                         <outlet property="priceLabel" destination="A5X-HK-9II" id="XbB-HR-qYh"/>

@@ -8,6 +8,7 @@
 import UIKit
 
 final class ItemDetailViewController: UIViewController {
+    @IBOutlet weak var itemImageCollectionView: UICollectionView!
     @IBOutlet weak var imageNumberLabel: UILabel!
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
@@ -42,6 +43,9 @@ final class ItemDetailViewController: UIViewController {
     }
     
     private func setInitialView() {
+        itemImageCollectionView.dataSource = self
+        itemImageCollectionView.register(UINib(nibName: "\(ItemDetailImageCell.self)", bundle: nibBundle), forCellWithReuseIdentifier: "\(ItemDetailImageCell.self)")
+        setCollectionviewLayout()
         navigationItem.rightBarButtonItem = makeEditButton()
         guard let itemDetail = itemDetail else { return }
         self.title = itemDetail.name
@@ -89,12 +93,39 @@ final class ItemDetailViewController: UIViewController {
         present(alert, animated: true)
     }
 }
+
+// MARK: - collectionView cell
+extension ItemDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        itemDetail?.images.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let ItemDetailImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ItemDetailImageCell.self)", for: indexPath) as? ItemDetailImageCell else { return ItemDetailImageCell() }
+        ItemDetailImageCell.configureImage(url: itemDetail?.images[indexPath.row].url ?? "")
+        return ItemDetailImageCell
+    }
+}
+
 // MARK: - about View
 extension ItemDetailViewController {
     private func makeEditButton() -> UIBarButtonItem {
         let barButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(touchEditButton))
         
         return barButton
+    }
+    
+    private func setCollectionviewLayout() {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: itemSize.widthDimension, heightDimension: itemSize.heightDimension)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        
+        itemImageCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
 }
 
