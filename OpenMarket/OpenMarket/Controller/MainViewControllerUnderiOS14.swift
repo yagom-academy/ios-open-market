@@ -59,17 +59,23 @@ extension MainViewControllerUnderiOS14 {
     
     @objc func refreshCollectionView() {
         DataProvider.shared.reloadData() { [weak self] products in
-            guard let products = products else {
-                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없다", completionHandler: nil)
-                DispatchQueue.main.async { [weak self] in
-                    self?.present(alert, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없다", completionHandler: nil)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.present(alert, animated: true)
+                    }
+                    return
                 }
-                return
+                self?.products = products                
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshControl.endRefreshing()
+                }
             }
-            self?.products = products
         }
         DispatchQueue.main.async { [weak self] in
-            self?.collectionView?.refreshControl?.endRefreshing()
+            self?.refreshControl.beginRefreshing()
+            self?.products = []
         }
     }
 }

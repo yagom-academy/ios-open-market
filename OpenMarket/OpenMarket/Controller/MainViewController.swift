@@ -66,27 +66,31 @@ extension MainViewController {
     
     @objc func refreshCollectionView() {
         DataProvider.shared.reloadData() { [weak self] products in
-            guard let products = products else {
-                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
-                DispatchQueue.main.async { [weak self] in 
-                    self?.present(alert, animated: true)
-                }
-                return
-            }
-            guard var currentSnapshot = self?.currentSnapshot else {
-                return
-            }
-            currentSnapshot.deleteItems(currentSnapshot.itemIdentifiers)
-            currentSnapshot.appendItems(products)
-            self?.dataSource?.apply(currentSnapshot)
             
-            DispatchQueue.main.async { [weak self] in
-                self?.refreshControl.endRefreshing()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.present(alert, animated: true)
+                    }
+                    return
+                }
+                guard var currentSnapshot = self?.currentSnapshot else {
+                    return
+                }
+                currentSnapshot.appendItems(products)
+                self?.dataSource?.apply(currentSnapshot)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshControl.endRefreshing()
+                }
             }
         }
         
         DispatchQueue.main.async { [weak self] in
-            self?.collectionView?.refreshControl?.endRefreshing()
+            self?.refreshControl.beginRefreshing()
+            let emptySnapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            self?.dataSource?.apply(emptySnapshot)
         }
     }
 }
