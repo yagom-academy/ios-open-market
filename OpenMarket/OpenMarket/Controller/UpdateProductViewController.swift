@@ -32,13 +32,7 @@ class UpdateProductViewController: UIViewController {
     }
     private var collectionView: UICollectionView?
     private var collectionViewLayout: UICollectionViewLayout?
-    
-    lazy var textViewLayout: NSLayoutConstraint? = {
-        guard let cell = collectionView?.cellForItem(at: [1,0]) as? TextProtocol else {
-            return nil
-        }
-        return NSLayoutConstraint(item: cell.baseStackView, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
-    }()
+    private var bottomConstraint: NSLayoutConstraint?
     
     lazy var completionHandler: (Result<Data, NetworkError>) -> Void = { data in
         switch data {
@@ -103,16 +97,15 @@ extension UpdateProductViewController {
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        let keyboardBounds = notification.userInfo?["UIKeyboardBoundsUserInfoKey"]
-        guard let keyboardBounds = keyboardBounds as? NSValue else {return}
+        guard let keyboardBounds = notification.userInfo?["UIKeyboardBoundsUserInfoKey"] as? NSValue else { return }
 
-        textViewLayout?.constant = -keyboardBounds.cgRectValue.height
-        textViewLayout?.isActive = true
+        bottomConstraint?.constant = -keyboardBounds.cgRectValue.height
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        textViewLayout?.constant = 0
+        bottomConstraint?.constant = .zero
     }
+    
 }
 
 extension UpdateProductViewController {
@@ -178,7 +171,7 @@ extension UpdateProductViewController {
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .fractionalWidth(0.4))
                 section = NSCollectionLayoutSection.setUpSection(itemContentInsets: itemContentInsets, groupSize: groupSize, orthogonalScrollingBehavior: .continuous)
             } else if sectionKind == .text {
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.6))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.45))
                 section = NSCollectionLayoutSection.setUpSection(groupSize: groupSize)
             } else {
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
@@ -191,18 +184,17 @@ extension UpdateProductViewController {
     }
     
     private func layoutCollectionView() {
-        guard let collectionView = collectionView else {
-            return
-        }
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.isScrollEnabled = false
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        collectionView?.isScrollEnabled = false
+        
+        bottomConstraint = collectionView?.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        ])
+            collectionView?.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView?.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView?.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomConstraint,
+        ].compactMap { $0 })
     }
 }
 
