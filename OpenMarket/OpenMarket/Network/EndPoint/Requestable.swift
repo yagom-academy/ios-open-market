@@ -84,29 +84,29 @@ extension Requestable {
         productsPost.image.forEach { image in
             body.append(convertFileToMultiPartForm(imageInfo: image, boundary: boundary))
         }
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        body.appendString("--\(boundary)--\r\n")
         return body
     }
 
     private func convertDataToMultiPartForm(jsonData: Data, boundary: String) -> Data {
         var data: Data = Data()
-        data.append("--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"params\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: application/json\r\n".data(using: .utf8)!)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n")
+        data.appendString("Content-Type: application/json\r\n")
+        data.appendString("\r\n")
         data.append(jsonData)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("\r\n")
         return data
     }
     
     private func convertFileToMultiPartForm(imageInfo: ImageInfo, boundary: String) -> Data {
         var data: Data = Data()
-        data.append("--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: \(imageInfo.type.description)\r\n".data(using: .utf8)!)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"\r\n")
+        data.appendString("Content-Type: \(imageInfo.type.description)\r\n")
+        data.appendString("\r\n")
         data.append(imageInfo.data)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("\r\n")
         return data
     }
 
