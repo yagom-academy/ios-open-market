@@ -11,10 +11,6 @@ protocol TextCellDelegate: AnyObject {
     func observeSegmentIndex(value: String)
 }
 
-protocol TextProtocol {
-    var baseStackView: UIStackView { get }
-}
-
 fileprivate class RegisterTextField: UITextField {
     init(placeholder: String) {
         super.init(frame: .zero)
@@ -41,7 +37,7 @@ fileprivate class RegisterTextField: UITextField {
     }
 }
 
-class TextCell: UICollectionViewCell, TextProtocol {
+class TextCell: UICollectionViewCell {
     weak var delegate: TextCellDelegate?
     
     private let nameTextField: UITextField = {
@@ -92,7 +88,7 @@ class TextCell: UICollectionViewCell, TextProtocol {
     }()
     
     //MARK: - stackView
-    let baseStackView: UIStackView = {
+    private let baseStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
