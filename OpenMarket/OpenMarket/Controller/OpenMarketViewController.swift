@@ -8,12 +8,15 @@ import UIKit
 
 fileprivate enum Const {
     static let error = "ERROR"
+    static let loding = "Loading Data"
+    static let itemPerPage = 20
 }
 
 final class OpenMarketViewController: UIViewController {
     private let segmentControl = SegmentControl(items: LayoutType.inventory)
     private var layoutType = LayoutType.list
     private var collectionView: UICollectionView?
+    private var page = 1
     private var network: URLSessionProvider<ProductList>?
     private var productList: [DetailProduct]? {
         didSet {
@@ -26,7 +29,7 @@ final class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         network = URLSessionProvider()
-        fetchData(from: .productList(page: 1, itemsPerPage: 110))
+        fetchData(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
         setupCollectionView()
         setupSegmentControl()
         setupAddButton()
@@ -34,7 +37,7 @@ final class OpenMarketViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         self.collectionView?.reloadData()
-        self.fetchData(from: .productList(page: 1, itemsPerPage: 110))
+        self.fetchData(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
     }
     
     private func fetchData(from: Endpoint) {
@@ -103,10 +106,11 @@ extension OpenMarketViewController {
         view.addSubview(collectionView ?? UICollectionView())
         
         let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .systemPink
+        refreshControl.attributedTitle = NSAttributedString(string: Const.loding, attributes: [.foregroundColor: UIColor.systemPink])
         
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
-
         
         collectionView?.dataSource = self
         collectionView?.delegate = self
@@ -115,8 +119,30 @@ extension OpenMarketViewController {
     }
     
     @objc func pullToRefresh() {
-        self.fetchData(from: .productList(page: 1, itemsPerPage: 110))
+        self.fetchData(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
         self.collectionView?.refreshControl?.endRefreshing()
+    }
+    
+    private func paging(from: Endpoint) {
+        
+        network?.fetchData(from: from, completionHandler: { [weak self] result in
+            switch result {
+            case .success(let data):
+                data.pages?.forEach { self?.productList?.append($0) }
+            case .failure(let error):
+                self?.showAlert(title: Const.error, message: error.errorDescription)
+            }
+        })
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        
+        if maximumOffset < currentOffset {
+            page += 1
+            paging(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
+        }
     }
 }
 
@@ -161,6 +187,7 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
         
         self.present(reviseController, animated: true)
     }
+    
 }
 
 // MARK: - FlowLayout
