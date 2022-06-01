@@ -68,11 +68,15 @@ final class DetailViewController: UIViewController {
   }
   
   private func configureNavigationBar() {
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action,
-                                                             target: self,
-                                                             action: #selector(presentActionSheet))
-    self.navigationItem.title = self.product?.name
+    if product?.venderId == Constants.venderId {
+      self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+        barButtonSystemItem: .action,
+        target: self,
+        action: #selector(presentActionSheet)
+      )
+    }
     
+    self.navigationItem.title = self.product?.name
     self.navigationController?.navigationBar.backgroundColor = .white
     self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
   }
