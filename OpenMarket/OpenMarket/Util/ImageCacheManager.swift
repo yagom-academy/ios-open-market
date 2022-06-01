@@ -8,11 +8,11 @@
 import UIKit
 
 final class ImageCacheManager {
-    let cache = NSCache<NSURL, UIImage>()
-    let apiService: APIProvider
+    static let shared = ImageCacheManager()
     
-    init(apiService: APIProvider) {
-        self.apiService = apiService
+    let cache = NSCache<NSURL, UIImage>()
+    
+    private init() {
         self.cache.countLimit = 100
     }
 }

@@ -96,7 +96,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
+                    cell.configure(data: item, apiService: self.viewModel.productsAPIService)
                     
                     return cell
                     
@@ -107,7 +107,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
+                    cell.configure(data: item, apiService: self.viewModel.productsAPIService)
                     
                     return cell
                 }

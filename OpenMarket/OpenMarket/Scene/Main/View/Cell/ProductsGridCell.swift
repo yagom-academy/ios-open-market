@@ -139,10 +139,10 @@ final class ProductsGridCell: UICollectionViewCell, BaseCell {
         layer.cornerRadius = 10
     }
     
-    func configure(data: ProductDetail, imageCacheManager: ImageCacheManager) {
+    func configure(data: ProductDetail, apiService: APIProvider) {
         guard let url = data.thumbnail else { return }
         updateLabel(data: data)
-        updateImage(url: url, imageCacheManager: imageCacheManager)
+        updateImage(url: url, apiService: apiService)
     }
     
     private func updateLabel(data: ProductDetail) {
@@ -171,10 +171,10 @@ final class ProductsGridCell: UICollectionViewCell, BaseCell {
         stockLabel.text = stock == .zero ? "품절 " : "남은수량 : \(stock) "
     }
     
-    private func updateImage(url: URL, imageCacheManager: ImageCacheManager) {
+    private func updateImage(url: URL, apiService: APIProvider) {
         indicatorView.startAnimating()
         
-        let task = imageView.loadImage(url: url, imageCacheManager: imageCacheManager) {
+        let task = imageView.loadImage(url: url, apiService: apiService) {
             DispatchQueue.main.async {
                 self.indicatorView.stopAnimating()
             }

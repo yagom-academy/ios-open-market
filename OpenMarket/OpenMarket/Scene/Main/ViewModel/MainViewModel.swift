@@ -19,8 +19,7 @@ final class MainViewModel {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>
     
-    private let productsAPIService = APIProvider()
-    lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIService)
+    let productsAPIService = APIProvider()
     
     var datasource: DataSource?
     var snapshot: Snapshot?

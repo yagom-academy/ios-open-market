@@ -8,8 +8,9 @@
 import UIKit
 
 extension UIImageView {
-    func loadImage(url: URL, imageCacheManager: ImageCacheManager, completion: @escaping () -> ()) -> URLSessionDataTaskProtocol? {
+    func loadImage(url: URL, apiService: APIProvider, completion: @escaping () -> ()) -> URLSessionDataTaskProtocol? {
         let nsURL = url as NSURL
+        let imageCacheManager = ImageCacheManager.shared
         
         if let cachedImage = imageCacheManager.cache.object(forKey: nsURL) {
             self.image = cachedImage
@@ -17,7 +18,7 @@ extension UIImageView {
             return nil
         }
         
-        return imageCacheManager.apiService.requestImage(with: url) { result in
+        return apiService.requestImage(with: url) { result in
             switch result {
             case .success(let data):
                 if let image = UIImage(data: data) {
