@@ -301,7 +301,7 @@ extension UpdateProductViewController: UIImagePickerControllerDelegate, UINaviga
 }
 
 extension UpdateProductViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         switch textField.placeholder {
         case "상품명":
             productInput.setName(with: textField.text)
@@ -314,7 +314,6 @@ extension UpdateProductViewController: UITextFieldDelegate {
         default:
             break
         }
-        return true
     }
 }
 
