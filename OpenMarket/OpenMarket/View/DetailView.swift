@@ -213,4 +213,8 @@ class DetailView: UIView {
       imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
     }
   }
+  
+  func setCurrentPage(_ pageNumber: Int) {
+    pageControl.currentPage = pageNumber
+  }
 }
