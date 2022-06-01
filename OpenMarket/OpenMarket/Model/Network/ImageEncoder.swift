@@ -2,7 +2,7 @@
 //  ImageEncoder.swift
 //  OpenMarket
 //
-//  Created by 곽우종 on 2022/06/01.
+//  Created by 우롱차, Donnie on 2022/06/01.
 //
 
 import UIKit

@@ -9,16 +9,13 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketPOSTTest: XCTestCase {
-    var session: URLSessionProtocol!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        session = URLSession.shared
     }
     
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        session = nil
     }
 
     func test_encodingTest() {
