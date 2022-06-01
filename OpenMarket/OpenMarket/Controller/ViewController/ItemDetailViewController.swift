@@ -14,6 +14,7 @@ final class ItemDetailViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var myActivityIndicator: UIActivityIndicatorView!
     private let networkHandler = NetworkHandler()
     private var itemDetail: ItemDetail? = nil {
         didSet {
@@ -49,6 +50,7 @@ final class ItemDetailViewController: UIViewController {
         priceLabel.text = itemDetail.price.description
         discountedPriceLabel.text = itemDetail.discountedPrice.description
         descriptionTextView.text = itemDetail.description
+        myActivityIndicator.stopAnimating()
     }
     
     @objc private func touchEditButton() {

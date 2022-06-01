@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vwT-x8-kfi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vwT-x8-kfi">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -312,6 +312,9 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="JnY-zJ-m7G"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="vyx-DC-Zmu"/>
                             </scrollView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DOo-dA-fGs">
+                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1yL-rn-8eu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -320,6 +323,8 @@
                             <constraint firstItem="1yL-rn-8eu" firstAttribute="trailing" secondItem="ew9-SB-qC2" secondAttribute="trailing" constant="16" id="Fn1-2p-rAt"/>
                             <constraint firstItem="ew9-SB-qC2" firstAttribute="top" secondItem="1yL-rn-8eu" secondAttribute="top" id="XVc-36-k8x"/>
                             <constraint firstItem="ew9-SB-qC2" firstAttribute="leading" secondItem="1yL-rn-8eu" secondAttribute="leading" constant="16" id="ZkM-mc-sQA"/>
+                            <constraint firstItem="DOo-dA-fGs" firstAttribute="centerY" secondItem="nwL-5E-Vzt" secondAttribute="centerY" id="eM5-gk-AXA"/>
+                            <constraint firstItem="DOo-dA-fGs" firstAttribute="centerX" secondItem="nwL-5E-Vzt" secondAttribute="centerX" id="wO3-TC-23O"/>
                         </constraints>
                     </view>
                     <connections>
@@ -327,13 +332,14 @@
                         <outlet property="discountedPriceLabel" destination="rQO-jC-0Xx" id="7Cq-ud-L0P"/>
                         <outlet property="imageNumberLabel" destination="tO7-Da-1mR" id="k0P-Ei-pal"/>
                         <outlet property="itemNameLabel" destination="j88-Iy-ceW" id="3uo-XA-TSI"/>
+                        <outlet property="myActivityIndicator" destination="DOo-dA-fGs" id="tZD-lP-ITw"/>
                         <outlet property="priceLabel" destination="A5X-HK-9II" id="XbB-HR-qYh"/>
                         <outlet property="stockLabel" destination="Zma-FZ-A7V" id="8ZC-J4-fZj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kzf-sl-fBZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2765" y="114"/>
+            <point key="canvasLocation" x="2764" y="113.79310344827587"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jDI-zh-Q8f">
