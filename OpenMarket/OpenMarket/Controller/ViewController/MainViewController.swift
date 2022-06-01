@@ -41,6 +41,7 @@ final class MainViewController: UIViewController {
     
     private func setInitialView() {
         openMarketCollectionView.dataSource = self
+        openMarketCollectionView.delegate = self
         openMarketCollectionView.prefetchDataSource = self
         registCell()
         getItemPage()
@@ -132,6 +133,14 @@ extension MainViewController: UICollectionViewDataSource {
             myActivityIndicator.stopAnimating()
             return gridCell
         }
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let itemDetailVC = storyboard?.instantiateViewController(withIdentifier: "\(ItemDetailViewController.self)") as? ItemDetailViewController else { return }
+        itemDetailVC.setInitialView(title: items[indexPath.row].name)
+        navigationController?.pushViewController(itemDetailVC, animated: true)
     }
 }
 
