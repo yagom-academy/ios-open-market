@@ -37,7 +37,7 @@ final class MockURLSessionTests: XCTestCase {
     }
     let expectation = XCTestExpectation(description: "response data")
     //when
-    sut.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
+    sut.get(.page(pageNumber: 1, itemsPerPage: 20)) { data in
       // then
       switch data {
       case .success(let data):
@@ -65,7 +65,7 @@ final class MockURLSessionTests: XCTestCase {
     }
     let expectation = XCTestExpectation(description: "response data")
     //when
-    sut.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
+    sut.get(.page(pageNumber: 1, itemsPerPage: 20)) { data in
       // then
       switch data {
       case .success(let data):
@@ -93,7 +93,7 @@ final class MockURLSessionTests: XCTestCase {
     }
     let expectation = XCTestExpectation(description: "response data")
     //when
-    sut.get(.productList(pageNumber: 1, itemsPerPage: 20)) { data in
+    sut.get(.page(pageNumber: 1, itemsPerPage: 20)) { data in
       // then
       switch data {
       case .success(let data):

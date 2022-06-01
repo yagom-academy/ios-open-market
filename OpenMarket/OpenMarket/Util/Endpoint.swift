@@ -9,11 +9,11 @@ import Foundation
 
 enum Endpoint {
   case healthChecker
-  case productList(pageNumber: Int, itemsPerPage: Int)
+  case page(pageNumber: Int, itemsPerPage: Int)
   case registration
-  case editing(productId: Int)
-  case searchingSecret(productId: Int)
-  case deleting(productId: Int, productSecret: String)
+  case productInformation(productId: Int)
+  case secretKey(productId: Int)
+  case delete(productId: Int, productSecret: String)
 }
 
 extension Endpoint {
@@ -21,15 +21,15 @@ extension Endpoint {
     switch self {
     case .healthChecker:
       return .makeUrl(with: "healthChecker")
-    case .productList(let page, let itemsPerPage):
+    case .page(let page, let itemsPerPage):
       return .makeUrl(with: "api/products?page_no=\(page)&items_perpage=\(itemsPerPage)")
     case .registration:
       return .makeUrl(with: "api/products")
-    case .editing(let productId):
+    case .productInformation(let productId):
       return .makeUrl(with: "api/products/\(productId)")
-    case .searchingSecret(let productId):
+    case .secretKey(let productId):
       return .makeUrl(with: "api/products/\(productId)/secret")
-    case .deleting(let productId, let productSecret):
+    case .delete(let productId, let productSecret):
       return .makeUrl(with: "api/products/\(productId)/\(productSecret)")
     }
   }
