@@ -15,7 +15,7 @@ final class EditingViewController: UIViewController {
     static let warningAlertCancelText = "확인"
   }
   
-  private var apiProvider = HttpProvider()
+  private var httpProvider = HttpProvider()
   private lazy var editingView = EditingView()
   private var detailProduct: DetailProduct?
   
@@ -93,7 +93,7 @@ final class EditingViewController: UIViewController {
     }
     
     DispatchQueue.global().async(group: group) {
-      self.apiProvider.patch(.editing(productId: product.id), params) { result in
+      self.httpProvider.patch(.productInformation(productId: product.id), params) { result in
         switch result {
         case .success(_):
           return

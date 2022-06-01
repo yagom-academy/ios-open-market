@@ -20,7 +20,7 @@ final class RegistrationViewController: UIViewController {
     static let maxImageCount = 5
   }
   
-  private let apiProvider = HttpProvider()
+  private let httpProvider = HttpProvider()
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
   private var selectedImages: [ImageFile] = []
@@ -83,7 +83,7 @@ final class RegistrationViewController: UIViewController {
     
     let group = DispatchGroup()
     DispatchQueue.global().async(group: group) {
-      self.apiProvider.post(.registration, params, self.selectedImages) { result in
+      self.httpProvider.post(.registration, params, self.selectedImages) { result in
         switch result {
         case .success(_):
           return

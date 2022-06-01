@@ -22,7 +22,7 @@ final class DetailViewController: UIViewController {
   }
   
   private lazy var detailView = DetailView()
-  private let detailAPIProvider = HttpProvider()
+  private let httpProvider = HttpProvider()
   private var product: DetailProduct?
   private var pageId: Int?
   
@@ -48,7 +48,7 @@ final class DetailViewController: UIViewController {
     guard let pageId = pageId else {
       return
     }
-    detailAPIProvider.get(.editing(productId: pageId)) { data in
+    httpProvider.get(.productInformation(productId: pageId)) { data in
       guard let data = try? data.get() else {
         return
       }
