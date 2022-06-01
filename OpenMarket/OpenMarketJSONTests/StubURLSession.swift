@@ -2,7 +2,7 @@
 //  StubURLSession.swift
 //  OpenMarket
 //
-//  Created by SeoDongyeon on 2022/05/13.
+//  Created by 우롱차, Donnie on 2022/05/13.
 //
 
 import Foundation

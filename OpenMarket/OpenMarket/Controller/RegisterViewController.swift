@@ -137,7 +137,8 @@ extension RegisterViewController {
         guard let registrationParameter = wrapperRegistrationParameter() else {
             return
         }
-        productRegisterUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
+        productRegisterUseCase.registerProduct(registrationParameter: registrationParameter,
+                                               images: wrapperImage()) { _, _ in 
             DispatchQueue.main.async { [weak self] in
                 self?.delegate?.viewControllerSholdRefresh()
                 self?.navigationController?.popViewController(animated: true)

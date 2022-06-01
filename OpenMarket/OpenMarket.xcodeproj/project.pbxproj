@@ -43,6 +43,9 @@
 		9CB587A528464570008DF296 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB587A428464570008DF296 /* DetailView.swift */; };
 		9CB587A72846534A008DF296 /* DetailCellSelectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB587A62846534A008DF296 /* DetailCellSelectable.swift */; };
 		9CB587AA2847341E008DF296 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB587A92847341E008DF296 /* Data+Extension.swift */; };
+		9CB587AC28479CF1008DF296 /* MockNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB587AB28479CF1008DF296 /* MockNetwork.swift */; };
+		9CB587AD2847AC08008DF296 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA13DE32833FCBF005C6176 /* View+Extension.swift */; };
+		9CB587AE2847AC2C008DF296 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB587A92847341E008DF296 /* Data+Extension.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
@@ -103,6 +106,7 @@
 		9CB587A428464570008DF296 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		9CB587A62846534A008DF296 /* DetailCellSelectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCellSelectable.swift; sourceTree = "<group>"; };
 		9CB587A92847341E008DF296 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		9CB587AB28479CF1008DF296 /* MockNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetwork.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 			children = (
 				9CB587952845D306008DF296 /* OpenMarketPOSTTest.swift */,
 				9C7E882D282A4CFB00D83081 /* OpenMarketJSONTests.swift */,
+				9CB587AB28479CF1008DF296 /* MockNetwork.swift */,
 				9CA10EB9282E251000D0376F /* StubURLSession.swift */,
 				E1B9147E282A80D300DD2820 /* PageInformationTest.json */,
 			);
@@ -374,11 +379,13 @@
 			files = (
 				9C7E883D282A901B00D83081 /* ProductInformation.swift in Sources */,
 				9CB587992845DA05008DF296 /* ProductListUseCase.swift in Sources */,
+				9CB587AD2847AC08008DF296 /* View+Extension.swift in Sources */,
 				9CB5879D2845DA43008DF296 /* RegistrationParameter.swift in Sources */,
 				9C7E882E282A4CFB00D83081 /* OpenMarketJSONTests.swift in Sources */,
 				9C7E8862282BAA4600D83081 /* OpenMarketApi.swift in Sources */,
 				9C7E883B282A8B2B00D83081 /* PageInformation.swift in Sources */,
 				9CB5879C2845DA30008DF296 /* PageInfoManager.swift in Sources */,
+				9CB587AE2847AC2C008DF296 /* Data+Extension.swift in Sources */,
 				9CB5879A2845DA16008DF296 /* UseCaseError.swift in Sources */,
 				9CB587982845D9DB008DF296 /* Secret.swift in Sources */,
 				9CA10EBC282E2BFF00D0376F /* URLSessionProtocol.swift in Sources */,
@@ -388,6 +395,7 @@
 				9CA10EBD282E345000D0376F /* NetworkError.swift in Sources */,
 				9CB5879E2845DA4E008DF296 /* Currency.swift in Sources */,
 				9CA10EBB282E2BEF00D0376F /* StubURLSession.swift in Sources */,
+				9CB587AC28479CF1008DF296 /* MockNetwork.swift in Sources */,
 				9CB587962845D307008DF296 /* OpenMarketPOSTTest.swift in Sources */,
 				9CB5879B2845DA27008DF296 /* ErrorAlertProtocol.swift in Sources */,
 			);

@@ -20,7 +20,7 @@ struct ProductRegisterUseCase {
     func registerProduct(
         registrationParameter: RegistrationParameter,
         images: [UIImage],
-        completeHandler: @escaping () -> Void,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask? {
         do {
@@ -30,7 +30,7 @@ struct ProductRegisterUseCase {
             }
             let request = try OpenMarketApi.productRegister(registrationParameter: registrationParameter, images: images).makeRequest()
             let dataTask = network.requestData(request) { data, response in
-                completeHandler()
+                completeHandler(data, response)
             } errorHandler: { error in
                 errorHandler(error)
             }

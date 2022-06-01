@@ -27,7 +27,7 @@ final class ImageCache: Cacheable {
         guard let url = URL(string: urlString) else { return nil }
         
         let dataTask = network.requestData(url) { data, response in
-            guard let data = data, let image = UIImage(data: data) else {
+            guard let image = UIImage(data: data) else {
                 completionHandler(nil)
                 return }
             self.imageCache.setObject(image, forKey: urlString as NSString)

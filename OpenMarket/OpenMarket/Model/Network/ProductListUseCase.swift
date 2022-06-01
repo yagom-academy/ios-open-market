@@ -13,7 +13,7 @@ struct ProductListUseCase {
     private let jsonDecoder: JSONDecoder
     private let pageInfoManager: PageInfoManager
 
-    init(network: Network, jsonDecoder: JSONDecoder, pageInfoManager: PageInfoManager){
+    init(network: Network, jsonDecoder: JSONDecoder, pageInfoManager: PageInfoManager) {
         self.network = network
         self.jsonDecoder = jsonDecoder
         self.pageInfoManager = pageInfoManager
@@ -29,8 +29,7 @@ struct ProductListUseCase {
         }
         
         network.requestData(url) { data, response in
-            guard let data = data,
-                  let decodedData = try? jsonDecoder.decode(PageInformation.self, from: data) else {
+            guard let decodedData = try? jsonDecoder.decode(PageInformation.self, from: data) else {
                 errorHandler(UseCaseError.decodingError)
                 return
             }

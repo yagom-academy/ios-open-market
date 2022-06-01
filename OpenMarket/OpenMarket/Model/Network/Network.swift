@@ -23,14 +23,14 @@ protocol NetworkAble {
     @discardableResult
     func requestData(
         _ url: URL,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask?
     
     @discardableResult
     func requestData(
         _ urlRequest: URLRequest,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask?
 }
@@ -40,7 +40,7 @@ extension NetworkAble {
     @discardableResult
     func requestData(
         _ url: URL,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask? {
         
@@ -51,7 +51,8 @@ extension NetworkAble {
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            guard let response = response,
+                    let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   (200..<300).contains(statusCode) else {
                 errorHandler(NetworkError.statusCodeError)
                 return
@@ -71,7 +72,7 @@ extension NetworkAble {
     @discardableResult
     func requestData(
         _ urlRequest: URLRequest,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask? {
         
@@ -82,7 +83,8 @@ extension NetworkAble {
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            guard let response = response,
+                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   (200..<300).contains(statusCode) else {
                 errorHandler(NetworkError.statusCodeError)
                 return
