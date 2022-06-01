@@ -139,7 +139,7 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let itemDetailVC = storyboard?.instantiateViewController(withIdentifier: "\(ItemDetailViewController.self)") as? ItemDetailViewController else { return }
-        itemDetailVC.setInitialView(title: items[indexPath.row].name)
+        itemDetailVC.setInitialView()
         navigationController?.pushViewController(itemDetailVC, animated: true)
     }
 }

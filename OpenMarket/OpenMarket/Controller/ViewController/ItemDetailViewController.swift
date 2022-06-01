@@ -8,14 +8,26 @@
 import UIKit
 
 final class ItemDetailViewController: UIViewController {
-
+    @IBOutlet weak var imageNumberLabel: UILabel!
+    @IBOutlet weak var itemNameLabel: UILabel!
+    @IBOutlet weak var stockLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var discountedPriceLabel: UILabel!
+    private var itemDetail: ItemDetail?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func setInitialView(title: String) {
-        self.title = title
+    func setInitialView() {
         navigationItem.rightBarButtonItem = makeEditButton()
+        guard let itemDetail = itemDetail else { return }
+        self.title = itemDetail.name
+        itemNameLabel.text = itemDetail.name
+        stockLabel.text = itemDetail.stock.description
+        priceLabel.text = itemDetail.price.description
+        discountedPriceLabel.text = itemDetail.discountedPrice.description
+        
     }
     
     @objc private func touchEditButton() {
