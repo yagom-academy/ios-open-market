@@ -6,13 +6,14 @@
 //
 import UIKit
 
-final class RegisterViewModel: ManagingViewModel {
+final class RegisterViewModel: ManagingViewModel, NotificationPostable {
     func requestPost(_ productUpload: ProductRequest, completion: @escaping () -> ()) {
         let endpoint = EndPointStorage.productPost(productUpload)
         
         productsAPIServie.registerProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success():
+                self?.postNotification()
                 completion()
             case .failure(let error):
                 DispatchQueue.main.async {

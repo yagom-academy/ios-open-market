@@ -122,7 +122,7 @@ extension RegisterViewController {
         let currency = managingView.productCurrencySegmentedControl.selectedSegmentIndex == .zero ? Currency.KRW : Currency.USD
         let discountedPrice = Double(managingView.productDiscountedTextField.text ?? "0")
         let stock = Int(managingView.productStockTextField.text ?? "0")
-        let secret = "rwfkpko1fp"
+        let secret = UserInformation.secret
         let images = viewModel.snapshotItem()
         
         return ProductRequest(name: productName,

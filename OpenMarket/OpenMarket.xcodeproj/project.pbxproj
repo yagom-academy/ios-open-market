@@ -30,6 +30,9 @@
 		A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */; };
 		A1E836FC2847448700E0ADCA /* ImageCompressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E836FB2847448700E0ADCA /* ImageCompressor.swift */; };
 		A1E836FE2847516300E0ADCA /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E836FD2847516200E0ADCA /* BaseTextField.swift */; };
+		A1E837042847A38400E0ADCA /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E837032847A38400E0ADCA /* UserInformation.swift */; };
+		A1E837062847A63F00E0ADCA /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E837052847A63F00E0ADCA /* Notification.swift */; };
+		A1E837082847A6A700E0ADCA /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E837072847A6A700E0ADCA /* NotificationCenter.swift */; };
 		A1FC1BCC283737FD00EC14DD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */; };
 		A1FC1BCE28377FC700EC14DD /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FC1BCD28377FC700EC14DD /* UIImageView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -95,6 +98,9 @@
 		A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		A1E836FB2847448700E0ADCA /* ImageCompressor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCompressor.swift; sourceTree = "<group>"; };
 		A1E836FD2847516200E0ADCA /* BaseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
+		A1E837032847A38400E0ADCA /* UserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
+		A1E837052847A63F00E0ADCA /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		A1E837072847A6A700E0ADCA /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		A1FC1BCD28377FC700EC14DD /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +265,7 @@
 				A128FB9B283E4D3100B96535 /* UIView.swift */,
 				A13387A3283375ED00950EA2 /* UIViewController.swift */,
 				A1DADBF1282D4F88002C7B4D /* URLSession.swift */,
+				A1E837072847A6A700E0ADCA /* NotificationCenter.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -343,6 +350,7 @@
 				DA9AE566282B5709003BA8B2 /* ProductDetail.swift */,
 				A1255C76283C9B910013772D /* ProductRequest.swift */,
 				A1258A4628439AB9000F2A4A /* Currency.swift */,
+				A1E837032847A38400E0ADCA /* UserInformation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -372,6 +380,7 @@
 			children = (
 				DAA968D0283BBFDF00CDA7B1 /* BaseCell.swift */,
 				DAA968DC283D0DBA00CDA7B1 /* AlertDelegate.swift */,
+				A1E837052847A63F00E0ADCA /* Notification.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -555,6 +564,7 @@
 				A1D48C542831EFB000C1819F /* Encodable.swift in Sources */,
 				DA94FF912829FC8F002CDFF6 /* ProductList.swift in Sources */,
 				A1D0E1032829F5FE00451BF8 /* MainView.swift in Sources */,
+				A1E837062847A63F00E0ADCA /* Notification.swift in Sources */,
 				A1C6DD1A284649E100CC5A73 /* DetailViewController.swift in Sources */,
 				DAA968D1283BBFDF00CDA7B1 /* BaseCell.swift in Sources */,
 				A1C6DD18284649D700CC5A73 /* DetailView.swift in Sources */,
@@ -568,12 +578,14 @@
 				A1FC1BCE28377FC700EC14DD /* UIImageView.swift in Sources */,
 				DA9AE567282B5709003BA8B2 /* ProductDetail.swift in Sources */,
 				DA9AE5B728326AF0003BA8B2 /* ProductsListCell.swift in Sources */,
+				A1E837042847A38400E0ADCA /* UserInformation.swift in Sources */,
 				A13387A02833673300950EA2 /* ImageCacheManager.swift in Sources */,
 				A1258A4728439ABA000F2A4A /* Currency.swift in Sources */,
 				A1C6DD1C284649EC00CC5A73 /* DetailViewModel.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				DAA968D7283CA98900CDA7B1 /* RegisterViewController.swift in Sources */,
 				A1DADBF2282D4F88002C7B4D /* URLSession.swift in Sources */,
+				A1E837082847A6A700E0ADCA /* NotificationCenter.swift in Sources */,
 				A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */,
 				DA9AE5BB28327C15003BA8B2 /* UILabel.swift in Sources */,
 				A1E836FC2847448700E0ADCA /* ImageCompressor.swift in Sources */,

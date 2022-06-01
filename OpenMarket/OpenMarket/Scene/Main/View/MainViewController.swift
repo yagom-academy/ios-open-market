@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, NotificationObservable {
     private enum Constants {
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "다시요청하기"
@@ -27,11 +27,8 @@ final class MainViewController: UIViewController {
         setUpCollectionView()
         setUpSegmentControl()
         setUpViewModel()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.resetItemList()
+        viewModel.requestProducts()
+        setUpNotification()
     }
 }
 
@@ -59,6 +56,12 @@ extension MainViewController {
         viewModel.datasource = makeDataSource()
         viewModel.snapshot = viewModel.makeSnapshot()
         viewModel.delegate = self
+    }
+    
+    private func setUpNotification() {
+        registerNotification { [weak self] in
+            self?.viewModel.resetItemList()
+        }
     }
 }
 

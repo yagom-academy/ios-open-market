@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailViewModel {
+final class DetailViewModel: NotificationPostable {
     enum Section: CaseIterable {
         case main
     }
@@ -79,6 +79,7 @@ final class DetailViewModel {
         productsAPIService.deleteProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success(_):
+                self?.postNotification()
                 completion()
             case .failure(let error):
                 self?.delegate?.showAlertRequestError(with: error)

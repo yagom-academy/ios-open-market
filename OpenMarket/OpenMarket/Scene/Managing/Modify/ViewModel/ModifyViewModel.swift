@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ModifyViewModel: ManagingViewModel {
+final class ModifyViewModel: ManagingViewModel, NotificationPostable {
     func setUpImages(with images: [ProductImage]?) {
         images?.forEach { image in
             guard let url = image.url else { return }
@@ -34,6 +34,7 @@ final class ModifyViewModel: ManagingViewModel {
         productsAPIServie.updateProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success():
+                self?.postNotification()
                 completion()
             case .failure(let error):
                 DispatchQueue.main.async {

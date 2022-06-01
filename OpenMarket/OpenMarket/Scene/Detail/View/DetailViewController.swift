@@ -7,9 +7,8 @@
 
 import UIKit
 
-final class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController, NotificationObservable {
     private enum Constants {
-        static let vendorId = 81
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "확인"
         static let modifyActionTitle = "수정"
@@ -17,6 +16,8 @@ final class DetailViewController: UIViewController {
         static let cancelActionTitle = "취소"
         static let passwordAlertTitle = "암호를 입력해주세요"
         static let confirmTitle = "확인"
+        static let successDeleteAlertTitle = "삭제 완료"
+        static let successDeleteAlertMessage = "메인 화면으로 이동합니다."
     }
     
     lazy var mainView = DetailView(frame: view.bounds)
@@ -40,7 +41,15 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViewModel()
-        
+        setUpData()
+        setUpNotification()
+    }
+}
+
+// MARK: SetUp Method
+
+extension DetailViewController {
+    private func setUpData() {
         viewModel.requestProductDetail(by: id) { productDetail in
             DispatchQueue.main.async {
                 self.setUpNavigationItem()
@@ -51,7 +60,7 @@ final class DetailViewController: UIViewController {
     
     private func setUpNavigationItem() {
         navigationItem.title = viewModel.productDetail?.name
-        if viewModel.productDetail?.vendor?.id == Constants.vendorId {
+        if viewModel.productDetail?.vendor?.id == UserInformation.vendorId {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapComposeButton))
         }
     }
@@ -62,10 +71,16 @@ final class DetailViewController: UIViewController {
         viewModel.delegate = self
     }
     
-    @objc private func didTapComposeButton() {
-        showModifyActionSheet()
+    private func setUpNotification() {
+        registerNotification { [weak self] in
+            self?.setUpData()
+        }
     }
-    
+}
+
+// MARK: Alert Method
+
+extension DetailViewController {
     private func showModifyActionSheet() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -103,18 +118,17 @@ final class DetailViewController: UIViewController {
         alert.addAction(cancelAction)
         self.present(alert, animated: true)
     }
-    
-    private func deleteProduct(_ secret: String) {
-        // rwfkpko1fp
-        self.viewModel.requestSecret(secret: ProductRequest(secret: secret)) { secret in
-            self.viewModel.deleteProduct(secret: secret) {
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-        }
+}
+
+// MARK: Objc Method
+
+extension DetailViewController {
+    @objc private func didTapComposeButton() {
+        showModifyActionSheet()
     }
 }
+
+// MARK: Datasource & Delete API
 
 extension DetailViewController {
     private func makeDataSource() -> UICollectionViewDiffableDataSource<DetailViewModel.Section, ImageInfo> {
@@ -133,7 +147,19 @@ extension DetailViewController {
             })
         return dataSource
     }
+    
+    private func deleteProduct(_ secret: String) {
+        self.viewModel.requestSecret(secret: ProductRequest(secret: secret)) { secret in
+            self.viewModel.deleteProduct(secret: secret) {
+                DispatchQueue.main.async {
+                    self.showAlertSuccessDelete()
+                }
+            }
+        }
+    }
 }
+
+// MARK: AlertDelegate
 
 extension DetailViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
@@ -147,5 +173,16 @@ extension DetailViewController: AlertDelegate {
                 }
                 .showAlert()
         }
+    }
+    
+    func showAlertSuccessDelete() {
+        self.alertBuilder
+            .setTitle(Constants.successDeleteAlertTitle)
+            .setMessage(Constants.successDeleteAlertMessage)
+            .setConfirmTitle(Constants.confirmTitle)
+            .setConfirmHandler {
+                self.navigationController?.popViewController(animated: true)
+            }
+            .showAlert()
     }
 }
