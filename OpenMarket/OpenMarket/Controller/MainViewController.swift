@@ -16,6 +16,8 @@ final class MainViewController: UIViewController {
     
     private var presenter = Presenter()
     private lazy var dataSource = makeDataSource()
+    private var hasNext: Bool = false
+    private var pageNo: Int = 1
 
     private lazy var productView = ProductListView.init(frame: view.bounds)
     private lazy var plusButton: UIBarButtonItem = {
@@ -47,7 +49,9 @@ final class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.executeGET()
+        self.item.removeAll()
+        pageNo = 1
+        self.executeGET(number: pageNo)
     }
 }
 
@@ -94,12 +98,17 @@ extension MainViewController {
 
 // MARK: - setup DataSource
 extension MainViewController {
-    private func executeGET() {
-        self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
-
+    private func executeGET(number: Int) {
+        self.networkManager.execute(with: .productList(pageNumber: number, itemsPerPage: 20), httpMethod: .get) { result in
             switch result {
             case .success(let result):
-                self.item = result.pages
+                self.hasNext = result.hasNext
+                self.pageNo = result.pageNo
+                self.item.append(contentsOf: result.pages)
+                DispatchQueue.main.async {
+                    self.productView.collectionView.reloadData()
+                    self.productView.indicatorView.stopAnimating()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -157,6 +166,16 @@ extension MainViewController: UICollectionViewDelegate {
         let productDetailViewController = ProductDetailViewController(products: item[indexPath.row])
         
         self.navigationController?.pushViewController(productDetailViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let buffer = 3
+        guard indexPath.row == item.count - buffer,
+              hasNext == true else {
+            return
+        }
+        
+        executeGET(number: pageNo + 1)
     }
 }
 

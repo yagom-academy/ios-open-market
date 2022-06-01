@@ -109,7 +109,6 @@ struct NetworkManager<T: Decodable> {
                 }
                 
                 guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                    print("hello")
                     completion(.failure(.statusCode))
                     return
                 }

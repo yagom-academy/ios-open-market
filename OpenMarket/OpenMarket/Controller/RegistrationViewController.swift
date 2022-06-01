@@ -202,8 +202,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
 
 extension RegistrationViewController {
     @objc private func executePOST() {
-        let params = productDetailView.generateParameters()
-        
+        let params = productDetailView.makeProduct()
         
         self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
             switch result {
@@ -213,7 +212,6 @@ extension RegistrationViewController {
                 self.showFailureAlert()
             }
         }
-    
         
         self.navigationController?.popViewController(animated: true)
     }
