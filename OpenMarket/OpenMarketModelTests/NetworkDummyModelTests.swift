@@ -9,12 +9,12 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkDummyModelTests: XCTestCase {
-    var sut: APIProvider<Products>!
+    var sut: APIProvider!
     var itemURL = URL(string: "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/5a0cd56b6d3411ecabfa97fd953cf965.jpg")
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = APIProvider<Products>(urlSession: StubURLSession())
+        sut = APIProvider(urlSession: StubURLSession())
     }
     
     override func tearDownWithError() throws {
@@ -34,7 +34,7 @@ class NetworkDummyModelTests: XCTestCase {
         )
         
         // when
-        sut.retrieveProduct(with: endPoint) { result in
+        sut.retrieveProduct(with: endPoint) { (result: Result<ProductList, Error>) in
             switch result {
             case .success(let data):
                 let result = data.pageNumber
