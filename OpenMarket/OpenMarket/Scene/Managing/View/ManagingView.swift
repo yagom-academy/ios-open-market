@@ -171,13 +171,7 @@ final class ManagingView: UIView {
     }
     
     private func setUpTextField(placeholder: String, keyboardType: UIKeyboardType) -> UITextField {
-        let textField = UITextField()
-        textField.placeholder = placeholder
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        textField.adjustsFontForContentSizeCategory = true
-        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        textField.keyboardType = keyboardType
+        let textField = BaseTextField(placeholder: placeholder, keyboardType: keyboardType)
         return textField
     }
     

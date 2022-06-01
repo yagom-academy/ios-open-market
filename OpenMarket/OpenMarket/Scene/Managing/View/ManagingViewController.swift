@@ -43,11 +43,6 @@ extension ManagingViewController {
     }
     
     func setUpTextField() {
-        managingView.productNameTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        managingView.productPriceTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        managingView.productDiscountedTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        managingView.productStockTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        
         managingView.productNameTextField.delegate = self
         managingView.productPriceTextField.delegate = self
         
@@ -66,10 +61,6 @@ extension ManagingViewController {
 extension ManagingViewController {
     @objc private func didTapKeyboardHideButton() {
         managingView.productDescriptionTextView.resignFirstResponder()
-        managingView.productNameTextField.resignFirstResponder()
-        managingView.productPriceTextField.resignFirstResponder()
-        managingView.productDiscountedTextField.resignFirstResponder()
-        managingView.productStockTextField.resignFirstResponder()
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

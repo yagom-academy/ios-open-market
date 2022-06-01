@@ -9,9 +9,14 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     private enum Constants {
+        static let vendorName = "마이노"
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "확인"
-        static let vendorName = "마이노"
+        static let modifyActionTitle = "수정"
+        static let deleteActionTitle = "삭제"
+        static let cancelActionTitle = "취소"
+        static let passwordAlertTitle = "암호를 입력해주세요"
+        static let confirmTitle = "확인"
     }
     
     lazy var mainView = DetailView(frame: view.bounds)
@@ -60,17 +65,17 @@ final class DetailViewController: UIViewController {
     private func showModifyActionSheet() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let modifyAction = UIAlertAction(title: "수정", style: .default) { _ in
+        let modifyAction = UIAlertAction(title: Constants.modifyActionTitle, style: .default) { _ in
             let modifyViewController = ModifyViewController(productDetail: self.productDetail)
             modifyViewController.modalPresentationStyle = .fullScreen
             self.present(modifyViewController, animated: true)
         }
         
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: Constants.deleteActionTitle, style: .destructive) { _ in
             self.showPasswordAlert()
         }
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: Constants.cancelActionTitle, style: .cancel, handler: nil)
         
         alert.addAction(modifyAction)
         alert.addAction(deleteAction)
@@ -80,15 +85,15 @@ final class DetailViewController: UIViewController {
     }
     
     private func showPasswordAlert() {
-        let alert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle:.alert)
+        let alert = UIAlertController(title: Constants.passwordAlertTitle, message: nil, preferredStyle:.alert)
         alert.addTextField()
         
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+        let confirmAction = UIAlertAction(title: Constants.confirmTitle, style: .default) { _ in
             guard let secret = alert.textFields?.first?.text else { return }
             self.deleteProduct(secret)
         }
         
-        let cancelAction = UIAlertAction(title: "취소", style: .destructive)
+        let cancelAction = UIAlertAction(title: Constants.cancelActionTitle, style: .destructive)
         alert.addAction(confirmAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true)

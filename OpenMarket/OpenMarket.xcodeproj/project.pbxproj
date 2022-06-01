@@ -31,6 +31,7 @@
 		A1DADBF2282D4F88002C7B4D /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF1282D4F88002C7B4D /* URLSession.swift */; };
 		A1DADBF4282D4FCB002C7B4D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */; };
 		A1E836FC2847448700E0ADCA /* ImageCompressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E836FB2847448700E0ADCA /* ImageCompressor.swift */; };
+		A1E836FE2847516300E0ADCA /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E836FD2847516200E0ADCA /* BaseTextField.swift */; };
 		A1FC1BCC283737FD00EC14DD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */; };
 		A1FC1BCE28377FC700EC14DD /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FC1BCD28377FC700EC14DD /* UIImageView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -98,6 +99,7 @@
 		A1DADBF1282D4F88002C7B4D /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		A1DADBF3282D4FCB002C7B4D /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		A1E836FB2847448700E0ADCA /* ImageCompressor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCompressor.swift; sourceTree = "<group>"; };
+		A1E836FD2847516200E0ADCA /* BaseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
 		A1FC1BCB283737FD00EC14DD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		A1FC1BCD28377FC700EC14DD /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -417,6 +419,7 @@
 				DAA968E5283E71B800CDA7B1 /* ManagingViewController.swift */,
 				DAA968D8283D054900CDA7B1 /* ProductsHorizontalCell.swift */,
 				DAA968D4283CA95200CDA7B1 /* ManagingView.swift */,
+				A1E836FD2847516200E0ADCA /* BaseTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				A128FB9C283E4D3100B96535 /* UIView.swift in Sources */,
 				A1A3ECCB282A55E1000A440C /* EndPoint.swift in Sources */,
 				DAA968D5283CA95200CDA7B1 /* ManagingView.swift in Sources */,
+				A1E836FE2847516300E0ADCA /* BaseTextField.swift in Sources */,
 				DAA968E1283E50E400CDA7B1 /* ModifyViewModel.swift in Sources */,
 				A1C6DD13284648AA00CC5A73 /* ProductPatch.swift in Sources */,
 				DA9AE54B282A45FF003BA8B2 /* NetworkError.swift in Sources */,
