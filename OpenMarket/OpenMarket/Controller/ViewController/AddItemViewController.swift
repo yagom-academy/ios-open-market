@@ -32,9 +32,18 @@ final class AddItemViewController: UIViewController {
     
     private var currencyType: CurrencyType = .KRW
     
-    private enum CurrencyType: String {
-        case KRW
+    private enum CurrencyType: Int {
+        case KRW = 0
         case USD
+        
+        var toString: String {
+            switch self {
+            case .KRW:
+                return "KRW"
+            case .USD:
+                return "USD"
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -111,7 +120,7 @@ final class AddItemViewController: UIViewController {
     private func makeComponents() -> APIable {
         let name = nameTextField.text ?? ""
         let price = Int(priceTextField.text ?? "") ?? 0
-        let currency = currencyType.rawValue
+        let currency = currencyType.toString
         let discountedPrice = Int(discountPriceTextField.text ?? "") ?? 0
         let stock = Int(stockTextField.text ?? "") ?? 0
         let descriptions = discriptinTextView.text
@@ -148,11 +157,8 @@ final class AddItemViewController: UIViewController {
     }
     
     @IBAction private func changeCurrencySegment(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            self.currencyType = .KRW
-        } else {
-            self.currencyType = .USD
-        }
+        guard let segmentType = CurrencyType(rawValue: sender.selectedSegmentIndex) else { return }
+        currencyType = segmentType
     }
 }
 // MARK: - aboutCell
