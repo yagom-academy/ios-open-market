@@ -46,9 +46,22 @@ final class ItemDetailViewController: UIViewController {
         guard let itemDetail = itemDetail else { return }
         self.title = itemDetail.name
         itemNameLabel.text = itemDetail.name
-        stockLabel.text = itemDetail.stock.description
-        priceLabel.text = itemDetail.price.description
-        discountedPriceLabel.text = itemDetail.discountedPrice.description
+        if itemDetail.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        } else {
+            stockLabel.text = "남은 수량 : " + itemDetail.stock.description
+            stockLabel.textColor = .systemGray
+        }
+        
+        if itemDetail.price == 0 {
+            priceLabel.isHidden = true
+        } else {
+            let price = "\(itemDetail.currency) \(itemDetail.price.description)"
+            priceLabel.attributedText = price.strikethrough()
+        }
+        
+        discountedPriceLabel.text = "\(itemDetail.currency) \(itemDetail.discountedPrice.description)"
         descriptionTextView.text = itemDetail.description
         myActivityIndicator.stopAnimating()
     }
