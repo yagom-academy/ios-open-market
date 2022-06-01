@@ -202,15 +202,16 @@ class DetailView: UIView {
       let imageView = UIImageView()
       imageView.loadImage(urlString: images[index].url)
       imageView.contentMode = .scaleAspectFit
-      let xPos = self.frame.width * CGFloat(index)
+      let margin = (imageScrollView.frame.width - imageScrollView.frame.height) / 2
+      let originX = (self.frame.width * CGFloat(index)) + margin
       imageView.frame = CGRect(
-        x: xPos,
+        x: originX,
         y: 0,
-        width: imageScrollView.bounds.width,
-        height: imageScrollView.bounds.height
+        width: imageScrollView.frame.height,
+        height: imageScrollView.frame.height
       )
       imageScrollView.addSubview(imageView)
-      imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
+      imageScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(index + 1)
     }
   }
   
