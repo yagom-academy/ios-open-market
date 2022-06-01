@@ -47,6 +47,7 @@ class TextCell: UICollectionViewCell {
     
     private let priceTextField: UITextField = {
         let textField = RegisterTextField(placeholder: "상품가격")
+        textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         textField.keyboardType = .numberPad
         return textField
     }()
@@ -80,7 +81,7 @@ class TextCell: UICollectionViewCell {
             segmentedControl.setTitleTextAttributes(selectedTextStyle, for: .selected)
             segmentedControl.setWidth(60, forSegmentAt: 0)
             segmentedControl.setWidth(60, forSegmentAt: 1)
-            segmentedControl.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            segmentedControl.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         }
         
         attribute()
