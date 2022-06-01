@@ -121,13 +121,33 @@ extension UpdateProductViewController {
             present(alertController, animated: true)
             return
         }
+
+        guard productInput.isValidName(product: product) else {
+            let alertController = Alert().showWarning(title: "3자 이상으로 이름을 입력하세요.")
+            present(alertController, animated: true)
+            return
+        }
+
+        guard productInput.isValidDescription(product: product) else {
+            let alertController = Alert().showWarning(title: "10자 이상 descripion을 입력하세요.")
+            present(alertController, animated: true)
+            return
+        }
         
         productInput.convertDescription()
         
         if let product = product {
+            if productInput.isEmpty {
+                let alertController = Alert().showWarning(title: "수정 사항이 없으면\ncancel을 눌러주세요")
+                present(alertController, animated: true)
+                return
+            }
+            
             DataSender.shared.patchProductData(prductIdentifier: product.identifier, productInput: productInput.getProductInput(), completionHandler: completionHandler)
             return
         }
+        
+        productInput.setDefaultCurrency()
         DataSender.shared.postProductData(images: images, productInput: productInput.getProductInput(), completionHandler: completionHandler)
     }
     

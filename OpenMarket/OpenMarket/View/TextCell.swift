@@ -103,6 +103,10 @@ class TextCell: UICollectionViewCell {
         return stackView
     }()
     
+    var segmentedControlValue: String {
+        return segmentedControl.selectedSegmentIndex == 1 ? "KRW": "USD"
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubViews()
