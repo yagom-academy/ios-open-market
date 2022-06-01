@@ -95,20 +95,34 @@ final class DetailViewController: UIViewController {
   }
   
   private func presentPasswordInputAlert() {
-    let alert = UIAlertController(title: "패스워드를 입력해주세요.", message: nil, preferredStyle: .alert)
+    let alert = UIAlertController(
+      title: "password을 입력하세요.",
+      message: nil,
+      preferredStyle: .alert
+    )
+    
     alert.addTextField { textField in
       textField.placeholder = "password 입력"
       textField.returnKeyType = .continue
       textField.isSecureTextEntry = true
     }
     
-    let continueAction = UIAlertAction(title: "계속", style: .default) { (_) in
+    let continueAction = UIAlertAction(title: "계속", style: .default) { [weak self] (_) in
       guard let passwordText = alert.textFields?.first?.text else {
         return
       }
-      self.checkSecret(passwordText) { key in
-        print(key)
-        self.deleteData(key)
+      self?.checkSecret(passwordText) { (key, isVaild) in
+        switch isVaild {
+        case true:
+          self?.deleteData(key)
+          DispatchQueue.main.async { 
+            self?.navigationController?.popViewController(animated: true)
+          }
+        case false:
+          DispatchQueue.main.async {
+            self?.presentWrongPasswordAlert()
+          }
+        }
       }
     }
     
