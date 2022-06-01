@@ -24,14 +24,18 @@ final class DetailViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    fetchDetailProductData()
+    fetchDetailProductData { [weak self] in
+      self?.configureNavigationBar()
+      self?.detailView.setUpDetailInformation(of: self?.product)
+      self?.detailView.imageScrollView.delegate = self
+    }
   }
   
   func receiveInformation(for id: Int) {
     self.pageId = id
   }
   
-  private func fetchDetailProductData() {
+  private func fetchDetailProductData(completionHandler: @escaping () -> Void) {
     guard let pageId = pageId else {
       return
     }
@@ -46,9 +50,7 @@ final class DetailViewController: UIViewController {
       
       self.product = selectedProduct
       DispatchQueue.main.async {
-        self.configureNavigationBar()
-        self.detailView.setUpDetailInformation(of: self.product)
-        self.detailView.imageScrollView.delegate = self
+        completionHandler()
       }
     }
   }
