@@ -27,7 +27,7 @@ final class EditingViewController: UIViewController {
     editingView.descriptionTextView.delegate = self
   }
   
-  func receiveImformation(for detailProduct: DetailProduct?) {
+  func receiveInformation(for detailProduct: DetailProduct?) {
     self.detailProduct = detailProduct
   }
   
