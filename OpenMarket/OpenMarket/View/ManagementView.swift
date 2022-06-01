@@ -1,8 +1,8 @@
 //
-//  ProductRegistrationView.swift
+//  ManagementView.swift
 //  OpenMarket
 //
-//  Created by song on 2022/05/25.
+//  Created by marlang, Taeangel on 2022/05/25.
 //
 
 import UIKit

@@ -61,7 +61,7 @@ struct URLSessionProvider<T: Decodable> {
     }
     
     func postData(
-        params: ProductRegistration,
+        params: ProductInfomation,
         completionHandler: @escaping (Result<Void, NetworkError>) -> Void) {
         
         guard var urlRequest = makeURLRequest(httpMethod: .post, url: Endpoint.productRegistration) else {
@@ -91,9 +91,9 @@ struct URLSessionProvider<T: Decodable> {
         }
         task.resume()
     }
-    
+     
     func patchData(
-        product: ProductRegistration,
+        product: ProductInfomation,
         id: Int,
         completionHandler: @escaping (Result<Void, NetworkError>
     ) -> Void) {
@@ -140,7 +140,7 @@ extension URLSessionProvider {
         return urlRequest
     }
     
-    private func createBody(params: ProductRegistration, boundary: String) -> Data? {
+    private func createBody(params: ProductInfomation, boundary: String) -> Data? {
         var body = Data()
         let newline = "\r\n"
         let boundaryPrefix = "--\(boundary)\r\n"

@@ -1,8 +1,8 @@
 //
-//  CustomSegment.swift
+//  SegmentControl.swift
 //  OpenMarket
 //
-//  Created by song on 2022/05/19.
+//  Created by marlang, Taeangel on 2022/05/19.
 //
 
 import UIKit

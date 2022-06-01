@@ -1,8 +1,8 @@
 //
-//  ReviseViewController.swift
+//  EditViewController.swift
 //  OpenMarket
 //
-//  Created by song on 2022/05/29.
+//  Created by marlang, Taeangel on 2022/05/29.
 //
 
 import UIKit

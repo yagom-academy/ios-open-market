@@ -1,22 +1,11 @@
 //
-//  Decodable+Extension.swift
+//  Decodable.swift
 //  OpenMarket
 //
-//  Created by 김동욱 on 2022/05/14.
+//  Created by marlang, Taeangel on 2022/06/01.
 //
 
 import Foundation
-
-struct Json {
-    static let decoder = JSONDecoder()
-    static let encoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        return encoder
-    }()
-    
-    private init() {}
-}
 
 extension Decodable {
     

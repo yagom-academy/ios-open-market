@@ -2,7 +2,7 @@
 //  UIViewController.swift
 //  OpenMarket
 //
-//  Created by 김동욱 on 2022/05/30.
+//  Created by marlang, Taeangel on 2022/05/30.
 //
 
 import UIKit

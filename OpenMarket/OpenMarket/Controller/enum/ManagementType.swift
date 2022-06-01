@@ -1,8 +1,8 @@
 //
-//  asdf.swift
+//  ManagementType.swift
 //  OpenMarket
 //
-//  Created by song on 2022/05/30.
+//  Created by marlang, Taeangel on 2022/05/30.
 //
 
 enum ManagementType: String {

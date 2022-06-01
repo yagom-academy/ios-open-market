@@ -1,5 +1,5 @@
 //
-//  Product.swift
+//  DetailProduct.swift
 //  OpenMarket
 //
 //  Created by marlang, Taeangel on 2022/05/10.

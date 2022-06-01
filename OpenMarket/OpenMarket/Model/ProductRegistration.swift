@@ -1,13 +1,13 @@
 //
-//  ProductRegistration.swift
+//  ProductInfomation.swift
 //  OpenMarket
 //
-//  Created by song on 2022/05/25.
+//  Created by marlang, Taeangel on 2022/05/25.
 //
 
 import Foundation
 
-struct ProductRegistration: Codable {
+struct ProductInfomation: Codable {
     let name: String?
     let price: Int?
     let discountedPrice: Int?

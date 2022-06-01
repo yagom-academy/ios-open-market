@@ -1,8 +1,8 @@
 //
-//  Asd.swift
+//  ProductViewController.swift
 //  OpenMarket
 //
-//  Created by 김동욱 on 2022/05/30.
+//  Created by marlang, Taeangel on 2022/05/30.
 //
 
 import UIKit
@@ -17,7 +17,7 @@ class ProductViewController: UIViewController {
     lazy var baseView = ManagementView(frame: view.frame)
     var managementType: ManagementType?
     
-    func extractData() -> ProductRegistration {
+    func extractData() -> ProductInfomation {
         let name = baseView.nameTextField.text
         let price = Int(baseView.priceTextField.text ?? Const.zero)
         let discountedPrice = Int(baseView.discountedPriceTextField.text ?? Const.zero)
@@ -26,7 +26,7 @@ class ProductViewController: UIViewController {
         let description = baseView.descriptionTextView.text
         let images: [ImageFile] = extractImage()
        
-        let param = ProductRegistration(
+        let param = ProductInfomation(
             name: name,
             price: price,
             discountedPrice: discountedPrice,
