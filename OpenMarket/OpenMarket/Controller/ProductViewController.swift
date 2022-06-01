@@ -67,6 +67,10 @@ extension ProductViewController {
     func setupKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
     }
     
     @objc private func keyboardWillShow(notification: Notification) {
@@ -86,12 +90,12 @@ extension ProductViewController {
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
     @objc private func keyboardWillHide() {
         view.bounds.origin.y = 0
         baseView.descriptionTextView.contentInset.bottom = 0
+    }
+    
+    @objc private func respondToSwipeGesture(gesture: UISwipeGestureRecognizer) {
+        view.endEditing(true)
     }
 }
