@@ -74,15 +74,10 @@ extension RegisterViewController {
         ])
     }
     
-   private func wrapperImage() -> [UIImage] {
-        var imageArray = [UIImage]()
-        
-        for subView in addImageHorizontalStackView.arrangedSubviews {
-            if let subView = subView as? UIImageView, let uiImage = subView.image {
-                imageArray.append(uiImage)
-            }
+    private func wrapperImage() -> [UIImage] {
+        let imageArray = addImageHorizontalStackView.arrangedSubviews.compactMap {
+            ($0 as? UIImageView)?.image
         }
-       
         return imageArray
     }
     
@@ -140,7 +135,7 @@ extension RegisterViewController {
                 self?.delegate?.defaultRefresh()
                 self?.navigationController?.popViewController(animated: true)
             }
-        } registerErrorHandler: { [weak self] error in
+        } errorHandler: { [weak self] error in
             self?.showErrorAlert(error: error)
         }
     }

@@ -28,8 +28,7 @@ struct ProductListUseCase {
             return
         }
         
-        network.requestData(url: url) {
-            data, response -> Void in
+        network.requestData(url: url) { data, response in
             guard let data = data,
                   let decodedData = try? jsonDecoder.decode(PageInformation.self, from: data) else {
                 errorHandler(UseCaseError.decodingError)
@@ -41,12 +40,4 @@ struct ProductListUseCase {
         }
     }
     
-}
-
-extension Data {
-    mutating func appendString(_ string: String) {
-        if let data = string.data(using: .utf8) {
-            self.append(data)
-        }
-    }
 }

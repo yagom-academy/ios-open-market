@@ -27,16 +27,16 @@ struct ProductRegisterUseCase {
         registrationParameter: RegistrationParameter,
         images: [UIImage],
         completeHandler: @escaping () -> Void,
-        registerErrorHandler: @escaping (Error) -> Void
+        errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask? {
         
         if let checkValidation = checkValidation(registrationParameter: registrationParameter) {
-            registerErrorHandler(checkValidation)
+            errorHandler(checkValidation)
             return nil
         }
         
         guard let url = OpenMarketApi.productRegister.url else {
-            registerErrorHandler(NetworkError.urlError)
+            errorHandler(NetworkError.urlError)
             return nil
         }
         
@@ -52,11 +52,11 @@ struct ProductRegisterUseCase {
         data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
         
         guard let params = try? jsonEncoder.encode(registrationParameter) else {
-            registerErrorHandler(UseCaseError.encodingError)
+            errorHandler(UseCaseError.encodingError)
             return nil
         }
         guard let paramsData = String(data: params, encoding: .utf8) else {
-            registerErrorHandler(UseCaseError.encodingError)
+            errorHandler(UseCaseError.encodingError)
             return nil
         }
         data.appendString(paramsData)
@@ -68,7 +68,7 @@ struct ProductRegisterUseCase {
             
             var appendedData = Data()
             guard let imageData = image.jpegData(compressionQuality: Constant.compressionQualityValue) else {
-                registerErrorHandler(UseCaseError.imageError)
+                errorHandler(UseCaseError.imageError)
                 return nil
             }
             appendedData = imageData
@@ -77,7 +77,7 @@ struct ProductRegisterUseCase {
                 let resizeValue = image.resize(newWidth: Constant.resizeWidthValue)
                 guard let resizedImageData = resizeValue.jpegData(compressionQuality: Constant.compressionQualityValue),
                       resizedImageData.count < Constant.maximumImageSize else {
-                    registerErrorHandler(UseCaseError.imageError)
+                    errorHandler(UseCaseError.imageError)
                     return nil
                 }
                 appendedData = resizedImageData
@@ -92,7 +92,7 @@ struct ProductRegisterUseCase {
         let dataTask = network.requestData(urlRequest: request) { data, response in
             completeHandler()
         } errorHandler: { error in
-            registerErrorHandler(error)
+            errorHandler(error)
         }
         return dataTask
     }
@@ -116,4 +116,3 @@ struct ProductRegisterUseCase {
         return nil
     }
 }
-
