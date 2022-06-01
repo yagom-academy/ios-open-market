@@ -36,8 +36,13 @@ final class ItemDetailViewController: UIViewController {
             case .success(let data):
                 guard let itemDetail = try? DataDecoder.decode(data: data, dataType: ItemDetail.self) else { return }
                 self.itemDetail = itemDetail
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                let alert = UIAlertController(title: "데이터로드 실패", message: nil, preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "확인", style: .default) {_ in
+                    self.navigationController?.popViewController(animated: true)
+                }
+                alert.addAction(yesAction)
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
