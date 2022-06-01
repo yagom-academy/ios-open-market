@@ -106,8 +106,9 @@ final class DetailViewController: UIViewController {
       guard let passwordText = alert.textFields?.first?.text else {
         return
       }
-      self.checkSecret(passwordText) { text in
-        print(text) // delete에 넣어주면된다.
+      self.checkSecret(passwordText) { key in
+        print(key)
+        self.deleteData(key)
       }
     }
     
@@ -133,6 +134,20 @@ final class DetailViewController: UIViewController {
           return
         }
         completionHandler(reponseSecret)
+      case .failure(let error):
+        print(error)
+      }
+    }
+  }
+  
+  private func deleteData(_ secretKey: String) {
+    guard let pageId = self.pageId else {
+      return
+    }
+    detailAPIProvider.delete(.deleting(productId: pageId, productSecret: secretKey)) { result in
+      switch result {
+      case .success(_):
+        return
       case .failure(let error):
         print(error)
       }
