@@ -30,6 +30,7 @@ class DetailView: UIView {
     scrollView.isPagingEnabled = true
     scrollView.isScrollEnabled = true
     scrollView.translatesAutoresizingMaskIntoConstraints = false
+    scrollView.showsHorizontalScrollIndicator = false
     scrollView.backgroundColor = .white
     return scrollView
   }()
