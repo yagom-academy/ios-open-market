@@ -36,6 +36,10 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setInitialView()
+    }
+    
+    private func setInitialView() {
         openMarketCollectionView.dataSource = self
         openMarketCollectionView.prefetchDataSource = self
         registCell()
