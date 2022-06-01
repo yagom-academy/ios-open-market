@@ -44,55 +44,11 @@ final class EditViewController: ProductViewController {
         network.fetchData(from: .detailProduct(id: id)) { result in
             switch result {
             case .success(let product):
-                self.setupView(product: product)
+                self.baseView.setupEditView(product: product)
             case .failure(let error):
                 self.showAlert(title: Const.error, message: error.errorDescription)
             }
         }
-    }
-    
-    private func setupView(product: DetailProduct) {
-        DispatchQueue.main.async { [self] in
-            baseView.nameTextField.text = product.name
-            baseView.priceTextField.text = product.price?.description
-            baseView.segmentControl.selectedSegmentIndex = 0
-            baseView.discountedPriceTextField.text = product.discountedPrice?.description
-            baseView.stockTextField.text = product.stock?.description
-            baseView.descriptionTextView.text = product.description
-            
-            let imageImagePicker = baseView.imagesStackView.arrangedSubviews.first
-            imageImagePicker?.removeFromSuperview()
-            
-            product.images?.forEach { image in
-                let imageView = convertImageView(from: image.url) ?? UIImageView()
-                self.baseView.imagesStackView.addArrangedSubview(imageView)
-            }
-        }
-    }
-    
-    private func convertImageView(from urlString: String?) -> UIImageView? {
-        
-        guard let imageString = urlString else {
-            return nil
-        }
-        
-        guard let url = URL(string: imageString) else {
-            return nil
-        }
-        
-        guard let data = try? Data(contentsOf: url) else {
-            return nil
-        }
-        
-        guard let image = UIImage(data: data) else {
-            return nil
-        }
-        
-        let imageView = UIImageView(image: image)
-        
-        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
-        
-        return imageView
     }
     
     private func patchData() {

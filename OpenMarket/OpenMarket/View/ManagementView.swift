@@ -120,8 +120,27 @@ final class ManagementView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setupEditView(product: DetailProduct?) {
+        DispatchQueue.main.async { [weak self] in
+            self?.nameTextField.text = product?.name
+            self?.priceTextField.text = product?.price?.description
+            self?.segmentControl.selectedSegmentIndex = 0
+            self?.discountedPriceTextField.text = product?.discountedPrice?.description
+            self?.stockTextField.text = product?.stock?.description
+            self?.descriptionTextView.text = product?.description
+            
+            let imageImagePicker = self?.imagesStackView.arrangedSubviews.first
+            imageImagePicker?.removeFromSuperview()
+            
+            product?.images?.forEach { image in
+                let imageView = image.url?.convertImageView() ?? UIImageView()
+                imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+                self?.imagesStackView.addArrangedSubview(imageView)
+            }
+        }
+    }
 }
-
 
 // MARK: - Layout
 

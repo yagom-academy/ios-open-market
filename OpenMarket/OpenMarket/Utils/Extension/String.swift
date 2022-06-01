@@ -18,4 +18,23 @@ extension String {
         )
         return attributeString
     }
+    
+    func convertImageView() -> UIImageView? {
+ 
+        guard let url = URL(string: self) else {
+            return nil
+        }
+        
+        guard let data = try? Data(contentsOf: url) else {
+            return nil
+        }
+        
+        guard let image = UIImage(data: data) else {
+            return nil
+        }
+        
+        let imageView = UIImageView(image: image)
+        
+        return imageView
+    }
 }

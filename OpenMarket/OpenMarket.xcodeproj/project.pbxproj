@@ -33,7 +33,7 @@
 		8622BBB0282CA37C00D1FAC0 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBAF282CA37C00D1FAC0 /* URLSessionProvider.swift */; };
 		8622BBB2282CA64200D1FAC0 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8622BBB1282CA64200D1FAC0 /* NetworkError.swift */; };
 		865B43D9283DFDD30005B484 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43D8283DFDD30005B484 /* Data.swift */; };
-		865B43DB283DFE310005B484 /* ProductRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43DA283DFE310005B484 /* ProductRegistration.swift */; };
+		865B43DB283DFE310005B484 /* ProductInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43DA283DFE310005B484 /* ProductInfomation.swift */; };
 		865B43E1283E1EA60005B484 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43E0283E1EA60005B484 /* RegistrationViewController.swift */; };
 		865B43E3283E25A10005B484 /* ManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865B43E2283E25A10005B484 /* ManagementView.swift */; };
 		8665CC6D28438A3E00DBBE27 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8665CC6C28438A3E00DBBE27 /* EditViewController.swift */; };
@@ -105,7 +105,7 @@
 		8622BBB1282CA64200D1FAC0 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		8622BBC2282CAC4F00D1FAC0 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		865B43D8283DFDD30005B484 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		865B43DA283DFE310005B484 /* ProductRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistration.swift; sourceTree = "<group>"; };
+		865B43DA283DFE310005B484 /* ProductInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfomation.swift; sourceTree = "<group>"; };
 		865B43E0283E1EA60005B484 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		865B43E2283E25A10005B484 /* ManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementView.swift; sourceTree = "<group>"; };
 		8665CC6C28438A3E00DBBE27 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 			children = (
 				8610B2B3282A052600EB00AF /* DetailProduct.swift */,
 				304197DC282A07D700083790 /* ProductList.swift */,
-				865B43DA283DFE310005B484 /* ProductRegistration.swift */,
+				865B43DA283DFE310005B484 /* ProductInfomation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -593,7 +593,7 @@
 				30E59BA72844C73100BADC7B /* UIViewController.swift in Sources */,
 				3008F3D52834F1100034C902 /* Formatter.swift in Sources */,
 				3008F3E928374F7F0034C902 /* UIImageView.swift in Sources */,
-				865B43DB283DFE310005B484 /* ProductRegistration.swift in Sources */,
+				865B43DB283DFE310005B484 /* ProductInfomation.swift in Sources */,
 				3008F3D72834FB760034C902 /* GridCell.swift in Sources */,
 				304D31CE2843C3E00016B148 /* UIImage.swift in Sources */,
 				30E59BA92844E2EB00BADC7B /* ProductViewController.swift in Sources */,
