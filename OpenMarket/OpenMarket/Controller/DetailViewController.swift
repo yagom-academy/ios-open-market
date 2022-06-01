@@ -44,6 +44,7 @@ final class DetailViewController: UIViewController {
       DispatchQueue.main.async {
         self.configureNavigationBar()
         self.detailView.setUpDetailInformation(of: self.product)
+        self.detailView.imageScrollView.delegate = self
       }
     }
   }
@@ -202,3 +203,10 @@ final class DetailViewController: UIViewController {
   }
 }
 
+extension DetailViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let xPosition = scrollView.contentOffset.x / scrollView.frame.width
+    let pageNumber = Int(round(xPosition))
+    detailView.setCurrentPage(pageNumber)
+  }
+}
