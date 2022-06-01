@@ -25,7 +25,7 @@ class DetailView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   //MARK: - Top part of View
-  private let imageScrollView: UIScrollView = {
+  let imageScrollView: UIScrollView = {
     let scrollView = UIScrollView()
     scrollView.isPagingEnabled = true
     scrollView.isScrollEnabled = true
