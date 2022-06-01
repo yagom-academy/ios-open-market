@@ -105,7 +105,7 @@ final class EditViewController: ProductViewController {
 
         network.patchData(product: productToEdit, id: id) { result in
             switch result {
-            case .success(_):
+            case .success():
                 self.showAlert(title: Const.patchSuccess) {
                     self.dismiss(animated: true)
                 }

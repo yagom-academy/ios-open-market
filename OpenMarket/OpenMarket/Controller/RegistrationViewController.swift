@@ -47,7 +47,7 @@ final class RegistrationViewController: ProductViewController {
         
         self.network.postData(params: productToRegister) { result in
             switch result {
-            case .success(_):
+            case .success():
                 self.showAlert(title: Const.postSuccesse) {
                     self.dismiss(animated: true)
                 }

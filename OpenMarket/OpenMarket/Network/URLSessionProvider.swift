@@ -62,8 +62,7 @@ struct URLSessionProvider<T: Decodable> {
     
     func postData(
         params: ProductRegistration,
-        completionHandler: @escaping (Result<T, NetworkError>
-        ) -> Void) {
+        completionHandler: @escaping (Result<Void, NetworkError>) -> Void) {
         
         guard var urlRequest = makeURLRequest(httpMethod: .post, url: Endpoint.productRegistration) else {
             return completionHandler(.failure(.urlError))
@@ -75,7 +74,7 @@ struct URLSessionProvider<T: Decodable> {
         urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         urlRequest.httpBody = createBody(params: params, boundary: boundary)
-        let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
+        let task = session.dataTask(with: urlRequest) { _, urlResponse, error in
             
             guard error == nil else {
                 completionHandler(.failure(.clientError))
@@ -88,22 +87,15 @@ struct URLSessionProvider<T: Decodable> {
                 return
             }
             
-            guard let data = data else {
-                completionHandler(.failure(.dataError))
-                return
-            }
-            
-            guard let resultData = T.parse(data: data) else {
-                completionHandler(.failure(.decodeError))
-                return
-            }
-            
-            completionHandler(.success(resultData))
+            completionHandler(.success(()))
         }
         task.resume()
     }
     
-    func patchData(product: ProductRegistration, id: Int, completionHandler: @escaping (Result<T, NetworkError>
+    func patchData(
+        product: ProductRegistration,
+        id: Int,
+        completionHandler: @escaping (Result<Void, NetworkError>
     ) -> Void) {
         
         guard var urlRequest = makeURLRequest(httpMethod: .patch, url: .detailProduct(id: id)) else {
@@ -117,7 +109,7 @@ struct URLSessionProvider<T: Decodable> {
         urlRequest.addValue(OpenMarket.identifier.description, forHTTPHeaderField: "identifier")
         urlRequest.httpBody = product
         
-        let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
+        let task = session.dataTask(with: urlRequest) { _, urlResponse, error in
             guard error == nil else {
                 completionHandler(.failure(.clientError))
                 return
@@ -129,17 +121,7 @@ struct URLSessionProvider<T: Decodable> {
                 return
             }
             
-            guard let data = data else {
-                completionHandler(.failure(.dataError))
-                return
-            }
-            
-            guard let resultData = T.parse(data: data) else {
-                completionHandler(.failure(.decodeError))
-                return
-            }
-            
-            completionHandler(.success(resultData))
+            completionHandler(.success(()))
         }
         task.resume()
     }
