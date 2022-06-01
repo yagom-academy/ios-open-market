@@ -93,20 +93,20 @@ final class DetailViewController: UIViewController {
   @objc private func presentActionSheet() {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let editAction = UIAlertAction(
-      title: "수정",
+      title: Constants.editTitle,
       style: UIAlertAction.Style.default
     ) { [weak self] (_) in
       self?.presentEditingView()
     }
     
     let deleteAction = UIAlertAction(
-      title: "삭제",
+      title: Constants.deleteTitle,
       style: UIAlertAction.Style.destructive
     ) { [weak self] (_) in
       self?.presentPasswordInputAlert()
     }
     
-    let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel)
+    let cancelAction = UIAlertAction(title: Constants.cancelTitle, style: UIAlertAction.Style.cancel)
     
     alert.addAction(editAction)
     alert.addAction(deleteAction)
@@ -124,18 +124,18 @@ final class DetailViewController: UIViewController {
   
   private func presentPasswordInputAlert() {
     let alert = UIAlertController(
-      title: "password을 입력하세요.",
+      title: Constants.alertInputTitle,
       message: nil,
       preferredStyle: .alert
     )
     
     alert.addTextField { textField in
-      textField.placeholder = "password 입력"
+      textField.placeholder = Constants.alertInputPlaceholder
       textField.returnKeyType = .continue
       textField.isSecureTextEntry = true
     }
     
-    let continueAction = UIAlertAction(title: "계속", style: .default) { [weak self] (_) in
+    let continueAction = UIAlertAction(title: Constants.continueTitle, style: .default) { [weak self] (_) in
       guard let passwordText = alert.textFields?.first?.text else {
         return
       }
@@ -154,7 +154,7 @@ final class DetailViewController: UIViewController {
       }
     }
     
-    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+    let cancelAction = UIAlertAction(title: Constants.cancelTitle, style: .cancel)
     
     alert.addAction(cancelAction)
     alert.addAction(continueAction)
@@ -164,61 +164,18 @@ final class DetailViewController: UIViewController {
   
   private func presentWrongPasswordAlert() {
     let alert = UIAlertController(
-      title: "password가 일치하지 않습니다.",
-      message: "다시 확인해주세요.",
+      title: Constants.wrongAlertTitle,
+      message: Constants.wrongAlertMessage,
       preferredStyle: .alert
     )
     
-    let okAction = UIAlertAction(title: "확인", style: .cancel) { [weak self] (_) in
+    let confirmAction = UIAlertAction(title: Constants.confirmTitle, style: .cancel) { [weak self] (_) in
       self?.presentPasswordInputAlert()
     }
     
-    alert.addAction(okAction)
+    alert.addAction(confirmAction)
     
     present(alert, animated: false, completion: nil)
-  }
-  
-  private func checkSecret(
-    _ inputPassword: String?,
-    completionHandler: @escaping (String, Bool) -> Void
-  ) {
-    guard let pageId = self.pageId else {
-      return
-    }
-    guard let inputPassword = inputPassword else {
-      return
-    }
-    self.detailAPIProvider.searchSecret(
-      .searchingSecret(productId: pageId),
-      inputPassword
-    ) { result in
-      switch result {
-      case .success(let data):
-        guard let reponseSecret = String(data: data, encoding: .utf8) else {
-          return
-        }
-        completionHandler(reponseSecret, true)
-      case .failure(let error):
-        print(error)
-        completionHandler(error.localizedDescription, false)
-      }
-    }
-  }
-  
-  private func deleteData(_ secretKey: String) {
-    guard let pageId = self.pageId else {
-      return
-    }
-    detailAPIProvider.delete(
-      .deleting(productId: pageId, productSecret: secretKey)
-    ) { result in
-      switch result {
-      case .success(_):
-        return
-      case .failure(let error):
-        print(error)
-      }
-    }
   }
 }
 
