@@ -12,6 +12,7 @@ enum Endpoint {
   case productList(pageNumber: Int, itemsPerPage: Int)
   case registration
   case editing(productId: Int)
+  case deleting(productId: Int, productSecret: String)
 }
 
 extension Endpoint {
@@ -25,6 +26,8 @@ extension Endpoint {
       return .makeUrl(with: "api/products")
     case .editing(let productId):
       return .makeUrl(with: "api/products/\(productId)")
+    case .deleting(let productId, let productSecret):
+      return .makeUrl(with: "api/products/\(productId)/\(productSecret)")
     }
   }
 }
