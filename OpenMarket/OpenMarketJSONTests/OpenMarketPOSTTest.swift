@@ -42,13 +42,20 @@ class OpenMarketPOSTTest: XCTestCase {
         var imageArray: [UIImage] = []
         guard let swiftImage = UIImage(systemName: "swift") else { return }
         imageArray.append(swiftImage)
-        let encodedData = usecase.registerProduct(registrationParameter: parameter,
+        usecase.registerProduct(registrationParameter: parameter,
                                                   images: imageArray) { data, _ in
             guard let productDetail = try? jsonDecoder.decode(ProductDetail.self, from: data) else {
                 XCTFail("디코딩 실패")
                 return
             }
+            //객체로 비교하지 않은 이유: id값이 통신할때 랜덤이라서 비교하지않음.
             XCTAssertEqual(productDetail.name, name)
+            XCTAssertEqual(productDetail.description, descriptions)
+            XCTAssertEqual(productDetail.price, price)
+            XCTAssertEqual(productDetail.currency.rawValue, currency.rawValue)
+            XCTAssertEqual(productDetail.discountedPrice, discountedPrice)
+            XCTAssertEqual(productDetail.stock, stock)
+            
             promise.fulfill()
         } errorHandler: { error in
             XCTFail()
@@ -74,7 +81,7 @@ class OpenMarketPOSTTest: XCTestCase {
                       "id": 4,
                       "vendor_id": 3,
                       "name": "\(name)",
-                      "descriptions": "\(descriptions)",
+                      "description": "\(descriptions)",
                       "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/87aa7c8966df11ecad1df993f20d4a2a.jpg",
                       "currency": "\(currency)",
                       "price": \(price),
@@ -122,13 +129,18 @@ class OpenMarketPOSTTest: XCTestCase {
         let jsonDecoder = JSONDecoder()
         let usecase = ProductRegisterUseCase(network: network, jsonEncoder: jsonEncoder)
         
-        let encodedData = usecase.registerProduct(registrationParameter: parameter,
+        usecase.registerProduct(registrationParameter: parameter,
                                                   images: imageArray) { data, _ in
             guard let productDetail = try? jsonDecoder.decode(ProductDetail.self, from: data) else {
                 XCTFail("디코딩 실패")
                 return
             }
             XCTAssertEqual(productDetail.name, name)
+            XCTAssertEqual(productDetail.description, descriptions)
+            XCTAssertEqual(productDetail.price, price)
+            XCTAssertEqual(productDetail.currency.rawValue, currency.rawValue)
+            XCTAssertEqual(productDetail.discountedPrice, discountedPrice)
+            XCTAssertEqual(productDetail.stock, stock)
             promise.fulfill()
         } errorHandler: { error in
             XCTFail()
