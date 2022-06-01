@@ -122,6 +122,52 @@ final class DetailViewController: UIViewController {
     present(navigationController, animated: true, completion: nil)
   }
   
+  private func checkSecretKey(
+    _ inputPassword: String?,
+    completionHandler: @escaping (String, Bool) -> Void
+  ) {
+    guard let pageId = self.pageId else {
+      return
+    }
+    guard let inputPassword = inputPassword else {
+      return
+    }
+    self.httpProvider.searchSecret(
+      .secretKey(productId: pageId),
+      inputPassword
+    ) { result in
+      switch result {
+      case .success(let data):
+        guard let reponseSecret = String(data: data, encoding: .utf8) else {
+          return
+        }
+        completionHandler(reponseSecret, true)
+      case .failure(let error):
+        print(error)
+        completionHandler(error.localizedDescription, false)
+      }
+    }
+  }
+  
+  private func deleteData(_ secretKey: String) {
+    guard let pageId = self.pageId else {
+      return
+    }
+    httpProvider.delete(
+      .delete(productId: pageId, productSecret: secretKey)
+    ) { result in
+      switch result {
+      case .success(_):
+        return
+      case .failure(let error):
+        print(error)
+      }
+    }
+  }
+}
+
+//MARK: - Alert
+extension DetailViewController {
   private func presentPasswordInputAlert() {
     let alert = UIAlertController(
       title: Constants.alertInputTitle,
