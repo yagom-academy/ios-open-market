@@ -72,12 +72,20 @@ final class DetailViewController: UIViewController {
   
   @objc private func presentActionSheet() {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    let editAction = UIAlertAction(title: "수정", style: UIAlertAction.Style.default) { [weak self] (_) in
+    let editAction = UIAlertAction(
+      title: "수정",
+      style: UIAlertAction.Style.default
+    ) { [weak self] (_) in
       self?.presentEditingView()
     }
-    let deleteAction = UIAlertAction(title: "삭제", style: UIAlertAction.Style.destructive) { [weak self] (_) in
+    
+    let deleteAction = UIAlertAction(
+      title: "삭제",
+      style: UIAlertAction.Style.destructive
+    ) { [weak self] (_) in
       self?.presentPasswordInputAlert()
     }
+    
     let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel)
     
     alert.addAction(editAction)
@@ -134,22 +142,45 @@ final class DetailViewController: UIViewController {
     present(alert, animated: true)
   }
   
-  private func checkSecret(_ inputPassword: String?, completionHandler: @escaping (String) -> Void) {
+  private func presentWrongPasswordAlert() {
+    let alert = UIAlertController(
+      title: "password가 일치하지 않습니다.",
+      message: "다시 확인해주세요.",
+      preferredStyle: .alert
+    )
+    
+    let okAction = UIAlertAction(title: "확인", style: .cancel) { [weak self] (_) in
+      self?.presentPasswordInputAlert()
+    }
+    
+    alert.addAction(okAction)
+    
+    present(alert, animated: false, completion: nil)
+  }
+  
+  private func checkSecret(
+    _ inputPassword: String?,
+    completionHandler: @escaping (String, Bool) -> Void
+  ) {
     guard let pageId = self.pageId else {
       return
     }
     guard let inputPassword = inputPassword else {
       return
     }
-    self.detailAPIProvider.searchSecret(.searchingSecret(productId: pageId), Secret(secret: inputPassword)) { result in
+    self.detailAPIProvider.searchSecret(
+      .searchingSecret(productId: pageId),
+      Secret(secret: inputPassword)
+    ) { result in
       switch result {
       case .success(let data):
-        guard let reponseSecret = try? JSONDecoder().decode(String.self, from: data) else {
+        guard let reponseSecret = String(data: data, encoding: .utf8) else {
           return
         }
-        completionHandler(reponseSecret)
+        completionHandler(reponseSecret, true)
       case .failure(let error):
         print(error)
+        completionHandler(error.localizedDescription, false)
       }
     }
   }
@@ -158,7 +189,9 @@ final class DetailViewController: UIViewController {
     guard let pageId = self.pageId else {
       return
     }
-    detailAPIProvider.delete(.deleting(productId: pageId, productSecret: secretKey)) { result in
+    detailAPIProvider.delete(
+      .deleting(productId: pageId, productSecret: secretKey)
+    ) { result in
       switch result {
       case .success(_):
         return
