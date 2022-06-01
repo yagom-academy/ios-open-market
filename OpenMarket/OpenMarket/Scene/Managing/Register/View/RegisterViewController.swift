@@ -147,7 +147,10 @@ extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate,
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let captureImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        viewModel.insert(image: captureImage)
+        ImageCompressor.compress(image: captureImage, maxByte: Constants.maxImageSize) { image in
+            guard let compressedImageData = image?.jpegData(compressionQuality: 1.0) else { return }
+            self.viewModel.insert(imageData: compressedImageData)
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }

@@ -15,6 +15,7 @@ class ManagingViewController: UIViewController {
         static let inputErrorAlertConfirmTitle = "확인"
         static let registerBarItemTitle = "상품등록"
         static let modifyBarItemTitle = "상품수정"
+        static let maxImageSize = 307200
     }
     
     lazy var managingView = ManagingView(frame: view.frame)

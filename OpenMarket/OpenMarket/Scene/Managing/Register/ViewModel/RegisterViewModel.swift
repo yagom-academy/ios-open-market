@@ -28,9 +28,8 @@ final class RegisterViewModel: ManagingViewModel {
         applySnapshot(image: plusImage)
     }
     
-    func insert(image: UIImage) {
-        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
-        let imageInfo = ImageInfo(fileName: generateUUID(), data: data, type: Constants.jpg)
+    func insert(imageData: Data) {
+        let imageInfo = ImageInfo(fileName: generateUUID(), data: imageData, type: Constants.jpg)
         
         DispatchQueue.main.async {
             guard let lastItem = self.snapshot?.itemIdentifiers.last else { return }
