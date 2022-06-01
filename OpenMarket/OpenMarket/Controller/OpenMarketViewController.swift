@@ -102,10 +102,21 @@ extension OpenMarketViewController {
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: flowLayout)
         view.addSubview(collectionView ?? UICollectionView())
         
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        collectionView?.refreshControl = refreshControl
+
+        
         collectionView?.dataSource = self
         collectionView?.delegate = self
         collectionView?.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
         collectionView?.register(GridCell.self, forCellWithReuseIdentifier: GridCell.identifier)
+    }
+    
+    @objc func pullToRefresh() {
+        self.fetchData(from: .productList(page: 1, itemsPerPage: 110))
+        self.collectionView?.refreshControl?.endRefreshing()
     }
 }
 
