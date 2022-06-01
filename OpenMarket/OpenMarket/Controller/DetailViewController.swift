@@ -76,7 +76,7 @@ final class DetailViewController: UIViewController {
       self?.presentEditingView()
     }
     let deleteAction = UIAlertAction(title: "삭제", style: UIAlertAction.Style.destructive) { [weak self] (_) in
-      //delete 호출
+      self?.presentPasswordInputAlert()
     }
     let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel)
     
@@ -92,6 +92,51 @@ final class DetailViewController: UIViewController {
     navigationController.modalPresentationStyle = .fullScreen
     editingViewController.receiveImformation(for: self.product)
     present(navigationController, animated: true, completion: nil)
+  }
+  
+  private func presentPasswordInputAlert() {
+    let alert = UIAlertController(title: "패스워드를 입력해주세요.", message: nil, preferredStyle: .alert)
+    alert.addTextField { textField in
+      textField.placeholder = "password 입력"
+      textField.returnKeyType = .continue
+      textField.isSecureTextEntry = true
+    }
+    
+    let continueAction = UIAlertAction(title: "계속", style: .default) { (_) in
+      guard let passwordText = alert.textFields?.first?.text else {
+        return
+      }
+      self.checkSecret(passwordText) { text in
+        print(text) // delete에 넣어주면된다.
+      }
+    }
+    
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+    
+    alert.addAction(cancelAction)
+    alert.addAction(continueAction)
+    
+    present(alert, animated: true)
+  }
+  
+  private func checkSecret(_ inputPassword: String?, completionHandler: @escaping (String) -> Void) {
+    guard let pageId = self.pageId else {
+      return
+    }
+    guard let inputPassword = inputPassword else {
+      return
+    }
+    self.detailAPIProvider.serachSecret(.searchingSecret(productId: pageId), Secret(secret: inputPassword)) { result in
+      switch result {
+      case .success(let data):
+        guard let reponseSecret = try? JSONDecoder().decode(String.self, from: data) else {
+          return
+        }
+        completionHandler(reponseSecret)
+      case .failure(let error):
+        print(error)
+      }
+    }
   }
 }
 
