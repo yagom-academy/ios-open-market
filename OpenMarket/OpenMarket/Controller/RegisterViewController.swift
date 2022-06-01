@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol RefreshDelegate: AnyObject {
-    func defaultRefresh()
+protocol ViewControllerDelegate: AnyObject {
+    func viewControllerSholdRefresh()
 }
 
 final class RegisterViewController: RegisterEditBaseViewController {
     
-    weak var delegate: RefreshDelegate?
+    weak var delegate: ViewControllerDelegate?
     
     private enum Constant {
         static let navigationTitle = "상품등록"
@@ -82,16 +82,23 @@ extension RegisterViewController {
     }
     
     private func showErrorAlert(error: Error) {
-        DispatchQueue.main.async {
-            let useCaseError = error as? ErrorAlertProtocol
-            let alert = UIAlertController(title: UseCaseError.alertTitle,
-                                          message: useCaseError?.alertMessage,
-                                          preferredStyle: .alert)
+        DispatchQueue.main.async { [weak self] in
+            guard let useCaseError = error as? ErrorAlertProtocol,
+                  let alert = self?.makeAlertAction(error: useCaseError) else {
+                return
+            }
             let alertAction = UIAlertAction(title: Constant.alertOk,
                                             style: .default)
             alert.addAction(alertAction)
-            self.present(alert, animated: true)
+            self?.present(alert, animated: true)
         }
+    }
+    
+    private func makeAlertAction(error: ErrorAlertProtocol) -> UIAlertController {
+        let alert = UIAlertController(title: error.alertTitle,
+                                      message: error.alertMessage,
+                                      preferredStyle: .alert)
+        return alert
     }
 }
 
@@ -132,7 +139,7 @@ extension RegisterViewController {
         }
         productRegisterUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
             DispatchQueue.main.async { [weak self] in
-                self?.delegate?.defaultRefresh()
+                self?.delegate?.viewControllerSholdRefresh()
                 self?.navigationController?.popViewController(animated: true)
             }
         } errorHandler: { [weak self] error in

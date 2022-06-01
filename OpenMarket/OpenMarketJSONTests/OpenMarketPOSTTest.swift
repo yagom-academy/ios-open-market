@@ -40,7 +40,7 @@ class OpenMarketPOSTTest: XCTestCase {
         let encodedData = usecase.registerProduct(registrationParameter: parameter,
                                                    images: imageArray) {
             promise.fulfill()
-        } registerErrorHandler: { error in
+        } errorHandler: { error in
             XCTFail()
         }
         wait(for: [promise], timeout: 10)

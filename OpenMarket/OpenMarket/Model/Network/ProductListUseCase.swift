@@ -28,7 +28,7 @@ struct ProductListUseCase {
             return
         }
         
-        network.requestData(url: url) { data, response in
+        network.requestData(url) { data, response in
             guard let data = data,
                   let decodedData = try? jsonDecoder.decode(PageInformation.self, from: data) else {
                 errorHandler(UseCaseError.decodingError)

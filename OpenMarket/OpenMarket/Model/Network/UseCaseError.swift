@@ -17,8 +17,11 @@ enum UseCaseError: Error, LocalizedError, ErrorAlertProtocol {
     case imageError
     case encodingError
     case imageSizeError
-    static var alertTitle = "입력 에러!"
 
+    var alertTitle: String {
+        return "입력 에러!"
+    }
+    
     var alertMessage: String {
         switch self {
         case .decodingError:
