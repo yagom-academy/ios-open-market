@@ -12,7 +12,7 @@ struct ItemDetail: Codable, ItemAble {
     var thumbnail: String
     var currency: Currency.RawValue
     var price: Int
-    var description: String
+    var description: String?
     var bargainPrice: Int
     var discountedPrice: Int
     var stock: Int

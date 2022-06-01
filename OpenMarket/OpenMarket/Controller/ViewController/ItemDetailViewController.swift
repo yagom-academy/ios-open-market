@@ -13,13 +13,34 @@ final class ItemDetailViewController: UIViewController {
     @IBOutlet weak var stockLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
-    private var itemDetail: ItemDetail?
+    @IBOutlet weak var descriptionTextView: UITextView!
+    private let networkHandler = NetworkHandler()
+    private var itemDetail: ItemDetail? = nil {
+        didSet {
+            DispatchQueue.main.async {
+                self.setInitialView()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func setInitialView() {
+    func getItem(id: Int) {
+        let itemDetailAPI = ItemDetailAPI(id: id)
+        networkHandler.request(api: itemDetailAPI) { data in
+            switch data {
+            case .success(let data):
+                guard let itemDetail = try? DataDecoder.decode(data: data, dataType: ItemDetail.self) else { return }
+                self.itemDetail = itemDetail
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func setInitialView() {
         navigationItem.rightBarButtonItem = makeEditButton()
         guard let itemDetail = itemDetail else { return }
         self.title = itemDetail.name
@@ -27,7 +48,7 @@ final class ItemDetailViewController: UIViewController {
         stockLabel.text = itemDetail.stock.description
         priceLabel.text = itemDetail.price.description
         discountedPriceLabel.text = itemDetail.discountedPrice.description
-        
+        descriptionTextView.text = itemDetail.description
     }
     
     @objc private func touchEditButton() {

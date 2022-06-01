@@ -323,6 +323,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="descriptionTextView" destination="BuE-Vi-OHX" id="mkc-ts-9Qx"/>
                         <outlet property="discountedPriceLabel" destination="rQO-jC-0Xx" id="7Cq-ud-L0P"/>
                         <outlet property="imageNumberLabel" destination="tO7-Da-1mR" id="k0P-Ei-pal"/>
                         <outlet property="itemNameLabel" destination="j88-Iy-ceW" id="3uo-XA-TSI"/>
