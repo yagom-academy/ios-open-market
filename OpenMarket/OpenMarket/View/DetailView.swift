@@ -27,17 +27,11 @@ class DetailView: UIView {
   //MARK: - Top part of View
   private let imageScrollView: UIScrollView = {
     let scrollView = UIScrollView()
+    scrollView.isPagingEnabled = true
     scrollView.isScrollEnabled = true
     scrollView.translatesAutoresizingMaskIntoConstraints = false
     scrollView.backgroundColor = .white
     return scrollView
-  }()
-  
-  private let imageStackView: UIStackView = {
-    let stackView = UIStackView()
-    stackView.axis = .horizontal
-    stackView.translatesAutoresizingMaskIntoConstraints = false
-    return stackView
   }()
   
   //MARK: - Middle part of View
@@ -126,7 +120,6 @@ class DetailView: UIView {
   private func configureLayout() {
     self.addSubview(totalStackView)
     totalStackView.addArrangedSubviews(imageScrollView, infoStackView, descriptionScrollView)
-    imageScrollView.addSubview(imageStackView)
     infoStackView.addArrangedSubviews(nameLabel, verticalStackView)
     verticalStackView.addArrangedSubviews(stockLabel, priceLabel, bargainPriceLabel)
     descriptionScrollView.addSubview(descriptionView)
@@ -139,22 +132,6 @@ class DetailView: UIView {
       totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
       
       imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
-      
-      imageStackView.leadingAnchor.constraint(
-        equalTo: imageScrollView.contentLayoutGuide.leadingAnchor
-      ),
-      imageStackView.trailingAnchor.constraint(
-        equalTo: imageScrollView.contentLayoutGuide.trailingAnchor
-      ),
-      imageStackView.topAnchor.constraint(
-        equalTo: imageScrollView.contentLayoutGuide.topAnchor
-      ),
-      imageStackView.bottomAnchor.constraint(
-        equalTo: imageScrollView.contentLayoutGuide.bottomAnchor
-      ),
-      imageStackView.heightAnchor.constraint(
-        equalTo: imageScrollView.frameLayoutGuide.heightAnchor, multiplier: 1
-      ),
       
       descriptionLabel.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor),
       descriptionLabel.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor),
@@ -189,9 +166,7 @@ class DetailView: UIView {
       return
     }
     
-    if imageStackView.subviews.isEmpty {
-      setUpImage(of: images)
-    }
+    setUpImage(of: images)
     
     self.nameLabel.text = detailProduct?.name
     self.descriptionLabel.text = detailProduct?.description
@@ -215,14 +190,19 @@ class DetailView: UIView {
   }
   
   private func setUpImage(of images: [Image]) {
-    images.forEach { image in
+    for index in 0..<images.count {
       let imageView = UIImageView()
-      imageView.loadImage(urlString: image.url)
-      imageView.widthAnchor.constraint(
-        equalTo: imageView.heightAnchor,
-        multiplier: 1
-      ).isActive = true
-      imageStackView.addArrangedSubview(imageView)
+      imageView.loadImage(urlString: images[index].url)
+      imageView.contentMode = .scaleAspectFit
+      let xPos = self.frame.width * CGFloat(index)
+      imageView.frame = CGRect(
+        x: xPos,
+        y: 0,
+        width: imageScrollView.bounds.width,
+        height: imageScrollView.bounds.height
+      )
+      imageScrollView.addSubview(imageView)
+      imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
     }
   }
 }
