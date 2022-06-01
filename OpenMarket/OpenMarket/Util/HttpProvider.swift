@@ -143,7 +143,7 @@ extension HttpProvider {
 }
 
 extension HttpProvider {
-  func serachSecret(
+  func searchSecret(
     _ endpoint: Endpoint, _ secret: Secret,
     completionHandler: @escaping (Result<Data, NetworkError>) -> Void
   ) {
