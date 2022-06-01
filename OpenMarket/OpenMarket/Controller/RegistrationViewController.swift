@@ -9,19 +9,19 @@ import UIKit
 
 fileprivate enum Const {
     static let error = "ERROR"
-    static let cancel = "cancel"
+    static let cancel = "Cancel"
     static let done = "Done"
     static let really = "Really?"
-    static let postSuccesse = "postSuccesse"
+    static let postSuccesse = "Post Successe"
     
 }
 
-final class RegistrationViewController: ProductManagementViewController {
+final class RegistrationViewController: ProductViewController {
     private let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productManagementType = ManagementType.Registration
+        managementType = ManagementType.registration
         setupView()
         setupNavigationItems()
         setupKeyboardNotification()
@@ -43,8 +43,9 @@ final class RegistrationViewController: ProductManagementViewController {
     }
    
     private func postProduct() {
-        let newProduct = extractData()
-        self.network.postData(params: newProduct) { result in
+        let productToRegister = extractData()
+        
+        self.network.postData(params: productToRegister) { result in
             switch result {
             case .success(_):
                 self.showAlert(title: Const.postSuccesse) {
@@ -66,30 +67,30 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
        
-        guard let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+        guard let pickerImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
             return
         }
         
-        let newImageView = convertSize(in: possibleImage)
+        let convertedImageView = convertSize(in: pickerImage)
         
         if baseView.imagesStackView.arrangedSubviews.count == 5 {
             baseView.addImageView.isHidden = true
         }
-        baseView.imagesStackView.insertArrangedSubview(newImageView, at: .zero)
+        baseView.imagesStackView.insertArrangedSubview(convertedImageView, at: .zero)
         
         picker.dismiss(animated: true, completion: nil)
     }
     
     private func convertSize(in image: UIImage) -> UIImageView {
-        let newImage = UIImageView()
-        newImage.widthAnchor.constraint(equalTo: newImage.heightAnchor).isActive = true
+        let imageView = UIImageView()
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
 
         if image.getSize() > 300 {
-            newImage.image = image.resize(newWidth: baseView.addImageView.image?.size.width ?? 0)
+            imageView.image = image.resize(newWidth: baseView.addImageView.image?.size.width ?? .zero)
         }
         
-        newImage.image = image
-        return newImage
+        imageView.image = image
+        return imageView
     }
 }
 
@@ -97,7 +98,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
 
 extension RegistrationViewController {
     private func setupNavigationItems() {
-        self.navigationItem.title = productManagementType?.type
+        self.navigationItem.title = managementType?.type
         
         let cancelButton = UIBarButtonItem(
             title: Const.cancel,

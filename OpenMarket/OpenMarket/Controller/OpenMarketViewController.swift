@@ -15,7 +15,7 @@ final class OpenMarketViewController: UIViewController {
     private var layoutType = LayoutType.list
     private var collectionView: UICollectionView?
     private var network: URLSessionProvider<ProductList>?
-    private var productList: [Product]? {
+    private var productList: [DetailProduct]? {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
@@ -145,7 +145,7 @@ extension OpenMarketViewController: UICollectionViewDataSource, UICollectionView
             return
         }
         
-        let reviseController = UINavigationController(rootViewController: CorrectionViewController(product: product))
+        let reviseController = UINavigationController(rootViewController: EditViewController(product: product))
         reviseController.modalPresentationStyle = .fullScreen
         
         self.present(reviseController, animated: true)

@@ -13,7 +13,7 @@ struct ProductList: Decodable {
     let totalCount: Int?
     let offset: Int?
     let limit: Int?
-    let pages: [Product]?
+    let pages: [DetailProduct]?
     let lastPage: Int?
     let hasNextPage: Bool?
     let hasPrevPage: Bool?

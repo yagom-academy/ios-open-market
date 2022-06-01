@@ -88,14 +88,14 @@ final class GridCell: UICollectionViewCell, CustomCell {
         layer.addSublayer(border)
     }
     
-    func configure(data: Product) {
+    func configure(data: DetailProduct) {
         loadImage(data: data)
         loadName(data: data)
         loadStock(data: data)
         loadPrice(data: data)
     }
     
-    private func loadImage(data: Product) {
+    private func loadImage(data: DetailProduct) {
         
         guard let stringUrl = data.thumbnail else {
             return
@@ -112,11 +112,11 @@ final class GridCell: UICollectionViewCell, CustomCell {
         }
     }
     
-    private func loadName(data: Product) {
+    private func loadName(data: DetailProduct) {
         nameLabel.text = data.name
     }
     
-    private func loadStock(data: Product) {
+    private func loadStock(data: DetailProduct) {
         
         if data.stock == 0 {
             stockLabel.text = Const.soldOut
@@ -129,7 +129,7 @@ final class GridCell: UICollectionViewCell, CustomCell {
         }
     }
     
-    private func loadPrice(data: Product) {
+    private func loadPrice(data: DetailProduct) {
         
         guard let currency = data.currency else {
             return

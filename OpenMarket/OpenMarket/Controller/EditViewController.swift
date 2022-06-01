@@ -9,23 +9,24 @@ import UIKit
 
 fileprivate enum Const {
     static let error = "ERROR"
-    static let cancel = "cancel"
+    static let cancel = "Cancel"
     static let done = "Done"
     static let really = "Really?"
+    static let patchSuccess = "Patch Success"
 }
 
-final class CorrectionViewController: ProductManagementViewController {
-    private let product: Product
+final class EditViewController: ProductViewController {
+    private let product: DetailProduct
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view = baseView
-        productManagementType = ManagementType.correction
+        managementType = ManagementType.edit
         setupNavigationItems()
         getDetailData()
     }
     
-    init(product: Product) {
+    init(product: DetailProduct) {
         self.product = product
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,7 +51,7 @@ final class CorrectionViewController: ProductManagementViewController {
         }
     }
     
-    private func setupView(product: Product) {
+    private func setupView(product: DetailProduct) {
         DispatchQueue.main.async { [self] in
             baseView.nameTextField.text = product.name
             baseView.priceTextField.text = product.price?.description
@@ -100,10 +101,15 @@ final class CorrectionViewController: ProductManagementViewController {
             return
         }
         
-        let productRegistration = extractData()
+        let productToEdit = extractData()
 
-        network.patchData(product: productRegistration, id: id) { result in
-            if case .failure(let error) = result {
+        network.patchData(product: productToEdit, id: id) { result in
+            switch result {
+            case .success(_):
+                self.showAlert(title: Const.patchSuccess) {
+                    self.dismiss(animated: true)
+                }
+            case .failure(let error):
                 self.showAlert(title: Const.error, message: error.errorDescription)
             }
         }
@@ -112,10 +118,10 @@ final class CorrectionViewController: ProductManagementViewController {
 
 // MARK: - navigationBar
 
-extension CorrectionViewController {
+extension EditViewController {
     
     private func setupNavigationItems() {
-        self.navigationItem.title = productManagementType?.type
+        self.navigationItem.title = managementType?.type
         
         let cancelButton = UIBarButtonItem(title: Const.cancel, style: .plain, target: self, action: #selector(didTapCancelButton))
         navigationItem.leftBarButtonItem = cancelButton

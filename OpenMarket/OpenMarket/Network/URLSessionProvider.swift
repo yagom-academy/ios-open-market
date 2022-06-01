@@ -117,7 +117,7 @@ struct URLSessionProvider<T: Decodable> {
         urlRequest.addValue(OpenMarket.identifier.description, forHTTPHeaderField: "identifier")
         urlRequest.httpBody = product
         
-        let task = session.dataTask(with: urlRequest) { _, urlResponse, error in
+        let task = session.dataTask(with: urlRequest) { data, urlResponse, error in
             guard error == nil else {
                 completionHandler(.failure(.clientError))
                 return
@@ -128,6 +128,18 @@ struct URLSessionProvider<T: Decodable> {
                 completionHandler(.failure(.statusCodeError))
                 return
             }
+            
+            guard let data = data else {
+                completionHandler(.failure(.dataError))
+                return
+            }
+            
+            guard let resultData = T.parse(data: data) else {
+                completionHandler(.failure(.decodeError))
+                return
+            }
+            
+            completionHandler(.success(resultData))
         }
         task.resume()
     }

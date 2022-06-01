@@ -9,12 +9,13 @@ import UIKit
 
 fileprivate enum Const {
     static let zero = "0"
+    static let empty = ""
 }
 
-class ProductManagementViewController: UIViewController {
-    let network = URLSessionProvider<Product>()
+class ProductViewController: UIViewController {
+    let network = URLSessionProvider<DetailProduct>()
     lazy var baseView = ManagementView(frame: view.frame)
-    var productManagementType: ManagementType?
+    var managementType: ManagementType?
     
     func extractData() -> ProductRegistration {
         let name = baseView.nameTextField.text
@@ -23,7 +24,7 @@ class ProductManagementViewController: UIViewController {
         let currency = (CurrencyType(rawValue: baseView.segmentControl.selectedSegmentIndex) ?? CurrencyType.krw).description
         let stock = Int(baseView.stockTextField.text ?? Const.zero)
         let description = baseView.descriptionTextView.text
-        let images: [Image] = extractImage()
+        let images: [ImageFile] = extractImage()
        
         let param = ProductRegistration(
             name: name,
@@ -38,8 +39,8 @@ class ProductManagementViewController: UIViewController {
         return param
     }
     
-    private func extractImage() -> [Image] {
-        var images: [Image] = []
+    private func extractImage() -> [ImageFile] {
+        var images: [ImageFile] = []
         let imagePicker = baseView.imagesStackView.arrangedSubviews.last
         imagePicker?.removeFromSuperview()
         
@@ -52,7 +53,7 @@ class ProductManagementViewController: UIViewController {
                 return
             }
             
-            let image = Image(fileName: "?", type: "?", data: data)
+            let image = ImageFile(fileName: Const.empty, type: Const.empty, data: data)
             images.append(image)
         }
         return images
@@ -61,7 +62,7 @@ class ProductManagementViewController: UIViewController {
 
 // MARK: - Keyboard
 
-extension ProductManagementViewController {
+extension ProductViewController {
     
     func setupKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
