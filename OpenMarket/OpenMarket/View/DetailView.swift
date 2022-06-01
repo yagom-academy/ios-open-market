@@ -173,7 +173,7 @@ class DetailView: UIView {
     else {
       return
     }
-    
+    pageControl.numberOfPages = images.count
     setUpImage(of: images)
     
     self.nameLabel.text = detailProduct?.name
