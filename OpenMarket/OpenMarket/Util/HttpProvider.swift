@@ -21,11 +21,12 @@ struct HttpProvider {
     self.session = session
   }
   
-  func excuteDataTask(
+  func executeDataTask(
     with request: URLRequest,
     _ completionHandler: @escaping (Result<Data, NetworkError>) -> Void
   ) {
     session.dataTask(with: request) { data, response, error in
+      print(String(data: data!, encoding: .utf8))
       guard error == nil else {
         completionHandler(.failure(.invalid))
         return
@@ -44,7 +45,9 @@ struct HttpProvider {
       completionHandler(.success(data))
     }.resume()
   }
-  
+}
+
+extension HttpProvider {
   func get(
     _ endpoint: Endpoint,
     completionHandler: @escaping (Result<Data, NetworkError>) -> Void
@@ -57,9 +60,11 @@ struct HttpProvider {
     var request = URLRequest(url: url)
     request.httpMethod = HttpMethod.get
     
-    excuteDataTask(with: request, completionHandler)
+    executeDataTask(with: request, completionHandler)
   }
-  
+}
+
+extension HttpProvider {
   func post(
     _ endpoint: Endpoint,
     _ params: Params,
@@ -78,7 +83,7 @@ struct HttpProvider {
     request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     request.httpBody = setupBody(params, images, boundary)
     
-    excuteDataTask(with: request, completionHandler)
+    executeDataTask(with: request, completionHandler)
   }
   
   func setupBody(_ params: Params, _ images: [ImageFile], _ boundary: String) -> Data? {
@@ -105,7 +110,9 @@ struct HttpProvider {
     
     return body
   }
-  
+}
+
+extension HttpProvider {
   func patch(
     _ endpoint: Endpoint,
     _ params: Params,
@@ -122,7 +129,7 @@ struct HttpProvider {
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.httpBody = setupBody(params)
     
-    excuteDataTask(with: request, completionHandler)
+    executeDataTask(with: request, completionHandler)
   }
   
   func setupBody(_ params: Params) -> Data? {
@@ -178,6 +185,8 @@ extension HttpProvider {
     request.httpMethod = HttpMethod.delete
     request.setValue("8de44ec8-d1b8-11ec-9676-43acdce229f5", forHTTPHeaderField: "identifier")
     
-    excuteDataTask(with: request, completionHandler)
+    executeDataTask(with: request, completionHandler)
   }
 }
+
+
