@@ -23,6 +23,11 @@ extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             
+            if let cancel = cancel {
+                let cancelAction = UIAlertAction(title: cancel, style: .destructive)
+                alert.addAction(cancelAction)
+            }
+            
             if let action = action {
                 let yesAction = UIAlertAction(title: ok, style: .default) { _ in
                     action()
@@ -33,10 +38,6 @@ extension UIViewController {
                 alert.addAction(yesAction)
             }
             
-            if let cancel = cancel {
-                let cancelAction = UIAlertAction(title: cancel, style: .destructive)
-                alert.addAction(cancelAction)
-            }
             self?.present(alert, animated: true)
         }
     }
