@@ -8,6 +8,10 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
+  private enum Constants {
+    static let venderId: Int = 82
+  }
+  
   private lazy var detailView = DetailView()
   private let detailAPIProvider = HttpProvider()
   private var product: DetailProduct?
