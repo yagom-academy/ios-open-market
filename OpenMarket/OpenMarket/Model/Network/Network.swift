@@ -62,7 +62,6 @@ extension NetworkAble {
                 errorHandler(NetworkError.dataError)
                 return
             }
-            
             completeHandler(data, response)
         }
         dataTask.resume()

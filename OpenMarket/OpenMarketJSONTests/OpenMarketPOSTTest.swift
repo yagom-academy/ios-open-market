@@ -53,7 +53,7 @@ class OpenMarketPOSTTest: XCTestCase {
         } errorHandler: { error in
             XCTFail()
         }
-        wait(for: [promise], timeout: 10)
+        wait(for: [promise], timeout: 20)
         // then
         
         // when
@@ -73,11 +73,11 @@ class OpenMarketPOSTTest: XCTestCase {
                     {
                       "id": 4,
                       "vendor_id": 3,
-                      "name": \(name),
-                      "descriptions": \(descriptions),
+                      "name": "\(name)",
+                      "descriptions": "\(descriptions)",
                       "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/87aa7c8966df11ecad1df993f20d4a2a.jpg",
-                      "currency": \(currency),
-                      "amount": \(price),
+                      "currency": "\(currency)",
+                      "price": \(price),
                       "bargain_price": \(price),
                       "discounted_price": \(discountedPrice),
                       "stock": \(stock),
@@ -123,7 +123,7 @@ class OpenMarketPOSTTest: XCTestCase {
         let usecase = ProductRegisterUseCase(network: network, jsonEncoder: jsonEncoder)
         
         let encodedData = usecase.registerProduct(registrationParameter: parameter,
-                                                  images: imageArray) { data, response in
+                                                  images: imageArray) { data, _ in
             guard let productDetail = try? jsonDecoder.decode(ProductDetail.self, from: data) else {
                 XCTFail("디코딩 실패")
                 return
@@ -133,7 +133,7 @@ class OpenMarketPOSTTest: XCTestCase {
         } errorHandler: { error in
             XCTFail()
         }
-        wait(for: [promise], timeout: 10)
+        wait(for: [promise], timeout: 20)
         // then
         
         // when
