@@ -185,11 +185,11 @@ extension DetailViewController {
       guard let passwordText = alert.textFields?.first?.text else {
         return
       }
-      self?.checkSecret(passwordText) { (key, isVaild) in
+      self?.checkSecretKey(passwordText) { (key, isVaild) in
         switch isVaild {
         case true:
           self?.deleteData(key)
-          DispatchQueue.main.async { 
+          DispatchQueue.main.async {
             self?.navigationController?.popViewController(animated: true)
           }
         case false:
