@@ -90,7 +90,7 @@ extension ManagingViewController {
 
 // MARK: AlertDelegate
 
-extension ManagingViewController: ManagingAlertDelegate {
+extension ManagingViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)

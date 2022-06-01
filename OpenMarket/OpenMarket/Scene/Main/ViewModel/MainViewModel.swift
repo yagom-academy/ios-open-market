@@ -25,12 +25,14 @@ final class MainViewModel {
     var datasource: DataSource?
     var snapshot: Snapshot?
     private(set) var productList: ProductList?
-    var currentPage = 1
+    private var currentPage: Int = .zero
     
-    weak var delegate: MainAlertDelegate?
+    weak var delegate: AlertDelegate?
     
-    func requestProducts(by page: Int) {
-        let endpoint = EndPointStorage.productList(pageNumber: page, perPages: Constants.itemsCountPerPage)
+    func requestProducts() {
+        currentPage += 1
+        
+        let endpoint = EndPointStorage.productList(pageNumber: currentPage, perPages: Constants.itemsCountPerPage)
         
         productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<ProductList, Error>) in
             switch result {
@@ -45,22 +47,7 @@ final class MainViewModel {
             }
         }
     }
-    
-    func requestProductDetail(by id: Int, completion: @escaping (ProductDetail) -> Void) {
-        let endpoint = EndPointStorage.productDetail(productID: id)
-        
-        productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<ProductDetail, Error>) in
-            switch result {
-            case .success(let productDetail):
-                completion(productDetail)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.delegate?.showAlertRequestError(with: error)
-                }
-            }
-        }
-    }
-    
+
     func makeSnapshot() -> Snapshot? {
         var snapshot = datasource?.snapshot()
         snapshot?.deleteAllItems()
@@ -77,8 +64,8 @@ final class MainViewModel {
     }
     
     func resetItemList() {
-        currentPage = 1
+        currentPage = .zero
         snapshot = makeSnapshot()
-        requestProducts(by: currentPage)
+        requestProducts()
     }
 }

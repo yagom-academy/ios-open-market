@@ -20,11 +20,11 @@ final class DetailViewController: UIViewController {
     }
     
     lazy var mainView = DetailView(frame: view.bounds)
-    private let productDetail: ProductDetail
+    private let id: Int
     private let viewModel = DetailViewModel()
     
-    init(product: ProductDetail) {
-        self.productDetail = product
+    init(id: Int) {
+        self.id = id
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,14 +40,18 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViewModel()
-        setUpNavigationItem()
-        viewModel.setUpImages(with: productDetail.imageInfos)
-        mainView.setUpView(data: productDetail)
+        
+        viewModel.requestProductDetail(by: id) { productDetail in
+            DispatchQueue.main.async {
+                self.setUpNavigationItem()
+                self.mainView.setUpView(data: productDetail)
+            }
+        }
     }
     
     private func setUpNavigationItem() {
-        navigationItem.title = productDetail.name
-        if productDetail.vendor?.id == Constants.vendorId {
+        navigationItem.title = viewModel.productDetail?.name
+        if viewModel.productDetail?.vendor?.id == Constants.vendorId {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapComposeButton))
         }
     }
@@ -66,7 +70,8 @@ final class DetailViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let modifyAction = UIAlertAction(title: Constants.modifyActionTitle, style: .default) { _ in
-            let modifyViewController = ModifyViewController(productDetail: self.productDetail)
+            guard let productDetail = self.viewModel.productDetail else { return }
+            let modifyViewController = ModifyViewController(productDetail: productDetail)
             modifyViewController.modalPresentationStyle = .fullScreen
             self.present(modifyViewController, animated: true)
         }
@@ -101,8 +106,8 @@ final class DetailViewController: UIViewController {
     
     private func deleteProduct(_ secret: String) {
         // rwfkpko1fp
-        self.viewModel.requestSecret(by: self.productDetail.id, secret: ProductRequest(secret: secret)) { secret in
-            self.viewModel.deleteProduct(by: self.productDetail.id, secret: secret) {
+        self.viewModel.requestSecret(secret: ProductRequest(secret: secret)) { secret in
+            self.viewModel.deleteProduct(secret: secret) {
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
                 }
@@ -130,7 +135,7 @@ extension DetailViewController {
     }
 }
 
-extension DetailViewController: ManagingAlertDelegate {
+extension DetailViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
         DispatchQueue.main.async {
             self.alertBuilder

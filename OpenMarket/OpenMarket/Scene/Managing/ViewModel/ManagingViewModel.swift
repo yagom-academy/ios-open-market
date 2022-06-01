@@ -27,7 +27,7 @@ class ManagingViewModel {
     var datasource: DataSource?
     var snapshot: Snapshot?
     
-    weak var delegate: ManagingAlertDelegate?
+    weak var delegate: AlertDelegate?
     
     func generateUUID() -> String {
         return UUID().uuidString + Constants.dotJPG

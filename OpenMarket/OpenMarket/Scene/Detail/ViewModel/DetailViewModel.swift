@@ -17,10 +17,28 @@ final class DetailViewModel {
     
     var datasource: DataSource?
     var snapshot: Snapshot?
+    private(set) var productDetail: ProductDetail?
     
-    weak var delegate: ManagingAlertDelegate?
+    weak var delegate: AlertDelegate?
     
     private let productsAPIService = APIProvider()
+    
+    func requestProductDetail(by id: Int, completion: @escaping (ProductDetail) -> Void) {
+        let endpoint = EndPointStorage.productDetail(productID: id)
+        
+        productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<ProductDetail, Error>) in
+            switch result {
+            case .success(let productDetail):
+                self?.productDetail = productDetail
+                self?.setUpImages(with: productDetail.imageInfos)
+                completion(productDetail)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.delegate?.showAlertRequestError(with: error)
+                }
+            }
+        }
+    }
     
     func setUpImages(with images: [ProductImage]?) {
         images?.forEach { image in
@@ -42,8 +60,8 @@ final class DetailViewModel {
         }
     }
     
-    func requestSecret(by productID: Int?, secret: ProductRequest, completion: @escaping (String) -> Void) {
-        let endpoint = EndPointStorage.productSecret(productID: productID, body: secret)
+    func requestSecret(secret: ProductRequest, completion: @escaping (String) -> Void) {
+        let endpoint = EndPointStorage.productSecret(productID: productDetail?.id, body: secret)
         
         productsAPIService.retrieveSecret(with: endpoint) { [weak self] (result: Result<String, Error>) in
             switch result {
@@ -55,8 +73,8 @@ final class DetailViewModel {
         }
     }
     
-    func deleteProduct(by productID: Int?, secret: String, completion: @escaping () -> Void) {
-        let endpoint = EndPointStorage.productDelete(productID: productID, secret: secret)
+    func deleteProduct(secret: String, completion: @escaping () -> Void) {
+        let endpoint = EndPointStorage.productDelete(productID: productDetail?.id, secret: secret)
         
         productsAPIService.deleteProduct(with: endpoint) { [weak self] result in
             switch result {

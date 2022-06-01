@@ -118,23 +118,15 @@ extension MainViewController {
 
 // MARK: AlertDelegate
 
-extension MainViewController: MainAlertDelegate {
+extension MainViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)
             .setMessage(error.localizedDescription)
             .setConfirmTitle(Constants.requestErrorAlertConfirmTitle)
             .setConfirmHandler {
-                self.viewModel.requestProducts(by: self.viewModel.currentPage)
+                self.viewModel.requestProducts()
             }
-            .showAlert()
-    }
-    
-    func showAlertRequestDetailError(with error: Error) {
-        self.alertBuilder
-            .setTitle(Constants.requestErrorAlertTitle)
-            .setMessage(error.localizedDescription)
-            .setConfirmTitle(Constants.requestDetailErrorAlertConfirmTitle)
             .showAlert()
     }
 }
@@ -152,18 +144,15 @@ extension MainViewController: UICollectionViewDelegate {
         }
         
         if indexPath.row >= snapshot.numberOfItems - 3 {
-            viewModel.currentPage += 1
-            viewModel.requestProducts(by: viewModel.currentPage)
+            viewModel.requestProducts()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let id = viewModel.snapshot?.itemIdentifiers[safe: indexPath.item]?.id {
-            viewModel.requestProductDetail(by: id) { productDetail in
-                DispatchQueue.main.async {
-                    let modifyViewController = DetailViewController(product: productDetail)
-                    self.navigationController?.pushViewController(modifyViewController, animated: true)
-                }
+            DispatchQueue.main.async {
+                let modifyViewController = DetailViewController(id: id)
+                self.navigationController?.pushViewController(modifyViewController, animated: true)
             }
         }
     }
