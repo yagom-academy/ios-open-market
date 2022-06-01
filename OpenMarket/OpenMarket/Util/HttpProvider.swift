@@ -26,7 +26,6 @@ struct HttpProvider {
     _ completionHandler: @escaping (Result<Data, NetworkError>) -> Void
   ) {
     session.dataTask(with: request) { data, response, error in
-      print(String(data: data!, encoding: .utf8))
       guard error == nil else {
         completionHandler(.failure(.invalid))
         return
