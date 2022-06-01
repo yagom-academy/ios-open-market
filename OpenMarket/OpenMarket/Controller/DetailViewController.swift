@@ -126,7 +126,7 @@ final class DetailViewController: UIViewController {
     guard let inputPassword = inputPassword else {
       return
     }
-    self.detailAPIProvider.serachSecret(.searchingSecret(productId: pageId), Secret(secret: inputPassword)) { result in
+    self.detailAPIProvider.searchSecret(.searchingSecret(productId: pageId), Secret(secret: inputPassword)) { result in
       switch result {
       case .success(let data):
         guard let reponseSecret = try? JSONDecoder().decode(String.self, from: data) else {
