@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailView: UIView {
-    var totalIndex: Int = .zero
+    private var totalIndex: Int = .zero
     
     private let topScrollView: UIScrollView = {
         let scrollView = UIScrollView()
