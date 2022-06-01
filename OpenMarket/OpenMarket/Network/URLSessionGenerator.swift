@@ -20,6 +20,7 @@ final class URLSessionGenerator {
         }
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = endpoint.method
+        request.setValue(API.identifier, forHTTPHeaderField: "identifier")
         session.dataTask(with: request, completionHandler: completionHandler).resume()
     }
     

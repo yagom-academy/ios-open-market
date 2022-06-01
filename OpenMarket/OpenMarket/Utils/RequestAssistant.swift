@@ -100,9 +100,9 @@ final class RequestAssistant {
         })
     }
     
-    func requestDeleteAPI(productId: Int, productSecret: String, body: Data, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+    func requestDeleteAPI(productId: Int, productSecret: String, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
         let endpoint: Endpoint = .productDelete(productId: productId, productSecret: productSecret)
-        sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
+        sessionManager.request(endpoint: endpoint, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
             }

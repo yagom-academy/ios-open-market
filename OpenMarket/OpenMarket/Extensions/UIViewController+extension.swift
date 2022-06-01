@@ -14,4 +14,12 @@ extension UIViewController {
         alert.addAction(action)
         present(alert, animated: true)
     }
+    
+    func showAlert(alertTitle: String, handler: @escaping ((UIAlertAction) -> Void)) {
+        let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "닫기", style: .default, handler: handler)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+    
 }

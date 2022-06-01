@@ -99,6 +99,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else {
             return
         }
+        detailViewController.delegate = self
         let id = products[indexPath.row].id
         RequestAssistant.shared.requestDetailAPI(productId: id) { result in
             switch result {

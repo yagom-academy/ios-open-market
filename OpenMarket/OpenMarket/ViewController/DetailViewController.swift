@@ -14,7 +14,7 @@ protocol ProductUpdateDelegate: NSObject {
 class DetailViewController: UIViewController {
     var product: Product?
     let numberFormatter: NumberFormatter = NumberFormatter()
-    
+    weak var delegate: ListUpdateDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviewStructures()
@@ -230,21 +230,48 @@ class DetailViewController: UIViewController {
             field.isSecureTextEntry = true
             field.placeholder = "Password"
         })
-        let ok = UIAlertAction(title: "확인", style: .default, handler: {_ in
-            self.checkSecret(password: (alert.textFields?.first?.text)!)
-            
+        let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
+            if let password = alert.textFields?.first?.text {
+                self.checkSecret(password: password)
+            }
         })
         let cancel = UIAlertAction(title: "닫기", style: .default)
         alert.addAction(ok)
         alert.addAction(cancel)
         present(alert, animated: true)
-        return
     }
     
     func checkSecret(password: String) {
-        var str: Data = "{ \"secret\":\"\(password)\"}".data(using: .utf8)!
-        RequestAssistant.shared.requestSecretAPI(productId: product!.id, body: str, completionHandler: { data in
-            print("# \(data)")
+        guard let data = try? JSONEncoder().encode(ProductToModify(secret: password)), let product = product else {
+            return
+        }
+        RequestAssistant.shared.requestSecretAPI(productId: product.id, body: data, completionHandler: { result in
+            switch result {
+            case .success(let data):
+                self.deleteProduct(id: product.id, secret: data)
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showAlert(alertTitle: "비밀번호 실패")
+                }
+            }
+        })
+    }
+    
+    func deleteProduct(id: Int, secret: String) {
+        RequestAssistant.shared.requestDeleteAPI(productId: id, productSecret: secret, completionHandler: { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.showAlert(alertTitle: "상품을 삭제하였습니다.") { [weak self] _ in
+                        self?.navigationController?.popViewController(animated: true)
+                        self?.delegate?.refreshProductList()
+                    }
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showAlert(alertTitle: "상품을 삭제할 권한이 없습니다.")
+                }
+            }
         })
     }
 }
@@ -254,18 +281,14 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailCollectionViewCell else {
             return DetailCollectionViewCell()
         }
-        
         guard let images = product?.images else {
             return DetailCollectionViewCell()
         }
-        
         cell.imageView.requestImageDownload(url: images[indexPath.row].url)
         cell.pageLabel.text = "\(String(indexPath.row + 1)) / \(images.count)"
         
-        
         return cell
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let images = product?.images else {
@@ -307,10 +330,8 @@ extension DetailViewController: ProductUpdateDelegate {
             switch result {
             case .success(let data):
                 self.product = data
-                print("# 1 product : \(self.product)")
                 DispatchQueue.main.async {
                     self.configureContents()
-                    //self.view.layoutIfNeeded()
                 }
             case .failure(_):
                 DispatchQueue.main.async {
