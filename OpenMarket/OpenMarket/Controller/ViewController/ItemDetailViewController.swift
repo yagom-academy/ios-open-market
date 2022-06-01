@@ -44,11 +44,13 @@ final class ItemDetailViewController: UIViewController {
     
     private func setInitialView() {
         itemImageCollectionView.dataSource = self
+        itemImageCollectionView.delegate = self
         itemImageCollectionView.register(UINib(nibName: "\(ItemDetailImageCell.self)", bundle: nibBundle), forCellWithReuseIdentifier: "\(ItemDetailImageCell.self)")
         setCollectionviewLayout()
         navigationItem.rightBarButtonItem = makeEditButton()
         guard let itemDetail = itemDetail else { return }
         self.title = itemDetail.name
+        imageNumberLabel.text = "1/\(itemDetail.images.count)"
         itemNameLabel.text = itemDetail.name
         if itemDetail.stock == 0 {
             stockLabel.text = "품절"
@@ -104,6 +106,15 @@ extension ItemDetailViewController: UICollectionViewDataSource {
         guard let ItemDetailImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ItemDetailImageCell.self)", for: indexPath) as? ItemDetailImageCell else { return ItemDetailImageCell() }
         ItemDetailImageCell.configureImage(url: itemDetail?.images[indexPath.row].url ?? "")
         return ItemDetailImageCell
+    }
+}
+extension ItemDetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        guard let visibleIndexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
+        
+        imageNumberLabel.text = "\(visibleIndexPath.row + 1)/\(itemDetail?.images.count ?? 0)"
     }
 }
 
