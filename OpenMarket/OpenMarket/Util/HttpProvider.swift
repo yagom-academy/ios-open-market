@@ -135,3 +135,20 @@ struct HttpProvider {
   }
 }
 
+extension HttpProvider {
+  func delete(
+    _ endpoint: Endpoint,
+    completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+  ) {
+    guard let url = endpoint.url else {
+      completionHandler(.failure(.invalid))
+      return
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = HttpMethod.delete
+    request.setValue("8de44ec8-d1b8-11ec-9676-43acdce229f5", forHTTPHeaderField: "identifier")
+    
+    excuteDataTask(with: request, completionHandler)
+  }
+}
