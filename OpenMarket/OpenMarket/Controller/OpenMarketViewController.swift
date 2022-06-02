@@ -123,11 +123,10 @@ extension OpenMarketViewController {
     }
     
     @objc func pullToRefresh() {
-        self.fetchData(from: .productList(page: page, itemsPerPage: Const.itemPerPage))
+        self.fetchData(from: .productList(page: 1, itemsPerPage: Const.itemPerPage))
         self.collectionView?.refreshControl?.endRefreshing()
     }
 }
-
 
 // MARK: - CollectionViewDataSourcePrefetching
 
@@ -137,7 +136,7 @@ extension OpenMarketViewController: UICollectionViewDataSourcePrefetching {
             return
         }
 
-        let currentPage = last.row / 20
+        let currentPage = last.row / Const.itemPerPage
 
         if currentPage + 1 == page, hasNetxPage == true {
             fetchData(from: .productList(page: page + 1, itemsPerPage: Const.itemPerPage))
