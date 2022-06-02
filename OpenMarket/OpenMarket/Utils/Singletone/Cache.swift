@@ -8,6 +8,11 @@
 import UIKit
 
 struct Cache {
-    static let cache = NSCache<NSURL, UIImage>()
+    static let cache: NSCache<NSURL, UIImage> = {
+        let cache = NSCache<NSURL, UIImage>()
+        cache.countLimit = 20
+        return cache
+    }()
+   
     private init() {}
 }
