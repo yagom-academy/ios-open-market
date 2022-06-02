@@ -8,24 +8,24 @@
 import UIKit
 
 final class ItemDetailViewController: UIViewController {
-    @IBOutlet weak var itemImageCollectionView: UICollectionView!
-    @IBOutlet weak var imageNumberLabel: UILabel!
-    @IBOutlet weak var itemNameLabel: UILabel!
-    @IBOutlet weak var stockLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var discountedPriceLabel: UILabel!
-    @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var myActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var itemImageCollectionView: UICollectionView!
+    @IBOutlet private weak var imageNumberLabel: UILabel!
+    @IBOutlet private weak var itemNameLabel: UILabel!
+    @IBOutlet private weak var stockLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var discountedPriceLabel: UILabel!
+    @IBOutlet private weak var descriptionTextView: UITextView!
+    @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
     private let networkHandler = NetworkHandler()
-    private var delegate: AddItemViewControllerDelegate?
-    private var itemDetail: ItemDetail? = nil {
+    private var delegate: UpdateDelegate?
+    private var itemDetail: ItemDetail? {
         didSet {
             DispatchQueue.main.async {
                 self.setInitialView()
             }
         }
     }
-    private var secret: String? = "" {
+    private var secret: String? {
         didSet {
             deleteItem(secret: secret)
         }
@@ -35,8 +35,7 @@ final class ItemDetailViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    func getItem(id: Int, target: AddItemViewControllerDelegate) {
-        delegate = target
+    func getItem(id: Int) {
         let itemDetailAPI = ItemDetailAPI(id: id)
         networkHandler.request(api: itemDetailAPI) { data in
             switch data {
@@ -52,6 +51,20 @@ final class ItemDetailViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    func setDelegate(target: UpdateDelegate) {
+        delegate = target
+    }
+    
+    private func setInitialView() {
+        itemImageCollectionView.dataSource = self
+        itemImageCollectionView.delegate = self
+        itemImageCollectionView.register(UINib(nibName: "\(ItemDetailImageCell.self)", bundle: nibBundle), forCellWithReuseIdentifier: "\(ItemDetailImageCell.self)")
+        navigationItem.rightBarButtonItem = makeEditButton()
+        setCollectionviewLayout()
+        setViewComponents()
+        myActivityIndicator.stopAnimating()
     }
     
     private func getSecret(password: String?) {
@@ -88,40 +101,10 @@ final class ItemDetailViewController: UIViewController {
         
     }
     
-    private func setInitialView() {
-        itemImageCollectionView.dataSource = self
-        itemImageCollectionView.delegate = self
-        itemImageCollectionView.register(UINib(nibName: "\(ItemDetailImageCell.self)", bundle: nibBundle), forCellWithReuseIdentifier: "\(ItemDetailImageCell.self)")
-        setCollectionviewLayout()
-        navigationItem.rightBarButtonItem = makeEditButton()
-        guard let itemDetail = itemDetail else { return }
-        self.title = itemDetail.name
-        imageNumberLabel.text = "1/\(itemDetail.images.count)"
-        itemNameLabel.text = itemDetail.name
-        if itemDetail.stock == 0 {
-            stockLabel.text = "품절"
-            stockLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
-        } else {
-            stockLabel.text = "남은 수량 : " + itemDetail.stock.description
-            stockLabel.textColor = .systemGray
-        }
-        
-        if itemDetail.price == 0 {
-            priceLabel.isHidden = true
-        } else {
-            let price = "\(itemDetail.currency) \(itemDetail.price.description)"
-            priceLabel.attributedText = price.strikethrough()
-        }
-        
-        discountedPriceLabel.text = "\(itemDetail.currency) \(itemDetail.discountedPrice.description)"
-        descriptionTextView.text = itemDetail.description
-        myActivityIndicator.stopAnimating()
-    }
-    
     @objc private func touchEditButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let edit = UIAlertAction(title: "수정", style: .default, handler: nil)
-        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let editAction = UIAlertAction(title: "수정", style: .default, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             let inAlert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
             let yesAction = UIAlertAction(title: "확인", style: .default) { _ in
                 self.getSecret(password: inAlert.textFields?[0].text)
@@ -134,11 +117,11 @@ final class ItemDetailViewController: UIViewController {
             
             self.present(inAlert, animated: true)
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
-        alert.addAction(edit)
-        alert.addAction(delete)
-        alert.addAction(cancel)
+        alert.addAction(editAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
         
         present(alert, animated: true)
     }
@@ -168,6 +151,30 @@ extension ItemDetailViewController: UICollectionViewDelegate {
 
 // MARK: - about View
 extension ItemDetailViewController {
+    private func setViewComponents() {
+        guard let itemDetail = itemDetail else { return }
+        self.title = itemDetail.name
+        imageNumberLabel.text = "1/\(itemDetail.images.count)"
+        itemNameLabel.text = itemDetail.name
+        if itemDetail.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        } else {
+            stockLabel.text = "남은 수량 : " + itemDetail.stock.description
+            stockLabel.textColor = .systemGray
+        }
+        
+        if itemDetail.price == 0 {
+            priceLabel.isHidden = true
+        } else {
+            let price = "\(itemDetail.currency) \(itemDetail.price.description)"
+            priceLabel.attributedText = price.strikethrough()
+        }
+        
+        discountedPriceLabel.text = "\(itemDetail.currency) \(itemDetail.discountedPrice.description)"
+        descriptionTextView.text = itemDetail.description
+    }
+    
     private func makeEditButton() -> UIBarButtonItem {
         let barButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(touchEditButton))
         

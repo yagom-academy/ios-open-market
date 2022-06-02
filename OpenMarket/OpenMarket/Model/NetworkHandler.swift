@@ -35,13 +35,13 @@ struct NetworkHandler {
         var request = URLRequest(url: url)
         request.httpMethod = api.method.string
         
+        if api.method != .get {
+            request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
+        }
+        
         if api.method == .post {
             guard let urlRequest = makePostData(api: api, urlRequest: request) else { return }
             request = urlRequest
-        }
-        
-        if api.method == .delete {
-            request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
         }
         
         session.receiveResponse(request: request) { responseResult in
@@ -75,9 +75,6 @@ struct NetworkHandler {
     private func makePostData(api: APIable, urlRequest: URLRequest) -> URLRequest? {
         let boundary = UUID().uuidString
         var request = urlRequest
-        
-        request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
-        
         var data = Data()
         
         if let model = api.itemComponents {

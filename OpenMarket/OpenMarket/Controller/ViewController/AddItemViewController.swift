@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol AddItemViewControllerDelegate {
+protocol UpdateDelegate {
     func upDate()
 }
 
@@ -28,7 +28,7 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
-    private var delegate: AddItemViewControllerDelegate?
+    private var delegate: UpdateDelegate?
     
     private var currencyType: CurrencyType = .KRW
     
@@ -131,7 +131,7 @@ final class AddItemViewController: UIViewController {
         return PostItemAPI(itemComponents: item)
     }
     
-    func setDelegate(target: AddItemViewControllerDelegate) {
+    func setDelegate(target: UpdateDelegate) {
         delegate = target
     }
     
