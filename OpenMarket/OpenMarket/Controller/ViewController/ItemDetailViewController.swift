@@ -17,6 +17,7 @@ final class ItemDetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var myActivityIndicator: UIActivityIndicatorView!
     private let networkHandler = NetworkHandler()
+    private var delegate: AddItemViewControllerDelegate?
     private var itemDetail: ItemDetail? = nil {
         didSet {
             DispatchQueue.main.async {
@@ -34,7 +35,8 @@ final class ItemDetailViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    func getItem(id: Int) {
+    func getItem(id: Int, target: AddItemViewControllerDelegate) {
+        delegate = target
         let itemDetailAPI = ItemDetailAPI(id: id)
         networkHandler.request(api: itemDetailAPI) { data in
             switch data {
@@ -72,7 +74,13 @@ final class ItemDetailViewController: UIViewController {
         guard let id = itemDetail?.id else { return }
         let deleteAPI = DeleteAPI(id: id, secret: secret)
         
-        networkHandler.request(api: deleteAPI) { _ in }
+        networkHandler.request(api: deleteAPI) { _ in
+            DispatchQueue.main.async {
+                self.delegate?.upDate()
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
     }
     
     private func setInitialView() {
