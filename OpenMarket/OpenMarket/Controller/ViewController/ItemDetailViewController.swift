@@ -24,6 +24,11 @@ final class ItemDetailViewController: UIViewController {
             }
         }
     }
+    private var secret: String? = "" {
+        didSet {
+            deleteItem(secret: secret)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,15 +55,24 @@ final class ItemDetailViewController: UIViewController {
     private func getSecret() {
         guard let id = itemDetail?.id else { return }
         let secretAPI = SecretAPI(id: id)
-        networkHandler.request(api: secretAPI) { data in
+        
+        self.networkHandler.request(api: secretAPI) { data in
             switch data {
             case .success(let data):
                 guard let data = data else { return }
-                print(String(data: data, encoding: .utf8) ?? "")
+                self.secret = String(data: data, encoding: .utf8)
             case .failure(let error):
                 print(error)
             }
         }
+    }
+    
+    private func deleteItem(secret: String?) {
+        guard let secret = secret else { return }
+        guard let id = itemDetail?.id else { return }
+        let deleteAPI = DeleteAPI(id: id, secret: secret)
+        
+        networkHandler.request(api: deleteAPI) { _ in }
     }
     
     private func setInitialView() {

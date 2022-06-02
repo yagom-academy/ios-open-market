@@ -40,6 +40,10 @@ struct NetworkHandler {
             request = urlRequest
         }
         
+        if api.method == .delete {
+            request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
+        }
+        
         session.receiveResponse(request: request) { responseResult in
             guard responseResult.error == nil else {
                 return response(.failure(.transportError))

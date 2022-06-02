@@ -64,3 +64,15 @@ struct SecretAPI: APIable {
     var method: HttpMethod = .post
     var itemComponents: ItemComponents? = nil
 }
+
+struct DeleteAPI: APIable {
+    let id: Int
+    let secret: String
+    let host = "https://market-training.yagom-academy.kr/"
+    var path: String {
+        return "api/products/\(id)/\(secret)"
+    }
+    let params: [String : String]? = nil
+    let method: HttpMethod = .delete
+    let itemComponents: ItemComponents? = nil
+}
