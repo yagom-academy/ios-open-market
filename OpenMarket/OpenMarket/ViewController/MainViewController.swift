@@ -47,7 +47,7 @@ final class MainViewController: UIViewController {
     private lazy var searchBar: UISearchBar = {
        let searchBar = UISearchBar()
         searchBar.searchBarStyle = .default
-        searchBar.placeholder = "상품명"
+        searchBar.placeholder = OpenMarketEnum.productName
         searchBar.sizeToFit()
         searchBar.isTranslucent = false
         searchBar.backgroundImage = UIImage()
@@ -66,7 +66,7 @@ extension MainViewController {
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
         requestProductListData()
-        let backButton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
+        let backButton = UIBarButtonItem(title: OpenMarketEnum.cancel, style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem = backButton
         
         collectionView.refreshControl = UIRefreshControl()
@@ -132,7 +132,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             case .failure(_):
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    self.showAlert(alertTitle: "데이터 로드 실패")
+                    self.showAlert(alertTitle: OpenMarketEnum.loadFail)
                 }
             }
         }
@@ -204,7 +204,7 @@ private extension MainViewController {
             case .failure(_):
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    self.showAlert(alertTitle: "데이터 로드 실패")
+                    self.showAlert(alertTitle: OpenMarketEnum.loadFail)
                 }
             }
         }

@@ -11,6 +11,18 @@ protocol ProductUpdateDelegate: NSObject {
     func refreshProduct()
 }
 
+private extension OpenMarketEnum {
+    static let modify = "수정"
+    static let delete = "삭제"
+    static let inputPassword = "비밀번호를 입력하세요."
+    static let ok = "확인"
+    static let close = "닫기"
+    static let password = "Password"
+    static let wrongPassword = "비밀번호가 맞지 않습니다."
+    static let deleteDone = "상품을 삭제하였습니다."
+    static let wrongAuthority = "상품을 삭제할 권한이 없습니다."
+}
+
 class DetailViewController: UIViewController {
     lazy var detailView = DetailView(frame: view.frame)
     var product: Product?
@@ -40,11 +52,11 @@ class DetailViewController: UIViewController {
     
     @objc private func requestSheet() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let modify = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
+        let cancel = UIAlertAction(title: OpenMarketEnum.cancellation, style: .cancel, handler: nil)
+        let modify = UIAlertAction(title: OpenMarketEnum.modify, style: .default) { [weak self] _ in
             self?.presentModifiation()
         }
-        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let delete = UIAlertAction(title: OpenMarketEnum.delete, style: .destructive) { [weak self] _ in
             self?.requestDelete()
         }
         alert.addAction(cancel)
@@ -64,17 +76,17 @@ class DetailViewController: UIViewController {
     }
     
     func requestDelete() {
-        let alert = UIAlertController(title: "비밀번호를 입력하세요.", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: OpenMarketEnum.inputPassword, message: nil, preferredStyle: .alert)
         alert.addTextField(configurationHandler: { field in
             field.isSecureTextEntry = true
-            field.placeholder = "Password"
+            field.placeholder = OpenMarketEnum.password
         })
-        let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
+        let ok = UIAlertAction(title: OpenMarketEnum.ok, style: .default, handler: { _ in
             if let password = alert.textFields?.first?.text {
                 self.checkSecret(password: password)
             }
         })
-        let cancel = UIAlertAction(title: "닫기", style: .default)
+        let cancel = UIAlertAction(title: OpenMarketEnum.close, style: .default)
         alert.addAction(ok)
         alert.addAction(cancel)
         present(alert, animated: true)
@@ -90,7 +102,7 @@ class DetailViewController: UIViewController {
                 self.deleteProduct(id: product.id, secret: data)
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: "비밀번호가 맞지 않습니다.")
+                    self.showAlert(alertTitle: OpenMarketEnum.wrongPassword)
                 }
             }
         })
@@ -101,14 +113,14 @@ class DetailViewController: UIViewController {
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: "상품을 삭제하였습니다.") { [weak self] _ in
+                    self.showAlert(alertTitle: OpenMarketEnum.deleteDone) { [weak self] _ in
                         self?.navigationController?.popViewController(animated: true)
                         self?.delegate?.refreshProductList()
                     }
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: "상품을 삭제할 권한이 없습니다.")
+                    self.showAlert(alertTitle: OpenMarketEnum.wrongAuthority)
                 }
             }
         })
@@ -174,7 +186,7 @@ extension DetailViewController: ProductUpdateDelegate {
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: "데이터 로드 실패")
+                    self.showAlert(alertTitle: OpenMarketEnum.loadFail)
                 }
             }
         }

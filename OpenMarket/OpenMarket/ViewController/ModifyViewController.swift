@@ -7,6 +7,10 @@
 
 import UIKit
 
+private extension OpenMarketEnum {
+    static let productModify = "상품수정"
+}
+
 final class ModifyViewController: ProductViewController {
     var product: Product?
     weak var delegate: ProductUpdateDelegate?
@@ -19,7 +23,7 @@ final class ModifyViewController: ProductViewController {
     
     override func setUpNavigationBar() {
         super.setUpNavigationBar()
-        self.navigationItem.title = "상품수정"
+        self.navigationItem.title = OpenMarketEnum.productModify
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
         self.navigationItem.rightBarButtonItem = requestButton
     }
@@ -62,11 +66,11 @@ final class ModifyViewController: ProductViewController {
     
     private func makeRequestBody() -> Data? {
         guard productView.validTextField(productView.nameField) else {
-            showAlert(alertTitle: "상품명을 3자 이상 100자 이하로 입력해주세요.")
+            showAlert(alertTitle: OpenMarketEnum.wrongProductName)
             return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
-            showAlert(alertTitle: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.")
+            showAlert(alertTitle: OpenMarketEnum.wrongProductDescription)
             return nil
         }
         guard let data = try? JSONEncoder().encode(detectModifiedContent()) else {
