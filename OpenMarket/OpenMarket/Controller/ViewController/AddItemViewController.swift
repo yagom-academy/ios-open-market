@@ -182,10 +182,14 @@ final class AddItemViewController: UIViewController {
 // MARK: - aboutCell
 extension AddItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if imageArray.count < maxImageCount {
-            return imageArray.count + 1
+        if vcType == "상품 등록" {
+            if imageArray.count < maxImageCount {
+                return imageArray.count + 1
+            } else {
+                return maxImageCount
+            }
         } else {
-            return maxImageCount
+            return itemDetail?.images.count ?? 0
         }
     }
     
@@ -194,10 +198,17 @@ extension AddItemViewController: UICollectionViewDataSource {
             return ItemImageCell()
         }
         
-        if indexPath.row == imageArray.count {
-            cell.setPlusLabel()
-        } else {
-            cell.setItemImage(image: imageArray[indexPath.row])
+        switch vcType {
+        case "상품 등록":
+            if indexPath.row == imageArray.count {
+                cell.setPlusLabel()
+            } else {
+                cell.setItemImage(image: imageArray[indexPath.row])
+            }
+        case "상품 수정":
+            cell.configureImage(url: itemDetail?.images[indexPath.row].url ?? "")
+        default:
+            break
         }
         
         return cell
@@ -206,7 +217,7 @@ extension AddItemViewController: UICollectionViewDataSource {
 
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if imageArray.count < maxImageCount && indexPath.row == imageArray.count {
+        if imageArray.count < maxImageCount && indexPath.row == imageArray.count && vcType == "상품 등록" {
             let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
             let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
                 self.selectPhoto(where: .photoLibrary)
