@@ -73,29 +73,38 @@ struct NetworkHandler {
         var request = urlRequest
         
         request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
-        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         var data = Data()
-        guard let model = api.itemComponents else { return nil}
         
-        guard let itemData = makeData(components: model) else { return nil }
-                
-        data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
-        data.append(itemData)
-        for (index, image) in model.imageArray.enumerated() {
-            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-                        return nil
-                    }
+        if let model = api.itemComponents {
+            request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            guard let itemData = makeData(components: model) else { return nil }
+                    
             data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-            data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(index).jpg\"\r\n".data(using: .utf8)!)
-            data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
-            data.append(imageData)
+            data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
+            data.append(itemData)
+            for (index, image) in model.imageArray.enumerated() {
+                guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                            return nil
+                        }
+                data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+                data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(index).jpg\"\r\n".data(using: .utf8)!)
+                data.append("Content-Type: image/jpg\r\n\r\n".data(using: .utf8)!)
+                data.append(imageData)
+            }
+            
+            data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+            
+            request.httpBody = data
+            return request
         }
         
-        data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let secretData = "{\"secret\": \"zsxn8cy106\"}".data(using: .utf8) else { return nil }
+
+        request.httpBody = secretData
         
-        request.httpBody = data
         return request
+        
     }
 }

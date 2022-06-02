@@ -47,6 +47,20 @@ final class ItemDetailViewController: UIViewController {
         }
     }
     
+    private func getSecret() {
+        guard let id = itemDetail?.id else { return }
+        let secretAPI = SecretAPI(id: id)
+        networkHandler.request(api: secretAPI) { data in
+            switch data {
+            case .success(let data):
+                guard let data = data else { return }
+                print(String(data: data, encoding: .utf8) ?? "")
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     private func setInitialView() {
         itemImageCollectionView.dataSource = self
         itemImageCollectionView.delegate = self
@@ -84,6 +98,7 @@ final class ItemDetailViewController: UIViewController {
             let inAlert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
             let yesAction = UIAlertAction(title: "확인", style: .default) { _ in
                 print(inAlert.textFields?[0].text ?? "")
+                self.getSecret()
             }
             
             inAlert.addTextField()
