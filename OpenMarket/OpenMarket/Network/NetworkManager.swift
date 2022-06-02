@@ -51,27 +51,7 @@ struct NetworkManager {
             return
         }
         
-        session.dataTask(with: urlRequest) { data, response, error in
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  (200..<300).contains(statusCode),
-                  error == nil else {
-                completion(.failure(.severError))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.dataError))
-                return
-            }
-            
-            do {
-                let result = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(result))
-            } catch {
-                completion(.failure(.jsonError))
-                return
-            }
-        }.resume()
+        runDataTask(urlRequest: urlRequest, completion: completion)
     }
     
     func requestMutiPartFormData<T: Decodable>(api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
@@ -80,6 +60,10 @@ struct NetworkManager {
             return
         }
         
+        runDataTask(urlRequest: urlRequest, completion: completion)
+    }
+    
+    private func runDataTask<T: Decodable>(urlRequest: URLRequest, completion: @escaping (Result<T, NetworkError>) -> Void) {
         session.dataTask(with: urlRequest) { data, response, error in
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   (200..<300).contains(statusCode),

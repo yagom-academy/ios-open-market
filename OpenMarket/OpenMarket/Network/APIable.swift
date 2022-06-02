@@ -27,6 +27,7 @@ extension APIable {
         }
         return urlComponents?.url
     }
+    
     func makeURLRequest() -> URLRequest? {
         guard let url = makeURL() else { return nil }
         var urlRequest = URLRequest(url: url)
