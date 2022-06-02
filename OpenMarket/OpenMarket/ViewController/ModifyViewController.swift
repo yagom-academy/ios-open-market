@@ -76,8 +76,8 @@ final class ModifyViewController: ProductViewController {
         return data
     }
     
-    private func detectModifiedContent() -> ProductToModify {
-        var modifyProduct: ProductToModify = ProductToModify()
+    private func detectModifiedContent() -> ProductToRequest {
+        var modifyProduct: ProductToRequest = ProductToRequest()
         guard let product = product else {
             return modifyProduct
         }

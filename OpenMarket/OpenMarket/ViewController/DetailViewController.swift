@@ -81,7 +81,7 @@ class DetailViewController: UIViewController {
     }
     
     func checkSecret(password: String) {
-        guard let data = try? JSONEncoder().encode(ProductToModify(secret: password)), let product = product else {
+        guard let data = try? JSONEncoder().encode(ProductToRequest(secret: password)), let product = product else {
             return
         }
         RequestAssistant.shared.requestSecretAPI(productId: product.id, body: data, completionHandler: { result in

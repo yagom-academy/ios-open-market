@@ -62,7 +62,7 @@ final class RegisterViewController: ProductViewController {
         }
         
         var data = Data()
-        let productToRegister = ProductToRegister(name: name, currency: currency, price: price, descriptions: self.productView.descriptionView.text, discountedPrice: discountedPrice, stock: stock)
+        let productToRegister = ProductToRequest(name: name, currency: currency, price: price, descriptions: self.productView.descriptionView.text, discountedPrice: discountedPrice, stock: stock)
         data.append(appendParams(productToRegister))
         images.forEach {
             data.append(appendImage($0))
@@ -76,7 +76,7 @@ final class RegisterViewController: ProductViewController {
         return data
     }
     
-    private func appendParams(_ registerProduct: ProductToRegister) -> Data {
+    private func appendParams(_ registerProduct: ProductToRequest) -> Data {
         var data = Data()
         var dataString: String = ""
         guard let params = try? JSONEncoder().encode(registerProduct) else {
