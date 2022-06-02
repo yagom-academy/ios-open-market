@@ -106,7 +106,10 @@ final class DetailViewController: UIViewController {
       self?.presentPasswordInputAlert()
     }
     
-    let cancelAction = UIAlertAction(title: Constants.cancelTitle, style: UIAlertAction.Style.cancel)
+    let cancelAction = UIAlertAction(
+      title: Constants.cancelTitle,
+      style: UIAlertAction.Style.cancel
+    )
     
     alert.addAction(editAction)
     alert.addAction(deleteAction)
@@ -181,7 +184,10 @@ extension DetailViewController {
       textField.isSecureTextEntry = true
     }
     
-    let continueAction = UIAlertAction(title: Constants.continueTitle, style: .default) { [weak self] (_) in
+    let continueAction = UIAlertAction(
+      title: Constants.continueTitle,
+      style: .default
+    ) { [weak self] (_) in
       guard let passwordText = alert.textFields?.first?.text else {
         return
       }
@@ -215,7 +221,10 @@ extension DetailViewController {
       preferredStyle: .alert
     )
     
-    let confirmAction = UIAlertAction(title: Constants.confirmTitle, style: .cancel) { [weak self] (_) in
+    let confirmAction = UIAlertAction(
+      title: Constants.confirmTitle,
+      style: .cancel
+    ) { [weak self] (_) in
       self?.presentPasswordInputAlert()
     }
     

@@ -142,8 +142,7 @@ extension RegistrationViewController {
   }
 }
 //MARK: - ImagePickerController
-extension RegistrationViewController: UIImagePickerControllerDelegate,
-                                      UINavigationControllerDelegate {
+extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   private func presentAlbum() {
     picker.sourceType = .photoLibrary
     picker.allowsEditing = true

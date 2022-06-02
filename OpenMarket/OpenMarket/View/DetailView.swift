@@ -127,9 +127,21 @@ class DetailView: UIView {
   
   private func configureLayout() {
     self.addSubview(totalStackView)
-    totalStackView.addArrangedSubviews(imageScrollView, pageControl, infoStackView, descriptionScrollView)
-    infoStackView.addArrangedSubviews(nameLabel, verticalStackView)
-    verticalStackView.addArrangedSubviews(stockLabel, priceLabel, bargainPriceLabel)
+    totalStackView.addArrangedSubviews(
+      imageScrollView,
+      pageControl,
+      infoStackView,
+      descriptionScrollView
+    )
+    infoStackView.addArrangedSubviews(
+      nameLabel,
+      verticalStackView
+    )
+    verticalStackView.addArrangedSubviews(
+      stockLabel,
+      priceLabel,
+      bargainPriceLabel
+    )
     descriptionScrollView.addSubview(descriptionView)
     descriptionView.addSubview(descriptionLabel)
     

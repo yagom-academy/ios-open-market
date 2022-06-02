@@ -105,16 +105,27 @@ final class GridCell: UICollectionViewCell {
   private func configureGridCell() {
     contentView.addSubview(totalStackView)
     totalStackView.axis = .vertical
-    totalStackView.addArrangedSubviews(thumbnailImageView,
-                                       infoStackView)
+    totalStackView.addArrangedSubviews(thumbnailImageView, infoStackView)
     infoStackView.addArrangedSubviews(nameLabel, priceStackView, stockLabel)
     priceStackView.addArrangedSubviews(priceLabel, bargainPriceLabel)
     
     NSLayoutConstraint.activate([
-      totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-      totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-      totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-      totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+      totalStackView.leadingAnchor.constraint(
+        equalTo: contentView.leadingAnchor,
+        constant: 10
+      ),
+      totalStackView.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor,
+        constant: -10
+      ),
+      totalStackView.topAnchor.constraint(
+        equalTo: contentView.topAnchor,
+        constant: 10
+      ),
+      totalStackView.bottomAnchor.constraint(
+        equalTo: contentView.bottomAnchor,
+        constant: -10
+      ),
       
       thumbnailImageView.widthAnchor.constraint(
         equalTo: thumbnailImageView.heightAnchor,

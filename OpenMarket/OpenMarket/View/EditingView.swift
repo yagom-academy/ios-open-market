@@ -21,11 +21,17 @@ final class EditingView: ProductUpdaterView {
   private func configureLayout() {
     imageScrollView.addSubview(imageStackView)
     priceStackView.addArrangedSubviews(priceTextField, currencySegmentedControl)
-    textFieldStackView.addArrangedSubviews(nameTextField,
-                                           priceStackView,
-                                           discountedPriceTextField,
-                                           stockTextField)
-    totalStackView.addArrangedSubviews(imageScrollView, textFieldStackView, descriptionTextView)
+    textFieldStackView.addArrangedSubviews(
+      nameTextField,
+      priceStackView,
+      discountedPriceTextField,
+      stockTextField
+    )
+    totalStackView.addArrangedSubviews(
+      imageScrollView,
+      textFieldStackView,
+      descriptionTextView
+    )
     self.addSubview(totalStackView)
     
     NSLayoutConstraint.activate([
