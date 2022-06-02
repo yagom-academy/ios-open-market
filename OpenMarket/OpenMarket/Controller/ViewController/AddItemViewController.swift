@@ -53,9 +53,10 @@ final class AddItemViewController: UIViewController {
         setInitialView()
     }
     
-    func setVcType(vcType: String) {
+    func setVcType(vcType: String, itemDetail: ItemDetail?) {
         self.title = vcType
         self.vcType = vcType
+        self.itemDetail = itemDetail
     }
     
     private func setInitialView() {
@@ -69,6 +70,16 @@ final class AddItemViewController: UIViewController {
         setLayout()
         addKeyboardToolbar()
         addKeyboardObserver()
+        setEditView()
+    }
+    
+    private func setEditView() {
+        guard let itemDetail = itemDetail else { return }
+        self.nameTextField.text = itemDetail.name
+        self.priceTextField.text = itemDetail.price.description
+        self.discountedPriceTextField.text = itemDetail.discountedPrice.description
+        self.stockTextField.text = itemDetail.stock.description
+        self.descriptinTextView.text = itemDetail.description
     }
     
     private func showAlert(message: String, action:(() -> ())?  ) {
