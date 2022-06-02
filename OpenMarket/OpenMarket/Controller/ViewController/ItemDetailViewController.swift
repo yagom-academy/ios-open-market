@@ -58,13 +58,18 @@ final class ItemDetailViewController: UIViewController {
         guard let id = itemDetail?.id else { return }
         let secretAPI = SecretAPI(id: id, password: password)
         
-        self.networkHandler.request(api: secretAPI) { data in
+        networkHandler.request(api: secretAPI) { data in
             switch data {
             case .success(let data):
                 guard let data = data else { return }
                 self.secret = String(data: data, encoding: .utf8)
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                let alert = UIAlertController(title: "비밀번호가 틀렸습니다", message: nil, preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                alert.addAction(yesAction)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
             }
         }
     }
@@ -121,9 +126,11 @@ final class ItemDetailViewController: UIViewController {
             let yesAction = UIAlertAction(title: "확인", style: .default) { _ in
                 self.getSecret(password: inAlert.textFields?[0].text)
             }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
             
             inAlert.addTextField()
             inAlert.addAction(yesAction)
+            inAlert.addAction(cancelAction)
             
             self.present(inAlert, animated: true)
         }
