@@ -21,7 +21,6 @@ final class MainViewController: UIViewController {
   
   private let httpProvider = HttpProvider()
   private lazy var collectionView = CollectionView()
-  private lazy var editingView = EditingView()
   private lazy var dataSource = makeDataSource()
   private var currentPageNumber = 1
   private var productsList:PageInformation?
