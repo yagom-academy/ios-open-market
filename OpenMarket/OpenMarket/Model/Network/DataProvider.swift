@@ -8,11 +8,32 @@
 import UIKit
 
 class DataProvider {
+    static let shared = DataProvider()
+    
     private var pageNumber = 1
     private let itemsPerPage = 10
     private var isLoading = false
     
-    func fetchData(completionHandler: @escaping ([Product]) -> Void) {
+    private init() { }
+    
+    func reloadData(completionHandler: @escaping ([Product]?) -> Void) {
+        pageNumber = 1
+        fetchProductListData(completionHandler: completionHandler)
+    }
+        
+    func fetchProductDetailData(productIdentifier: Int, completionHandler: @escaping (ProductDetail?) -> Void) {
+        HTTPManager().loadData(targetURL: .productDetail(productNumber: productIdentifier)) { data in
+            switch data {
+            case .success(let data):
+                guard let product = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }
+                completionHandler(product)
+            case .failure(_):
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    func fetchProductListData(completionHandler: @escaping ([Product]?) -> Void) {
         if isLoading {
             return
         }
@@ -29,12 +50,13 @@ class DataProvider {
                 completionHandler(products)
                 pageNumber += 1
                 isLoading = false
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure(_):
+                completionHandler(nil)
             }
         }
     }
     
+    @discardableResult
     func fetchImage(urlString: String, completionHandler: @escaping (UIImage) -> Void) -> URLSessionDataTask? {
         guard let url = URL(string: urlString) else {
             return nil

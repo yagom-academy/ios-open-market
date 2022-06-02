@@ -11,7 +11,7 @@ class ProductGridCell: UICollectionViewCell, ContentUpdatable {
     static let reuseIdentifier = "product-grid-cell-reuse-Identifier"
     let cellUIComponent = CellUIComponent()
     var item: Product? = nil
-    var imageFetchTask: URLSessionDataTask?
+    private var imageFetchTask: URLSessionDataTask?
     
     //MARK: - stackView
     private let baseStackView: UIStackView = {
@@ -72,12 +72,7 @@ extension ProductGridCell {
 }
 
 @available(iOS 14.0, *)
-extension ProductGridCell {
-    func update(newItem: Product) {
-        guard item != newItem else { return }
-        item = newItem
-    }
-    
+extension ProductGridCell {    
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
         state.item = self.item
@@ -101,9 +96,9 @@ extension ProductGridCell {
         setUpStockLabel(stock: product.stock)
         setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        imageFetchTask = DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
-            DispatchQueue.main.async { [self] in
-                cellUIComponent.thumbnailImageView.image = image
+        imageFetchTask = DataProvider.shared.fetchImage(urlString: product.thumbnail) { [weak self] image in
+            DispatchQueue.main.async { [weak self] in
+                self?.cellUIComponent.thumbnailImageView.image = image
             }
         }
     }

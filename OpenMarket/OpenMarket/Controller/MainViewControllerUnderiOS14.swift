@@ -7,105 +7,35 @@
 
 import UIKit
 
-class MainViewControllerUnderiOS14: UIViewController {
-    enum Section {
-        case main
-    }
-    
-    private let dataProvider = DataProvider()
+class MainViewControllerUnderiOS14: BaseViewController {
     private var products: [Product] = [] {
         didSet {
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView?.reloadData()
             }
         }
     }
-    
-    private var collectionView: UICollectionView?
-    private var baseView = BaseView()
-    private var listLayout: UICollectionViewLayout?
-    private var gridLayout: UICollectionViewLayout?
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavigationItem()
-        applyListLayout()
-        applyGridLayout()
-        configureHierarchy(collectionViewLayout: listLayout ?? UICollectionViewLayout())
         setUpCollectionView()
-        
-        dataProvider.fetchData() { products in
-            self.products.append(contentsOf: products)
-        }
-    }
-}
-
-extension MainViewControllerUnderiOS14 {
-    private func setUpCollectionView() {
-        collectionView?.register(ProductListCell.self, forCellWithReuseIdentifier: "ProductListCell")
-        collectionView?.register(ProductGridCell.self, forCellWithReuseIdentifier: "ProductGridCell")
-        collectionView?.dataSource = self
-        collectionView?.delegate = self
-        collectionView?.backgroundColor = .systemBackground
-    }
-    
-    private func setUpNavigationItem() {
-        setUpSegmentation()
-        navigationItem.titleView = baseView.segmentedControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(registerProduct))
-    }
-    
-    private func setUpSegmentation() {
-        baseView.segmentedControl.setWidth(view.bounds.width * 0.18 , forSegmentAt: 0)
-        baseView.segmentedControl.setWidth(view.bounds.width * 0.18, forSegmentAt: 1)
-        baseView.segmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
-    }
-    
-    @objc private func registerProduct() {
-        present(RegisterProductViewController(), animated: false)
-    }
-    
-    @objc private func switchCollectionViewLayout() {
-        switch baseView.segmentedControl.selectedSegmentIndex {
-        case 0:
-            guard let listLayout = listLayout else {
+        view.backgroundColor = .systemBackground
+        DataProvider.shared.fetchProductListData() { [weak self] products in
+            guard let products = products else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(alert, animated: true)
+                }
                 return
             }
-            collectionView?.setCollectionViewLayout(listLayout, animated: false)
-            collectionView?.reloadData()
-        case 1:
-            guard let gridLayout = gridLayout else {
-                return
-            }
-            collectionView?.setCollectionViewLayout(gridLayout, animated: false)
-            collectionView?.reloadData()
-        default:
-            break
+            self?.products.append(contentsOf: products)
         }
-    }
-}
-
-extension MainViewControllerUnderiOS14 {
-    private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout ?? collectionViewLayout)
-        view.addSubview(collectionView ?? UICollectionView())
-        layoutCollectionView()
+        setUpRefreshControl()
     }
     
-    private func applyGridLayout() {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        group.interItemSpacing = .fixed(10)
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-        section.interGroupSpacing = 10
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        gridLayout = layout
-    }
-    
-    private func applyListLayout() {
+    // MARK: override function (non @objc)
+    override func applyListLayout() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -116,22 +46,57 @@ extension MainViewControllerUnderiOS14 {
         let layout = UICollectionViewCompositionalLayout(section: section)
         listLayout = layout
     }
+}
+
+// MARK: Refresh Control
+extension MainViewControllerUnderiOS14 {
+    func setUpRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        refreshControl.tintColor = UIColor.systemPink
+
+        collectionView?.refreshControl = refreshControl
+    }
     
-    private func layoutCollectionView() {
-        guard let collectionView = collectionView else {
-            return
+    @objc func refreshCollectionView() {
+        DataProvider.shared.reloadData() { [weak self] products in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없다", completionHandler: nil)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.present(alert, animated: true)
+                    }
+                    return
+                }
+                self?.products = products                
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshControl.endRefreshing()
+                }
+            }
         }
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshControl.beginRefreshing()
+            self?.products = []
+        }
     }
 }
 
+// MARK: CollectionView Setting
+extension MainViewControllerUnderiOS14 {
+    private func setUpCollectionView() {
+        collectionView?.register(ProductListCell.self, forCellWithReuseIdentifier: "ProductListCell")
+        collectionView?.register(ProductGridCell.self, forCellWithReuseIdentifier: "ProductGridCell")
+        collectionView?.dataSource = self
+        collectionView?.delegate = self
+        collectionView?.backgroundColor = .systemBackground
+    }
+    
+    @objc override func switchCollectionViewLayout() {
+        super.switchCollectionViewLayout()
+        collectionView?.reloadData()
+    }
+}
+
+// MARK: UICollectionViewDataSource
 extension MainViewControllerUnderiOS14: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
@@ -165,13 +130,43 @@ extension MainViewControllerUnderiOS14: UICollectionViewDataSource {
     }
 }
 
+// MARK: UICollectionViewDelegate
 extension MainViewControllerUnderiOS14: UICollectionViewDelegate {
     func collectionView( _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let _ = products[safe: indexPath.row + 1] else {
-            dataProvider.fetchData { products in
-                self.products.append(contentsOf: products)
+            DataProvider.shared.fetchProductListData { [weak self] products in
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.present(alert, animated: true)
+                    }
+                    return
+                }
+                self?.products.append(contentsOf: products)
             }
             return
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = products[safe: indexPath.row] else { return }
+        
+        DataProvider.shared.fetchProductDetailData(productIdentifier: product.identifier) { [weak self] decodedData in
+            guard let decodedData = decodedData else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(alert, animated: true)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                let registerProductView = UpdateProductViewController(product: decodedData)
+                let navigationController = UINavigationController(rootViewController: registerProductView)
+                navigationController.modalTransitionStyle = .coverVertical
+                navigationController.modalPresentationStyle = .fullScreen
+                self?.present(navigationController, animated: true)
+            }
         }
     }
 }

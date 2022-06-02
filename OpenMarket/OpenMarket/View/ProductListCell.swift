@@ -27,7 +27,7 @@ class ProductListCell: UICollectionViewCell, ContentUpdatable {
         return imageView
     }()
     
-    let seperatorView: UIView = {
+    private let seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .placeholderText
         return view
@@ -141,11 +141,6 @@ extension ProductListCell {
 
 @available(iOS 14.0, *)
 extension ProductListCell {
-    func update(newItem: Product) {
-        guard item != newItem else { return }
-        item = newItem
-    }
-    
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
         state.item = self.item
@@ -182,9 +177,9 @@ extension ProductListCell {
         setUpStockLabel(stock: product.stock)
         setUpPriceLabel(price: product.price, bargainPrice: product.bargainPrice)
         
-        imageFetchTask = DataProvider().fetchImage(urlString: product.thumbnail) { [self] image in
-            DispatchQueue.main.async { [self] in
-                cellUIComponent.thumbnailImageView.image = image
+        imageFetchTask = DataProvider.shared.fetchImage(urlString: product.thumbnail) { [weak self] image in
+            DispatchQueue.main.async { [weak self] in
+                self?.cellUIComponent.thumbnailImageView.image = image
             }
         }
     }

@@ -7,127 +7,101 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class MainViewController: UIViewController {
-    enum Section {
-        case main
-    }
+class MainViewController: BaseViewController {
     private var isFirstSnapshot = true
-    private var collectionView: UICollectionView?
-    private var listLayout: UICollectionViewLayout?
-    private var gridLayout: UICollectionViewLayout?
     private var listCellRegisteration: UICollectionView.CellRegistration<ProductListCell, Product>?
     private var gridCellRegisteration: UICollectionView.CellRegistration<ProductGridCell, Product>?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>?
-    private var baseView = BaseView()
-    private let dataProvider = DataProvider()
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        applyListLayout()
-        applyGridLayout()
         registerCell()
-        guard let listLayout = listLayout else {
-            return
-        }
-        configureHierarchy(collectionViewLayout: listLayout)
         configureDataSource()
-        setUpNavigationItem()
-        dataProvider.fetchData() { products in
-            DispatchQueue.main.async { [self] in
-                updateSnapshot(products: products)
+        DataProvider.shared.fetchProductListData() { products in
+            guard let products = products else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+                return
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.updateSnapshot(products: products)
             }
         }
         collectionView?.delegate = self
+        setUpRefreshControl()
     }
     
-    private func setUpNavigationItem() {
-        setUpSegmentation()
-        navigationItem.titleView = baseView.segmentedControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(registerProduct))
-    }
-    
-    private func setUpSegmentation() {
-        baseView.segmentedControl.setWidth(view.bounds.width * 0.18 , forSegmentAt: 0)
-        baseView.segmentedControl.setWidth(view.bounds.width * 0.18, forSegmentAt: 1)
-        baseView.segmentedControl.addTarget(self, action: #selector(switchCollectionViewLayout), for: .valueChanged)
-    }
-    
-    @objc private func switchCollectionViewLayout() {
-        switch baseView.segmentedControl.selectedSegmentIndex {
-        case 0:
-            guard let listLayout = listLayout else {
-                return
-            }
-            collectionView?.setCollectionViewLayout(listLayout, animated: false)
-        case 1:
-            guard let gridLayout = gridLayout else {
-                return
-            }
-            collectionView?.setCollectionViewLayout(gridLayout, animated: false)
-        default:
-            break
-        }
+    // MARK: override function (non @objc)
+    override func switchCollectionViewLayout() {
+        super.switchCollectionViewLayout()
         self.configureDataSource()
-        dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
+        guard let currentSnapshot = currentSnapshot else {
+            let alert = Alert().showWarning(title: "data 불러오지 못함")
+            present(alert, animated: true)
+            return
+        }
+        dataSource?.apply(currentSnapshot)
     }
     
-    @objc private func registerProduct() {
-        present(RegisterProductViewController(), animated: false)
-    }
-}
-
-@available(iOS 14.0, *)
-extension MainViewController {
-    
-    private func configureHierarchy(collectionViewLayout: UICollectionViewLayout) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        view.addSubview(collectionView ?? UICollectionView())
-        layoutCollectionView()
-    }
-    
-    private func applyGridLayout() {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        group.interItemSpacing = .fixed(10)
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-        section.interGroupSpacing = 10
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        gridLayout = layout
-    }
-    
-    private func applyListLayout() {
+    override func applyListLayout() {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         listLayout = layout
     }
-    
-    private func layoutCollectionView() {
-        guard let collectionView = collectionView else {
-            return
-        }
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+}
+
+// MARK: Refresh Control
+@available(iOS 14.0, *)
+extension MainViewController {
+    func setUpRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        refreshControl.tintColor = UIColor.systemPink
+
+        collectionView?.refreshControl = refreshControl
     }
     
-    private func registerCell() {
-        listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { [self] (cell, indexPath, item) in
-            guard let sectionIdentifier = currentSnapshot?.sectionIdentifiers[indexPath.section] else {
-                return
-            }
-            let numberOfItemsInSection = currentSnapshot?.numberOfItems(inSection: sectionIdentifier)
-            let isLastCell = indexPath.item + 1 == numberOfItemsInSection
-            cell.seperatorView.isHidden = isLastCell
+    @objc func refreshCollectionView() {
+        DataProvider.shared.reloadData() { [weak self] products in
             
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.present(alert, animated: true)
+                    }
+                    return
+                }
+                guard var currentSnapshot = self?.currentSnapshot else {
+                    return
+                }
+                currentSnapshot.deleteItems(currentSnapshot.itemIdentifiers)
+                currentSnapshot.appendItems(products)
+                self?.currentSnapshot = currentSnapshot
+                self?.dataSource?.apply(currentSnapshot)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshControl.endRefreshing()
+                }
+            }
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshControl.beginRefreshing()
+            let emptySnapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            self?.dataSource?.apply(emptySnapshot)
+        }
+    }
+}
+
+// MARK: DiffableDataSource
+@available(iOS 14.0, *)
+extension MainViewController {
+    private func registerCell() {
+        listCellRegisteration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, item) in
             cell.update(newItem: item)
         }
         
@@ -143,8 +117,8 @@ extension MainViewController {
             return
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { [self] (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            if baseView.segmentedControl.selectedSegmentIndex == 0 {
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { [weak self] (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            if self?.baseView.segmentedControl.selectedSegmentIndex == 0 {
                 return collectionView.dequeueConfiguredReusableCell(using: listCellRegisteration, for: indexPath, item: itemIdentifier)
             } else {
                 return collectionView.dequeueConfiguredReusableCell(using: gridCellRegisteration, for: indexPath, item: itemIdentifier)
@@ -153,23 +127,58 @@ extension MainViewController {
     }
     
     private func updateSnapshot(products: [Product]) {
-        currentSnapshot = dataSource?.snapshot()
+        guard var currentSnapshot = dataSource?.snapshot() else { return }
         if isFirstSnapshot {
-            currentSnapshot?.appendSections([.main])
+            currentSnapshot.appendSections([.main])
             isFirstSnapshot = false
         }
-        currentSnapshot?.appendItems(products)
-        dataSource?.apply(currentSnapshot ?? NSDiffableDataSourceSnapshot())
-        
+        currentSnapshot.appendItems(products)
+        self.currentSnapshot = currentSnapshot
+        dataSource?.apply(currentSnapshot)
     }
 }
 
+// MARK: UICollectionViewDelegate
 @available(iOS 14.0, *)
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        dataProvider.fetchData() { products in
-            DispatchQueue.main.async { [self] in
-                updateSnapshot(products: products)
+        guard let product = currentSnapshot?.itemIdentifiers.last else {return}
+        guard currentSnapshot?.indexOfItem(product) != indexPath.row else {
+            DataProvider.shared.fetchProductListData() { products in
+                guard let products = products else {
+                    let alert = Alert().showWarning(title: "경고", message: "데이터를 불러올 수 없습니다", completionHandler: nil)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.present(alert, animated: true)
+                    }
+                    return
+                }
+                DispatchQueue.main.async { [weak self] in
+                    self?.updateSnapshot(products: products)
+                }
+            }
+            return
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = dataSource?.itemIdentifier(for: indexPath) else { return }
+                
+        DataProvider.shared.fetchProductDetailData(productIdentifier: product.identifier) { decodedData in
+            guard let decodedData = decodedData else {
+                let alert = Alert().showWarning(title: "경고", message: "데이터를 불러오지 못했습니다", completionHandler: nil)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(alert, animated: true)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                let registerProductView = UpdateProductViewController(product: decodedData)
+                let navigationController = UINavigationController(rootViewController: registerProductView)
+                navigationController.modalTransitionStyle = .coverVertical
+                navigationController.modalPresentationStyle = .fullScreen
+                self?.present(navigationController, animated: true)
             }
         }
     }
