@@ -60,9 +60,9 @@ final class EditViewController: ProductViewController {
         guard let data = mainView?.makeEncodableModel() else { return }
         guard let id = product.id else { return }
         
-        let endPoint = EndPoint.editProduct(id: id, sendData: data)
+        let editProductAPI = EditProduct(path: "\(id)", bodyParameters: data)
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
+        networkManager.request(api: editProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
