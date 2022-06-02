@@ -48,7 +48,8 @@ final class ProductDetailViewController: UIViewController {
         self.networkManager.execute(with: .productEdit(productId: id), httpMethod: .get) { result in
             switch result {
             case .success(let result):
-                self.productDetail = result
+                guard let result = result as? ProductDetail else { return }
+                self.productDetail = result 
             case .failure(let error):
                 print(error.localizedDescription)
             }

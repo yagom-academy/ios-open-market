@@ -210,13 +210,19 @@ extension RegistrationViewController {
         self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
             switch result {
             case .success:
-                self.showSuccessAlert()
+                DispatchQueue.main.async {
+                    self.showSuccessAlert()
+                }
+
             case .failure:
-                self.showFailureAlert()
+                DispatchQueue.main.async {
+                    self.showFailureAlert()
+                }
             }
         }
-        
-        self.navigationController?.popViewController(animated: true)
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

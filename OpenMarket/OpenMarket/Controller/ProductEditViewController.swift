@@ -158,13 +158,20 @@ extension ProductEditViewController {
         self.networkManager.execute(with: .productEdit(productId: productID), httpMethod: .patch, params: params) { result in
             switch result {
             case .success:
-                self.showSuccessAlert()
+                DispatchQueue.main.async {
+                    self.showSuccessAlert()
+                }
+                
             case .failure:
-                self.showFailureAlert()
+                DispatchQueue.main.async {
+                    self.showFailureAlert()
+                }
             }
         }
-    
-        self.navigationController?.popViewController(animated: true)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

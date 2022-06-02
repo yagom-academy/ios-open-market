@@ -27,10 +27,9 @@ struct NetworkManager<T: Decodable> {
     init(session: URLSessionProtocol) {
         self.session = session
     }
-    
-    mutating func execute(with endPoint: Endpoint, httpMethod: HTTPMethod, params: Encodable? = nil, images: [ImageInfo]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
+                
+    mutating func execute(with endPoint: Endpoint, httpMethod: HTTPMethod, params: Encodable? = nil, images: [ImageInfo]? = nil, completion: @escaping (Result<Any, NetworkError>) -> Void) {
         let successRange = 200...299
-        
         switch httpMethod {
         case .get:
             session.dataTask(with: endPoint) { response in
@@ -56,14 +55,15 @@ struct NetworkManager<T: Decodable> {
                 } catch {
                     completion(.failure(.decode))
                 }
-            }       
+            }
+            
         case .post:
             guard let params = params as? ProductForPOST,
                   let images = images else {
-                      completion(.failure(.data))
-                      return
-                  }
-
+                completion(.failure(.data))
+                return
+            }
+            
             guard let request = requestPOST(endPoint: endPoint, params: params, images: images) else {
                 completion(.failure(.request))
                 return
@@ -84,6 +84,7 @@ struct NetworkManager<T: Decodable> {
                     completion(.failure(.statusCode))
                     return
                 }
+                completion(.success(()))
             }.resume()
             
         case .patch:
@@ -91,7 +92,7 @@ struct NetworkManager<T: Decodable> {
                 completion(.failure(.data))
                 return
             }
-
+            
             guard let request = requestPATCH(endPoint: endPoint, params: params) else {
                 completion(.failure(.request))
                 return
@@ -112,8 +113,9 @@ struct NetworkManager<T: Decodable> {
                     completion(.failure(.statusCode))
                     return
                 }
+                completion(.success(()))
             }.resume()
-            
+        
         case .delete:
             print("delete")
         }
@@ -125,7 +127,7 @@ extension NetworkManager {
     private func generateBoundary() -> String {
         return "\(UUID().uuidString)"
     }
-
+    
     mutating private func requestPOST(endPoint: Endpoint, params: ProductForPOST, images: [ImageInfo]) -> URLRequest? {
         let boundary = generateBoundary()
         
@@ -140,13 +142,13 @@ extension NetworkManager {
         request.addValue(UserInformation.identifer, forHTTPHeaderField: "identifier")
         request.addValue("eddy123", forHTTPHeaderField: "accessId")
         request.httpBody = createPOSTBody(requestInfo: params, images: images, boundary: boundary)
-
+        
         return request
     }
-
+    
     private func createPOSTBody(requestInfo: ProductForPOST, images: [ImageInfo], boundary: String) -> Data? {
         var body: Data = Data()
-                        
+        
         guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
             return nil
         }
@@ -187,7 +189,7 @@ extension NetworkManager {
 
 // MARK: - PATCH
 extension NetworkManager {
-    private func createPATCHBody(requestInfo: ProductForPatch) -> Data? {        
+    private func createPATCHBody(requestInfo: ProductForPatch) -> Data? {
         return try? JSONEncoder().encode(requestInfo)
     }
     
