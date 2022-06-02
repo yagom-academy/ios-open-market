@@ -18,7 +18,7 @@ final class AddItemViewController: UIViewController {
     @IBOutlet private weak var priceTextField: UITextField!
     @IBOutlet private weak var discountedPriceTextField: UITextField!
     @IBOutlet private weak var stockTextField: UITextField!
-    @IBOutlet private weak var descriptinTextView: UITextView!
+    @IBOutlet private weak var descriptionTextView: UITextView!
     @IBOutlet private weak var myScrollView: UIScrollView!
     private let networkHandler = NetworkHandler()
     private let maxImageCount = 5
@@ -79,7 +79,7 @@ final class AddItemViewController: UIViewController {
         self.priceTextField.text = itemDetail.price.description
         self.discountedPriceTextField.text = itemDetail.discountedPrice.description
         self.stockTextField.text = itemDetail.stock.description
-        self.descriptinTextView.text = itemDetail.description
+        self.descriptionTextView.text = itemDetail.description
     }
     
     private func showAlert(message: String, action:(() -> ())?  ) {
@@ -141,7 +141,7 @@ final class AddItemViewController: UIViewController {
         let currency = currencyType.toString
         let discountedPrice = Int(discountedPriceTextField.text ?? "") ?? 0
         let stock = Int(stockTextField.text ?? "") ?? 0
-        let descriptions = descriptinTextView.text
+        let descriptions = descriptionTextView.text
         let httpDescription = descriptions?.replacingOccurrences(of: "\n", with: "\\n") ?? ""
         
         let item = ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock,  descriptions: httpDescription, imageArray: imageArray)
@@ -268,7 +268,7 @@ extension AddItemViewController {
         priceTextField.inputAccessoryView = toolBar
         discountedPriceTextField.inputAccessoryView = toolBar
         stockTextField.inputAccessoryView = toolBar
-        descriptinTextView.inputAccessoryView = toolBar
+        descriptionTextView.inputAccessoryView = toolBar
     }
     
     @objc private func hideKeyboard() {
