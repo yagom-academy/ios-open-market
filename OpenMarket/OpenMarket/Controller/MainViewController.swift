@@ -16,7 +16,6 @@ final class MainViewController: UIViewController {
     
     private var presenter = Presenter()
     private lazy var dataSource = makeDataSource()
-    private var hasNext: Bool = false
     private var pageNo: Int = 1
 
     private lazy var productView = ProductListView.init(frame: view.bounds)
@@ -45,6 +44,7 @@ final class MainViewController: UIViewController {
         registerCell()
         applySnapshot()
         productView.collectionView.delegate = self
+        productView.collectionView.prefetchDataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -102,13 +102,9 @@ extension MainViewController {
         self.networkManager.execute(with: .productList(pageNumber: number, itemsPerPage: 20), httpMethod: .get) { result in
             switch result {
             case .success(let result):
-                self.hasNext = result.hasNext
+                guard let result = result as? ProductsList else { return }
                 self.pageNo = result.pageNo
                 self.item.append(contentsOf: result.pages)
-                DispatchQueue.main.async {
-                    self.productView.collectionView.reloadData()
-                    self.productView.indicatorView.stopAnimating()
-                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -167,16 +163,6 @@ extension MainViewController: UICollectionViewDelegate {
         
         self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let buffer = 3
-        guard indexPath.row == item.count - buffer,
-              hasNext == true else {
-            return
-        }
-        
-        executeGET(number: pageNo + 1)
-    }
 }
 
 // MARK: - Set Presenter
@@ -203,6 +189,21 @@ extension MainViewController {
             presenter.stock = Stock.soldOut
         } else {
             presenter.stock = "\(Stock.stock) \(presenter.stock ?? "")"
+        }
+    }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let last = indexPaths.last else {
+            return
+        }
+     
+        let currentPage = last.row / 20
+    
+        if currentPage + 1 == pageNo {
+            pageNo += 1
+            executeGET(number: pageNo)
         }
     }
 }
