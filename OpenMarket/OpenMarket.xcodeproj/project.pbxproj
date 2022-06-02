@@ -10,6 +10,8 @@
 		940171CB2844BA230068E32F /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940171CA2844BA230068E32F /* ProductDetailViewController.swift */; };
 		940171CD2844BAB00068E32F /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940171CC2844BAB00068E32F /* ProductDetailView.swift */; };
 		940171CF2845E4FA0068E32F /* NotificationName+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940171CE2845E4FA0068E32F /* NotificationName+extension.swift */; };
+		9401725F284900660068E32F /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9401725E284900660068E32F /* APIable.swift */; };
+		94017261284904630068E32F /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94017260284904630068E32F /* OpenMarketAPI.swift */; };
 		941DA8EE283741FE0021CFCB /* UICollectionViewCell+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */; };
 		941DA8F0283784C70021CFCB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8EF283784C70021CFCB /* ImageManager.swift */; };
 		941DA8F2283785120021CFCB /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941DA8F1283785110021CFCB /* URLSession+extension.swift */; };
@@ -66,6 +68,8 @@
 		940171CA2844BA230068E32F /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		940171CC2844BAB00068E32F /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		940171CE2845E4FA0068E32F /* NotificationName+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+extension.swift"; sourceTree = "<group>"; };
+		9401725E284900660068E32F /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
+		94017260284904630068E32F /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		941DA8ED283741FE0021CFCB /* UICollectionViewCell+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+extension.swift"; sourceTree = "<group>"; };
 		941DA8EF283784C70021CFCB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		941DA8F1283785110021CFCB /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
@@ -173,8 +177,10 @@
 			children = (
 				9BF53E502829FE6000E1A936 /* NetworkManager.swift */,
 				941DA8EF283784C70021CFCB /* ImageManager.swift */,
-				94C11BE62832483400EB3049 /* EndPoint.swift */,
 				94C11BEA283281E900EB3049 /* CacheManager.swift */,
+				9401725E284900660068E32F /* APIable.swift */,
+				94017260284904630068E32F /* OpenMarketAPI.swift */,
+				94C11BE62832483400EB3049 /* EndPoint.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -377,6 +383,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9401725F284900660068E32F /* APIable.swift in Sources */,
 				9B0EE41F283C73F100888A3E /* EditViewController.swift in Sources */,
 				94E2C09B2840639F001E633B /* Constant.swift in Sources */,
 				940171CB2844BA230068E32F /* ProductDetailViewController.swift in Sources */,
@@ -411,6 +418,7 @@
 				941DA8EE283741FE0021CFCB /* UICollectionViewCell+extension.swift in Sources */,
 				94E2C091283C765E001E633B /* ProdctView.swift in Sources */,
 				9BF53E512829FE6000E1A936 /* NetworkManager.swift in Sources */,
+				94017261284904630068E32F /* OpenMarketAPI.swift in Sources */,
 				94C11BE72832483400EB3049 /* EndPoint.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				94E2C095283D1A2D001E633B /* RegisterViewController.swift in Sources */,
