@@ -16,9 +16,9 @@ final class AddItemViewController: UIViewController {
     @IBOutlet private weak var curruncySegment: UISegmentedControl!
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var priceTextField: UITextField!
-    @IBOutlet private weak var discountPriceTextField: UITextField!
+    @IBOutlet private weak var discountedPriceTextField: UITextField!
     @IBOutlet private weak var stockTextField: UITextField!
-    @IBOutlet private weak var discriptinTextView: UITextView!
+    @IBOutlet private weak var descriptinTextView: UITextView!
     @IBOutlet private weak var myScrollView: UIScrollView!
     private let networkHandler = NetworkHandler()
     private let maxImageCount = 5
@@ -88,7 +88,7 @@ final class AddItemViewController: UIViewController {
         }
         
         guard let price = priceTextField.text else { return }
-        guard let discountPrice = discountPriceTextField.text else { return }
+        guard let discountPrice = discountedPriceTextField.text else { return }
         guard let priceInt = Int(price), priceInt > 0 else {
             throw PostItemError.priceError
         }
@@ -121,9 +121,9 @@ final class AddItemViewController: UIViewController {
         let name = nameTextField.text ?? ""
         let price = Int(priceTextField.text ?? "") ?? 0
         let currency = currencyType.toString
-        let discountedPrice = Int(discountPriceTextField.text ?? "") ?? 0
+        let discountedPrice = Int(discountedPriceTextField.text ?? "") ?? 0
         let stock = Int(stockTextField.text ?? "") ?? 0
-        let descriptions = discriptinTextView.text
+        let descriptions = descriptinTextView.text
         let httpDescription = descriptions?.replacingOccurrences(of: "\n", with: "\\n") ?? ""
         
         let item = ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock,  descriptions: httpDescription, imageArray: imageArray)
@@ -248,9 +248,9 @@ extension AddItemViewController {
         
         nameTextField.inputAccessoryView = toolBar
         priceTextField.inputAccessoryView = toolBar
-        discountPriceTextField.inputAccessoryView = toolBar
+        discountedPriceTextField.inputAccessoryView = toolBar
         stockTextField.inputAccessoryView = toolBar
-        discriptinTextView.inputAccessoryView = toolBar
+        descriptinTextView.inputAccessoryView = toolBar
     }
     
     @objc private func hideKeyboard() {

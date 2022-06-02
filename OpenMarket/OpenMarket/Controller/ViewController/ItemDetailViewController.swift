@@ -13,7 +13,7 @@ final class ItemDetailViewController: UIViewController {
     @IBOutlet private weak var itemNameLabel: UILabel!
     @IBOutlet private weak var stockLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
-    @IBOutlet private weak var discountedPriceLabel: UILabel!
+    @IBOutlet private weak var bargainPriceLabel: UILabel!
     @IBOutlet private weak var descriptionTextView: UITextView!
     @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
     private let networkHandler = NetworkHandler()
@@ -171,7 +171,7 @@ extension ItemDetailViewController {
             priceLabel.attributedText = price.strikethrough()
         }
         
-        discountedPriceLabel.text = "\(itemDetail.currency) \(itemDetail.discountedPrice.description)"
+        bargainPriceLabel.text = "\(itemDetail.currency) \(itemDetail.bargainPrice.description)"
         descriptionTextView.text = itemDetail.description
     }
     
