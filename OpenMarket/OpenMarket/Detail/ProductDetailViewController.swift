@@ -136,9 +136,9 @@ final class ProductDetailViewController: UIViewController {
     private func requestData() {
         guard let id = product.id else { return }
         
-        let endPoint = EndPoint.requestProduct(id: id)
+        let requestProductAPI = RequestProduct(path: "\(id)")
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
+        networkManager.request(api: requestProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
