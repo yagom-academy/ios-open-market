@@ -49,6 +49,18 @@ struct RequestProductPassword: APIable {
     ]
 }
 
+struct DeleteProduct: APIable {
+    let baseURL: String = "https://market-training.yagom-academy.kr/api/products/"
+    let path: String
+    let method: HTTPMethod = .delete
+    let queryParameters: [String : String]? = nil
+    let bodyParameters: Encodable? = nil
+    let headers: [String : String] = [
+        "Content-Type": "application/json",
+        "identifier": UserInformation.identifier
+    ]
+}
+
 struct CreateProduct: APIable {
     let baseURL: String = "https://market-training.yagom-academy.kr/api/products/"
     let path: String = ""
@@ -56,7 +68,7 @@ struct CreateProduct: APIable {
     let queryParameters: [String : String]? = nil
     let bodyParameters: Encodable?
     let headers: [String : String] = [
-        "Content-Type": "multipart/form-data; boundary=\(EndPoint.boundary)",
+        "Content-Type": "multipart/form-data; boundary=\(UserInformation.boundary)",
         "identifier": UserInformation.identifier
     ]
 }

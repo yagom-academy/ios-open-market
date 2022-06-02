@@ -184,9 +184,9 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func deleteData(id: Int, password: String) {
-        let endPoint = EndPoint.deleteProuct(id: id, secret: password)
+        let deleteProductAPI = DeleteProduct(path: "\(id)/\(password)")
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
+        networkManager.request(api: deleteProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {

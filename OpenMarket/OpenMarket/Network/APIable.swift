@@ -64,7 +64,7 @@ extension APIable {
         guard let imageDatas = uploadProduct.images else { return nil }
         
         var data = Data()
-        let boundary = EndPoint.boundary
+        let boundary = UserInformation.boundary
         
         let newLine = "\r\n"
         let boundaryPrefix = "--\(boundary)\r\n"
