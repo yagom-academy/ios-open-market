@@ -45,6 +45,7 @@ final class MainViewController: UIViewController {
         applySnapshot()
         productView.collectionView.delegate = self
         productView.collectionView.prefetchDataSource = self
+        startRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -93,6 +94,23 @@ extension MainViewController {
         
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+    }
+    
+    private func startRefresh() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(updateUI(refresh:)), for: .valueChanged)
+        
+        productView.collectionView.refreshControl = refresh
+    }
+    
+    @objc private func updateUI(refresh: UIRefreshControl) {
+        DispatchQueue.main.async {
+            self.item.removeAll()
+            self.pageNo = 1
+            self.executeGET(number: self.pageNo)
+            refresh.endRefreshing()
+        }
+        
     }
 }
 
