@@ -52,9 +52,9 @@ final class ItemDetailViewController: UIViewController {
         }
     }
     
-    private func getSecret() {
+    private func getSecret(password: String?) {
         guard let id = itemDetail?.id else { return }
-        let secretAPI = SecretAPI(id: id)
+        let secretAPI = SecretAPI(id: id, password: password)
         
         self.networkHandler.request(api: secretAPI) { data in
             switch data {
@@ -111,8 +111,7 @@ final class ItemDetailViewController: UIViewController {
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
             let inAlert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
             let yesAction = UIAlertAction(title: "확인", style: .default) { _ in
-                print(inAlert.textFields?[0].text ?? "")
-                self.getSecret()
+                self.getSecret(password: inAlert.textFields?[0].text)
             }
             
             inAlert.addTextField()

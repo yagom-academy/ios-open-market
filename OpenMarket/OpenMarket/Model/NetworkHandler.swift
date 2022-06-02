@@ -103,8 +103,9 @@ struct NetworkHandler {
             return request
         }
         
+        guard let password = api.password else { return nil }
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let secretData = "{\"secret\": \"zsxn8cy106\"}".data(using: .utf8) else { return nil }
+        guard let secretData = "{\"secret\": \"\(password)\"}".data(using: .utf8) else { return nil }
 
         request.httpBody = secretData
         
