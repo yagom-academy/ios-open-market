@@ -241,10 +241,18 @@
 				DA0DDF83282954A200B72AD8 /* Model */,
 				DA0DDF84282A003600B72AD8 /* Network */,
 				DA0DDFAC282A5D7800B72AD8 /* Utils */,
+				DA0AEF7A2848AB78008E11A0 /* Enum */,
 				DA0DDFA4282A50CE00B72AD8 /* Error */,
-				4EC0C5702837768E007BF71C /* API.swift */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		DA0AEF7A2848AB78008E11A0 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				4EC0C5702837768E007BF71C /* API.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 		DA0DDF83282954A200B72AD8 /* Model */ = {
