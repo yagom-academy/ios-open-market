@@ -6,6 +6,10 @@
 
 import UIKit
 
+protocol ListUpdateDelegate: NSObject {
+    func refreshProductList()
+}
+
 enum ArrangeMode: String, CaseIterable {
     case list = "LIST"
     case grid = "GRID"
@@ -21,12 +25,12 @@ enum ArrangeMode: String, CaseIterable {
 }
 
 extension API {
-    static let numbers = 1
-    static let pages = 20
+    static let numbers: Int = 1
+    static let pages: Int = 100
 }
 
-final class ViewController: UIViewController {
-    private let arrangeModeChanger = UISegmentedControl(items: ArrangeMode.allCases.map {
+final class MainViewController: UIViewController {
+    private let arrangeModeSegmentedControl = UISegmentedControl(items: ArrangeMode.allCases.map {
         $0.rawValue
     })
     private var currentArrangeMode: ArrangeMode = .list
@@ -37,14 +41,20 @@ final class ViewController: UIViewController {
     }()
 }
 
-extension ViewController {
+extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationItems()
+        setUpCollectionViewCellRegister()
         self.view.addSubview(collectionView)
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
         requestProductListData()
+        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backbutton
+        
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
@@ -52,10 +62,18 @@ extension ViewController {
         
         setUpInitialState()
     }
+    
+    @objc func pullToRefresh() {
+        self.collectionView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.refreshProductList()
+            self.collectionView.refreshControl?.endRefreshing()
+        }
+    }
 }
 
 // MARK: - Delegate
-extension ViewController {
+extension MainViewController {
    private func defineCollectionViewDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -63,7 +81,7 @@ extension ViewController {
 }
 
 // MARK: - Delegate Method
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
     }
@@ -76,20 +94,48 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return configureGridCell(indexPath: indexPath)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
+            return
+        }
+        modifyViewController.delegate = self
+        let id = products[indexPath.row].id
+        RequestAssistant.shared.requestDetailAPI(productId: id) { result in
+            switch result {
+            case .success(let data):
+                modifyViewController.product = data
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(modifyViewController, animated: true)
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.showAlert(alertTitle: "데이터 로드 실패")
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Private Method
-private extension ViewController {
+private extension MainViewController {
     private func setUpNavigationItems() {
-        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
-        self.navigationItem.titleView = arrangeModeChanger
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showUpRegisterView))
+        self.navigationItem.titleView = arrangeModeSegmentedControl
         self.navigationItem.rightBarButtonItem = plusButton
         self.navigationController?.navigationBar.backgroundColor = .systemGroupedBackground
     }
     
+    private func setUpCollectionViewCellRegister() {
+        collectionView
+            .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
+        collectionView
+            .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
+    }
+    
     private func requestProductListData() {
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
-            Thread.sleep(forTimeInterval: 5)
             switch result {
             case .success(let data):
                 self.products = data.pages
@@ -100,11 +146,7 @@ private extension ViewController {
             case .failure(_):
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    let alert = UIAlertController(title: "데이터 로드 실패", message: "", preferredStyle: .alert)
-                    let action = UIAlertAction(title: "닫기", style: .default) { (action) in
-                    }
-                    alert.addAction(action)
-                    self.present(alert, animated: false, completion: nil)
+                    self.showAlert(alertTitle: "데이터 로드 실패")
                 }
             }
         }
@@ -114,19 +156,27 @@ private extension ViewController {
         let normalTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue, .font: UIFont.preferredFont(forTextStyle: .callout)]
         let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, .font: UIFont.preferredFont(forTextStyle: .callout)]
         
-        arrangeModeChanger.translatesAutoresizingMaskIntoConstraints = false
-        arrangeModeChanger.backgroundColor = .white
-        arrangeModeChanger.selectedSegmentTintColor = .systemBlue
-        arrangeModeChanger.setTitleTextAttributes(normalTextAttributes, for: .normal)
-        arrangeModeChanger.setTitleTextAttributes(selectedTextAttributes, for: .selected)
-        arrangeModeChanger.layer.borderColor = UIColor.systemBlue.cgColor
-        arrangeModeChanger.layer.borderWidth = 1.0
-        arrangeModeChanger.layer.cornerRadius = 1.0
-        arrangeModeChanger.layer.masksToBounds = false
-        arrangeModeChanger.setWidth(85, forSegmentAt: 0)
-        arrangeModeChanger.setWidth(85, forSegmentAt: 1)
-        arrangeModeChanger.apportionsSegmentWidthsByContent = true
-        arrangeModeChanger.sizeToFit()
+        arrangeModeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        arrangeModeSegmentedControl.backgroundColor = .white
+        arrangeModeSegmentedControl.selectedSegmentTintColor = .systemBlue
+        arrangeModeSegmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
+        arrangeModeSegmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
+        arrangeModeSegmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        arrangeModeSegmentedControl.layer.borderWidth = 1.0
+        arrangeModeSegmentedControl.layer.cornerRadius = 1.0
+        arrangeModeSegmentedControl.layer.masksToBounds = false
+        arrangeModeSegmentedControl.setWidth(85, forSegmentAt: 0)
+        arrangeModeSegmentedControl.setWidth(85, forSegmentAt: 1)
+        arrangeModeSegmentedControl.apportionsSegmentWidthsByContent = true
+        arrangeModeSegmentedControl.sizeToFit()
+    }
+    
+    @objc private func showUpRegisterView(_ sender: UIBarButtonItem) {
+        guard let registerViewController = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else {
+            return
+        }
+        registerViewController.delegate = self
+        self.navigationController?.pushViewController(registerViewController, animated: true)
     }
     
     @objc private func changeArrangement(_ sender: UISegmentedControl) {
@@ -139,13 +189,9 @@ private extension ViewController {
         switch currentArrangeMode {
         case .list:
             collectionView.setCollectionViewLayout(listLayout, animated: true) { [weak self] _ in self?.collectionView.reloadData() }
-            collectionView
-                .register(ListCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "listCell")
             self.collectionView.reloadData()
         case .grid:
             collectionView.setCollectionViewLayout(gridLayout, animated: true) { [weak self] _ in self?.collectionView.reloadData() }
-            collectionView
-                .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
             self.collectionView.reloadData()
         }
     }
@@ -159,9 +205,9 @@ private extension ViewController {
     }
     
     private func setUpInitialState() {
-        arrangeModeChanger.addTarget(self, action: #selector(changeArrangement(_:)), for: .valueChanged)
-        arrangeModeChanger.selectedSegmentIndex = 0
-        self.changeArrangement(arrangeModeChanger)
+        arrangeModeSegmentedControl.addTarget(self, action: #selector(changeArrangement(_:)), for: .valueChanged)
+        arrangeModeSegmentedControl.selectedSegmentIndex = 0
+        self.changeArrangement(arrangeModeSegmentedControl)
     }
     
     private func createActivityIndicator() -> UIActivityIndicatorView {
@@ -201,7 +247,7 @@ private extension ViewController {
 }
 
 // MARK: - Collection View Layout
-extension ViewController {
+extension MainViewController {
     private var listLayout: UICollectionViewCompositionalLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         
@@ -226,3 +272,9 @@ extension ViewController {
     }
 }
 
+extension MainViewController: ListUpdateDelegate {
+    func refreshProductList() {
+        products = []
+        requestProductListData()
+    }
+}

@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().standardAppearance = navigationBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         }
-        
+        UINavigationBar.appearance().backIndicatorImage = UIImage()
+        UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage()
         return true
     }
 

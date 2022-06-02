@@ -7,7 +7,16 @@
 
 import Foundation
 
-enum Currency: String, Codable {
+enum Currency: String, Codable, CaseIterable {
     case KRW = "KRW"
     case USD = "USD"
+    
+    var value: Int {
+        switch self {
+        case .KRW:
+            return 0
+        case .USD:
+            return 1
+        }
+    }
 }

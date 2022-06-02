@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol OpenMarketCell {
+protocol OpenMarketCellProtocol {
     var productNameLabel: UILabel { get }
     var productPriceLabel: UILabel { get }
     var productBargainPriceLabel: UILabel { get }
@@ -21,7 +21,7 @@ protocol OpenMarketCell {
     func createImageView(contentMode: UIImageView.ContentMode) -> UIImageView
 }
 
-extension OpenMarketCell {
+extension OpenMarketCellProtocol {
     func createLabel(font: UIFont, textColor: UIColor, alignment: NSTextAlignment) -> UILabel {
         let label = UILabel()
         
