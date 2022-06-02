@@ -35,7 +35,11 @@ final class MainViewController: UIViewController {
     })
     private var currentArrangeMode: ArrangeMode = .list
     private var productsWillShow: [Product] = []
-    private var products: [Product] = []
+    private var products: [Product] = [] {
+        didSet {
+            productsWillShow = products
+        }
+    }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
@@ -71,11 +75,8 @@ extension MainViewController {
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
         defineCollectionViewDelegate()
-        searchBar.delegate = self
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        searchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        defineSearchBarDelegate()
+        setUpSearchBarConstraints()
         setUpInitialState()
     }
     
@@ -93,6 +94,10 @@ extension MainViewController {
     private func defineCollectionViewDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    private func defineSearchBarDelegate() {
+        searchBar.delegate = self
     }
 }
 
@@ -155,7 +160,7 @@ extension MainViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         productsWillShow = products
         if searchText.count > 0 {
-            let productsForSearch = productsWillShow.filter({
+            let productsForSearch = products.filter({
                 $0.name.contains(searchText)
             })
             productsWillShow = productsForSearch
@@ -180,12 +185,18 @@ private extension MainViewController {
             .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
     }
     
+    private func setUpSearchBarConstraints() {
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        searchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+    }
+    
     private func requestProductListData() {
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
             switch result {
             case .success(let data):
-                self.productsWillShow = data.pages
-                self.products = self.productsWillShow
+                self.products = data.pages
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     self.collectionView.reloadData()
