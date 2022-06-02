@@ -93,7 +93,7 @@ final class RegistrationViewController: UIViewController, UINavigationController
         ])
     }
     
-    @objc private func pickImage(_ sender: UIButton) {
+    @objc private func pickImage(_ sender: UITapGestureRecognizer) {
         let actionSheet = UIAlertController()
         
         let importFromAlbum = UIAlertAction(title: Alert.album, style: .default) { _ in
@@ -132,14 +132,17 @@ extension RegistrationViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.button.addTarget(self, action: #selector(self.pickImage(_:)), for: .touchUpInside)
-        cell.contentView.addSubview(cell.button)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pickImage(_:)))
+        
+        cell.contentView.addSubview(cell.imageView)
+        cell.imageView.isUserInteractionEnabled = true
+        cell.imageView.addGestureRecognizer(tapGesture)
         
         if imageArray.count > indexPath.row {
             let image = imageArray[indexPath.row]
-            cell.button.setImage(image, for: .normal)
-            cell.button.backgroundColor = .clear
-            cell.button.setTitle(nil, for: .normal)
+            cell.imageView.image = image
+            cell.label.text = ""
+            cell.imageView.isUserInteractionEnabled = false
         }
         
         return cell

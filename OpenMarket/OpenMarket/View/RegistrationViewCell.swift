@@ -9,11 +9,13 @@ import UIKit
 
 final class RegistrationViewCell: UICollectionViewCell {
     static let identifier = "RegistrationViewCell"
-    let button = UIButton()
+    let imageView = UIImageView()
+    let label = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(button)
+        contentView.addSubview(imageView)
+        imageView.addSubview(label)
         makeProductImage()
     }
     
@@ -24,14 +26,25 @@ final class RegistrationViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        button.setImage(nil, for: .normal)
+        imageView.image = UIImage()
         makeProductImage()
     }
     
     func makeProductImage() {
-        button.setTitle("+", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.backgroundColor = .systemGray3
-        button.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.width)
+        label.text = "+"
+        label.textColor = .systemBlue
+        
+        imageView.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.width)
+        imageView.backgroundColor = .systemGray3
+        imageView.isUserInteractionEnabled = true
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+            label.widthAnchor.constraint(equalToConstant: 20),
+            label.heightAnchor.constraint(equalTo: label.widthAnchor)
+        ])
     }
 }
