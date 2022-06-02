@@ -13,7 +13,7 @@ protocol UpdateDelegate {
 
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
-    @IBOutlet private weak var curruncySegment: UISegmentedControl!
+    @IBOutlet private weak var currencySegment: UISegmentedControl!
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var priceTextField: UITextField!
     @IBOutlet private weak var discountedPriceTextField: UITextField!
@@ -80,6 +80,9 @@ final class AddItemViewController: UIViewController {
         self.discountedPriceTextField.text = itemDetail.discountedPrice.description
         self.stockTextField.text = itemDetail.stock.description
         self.descriptionTextView.text = itemDetail.description
+        if itemDetail.currency == "USD" {
+            self.currencySegment.selectedSegmentIndex = 1
+        }
     }
     
     private func showAlert(message: String, action:(() -> ())?  ) {
@@ -288,7 +291,7 @@ extension AddItemViewController {
     
     private func setSegmentTextFont() {
         let font = UIFont.preferredFont(forTextStyle: .caption1)
-        curruncySegment.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+        currencySegment.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
     }
     
     private func setLayout() {

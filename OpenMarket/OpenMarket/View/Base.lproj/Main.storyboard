@@ -173,7 +173,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="curruncySegment" destination="78M-jQ-ENQ" id="MOI-k6-caD"/>
+                        <outlet property="currencySegment" destination="78M-jQ-ENQ" id="MOI-k6-caD"/>
                         <outlet property="descriptionTextView" destination="ZNN-Hk-LvH" id="Q2l-xo-bsi"/>
                         <outlet property="discountedPriceTextField" destination="R5f-ah-9JI" id="Aui-jS-TCu"/>
                         <outlet property="itemImageCollectionView" destination="S6j-RX-Twx" id="vYC-Hd-9AG"/>
