@@ -43,7 +43,7 @@ final class RegisterViewController: ProductViewController {
         guard let uploadProduct = makeUploadProduct() else { return }
         let createProductAPI = CreateProduct(bodyParameters: uploadProduct)
         
-        networkManager.request(api: createProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
+        networkManager.requestMutiPartFormData(api: createProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
