@@ -28,9 +28,11 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
+    private var vcType = ""
+    private var itemDetail: ItemDetail?
     private var delegate: UpdateDelegate?
-    
     private var currencyType: CurrencyType = .KRW
+    
     
     private enum CurrencyType: Int {
         case KRW = 0
@@ -49,6 +51,11 @@ final class AddItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
+    }
+    
+    func setVcType(vcType: String) {
+        self.title = vcType
+        self.vcType = vcType
     }
     
     private func setInitialView() {

@@ -102,7 +102,7 @@ final class ItemDetailViewController: UIViewController {
     
     private func moveToAddVC() {
         guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
-        addVC.title = "상품 수정"
+        addVC.setVcType(vcType: "상품 수정")
         navigationController?.pushViewController(addVC, animated: true)
     }
     
