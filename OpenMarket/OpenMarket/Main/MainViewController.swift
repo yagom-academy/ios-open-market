@@ -118,9 +118,10 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     private func requestData(pageNumber: Int) {
-        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount)
+        let params = ["page_no": "\(pageNumber)", "items_per_page": "\(Constant.requestItemCount)"]
+        let requestProductListAPI = RequestProductList(queryParameters: params)
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<ProductList, NetworkError>) in
+        networkManager.request(api: requestProductListAPI) { [weak self] (result: Result<ProductList, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
