@@ -14,7 +14,7 @@ final class ProductDetailViewController: UIViewController {
     private let networkManager = NetworkManager()
     
     private let mainView = ProductDetailView(frame: .zero)
-    private let product: Product
+    private var product: Product
     
     private var dataSource: DataSource?
     private var snapshot = Snapshot()
@@ -143,6 +143,7 @@ final class ProductDetailViewController: UIViewController {
             
             switch result {
             case .success(let data):
+                self.product = data
                 self.mainView.configure(data: data)
                 data.images?
                     .compactMap { $0.url }

@@ -22,7 +22,7 @@ final class EditViewController: ProductViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        requestData()
+        configureMainView()
         registerNotification()
     }
     
@@ -31,6 +31,14 @@ final class EditViewController: ProductViewController {
     override func configureNavigationBar() {
         super.configureNavigationBar()
         navigationItem.title = "상품수정"
+    }
+    
+    private func configureMainView() {
+        self.mainView?.configure(product: product)
+        let imagesUrl = product.images?.compactMap { $0.url }
+        imagesUrl?.forEach({ url in
+            self.requestImage(urlString: url)
+        })
     }
     
     private func requestImage(urlString: String) {
@@ -65,29 +73,6 @@ final class EditViewController: ProductViewController {
                 }
             case .failure(_):
                 AlertDirector(viewController: self).createErrorAlert(message: "데이터를 보내지 못했습니다.")
-            }
-        }
-    }
-    
-    // MARK: - NetWork Method
-
-    private func requestData() {
-        guard let id = product.id else { return }
-        
-        let endPoint = EndPoint.requestProduct(id: id)
-        
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let data):
-                self.mainView?.configure(product: data)
-                let imagesUrl = data.images?.compactMap { $0.url }
-                imagesUrl?.forEach({ url in
-                    self.requestImage(urlString: url)
-                })
-            case .failure(_):
-                AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
             }
         }
     }
