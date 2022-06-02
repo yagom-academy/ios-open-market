@@ -111,7 +111,23 @@ extension ProductEditViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditViewCell.identifier, for: indexPath) as? EditViewCell else {
             return UICollectionViewCell()
         }
-//        cell.setImage(presenter.images?[indexPath.row])
+        
+        cell.contentView.addSubview(cell.imageView)
+        
+        guard let imageArray = presenter.images else {
+            return UICollectionViewCell()
+        }
+        
+        guard let imageUrl = URL(string: imageArray[indexPath.row]) else {
+            return UICollectionViewCell()
+        }
+        
+        guard let data = try? Data(contentsOf: imageUrl) else {
+            return UICollectionViewCell()
+        }
+        let image = UIImage(data: data)
+        cell.imageView.image = image
+
         return cell
     }
 }
