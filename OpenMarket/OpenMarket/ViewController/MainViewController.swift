@@ -34,10 +34,21 @@ final class MainViewController: UIViewController {
         $0.rawValue
     })
     private var currentArrangeMode: ArrangeMode = .list
+    private var productsWillShow: [Product] = []
     private var products: [Product] = []
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
+    }()
+    private lazy var searchBar: UISearchBar = {
+       let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .default
+        searchBar.placeholder = "상품명"
+        searchBar.sizeToFit()
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        
+        return searchBar
     }()
 }
 
@@ -46,6 +57,7 @@ extension MainViewController {
         super.viewDidLoad()
         setUpNavigationItems()
         setUpCollectionViewCellRegister()
+        self.view.addSubview(searchBar)
         self.view.addSubview(collectionView)
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
@@ -59,7 +71,11 @@ extension MainViewController {
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
         defineCollectionViewDelegate()
-        
+        searchBar.delegate = self
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        searchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         setUpInitialState()
     }
     
@@ -83,7 +99,7 @@ extension MainViewController {
 // MARK: - Delegate Method
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return products.count
+        return productsWillShow.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -100,7 +116,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return
         }
         detailViewController.delegate = self
-        let id = products[indexPath.row].id
+        let id = productsWillShow[indexPath.row].id
         RequestAssistant.shared.requestDetailAPI(productId: id) { result in
             switch result {
             case .success(let data):
@@ -118,27 +134,35 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-//func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//    guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
-//        return
-//    }
-//    modifyViewController.delegate = self
-//    let id = products[indexPath.row].id
-//    RequestAssistant.shared.requestDetailAPI(productId: id) { result in
-//        switch result {
-//        case .success(let data):
-//            modifyViewController.product = data
-//            DispatchQueue.main.async {
-//                self.navigationController?.pushViewController(modifyViewController, animated: true)
-//            }
-//        case .failure(_):
-//            DispatchQueue.main.async {
-//                self.activityIndicator.stopAnimating()
-//                self.showAlert(alertTitle: "데이터 로드 실패")
-//            }
-//        }
-//    }
-//}
+extension MainViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if products.count != productsWillShow.count {
+            searchBar.text = nil
+            productsWillShow = products
+            collectionView.reloadData()
+        }
+        searchBar.endEditing(true)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        productsWillShow = products
+        if searchText.count > 0 {
+            let productsForSearch = productsWillShow.filter({
+                $0.name.contains(searchText)
+            })
+            productsWillShow = productsForSearch
+        }
+        collectionView.reloadData()
+    }
+}
 
 // MARK: - Private Method
 private extension MainViewController {
@@ -160,7 +184,8 @@ private extension MainViewController {
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
             switch result {
             case .success(let data):
-                self.products = data.pages
+                self.productsWillShow = data.pages
+                self.products = self.productsWillShow
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     self.collectionView.reloadData()
@@ -172,6 +197,12 @@ private extension MainViewController {
                 }
             }
         }
+    }
+    
+    private func setUpSearchBarLayout() {
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
     }
     
     private func setUpSegmentedControlLayout() {
@@ -220,7 +251,7 @@ private extension MainViewController {
     
     private func setUpCollectionViewConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -248,7 +279,7 @@ private extension MainViewController {
         }
         
         cell.accessories = [.disclosureIndicator()]
-        cell.configureCellContents(product: products[indexPath.row])
+        cell.configureCellContents(product: productsWillShow[indexPath.row])
         
         return cell
     }
@@ -258,7 +289,7 @@ private extension MainViewController {
             return GridCollectionViewCell()
         }
         
-        cell.configureCellContents(product: products[indexPath.row])
+        cell.configureCellContents(product: productsWillShow[indexPath.row])
         
         cell.layer.borderWidth = 1.5
         cell.layer.borderColor = UIColor.systemGray.cgColor
@@ -296,6 +327,7 @@ extension MainViewController {
 
 extension MainViewController: ListUpdateDelegate {
     func refreshProductList() {
+        productsWillShow = []
         products = []
         requestProductListData()
     }
