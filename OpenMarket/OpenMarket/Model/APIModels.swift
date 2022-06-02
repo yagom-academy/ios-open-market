@@ -12,6 +12,7 @@ struct HealthCheckerAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct ItemPageAPI: APIable {
@@ -25,6 +26,7 @@ struct ItemPageAPI: APIable {
     }
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct ItemDetailAPI: APIable {
@@ -36,6 +38,7 @@ struct ItemDetailAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct ItemImageAPI: APIable {
@@ -44,6 +47,7 @@ struct ItemImageAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct PostItemAPI: APIable {
@@ -52,6 +56,7 @@ struct PostItemAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .post
     let itemComponents: ItemComponents?
+    let password: String? = nil
 }
 
 struct SecretAPI: APIable {
@@ -63,6 +68,7 @@ struct SecretAPI: APIable {
     var params: [String : String]? = nil
     var method: HttpMethod = .post
     var itemComponents: ItemComponents? = nil
+    let password: String?
 }
 
 struct DeleteAPI: APIable {
@@ -75,4 +81,5 @@ struct DeleteAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .delete
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }

@@ -11,5 +11,6 @@ protocol APIable {
     var params: [String : String]? { get }
     var method: HttpMethod { get }
     var itemComponents: ItemComponents? { get }
+    var password: String? { get }
 }
 
