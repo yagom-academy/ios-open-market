@@ -98,12 +98,19 @@ final class ItemDetailViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }
-        
+    }
+    
+    private func moveToAddVC() {
+        guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
+        addVC.title = "상품 수정"
+        navigationController?.pushViewController(addVC, animated: true)
     }
     
     @objc private func touchEditButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let editAction = UIAlertAction(title: "수정", style: .default, handler: nil)
+        let editAction = UIAlertAction(title: "수정", style: .default) { _ in
+            self.moveToAddVC()
+        }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             let inAlert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
             let yesAction = UIAlertAction(title: "확인", style: .default) { _ in
