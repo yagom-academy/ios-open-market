@@ -22,8 +22,8 @@ struct NetworkManager {
         self.session = session
     }
     
-    func request(endPoint: EndPoint, completion: @escaping (Result<String, NetworkError>) -> Void) {
-        guard let urlRequst = endPoint.urlRequest else {
+    func request(api: APIable, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        guard let urlRequst = api.makeURLRequest() else {
             completion(.failure(.urlError))
             return
         }

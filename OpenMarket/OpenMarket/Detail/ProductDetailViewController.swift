@@ -169,10 +169,9 @@ final class ProductDetailViewController: UIViewController {
     
     private func requestPassword(id: Int, userPassword: String) {
         let params = ["secret": "\(userPassword)"]
-        guard let sendData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else { return }
-        let endPoint = EndPoint.requestProductPassword(id: id, sendData: sendData)
+        let requestProductPasswordAPI = RequestProductPassword(path: "\(id)/secret", bodyParameters: params)
         
-        networkManager.request(endPoint: endPoint) { [weak self] result in
+        networkManager.request(api: requestProductPasswordAPI) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
