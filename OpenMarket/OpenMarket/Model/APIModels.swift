@@ -53,3 +53,14 @@ struct PostItemAPI: APIable {
     let method: HttpMethod = .post
     let itemComponents: ItemComponents?
 }
+
+struct SecretAPI: APIable {
+    let id: Int
+    let host = "https://market-training.yagom-academy.kr/"
+    var path: String {
+        return "api/products/\(id)/secret"
+    }
+    var params: [String : String]? = nil
+    var method: HttpMethod = .post
+    var itemComponents: ItemComponents? = nil
+}
