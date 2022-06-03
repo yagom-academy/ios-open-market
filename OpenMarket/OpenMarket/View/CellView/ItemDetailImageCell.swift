@@ -8,7 +8,7 @@
 import UIKit
 
 final class ItemDetailImageCell: UICollectionViewCell {
-    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet private weak var itemImageView: UIImageView!
     private var dataTask: URLSessionDataTask?
     
     func configureImage(url: String) {
