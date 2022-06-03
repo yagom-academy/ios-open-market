@@ -16,6 +16,7 @@ final class ItemDetailViewController: UIViewController {
     @IBOutlet private weak var bargainPriceLabel: UILabel!
     @IBOutlet private weak var descriptionTextView: UITextView!
     @IBOutlet private weak var myActivityIndicator: UIActivityIndicatorView!
+    private let myId = 83
     private let networkHandler = NetworkHandler()
     private var delegate: UpdateDelegate?
     private var itemDetail: ItemDetail? {
@@ -61,7 +62,9 @@ final class ItemDetailViewController: UIViewController {
         itemImageCollectionView.dataSource = self
         itemImageCollectionView.delegate = self
         itemImageCollectionView.register(UINib(nibName: "\(ItemDetailImageCell.self)", bundle: nibBundle), forCellWithReuseIdentifier: "\(ItemDetailImageCell.self)")
-        navigationItem.rightBarButtonItem = makeEditButton()
+        if myId == itemDetail?.vendorId {
+            navigationItem.rightBarButtonItem = makeEditButton()
+        }
         setCollectionviewLayout()
         setViewComponents()
         myActivityIndicator.stopAnimating()
