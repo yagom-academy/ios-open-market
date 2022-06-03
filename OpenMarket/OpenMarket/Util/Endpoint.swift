@@ -17,28 +17,25 @@ enum Endpoint {
 }
 
 extension Endpoint {
+  private enum Url {
+    static let base = "https://market-training.yagom-academy.kr/"
+    static let pass = "api/products/"
+  }
+  
   var url: URL? {
     switch self {
     case .healthChecker:
-      return .makeUrl(with: "healthChecker")
+      return URL(string: Url.base + "healthChecker")
     case .page(let page, let itemsPerPage):
-      return .makeUrl(with: "api/products?page_no=\(page)&items_perpage=\(itemsPerPage)")
+      return URL(string: Url.base + Url.pass + "?page_no=\(page)&items_perpage=\(itemsPerPage)")
     case .registration:
-      return .makeUrl(with: "api/products")
+      return URL(string: Url.base + Url.pass)
     case .productInformation(let productId):
-      return .makeUrl(with: "api/products/\(productId)")
+      return URL(string: Url.base + Url.pass + "\(productId)")
     case .secretKey(let productId):
-      return .makeUrl(with: "api/products/\(productId)/secret")
+      return URL(string: Url.base + Url.pass + "\(productId)/secret")
     case .delete(let productId, let productSecret):
-      return .makeUrl(with: "api/products/\(productId)/\(productSecret)")
+      return URL(string: Url.base + Url.pass + "\(productId)/\(productSecret)")
     }
-  }
-}
-
-private extension URL {
-  static let baseURL = "https://market-training.yagom-academy.kr/"
-  
-  static func makeUrl(with endpoint: String) -> URL? {
-    return URL(string: baseURL + endpoint)
   }
 }
