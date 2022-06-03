@@ -44,6 +44,7 @@ final class MainViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
     }()
+    private var timer: DispatchSourceTimer?
     private lazy var searchBar: UISearchBar = {
        let searchBar = UISearchBar()
         searchBar.searchBarStyle = .default
@@ -54,6 +55,21 @@ final class MainViewController: UIViewController {
         
         return searchBar
     }()
+    private lazy var newProductButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("새 게시물", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 1.0
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.isHidden = true
+        button.addTarget(self, action: #selector(reloadAction), for: .touchUpInside)
+        
+        return button
+    }()
 }
 
 extension MainViewController {
@@ -63,6 +79,8 @@ extension MainViewController {
         setUpCollectionViewCellRegister()
         self.view.addSubview(searchBar)
         self.view.addSubview(collectionView)
+        self.view.addSubview(newProductButton)
+        self.view.bringSubviewToFront(newProductButton)
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
         requestProductListData()
@@ -213,7 +231,6 @@ private extension MainViewController {
     private func setUpSearchBarLayout() {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
     }
     
     private func setUpSegmentedControlLayout() {
@@ -233,6 +250,14 @@ private extension MainViewController {
         arrangeModeSegmentedControl.setWidth(85, forSegmentAt: 1)
         arrangeModeSegmentedControl.apportionsSegmentWidthsByContent = true
         arrangeModeSegmentedControl.sizeToFit()
+    }
+    
+    private func setUpNewProductButtonConstraints() {
+        newProductButton.translatesAutoresizingMaskIntoConstraints = false
+        newProductButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        newProductButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2).isActive = true
+        newProductButton.heightAnchor.constraint(equalTo: newProductButton.widthAnchor, multiplier: 0.3).isActive = true
+        newProductButton.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor).isActive = true
     }
     
     @objc private func showUpRegisterView(_ sender: UIBarButtonItem) {
@@ -307,6 +332,57 @@ private extension MainViewController {
         cell.layer.cornerRadius = 10.0
         
         return cell
+    }
+    
+    private func startTimer() {
+        let queue = DispatchQueue(label: "timer", attributes: .concurrent)
+        timer?.cancel()
+        timer = DispatchSource.makeTimerSource(queue: queue)
+        timer?.schedule(deadline: .now(), repeating: .seconds(5))
+        timer?.setEventHandler(handler: {
+            self.checkIfNewProductExist()
+        })
+        timer?.resume()
+    }
+    
+    private func pauseTimer() {
+        timer?.suspend()
+    }
+    
+    private func resumeTimer() {
+        timer?.resume()
+    }
+    
+    private func stopTimer() {
+        timer?.cancel()
+        timer = nil
+    }
+    
+    private func checkIfNewProductExist() {
+        guard let id = products.first?.id else {
+            return
+        }
+        RequestAssistant.shared.requestDetailAPI(productId: (id + 1)) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.newProductButton.isHidden = false
+                }
+            case .failure(.missingDestination):
+                return
+            case .failure(.invalidData), .failure(.invalidResponse), .failure(.unknownError), .failure(.failDecode):
+                DispatchQueue.main.async {
+                    self.showAlert(alertTitle: OpenMarketEnum.loadFail)
+                }
+            }
+        }
+    }
+    
+    @objc func reloadAction() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+        }
+        requestProductListData()
     }
 }
 
