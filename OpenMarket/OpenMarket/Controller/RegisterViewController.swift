@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ViewControllerDelegate: AnyObject {
-    func viewControllerSholdRefresh()
+    func viewControllerSholdRefresh(_ viewController: UIViewController)
 }
 
 final class RegisterViewController: RegisterEditBaseViewController {
@@ -140,8 +140,11 @@ extension RegisterViewController {
         productRegisterUseCase.registerProduct(registrationParameter: registrationParameter,
                                                images: wrapperImage()) { _, _ in 
             DispatchQueue.main.async { [weak self] in
-                self?.delegate?.viewControllerSholdRefresh()
-                self?.navigationController?.popViewController(animated: true)
+                guard let self = self else {
+                    return
+                }
+                self.delegate?.viewControllerSholdRefresh(self)
+                self.navigationController?.popViewController(animated: true)
             }
         } errorHandler: { [weak self] error in
             self?.showErrorAlert(error: error)
