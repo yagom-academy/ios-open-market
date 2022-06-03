@@ -33,7 +33,12 @@ final class MainViewController: UIViewController {
     private let arrangeModeSegmentedControl = UISegmentedControl(items: ArrangeMode.allCases.map {
         $0.rawValue
     })
+    private enum Reloadable {
+        case able
+        case disable
+    }
     private var currentArrangeMode: ArrangeMode = .list
+    private var reloadableState: Reloadable = .able
     private var productsWillShow: [Product] = []
     private var products: [Product] = [] {
         didSet {
@@ -162,10 +167,14 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension MainViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
+        reloadableState = .disable
+        pauseTimer()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(false, animated: true)
+        reloadableState = .able
+        resumeTimer()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -213,6 +222,9 @@ private extension MainViewController {
     }
     
     private func requestProductListData() {
+        if reloadableState == .disable {
+            return
+        }
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
             switch result {
             case .success(let data):
@@ -356,11 +368,6 @@ private extension MainViewController {
         timer?.resume()
     }
     
-    private func stopTimer() {
-        timer?.cancel()
-        timer = nil
-    }
-    
     private func checkIfNewProductExist() {
         guard let id = products.first?.id else {
             return
@@ -381,7 +388,7 @@ private extension MainViewController {
         }
     }
     
-    @objc func reloadAction() {
+    @objc private func reloadAction() {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
         }
@@ -417,8 +424,6 @@ extension MainViewController {
 
 extension MainViewController: ListUpdateDelegate {
     func refreshProductList() {
-        productsWillShow = []
-        products = []
         requestProductListData()
     }
 }
