@@ -7,6 +7,10 @@
 
 import Foundation
 
+private enum UserInformation {
+    static let identifier: String = "affb87d9-d1b7-11ec-9676-d3cd1a738d6f"
+}
+
 enum NetworkError: Error {
     case error
     case data
@@ -27,10 +31,10 @@ struct NetworkManager<T: Decodable> {
     init(session: URLSessionProtocol) {
         self.session = session
     }
-    
-    mutating func execute(with endPoint: Endpoint, httpMethod: HTTPMethod, params: Encodable? = nil, images: [ImageInfo]? = nil, completion: @escaping (Result<T, NetworkError>) -> Void) {
+                
+    mutating func execute(with endPoint: Endpoint, httpMethod: HTTPMethod, params: Encodable? = nil, images: [ImageInfo]? = nil, secret: String? = nil, completion: @escaping (Result<Any, NetworkError>) -> Void) {
         let successRange = 200...299
-        
+
         switch httpMethod {
         case .get:
             session.dataTask(with: endPoint) { response in
@@ -56,14 +60,15 @@ struct NetworkManager<T: Decodable> {
                 } catch {
                     completion(.failure(.decode))
                 }
-            }       
+            }
+            
         case .post:
             guard let params = params as? ProductForPOST,
                   let images = images else {
-                      completion(.failure(.data))
-                      return
-                  }
-
+                completion(.failure(.data))
+                return
+            }
+            
             guard let request = requestPOST(endPoint: endPoint, params: params, images: images) else {
                 completion(.failure(.request))
                 return
@@ -84,14 +89,16 @@ struct NetworkManager<T: Decodable> {
                     completion(.failure(.statusCode))
                     return
                 }
+                                                       
+                completion(.success(()))
             }.resume()
             
         case .patch:
-            guard let params = params as? ProductForPatch else {
+            guard let params = params as? ProductForPATCH else {
                 completion(.failure(.data))
                 return
             }
-
+            
             guard let request = requestPATCH(endPoint: endPoint, params: params) else {
                 completion(.failure(.request))
                 return
@@ -109,14 +116,60 @@ struct NetworkManager<T: Decodable> {
                 }
                 
                 guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                    print("hello")
                     completion(.failure(.statusCode))
                     return
                 }
+                                                       
+                completion(.success(()))
             }.resume()
             
         case .delete:
-            print("delete")
+            guard let request = requestDELETE(endPoint: endPoint) else {
+                completion(.failure(.request))
+                return
+            }
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    completion(.failure(.error))
+                    return
+                }
+                
+                guard let _ = data else {
+                    completion(.failure(.data))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
+                    completion(.failure(.statusCode))
+                    return
+                }
+                                                       
+                completion(.success(()))
+            }.resume()
+        case .secretPost:
+            guard let request = requestSecretPOST(endPoint: endPoint, secret: secret ?? "") else {
+                completion(.failure(.request))
+                return
+            }
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard error == nil else {
+                    completion(.failure(.error))
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(.data))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
+                    completion(.failure(.statusCode))
+                    return
+                }
+                completion(.success((data)))
+            }.resume()
         }
     }
 }
@@ -126,7 +179,7 @@ extension NetworkManager {
     private func generateBoundary() -> String {
         return "\(UUID().uuidString)"
     }
-
+    
     mutating private func requestPOST(endPoint: Endpoint, params: ProductForPOST, images: [ImageInfo]) -> URLRequest? {
         let boundary = generateBoundary()
         
@@ -138,16 +191,16 @@ extension NetworkManager {
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\"\(boundary)\"",
                          forHTTPHeaderField: "Content-Type")
-        request.addValue(UserInformation.identifer, forHTTPHeaderField: "identifier")
+        request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
         request.addValue("eddy123", forHTTPHeaderField: "accessId")
         request.httpBody = createPOSTBody(requestInfo: params, images: images, boundary: boundary)
-
+        
         return request
     }
-
+    
     private func createPOSTBody(requestInfo: ProductForPOST, images: [ImageInfo], boundary: String) -> Data? {
         var body: Data = Data()
-                        
+        
         guard let jsonData = try? JSONEncoder().encode(requestInfo) else {
             return nil
         }
@@ -188,19 +241,48 @@ extension NetworkManager {
 
 // MARK: - PATCH
 extension NetworkManager {
-    private func createPATCHBody(requestInfo: ProductForPatch) -> Data? {        
+    private func createPATCHBody(requestInfo: ProductForPATCH) -> Data? {
         return try? JSONEncoder().encode(requestInfo)
     }
     
-    private func requestPATCH(endPoint: Endpoint, params: ProductForPatch) -> URLRequest? {
+    private func requestPATCH(endPoint: Endpoint, params: ProductForPATCH) -> URLRequest? {
         guard let url = endPoint.url else {
             return nil
         }
                 
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
-        request.addValue(UserInformation.identifer, forHTTPHeaderField: "identifier")
+        request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
         request.httpBody = createPATCHBody(requestInfo: params)
+        
+        return request
+    }
+}
+
+// MARK: - DELETE
+extension NetworkManager {
+    private func requestSecretPOST(endPoint: Endpoint, secret: String) -> URLRequest? {
+        guard let url = endPoint.url else {
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"secret\": \"\(secret)\"}".data(using: .utf8)
+        
+        return request
+    }
+    
+    private func requestDELETE(endPoint: Endpoint) -> URLRequest? {
+        guard let url = endPoint.url else {
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.addValue(UserInformation.identifier, forHTTPHeaderField: "identifier")
         
         return request
     }

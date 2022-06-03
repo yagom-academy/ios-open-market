@@ -7,6 +7,14 @@
 
 import UIKit
 
+private enum Alert {
+    static let editSuccessTitle = "수정 완료"
+    static let editSuccessMessage = "수정에 성공했습니다!"
+    static let editFailureTitle = "수정 실패"
+    static let editFailureMessage = "수정에 실패했습니다!"
+    static let ok = "OK"
+}
+
 final class ProductEditViewController: UIViewController {
     private var productDetail: ProductDetail
     private var networkImageArray = [ImageInfo]()
@@ -111,7 +119,22 @@ extension ProductEditViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditViewCell.identifier, for: indexPath) as? EditViewCell else {
             return UICollectionViewCell()
         }
-//        cell.setImage(presenter.images?[indexPath.row])
+        
+        cell.contentView.addSubview(cell.imageView)
+        
+        guard let imageArray = presenter.images else {
+            return UICollectionViewCell()
+        }
+        
+        guard let imageString = imageArray[indexPath.row].url,
+              let imageURL = URL(string: imageString),
+              let imageData = try? Data(contentsOf: imageURL) else {
+            return UICollectionViewCell()
+        }
+        
+        let image = UIImage(data: imageData)
+        cell.imageView.image = image
+
         return cell
     }
 }
@@ -142,13 +165,20 @@ extension ProductEditViewController {
         self.networkManager.execute(with: .productEdit(productId: productID), httpMethod: .patch, params: params) { result in
             switch result {
             case .success:
-                self.showSuccessAlert()
+                DispatchQueue.main.async {
+                    self.showSuccessAlert()
+                }
+                
             case .failure:
-                self.showFailureAlert()
+                DispatchQueue.main.async {
+                    self.showFailureAlert()
+                }
             }
         }
-    
-        self.navigationController?.popViewController(animated: true)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

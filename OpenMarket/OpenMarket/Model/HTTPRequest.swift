@@ -22,7 +22,7 @@ struct ProductForPOST: Encodable {
     }
 }
 
-struct ProductForPatch: Encodable {
+struct ProductForPATCH: Encodable {
     let name: String?
     let descriptions: String?
     let thumbnailID: Int?

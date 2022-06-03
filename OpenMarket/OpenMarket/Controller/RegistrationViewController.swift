@@ -7,13 +7,24 @@
 
 import UIKit
 
+private enum Alert {
+    static let saveSuccessTitle = "등록 완료"
+    static let saveSuccessMessage = "등록에 성공했습니다!"
+    static let saveFailureTitle = "등록 실패"
+    static let saveFailureMessage = "등록에 실패했습니다!"
+    static let ok = "OK"
+    static let album = "앨범에서 가져오기"
+    static let camera = "카메라로 사진 찍기"
+    static let cancel = "취소"
+}
+
 final class RegistrationViewController: UIViewController, UINavigationControllerDelegate {
     private let imagePicker = UIImagePickerController()
     private var imageArray = [UIImage]()
     private let doneButton = UIBarButtonItem()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var networkImageArray = [ImageInfo]()
-    private let productDetailView = ProductDetailView()
+    private let productDetailView = ProductRegistrationView()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -77,14 +88,18 @@ final class RegistrationViewController: UIViewController, UINavigationController
             entireScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             entireScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             entireScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
+        ])
+        
+        NSLayoutConstraint.activate([
             collectionView.widthAnchor.constraint(equalTo: entireScrollView.widthAnchor),
             collectionView.leadingAnchor.constraint(equalTo: entireScrollView.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: entireScrollView.safeAreaLayoutGuide.topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: entireScrollView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: productDetailView.topAnchor, constant: -10),
             collectionView.heightAnchor.constraint(equalToConstant: 160),
-            
+        ])
+        
+        NSLayoutConstraint.activate([
             productDetailView.widthAnchor.constraint(equalTo: entireScrollView.widthAnchor),
             productDetailView.leadingAnchor.constraint(equalTo: entireScrollView.leadingAnchor),
             productDetailView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
@@ -93,7 +108,7 @@ final class RegistrationViewController: UIViewController, UINavigationController
         ])
     }
     
-    @objc private func pickImage(_ sender: UIButton) {
+    @objc private func pickImage(_ sender: UITapGestureRecognizer) {
         let actionSheet = UIAlertController()
         
         let importFromAlbum = UIAlertAction(title: Alert.album, style: .default) { _ in
@@ -132,14 +147,17 @@ extension RegistrationViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.button.addTarget(self, action: #selector(self.pickImage(_:)), for: .touchUpInside)
-        cell.contentView.addSubview(cell.button)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pickImage(_:)))
+        
+        cell.contentView.addSubview(cell.imageView)
+        cell.imageView.isUserInteractionEnabled = true
+        cell.imageView.addGestureRecognizer(tapGesture)
         
         if imageArray.count > indexPath.row {
             let image = imageArray[indexPath.row]
-            cell.button.setImage(image, for: .normal)
-            cell.button.backgroundColor = .clear
-            cell.button.setTitle(nil, for: .normal)
+            cell.imageView.image = image
+            cell.label.text = ""
+            cell.imageView.isUserInteractionEnabled = false
         }
         
         return cell
@@ -177,7 +195,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
                     return
                 }
                 
-                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                let imageInfo = ImageInfo(fileName: "marisol.jpeg", data: imageData, type: "jpeg")
                 self.networkImageArray.append(imageInfo)
             } else {
                 self.imageArray.append(image)
@@ -185,7 +203,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
                     return
                 }
                 
-                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                let imageInfo = ImageInfo(fileName: "marisol.jpeg", data: imageData, type: "jpeg")
                 self.networkImageArray.append(imageInfo)
             }
             
@@ -202,20 +220,24 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
 
 extension RegistrationViewController {
     @objc private func executePOST() {
-        let params = productDetailView.generateParameters()
-        
+        let params = productDetailView.makeProduct()
         
         self.networkManager.execute(with: .productRegistration, httpMethod: .post, params: params, images: self.networkImageArray) { result in
             switch result {
             case .success:
-                self.showSuccessAlert()
+                DispatchQueue.main.async {
+                    self.showSuccessAlert()
+                }
+
             case .failure:
-                self.showFailureAlert()
+                DispatchQueue.main.async {
+                    self.showFailureAlert()
+                }
             }
         }
-    
-        
-        self.navigationController?.popViewController(animated: true)
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

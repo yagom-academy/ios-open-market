@@ -10,19 +10,26 @@ private enum Section: Int {
     case main
 }
 
+private enum Stock {
+    static let zero = "0"
+    static let soldOut = "품절"
+    static let stock = "잔여수량:"
+}
+
 final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>
     
     private var presenter = Presenter()
     private lazy var dataSource = makeDataSource()
-
+    private var pageNo: Int = 1
     private lazy var productView = ProductListView.init(frame: view.bounds)
     private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonDidTapped(_:)))
         
         return plusButton
     }()
+
     private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(cancelButtonDidTapped(_:)))
     
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
@@ -43,11 +50,15 @@ final class MainViewController: UIViewController {
         registerCell()
         applySnapshot()
         productView.collectionView.delegate = self
+        productView.collectionView.prefetchDataSource = self
+        startRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.executeGET()
+        self.item.removeAll()
+        pageNo = 1
+        self.executeGET(number: pageNo)
     }
 }
 
@@ -90,16 +101,33 @@ extension MainViewController {
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
     }
+    
+    private func startRefresh() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(updateUI(refresh:)), for: .valueChanged)
+        
+        productView.collectionView.refreshControl = refresh
+    }
+    
+    @objc private func updateUI(refresh: UIRefreshControl) {
+        DispatchQueue.main.async {
+            self.item.removeAll()
+            self.pageNo = 1
+            self.executeGET(number: self.pageNo)
+            refresh.endRefreshing()
+        }
+    }
 }
 
 // MARK: - setup DataSource
 extension MainViewController {
-    private func executeGET() {
-        self.networkManager.execute(with: .productList(pageNumber: 1, itemsPerPage: 20), httpMethod: .get) { result in
-
+    private func executeGET(number: Int) {
+        self.networkManager.execute(with: .productList(pageNumber: number, itemsPerPage: 20), httpMethod: .get) { result in
             switch result {
             case .success(let result):
-                self.item = result.pages
+                guard let result = result as? ProductsList else { return }
+                self.pageNo = result.pageNo
+                self.item.append(contentsOf: result.pages)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -184,6 +212,21 @@ extension MainViewController {
             presenter.stock = Stock.soldOut
         } else {
             presenter.stock = "\(Stock.stock) \(presenter.stock ?? "")"
+        }
+    }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let last = indexPaths.last else {
+            return
+        }
+        
+        let currentPage = last.row / 20
+        
+        if currentPage + 1 == pageNo {
+            pageNo += 1
+            executeGET(number: pageNo)
         }
     }
 }

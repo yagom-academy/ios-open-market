@@ -16,7 +16,7 @@ struct Presenter {
     var description: String?
     var discountedPrice: String?
     var currency: String?
-    var images: [String]?
+    var images: [Image]?
     
     mutating func setData(of product: Products) -> Presenter {
         let urlString = product.thumbnail
@@ -30,11 +30,12 @@ struct Presenter {
     }
     
     mutating func setData(of productDetail: ProductDetail) -> Presenter {
-        self.images = productDetail.images?.compactMap { image in
-            image.url
-        }
+        self.images = productDetail.images
         
         self.productName = productDetail.name
+        
+        let productBargainPrice = productDetail.bargainPrice ?? 0
+        self.bargainPrice = String(productBargainPrice)
         
         let productPrice = productDetail.price ?? 0
         self.price = String(productPrice)
