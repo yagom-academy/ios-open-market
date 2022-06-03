@@ -7,18 +7,18 @@
 
 import UIKit
 
-protocol AddItemViewControllerDelegate {
+protocol UpdateDelegate {
     func upDate()
 }
 
 final class AddItemViewController: UIViewController {
     @IBOutlet private weak var itemImageCollectionView: UICollectionView!
-    @IBOutlet private weak var curruncySegment: UISegmentedControl!
+    @IBOutlet private weak var currencySegment: UISegmentedControl!
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var priceTextField: UITextField!
-    @IBOutlet private weak var discountPriceTextField: UITextField!
+    @IBOutlet private weak var discountedPriceTextField: UITextField!
     @IBOutlet private weak var stockTextField: UITextField!
-    @IBOutlet private weak var discriptinTextView: UITextView!
+    @IBOutlet private weak var descriptionTextView: UITextView!
     @IBOutlet private weak var myScrollView: UIScrollView!
     private let networkHandler = NetworkHandler()
     private let maxImageCount = 5
@@ -28,13 +28,24 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
-    private var delegate: AddItemViewControllerDelegate?
-    
+    private var vcType = ""
+    private var itemDetail: ItemDetail?
+    private var delegate: UpdateDelegate?
     private var currencyType: CurrencyType = .KRW
     
-    private enum CurrencyType: String {
-        case KRW
+    
+    private enum CurrencyType: Int {
+        case KRW = 0
         case USD
+        
+        var toString: String {
+            switch self {
+            case .KRW:
+                return "KRW"
+            case .USD:
+                return "USD"
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -42,6 +53,12 @@ final class AddItemViewController: UIViewController {
         setInitialView()
     }
     
+    func setVcType(vcType: String, itemDetail: ItemDetail?) {
+        self.title = vcType
+        self.vcType = vcType
+        self.itemDetail = itemDetail
+    }
+ 
     private func setInitialView() {
         navigationItem.setLeftBarButton(makeBarButton(title: "Cancel",selector: #selector(touchCancelButton)), animated: true)
         navigationItem.setRightBarButton(makeBarButton(title: "Done", selector: #selector(touchDoneButton)), animated: true)
@@ -53,6 +70,19 @@ final class AddItemViewController: UIViewController {
         setLayout()
         addKeyboardToolbar()
         addKeyboardObserver()
+        setEditView()
+    }
+    
+    private func setEditView() {
+        guard let itemDetail = itemDetail else { return }
+        self.nameTextField.text = itemDetail.name
+        self.priceTextField.text = itemDetail.price.description
+        self.discountedPriceTextField.text = itemDetail.discountedPrice.description
+        self.stockTextField.text = itemDetail.stock.description
+        self.descriptionTextView.text = itemDetail.description
+        if itemDetail.currency == "USD" {
+            self.currencySegment.selectedSegmentIndex = 1
+        }
     }
     
     private func showAlert(message: String, action:(() -> ())?  ) {
@@ -70,7 +100,7 @@ final class AddItemViewController: UIViewController {
     }
     
     private func checkComponents() throws {
-        if imageArray.count == 0 {
+        if imageArray.count == 0 && vcType == "상품 등록"{
             throw PostItemError.imageError
         }
         
@@ -79,7 +109,7 @@ final class AddItemViewController: UIViewController {
         }
         
         guard let price = priceTextField.text else { return }
-        guard let discountPrice = discountPriceTextField.text else { return }
+        guard let discountPrice = discountedPriceTextField.text else { return }
         guard let priceInt = Int(price), priceInt > 0 else {
             throw PostItemError.priceError
         }
@@ -111,18 +141,22 @@ final class AddItemViewController: UIViewController {
     private func makeComponents() -> APIable {
         let name = nameTextField.text ?? ""
         let price = Int(priceTextField.text ?? "") ?? 0
-        let currency = currencyType.rawValue
-        let discountedPrice = Int(discountPriceTextField.text ?? "") ?? 0
+        let currency = currencyType.toString
+        let discountedPrice = Int(discountedPriceTextField.text ?? "") ?? 0
         let stock = Int(stockTextField.text ?? "") ?? 0
-        let descriptions = discriptinTextView.text
+        let descriptions = descriptionTextView.text
         let httpDescription = descriptions?.replacingOccurrences(of: "\n", with: "\\n") ?? ""
         
         let item = ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock,  descriptions: httpDescription, imageArray: imageArray)
         
-        return PostItemAPI(itemComponents: item)
+        if vcType == "상품 등록" {
+            return PostItemAPI(itemComponents: item)
+        } else {
+            return PatchAPI(id: itemDetail?.id ?? 0, itemComponents: item)
+        }
     }
     
-    func setDelegate(target: AddItemViewControllerDelegate) {
+    func setDelegate(target: UpdateDelegate) {
         delegate = target
     }
     
@@ -137,10 +171,27 @@ final class AddItemViewController: UIViewController {
     @objc private func touchDoneButton() {
         do {
             try checkComponents()
-            networkHandler.request(api: makeComponents()) { _ in }
-            showAlert(message: "상품 등록이 완료되었습니다") {
-                self.popViewController()
-                self.delegate?.upDate()
+            networkHandler.request(api: makeComponents()) { data in
+                switch data {
+                case .success(_):
+                    var message: String {
+                        if self.vcType == "상품 등록" {
+                            return "상품 등록이 완료되었습니다"
+                        } else {
+                            return "상품 수정이 완료되었습니다"
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.showAlert(message: message) {
+                            self.popViewController()
+                            self.delegate?.upDate()
+                        }
+                    }
+                case .failure(_):
+                    DispatchQueue.main.async {
+                        self.showAlert(message: "오류가 발생했습니다", action: nil)
+                    }
+                }
             }
         } catch {
             showAlert(message: error.localizedDescription, action: nil)
@@ -148,20 +199,21 @@ final class AddItemViewController: UIViewController {
     }
     
     @IBAction private func changeCurrencySegment(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            self.currencyType = .KRW
-        } else {
-            self.currencyType = .USD
-        }
+        guard let segmentType = CurrencyType(rawValue: sender.selectedSegmentIndex) else { return }
+        currencyType = segmentType
     }
 }
 // MARK: - aboutCell
 extension AddItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if imageArray.count < maxImageCount {
-            return imageArray.count + 1
+        if vcType == "상품 등록" {
+            if imageArray.count < maxImageCount {
+                return imageArray.count + 1
+            } else {
+                return maxImageCount
+            }
         } else {
-            return maxImageCount
+            return itemDetail?.images.count ?? 0
         }
     }
     
@@ -170,10 +222,17 @@ extension AddItemViewController: UICollectionViewDataSource {
             return ItemImageCell()
         }
         
-        if indexPath.row == imageArray.count {
-            cell.setPlusLabel()
-        } else {
-            cell.setItemImage(image: imageArray[indexPath.row])
+        switch vcType {
+        case "상품 등록":
+            if indexPath.row == imageArray.count {
+                cell.setPlusLabel()
+            } else {
+                cell.setItemImage(image: imageArray[indexPath.row])
+            }
+        case "상품 수정":
+            cell.configureImage(url: itemDetail?.images[indexPath.row].url ?? "")
+        default:
+            break
         }
         
         return cell
@@ -182,7 +241,7 @@ extension AddItemViewController: UICollectionViewDataSource {
 
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if imageArray.count < maxImageCount && indexPath.row == imageArray.count {
+        if imageArray.count < maxImageCount && indexPath.row == imageArray.count && vcType == "상품 등록" {
             let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
             let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
                 self.selectPhoto(where: .photoLibrary)
@@ -242,9 +301,9 @@ extension AddItemViewController {
         
         nameTextField.inputAccessoryView = toolBar
         priceTextField.inputAccessoryView = toolBar
-        discountPriceTextField.inputAccessoryView = toolBar
+        discountedPriceTextField.inputAccessoryView = toolBar
         stockTextField.inputAccessoryView = toolBar
-        discriptinTextView.inputAccessoryView = toolBar
+        descriptionTextView.inputAccessoryView = toolBar
     }
     
     @objc private func hideKeyboard() {
@@ -253,7 +312,7 @@ extension AddItemViewController {
     
     private func setSegmentTextFont() {
         let font = UIFont.preferredFont(forTextStyle: .caption1)
-        curruncySegment.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+        currencySegment.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
     }
     
     private func setLayout() {

@@ -12,6 +12,7 @@ struct HealthCheckerAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct ItemPageAPI: APIable {
@@ -25,6 +26,7 @@ struct ItemPageAPI: APIable {
     }
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct ItemDetailAPI: APIable {
@@ -36,6 +38,7 @@ struct ItemDetailAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct ItemImageAPI: APIable {
@@ -44,6 +47,7 @@ struct ItemImageAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .get
     let itemComponents: ItemComponents? = nil
+    let password: String? = nil
 }
 
 struct PostItemAPI: APIable {
@@ -52,4 +56,42 @@ struct PostItemAPI: APIable {
     let params: [String : String]? = nil
     let method: HttpMethod = .post
     let itemComponents: ItemComponents?
+    let password: String? = nil
+}
+
+struct SecretAPI: APIable {
+    let id: Int
+    let host = "https://market-training.yagom-academy.kr/"
+    var path: String {
+        return "api/products/\(id)/secret"
+    }
+    var params: [String : String]? = nil
+    var method: HttpMethod = .post
+    var itemComponents: ItemComponents? = nil
+    let password: String?
+}
+
+struct DeleteAPI: APIable {
+    let id: Int
+    let secret: String
+    let host = "https://market-training.yagom-academy.kr/"
+    var path: String {
+        return "api/products/\(id)/\(secret)"
+    }
+    let params: [String : String]? = nil
+    let method: HttpMethod = .delete
+    let itemComponents: ItemComponents? = nil
+    let password: String? = nil
+}
+
+struct PatchAPI: APIable {
+    let id: Int
+    let host = "https://market-training.yagom-academy.kr/"
+    var path: String {
+        return "api/products/\(id)"
+    }
+    let params: [String : String]? = nil
+    let method: HttpMethod = .patch
+    var itemComponents: ItemComponents?
+    let password: String? = nil
 }

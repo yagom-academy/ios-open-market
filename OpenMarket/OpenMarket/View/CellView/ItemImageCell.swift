@@ -10,6 +10,11 @@ import UIKit
 final class ItemImageCell: UICollectionViewCell {
     @IBOutlet private weak var itemImageView: UIImageView!
     @IBOutlet private weak var plusLabel: UILabel!
+    private var dataTask: URLSessionDataTask?
+    
+    func configureImage(url: String) {
+        dataTask = itemImageView.getImge(urlString: url)
+    }
     
     func setItemImage(image: UIImage) {
         self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)

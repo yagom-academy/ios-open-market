@@ -12,6 +12,9 @@
 		AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */; };
 		AC326F73283285DA00303ADC /* APIableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC326F72283285DA00303ADC /* APIableProtocol.swift */; };
 		AC4558162844D132003DC759 /* PostItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4558152844D132003DC759 /* PostItemError.swift */; };
+		AC47124D2847134800BDC43C /* ItemDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC47124B2847134800BDC43C /* ItemDetailImageCell.swift */; };
+		AC47124E2847134800BDC43C /* ItemDetailImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC47124C2847134800BDC43C /* ItemDetailImageCell.xib */; };
+		AC575B292846FCF3004CF35F /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC575B282846FCF3004CF35F /* ItemDetailViewController.swift */; };
 		AC5F81E0283E04820006A2BB /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5F81DF283E04820006A2BB /* Extension + UIImage.swift */; };
 		ACA8E2BB282B85F600B36F46 /* NetworkHandlerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA8E2BA282B85F600B36F46 /* NetworkHandlerTest.swift */; };
 		ACA9600A282A7D9A00CBA9D1 /* ItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA96009282A7D9A00CBA9D1 /* ItemProtocol.swift */; };
@@ -61,6 +64,9 @@
 		AC161A14282B7E9200472DDC /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		AC326F72283285DA00303ADC /* APIableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIableProtocol.swift; sourceTree = "<group>"; };
 		AC4558152844D132003DC759 /* PostItemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItemError.swift; sourceTree = "<group>"; };
+		AC47124B2847134800BDC43C /* ItemDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailImageCell.swift; sourceTree = "<group>"; };
+		AC47124C2847134800BDC43C /* ItemDetailImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailImageCell.xib; sourceTree = "<group>"; };
+		AC575B282846FCF3004CF35F /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		AC5F81DF283E04820006A2BB /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
 		ACA8E2B8282B85F600B36F46 /* NetworkHandlerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkHandlerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACA8E2BA282B85F600B36F46 /* NetworkHandlerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandlerTest.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 				AC12F11B283486C70044462D /* ListCell.swift */,
 				E5DF525A2834A77100CBBC45 /* GridCell.swift */,
 				E5DF529C283CADDF00CBBC45 /* ItemImageCell.swift */,
+				AC47124B2847134800BDC43C /* ItemDetailImageCell.swift */,
 			);
 			path = CellView;
 			sourceTree = "<group>";
@@ -259,6 +266,7 @@
 				AC12F11C283486C70044462D /* ListCell.xib */,
 				E5DF525B2834A77100CBBC45 /* GridCell.xib */,
 				E5DF529D283CADDF00CBBC45 /* ItemImageCell.xib */,
+				AC47124C2847134800BDC43C /* ItemDetailImageCell.xib */,
 			);
 			path = CellViewXib;
 			sourceTree = "<group>";
@@ -268,6 +276,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				ACAAEEB8283C79420080EE0B /* AddItemViewController.swift */,
+				AC575B282846FCF3004CF35F /* ItemDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -364,6 +373,7 @@
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				E5DF525D2834A77100CBBC45 /* GridCell.xib in Resources */,
 				AC12F11E283486C70044462D /* ListCell.xib in Resources */,
+				AC47124E2847134800BDC43C /* ItemDetailImageCell.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
 			);
@@ -395,6 +405,7 @@
 				AC161A15282B7E9200472DDC /* URLSessionProtocol.swift in Sources */,
 				ACB7B5E3283737B50099425E /* Extension + String.swift in Sources */,
 				E5DF529E283CADDF00CBBC45 /* ItemImageCell.swift in Sources */,
+				AC47124D2847134800BDC43C /* ItemDetailImageCell.swift in Sources */,
 				E5BEAFE7282A7F5B001B7BDD /* NetworkHandler.swift in Sources */,
 				E5BEAFE3282A58E9001B7BDD /* ItemPage.swift in Sources */,
 				E5BEAFE5282A7C01001B7BDD /* Currency.swift in Sources */,
@@ -409,6 +420,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				ACB7F77C283780E600924F63 /* Extension + UICollectionView.swift in Sources */,
+				AC575B292846FCF3004CF35F /* ItemDetailViewController.swift in Sources */,
 				AC5F81E0283E04820006A2BB /* Extension + UIImage.swift in Sources */,
 				E5DF525C2834A77100CBBC45 /* GridCell.swift in Sources */,
 				ACAAEEBA283C79420080EE0B /* AddItemViewController.swift in Sources */,

@@ -1,10 +1,34 @@
 # 오픈 마켓 
-> 프로젝트 기간 2022-05-09 ~ 2022-05-20
+> 프로젝트 기간 2022-05-09 ~ 2022-06-03
 
 팀원 : [두기](https://github.com/doogie97), [minseong](https://github.com/Minseong-yagom) / 리뷰어 : [LinSaeng](https://github.com/jungseungyeo)
 
 ## 실행화면
-![](https://i.imgur.com/0acLn8e.gif)
+
+1. 메인 화면
+
+<img src="https://i.imgur.com/WPCKs5e.gif" width="200" height="400"/>
+
+2. 상품 등록
+
+<img src="https://user-images.githubusercontent.com/82325822/171797609-1e70f6bd-fa49-4783-a844-b08fb0d8babb.gif" width="200" height="400"/>
+
+
+3. 상품 상세
+
+<img src="https://user-images.githubusercontent.com/82325822/171797761-d504648c-12eb-4316-803a-bd1639da253c.gif" width="200" height="400"/>
+
+4. 상품 수정
+
+<img src="https://user-images.githubusercontent.com/82325822/171797865-91922655-92c5-4d72-95d9-b0b57fe0a46c.gif" width="200" height="400"/>
+
+5. 상품 삭제
+
+<img src="https://user-images.githubusercontent.com/82325822/171797806-4a7a0e12-17c2-45f8-bf96-9072809967ac.gif" width="200" height="400"/>
+
+6. 새로고침
+
+<img src="https://i.imgur.com/UM0vTlt.gif" width="200" height="400"/>
 
 ## 기능 구현
 - 파싱한 JSON 데이터와 매핑할 모델 설계
@@ -14,6 +38,9 @@
 - 파싱한 데이터를 CollectionView를 활용한 UI구성
 - SegmentController를 이용해 CollectionView 레이아웃변경
 - 네트워크로부터 얻은 ImageData를 Cache를 이용해 재사용
+- alert textfield를 통해 비밀 번호 입력 받기
+- URLSession을 활용한 multipart-form 요청 전송
+- UIImagePickerController 활용
 
 ## Trouble Shooting
 ### 1. test만을를 위해 session을 var로 선언해야 하는지?
@@ -84,6 +111,54 @@ ItemCellable프로토콜을 통해 LIST cell과 GRID cell을 추상화 해주고
 2. 그렇다고 5번의 item과 같이 배열로 저장할까 했으나 이미지는 메모리를 과하게 차지할 위험이 있음
 
 -> thumbnail을 key로, 다운한 image를 value로 cache에 담아주게 되었으며 어플이 종료되면 사라지는 NSCache로 구현하였음
+
+### 6. 텍스트 입력 중 키보드가 콘텐츠를 가리는 문제
+
+![](https://i.imgur.com/E0lPxfW.png)
+
+#### keyboardWillShow
+![](https://i.imgur.com/9tGCG4q.png)
+#### keyboardWillHide
+![](https://i.imgur.com/9J7DzFw.png)
+키보드의 상태를 notification으로 감지하고 상황에 맞게 스크롤의 위치를 변경하여 위 문제를 해결
+
+### 7. 비동기 로직을 통해 서버에서 데이터를 가져온 후 뷰에 업데이트 하는 과정
+최초에는 서버에서 데이터를 가져오는 메서드 내에서 뷰 구성 메서드까지 실행을 시킴
+ex)
+```swift
+let itemDetail: ItemDetail?
+
+func getDate() {
+    networkHandler.request(){
+        ....(비동기적으로 데이터 가져오는 로직)
+        self.itemDetail = data
+    }
+    
+    self.nameLabel.text = itemDetail.name
+    self.stockLabel.text = itemDetail.stock
+    .
+    .
+    .
+}
+```
+
+위와 같이 로직을 구성했는데 getData가 실행되어 itemDetail에 data가 할당되었음에도 불구 하고 뷰에 요소들이 반영이 되지 않는 상황이 발생함
+
+#### 문제점
+비동기 로직이라는 말 그대로 데이터를 가져오는 건 가져오는 대로 뷰 구성은 뷰구성대로 진행되는 것인데 데이터를 가져오기 시작과 동시에 뷰 구성에 들어가게 되니 itemDetail 은 nil인 상태이기 때문에 뷰에 반영이 되지 않았던 것
+
+#### 해결 방법
+```swift
+    private var itemDetail: ItemDetail? {
+        didSet {
+            DispatchQueue.main.async {
+                self.setInitialView()
+            }
+        }
+    }
+```
+
+첫 번째에 예시로 작성했던 코드는 그대로 두고 뷰를 구성하는 로직들만 따로 메서드로 빼내 itemDetail에 변경사항이 생기면 뷰를 구성할 수 있도록 로직을 바꾸었으며 이는 getData를 통해 서버에서 정상적으로 data를 가져와 itemDetail에 할당하게 된다면 그 때야 비로소 뷰 구성이 진행될 수 있도록 수정
 
 ## 배운 개념
 - 프로토콜을 활용한 추상화

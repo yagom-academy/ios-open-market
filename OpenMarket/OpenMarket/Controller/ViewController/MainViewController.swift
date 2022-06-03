@@ -36,8 +36,15 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setInitialView()
+    }
+    
+    private func setInitialView() {
         openMarketCollectionView.dataSource = self
+        openMarketCollectionView.delegate = self
         openMarketCollectionView.prefetchDataSource = self
+        openMarketCollectionView.refreshControl = UIRefreshControl()
+        openMarketCollectionView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         registCell()
         getItemPage()
         setListLayout()
@@ -97,6 +104,11 @@ final class MainViewController: UIViewController {
         return CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel, thumbnailURL: thumnailURL)
     }
     
+    @objc private func refresh() {
+        upDate()
+        openMarketCollectionView.refreshControl?.endRefreshing()
+    }
+    
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
         guard let segmentType = CellType(rawValue: sender.selectedSegmentIndex) else { return }
         cellType = segmentType
@@ -104,8 +116,8 @@ final class MainViewController: UIViewController {
     
     @IBAction func touchAddButton(_ sender: UIBarButtonItem) {
         guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
-        addVC.title = "상품 등록"
         addVC.setDelegate(target: self)
+        addVC.setVcType(vcType: "상품 등록", itemDetail: nil)
         navigationController?.pushViewController(addVC, animated: true)
     }
 }
@@ -128,6 +140,15 @@ extension MainViewController: UICollectionViewDataSource {
             myActivityIndicator.stopAnimating()
             return gridCell
         }
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let itemDetailVC = storyboard?.instantiateViewController(withIdentifier: "\(ItemDetailViewController.self)") as? ItemDetailViewController else { return }
+        itemDetailVC.getItem(id: items[indexPath.row].id)
+        itemDetailVC.setDelegate(target: self)
+        navigationController?.pushViewController(itemDetailVC, animated: true)
     }
 }
 
@@ -173,7 +194,7 @@ extension MainViewController {
     }
 }
 
-extension MainViewController: AddItemViewControllerDelegate {
+extension MainViewController: UpdateDelegate {
     func upDate() {
         items = []
         pageNumber = 1
