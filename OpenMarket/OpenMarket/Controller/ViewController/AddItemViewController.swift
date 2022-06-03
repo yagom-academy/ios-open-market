@@ -172,17 +172,27 @@ final class AddItemViewController: UIViewController {
     @objc private func touchDoneButton() {
         do {
             try checkComponents()
-            networkHandler.request(api: makeComponents()) { _ in }
-            var message: String {
-                if vcType == "상품 등록" {
-                    return "상품 등록이 완료되었습니다"
-                } else {
-                    return "상품 수정이 완료되었습니다"
+            networkHandler.request(api: makeComponents()) { data in
+                switch data {
+                case .success(_):
+                    var message: String {
+                        if self.vcType == "상품 등록" {
+                            return "상품 등록이 완료되었습니다"
+                        } else {
+                            return "상품 수정이 완료되었습니다"
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.showAlert(message: message) {
+                            self.popViewController()
+                            self.delegate?.upDate()
+                        }
+                    }
+                case .failure(_):
+                    DispatchQueue.main.async {
+                        self.showAlert(message: "오류가 발생했습니다", action: nil)
+                    }
                 }
-            }
-            showAlert(message: message) {
-                self.popViewController()
-                self.delegate?.upDate()
             }
         } catch {
             showAlert(message: error.localizedDescription, action: nil)
