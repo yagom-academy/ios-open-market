@@ -233,7 +233,8 @@ extension ProductDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let size = imageScrollView.contentOffset.x / imageScrollView.frame.width
         productDetailView.pageControl.currentPage = Int(round(size))
-
+    }
+    
     private func checkPassword(secret: String, completionHandler: @escaping (Result<String, Error>) -> Void) {
         guard let productId = products.id else {
             return
