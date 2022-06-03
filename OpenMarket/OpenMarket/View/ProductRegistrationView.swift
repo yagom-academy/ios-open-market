@@ -7,6 +7,11 @@
 
 import UIKit
 
+private enum UserInformation {
+    static let identifier: String = "affb87d9-d1b7-11ec-9676-d3cd1a738d6f"
+    static let secret: String = "c7ne65d5oc"
+}
+
 final class ProductRegistrationView: UIView, Drawable {
     lazy var entireStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 20)
     lazy var productInfoStackView = makeStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 10)

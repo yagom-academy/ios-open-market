@@ -7,6 +7,10 @@
 
 import Foundation
 
+private enum UserInformation {
+    static let identifier: String = "affb87d9-d1b7-11ec-9676-d3cd1a738d6f"
+}
+
 enum NetworkError: Error {
     case error
     case data
