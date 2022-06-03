@@ -10,6 +10,12 @@ private enum Section: Int {
     case main
 }
 
+private enum Stock {
+    static let zero = "0"
+    static let soldOut = "품절"
+    static let stock = "잔여수량:"
+}
+
 final class MainViewController: UIViewController {
     fileprivate typealias DataSource = UICollectionViewDiffableDataSource<Section, Products>
     fileprivate typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Products>

@@ -7,6 +7,10 @@
 
 import UIKit
 
+private enum Stock {
+    static let soldOut = "품절"
+}
+
 final class GridCollectionViewCell: UICollectionViewCell {
     static let identifier = "GridCollectionViewCell"
     private var productImage: UIImageView = UIImageView()
