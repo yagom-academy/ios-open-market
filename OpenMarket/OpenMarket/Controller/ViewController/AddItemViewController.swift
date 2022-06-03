@@ -58,7 +58,7 @@ final class AddItemViewController: UIViewController {
         self.vcType = vcType
         self.itemDetail = itemDetail
     }
-    
+ 
     private func setInitialView() {
         navigationItem.setLeftBarButton(makeBarButton(title: "Cancel",selector: #selector(touchCancelButton)), animated: true)
         navigationItem.setRightBarButton(makeBarButton(title: "Done", selector: #selector(touchDoneButton)), animated: true)
@@ -197,7 +197,6 @@ final class AddItemViewController: UIViewController {
             showAlert(message: error.localizedDescription, action: nil)
         }
     }
-    
     
     @IBAction private func changeCurrencySegment(_ sender: UISegmentedControl) {
         guard let segmentType = CurrencyType(rawValue: sender.selectedSegmentIndex) else { return }
