@@ -8,6 +8,10 @@
 import Foundation
 
 struct HttpProvider {
+  private enum UserInfo {
+    static let identifier = "8de44ec8-d1b8-11ec-9676-43acdce229f5"
+  }
+  
   private let session: URLSession
   
   init(session: URLSession = URLSession.shared) {
