@@ -183,7 +183,7 @@ extension MainViewController {
 
 // MARK: - RefreshDelegate
 extension MainViewController: ViewControllerDelegate {
-    func viewControllerSholdRefresh() {
+    func viewControllerSholdRefresh(_ viewController: UIViewController) {
         requestList()
     }
 }
