@@ -13,7 +13,7 @@ final class RegistrationViewController: UIViewController, UINavigationController
     private let doneButton = UIBarButtonItem()
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
     private var networkImageArray = [ImageInfo]()
-    private let productDetailView = ProductDetailView()
+    private let productDetailView = ProductRegistrationView()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
