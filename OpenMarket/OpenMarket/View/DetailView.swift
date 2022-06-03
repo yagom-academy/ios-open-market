@@ -15,6 +15,7 @@ final class DetailView: UIView {
         super.init(frame: frame)
         backgroundColor = .white
         setUpConstraints()
+        imageScrollView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -24,13 +25,6 @@ final class DetailView: UIView {
     private lazy var baseScrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var mainVerticalStackView: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
         return view
     }()
 
@@ -48,9 +42,18 @@ final class DetailView: UIView {
         return view
     }()
     
+    private lazy var mainVerticalStackView: UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
+        return view
+    }()
+    
     private lazy var pagingLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .preferredFont(forTextStyle: .footnote)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
         return label
     }()
     
@@ -86,9 +89,13 @@ final class DetailView: UIView {
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
+}
+
+// MARK: - Method
+
+extension DetailView {
     
     private func setUpConstraints() {
-        
         self.addSubview(baseScrollView)
         NSLayoutConstraint.activate([
             baseScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -113,6 +120,17 @@ final class DetailView: UIView {
             imageContentStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
             imageContentStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor)
         ])
+        
+        baseScrollView.addSubview(pagingLabel)
+        NSLayoutConstraint.activate([
+            pagingLabel.centerXAnchor.constraint(equalTo: baseScrollView.centerXAnchor),
+            pagingLabel.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: 5)
+        ])
+    }
+    
+    private func updatePagingLabel(currentPage: Int) {
+        let totalPages = imageContentStackView.subviews.count
+        pagingLabel.text = "\(currentPage)/\(totalPages)"
     }
     
     private func generateImageView(image: UIImage) {
@@ -136,8 +154,18 @@ final class DetailView: UIView {
                         return
                     }
                     self.generateImageView(image: image)
+                    self.updatePagingLabel(currentPage: 1)
                 }
             }
         }
+    }
+}
+
+// MARK: - ScrollView Delegate
+
+extension DetailView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let value = scrollView.contentOffset.x/scrollView.frame.size.width
+        updatePagingLabel(currentPage: Int(ceil(value)) + 1)
     }
 }
