@@ -9,6 +9,8 @@ import UIKit
 
 final class DetailView: UIView {
     
+    private let imageCache = ImageCache.shared
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -26,7 +28,7 @@ final class DetailView: UIView {
     }()
     
     private lazy var mainVerticalStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [])
+        let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         return view
@@ -35,20 +37,15 @@ final class DetailView: UIView {
     private lazy var imageScrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isPagingEnabled = true
         return view
     }()
     
     private lazy var imageContentStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [imageView])
+        let view = UIStackView()
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-    
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "swift")
-        return imageView
     }()
     
     private lazy var pagingLabel: UILabel = {
@@ -116,5 +113,31 @@ final class DetailView: UIView {
             imageContentStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
             imageContentStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor)
         ])
+    }
+    
+    private func generateImageView(image: UIImage) {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = image
+        self.imageContentStackView.addArrangedSubview(view)
+        NSLayoutConstraint.activate([
+            view.widthAnchor.constraint(equalTo: self.widthAnchor),
+            view.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4)
+        ])
+    }
+    
+    func setUpView(productDetail: ProductDetail) {
+        let images = productDetail.images
+        for productImage in images {
+            let urlString = productImage.url
+            imageCache.loadImage(urlString: urlString) { image in
+                DispatchQueue.main.async { [weak self] in
+                    guard let image = image, let self = self else {
+                        return
+                    }
+                    self.generateImageView(image: image)
+                }
+            }
+        }
     }
 }
