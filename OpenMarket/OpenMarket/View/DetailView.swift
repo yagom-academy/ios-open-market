@@ -12,6 +12,8 @@ class DetailView: UIView {
     static let title: Double = 16.0
     static let body: Double = 15.0
     static let spacing: Double = 5.0
+    static let margin: Double = 20.0
+    static let heightScale: Double = 0.4
   }
   
   init() {
@@ -125,7 +127,6 @@ class DetailView: UIView {
   private let totalStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
-    stackView.spacing = 20.0
     stackView.alignment = .fill
     stackView.distribution = .fill
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -158,7 +159,10 @@ class DetailView: UIView {
       totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
       totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
       
-      imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
+      imageScrollView.heightAnchor.constraint(
+        equalTo: self.heightAnchor,
+        multiplier: Constants.heightScale
+      ),
       
       descriptionLabel.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor),
       descriptionLabel.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor),
