@@ -386,6 +386,7 @@
 				6447D28F2835DF1F005570BC /* String+.swift in Sources */,
 				6476B3B3284370BA006B7F66 /* NetworkManager.swift in Sources */,
 				B3F7D96F283520C30079ED84 /* CALayer+.swift in Sources */,
+				B31DF4F02845B56C00AA8022 /* Alert.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				6447D2CB283C8394005570BC /* RegistrationViewCell.swift in Sources */,
 			);

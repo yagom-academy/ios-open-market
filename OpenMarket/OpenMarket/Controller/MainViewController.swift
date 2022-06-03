@@ -23,14 +23,13 @@ final class MainViewController: UIViewController {
     private var presenter = Presenter()
     private lazy var dataSource = makeDataSource()
     private var pageNo: Int = 1
-
     private lazy var productView = ProductListView.init(frame: view.bounds)
     private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonDidTapped(_:)))
         
         return plusButton
     }()
-    
+
     private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(cancelButtonDidTapped(_:)))
     
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
