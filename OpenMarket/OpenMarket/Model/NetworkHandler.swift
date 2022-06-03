@@ -45,8 +45,9 @@ struct NetworkHandler {
         }
         
         if api.method == .patch {
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")            
-            guard let data = makeData(components: api.itemComponents!) else { return }
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            guard let components = api.itemComponents else { return }
+            guard let data = makeData(components: components) else { return }
             request.httpBody = data
         }
         
