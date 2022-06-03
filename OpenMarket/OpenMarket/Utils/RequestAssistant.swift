@@ -21,11 +21,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(ProductList.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -36,11 +32,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -50,9 +42,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            if let result = String(data: data, encoding: .utf8) {
-                self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
-            }
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -63,11 +53,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -78,25 +64,17 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
     func requestSecretAPI(productId: Int, body: Data, completionHandler: @escaping ((Result<String, OpenMarketError>) -> Void)) {
         let endpoint: Endpoint = .productSecret(productId: productId)
         sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
-            print("# \(String(data: data!, encoding: .utf8))")
-            
             guard let data = data else {
                 return
             }
-            if let result = String(data: data, encoding: .utf8) {
-                self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
-            }
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -106,22 +84,43 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
-    private func handleResponse<T>(response: URLResponse?, result: T ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
+    private func handleResponse<T: Decodable>(response: URLResponse?, data: Data ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
         guard let response = response as? HTTPURLResponse else {
             return
         }
         let statusCode = response.statusCode
         switch statusCode {
         case 200...299:
+            guard let result = try? Decoder.shared.decode(T.self, from: data) else {
+                completionHandler(.failure(.failDecode))
+                return
+            }
             completionHandler(.success(result))
+        case 400:
+            completionHandler(.failure(.invalidData))
+        case 404:
+            completionHandler(.failure(.missingDestination))
+        case 500...599:
+            completionHandler(.failure(.invalidResponse))
+        default:
+            completionHandler(.failure(.unknownError))
+        }
+    }
+    
+    private func handleResponse(response: URLResponse?, data: Data ,completionHandler: @escaping ((Result<String, OpenMarketError>) -> Void)) {
+        guard let response = response as? HTTPURLResponse else {
+            return
+        }
+        let statusCode = response.statusCode
+        switch statusCode {
+        case 200...299:
+            if let result = String(data: data, encoding: .utf8) {
+                completionHandler(.success(result))
+            }
         case 400:
             completionHandler(.failure(.invalidData))
         case 404:
