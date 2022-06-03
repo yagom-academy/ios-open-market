@@ -10,9 +10,10 @@ import UIKit
 final class DetailViewController: UIViewController {
     
     var productNumber: Int?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = DetailView(frame: .zero)
+        let detailView = DetailView.init(frame: self.view.bounds)
+        view.addSubview(detailView)
     }
 }
