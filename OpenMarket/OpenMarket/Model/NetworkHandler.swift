@@ -44,6 +44,12 @@ struct NetworkHandler {
             request = urlRequest
         }
         
+        if api.method == .patch {
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")            
+            guard let data = makeData(components: api.itemComponents!) else { return }
+            request.httpBody = data
+        }
+        
         session.receiveResponse(request: request) { responseResult in
             guard responseResult.error == nil else {
                 return response(.failure(.transportError))
