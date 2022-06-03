@@ -89,13 +89,15 @@ extension MainViewController {
         
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        
+        setUpNewProductButtonConstraints()
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
         defineCollectionViewDelegate()
         defineSearchBarDelegate()
         setUpSearchBarConstraints()
         setUpInitialState()
+        
+        startTimer()
     }
     
     @objc func pullToRefresh() {
@@ -217,6 +219,7 @@ private extension MainViewController {
                 self.products = data.pages
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
+                    self.newProductButton.isHidden = true
                     self.collectionView.reloadData()
                 }
             case .failure(_):
