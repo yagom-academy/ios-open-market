@@ -8,10 +8,12 @@
 import Foundation
 
 enum Endpoint {
-  case healthChecker
-  case productList(pageNumber: Int, itemsPerPage: Int)
-  case productRegistration
-  case productEdit(productId: Int)
+    case healthChecker
+    case productList(pageNumber: Int, itemsPerPage: Int)
+    case productRegistration
+    case productEdit(productId: Int)
+    case productDelete(productId: Int, secret: String)
+    case productSecretCheck(productId: Int)
 }
 
 extension Endpoint {
@@ -25,6 +27,10 @@ extension Endpoint {
       return .makeUrl(with: "api/products")
     case .productEdit(let productId):
       return .makeUrl(with: "api/products/\(productId)")
+    case .productDelete(let productId, let secret):
+        return .makeUrl(with: "api/products/\(productId)/\(secret)")
+    case .productSecretCheck(let productId):
+        return .makeUrl(with: "api/products/\(productId)/secret")
     }
   }
 }

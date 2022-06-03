@@ -180,7 +180,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
                     return
                 }
                 
-                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                let imageInfo = ImageInfo(fileName: "marisol.jpeg", data: imageData, type: "jpeg")
                 self.networkImageArray.append(imageInfo)
             } else {
                 self.imageArray.append(image)
@@ -188,7 +188,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate {
                     return
                 }
                 
-                let imageInfo = ImageInfo(fileName: "rimasol.jpeg", data: imageData, type: "jpeg")
+                let imageInfo = ImageInfo(fileName: "marisol.jpeg", data: imageData, type: "jpeg")
                 self.networkImageArray.append(imageInfo)
             }
             

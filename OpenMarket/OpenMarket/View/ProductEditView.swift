@@ -40,7 +40,7 @@ final class ProductEditView: UIView, Drawable {
         setDescription(presenter)
     }
     
-    func makeProduct() -> ProductForPatch {
+    func makeProduct() -> ProductForPATCH {
             let name = self.productNameTextField.text ?? ""
             let description = self.descriptionTextView.text ?? ""
             let priceString = self.priceTextField.text ?? ""
@@ -51,7 +51,7 @@ final class ProductEditView: UIView, Drawable {
             let stockString = self.stockTextField.text ?? ""
             let stock = Int(stockString) ?? 0
         
-        return ProductForPatch(name: name, descriptions: description, thumbnailID: nil , price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: UserInformation.secret)
+        return ProductForPATCH(name: name, descriptions: description, thumbnailID: nil , price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: UserInformation.secret)
     }
 }
 

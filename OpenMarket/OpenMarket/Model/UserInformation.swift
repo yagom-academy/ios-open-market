@@ -6,6 +6,6 @@
 //
 
 enum UserInformation {
-    static let identifer: String = "affb87d9-d1b7-11ec-9676-d3cd1a738d6f"
+    static let identifier: String = "affb87d9-d1b7-11ec-9676-d3cd1a738d6f"
     static let secret: String = "c7ne65d5oc"
 }
