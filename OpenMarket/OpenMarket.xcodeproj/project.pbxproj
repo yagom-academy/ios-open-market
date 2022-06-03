@@ -30,6 +30,7 @@
 		9CA10EBD282E345000D0376F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C321E9282E19A60095D7E4 /* NetworkError.swift */; };
 		9CA13DE42833FCBF005C6176 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA13DE32833FCBF005C6176 /* View+Extension.swift */; };
 		9CA8B186283798870088BAE6 /* MainCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8B185283798860088BAE6 /* MainCollectionView.swift */; };
+		9CAD0D262849CF260095858B /* ProductDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAD0D252849CF260095858B /* ProductDetailUseCase.swift */; };
 		9CB587962845D307008DF296 /* OpenMarketPOSTTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB587952845D306008DF296 /* OpenMarketPOSTTest.swift */; };
 		9CB587972845D89F008DF296 /* ProductRegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2B45428450F33009EDDC7 /* ProductRegisterUseCase.swift */; };
 		9CB587982845D9DB008DF296 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B0555128408B8600D43271 /* Secret.swift */; };
@@ -101,6 +102,7 @@
 		9CA10EB9282E251000D0376F /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		9CA13DE32833FCBF005C6176 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		9CA8B185283798860088BAE6 /* MainCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionView.swift; sourceTree = "<group>"; };
+		9CAD0D252849CF260095858B /* ProductDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailUseCase.swift; sourceTree = "<group>"; };
 		9CB587952845D306008DF296 /* OpenMarketPOSTTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketPOSTTest.swift; sourceTree = "<group>"; };
 		9CB587A2284644F6008DF296 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9CB587A428464570008DF296 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -185,18 +187,33 @@
 			children = (
 				9C65AB8D28378282007D57BD /* Network.swift */,
 				9C7E8860282BA80B00D83081 /* OpenMarketApi.swift */,
-				E1C321E9282E19A60095D7E4 /* NetworkError.swift */,
 				9CA10EB7282E248500D0376F /* URLSessionProtocol.swift */,
 				9C9F36A0283DE40000F8BB32 /* ImageCache.swift */,
-				E1D8FBFB283DFFCA0008C2F1 /* ProductListUseCase.swift */,
 				E1D8FBFD283E05DE0008C2F1 /* PageInfoManager.swift */,
 				E1B0555128408B8600D43271 /* Secret.swift */,
-				E1F2B4522844FE1C009EDDC7 /* UseCaseError.swift */,
-				E1F2B45428450F33009EDDC7 /* ProductRegisterUseCase.swift */,
 				E1F2B45628451146009EDDC7 /* ErrorAlertProtocol.swift */,
 				E1CEC6F728478D8300579E2D /* ImageEncoder.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		9CAD0D242849CE290095858B /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				E1F2B45428450F33009EDDC7 /* ProductRegisterUseCase.swift */,
+				E1D8FBFB283DFFCA0008C2F1 /* ProductListUseCase.swift */,
+				9CAD0D252849CF260095858B /* ProductDetailUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		9CAD0D272849E09D0095858B /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				E1C321E9282E19A60095D7E4 /* NetworkError.swift */,
+				E1F2B4522844FE1C009EDDC7 /* UseCaseError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		9CB587A8284733F0008DF296 /* Extension */ = {
@@ -247,6 +264,8 @@
 		E1B9146D282A1BF700DD2820 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9CAD0D272849E09D0095858B /* Error */,
+				9CAD0D242849CE290095858B /* UseCase */,
 				9C7E8864282BB30600D83081 /* Network */,
 				9C7E8863282BB2EF00D83081 /* DataType */,
 			);
@@ -407,6 +426,7 @@
 			files = (
 				E1F2B4532844FE1C009EDDC7 /* UseCaseError.swift in Sources */,
 				9CB587A528464570008DF296 /* DetailView.swift in Sources */,
+				9CAD0D262849CF260095858B /* ProductDetailUseCase.swift in Sources */,
 				9C7E8826282A4B1300D83081 /* ProductSecret.swift in Sources */,
 				E1CEC6F828478D8300579E2D /* ImageEncoder.swift in Sources */,
 				E1C321EA282E19A60095D7E4 /* NetworkError.swift in Sources */,

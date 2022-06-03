@@ -18,6 +18,7 @@ final class ImageCache: Cacheable {
     
     private init() {}
     
+    @discardableResult
     func loadImage(urlString: String, completionHandler: @escaping (UIImage?) -> Void) -> URLSessionDataTask? {
         if let image = imageCache.object(forKey: urlString as NSString) {
             completionHandler(image)

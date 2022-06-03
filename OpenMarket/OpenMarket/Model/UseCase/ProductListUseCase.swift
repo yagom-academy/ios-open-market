@@ -38,5 +38,4 @@ struct ProductListUseCase {
             errorHandler(error)
         }
     }
-    
 }

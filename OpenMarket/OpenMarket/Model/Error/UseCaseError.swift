@@ -17,6 +17,7 @@ enum UseCaseError: Error, LocalizedError, ErrorAlertProtocol {
     case imageError
     case encodingError
     case imageSizeError
+    case idError
 
     var alertTitle: String {
         return "입력 에러!"
@@ -42,6 +43,8 @@ enum UseCaseError: Error, LocalizedError, ErrorAlertProtocol {
             return "인코딩에 실패하였습니다."
         case .imageSizeError:
             return "이미지 사이즈 오류입니다."
+        case .idError:
+            return "제품의 상세정보를 찾을 수 없습니다."
         }
     }
 }
