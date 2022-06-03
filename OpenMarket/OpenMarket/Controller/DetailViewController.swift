@@ -48,7 +48,9 @@ final class DetailViewController: UIViewController {
     guard let pageId = pageId else {
       return
     }
-    httpProvider.get(.productInformation(productId: pageId)) { data in
+    let networkRequirements = HttpRequirements(endpoint: .productInformation(productId: pageId))
+  
+    httpProvider.execute(networkRequirements) { data in
       guard let data = try? data.get() else {
         return
       }
@@ -135,10 +137,11 @@ final class DetailViewController: UIViewController {
     guard let inputPassword = inputPassword else {
       return
     }
-    self.httpProvider.searchSecret(
-      .secretKey(productId: pageId),
-      inputPassword
-    ) { result in
+    let networkRequirements = HttpRequirements(
+      endpoint: .secretKey(productId: pageId, secret: inputPassword)
+    )
+    
+    self.httpProvider.execute(networkRequirements) { result in
       switch result {
       case .success(let data):
         guard let reponseSecret = String(data: data, encoding: .utf8) else {
@@ -156,9 +159,10 @@ final class DetailViewController: UIViewController {
     guard let pageId = self.pageId else {
       return
     }
-    httpProvider.delete(
-      .delete(productId: pageId, productSecret: secretKey)
-    ) { result in
+    let networkRequirements = HttpRequirements(
+      endpoint: .delete(productId: pageId, productSecret: secretKey)
+    )
+    httpProvider.execute(networkRequirements) { result in
       switch result {
       case .success(_):
         return

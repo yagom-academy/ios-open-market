@@ -59,7 +59,10 @@ final class MainViewController: UIViewController {
   }
   
   private func fetchPages() {
-    httpProvider.get(.page(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
+    let networkRequirements = HttpRequirements(
+      endpoint: .page(pageNumber: currentPageNumber, itemsPerPage: 20)
+    )
+    httpProvider.execute(networkRequirements) { data in
       guard let data = try? data.get() else {
         return
       }

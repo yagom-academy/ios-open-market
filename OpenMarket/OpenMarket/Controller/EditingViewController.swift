@@ -93,7 +93,10 @@ final class EditingViewController: UIViewController {
     }
     
     DispatchQueue.global().async(group: group) {
-      self.httpProvider.patch(.productInformation(productId: product.id), params) { result in
+      let networkRequirements = HttpRequirements(
+        endpoint: .edit(productId: product.id, params: params)
+      )
+      self.httpProvider.execute(networkRequirements) { result in
         switch result {
         case .success(_):
           return

@@ -83,7 +83,10 @@ final class RegistrationViewController: UIViewController {
     
     let group = DispatchGroup()
     DispatchQueue.global().async(group: group) {
-      self.httpProvider.post(.registration, params, self.selectedImages) { result in
+      let networkRequirement = HttpRequirements(
+        endpoint: .registration(params: params, images: self.selectedImages)
+      )
+      self.httpProvider.execute(networkRequirement) { result in
         switch result {
         case .success(_):
           return
