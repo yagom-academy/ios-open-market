@@ -48,7 +48,9 @@ final class DetailViewController: UIViewController {
     guard let pageId = pageId else {
       return
     }
-    let networkRequirements = HttpRequirements(endpoint: .productInformation(productId: pageId))
+    let networkRequirements = HttpRequirements(
+      endpoint: .productInformation(productId: pageId)
+    )
   
     httpProvider.execute(networkRequirements) { data in
       guard let data = try? data.get() else {
