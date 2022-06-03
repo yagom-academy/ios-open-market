@@ -35,6 +35,7 @@ final class DetailViewController: UIViewController {
     super.viewWillAppear(animated)
     fetchDetailProductData { [weak self] in
       self?.configureNavigationBar()
+      self?.setUpImage(of: self?.product?.images)
       self?.detailView.setUpDetailInformation(of: self?.product)
       self?.detailView.imageScrollView.delegate = self
     }
@@ -237,6 +238,30 @@ extension DetailViewController {
     alert.addAction(confirmAction)
     
     present(alert, animated: false, completion: nil)
+  }
+  
+  private func setUpImage(of images: [Image]?) {
+    guard let images = images else {
+      return
+    }
+    for index in 0..<images.count {
+      let imageView = UIImageView()
+      imageView.loadImage(urlString: images[index].url)
+      imageView.contentMode = .scaleAspectFit
+      let width = detailView.imageScrollView.frame.width
+      let height = detailView.imageScrollView.frame.height
+      let margin = (width - height) / 2
+      let originX = (detailView.frame.width * CGFloat(index)) + margin
+      imageView.frame = CGRect(
+        x: originX,
+        y: 0,
+        width: detailView.imageScrollView.frame.height,
+        height: detailView.imageScrollView.frame.height
+      )
+      detailView.imageScrollView.addSubview(imageView)
+      let scrollViewContentWidth = detailView.imageScrollView.frame.width * CGFloat(index + 1)
+      detailView.imageScrollView.contentSize.width = scrollViewContentWidth
+    }
   }
 }
 

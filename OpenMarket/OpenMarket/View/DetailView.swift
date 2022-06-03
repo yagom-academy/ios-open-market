@@ -186,7 +186,6 @@ class DetailView: UIView {
       return
     }
     pageControl.numberOfPages = images.count
-    setUpImage(of: images)
     
     self.nameLabel.text = detailProduct?.name
     self.descriptionLabel.text = detailProduct?.description
@@ -206,24 +205,6 @@ class DetailView: UIView {
     } else {
       self.stockLabel.textColor = .systemGray
       self.stockLabel.text = "남은 수량 : \(stock)"
-    }
-  }
-  
-  private func setUpImage(of images: [Image]) {
-    for index in 0..<images.count {
-      let imageView = UIImageView()
-      imageView.loadImage(urlString: images[index].url)
-      imageView.contentMode = .scaleAspectFit
-      let margin = (imageScrollView.frame.width - imageScrollView.frame.height) / 2
-      let originX = (self.frame.width * CGFloat(index)) + margin
-      imageView.frame = CGRect(
-        x: originX,
-        y: 0,
-        width: imageScrollView.frame.height,
-        height: imageScrollView.frame.height
-      )
-      imageScrollView.addSubview(imageView)
-      imageScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(index + 1)
     }
   }
   
