@@ -100,7 +100,7 @@ final class AddItemViewController: UIViewController {
     }
     
     private func checkComponents() throws {
-        if imageArray.count == 0 {
+        if imageArray.count == 0 && vcType == "상품 등록"{
             throw PostItemError.imageError
         }
         
@@ -149,7 +149,12 @@ final class AddItemViewController: UIViewController {
         
         let item = ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock,  descriptions: httpDescription, imageArray: imageArray)
         
-        return PostItemAPI(itemComponents: item)
+        if vcType == "상품 등록" {
+            return PostItemAPI(itemComponents: item)
+        } else {
+            print("patch")
+            return PatchAPI(id: itemDetail?.id ?? 0, itemComponents: item)
+        }
     }
     
     func setDelegate(target: UpdateDelegate) {
@@ -168,7 +173,14 @@ final class AddItemViewController: UIViewController {
         do {
             try checkComponents()
             networkHandler.request(api: makeComponents()) { _ in }
-            showAlert(message: "상품 등록이 완료되었습니다") {
+            var message: String {
+                if vcType == "상품 등록" {
+                    return "상품 등록이 완료되었습니다"
+                } else {
+                    return "상품 수정이 완료되었습니다"
+                }
+            }
+            showAlert(message: message) {
                 self.popViewController()
                 self.delegate?.upDate()
             }
@@ -176,6 +188,7 @@ final class AddItemViewController: UIViewController {
             showAlert(message: error.localizedDescription, action: nil)
         }
     }
+    
     
     @IBAction private func changeCurrencySegment(_ sender: UISegmentedControl) {
         guard let segmentType = CurrencyType(rawValue: sender.selectedSegmentIndex) else { return }
