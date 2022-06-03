@@ -89,6 +89,13 @@ class DetailView: UIView {
     stackView.axis = .horizontal
     stackView.alignment = .top
     stackView.distribution = .fill
+    stackView.layoutMargins = UIEdgeInsets(
+      top: Constants.margin,
+      left: 0,
+      bottom: Constants.margin,
+      right: 0
+    )
+    stackView.isLayoutMarginsRelativeArrangement = true
     return stackView
   }()
   
@@ -172,7 +179,8 @@ class DetailView: UIView {
       ),
       descriptionView.widthAnchor.constraint(
         equalTo: descriptionScrollView.widthAnchor, multiplier: 1
-      )
+      ),
+      pageControl.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor)
     ])
   }
   
