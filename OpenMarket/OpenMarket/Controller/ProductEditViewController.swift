@@ -7,6 +7,14 @@
 
 import UIKit
 
+private enum Alert {
+    static let editSuccessTitle = "수정 완료"
+    static let editSuccessMessage = "수정에 성공했습니다!"
+    static let editFailureTitle = "수정 실패"
+    static let editFailureMessage = "수정에 실패했습니다!"
+    static let ok = "OK"
+}
+
 final class ProductEditViewController: UIViewController {
     private var productDetail: ProductDetail
     private var networkImageArray = [ImageInfo]()

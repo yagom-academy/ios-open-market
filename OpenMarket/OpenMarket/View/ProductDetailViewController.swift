@@ -7,6 +7,22 @@
 
 import UIKit
 
+private enum Alert {
+    static let productDelete = "상품삭제"
+    static let inputPassword = "비밀번호 입력"
+    static let inputPasswordMessage = "비밀번호를 입력하세요"
+    static let successDelete = "삭제 성공"
+    static let successDeleteMessage = "상품을 삭제했습니다"
+    static let failureDelete = "삭제 실패"
+    static let failureDeleteMessage = "상품을 삭제하지 못했습니다"
+    static let wrongPassword = "비밀번호 불일치"
+    static let wrongPasswordMessage = "비밀번호가 틀렸습니다"
+    static let ok = "OK"
+    static let cancel = "취소"
+    static let edit = "수정"
+    static let delete = "삭제"
+}
+
 final class ProductDetailViewController: UIViewController {
     private let products: Products
     private var productDetail: ProductDetail?
@@ -80,8 +96,8 @@ final class ProductDetailViewController: UIViewController {
         }
         
         let delete = UIAlertAction(title: Alert.delete, style: .destructive) {_ in
-            let alert = UIAlertController(title: "상품 삭제", message: "비밀번호 입력", preferredStyle: .alert)
-            let delete = UIAlertAction(title: "삭제", style: .destructive) {_ in
+            let alert = UIAlertController(title: Alert.productDelete, message: Alert.inputPassword, preferredStyle: .alert)
+            let delete = UIAlertAction(title: Alert.delete, style: .destructive) {_ in
                 guard let secret = alert.textFields?.first?.text else {
                     return
                 }
@@ -97,9 +113,9 @@ final class ProductDetailViewController: UIViewController {
                 }
             }
             
-            let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            let cancel = UIAlertAction(title: Alert.cancel, style: .cancel, handler: nil)
             alert.addTextField { passwordTextField in
-                passwordTextField.placeholder = "비밀번호를 입력하세요"
+                passwordTextField.placeholder = Alert.inputPasswordMessage
             }
             
             alert.addAction(delete)
@@ -278,7 +294,7 @@ extension ProductDetailViewController {
     }
     
     private func showSuccessAlert() {
-        let alert = UIAlertController(title: "삭제 성공", message: "상품을 삭제했습니다", preferredStyle: .alert)
+        let alert = UIAlertController(title: Alert.successDelete, message: Alert.successDeleteMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Alert.ok, style: .default, handler: { _ in
             self.navigationController?.popViewController(animated: true)
         }))
@@ -286,13 +302,13 @@ extension ProductDetailViewController {
     }
     
     private func showFailureAlert() {
-        let alert = UIAlertController(title: "삭제 실패", message: "상품을 삭제하지 못했습니다", preferredStyle: .alert)
+        let alert = UIAlertController(title: Alert.failureDelete, message: Alert.failureDeleteMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
     }
     
     private func showWrongPasswordAlert() {
-        let alert = UIAlertController(title: "비밀번호 불일치", message: "비밀번호가 틀렸습니다", preferredStyle: .alert)
+        let alert = UIAlertController(title: Alert.wrongPassword, message: Alert.wrongPasswordMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
     }
