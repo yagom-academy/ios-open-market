@@ -11,10 +11,16 @@ final class DetailView: UIView {
     
     private let imageCache = ImageCache.shared
     
+    private enum Constant {
+        static let spaceFromPagingLabelBottom: CGFloat = 15
+        static let leftInsetFromSuperView: CGFloat = 10
+        static let rightInsetFromSuperView: CGFloat = -10
+        static let spaceFromVerticalStackViewBottom: CGFloat = 20
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
-        setUpConstraints()
         imageScrollView.delegate = self
     }
     
@@ -22,12 +28,23 @@ final class DetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setUpConstraints()
+    }
+    
     private lazy var baseScrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var imageScrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -42,13 +59,6 @@ final class DetailView: UIView {
         return view
     }()
     
-    private lazy var mainVerticalStackView: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
-        return view
-    }()
-    
     private lazy var pagingLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .footnote)
@@ -57,36 +67,79 @@ final class DetailView: UIView {
         return label
     }()
     
-    private lazy var horizontalStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [])
-        view.axis = .horizontal
-        return view
+    private lazy var productNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.text = "제품타이틀레이블"
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.textAlignment = .left
+        return label
     }()
     
     private lazy var verticalStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [])
+        let view = UIStackView(arrangedSubviews: [stockLabel,
+                                                  priceLabel,
+                                                  discountPriceLabel])
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         return view
     }()
     
     private lazy var stockLabel: UILabel = {
         let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.textColor = .gray
+        label.text = "남은 수량 : "
+        label.textAlignment = .right
         return label
     }()
     
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .right
+        label.font = .preferredFont(forTextStyle: .callout)
+        label.textColor = .red
+        label.text = "원래가격"
         return label
     }()
     
     private lazy var discountPriceLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .right
+        label.font = .preferredFont(forTextStyle: .callout)
+        label.text = "할인된 가격"
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.text = """
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
+                    """
         return label
     }()
 }
@@ -96,20 +149,31 @@ final class DetailView: UIView {
 extension DetailView {
     
     private func setUpConstraints() {
+        let contentLayoutGuide = baseScrollView.contentLayoutGuide
+        
         self.addSubview(baseScrollView)
         NSLayoutConstraint.activate([
             baseScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             baseScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             baseScrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            baseScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            baseScrollView.widthAnchor.constraint(equalTo: self.widthAnchor)
+            baseScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
-        baseScrollView.addSubview(imageScrollView)
+        baseScrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
-            imageScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            imageScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            imageScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            baseScrollView.contentLayoutGuide.topAnchor.constraint(equalTo: contentView.topAnchor),
+            baseScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            baseScrollView.contentLayoutGuide.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            baseScrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        ])
+        
+        contentView.addSubview(imageScrollView)
+        NSLayoutConstraint.activate([
+            imageScrollView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            imageScrollView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
+            imageScrollView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
             imageScrollView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4)
         ])
         
@@ -121,10 +185,37 @@ extension DetailView {
             imageContentStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor)
         ])
         
-        baseScrollView.addSubview(pagingLabel)
+        contentView.addSubview(pagingLabel)
         NSLayoutConstraint.activate([
-            pagingLabel.centerXAnchor.constraint(equalTo: baseScrollView.centerXAnchor),
+            pagingLabel.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            pagingLabel.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
             pagingLabel.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: 5)
+        ])
+        
+        contentView.addSubview(productNameLabel)
+        NSLayoutConstraint.activate([
+            productNameLabel.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor,
+                                                      constant: Constant.leftInsetFromSuperView),
+            productNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentLayoutGuide.centerXAnchor),
+            productNameLabel.topAnchor.constraint(equalTo: pagingLabel.bottomAnchor,
+                                                  constant: Constant.spaceFromPagingLabelBottom),
+        ])
+        
+        contentView.addSubview(verticalStackView)
+        NSLayoutConstraint.activate([
+            verticalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+                                                        constant: Constant.rightInsetFromSuperView),
+            verticalStackView.topAnchor.constraint(equalTo: productNameLabel.topAnchor),
+            verticalStackView.leadingAnchor.constraint(greaterThanOrEqualTo: self.centerXAnchor)
+        ])
+        
+        contentView.addSubview(descriptionLabel)
+        NSLayoutConstraint.activate([
+            descriptionLabel.leadingAnchor.constraint(equalTo: productNameLabel.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: verticalStackView.trailingAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: verticalStackView.bottomAnchor,
+                                                  constant: Constant.spaceFromVerticalStackViewBottom),
+            contentView.bottomAnchor.constraint(equalTo: descriptionLabel.bottomAnchor)
         ])
     }
     
@@ -166,6 +257,6 @@ extension DetailView {
 extension DetailView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let value = scrollView.contentOffset.x/scrollView.frame.size.width
-        updatePagingLabel(currentPage: Int(ceil(value)) + 1)
+        updatePagingLabel(currentPage: Int(round(value)) + 1)
     }
 }

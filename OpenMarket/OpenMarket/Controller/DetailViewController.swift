@@ -26,8 +26,9 @@ final class DetailViewController: UIViewController {
         productDetailUseCase.requestProductDetailInformation(
             id: id) { detailInformation in
                 DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
                     detailView.setUpView(productDetail: detailInformation)
-                    self?.view.addSubview(detailView)
+                    self.view.addSubview(detailView)
                 }
             } errorHandler: { error in
                 print(error)
