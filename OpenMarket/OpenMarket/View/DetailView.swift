@@ -16,6 +16,7 @@ final class DetailView: UIView {
         static let leftInsetFromSuperView: CGFloat = 10
         static let rightInsetFromSuperView: CGFloat = -10
         static let spaceFromVerticalStackViewBottom: CGFloat = 20
+        static let stockLabelPrefix = "남은 수량 : "
     }
     
     override init(frame: CGRect) {
@@ -71,7 +72,6 @@ final class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.text = "제품타이틀레이블"
         label.font = .preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
         return label
@@ -90,7 +90,6 @@ final class DetailView: UIView {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .headline)
         label.textColor = .gray
-        label.text = "남은 수량 : "
         label.textAlignment = .right
         return label
     }()
@@ -100,7 +99,6 @@ final class DetailView: UIView {
         label.textAlignment = .right
         label.font = .preferredFont(forTextStyle: .callout)
         label.textColor = .red
-        label.text = "원래가격"
         return label
     }()
     
@@ -108,7 +106,6 @@ final class DetailView: UIView {
         let label = UILabel()
         label.textAlignment = .right
         label.font = .preferredFont(forTextStyle: .callout)
-        label.text = "할인된 가격"
         return label
     }()
     
@@ -118,28 +115,6 @@ final class DetailView: UIView {
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.text = """
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    dfasdsdlfksjdflsdkjfal;sdfkjasld;fkjasd;flksdajfl;sdkfjsdal;fk
-                    """
         return label
     }()
 }
@@ -235,8 +210,7 @@ extension DetailView {
         ])
     }
     
-    func setUpView(productDetail: ProductDetail) {
-        let images = productDetail.images
+    private func setImage(images: [ProductImage]) {
         for productImage in images {
             let urlString = productImage.url
             imageCache.loadImage(urlString: urlString) { image in
@@ -249,6 +223,15 @@ extension DetailView {
                 }
             }
         }
+    }
+    
+    func setUpView(productDetail: ProductDetail) {
+        setImage(images: productDetail.images)
+        productNameLabel.text = productDetail.name
+        stockLabel.text = "\(Constant.stockLabelPrefix) \(productDetail.stock)"
+        priceLabel.text = "\(productDetail.currency) \(productDetail.price)"
+        discountPriceLabel.text = "\(productDetail.currency) \(productDetail.discountedPrice)"
+        descriptionLabel.text = productDetail.description
     }
 }
 
