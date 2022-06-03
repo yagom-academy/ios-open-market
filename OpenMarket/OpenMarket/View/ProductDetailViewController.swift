@@ -293,7 +293,7 @@ extension ProductDetailViewController {
     
     private func showWrongPasswordAlert() {
         let alert = UIAlertController(title: "비밀번호 불일치", message: "비밀번호가 틀렸습니다", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: Alert.ok, style: .default))
         self.present(alert, animated: true)
     }
 }
