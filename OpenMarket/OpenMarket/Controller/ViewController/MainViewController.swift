@@ -43,6 +43,8 @@ final class MainViewController: UIViewController {
         openMarketCollectionView.dataSource = self
         openMarketCollectionView.delegate = self
         openMarketCollectionView.prefetchDataSource = self
+        openMarketCollectionView.refreshControl = UIRefreshControl()
+        openMarketCollectionView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         registCell()
         getItemPage()
         setListLayout()
@@ -100,6 +102,11 @@ final class MainViewController: UIViewController {
         let thumnailURL = self.items[indexPath.row].thumbnail
         
         return CellComponents(name: name, price: price, isDiscounted: isDiscounted, bargainPrice: bargainPrice, stock: stock, stockLabelColor: stockLabel, thumbnailURL: thumnailURL)
+    }
+    
+    @objc private func refresh() {
+        upDate()
+        openMarketCollectionView.refreshControl?.endRefreshing()
     }
     
     @IBAction private func changeLayoutSegment(_ sender: UISegmentedControl) {
