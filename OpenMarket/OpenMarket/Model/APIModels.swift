@@ -83,3 +83,15 @@ struct DeleteAPI: APIable {
     let itemComponents: ItemComponents? = nil
     let password: String? = nil
 }
+
+struct PatchAPI: APIable {
+    let id: Int
+    let host = "https://market-training.yagom-academy.kr/"
+    var path: String {
+        return "api/products/\(id)"
+    }
+    let params: [String : String]? = nil
+    let method: HttpMethod = .patch
+    var itemComponents: ItemComponents?
+    let password: String? = nil
+}
