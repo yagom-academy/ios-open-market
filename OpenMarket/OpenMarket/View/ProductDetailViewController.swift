@@ -27,29 +27,6 @@ final class ProductDetailViewController: UIViewController {
         return scrollView
     }()
     
-    private func setScrollView() {
-        guard let images = presenter.images else {
-            return
-        }
-        for index in 0..<images.count {
-            let imageView = UIImageView()
-            imageView.contentMode = .scaleToFill
-            imageView.frame = CGRect(
-                x: self.view.frame.width * CGFloat(index),
-                y: 0,
-                width: imageScrollView.frame.width,
-                height: imageScrollView.frame.height
-            )
-            imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
-            
-            guard let imageURL = images[index].url else { return }
-            imageView.loadImage(imageURL)
-            
-            imageScrollView.addSubview(imageView)
-            
-        }
-    }
-    
     init(products: Products) {
         self.products = products
         super.init(nibName: nil, bundle: nil)
@@ -66,82 +43,12 @@ final class ProductDetailViewController: UIViewController {
         executeGET()
         setLayout()
         configureBarButton()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setData()
         setScrollView()
-    }
-    
-    private func setView() {
-        self.view.addSubview(productDetailView)
-        productDetailView.addSubview(imageScrollView)
-        
-        self.view.backgroundColor = .white
-        productDetailView.backgroundColor = .white
-    }
-    
-    private func setLayout() {
-        imageScrollView.translatesAutoresizingMaskIntoConstraints = false
-        productDetailView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            productDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            productDetailView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            productDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            productDetailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            imageScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            imageScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            imageScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            imageScrollView.bottomAnchor.constraint(equalTo: productDetailView.pageControl.topAnchor),
-            imageScrollView.heightAnchor.constraint(equalToConstant: 300)
-        ])
-    }
-    
-    private func configureBarButton() {
-        let editButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
-        self.navigationController?.navigationBar.topItem?.title = ""
-        self.navigationItem.backBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = editButton
-    }
-    
-    private func configurePriceUI() {
-        let price = Int(presenter.price ?? "0")
-        let discountedPrice = Int(presenter.discountedPrice ?? "0")
-
-        productDetailView.priceLabel.numberOfLines = 0
-        productDetailView.discountedLabel.numberOfLines = 0
-        
-        guard let formattedPrice = price?.formatNumber() ,let formattedDiscountedPrice = discountedPrice?.formatNumber(), let currency = presenter.currency else { return }
-        
-        if presenter.price == presenter.bargainPrice {
-            productDetailView.priceLabel.text = "\(currency) \(formattedPrice)"
-            
-            productDetailView.priceLabel.textColor = .black
-            
-            productDetailView.discountedLabel.isHidden = true
-        } else {
-            productDetailView.priceLabel.text = "\(currency) \(formattedPrice)"
-            productDetailView.discountedLabel.text = "\(currency) \(formattedDiscountedPrice)"
-            
-            productDetailView.priceLabel.attributedText = productDetailView.priceLabel.text?.strikeThrough()
-            
-            productDetailView.priceLabel.textColor = .systemRed
-            productDetailView.discountedLabel.textColor = .black
-        }
-    }
-    
-    private func configureProductNameUI() {
-        productDetailView.productNameLabel.font = UIFont.boldSystemFont(ofSize: 15)
-    }
-    
-    private func configureStockUI() {
-        productDetailView.stockLabel.textColor = .systemGray2
     }
     
     private func executeGET() {
@@ -160,7 +67,7 @@ final class ProductDetailViewController: UIViewController {
         }
     }
     
-    @objc func editButtonDidTapped() {
+    @objc private func editButtonDidTapped() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let edit = UIAlertAction(title: Alert.edit, style: .default) {_ in
             guard let productDetail = self.productDetail else {
@@ -215,6 +122,7 @@ final class ProductDetailViewController: UIViewController {
     }
 }
 
+// MARK: - Set UI
 extension ProductDetailViewController {
     private func setData() {
         guard let productDetail = productDetail else {
@@ -227,14 +135,101 @@ extension ProductDetailViewController {
         configureProductNameUI()
         configureStockUI()
     }
-}
-
-extension ProductDetailViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let size = imageScrollView.contentOffset.x / imageScrollView.frame.width
-        productDetailView.pageControl.currentPage = Int(round(size))
+    
+    private func setView() {
+        self.view.addSubview(productDetailView)
+        productDetailView.addSubview(imageScrollView)
+        
+        self.view.backgroundColor = .white
+        productDetailView.backgroundColor = .white
     }
     
+    private func setLayout() {
+        imageScrollView.translatesAutoresizingMaskIntoConstraints = false
+        productDetailView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            productDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            productDetailView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            productDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            productDetailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            imageScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            imageScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            imageScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            imageScrollView.bottomAnchor.constraint(equalTo: productDetailView.pageControl.topAnchor),
+            imageScrollView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+    }
+    
+    private func setScrollView() {
+        guard let images = presenter.images else {
+            return
+        }
+        for index in 0..<images.count {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleToFill
+            imageView.frame = CGRect(
+                x: self.view.frame.width * CGFloat(index),
+                y: 0,
+                width: imageScrollView.frame.width,
+                height: imageScrollView.frame.height
+            )
+            imageScrollView.contentSize.width = imageView.frame.width * CGFloat(index + 1)
+            
+            guard let imageURL = images[index].url else { return }
+            imageView.loadImage(imageURL)
+            
+            imageScrollView.addSubview(imageView)
+        }
+    }
+    
+    private func configureBarButton() {
+        let editButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
+        self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationItem.backBarButtonItem = cancelButton
+        self.navigationItem.rightBarButtonItem = editButton
+    }
+    
+    private func configurePriceUI() {
+        let price = Int(presenter.price ?? "0")
+        let discountedPrice = Int(presenter.discountedPrice ?? "0")
+
+        productDetailView.priceLabel.numberOfLines = 0
+        productDetailView.discountedLabel.numberOfLines = 0
+        
+        guard let formattedPrice = price?.formatNumber() ,let formattedDiscountedPrice = discountedPrice?.formatNumber(), let currency = presenter.currency else { return }
+        
+        if presenter.price == presenter.bargainPrice {
+            productDetailView.priceLabel.text = "\(currency) \(formattedPrice)"
+            
+            productDetailView.priceLabel.textColor = .black
+            
+            productDetailView.discountedLabel.isHidden = true
+        } else {
+            productDetailView.priceLabel.text = "\(currency) \(formattedPrice)"
+            productDetailView.discountedLabel.text = "\(currency) \(formattedDiscountedPrice)"
+            
+            productDetailView.priceLabel.attributedText = productDetailView.priceLabel.text?.strikeThrough()
+            
+            productDetailView.priceLabel.textColor = .systemRed
+            productDetailView.discountedLabel.textColor = .black
+        }
+    }
+    
+    private func configureProductNameUI() {
+        productDetailView.productNameLabel.font = UIFont.boldSystemFont(ofSize: 15)
+    }
+    
+    private func configureStockUI() {
+        productDetailView.stockLabel.textColor = .systemGray2
+    }
+}
+
+// MARK: - DELETE
+extension ProductDetailViewController {
     private func checkPassword(secret: String, completionHandler: @escaping (Result<String, Error>) -> Void) {
         guard let productId = products.id else {
             return
@@ -300,5 +295,13 @@ extension ProductDetailViewController: UIScrollViewDelegate {
         let alert = UIAlertController(title: "비밀번호 불일치", message: "비밀번호가 틀렸습니다", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(alert, animated: true)
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+extension ProductDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let size = imageScrollView.contentOffset.x / imageScrollView.frame.width
+        productDetailView.pageControl.currentPage = Int(round(size))
     }
 }
