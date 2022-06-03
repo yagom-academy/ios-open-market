@@ -152,7 +152,6 @@ final class AddItemViewController: UIViewController {
         if vcType == "상품 등록" {
             return PostItemAPI(itemComponents: item)
         } else {
-            print("patch")
             return PatchAPI(id: itemDetail?.id ?? 0, itemComponents: item)
         }
     }
