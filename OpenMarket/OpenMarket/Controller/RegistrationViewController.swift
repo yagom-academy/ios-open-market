@@ -77,14 +77,18 @@ final class RegistrationViewController: UIViewController, UINavigationController
             entireScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             entireScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             entireScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
+        ])
+        
+        NSLayoutConstraint.activate([
             collectionView.widthAnchor.constraint(equalTo: entireScrollView.widthAnchor),
             collectionView.leadingAnchor.constraint(equalTo: entireScrollView.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: entireScrollView.safeAreaLayoutGuide.topAnchor),
             collectionView.trailingAnchor.constraint(equalTo: entireScrollView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: productDetailView.topAnchor, constant: -10),
             collectionView.heightAnchor.constraint(equalToConstant: 160),
-            
+        ])
+        
+        NSLayoutConstraint.activate([
             productDetailView.widthAnchor.constraint(equalTo: entireScrollView.widthAnchor),
             productDetailView.leadingAnchor.constraint(equalTo: entireScrollView.leadingAnchor),
             productDetailView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),

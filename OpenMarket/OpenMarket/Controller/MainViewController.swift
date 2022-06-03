@@ -24,6 +24,7 @@ final class MainViewController: UIViewController {
         
         return plusButton
     }()
+    
     private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(cancelButtonDidTapped(_:)))
     
     private var networkManager = NetworkManager<ProductsList>(session: URLSession.shared)
@@ -110,7 +111,6 @@ extension MainViewController {
             self.executeGET(number: self.pageNo)
             refresh.endRefreshing()
         }
-        
     }
 }
 
@@ -216,9 +216,9 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
         guard let last = indexPaths.last else {
             return
         }
-     
+        
         let currentPage = last.row / 20
-    
+        
         if currentPage + 1 == pageNo {
             pageNo += 1
             executeGET(number: pageNo)
