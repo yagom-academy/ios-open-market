@@ -1,5 +1,5 @@
 //
-//  ProductsDetail.swift
+//  ProductDetail.swift
 //  OpenMarket
 //
 //  Created by Red, Mino on 2022/05/11.
@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct ProductDetail: Decodable {
-    let id: Int
-    let vendorID: Int
-    let name: String
-    let thumbnail: URL
-    let currency: Currency
-    let price: Int
-    let productsDescription: String?
-    let bargainPrice: Int?
-    let discountedPrice: Int
-    let stock: Int
+struct ProductDetail: Codable, Hashable {
+    let id: Int?
+    let vendorID: Int?
+    let name: String?
+    let thumbnail: URL?
+    let currency: Currency?
+    let price: Double?
+    let description: String?
+    let bargainPrice: Double?
+    let discountedPrice: Double?
+    let stock: Int?
     let createdAt: String?
     let issuedAt: String?
-    let images: [ProductImage]
+    let imageInfos: [ProductImage]?
     let vendor: Vendor?
     
     private enum CodingKeys: String, CodingKey {
@@ -30,24 +30,24 @@ struct ProductDetail: Decodable {
         case thumbnail
         case currency
         case price
-        case productsDescription = "description"
+        case description
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
-        case images
+        case imageInfos = "images"
         case vendor = "vendors"
     }
 }
 
-struct ProductImage: Decodable {
-    let id: Int
-    let url: URL
-    let thumbnailURL: URL
-    let isSuccess: Bool
-    let issuedAt: String
-
+struct ProductImage: Codable, Hashable {
+    let id: Int?
+    let url: URL?
+    let thumbnailURL: URL?
+    let isSuccess: Bool?
+    let issuedAt: String?
+    
     private enum CodingKeys: String, CodingKey {
         case id
         case url
@@ -57,12 +57,12 @@ struct ProductImage: Decodable {
     }
 }
 
-struct Vendor: Decodable {
-    let name: String
-    let id: Int
-    let createdAt: String
-    let issuedAt: String
-
+struct Vendor: Codable, Hashable {
+    let name: String?
+    let id: Int?
+    let createdAt: String?
+    let issuedAt: String?
+    
     private enum CodingKeys: String, CodingKey {
         case name
         case id

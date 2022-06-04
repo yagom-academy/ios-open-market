@@ -34,6 +34,7 @@ extension RegisterViewController {
     
     private func setUpViewModel() {
         viewModel.datasource = makeDataSource()
+        viewModel.snapshot = viewModel.makeSnapsnot()
         viewModel.delegate = self
     }
     
@@ -49,7 +50,7 @@ extension RegisterViewController {
     @objc private func didTapDoneButton() {
         if checkInputValidation() {
             viewModel.removeLastImage()
-            viewModel.requestPost(makeProductsPost()) {
+            viewModel.requestPost(makeProductUpload()) {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true)
                 }
@@ -80,7 +81,7 @@ extension RegisterViewController {
             return false
         }
         
-        guard viewModel.images.count >= 2 else {
+        guard viewModel.snapshotNumberOfItems() >= 2 else {
             showAlertInputError(with: .productImageIsEmpty)
             return false
         }
@@ -105,7 +106,7 @@ extension RegisterViewController {
                 cell.updateImage(imageInfo: image)
                 cell.delegate = self
                 
-                if indexPath.row == (self.viewModel.images.count - 1) {
+                if indexPath.row == (self.viewModel.snapshotNumberOfItems() - 1) {
                     cell.addPlusButton()
                 }
                 
@@ -114,30 +115,30 @@ extension RegisterViewController {
         return dataSource
     }
     
-    private func makeProductsPost() -> ProductsPost {
+    private func makeProductUpload() -> ProductRequest {
         let productName = managingView.productNameTextField.text ?? ""
         let descriptions = managingView.productDescriptionTextView.text ?? ""
         let productPrice = Double(managingView.productPriceTextField.text ?? "0") ?? .zero
         let currency = managingView.productCurrencySegmentedControl.selectedSegmentIndex == .zero ? Currency.KRW : Currency.USD
         let discountedPrice = Double(managingView.productDiscountedTextField.text ?? "0")
         let stock = Int(managingView.productStockTextField.text ?? "0")
-        let secret = "rwfkpko1fp"
-        let images = viewModel.images
+        let secret = UserInformation.secret
+        let images = viewModel.snapshotItem()
         
-        return ProductsPost(name: productName,
-                            descriptions: descriptions,
-                            price: productPrice,
-                            currency: currency,
-                            discountedPrice: discountedPrice,
-                            stock: stock,
-                            secret: secret,
-                            image: images)
+        return ProductRequest(name: productName,
+                             descriptions: descriptions,
+                             price: productPrice,
+                             currency: currency,
+                             discountedPrice: discountedPrice,
+                             stock: stock,
+                             secret: secret,
+                             imageInfos: images)
     }
 }
 
 extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func addButtonTaped() {
-        if viewModel.images.count < 6 {
+        if viewModel.snapshotNumberOfItems() < 6 {
             self.present(imagePicker, animated: true)
         } else {
             showAlertInputError(with: .exceededNumberOfImages)
@@ -146,7 +147,10 @@ extension RegisterViewController: CellDelegate, UIImagePickerControllerDelegate,
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let captureImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        viewModel.insert(image: captureImage)
+        ImageCompressor.compress(image: captureImage, maxByte: Constants.maxImageSize) { image in
+            guard let compressedImageData = image?.jpegData(compressionQuality: 1.0) else { return }
+            self.viewModel.insert(imageData: compressedImageData)
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }

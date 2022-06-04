@@ -16,27 +16,29 @@ final class MainViewModel {
         case main
     }
     
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>
     
-    private let productsAPIService = APIProvider()
-    lazy var imageCacheManager = ImageCacheManager(apiService: productsAPIService)
+    let productsAPIService = APIProvider()
     
     var datasource: DataSource?
     var snapshot: Snapshot?
-    private(set) var products: Products?
-    var currentPage = 1
+    private(set) var productList: ProductList?
+    private var currentPage: Int = .zero
     
-    weak var delegate: MainAlertDelegate?
+    weak var delegate: AlertDelegate?
     
-    func requestProducts(by page: Int) {
-        let endpoint = EndPointStorage.productsList(pageNumber: page, perPages: Constants.itemsCountPerPage)
+    func requestProducts() {
+        currentPage += 1
         
-        productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<Products, Error>) in
+        let endpoint = EndPointStorage.productList(pageNumber: currentPage, perPages: Constants.itemsCountPerPage)
+        
+        productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<ProductList, Error>) in
             switch result {
-            case .success(let products):
-                self?.products = products
-                self?.applySnapshot(products: products.items)
+            case .success(let productList):
+                guard let result = productList.items else { return }
+                self?.productList = productList
+                self?.applySnapshot(products: result)
             case .failure(let error):
                 DispatchQueue.main.async {
                     self?.delegate?.showAlertRequestError(with: error)
@@ -44,22 +46,7 @@ final class MainViewModel {
             }
         }
     }
-    
-    func requestProductDetail(by id: Int, completion: @escaping (ProductDetail) -> Void) {
-        let endpoint = EndPointStorage.productsDetail(productID: id)
-        
-        productsAPIService.retrieveProduct(with: endpoint) { [weak self] (result: Result<ProductDetail, Error>) in
-            switch result {
-            case .success(let productDetail):
-                completion(productDetail)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.delegate?.showAlertRequestError(with: error)
-                }
-            }
-        }
-    }
-    
+
     func makeSnapshot() -> Snapshot? {
         var snapshot = datasource?.snapshot()
         snapshot?.deleteAllItems()
@@ -67,7 +54,7 @@ final class MainViewModel {
         return snapshot
     }
     
-    private func applySnapshot(products: [Item]) {
+    private func applySnapshot(products: [ProductDetail]) {
         DispatchQueue.main.async {
             self.snapshot?.appendItems(products)
             guard let snapshot = self.snapshot else { return }
@@ -76,8 +63,8 @@ final class MainViewModel {
     }
     
     func resetItemList() {
-        currentPage = 1
+        currentPage = .zero
         snapshot = makeSnapshot()
-        requestProducts(by: currentPage)
+        requestProducts()
     }
 }

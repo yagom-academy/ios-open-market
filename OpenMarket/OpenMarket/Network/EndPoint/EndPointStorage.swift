@@ -9,43 +9,88 @@ struct EndPointStorage {
     private enum Constants {
         static let basePath = "api/products"
         static let identifier = "identifier"
-        static let identifierSerialNumber = "7b016867-d1b8-11ec-9676-012a04c8e5dc"
+        static let identifierSerialNumber = UserInformation.identifier
         static let contentType = "Content-Type"
     }
     
-    static func productsList(pageNumber: Int, perPages: Int)
-        -> EndPoint {
-        let productsRequest = ProductsReceive(
+    static func productList(pageNumber: Int, perPages: Int) -> EndPoint {
+        let queryParamters = ProductRequest(
             pageNumber: pageNumber,
             perPages: perPages
         )
         let endpoint = EndPoint(
             path: Constants.basePath,
-            queryParameters: productsRequest
+            queryParameters: queryParamters
         )
         
         return endpoint
     }
     
-    static func productsPost(_ productsPost: ProductsPost) -> EndPoint {
+    static func productPost(_ body: ProductRequest) -> EndPoint {
         let headers: [String: String] = [
             Constants.identifier: Constants.identifierSerialNumber,
-            Constants.contentType: "multipart/form-data; boundary=\"\(productsPost.boundary)\""
+            Constants.contentType: "multipart/form-data; boundary=\"\(body.boundary ?? "")\""
         ]
         
         let endpoint = EndPoint(
             path: Constants.basePath,
             method: .post,
-            bodyParameters: productsPost,
+            bodyParameters: body,
             headers: headers
         )
         
         return endpoint
     }
     
-    static func productsDetail(productID: Int) -> EndPoint {
+    static func productDetail(productID: Int) -> EndPoint {
         let endpoint = EndPoint(
             path: Constants.basePath + "/\(productID)"
+        )
+        
+        return endpoint
+    }
+    
+    static func productModify(productID: Int?, body: ProductRequest) -> EndPoint {
+        let headers: [String: String] = [
+            Constants.identifier: Constants.identifierSerialNumber,
+            Constants.contentType: "application/json"
+        ]
+        
+        let endpoint = EndPoint(
+            path: Constants.basePath + "/\(productID ?? .zero)",
+            method: .patch,
+            bodyParameters: body,
+            headers: headers
+        )
+        
+        return endpoint
+    }
+    
+    static func productSecret(productID: Int?, body: ProductRequest) -> EndPoint {
+        let headers: [String: String] = [
+            Constants.identifier: Constants.identifierSerialNumber,
+            Constants.contentType: "application/json"
+        ]
+        
+        let endpoint = EndPoint(
+            path: Constants.basePath + "/\(productID ?? .zero)" + "/secret",
+            method: .post,
+            bodyParameters: body,
+            headers: headers
+        )
+        
+        return endpoint
+    }
+    
+    static func productDelete(productID: Int?, secret: String) -> EndPoint {
+        let headers: [String: String] = [
+            Constants.identifier: Constants.identifierSerialNumber
+        ]
+        
+        let endpoint = EndPoint(
+            path: Constants.basePath + "/\(productID ?? .zero)" + "/\(secret)",
+            method: .delete,
+            headers: headers
         )
         
         return endpoint

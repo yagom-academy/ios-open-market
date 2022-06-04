@@ -6,13 +6,14 @@
 //
 import UIKit
 
-final class RegisterViewModel: ManagingViewModel {
-    func requestPost(_ productsPost: ProductsPost, completion: @escaping () -> ()) {
-        let endpoint = EndPointStorage.productsPost(productsPost)
+final class RegisterViewModel: ManagingViewModel, NotificationPostable {
+    func requestPost(_ productUpload: ProductRequest, completion: @escaping () -> ()) {
+        let endpoint = EndPointStorage.productPost(productUpload)
         
         productsAPIServie.registerProduct(with: endpoint) { [weak self] result in
             switch result {
             case .success():
+                self?.postNotification()
                 completion()
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -24,22 +25,27 @@ final class RegisterViewModel: ManagingViewModel {
     
     func setUpDefaultImage() {
         guard let plus = UIImage(named: Constants.plus)?.pngData() else { return }
-        images.append(
-            ImageInfo(fileName: Constants.plus, data: plus, type: Constants.png)
-        )
-        applySnapshot()
+        let plusImage = ImageInfo(fileName: Constants.plus, data: plus, type: Constants.png)
+        applySnapshot(image: plusImage)
     }
     
-    func insert(image: UIImage) {
-        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
-        images.insert(
-            ImageInfo(fileName: generateUUID(), data: data, type: Constants.jpg),
-            at: .zero
-        )
-        applySnapshot()
+    func insert(imageData: Data) {
+        let imageInfo = ImageInfo(fileName: generateUUID(), data: imageData, type: Constants.jpg)
+        
+        DispatchQueue.main.async {
+            guard let lastItem = self.snapshot?.itemIdentifiers.last else { return }
+            self.snapshot?.insertItems([imageInfo], beforeItem: lastItem)
+            guard let snapshot = self.snapshot else {
+                return
+            }
+            self.datasource?.apply(snapshot)
+        }
     }
     
     func removeLastImage() {
-        images.removeLast()
+        guard let lastImage = snapshot?.itemIdentifiers.last else {
+            return
+        }
+        snapshot?.deleteItems([lastImage])
     }
 }

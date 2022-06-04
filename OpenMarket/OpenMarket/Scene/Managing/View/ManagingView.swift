@@ -171,13 +171,7 @@ final class ManagingView: UIView {
     }
     
     private func setUpTextField(placeholder: String, keyboardType: UIKeyboardType) -> UITextField {
-        let textField = UITextField()
-        textField.placeholder = placeholder
-        textField.borderStyle = .roundedRect
-        textField.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        textField.adjustsFontForContentSizeCategory = true
-        textField.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        textField.keyboardType = keyboardType
+        let textField = BaseTextField(placeholder: placeholder, keyboardType: keyboardType)
         return textField
     }
     
@@ -186,13 +180,23 @@ final class ManagingView: UIView {
     }
     
     func setUpView(data: ProductDetail) {
-        productNameTextField.text = data.name
-        productPriceTextField.text = String(data.price)
-        productDiscountedTextField.text = String(data.discountedPrice)
-        productStockTextField.text = String(data.stock)
-        productDescriptionTextView.text = data.productsDescription
+        guard let name = data.name,
+              let currency = data.currency,
+              let price = data.price,
+              let discountedPrice = data.discountedPrice,
+              let stock = data.stock,
+              let description = data.description
+        else {
+            return
+        }
         
-        if data.currency == .KRW {
+        productNameTextField.text = name
+        productPriceTextField.text = "\(Int(price))"
+        productDiscountedTextField.text = "\(Int(discountedPrice))"
+        productStockTextField.text = "\(stock)"
+        productDescriptionTextView.text = description
+        
+        if currency == .KRW {
             productCurrencySegmentedControl.selectedSegmentIndex = .zero
         } else {
             productCurrencySegmentedControl.selectedSegmentIndex = 1

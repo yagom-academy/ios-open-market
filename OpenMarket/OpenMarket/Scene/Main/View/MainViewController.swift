@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, NotificationObservable {
     private enum Constants {
         static let requestErrorAlertTitle = "오류 발생"
         static let requestErrorAlertConfirmTitle = "다시요청하기"
@@ -27,11 +27,8 @@ final class MainViewController: UIViewController {
         setUpCollectionView()
         setUpSegmentControl()
         setUpViewModel()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.resetItemList()
+        viewModel.requestProducts()
+        setUpNotification()
     }
 }
 
@@ -60,6 +57,12 @@ extension MainViewController {
         viewModel.snapshot = viewModel.makeSnapshot()
         viewModel.delegate = self
     }
+    
+    private func setUpNotification() {
+        registerNotification { [weak self] in
+            self?.viewModel.resetItemList()
+        }
+    }
 }
 
 // MARK: Objc Method
@@ -84,8 +87,8 @@ extension MainViewController {
 // MARK: Datasource
 
 extension MainViewController {
-    private func makeDataSource() -> UICollectionViewDiffableDataSource<MainViewModel.Section, Item> {
-        let dataSource = UICollectionViewDiffableDataSource<MainViewModel.Section, Item>(
+    private func makeDataSource() -> UICollectionViewDiffableDataSource<MainViewModel.Section, ProductDetail> {
+        let dataSource = UICollectionViewDiffableDataSource<MainViewModel.Section, ProductDetail>(
             collectionView: mainView.collectionView,
             cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell in
                 switch self.mainView.layoutStatus {
@@ -96,7 +99,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
+                    cell.configure(data: item, apiService: self.viewModel.productsAPIService)
                     
                     return cell
                     
@@ -107,7 +110,7 @@ extension MainViewController {
                         return UICollectionViewCell()
                     }
                     
-                    cell.configure(data: item, imageCacheManager: self.viewModel.imageCacheManager)
+                    cell.configure(data: item, apiService: self.viewModel.productsAPIService)
                     
                     return cell
                 }
@@ -118,23 +121,15 @@ extension MainViewController {
 
 // MARK: AlertDelegate
 
-extension MainViewController: MainAlertDelegate {
+extension MainViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)
             .setMessage(error.localizedDescription)
             .setConfirmTitle(Constants.requestErrorAlertConfirmTitle)
             .setConfirmHandler {
-                self.viewModel.requestProducts(by: self.viewModel.currentPage)
+                self.viewModel.requestProducts()
             }
-            .showAlert()
-    }
-    
-    func showAlertRequestDetailError(with error: Error) {
-        self.alertBuilder
-            .setTitle(Constants.requestErrorAlertTitle)
-            .setMessage(error.localizedDescription)
-            .setConfirmTitle(Constants.requestDetailErrorAlertConfirmTitle)
             .showAlert()
     }
 }
@@ -143,7 +138,7 @@ extension MainViewController: MainAlertDelegate {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard viewModel.products?.hasNext == true else {
+        guard viewModel.productList?.hasNext == true else {
             return
         }
         
@@ -152,19 +147,15 @@ extension MainViewController: UICollectionViewDelegate {
         }
         
         if indexPath.row >= snapshot.numberOfItems - 3 {
-            viewModel.currentPage += 1
-            viewModel.requestProducts(by: viewModel.currentPage)
+            viewModel.requestProducts()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let id = viewModel.snapshot?.itemIdentifiers[safe: indexPath.item]?.id {
-            viewModel.requestProductDetail(by: id) { productDetail in
-                DispatchQueue.main.async {
-                    let modifyViewController = ModifyViewController(productDetail: productDetail)
-                    modifyViewController.modalPresentationStyle = .fullScreen
-                    self.present(modifyViewController, animated: true)
-                }
+            DispatchQueue.main.async {
+                let modifyViewController = DetailViewController(id: id)
+                self.navigationController?.pushViewController(modifyViewController, animated: true)
             }
         }
     }

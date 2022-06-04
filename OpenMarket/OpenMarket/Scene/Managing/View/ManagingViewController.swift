@@ -15,6 +15,7 @@ class ManagingViewController: UIViewController {
         static let inputErrorAlertConfirmTitle = "확인"
         static let registerBarItemTitle = "상품등록"
         static let modifyBarItemTitle = "상품수정"
+        static let maxImageSize = 299999
     }
     
     lazy var managingView = ManagingView(frame: view.frame)
@@ -42,11 +43,6 @@ extension ManagingViewController {
     }
     
     func setUpTextField() {
-        managingView.productNameTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        managingView.productPriceTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        managingView.productDiscountedTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        managingView.productStockTextField.addKeyboardHideButton(target: self, selector: #selector(didTapKeyboardHideButton))
-        
         managingView.productNameTextField.delegate = self
         managingView.productPriceTextField.delegate = self
         
@@ -65,10 +61,6 @@ extension ManagingViewController {
 extension ManagingViewController {
     @objc private func didTapKeyboardHideButton() {
         managingView.productDescriptionTextView.resignFirstResponder()
-        managingView.productNameTextField.resignFirstResponder()
-        managingView.productPriceTextField.resignFirstResponder()
-        managingView.productDiscountedTextField.resignFirstResponder()
-        managingView.productStockTextField.resignFirstResponder()
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -98,7 +90,7 @@ extension ManagingViewController {
 
 // MARK: AlertDelegate
 
-extension ManagingViewController: ManagingAlertDelegate {
+extension ManagingViewController: AlertDelegate {
     func showAlertRequestError(with error: Error) {
         self.alertBuilder
             .setTitle(Constants.requestErrorAlertTitle)

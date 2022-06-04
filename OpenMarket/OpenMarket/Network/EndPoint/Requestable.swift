@@ -34,7 +34,7 @@ extension Requestable {
             case.success(let body):
                 if body.isEmpty == false {
                     do {
-                        urlRequest.httpBody = try JSONSerialization.data(withJSONObject: bodyParameters)
+                        urlRequest.httpBody = try JSONSerialization.data(withJSONObject: body)
                     } catch {
                         return .failure(.decodeError)
                     }
@@ -61,7 +61,7 @@ extension Requestable {
             return .failure(error)
         }
         
-        if let productsPost = bodyParameters as? ProductsPost,
+        if let productsPost = bodyParameters as? ProductRequest,
            let body = generateBody(productsPost) {
             urlRequest.httpBody = body
         }
@@ -72,41 +72,41 @@ extension Requestable {
         return .success(urlRequest)
     }
     
-    private func generateBody(_ productsPost: ProductsPost) -> Data? {
+    private func generateBody(_ productsPost: ProductRequest) -> Data? {
         var body: Data = Data()
-        let boundary = productsPost.boundary
+        let boundary = productsPost.boundary ?? ""
                         
         guard let jsonData = try? JSONEncoder().encode(productsPost) else {
             return nil
         }
         
         body.append(convertDataToMultiPartForm(jsonData: jsonData, boundary: boundary))
-        productsPost.image.forEach { image in
+        productsPost.imageInfos?.forEach { image in
             body.append(convertFileToMultiPartForm(imageInfo: image, boundary: boundary))
         }
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        body.appendString("--\(boundary)--\r\n")
         return body
     }
 
     private func convertDataToMultiPartForm(jsonData: Data, boundary: String) -> Data {
         var data: Data = Data()
-        data.append("--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"params\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: application/json\r\n".data(using: .utf8)!)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n")
+        data.appendString("Content-Type: application/json\r\n")
+        data.appendString("\r\n")
         data.append(jsonData)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("\r\n")
         return data
     }
     
     private func convertFileToMultiPartForm(imageInfo: ImageInfo, boundary: String) -> Data {
         var data: Data = Data()
-        data.append("--\(boundary)\r\n".data(using: .utf8)!)
-        data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"\r\n".data(using: .utf8)!)
-        data.append("Content-Type: \(imageInfo.type.description)\r\n".data(using: .utf8)!)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"\r\n")
+        data.appendString("Content-Type: \(imageInfo.type.description)\r\n")
+        data.appendString("\r\n")
         data.append(imageInfo.data)
-        data.append("\r\n".data(using: .utf8)!)
+        data.appendString("\r\n")
         return data
     }
 
