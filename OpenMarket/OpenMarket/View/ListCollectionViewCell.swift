@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewListCell {
+final class ListCollectionViewCell: UICollectionViewListCell, DetailCellSelectable {
+    
+    var productNumber: Int?
     
     private enum Constant {
         static var imageLength: CGFloat = 80
@@ -85,6 +87,8 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         configure.textProperties.font = .preferredFont(forTextStyle: .headline)
         configure.secondaryTextProperties.font = .preferredFont(forTextStyle: .callout)
         configure.secondaryTextProperties.color = .gray
+        
+        productNumber = product.id
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

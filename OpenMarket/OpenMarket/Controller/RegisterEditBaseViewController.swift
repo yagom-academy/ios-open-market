@@ -21,7 +21,7 @@ class RegisterEditBaseViewController: UIViewController {
         static let stockDefaultValue = "0"
     }
     
-    var keyBoardSize: CGFloat = 0
+    private var keyBoardSize: CGFloat = 0
     
     private lazy var rightNavigationButton = UIBarButtonItem(
         title: Constant.rightNavigationButtonText,
@@ -36,12 +36,6 @@ class RegisterEditBaseViewController: UIViewController {
         target: self,
         action: #selector(registerEditViewLeftBarButtonTapped)
     )
-    
-    private lazy var baseScrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     
     private(set) lazy var addImageScrollView: UIScrollView = {
         let view = UIScrollView()
@@ -80,10 +74,14 @@ class RegisterEditBaseViewController: UIViewController {
         return view
     }()
     
-    private lazy var nameTextField = generateTextField(placeholder: Constant.nameTextFieldPlaceHolder, keyboardType: .default)
-    private lazy var priceTextField = generateTextField(placeholder: Constant.priceTextFieldPlaceHolder, keyboardType: .decimalPad)
-    private lazy var discountPriceTextField = generateTextField(placeholder: Constant.discountPriceTextFieldPlaceHolder, keyboardType: .decimalPad)
-    private lazy var stockTextField = generateTextField(placeholder: Constant.stockTextFieldPlaceHolder, keyboardType: .numberPad)
+    private lazy var nameTextField = generateTextField(placeholder: Constant.nameTextFieldPlaceHolder,
+                                                       keyboardType: .default)
+    private lazy var priceTextField = generateTextField(placeholder: Constant.priceTextFieldPlaceHolder,
+                                                        keyboardType: .decimalPad)
+    private lazy var discountPriceTextField = generateTextField(placeholder: Constant.discountPriceTextFieldPlaceHolder,
+                                                                keyboardType: .decimalPad)
+    private lazy var stockTextField = generateTextField(placeholder: Constant.stockTextFieldPlaceHolder,
+                                                        keyboardType: .numberPad)
     
     private(set) lazy var currencySegmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: [Currency.KRW.rawValue, Currency.USD.rawValue])
@@ -99,9 +97,6 @@ class RegisterEditBaseViewController: UIViewController {
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 5
         view.delegate = self
-        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
-        gesture.direction = .down
-        view.addGestureRecognizer(gesture)
         return view
     }()
 }
@@ -116,6 +111,7 @@ extension RegisterEditBaseViewController {
         setNavigationTitle()
         setConstraint()
         registerForKeyboardNotification()
+        setViewGesture()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -154,25 +150,23 @@ extension RegisterEditBaseViewController {
             return nil
         }
         
-        let secret = setSecret()
+        let secret = requestUserSecret()
         
-        return RegistrationParameter(name: name, descriptions: descriptions, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: secret)
+        return RegistrationParameter(name: name,
+                                     descriptions: descriptions,
+                                     price: price,
+                                     currency: currency,
+                                     discountedPrice: discountedPrice,
+                                     stock: stock,
+                                     secret: secret)
     }
     
-    func setSecret() -> String {
+    private func requestUserSecret() -> String {
         return Secret.registerSecret
     }
     
-    func setConstraint() {
-        view.addSubview(baseScrollView)
-        NSLayoutConstraint.activate([
-            baseScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            baseScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            baseScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            baseScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
-        baseScrollView.addSubview(addImageScrollView)
+    private func setConstraint() {
+        view.addSubview(addImageScrollView)
         NSLayoutConstraint.activate([
             addImageScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             addImageScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -188,7 +182,7 @@ extension RegisterEditBaseViewController {
             addImageHorizontalStackView.bottomAnchor.constraint(equalTo: addImageScrollView.bottomAnchor)
         ])
         
-        baseScrollView.addSubview(baseVerticalStackView)
+        view.addSubview(baseVerticalStackView)
         NSLayoutConstraint.activate([
             baseVerticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             baseVerticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
@@ -197,7 +191,7 @@ extension RegisterEditBaseViewController {
         ])
         
         NSLayoutConstraint.activate([
-            currencySegmentedControl.widthAnchor.constraint(equalTo: baseScrollView.widthAnchor, multiplier: 0.25)
+            currencySegmentedControl.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25)
         ])
     }
     
@@ -212,9 +206,6 @@ extension RegisterEditBaseViewController {
         NSLayoutConstraint.activate([
             field.heightAnchor.constraint(equalToConstant: 35)
         ])
-        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
-        gesture.direction = .down
-        field.addGestureRecognizer(gesture)
         return field
     }
 }
@@ -233,6 +224,14 @@ extension RegisterEditBaseViewController {
     private func removeRegisterForKeyboardNotification() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
      }
+    
+    private func setViewGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(keyboardDownAction))
+        swipeGesture.direction = .down
+        view.addGestureRecognizer(tapGesture)
+        view.addGestureRecognizer(swipeGesture)
+    }
     
     @objc private func keyBoardShow(notification: NSNotification) {
         guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
@@ -256,8 +255,7 @@ extension RegisterEditBaseViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    
-    @objc func swipeDownAction(_ sender: UISwipeGestureRecognizer) {
+    @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
         self.view.endEditing(true)
     }
 }

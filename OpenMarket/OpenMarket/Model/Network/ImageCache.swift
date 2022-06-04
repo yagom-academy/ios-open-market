@@ -18,6 +18,7 @@ final class ImageCache: Cacheable {
     
     private init() {}
     
+    @discardableResult
     func loadImage(urlString: String, completionHandler: @escaping (UIImage?) -> Void) -> URLSessionDataTask? {
         if let image = imageCache.object(forKey: urlString as NSString) {
             completionHandler(image)
@@ -26,8 +27,8 @@ final class ImageCache: Cacheable {
         
         guard let url = URL(string: urlString) else { return nil }
         
-        let dataTask = network.requestData(url: url) { data, response in
-            guard let data = data, let image = UIImage(data: data) else {
+        let dataTask = network.requestData(url) { data, response in
+            guard let image = UIImage(data: data) else {
                 completionHandler(nil)
                 return }
             self.imageCache.setObject(image, forKey: urlString as NSString)

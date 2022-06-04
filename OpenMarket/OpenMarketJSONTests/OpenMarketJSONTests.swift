@@ -38,9 +38,8 @@ final class OpenMarketJSONTests: XCTestCase {
         let network = Network(session: stubUrlSession)
         
         //when
-        network.requestData(url: url) { (data, response) in
-            guard let data = data,
-                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
+        network.requestData(url) { (data, response) in
+            guard let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
             //then
             XCTAssertNotNil(pageInformation)
@@ -63,7 +62,7 @@ final class OpenMarketJSONTests: XCTestCase {
         let network = Network(session: stubUrlSession)
 
         //when
-        network.requestData(url: url) { (data, response) in
+        network.requestData(url) { (data, response) in
             XCTFail("complete handler 사용")
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, sessionError)
@@ -83,9 +82,8 @@ final class OpenMarketJSONTests: XCTestCase {
         }
 
         // when
-        network.requestData(url: url) { (data, response) in
-            guard let data = data,
-                  let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
+        network.requestData(url) { (data, response) in
+            guard let pageInformation = try? JSONDecoder().decode(PageInformation.self, from: data) else { return }
             
             //then
             XCTAssertNotNil(pageInformation)
@@ -109,9 +107,8 @@ final class OpenMarketJSONTests: XCTestCase {
         }
         
         // when
-        network.requestData(url: url) { data, response in
-            guard let data = data,
-                  let productDetail = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }
+        network.requestData(url) { data, response in
+            guard let productDetail = try? JSONDecoder().decode(ProductDetail.self, from: data) else { return }
 
         // then
             XCTAssertNotNil(productDetail)
@@ -135,7 +132,7 @@ final class OpenMarketJSONTests: XCTestCase {
         let network = Network(session: stubUrlSession)
         
         //when
-        network.requestData(url: url) { (data, response) in
+        network.requestData(url) { (data, response) in
             XCTFail("complete handler 사용")
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, statusCodeError)
@@ -152,7 +149,7 @@ final class OpenMarketJSONTests: XCTestCase {
         let network = Network(session: stubUrlSession)
 
         //when
-        network.requestData(url: url) { (data, response) in
+        network.requestData(url) { (data, response) in
             XCTFail("complete handler 사용")
         } errorHandler: { error in
             XCTAssertEqual(error as? NetworkError, dataError)

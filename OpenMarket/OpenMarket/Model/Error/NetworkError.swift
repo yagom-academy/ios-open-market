@@ -13,8 +13,10 @@ enum NetworkError: Error, LocalizedError, ErrorAlertProtocol {
     case statusCodeError
     case dataError
     
-    static var alertTitle = "네트워크 통신 에러"
-
+    var alertTitle: String {
+            return "네트워크 통신 에러!"
+    }
+    
     var alertMessage: String {
         switch self {
         case .urlError:

@@ -92,6 +92,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        collectionView.delegate = self
         configureSegmentedControl()
         configureCollectionView()
         configureIndicator()
@@ -181,8 +182,20 @@ extension MainViewController {
 }
 
 // MARK: - RefreshDelegate
-extension MainViewController: RefreshDelegate {
-    func defaultRefresh() {
+extension MainViewController: ViewControllerDelegate {
+    func viewControllerSholdRefresh(_ viewController: UIViewController) {
         requestList()
+    }
+}
+
+// MARK: - CollectionView Delegate
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCellSelectable else { return }
+        let productNumber = cell.productNumber
+        let detailViewController = DetailViewController()
+        detailViewController.productNumber = productNumber
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

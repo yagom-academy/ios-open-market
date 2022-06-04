@@ -22,15 +22,15 @@ protocol NetworkAble {
     
     @discardableResult
     func requestData(
-        url: URL,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        _ url: URL,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask?
     
     @discardableResult
     func requestData(
-        urlRequest: URLRequest,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        _ urlRequest: URLRequest,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask?
 }
@@ -39,8 +39,8 @@ extension NetworkAble {
     
     @discardableResult
     func requestData(
-        url: URL,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        _ url: URL,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask? {
         
@@ -51,7 +51,8 @@ extension NetworkAble {
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            guard let response = response,
+                    let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   (200..<300).contains(statusCode) else {
                 errorHandler(NetworkError.statusCodeError)
                 return
@@ -61,7 +62,6 @@ extension NetworkAble {
                 errorHandler(NetworkError.dataError)
                 return
             }
-            
             completeHandler(data, response)
         }
         dataTask.resume()
@@ -70,8 +70,8 @@ extension NetworkAble {
     
     @discardableResult
     func requestData(
-        urlRequest: URLRequest,
-        completeHandler: @escaping (Data?, URLResponse?) -> Void,
+        _ urlRequest: URLRequest,
+        completeHandler: @escaping (Data, URLResponse) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) -> URLSessionDataTask? {
         
@@ -82,7 +82,8 @@ extension NetworkAble {
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            guard let response = response,
+                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   (200..<300).contains(statusCode) else {
                 errorHandler(NetworkError.statusCodeError)
                 return

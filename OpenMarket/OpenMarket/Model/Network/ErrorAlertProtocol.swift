@@ -8,6 +8,6 @@
 import Foundation
 
 protocol ErrorAlertProtocol: Error {
-    static var alertTitle: String { get }
+    var alertTitle: String { get }
     var alertMessage: String { get }
 }

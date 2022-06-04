@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol RefreshDelegate: AnyObject {
-    func defaultRefresh()
+protocol ViewControllerDelegate: AnyObject {
+    func viewControllerSholdRefresh(_ viewController: UIViewController)
 }
 
 final class RegisterViewController: RegisterEditBaseViewController {
     
-    weak var delegate: RefreshDelegate?
+    weak var delegate: ViewControllerDelegate?
     
     private enum Constant {
         static let navigationTitle = "상품등록"
@@ -74,29 +74,31 @@ extension RegisterViewController {
         ])
     }
     
-   private func wrapperImage() -> [UIImage] {
-        var imageArray = [UIImage]()
-        
-        for subView in addImageHorizontalStackView.arrangedSubviews {
-            if let subView = subView as? UIImageView, let uiImage = subView.image {
-                imageArray.append(uiImage)
-            }
+    private func wrapperImage() -> [UIImage] {
+        let imageArray = addImageHorizontalStackView.arrangedSubviews.compactMap {
+            ($0 as? UIImageView)?.image
         }
-       
         return imageArray
     }
     
     private func showErrorAlert(error: Error) {
-        DispatchQueue.main.async {
-            let useCaseError = error as? ErrorAlertProtocol
-            let alert = UIAlertController(title: UseCaseError.alertTitle,
-                                          message: useCaseError?.alertMessage,
-                                          preferredStyle: .alert)
+        DispatchQueue.main.async { [weak self] in
+            guard let useCaseError = error as? ErrorAlertProtocol,
+                  let alert = self?.makeAlertAction(error: useCaseError) else {
+                return
+            }
             let alertAction = UIAlertAction(title: Constant.alertOk,
                                             style: .default)
             alert.addAction(alertAction)
-            self.present(alert, animated: true)
+            self?.present(alert, animated: true)
         }
+    }
+    
+    private func makeAlertAction(error: ErrorAlertProtocol) -> UIAlertController {
+        let alert = UIAlertController(title: error.alertTitle,
+                                      message: error.alertMessage,
+                                      preferredStyle: .alert)
+        return alert
     }
 }
 
@@ -135,12 +137,16 @@ extension RegisterViewController {
         guard let registrationParameter = wrapperRegistrationParameter() else {
             return
         }
-        productRegisterUseCase.registerProduct(registrationParameter: registrationParameter, images: wrapperImage()) {
+        productRegisterUseCase.registerProduct(registrationParameter: registrationParameter,
+                                               images: wrapperImage()) { _, _ in 
             DispatchQueue.main.async { [weak self] in
-                self?.delegate?.defaultRefresh()
-                self?.navigationController?.popViewController(animated: true)
+                guard let self = self else {
+                    return
+                }
+                self.delegate?.viewControllerSholdRefresh(self)
+                self.navigationController?.popViewController(animated: true)
             }
-        } registerErrorHandler: { [weak self] error in
+        } errorHandler: { [weak self] error in
             self?.showErrorAlert(error: error)
         }
     }
