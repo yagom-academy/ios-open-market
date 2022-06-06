@@ -227,4 +227,20 @@ class DetailView: UIView {
   func setScrollViewDelegate(delegate: UIScrollViewDelegate?) {
     self.imageScrollView.delegate = delegate
   }
+  
+  func addInScrollView(_ imageView: UIImageView, _ index: Int) {
+    let width = self.imageScrollView.frame.width
+    let height = self.imageScrollView.frame.height
+    let margin = (width - height) / 2
+    let originX = (self.frame.width * CGFloat(index)) + margin
+    imageView.frame = CGRect(
+      x: originX,
+      y: 0,
+      width: self.imageScrollView.frame.height,
+      height: self.imageScrollView.frame.height
+    )
+    self.imageScrollView.addSubview(imageView)
+    let scrollViewContentWidth = self.imageScrollView.frame.width * CGFloat(index + 1)
+    self.imageScrollView.contentSize.width = scrollViewContentWidth
+  }
 }
