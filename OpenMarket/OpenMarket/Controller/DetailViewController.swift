@@ -37,7 +37,7 @@ final class DetailViewController: UIViewController {
       self?.configureNavigationBar()
       self?.setUpImage(of: self?.product?.images)
       self?.detailView.setUpDetailInformation(of: self?.product)
-      self?.detailView.imageScrollView.delegate = self
+      self?.detailView.setScrollViewDelegate(delegate: self)
     }
   }
   

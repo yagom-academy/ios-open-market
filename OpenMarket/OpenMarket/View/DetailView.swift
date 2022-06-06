@@ -27,7 +27,7 @@ class DetailView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   //MARK: - Top part of View
-  let imageScrollView: UIScrollView = {
+  private let imageScrollView: UIScrollView = {
     let scrollView = UIScrollView()
     scrollView.isPagingEnabled = true
     scrollView.isScrollEnabled = true
@@ -222,5 +222,9 @@ class DetailView: UIView {
   
   func setCurrentPage(_ pageNumber: Int) {
     pageControl.currentPage = pageNumber
+  }
+  
+  func setScrollViewDelegate(delegate: UIScrollViewDelegate?) {
+    self.imageScrollView.delegate = delegate
   }
 }
