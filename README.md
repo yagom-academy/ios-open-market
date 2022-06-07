@@ -6,17 +6,24 @@
 > 리뷰어: [개굴](https://github.com/yoo-kie)
 
 ## 🔎 프로젝트 소개
-> 네트워크 요청을 통해 데이터를 받아와 `CollectionView`에 LIST, GIRD `Cell` 레이아웃으로 보여주는 오픈마켓 프로젝트
+
+> 물건을 사고 파는 나만의 오픈마켓
 
 ## 📺 프로젝트 실행화면
 
-<img src = "https://i.imgur.com/Uj85GyM.gif" width = "300">
+|Main 화면|상품 등록 화면|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/91936941/172367434-8f568029-3b98-49e7-8677-d0201bdb87f3.gif" width="250">|<img src="https://user-images.githubusercontent.com/91936941/172367614-79e28669-5d74-4f45-b57e-e967e997c398.gif" width="250">|
+
+|Detail 화면| 상품 수정| 상품 삭제 | 
+|:---:|:---:|:---:|
+|![](https://i.imgur.com/2GBt9CU.gif)|![](https://i.imgur.com/CYRrTpd.gif)| ![](https://i.imgur.com/VDRPIzB.gif)
 
 ## 👀 PR
 - [STEP 1](https://github.com/yagom-academy/ios-open-market/pull/136)
 - [STEP 2](https://github.com/yagom-academy/ios-open-market/pull/145)
 - [STEP 3](https://github.com/yagom-academy/ios-open-market/pull/156)
-- [STEP 4]()
+- [STEP 4](https://github.com/yagom-academy/ios-open-market/pull/166)
 
 
 ## 🛠 개발환경 및 라이브러리
@@ -377,7 +384,7 @@ Cell의 재사용 특성 때문에 빠르게 스크롤 시 Cell에 이미지 다
 
 <img src="https://i.imgur.com/vNUSEfz.gif" width="200">
 
-위 처럼 이미지가 깜빡거리는 이슈가 있었습니다. 처음엔,
+아래 처럼 이미지가 깜빡거리는 이슈가 있었습니다. 처음엔,
 
 ```swift
 guard collectionView.indexPath(for: cell) == indexPath else { return }
@@ -435,7 +442,6 @@ AlertDirector(viewController: self).createErrorAlert()
 
 ## [STEP 3]
 
-
 ### 1. textField에 입력제한을 두는 법
 
 가격, 할인가격, 재고 textField에는 양의 정수만 들어가야하는 제약사항이 있었습니다.
@@ -470,4 +476,117 @@ for imageData in imageDatas {
 }
 ```
 
-위와 같이 서버에 등록하였습니다.
+### 4. Keyboard 이슈
+
+- autolayout 제약문제
+    - sizeToFit 매서드 호출 순서를 바꿔 해결했습니다
+- keyboard appear시 view가 가려지는 문제
+    - frame.origin.y 좌표를 수정하여 view 자체를 올려주었습니다
+
+### 5. 이미지 압축
+
+```swift
+private func compress(image: UIImage) -> Data? {
+    guard var jpegData = image.jpegData(compressionQuality: 1.0) else { return nil }
+    while jpegData.count >= 300 * 1024 {
+        guard let image = UIImage(data: jpegData) else { return nil }
+        guard let data = image.jpegData(compressionQuality: 0.8) else { return nil }
+        
+        jpegData = data
+    }
+    return jpegData
+}
+```
+
+위처럼 등록될 이미지를 받아 데이터로 변환 후 데이터의 크기를 체크해 300KB가 넘으면, 더 낮은 0.8의 퀄리티로 재압축하도록 구현하였습니다.
+
+## [STEP 4]
+
+### 1. product를 post, patch, delete 후, 화면을 업데이트 하는 방법
+
+원래는 delegate 패턴을 썼었는데, 뷰컨들이 많아지다보니 너무 복잡해지는 문제가 있었습니다.
+그래서 Notification을 사용해서  단순히 업데이트를 발생시키는 곳에서 post를 하고
+해당 이벤트를 받아서 뷰컨을 업데이트 시켜야 할 곳에서 addObserver를 방법으로 바꿨습니다
+
+
+### 2. 자신이 올린 게시글만 수정및 삭제가 가능하도록 기능 구현
+
+자신이 올린 글만을 수정 및 삭제가 가능하도록 만들고 싶어, 오른쪽 상단에 수정/삭제 버튼을 유저의 정보와 네트워크를 통해 받아온 작성자 데이터의 id를 비교하여 동일하면, 버튼을 navigationitem에 추가하는 방법으로 기능을 구현하였습니다.
+
+### 3. DetailProductView의 PageIndex 표시
+
+처음에는 CollectionViewFooter를 사용해서 해보려 했는데, scroll에 따라 동적으로 변경되어야 하는 text가 footer에 들어가는게 맞지 않더라구요.
+
+그래서 그냥 UILabel을 만들고, Cell이 Scroll될때마다 ScrollView의 delegate를 활용해서 업데이트를 시키려고 했는데, Delegate 매서드가 동작하지 않는 문제가 있었습니다.
+
+찾아보니까 CompostionalLayout을 사용하면 인식을 못한다는 말이 있더라구요.
+그래서 대신 NSCollectionLayoutSection의 visibleItemsInvalidationHandler 프로퍼티를 활용해서 구현하였습니다
+
+<img src = "https://i.imgur.com/VjvpQJG.gif" width = "200">
+
+### 4. Network API의 추상화
+
+기존에는 Endpoint라는 enum을 만들고, 요청 api들에 대한 case를 만들어서 관리하였습니다.
+그런데 이렇게 하니깐 매우 큰 문제가 있었는데, 새로운 api가 추가될때마다 case로 추가될때마다 기존 코드가 모두 변경되어야 했습니다 (열거형이다보니.. ㅠㅠ)
+
+그래서 새로운 추상화 모델 도입의 필요성을 느껴서 APIable 라는 추상 프로토콜을 만들었습니다
+
+프로토콜에서는 네트워크 통신에 필요한 hostURL, path, HTTPMethod, headers, body등을 정의하였습니다. 
+
+```swift
+protocol APIable {
+    var baseURL: String { get }
+    var path: String { get }
+    var method: HTTPMethod { get }
+    var queryParameters: [String: String]? { get }
+    var bodyParameters: Encodable? { get }
+    var headers: [String: String] { get }
+}
+```
+
+또한 프로토콜를 extension하여 URLRequset를 반환하는 메서드를 구현하였습니다.
+
+```swift
+extension APIable {
+    private func makeURL() -> URL? {
+        // ...중략
+    }
+    
+    func makeURLRequest() -> URLRequest? {
+        guard let url = makeURL() else { return nil }
+        var urlRequest = URLRequest(url: url)
+        
+        urlRequest.httpMethod = method.rawValue
+        headers.forEach { key, value in
+            urlRequest.addValue(value, forHTTPHeaderField: key)
+        }
+        
+        if let bodyParameters = bodyParameters {
+            guard let body = try? bodyParameters.toDictionary() else { return nil }
+            urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        }
+        
+        return urlRequest
+    }
+    
+    func makeMutiPartFormDataURLRequest() -> URLRequest? {
+        guard let url = makeURL() else { return nil }
+        var urlRequest = URLRequest(url: url)
+        
+        urlRequest.httpMethod = method.rawValue
+        headers.forEach { key, value in
+            urlRequest.addValue(value, forHTTPHeaderField: key)
+        }
+        
+        urlRequest.httpBody = makeMutiPartFormData()
+        
+        return urlRequest
+    }
+    
+    private func makeMutiPartFormData() -> Data? { 
+        // ...중략
+    }
+}
+```
+
+이방식은 새로운 api가 추가됬을때 기존 코드를 아예 건들 필요가 없어서 유지보수 + 확장이 매우 편리했습니다!
