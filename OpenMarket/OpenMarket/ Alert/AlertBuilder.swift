@@ -98,13 +98,7 @@ final class AlertBuilder: AlertBuilderable {
     }
 
     func show() {
-        let numberOfActions = [firstAction, secondAction, okAction, cancelAction]
-            .compactMap { $0.title }
-            .count
-        
-        guard alert.style == .actionSheet && numberOfActions >= 1 else { return }
-        
-        guard alert.style == .alert && numberOfActions >= 1 && (alert.title != nil || alert.message != nil) else { return }
+        guard validAlert() else { return }
         
         let alert = UIAlertController(title: alert.title, message: alert.message, preferredStyle: alert.style)
 
@@ -118,5 +112,14 @@ final class AlertBuilder: AlertBuilderable {
         DispatchQueue.main.async { [self] in
             targetViewController.present(alert, animated: true)
         }
+    }
+    
+    private func validAlert() -> Bool {
+        let numberOfActions = [firstAction, secondAction, okAction, cancelAction]
+            .compactMap { $0.title }
+            .count
+        
+        return (alert.style == .actionSheet && numberOfActions >= 1) ||
+                (alert.style == .alert && numberOfActions >= 1 && (alert.title != nil || alert.message != nil))
     }
 }
