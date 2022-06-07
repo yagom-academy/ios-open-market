@@ -101,12 +101,6 @@ final class DetailViewController: UIViewController {
   
   @objc private func presentActionSheet() {
     let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    let editAction = UIAlertAction(
-      title: Constants.editTitle,
-      style: UIAlertAction.Style.default
-    ) { [weak self] (_) in
-      self?.presentEditingView()
-    }
     
     let deleteAction = UIAlertAction(
       title: Constants.deleteTitle,
