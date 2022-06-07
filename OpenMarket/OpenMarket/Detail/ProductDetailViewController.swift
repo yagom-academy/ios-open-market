@@ -143,6 +143,7 @@ final class ProductDetailViewController: UIViewController {
             
             switch result {
             case .success(let data):
+                self.snapshot = self.makeSnapshot()
                 self.product = data
                 self.mainView.configure(data: data)
                 data.images?
