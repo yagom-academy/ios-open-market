@@ -94,7 +94,7 @@ final class DetailViewController: UIViewController {
       )
     }
     
-    self.navigationItem.title = self.product?.name
+    self.navigationItem.title = product.name
     self.navigationController?.navigationBar.backgroundColor = .white
     self.navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBarAppearance()
   }
