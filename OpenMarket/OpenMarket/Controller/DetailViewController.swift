@@ -82,7 +82,11 @@ final class DetailViewController: UIViewController {
   }
   
   private func configureNavigationBar() {
-    if product?.venderId == Constants.venderId {
+    guard let product = product else {
+      return
+    }
+
+    if product.venderId == Constants.venderId {
       self.navigationItem.rightBarButtonItem = UIBarButtonItem(
         barButtonSystemItem: .action,
         target: self,
