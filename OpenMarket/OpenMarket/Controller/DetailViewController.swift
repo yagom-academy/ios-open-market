@@ -109,13 +109,20 @@ final class DetailViewController: UIViewController {
       self?.presentPasswordInputAlert()
     }
     
+    let editAction = UIAlertAction(
+      title: Constants.editTitle,
+      style: UIAlertAction.Style.default
+    ) { [weak self] (_) in
+      self?.presentEditingView()
+    }
+    
     let cancelAction = UIAlertAction(
       title: Constants.cancelTitle,
       style: UIAlertAction.Style.cancel
     )
     
-    alert.addAction(editAction)
     alert.addAction(deleteAction)
+    alert.addAction(editAction)
     alert.addAction(cancelAction)
     present(alert, animated: true)
   }
