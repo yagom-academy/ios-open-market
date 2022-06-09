@@ -13,7 +13,7 @@ extension API {
 }
 
 private extension OpenMarketConstant {
-    static let productRegist = "상품등록"
+    static let productRegistration = "상품등록"
     static let wrongImageRegist = "이미지를 하나 이상 추가해주세요."
     static let camera = "카메라"
     static let album = "앨범"
@@ -32,7 +32,7 @@ final class RegisterViewController: ProductViewController {
     
     override func setUpNavigationBar() {
         super.setUpNavigationBar()
-        self.navigationItem.title = OpenMarketConstant.productRegist
+        self.navigationItem.title = OpenMarketConstant.productRegistration
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestRegistration))
         self.navigationItem.rightBarButtonItem = requestButton
     }

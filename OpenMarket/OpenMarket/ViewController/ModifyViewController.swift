@@ -8,7 +8,7 @@
 import UIKit
 
 private extension OpenMarketConstant {
-    static let productModify = "상품수정"
+    static let productModification = "상품수정"
 }
 
 final class ModifyViewController: ProductViewController {
@@ -23,7 +23,7 @@ final class ModifyViewController: ProductViewController {
     
     override func setUpNavigationBar() {
         super.setUpNavigationBar()
-        self.navigationItem.title = OpenMarketConstant.productModify
+        self.navigationItem.title = OpenMarketConstant.productModification
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
         self.navigationItem.rightBarButtonItem = requestButton
     }

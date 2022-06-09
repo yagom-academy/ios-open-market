@@ -133,12 +133,12 @@ final class DetailViewController: UIViewController {
 extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailCollectionViewCell else {
-            return UICollectionViewCell()
+            return DetailCollectionViewCell()
         }
-        guard let images = product?.images else {
-            return UICollectionViewCell()
+        
+        if let images = product?.images {
+            cell.imageView.requestImageDownload(url: images[indexPath.row].url)
         }
-        cell.imageView.requestImageDownload(url: images[indexPath.row].url)
         
         return cell
     }
