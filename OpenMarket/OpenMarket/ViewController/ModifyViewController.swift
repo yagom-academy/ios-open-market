@@ -7,7 +7,7 @@
 
 import UIKit
 
-private extension OpenMarketEnum {
+private extension OpenMarketConstant {
     static let productModify = "상품수정"
 }
 
@@ -23,7 +23,7 @@ final class ModifyViewController: ProductViewController {
     
     override func setUpNavigationBar() {
         super.setUpNavigationBar()
-        self.navigationItem.title = OpenMarketEnum.productModify
+        self.navigationItem.title = OpenMarketConstant.productModify
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
         self.navigationItem.rightBarButtonItem = requestButton
     }
@@ -66,11 +66,11 @@ final class ModifyViewController: ProductViewController {
     
     private func makeRequestBody() -> Data? {
         guard productView.validTextField(productView.nameField) else {
-            showAlert(alertTitle: OpenMarketEnum.wrongProductName)
+            showAlert(title: OpenMarketConstant.wrongProductName)
             return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
-            showAlert(alertTitle: OpenMarketEnum.wrongProductDescription)
+            showAlert(title: OpenMarketConstant.wrongProductDescription)
             return nil
         }
         guard let data = try? JSONEncoder().encode(detectModifiedContent()) else {

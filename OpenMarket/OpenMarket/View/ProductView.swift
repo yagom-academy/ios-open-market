@@ -7,7 +7,7 @@
 
 import UIKit
 
-private extension OpenMarketEnum {
+private extension OpenMarketConstant {
     static let productPrice = "상품가격"
     static let discountedPrice = "할인가격"
     static let productStock = "재고수량"
@@ -46,7 +46,7 @@ final class ProductView: UIView {
     
     let nameField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = OpenMarketEnum.productName
+        textField.placeholder = OpenMarketConstant.productName
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.systemGray.cgColor
@@ -56,7 +56,7 @@ final class ProductView: UIView {
     
     let priceField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = OpenMarketEnum.productPrice
+        textField.placeholder = OpenMarketConstant.productPrice
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.systemGray.cgColor
@@ -68,7 +68,7 @@ final class ProductView: UIView {
     let currencyField: UISegmentedControl = UISegmentedControl(items: Currency.allCases.map{ $0.rawValue } )
     let discountedPriceField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = OpenMarketEnum.discountedPrice
+        textField.placeholder = OpenMarketConstant.discountedPrice
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.systemGray.cgColor
@@ -79,7 +79,7 @@ final class ProductView: UIView {
     
     let stockField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = OpenMarketEnum.productStock
+        textField.placeholder = OpenMarketConstant.productStock
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.systemGray.cgColor

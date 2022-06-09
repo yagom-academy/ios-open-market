@@ -15,12 +15,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let pageLabel: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        return label
-    }()
+    
     
     let mainStackView: UIStackView = {
        let stackView = UIStackView()
@@ -44,7 +39,6 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     func setUpSubViewStructure() {
         contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(imageView)
-        mainStackView.addArrangedSubview(pageLabel)
     }
     
     func setUpLayoutConstraint() {
@@ -71,6 +65,5 @@ extension DetailCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
-        pageLabel.text = nil
     }
 }

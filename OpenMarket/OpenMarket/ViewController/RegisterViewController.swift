@@ -12,7 +12,7 @@ extension API {
     static let maxImageNumber: Int = 5
 }
 
-private extension OpenMarketEnum {
+private extension OpenMarketConstant {
     static let productRegist = "상품등록"
     static let wrongImageRegist = "이미지를 하나 이상 추가해주세요."
     static let camera = "카메라"
@@ -32,7 +32,7 @@ final class RegisterViewController: ProductViewController {
     
     override func setUpNavigationBar() {
         super.setUpNavigationBar()
-        self.navigationItem.title = OpenMarketEnum.productRegist
+        self.navigationItem.title = OpenMarketConstant.productRegist
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestRegistration))
         self.navigationItem.rightBarButtonItem = requestButton
     }
@@ -49,11 +49,11 @@ final class RegisterViewController: ProductViewController {
     }
     private func makeRequestBody() -> Data? {
         guard let name = productView.nameField.text, productView.validTextField(productView.nameField) else {
-            showAlert(alertTitle: OpenMarketEnum.wrongProductName)
+            showAlert(title: OpenMarketConstant.wrongProductName)
             return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
-            showAlert(alertTitle: OpenMarketEnum.wrongProductDescription)
+            showAlert(title: OpenMarketConstant.wrongProductDescription)
             return nil
         }
         guard let price = Double(productView.priceField.text ?? "0.0") else {
@@ -64,7 +64,7 @@ final class RegisterViewController: ProductViewController {
         let stock = Int(productView.stockField.text ?? "0")
         
         if images.count == 0 {
-            showAlert(alertTitle: OpenMarketEnum.wrongImageRegist)
+            showAlert(title: OpenMarketConstant.wrongImageRegist)
             return nil
         }
         
@@ -193,11 +193,11 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     
     @objc private func actionSheetAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancel = UIAlertAction(title: OpenMarketEnum.cancellation, style: .cancel, handler: nil)
-        let camera = UIAlertAction(title: OpenMarketEnum.camera, style: .default) { [weak self] _ in
+        let cancel = UIAlertAction(title: OpenMarketConstant.cancellation, style: .cancel, handler: nil)
+        let camera = UIAlertAction(title: OpenMarketConstant.camera, style: .default) { [weak self] _ in
             self?.presentCamera()
         }
-        let album = UIAlertAction(title: OpenMarketEnum.album, style: .default) { [weak self] _ in
+        let album = UIAlertAction(title: OpenMarketConstant.album, style: .default) { [weak self] _ in
             self?.presentAlbum()
         }
         

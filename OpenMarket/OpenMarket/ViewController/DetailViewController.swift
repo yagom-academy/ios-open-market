@@ -11,7 +11,7 @@ protocol ProductUpdateDelegate: NSObject {
     func refreshProduct()
 }
 
-private extension OpenMarketEnum {
+private extension OpenMarketConstant {
     static let modify = "수정"
     static let delete = "삭제"
     static let inputPassword = "비밀번호를 입력하세요."
@@ -23,7 +23,7 @@ private extension OpenMarketEnum {
     static let wrongAuthority = "상품을 삭제할 권한이 없습니다."
 }
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     lazy var detailView = DetailView(frame: view.frame)
     var product: Product?
     let numberFormatter: NumberFormatter = NumberFormatter()
@@ -42,7 +42,10 @@ class DetailViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = backButton
         let sheetButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(requestSheet))
         self.navigationItem.rightBarButtonItem = sheetButton
-
+        guard let images = product?.images else {
+                    return
+                }
+        detailView.pageLabel.text = "1 / \(images.count)"
         detailView.collectionView.register(DetailCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "detailCell")
     }
     
@@ -52,11 +55,11 @@ class DetailViewController: UIViewController {
     
     @objc private func requestSheet() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancel = UIAlertAction(title: OpenMarketEnum.cancellation, style: .cancel, handler: nil)
-        let modify = UIAlertAction(title: OpenMarketEnum.modify, style: .default) { [weak self] _ in
+        let cancel = UIAlertAction(title: OpenMarketConstant.cancellation, style: .cancel, handler: nil)
+        let modify = UIAlertAction(title: OpenMarketConstant.modify, style: .default) { [weak self] _ in
             self?.presentModifiation()
         }
-        let delete = UIAlertAction(title: OpenMarketEnum.delete, style: .destructive) { [weak self] _ in
+        let delete = UIAlertAction(title: OpenMarketConstant.delete, style: .destructive) { [weak self] _ in
             self?.requestDelete()
         }
         alert.addAction(cancel)
@@ -76,17 +79,17 @@ class DetailViewController: UIViewController {
     }
     
     func requestDelete() {
-        let alert = UIAlertController(title: OpenMarketEnum.inputPassword, message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: OpenMarketConstant.inputPassword, message: nil, preferredStyle: .alert)
         alert.addTextField(configurationHandler: { field in
             field.isSecureTextEntry = true
-            field.placeholder = OpenMarketEnum.password
+            field.placeholder = OpenMarketConstant.password
         })
-        let ok = UIAlertAction(title: OpenMarketEnum.ok, style: .default, handler: { _ in
+        let ok = UIAlertAction(title: OpenMarketConstant.ok, style: .default, handler: {  [weak self] _ in
             if let password = alert.textFields?.first?.text {
-                self.checkSecret(password: password)
+                self?.checkSecret(password: password)
             }
         })
-        let cancel = UIAlertAction(title: OpenMarketEnum.close, style: .default)
+        let cancel = UIAlertAction(title: OpenMarketConstant.close, style: .default)
         alert.addAction(ok)
         alert.addAction(cancel)
         present(alert, animated: true)
@@ -96,31 +99,31 @@ class DetailViewController: UIViewController {
         guard let data = try? JSONEncoder().encode(ProductToRequest(secret: password)), let product = product else {
             return
         }
-        RequestAssistant.shared.requestSecretAPI(productId: product.id, body: data, completionHandler: { result in
+        RequestAssistant.shared.requestSecretAPI(productId: product.id, body: data, completionHandler: {  [weak self] result in
             switch result {
             case .success(let data):
-                self.deleteProduct(id: product.id, secret: data)
+                self?.deleteProduct(id: product.id, secret: data)
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: OpenMarketEnum.wrongPassword)
+                    self?.showAlert(title: OpenMarketConstant.wrongPassword)
                 }
             }
         })
     }
     
     func deleteProduct(id: Int, secret: String) {
-        RequestAssistant.shared.requestDeleteAPI(productId: id, productSecret: secret, completionHandler: { result in
+        RequestAssistant.shared.requestDeleteAPI(productId: id, productSecret: secret, completionHandler: {  [weak self] result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: OpenMarketEnum.deleteDone) { [weak self] _ in
+                    self?.showAlert(title: OpenMarketConstant.deleteDone) { [weak self] _ in
                         self?.navigationController?.popViewController(animated: true)
                         self?.delegate?.refreshProductList()
                     }
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: OpenMarketEnum.wrongAuthority)
+                    self?.showAlert(title: OpenMarketConstant.wrongAuthority)
                 }
             }
         })
@@ -130,13 +133,12 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailCollectionViewCell else {
-            return DetailCollectionViewCell()
+            return UICollectionViewCell()
         }
         guard let images = product?.images else {
-            return DetailCollectionViewCell()
+            return UICollectionViewCell()
         }
         cell.imageView.requestImageDownload(url: images[indexPath.row].url)
-        cell.pageLabel.text = "\(String(indexPath.row + 1)) / \(images.count)"
         
         return cell
     }
@@ -168,6 +170,10 @@ extension DetailViewController: UIScrollViewDelegate {
         let contentIndex = round((targetContentOffset.pointee.x) / cellWidthWithSpace)
         let contentOffset = CGPoint(x: contentIndex * cellWidthWithSpace, y: targetContentOffset.pointee.y)
         targetContentOffset.pointee = contentOffset
+        guard let images = product?.images else {
+            return
+        }
+        detailView.pageLabel.text = "\(String(Int(contentIndex + 1))) / \(images.count)"
     }
 }
 
@@ -186,7 +192,7 @@ extension DetailViewController: ProductUpdateDelegate {
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self.showAlert(alertTitle: OpenMarketEnum.loadFail)
+                    self.showAlert(title: OpenMarketConstant.loadFail)
                 }
             }
         }

@@ -5,7 +5,7 @@
 //  Created by Grumpy, OneTool on 2022/06/02.
 //
 
-enum OpenMarketEnum {
+enum OpenMarketConstant {
     static let cancel = "Cancel"
     static let cancellation = "취소"
     static let productName = "상품명"

@@ -69,6 +69,13 @@ final class DetailView: UIView {
         return label
     }()
     
+    let pageLabel: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        return label
+    }()
+    
     let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -88,6 +95,7 @@ final class DetailView: UIView {
         collectionView.allowsMultipleSelection = false
         collectionView.decelerationRate = .fast
         collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.backgroundColor = .clear
         
         return collectionView
     }()
@@ -109,6 +117,7 @@ final class DetailView: UIView {
         informationStackView.addArrangedSubview(stockLabel)
         
         mainStackView.addArrangedSubview(collectionView)
+        mainStackView.addArrangedSubview(pageLabel)
         mainStackView.addArrangedSubview(informationStackView)
         
         mainStackView.addArrangedSubview(priceLabel)
