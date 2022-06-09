@@ -193,9 +193,8 @@ extension MainViewController: ViewControllerDelegate {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? DetailCellSelectable else { return }
-        let productNumber = cell.productNumber
-        let detailViewController = DetailViewController()
-        detailViewController.productNumber = productNumber
+        guard let productNumber = cell.productNumber else { return }
+        let detailViewController = DetailViewController(producntNubmer: productNumber)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

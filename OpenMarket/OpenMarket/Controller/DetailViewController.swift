@@ -9,7 +9,17 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     
-    var productNumber: Int?
+    private let productNumber: Int
+    
+    init(producntNubmer: Int) {
+        self.productNumber = producntNubmer
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let productDetailUseCase = ProductDetailUseCase(
         network: Network(),
         jsonDecoder: JSONDecoder()
