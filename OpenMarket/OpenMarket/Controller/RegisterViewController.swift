@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ViewControllerDelegate: AnyObject {
-    func viewControllerSholdRefresh(_ viewController: UIViewController)
+    func viewControllerShouldRefresh(_ viewController: UIViewController)
 }
 
 final class RegisterViewController: RegisterEditBaseViewController {
@@ -82,15 +82,17 @@ extension RegisterViewController {
     }
     
     private func showErrorAlert(error: Error) {
-        DispatchQueue.main.async { [weak self] in
-            guard let useCaseError = error as? ErrorAlertProtocol,
-                  let alert = self?.makeAlertAction(error: useCaseError) else {
-                return
+        DispatchQueue.main.async {
+            var alert: UIAlertController
+            if let useCaseError = error as? ErrorAlertProtocol {
+               alert = self.makeAlertAction(error: useCaseError)
+            } else {
+               alert = self.makeAlertAction(error: UnknownError.unknown)
             }
             let alertAction = UIAlertAction(title: Constant.alertOk,
                                             style: .default)
             alert.addAction(alertAction)
-            self?.present(alert, animated: true)
+            self.present(alert, animated: true)
         }
     }
     
@@ -143,7 +145,7 @@ extension RegisterViewController {
                 guard let self = self else {
                     return
                 }
-                self.delegate?.viewControllerSholdRefresh(self)
+                self.delegate?.viewControllerShouldRefresh(self)
                 self.navigationController?.popViewController(animated: true)
             }
         } errorHandler: { [weak self] error in
