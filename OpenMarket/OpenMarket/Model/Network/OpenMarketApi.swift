@@ -47,43 +47,19 @@ enum OpenMarketApi {
             //추후 구현 예정
             throw(NetworkError.urlError)
         case .productRegister(let registrationParameter, let images):
-            
+
             let boundary = UUID().uuidString
-            let boundaryPrefix = "\r\n--\(boundary)\r\n"
-            let jsonEncoder = JSONEncoder()
+            let dataEncoder = DataEncoder(boundary: boundary)
             
             request.httpMethod = "POST"
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             request.addValue(Secret.registerIdentifier, forHTTPHeaderField: "identifier")
             
-            var data = Data()
-            
-            data.appendString(boundaryPrefix)
-            data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
-            
-            guard let params = try? jsonEncoder.encode(registrationParameter) else {
-                throw(UseCaseError.encodingError)
-            }
-            
-            guard let paramsData = String(data: params, encoding: .utf8) else {
-                throw(UseCaseError.encodingError)
-            }
-            
-            data.appendString(paramsData)
-            let imageEncoder = ImageEncoder()
-            
-            for image in images {
-                data.appendString(boundaryPrefix)
-                data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(registrationParameter.name).jpeg\"\r\n")
-                data.appendString("Content-Type: image/jpeg\r\n\r\n")
-                let imageData = try imageEncoder.encodeImage(image: image)
-                
-                data.append(imageData)
-            }
-            data.appendString("\r\n--\(boundary)--\r\n")
+            var data = try dataEncoder.encodeFormData(parameter: registrationParameter)
+            let imageData = try dataEncoder.encodeImages(images: images)
+            data.append(imageData)
             request.httpBody = data
         }
         return request
     }
-
 }

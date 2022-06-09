@@ -8,5 +8,5 @@
 import UIKit
 
 protocol DetailCellSelectable: UICollectionViewCell {
-    var productNumber: Int? { get set }
+    var productNumber: Int? { get }
 }

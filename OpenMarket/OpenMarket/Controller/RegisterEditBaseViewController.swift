@@ -16,9 +16,8 @@ class RegisterEditBaseViewController: UIViewController {
         static let priceTextFieldPlaceHolder = "상품가격"
         static let discountPriceTextFieldPlaceHolder = "할인가격"
         static let stockTextFieldPlaceHolder = "재고수량"
-        static let priceDefaultValue = "0"
-        static let discountePriceTextValue = "0"
-        static let stockDefaultValue = "0"
+        
+        static let emptyValue = ""
     }
     
     private var keyBoardSize: CGFloat = 0
@@ -131,6 +130,7 @@ extension RegisterEditBaseViewController {
     }
     
     func wrapperRegistrationParameter() -> RegistrationParameter? {
+        /*
         guard let name = nameTextField.text else {
             return nil
         }
@@ -149,15 +149,16 @@ extension RegisterEditBaseViewController {
         guard let stock = Int(stockTextField.text ?? Constant.stockDefaultValue) else {
             return nil
         }
+        */
         
         let secret = requestUserSecret()
         
-        return RegistrationParameter(name: name,
-                                     descriptions: descriptions,
-                                     price: price,
-                                     currency: currency,
-                                     discountedPrice: discountedPrice,
-                                     stock: stock,
+        return RegistrationParameter(name: nameTextField.text,
+                                     descriptions: textView.text,
+                                     price: Double(priceTextField.text ?? Constant.emptyValue),
+                                     currency: Currency(rawValue: currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex) ?? Constant.emptyValue),
+                                                        discountedPrice: Double(discountPriceTextField.text ?? Constant.emptyValue),
+                                     stock: Int(stockTextField.text ?? Constant.emptyValue),
                                      secret: secret)
     }
     

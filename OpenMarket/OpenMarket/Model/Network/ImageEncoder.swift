@@ -17,8 +17,11 @@ struct ImageEncoder {
     private let resizeWidthValue: CGFloat
     private let compressionQualityValue: CGFloat
     
-    init(maximumImageSize: Int = Constant.defaultMaximumImageSize
-, resizeWidthValue: CGFloat = Constant.defualtResizeWidthValue, compressionQualityValue: CGFloat = Constant.defaultCompressionQualityValue) {
+    init(
+        maximumImageSize: Int = Constant.defaultMaximumImageSize,
+        resizeWidthValue: CGFloat = Constant.defualtResizeWidthValue,
+        compressionQualityValue: CGFloat = Constant.defaultCompressionQualityValue
+    ) {
         self.maximumImageSize = maximumImageSize
         self.resizeWidthValue = resizeWidthValue
         self.compressionQualityValue = compressionQualityValue
@@ -26,13 +29,11 @@ struct ImageEncoder {
     
     func encodeImage(image: UIImage) throws -> Data {
         
-        var appendedData = Data()
-        
         guard let imageData = image.jpegData(compressionQuality: compressionQualityValue) else {
-            throw(UseCaseError.imageError)
+            throw UseCaseError.imageError
         }
         
-        appendedData = imageData
+        var appendedData = imageData
         
         if appendedData.count > maximumImageSize {
             let resizeValue = image.resize(newWidth: resizeWidthValue)
