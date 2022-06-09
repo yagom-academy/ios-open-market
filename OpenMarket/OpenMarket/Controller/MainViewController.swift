@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, ActivityIndicatorProtocol {
     
     enum Section {
         case main
@@ -68,7 +68,7 @@ final class MainViewController: UIViewController {
         action: #selector(mainViewRightBarButtonTapped)
     )
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
+    lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
@@ -125,11 +125,6 @@ extension MainViewController {
         collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
         collectionView.refreshControl = refreshControl
-    }
-    
-    private func configureIndicator() {
-        view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
     }
     
     private func setSnapshot(productInformations: [ProductInformation]) {
