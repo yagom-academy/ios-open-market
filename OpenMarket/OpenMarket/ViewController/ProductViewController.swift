@@ -9,7 +9,7 @@ import UIKit
 
 class ProductViewController: UIViewController {
     lazy var productView = ProductView(frame: view.frame)
-    weak var delegate: ListUpdateDelegate?
+    
     var currency: Currency = .KRW
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,7 @@ class ProductViewController: UIViewController {
     
     func setUpNavigationBar() {
         self.navigationItem.hidesBackButton = true
-        let cancelbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelRequest))
+        let cancelbutton = UIBarButtonItem(title: OpenMarketConstant.cancel, style: .plain, target: self, action: #selector(cancelRequest))
         cancelbutton.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.preferredFont(for: .body, weight: .semibold)], for: .normal)
         self.navigationItem.leftBarButtonItem = cancelbutton
     }
@@ -77,7 +77,7 @@ class ProductViewController: UIViewController {
 
 extension ProductViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if Int(string) != nil || string == "" {
+        if Int(string) != nil || string == OpenMarketConstant.emptyString {
             return true
         }
         

@@ -12,8 +12,17 @@ extension API {
     static let maxImageNumber: Int = 5
 }
 
+private extension OpenMarketConstant {
+    static let productRegistration = "상품등록"
+    static let wrongImageRegist = "이미지를 하나 이상 추가해주세요."
+    static let camera = "카메라"
+    static let album = "앨범"
+}
+
 final class RegisterViewController: ProductViewController {
     private var images: [UIImage] = []
+    weak var delegate: ListUpdateDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,7 +32,7 @@ final class RegisterViewController: ProductViewController {
     
     override func setUpNavigationBar() {
         super.setUpNavigationBar()
-        self.navigationItem.title = "상품등록"
+        self.navigationItem.title = OpenMarketConstant.productRegistration
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestRegistration))
         self.navigationItem.rightBarButtonItem = requestButton
     }
@@ -40,11 +49,11 @@ final class RegisterViewController: ProductViewController {
     }
     private func makeRequestBody() -> Data? {
         guard let name = productView.nameField.text, productView.validTextField(productView.nameField) else {
-            showAlert(alertTitle: "상품명을 3자 이상 100자 이하로 입력해주세요.")
+            showAlert(title: OpenMarketConstant.wrongProductName)
             return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
-            showAlert(alertTitle: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.")
+            showAlert(title: OpenMarketConstant.wrongProductDescription)
             return nil
         }
         guard let price = Double(productView.priceField.text ?? "0.0") else {
@@ -55,12 +64,12 @@ final class RegisterViewController: ProductViewController {
         let stock = Int(productView.stockField.text ?? "0")
         
         if images.count == 0 {
-            showAlert(alertTitle: "이미지를 하나 이상 추가해주세요.")
+            showAlert(title: OpenMarketConstant.wrongImageRegist)
             return nil
         }
         
         var data = Data()
-        let productToRegister = ProductToRegister(name: name, currency: currency, price: price, descriptions: self.productView.descriptionView.text, discountedPrice: discountedPrice, stock: stock)
+        let productToRegister = ProductToRequest(name: name, currency: currency, price: price, descriptions: self.productView.descriptionView.text, discountedPrice: discountedPrice, stock: stock)
         data.append(appendParams(productToRegister))
         images.forEach {
             data.append(appendImage($0))
@@ -74,7 +83,7 @@ final class RegisterViewController: ProductViewController {
         return data
     }
     
-    private func appendParams(_ registerProduct: ProductToRegister) -> Data {
+    private func appendParams(_ registerProduct: ProductToRequest) -> Data {
         var data = Data()
         var dataString: String = ""
         guard let params = try? JSONEncoder().encode(registerProduct) else {
@@ -184,11 +193,11 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
     
     @objc private func actionSheetAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let camera = UIAlertAction(title: "카메라", style: .default) { [weak self] _ in
+        let cancel = UIAlertAction(title: OpenMarketConstant.cancellation, style: .cancel, handler: nil)
+        let camera = UIAlertAction(title: OpenMarketConstant.camera, style: .default) { [weak self] _ in
             self?.presentCamera()
         }
-        let album = UIAlertAction(title: "앨범", style: .default) { [weak self] _ in
+        let album = UIAlertAction(title: OpenMarketConstant.album, style: .default) { [weak self] _ in
             self?.presentAlbum()
         }
         
@@ -197,7 +206,7 @@ extension RegisterViewController: UINavigationControllerDelegate, UIPickerViewDe
         alert.addAction(album)
         present(alert, animated: true, completion: nil)
     }
-    
+
     private func presentCamera() {
         let picker = UIImagePickerController()
         picker.sourceType = .camera

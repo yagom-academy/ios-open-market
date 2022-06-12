@@ -7,8 +7,13 @@
 
 import UIKit
 
+private extension OpenMarketConstant {
+    static let productModification = "상품수정"
+}
+
 final class ModifyViewController: ProductViewController {
     var product: Product?
+    weak var delegate: ProductUpdateDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
@@ -18,7 +23,7 @@ final class ModifyViewController: ProductViewController {
     
     override func setUpNavigationBar() {
         super.setUpNavigationBar()
-        self.navigationItem.title = "상품수정"
+        self.navigationItem.title = OpenMarketConstant.productModification
         let requestButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(requestModification))
         self.navigationItem.rightBarButtonItem = requestButton
     }
@@ -32,7 +37,7 @@ final class ModifyViewController: ProductViewController {
         }
         
         RequestAssistant.shared.requestModifyAPI(productId: product.id, body: data) { [self]_ in
-            delegate?.refreshProductList()
+            delegate?.refreshProduct()
         }
         
         self.navigationController?.popViewController(animated: true)
@@ -61,11 +66,11 @@ final class ModifyViewController: ProductViewController {
     
     private func makeRequestBody() -> Data? {
         guard productView.validTextField(productView.nameField) else {
-            showAlert(alertTitle: "상품명을 3자 이상 100자 이하로 입력해주세요.")
+            showAlert(title: OpenMarketConstant.wrongProductName)
             return nil
         }
         guard productView.validTextView(productView.descriptionView) else {
-            showAlert(alertTitle: "상품 설명을 10자 이상 1000자 이하로 입력해주세요.")
+            showAlert(title: OpenMarketConstant.wrongProductDescription)
             return nil
         }
         guard let data = try? JSONEncoder().encode(detectModifiedContent()) else {
@@ -75,8 +80,8 @@ final class ModifyViewController: ProductViewController {
         return data
     }
     
-    private func detectModifiedContent() -> ProductToModify {
-        var modifyProduct: ProductToModify = ProductToModify()
+    private func detectModifiedContent() -> ProductToRequest {
+        var modifyProduct: ProductToRequest = ProductToRequest()
         guard let product = product else {
             return modifyProduct
         }

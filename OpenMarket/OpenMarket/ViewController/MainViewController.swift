@@ -33,11 +33,47 @@ final class MainViewController: UIViewController {
     private let arrangeModeSegmentedControl = UISegmentedControl(items: ArrangeMode.allCases.map {
         $0.rawValue
     })
+    private enum Reloadable {
+        case able
+        case disable
+    }
     private var currentArrangeMode: ArrangeMode = .list
-    private var products: [Product] = []
+    private var reloadableState: Reloadable = .able
+    private var productsWillShow: [Product] = []
+    private var products: [Product] = [] {
+        didSet {
+            productsWillShow = products
+        }
+    }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
     private lazy var activityIndicator: UIActivityIndicatorView = {
         createActivityIndicator()
+    }()
+    private var timer: DispatchSourceTimer?
+    private lazy var searchBar: UISearchBar = {
+       let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .default
+        searchBar.placeholder = OpenMarketConstant.productName
+        searchBar.sizeToFit()
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        
+        return searchBar
+    }()
+    private lazy var newProductButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("새 게시물", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 1.0
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.isHidden = true
+        button.addTarget(self, action: #selector(reloadAction), for: .touchUpInside)
+        
+        return button
     }()
 }
 
@@ -46,21 +82,27 @@ extension MainViewController {
         super.viewDidLoad()
         setUpNavigationItems()
         setUpCollectionViewCellRegister()
+        self.view.addSubview(searchBar)
         self.view.addSubview(collectionView)
+        self.view.addSubview(newProductButton)
+        self.view.bringSubviewToFront(newProductButton)
         self.view.addSubview(activityIndicator)
         self.activityIndicator.startAnimating()
         requestProductListData()
-        let backbutton = UIBarButtonItem(title: "Cancel", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem = backbutton
+        let backButton = UIBarButtonItem(title: OpenMarketConstant.cancel, style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = backButton
         
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        
+        setUpNewProductButtonConstraints()
         setUpSegmentedControlLayout()
         setUpCollectionViewConstraints()
         defineCollectionViewDelegate()
-        
+        defineSearchBarDelegate()
+        setUpSearchBarConstraints()
         setUpInitialState()
+        
+        startTimer()
     }
     
     @objc func pullToRefresh() {
@@ -74,16 +116,20 @@ extension MainViewController {
 
 // MARK: - Delegate
 extension MainViewController {
-   private func defineCollectionViewDelegate() {
+    private func defineCollectionViewDelegate() {
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    private func defineSearchBarDelegate() {
+        searchBar.delegate = self
     }
 }
 
 // MARK: - Delegate Method
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return products.count
+        return productsWillShow.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -96,25 +142,59 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let modifyViewController = self.storyboard?.instantiateViewController(withIdentifier: "ModifyViewController") as? ModifyViewController else {
+        guard let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else {
             return
         }
-        modifyViewController.delegate = self
-        let id = products[indexPath.row].id
+        detailViewController.delegate = self
+        let id = productsWillShow[indexPath.row].id
         RequestAssistant.shared.requestDetailAPI(productId: id) { result in
             switch result {
             case .success(let data):
-                modifyViewController.product = data
+                detailViewController.product = data
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(modifyViewController, animated: true)
+                    self.navigationController?.pushViewController(detailViewController, animated: true)
                 }
             case .failure(_):
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    self.showAlert(alertTitle: "데이터 로드 실패")
+                    self.showAlert(title: OpenMarketConstant.loadFail)
                 }
             }
         }
+    }
+}
+
+extension MainViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+        reloadableState = .disable
+        pauseTimer()
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        reloadableState = .able
+        resumeTimer()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if products.count != productsWillShow.count {
+            searchBar.text = nil
+            productsWillShow = products
+            collectionView.reloadData()
+        }
+        searchBar.endEditing(true)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        productsWillShow = products
+        if searchText.count > 0 {
+            let productsForSearch = products.filter({
+                $0.name.contains(searchText)
+            })
+            productsWillShow = productsForSearch
+        }
+        collectionView.reloadData()
     }
 }
 
@@ -134,22 +214,38 @@ private extension MainViewController {
             .register(GridCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: "gridCell")
     }
     
+    private func setUpSearchBarConstraints() {
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        searchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+    }
+    
     private func requestProductListData() {
+        if reloadableState == .disable {
+            return
+        }
         RequestAssistant.shared.requestListAPI(pageNumber: API.numbers, itemsPerPage: API.pages) { result in
             switch result {
             case .success(let data):
                 self.products = data.pages
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
+                    self.newProductButton.isHidden = true
                     self.collectionView.reloadData()
                 }
             case .failure(_):
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    self.showAlert(alertTitle: "데이터 로드 실패")
+                    self.showAlert(title: OpenMarketConstant.loadFail)
                 }
             }
         }
+    }
+    
+    private func setUpSearchBarLayout() {
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
     
     private func setUpSegmentedControlLayout() {
@@ -169,6 +265,14 @@ private extension MainViewController {
         arrangeModeSegmentedControl.setWidth(85, forSegmentAt: 1)
         arrangeModeSegmentedControl.apportionsSegmentWidthsByContent = true
         arrangeModeSegmentedControl.sizeToFit()
+    }
+    
+    private func setUpNewProductButtonConstraints() {
+        newProductButton.translatesAutoresizingMaskIntoConstraints = false
+        newProductButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        newProductButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2).isActive = true
+        newProductButton.heightAnchor.constraint(equalTo: newProductButton.widthAnchor, multiplier: 0.3).isActive = true
+        newProductButton.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor).isActive = true
     }
     
     @objc private func showUpRegisterView(_ sender: UIBarButtonItem) {
@@ -198,7 +302,7 @@ private extension MainViewController {
     
     private func setUpCollectionViewConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -226,7 +330,7 @@ private extension MainViewController {
         }
         
         cell.accessories = [.disclosureIndicator()]
-        cell.configureCellContents(product: products[indexPath.row])
+        cell.configureCellContents(product: productsWillShow[indexPath.row])
         
         return cell
     }
@@ -236,13 +340,59 @@ private extension MainViewController {
             return GridCollectionViewCell()
         }
         
-        cell.configureCellContents(product: products[indexPath.row])
+        cell.configureCellContents(product: productsWillShow[indexPath.row])
         
         cell.layer.borderWidth = 1.5
         cell.layer.borderColor = UIColor.systemGray.cgColor
         cell.layer.cornerRadius = 10.0
         
         return cell
+    }
+    
+    private func startTimer() {
+        let queue = DispatchQueue(label: "timer", attributes: .concurrent)
+        timer?.cancel()
+        timer = DispatchSource.makeTimerSource(queue: queue)
+        timer?.schedule(deadline: .now(), repeating: .seconds(5))
+        timer?.setEventHandler(handler: {
+            self.checkIfNewProductExist()
+        })
+        timer?.resume()
+    }
+    
+    private func pauseTimer() {
+        timer?.suspend()
+    }
+    
+    private func resumeTimer() {
+        timer?.resume()
+    }
+    
+    private func checkIfNewProductExist() {
+        guard let id = products.first?.id else {
+            return
+        }
+        RequestAssistant.shared.requestDetailAPI(productId: (id + 1)) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.newProductButton.isHidden = false
+                }
+            case .failure(.missingDestination):
+                return
+            case .failure(.invalidData), .failure(.invalidResponse), .failure(.unknownError), .failure(.failDecode):
+                DispatchQueue.main.async {
+                    self.showAlert(title: OpenMarketConstant.loadFail)
+                }
+            }
+        }
+    }
+    
+    @objc private func reloadAction() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+        }
+        requestProductListData()
     }
 }
 
@@ -274,7 +424,6 @@ extension MainViewController {
 
 extension MainViewController: ListUpdateDelegate {
     func refreshProductList() {
-        products = []
         requestProductListData()
     }
 }

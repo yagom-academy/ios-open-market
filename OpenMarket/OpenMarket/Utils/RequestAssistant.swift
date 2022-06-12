@@ -21,11 +21,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(ProductList.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -36,11 +32,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -50,9 +42,7 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            if let result = String(data: data, encoding: .utf8) {
-                self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
-            }
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
@@ -63,37 +53,74 @@ final class RequestAssistant {
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
     func requestRegisterAPI(body: Data, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
-        let endpoint: Endpoint = .registerProudct
+        let endpoint: Endpoint = .registerProduct
         
         sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
             guard let data = data else {
                 return
             }
-            guard let result = try? Decoder.shared.decode(Product.self, from: data) else {
-                completionHandler(.failure(.failDecode))
-                return
-            }
-            self?.handleResponse(response: response, result: result, completionHandler: completionHandler)
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
         })
     }
     
-    private func handleResponse<T>(response: URLResponse?, result: T ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
+    func requestSecretAPI(productId: Int, body: Data, completionHandler: @escaping ((Result<String, OpenMarketError>) -> Void)) {
+        let endpoint: Endpoint = .productSecret(productId: productId)
+        sessionManager.request(endpoint: endpoint, body: body, completionHandler: { [weak self] data, response, error in
+            guard let data = data else {
+                return
+            }
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
+        })
+    }
+    
+    func requestDeleteAPI(productId: Int, productSecret: String, completionHandler: @escaping ((Result<Product, OpenMarketError>) -> Void)) {
+        let endpoint: Endpoint = .productDelete(productId: productId, productSecret: productSecret)
+        sessionManager.request(endpoint: endpoint, completionHandler: { [weak self] data, response, error in
+            guard let data = data else {
+                return
+            }
+            self?.handleResponse(response: response, data: data, completionHandler: completionHandler)
+        })
+    }
+    
+    private func handleResponse<T: Decodable>(response: URLResponse?, data: Data ,completionHandler: @escaping ((Result<T, OpenMarketError>) -> Void)) {
         guard let response = response as? HTTPURLResponse else {
             return
         }
         let statusCode = response.statusCode
         switch statusCode {
         case 200...299:
+            guard let result = try? Decoder.shared.decode(T.self, from: data) else {
+                completionHandler(.failure(.failDecode))
+                return
+            }
             completionHandler(.success(result))
+        case 400:
+            completionHandler(.failure(.invalidData))
+        case 404:
+            completionHandler(.failure(.missingDestination))
+        case 500...599:
+            completionHandler(.failure(.invalidResponse))
+        default:
+            completionHandler(.failure(.unknownError))
+        }
+    }
+    
+    private func handleResponse(response: URLResponse?, data: Data ,completionHandler: @escaping ((Result<String, OpenMarketError>) -> Void)) {
+        guard let response = response as? HTTPURLResponse else {
+            return
+        }
+        let statusCode = response.statusCode
+        switch statusCode {
+        case 200...299:
+            if let result = String(data: data, encoding: .utf8) {
+                completionHandler(.success(result))
+            }
         case 400:
             completionHandler(.failure(.invalidData))
         case 404:
@@ -106,12 +133,14 @@ final class RequestAssistant {
     }
 }
 
-enum Endpoint {
+enum Endpoint: Equatable {
     case productList(nubmers: Int, pages: Int)
     case productDetail(productId: Int)
     case healthCheck
     case modifyProduct(productId: Int)
-    case registerProudct
+    case registerProduct
+    case productSecret(productId: Int)
+    case productDelete(productId: Int, productSecret: String)
 }
 
 extension Endpoint {
@@ -125,8 +154,12 @@ extension Endpoint {
             return .makeForEndpoint("/healthChecker")
         case .modifyProduct(let productId):
             return .makeForEndpoint("/api/products/\(productId)")
-        case .registerProudct:
+        case .registerProduct:
             return .makeForEndpoint("/api/products")
+        case .productSecret(let productId):
+            return .makeForEndpoint("/api/products/\(productId)/secret")
+        case .productDelete(let productId, let productSecret):
+            return .makeForEndpoint("/api/products/\(productId)/\(productSecret)")
         }
     }
     
@@ -136,8 +169,10 @@ extension Endpoint {
             return "GET"
         case .modifyProduct(_):
             return "PATCH"
-        case .registerProudct:
+        case .registerProduct, .productSecret(_):
             return "POST"
+        case .productDelete(_, _):
+            return "DELETE"
         }
     }
 }

@@ -20,6 +20,7 @@ final class URLSessionGenerator {
         }
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = endpoint.method
+        request.setValue(API.identifier, forHTTPHeaderField: "identifier")
         session.dataTask(with: request, completionHandler: completionHandler).resume()
     }
     
@@ -30,8 +31,10 @@ final class URLSessionGenerator {
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = endpoint.method
         request.setValue(API.identifier, forHTTPHeaderField: "identifier")
-        if endpoint.method == "POST" {
+        if endpoint == .registerProduct {
             request.setValue("multipart/form-data; boundary=\"\(API.boundary)\"", forHTTPHeaderField: "Content-Type")
+        } else {
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
         request.httpBody = body
         session.dataTask(with: request, completionHandler: completionHandler).resume()
