@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailView: UIView {
+final class DetailView: UIView {
   enum Constants {
     static let title: Double = 16.0
     static let body: Double = 15.0
