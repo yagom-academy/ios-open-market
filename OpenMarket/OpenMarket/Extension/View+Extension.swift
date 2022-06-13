@@ -17,7 +17,7 @@ extension UIStackView {
     func addLastBehind(view: UIView) {
         let lastViewCount = self.arrangedSubviews.count
         let index = lastViewCount <= 1 ? 0 : lastViewCount - 1
-                self.insertArrangedSubview(view, at: index)
+        self.insertArrangedSubview(view, at: index)
     }
 }
 

@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell, DetailCellSelectable {
+    
+    var productNumber: Int?
     
     private lazy var productImage = UIImageView()
     private let imageCache = ImageCache.shared
@@ -98,6 +100,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
             }
         )
         productTitle.text = product.name
+        productNumber = product.id
         
         if product.discountedPrice == 0 {
             discountPrice.isHidden = true
