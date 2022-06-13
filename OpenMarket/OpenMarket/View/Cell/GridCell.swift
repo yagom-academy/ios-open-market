@@ -1,7 +1,19 @@
+//
+//  GridCell.swift
+//  OpenMarket
+//
+//  Created by marlang, Taeangel on 2022/05/17.
+//
+
 import UIKit
 
+fileprivate enum Const {
+    static let soldOut = "품절"
+    static let stock = "재고수량"
+    static let empty = ""
+}
+
 final class GridCell: UICollectionViewCell, CustomCell {
-    
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -14,7 +26,6 @@ final class GridCell: UICollectionViewCell, CustomCell {
     
     private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -31,7 +42,6 @@ final class GridCell: UICollectionViewCell, CustomCell {
 
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name Label"
         label.contentMode = .scaleAspectFit
         return label
     }()
@@ -47,21 +57,18 @@ final class GridCell: UICollectionViewCell, CustomCell {
 
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "Price Label"
         label.textColor = .lightGray
         return label
     }()
     
     private let bargenLabel: UILabel = {
         let label = UILabel()
-        label.text = "Bargen Label"
         label.textColor = .lightGray
         return label
     }()
     
     private let stockLabel: UILabel = {
         let label = UILabel()
-        label.text = "Stock Label"
         label.textColor = .lightGray
         return label
     }()
@@ -69,8 +76,7 @@ final class GridCell: UICollectionViewCell, CustomCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupBorder()
-        addSubViews()
-        constraintLayout()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -82,14 +88,14 @@ final class GridCell: UICollectionViewCell, CustomCell {
         layer.addSublayer(border)
     }
     
-    func configure(data: Product) {
+    func configure(data: DetailProduct) {
         loadImage(data: data)
         loadName(data: data)
         loadStock(data: data)
         loadPrice(data: data)
     }
     
-    private func loadImage(data: Product) {
+    private func loadImage(data: DetailProduct) {
         
         guard let stringUrl = data.thumbnail else {
             return
@@ -106,24 +112,24 @@ final class GridCell: UICollectionViewCell, CustomCell {
         }
     }
     
-    private func loadName(data: Product) {
+    private func loadName(data: DetailProduct) {
         nameLabel.text = data.name
     }
     
-    private func loadStock(data: Product) {
+    private func loadStock(data: DetailProduct) {
         
         if data.stock == 0 {
-            stockLabel.text = "품절"
+            stockLabel.text = Const.soldOut
             stockLabel.textColor = .systemYellow
         } else {
             guard let stock = data.stock else {
                 return
             }
-            stockLabel.text = "재고수량: \(stock)"
+            stockLabel.text = "\(Const.stock): \(stock)"
         }
     }
     
-    private func loadPrice(data: Product) {
+    private func loadPrice(data: DetailProduct) {
         
         guard let currency = data.currency else {
             return
@@ -134,7 +140,7 @@ final class GridCell: UICollectionViewCell, CustomCell {
         
         if data.discountedPrice == 0 {
             priceLabel.text = "\(currency) \(price)"
-            bargenLabel.text = ""
+            bargenLabel.text = Const.empty
         } else {
             priceLabel.textColor = .systemRed
             priceLabel.attributedText = "\(currency) \(price) ".strikeThrough()
@@ -153,27 +159,34 @@ final class GridCell: UICollectionViewCell, CustomCell {
     }
 }
 
+// MARK: - Layout
+
 extension GridCell {
-    private func addSubViews() {
-        contentView.addsubViews(thumbnailImageView, cellStackView)
-        cellStackView.addArrangedsubViews(informationStackView)
-        informationStackView.addArrangedsubViews(nameLabel, pricestackView, stockLabel)
-        pricestackView.addArrangedsubViews(priceLabel, bargenLabel)
-    }
     
-    private func constraintLayout() {
-        NSLayoutConstraint.activate([
-            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            thumbnailImageView.bottomAnchor.constraint(equalTo: cellStackView.topAnchor),
-            thumbnailImageView.widthAnchor.constraint(equalToConstant: 150),
-            thumbnailImageView.heightAnchor.constraint(equalToConstant: 150),
-            thumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-        ])
+    private func setupView() {
         
-        NSLayoutConstraint.activate([
-            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+        addSubViews()
+        constraintLayout()
+        
+        func addSubViews() {
+            contentView.addsubViews(thumbnailImageView, cellStackView)
+            cellStackView.addArrangedsubViews(informationStackView)
+            informationStackView.addArrangedsubViews(nameLabel, pricestackView, stockLabel)
+            pricestackView.addArrangedsubViews(priceLabel, bargenLabel)
+        }
+    
+        func constraintLayout() {
+            NSLayoutConstraint.activate([
+                thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+                thumbnailImageView.bottomAnchor.constraint(equalTo: cellStackView.topAnchor),
+                thumbnailImageView.widthAnchor.constraint(equalToConstant: 150),
+                thumbnailImageView.heightAnchor.constraint(equalToConstant: 150),
+                thumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+                cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+                cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            ])
+        }
     }
 }

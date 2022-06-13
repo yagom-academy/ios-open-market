@@ -2,16 +2,21 @@
 //  ListCell.swift
 //  OpenMarket
 //
-//  Created by song on 2022/05/17.
+//  Created by marlang, Taeangel on 2022/05/17.
 //
 
 import UIKit
 
+fileprivate enum Const {
+    static let soldOut = "품절"
+    static let stock = "재고수량"
+    static let empty = ""
+    static let indicator = "chevron.right"
+}
+
 final class ListCell: UICollectionViewCell, CustomCell {
-    
     private let thumbnailImageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "flame")
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -19,7 +24,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name Label"
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -36,7 +40,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "Price Label"
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.textColor = .lightGray
         label.contentMode = .scaleAspectFit
@@ -45,7 +48,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let bargenLabel: UILabel = {
         let label = UILabel()
-        label.text = "Bargen Label"
         label.textColor = .lightGray
         label.contentMode = .scaleAspectFit
         return label
@@ -53,7 +55,6 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     private let stockLabel: UILabel = {
         let label = UILabel()
-        label.text = "Stock Label"
         label.textColor = .lightGray
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +64,7 @@ final class ListCell: UICollectionViewCell, CustomCell {
     private let accessoryLabel: UILabel = {
         let label = UILabel()
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "chevron.right")?.withTintColor(.lightGray)
+        attachment.image = UIImage(systemName: Const.indicator)?.withTintColor(.lightGray)
         let attachmentString = NSAttributedString(attachment: attachment)
         let attributedStr = NSMutableAttributedString(string: attachmentString.description)
         label.attributedText = attachmentString
@@ -73,8 +74,7 @@ final class ListCell: UICollectionViewCell, CustomCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addsubViews()
-        constraintLayout()
+        setupView()
         setupBorder()
     }
     
@@ -87,14 +87,14 @@ final class ListCell: UICollectionViewCell, CustomCell {
         layer.addSublayer(border)
     }
     
-    func configure(data: Product) {
+    func configure(data: DetailProduct) {
         loadImage(data: data)
         loadName(data: data)
         loadStock(data: data)
         loadPrice(data: data)
     }
     
-    private func loadImage(data: Product) {
+    private func loadImage(data: DetailProduct) {
         
         guard let stringUrl = data.thumbnail else {
             return
@@ -111,24 +111,24 @@ final class ListCell: UICollectionViewCell, CustomCell {
         }
     }
     
-    private func loadName(data: Product) {
+    private func loadName(data: DetailProduct) {
         nameLabel.text = data.name
     }
     
-    private func loadStock(data: Product) {
+    private func loadStock(data: DetailProduct) {
         
         if data.stock == 0 {
-            stockLabel.text = "품절"
+            stockLabel.text = Const.soldOut
             stockLabel.textColor = .systemYellow
         } else {
             guard let stock = data.stock else {
                 return
             }
-            stockLabel.text = "재고수량: \(stock)"
+            stockLabel.text = "\(Const.stock): \(stock)"
         }
     }
     
-    private func loadPrice(data: Product) {
+    private func loadPrice(data: DetailProduct) {
         
         guard let currency = data.currency else {
             return
@@ -139,7 +139,7 @@ final class ListCell: UICollectionViewCell, CustomCell {
         
         if data.discountedPrice == 0 {
             priceLabel.text = "\(currency) \(price)"
-            bargenLabel.text = ""
+            bargenLabel.text = Const.empty
         } else {
             priceLabel.textColor = .systemRed
             priceLabel.attributedText = "\(currency) \(price) ".strikeThrough()
@@ -158,48 +158,48 @@ final class ListCell: UICollectionViewCell, CustomCell {
     }
 }
 
-// MARK: - layout
+// MARK: - Layout
 
 extension ListCell {
-    private func addsubViews() {
-        contentView.addsubViews(thumbnailImageView, nameLabel, priceStackView, stockLabel, accessoryLabel)
-        priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
-     }
     
-    private func constraintLayout() {
-        NSLayoutConstraint.activate([
-            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-        ])
+    private func setupView() {
         
-        NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
-            nameLabel.widthAnchor.constraint(equalToConstant: frame.width / 2),
-            nameLabel.heightAnchor.constraint(equalToConstant: 20)
-        ])
+        addsubViews()
+        constraintLayout()
         
-        NSLayoutConstraint.activate([
-            priceStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            priceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            priceStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
-            priceStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+        func addsubViews() {
+            contentView.addsubViews(thumbnailImageView, nameLabel, priceStackView, stockLabel, accessoryLabel)
+            priceStackView.addArrangedsubViews(priceLabel, bargenLabel)
+         }
         
-        NSLayoutConstraint.activate([
-            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stockLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
-            stockLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            stockLabel.widthAnchor.constraint(equalToConstant: 100)
-        ])
+        func constraintLayout() {
+            NSLayoutConstraint.activate([
+                thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+                thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+           
+                nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+                nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
+                nameLabel.widthAnchor.constraint(equalToConstant: frame.width / 2),
+                nameLabel.heightAnchor.constraint(equalToConstant: 20),
+           
+                priceStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
+                priceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                priceStackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
+                priceStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+                stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+                stockLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
+                stockLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
+                stockLabel.widthAnchor.constraint(equalToConstant: 100),
+           
+                accessoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+                accessoryLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
+                accessoryLabel.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
+                accessoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+                accessoryLabel.widthAnchor.constraint(equalToConstant: 15)
+            ])
+        }
         
-        NSLayoutConstraint.activate([
-            accessoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            accessoryLabel.bottomAnchor.constraint(equalTo: priceStackView.topAnchor, constant: -3),
-            accessoryLabel.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
-            accessoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            accessoryLabel.widthAnchor.constraint(equalToConstant: 10)
-        ])
     }
 }
