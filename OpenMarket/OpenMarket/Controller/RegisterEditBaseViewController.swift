@@ -130,26 +130,6 @@ extension RegisterEditBaseViewController {
     }
     
     func wrapperRegistrationParameter() -> RegistrationParameter? {
-        /*
-        guard let name = nameTextField.text else {
-            return nil
-        }
-        guard let descriptions = textView.text else {
-            return nil
-        }
-        guard let price = Double(priceTextField.text ?? Constant.priceDefaultValue) else {
-            return nil
-        }
-        guard let selectedText = currencySegmentedControl.titleForSegment(at: currencySegmentedControl.selectedSegmentIndex), let currency = Currency(rawValue: selectedText) else {
-            return nil
-        }
-        guard let discountedPrice = Double(discountPriceTextField.text ?? Constant.discountePriceTextValue) else {
-            return nil
-        }
-        guard let stock = Int(stockTextField.text ?? Constant.stockDefaultValue) else {
-            return nil
-        }
-        */
         
         let secret = requestUserSecret()
         

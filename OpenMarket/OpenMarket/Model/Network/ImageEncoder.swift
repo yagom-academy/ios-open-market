@@ -33,17 +33,15 @@ struct ImageEncoder {
             throw UseCaseError.imageError
         }
         
-        var appendedData = imageData
-        
-        if appendedData.count > maximumImageSize {
+        if imageData.count > maximumImageSize {
             let resizeValue = image.resize(newWidth: resizeWidthValue)
             guard let resizedImageData = resizeValue.jpegData(compressionQuality: compressionQualityValue),
                   resizedImageData.count < maximumImageSize else {
                 throw(UseCaseError.imageError)
             }
-            appendedData = resizedImageData
+            return resizedImageData
         }
         
-        return appendedData
+        return imageData
     }
 }

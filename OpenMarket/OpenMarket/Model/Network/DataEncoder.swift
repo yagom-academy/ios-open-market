@@ -13,21 +13,13 @@ struct DataEncoder {
     private let jsonEncoder: JSONEncoder
     private var boundary: String
     private var boundaryPrefix: String {
-        get {
             return "\r\n--\(boundary)\r\n"
-        }
     }
     
-    init(boundary: String){
-        imageEncoder = ImageEncoder()
-        jsonEncoder = JSONEncoder()
+    init(boundary: String, imageEncoder: ImageEncoder = ImageEncoder(), jsonEncoder: JSONEncoder = JSONEncoder()) {
         self.boundary = boundary
-    }
-    
-    init(imageEncoder: ImageEncoder, jsonEncoder: JSONEncoder, boundary: String) {
         self.imageEncoder = imageEncoder
         self.jsonEncoder = jsonEncoder
-        self.boundary = boundary
     }
     
     func encodeFormData<T: Encodable>(parameter: T) throws -> Data {

@@ -10,6 +10,7 @@ import UIKit
 final class DetailViewController: UIViewController, ActivityIndicatorProtocol {
     
     private let productNumber: Int
+    private lazy var detailView = DetailView(frame: self.view.frame)
     
     init(producntNubmer: Int) {
         self.productNumber = producntNubmer
@@ -28,6 +29,7 @@ final class DetailViewController: UIViewController, ActivityIndicatorProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        view.addSubview(detailView)
         generateDetailView(id: productNumber)
         configureIndicator()
     }
@@ -45,17 +47,20 @@ final class DetailViewController: UIViewController, ActivityIndicatorProtocol {
     
     private func generateDetailView(id: Int?) {
         guard let id = id else { return }
-        let detailView = DetailView(frame: self.view.bounds)
+        
         productDetailUseCase.requestProductDetailInformation(
             id: id) { detailInformation in
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    detailView.setUpView(productDetail: detailInformation)
-                    self.activityIndicator.stopAnimating()
-                    self.view.addSubview(detailView)
+                    self.updateDetailView(productDetail: detailInformation)
                 }
             } errorHandler: { error in
                 print(error)
             }
+    }
+    
+    private func updateDetailView(productDetail: ProductDetail) {
+            detailView.setUpView(productDetail: productDetail)
+            self.activityIndicator.stopAnimating()
     }
 }
