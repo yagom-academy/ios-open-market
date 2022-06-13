@@ -45,8 +45,7 @@ final class DetailViewController: UIViewController, ActivityIndicatorProtocol {
         return activityIndicator
     }()
     
-    private func generateDetailView(id: Int?) {
-        guard let id = id else { return }
+    private func generateDetailView(id: Int) {
         
         productDetailUseCase.requestProductDetailInformation(
             id: id) { detailInformation in
