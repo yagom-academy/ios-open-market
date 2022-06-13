@@ -9,30 +9,42 @@ import Foundation
 
 enum Endpoint {
   case healthChecker
-  case productList(pageNumber: Int, itemsPerPage: Int)
-  case registration
-  case editing(productId: Int)
+  case page(pageNumber: Int, itemsPerPage: Int)
+  case registration(params: Params, images: [ImageFile])
+  case productInformation(productId: Int)
+  case edit(productId: Int, params: Params)
+  case secretKey(productId: Int, secret: String)
+  case delete(productId: Int, productSecret: String)
 }
 
 extension Endpoint {
+  private enum Url {
+    static let base = "https://market-training.yagom-academy.kr/"
+    static let path = "api/products/"
+  }
+  
   var url: URL? {
     switch self {
     case .healthChecker:
-      return .makeUrl(with: "healthChecker")
-    case .productList(let page, let itemsPerPage):
-      return .makeUrl(with: "api/products?page_no=\(page)&items_perpage=\(itemsPerPage)")
+      return URL(string: Url.base + "healthChecker")
+      
+    case .page(let page, let itemsPerPage):
+      return URL(string: Url.base + Url.path + "?page_no=\(page)&items_perpage=\(itemsPerPage)")
+      
     case .registration:
-      return .makeUrl(with: "api/products")
-    case .editing(let productId):
-      return .makeUrl(with: "api/products/\(productId)")
+      return URL(string: Url.base + Url.path)
+      
+    case .productInformation(let productId):
+      return URL(string: Url.base + Url.path + "\(productId)")
+      
+    case .edit(let productId,_):
+      return URL(string: Url.base + Url.path + "\(productId)")
+      
+    case .secretKey(let productId,_):
+      return URL(string: Url.base + Url.path + "\(productId)/secret")
+      
+    case .delete(let productId, let productSecret):
+      return URL(string: Url.base + Url.path + "\(productId)/\(productSecret)")
     }
-  }
-}
-
-private extension URL {
-  static let baseURL = "https://market-training.yagom-academy.kr/"
-  
-  static func makeUrl(with endpoint: String) -> URL? {
-    return URL(string: baseURL + endpoint)
   }
 }

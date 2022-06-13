@@ -15,7 +15,7 @@ final class EditingViewController: UIViewController {
     static let warningAlertCancelText = "확인"
   }
   
-  private var apiProvider = HttpProvider()
+  private var httpProvider = HttpProvider()
   private lazy var editingView = EditingView()
   private var detailProduct: DetailProduct?
   
@@ -27,7 +27,7 @@ final class EditingViewController: UIViewController {
     editingView.descriptionTextView.delegate = self
   }
   
-  func receiveImformation(for detailProduct: DetailProduct?) {
+  func receiveInformation(for detailProduct: DetailProduct?) {
     self.detailProduct = detailProduct
   }
   
@@ -93,7 +93,10 @@ final class EditingViewController: UIViewController {
     }
     
     DispatchQueue.global().async(group: group) {
-      self.apiProvider.patch(.editing(productId: product.id), params) { result in
+      let networkRequirements = HttpRequirements(
+        endpoint: .edit(productId: product.id, params: params)
+      )
+      self.httpProvider.execute(networkRequirements) { result in
         switch result {
         case .success(_):
           return

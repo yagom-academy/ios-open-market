@@ -1,5 +1,5 @@
 # 🛍 오픈 마켓
-> 프로젝트 기간 2022.05.09 ~ 2022.06.03  
+> 프로젝트 기간 2022.05.09 ~ 2022.06.03
 팀원 : [mmim](https://github.com/JoSH0318) [cathy](https://github.com/cathy171)
 
 
@@ -21,21 +21,53 @@
     + [질문사항](#질문사항)
     + [배운 개념](#배운-개념)
     + [PR 후 개선사항](#pr-후-개선사항)
+- [II STEP 2](#ii-step-2)
+    + [고민했던 것들(트러블 슈팅)](#고민한-점트러블-슈팅)
+    + [질문사항](#질문사항)
+    + [배운 개념](#배운-개념)
+    + [PR 후 개선사항](#pr-후-개선사항)
 - [Ground Rules](#ground-rules)
----
-
-## 프로젝트 목표
 
 ---
 
 ## 실행화면
+|메인 화면|메인 화면 -> 상세 화면|
+|:------:|:---:|
+|<image width="200" src="https://i.imgur.com/Ot6U7IR.gif"/>|<image width="200" src="https://i.imgur.com/kb4Dt7k.gif"/>|
+
+
+|상세 화면(1)|상세 화면(2)|
+|:---:|:---:|
+|<image width="200" src="https://i.imgur.com/llKH8Av.gif"/>|<image width="200" src="https://i.imgur.com/lBrm7MD.gif"/>|
+
+|상세 등록_사진 등록|상품 등록_실패|상품 등록_성공|
+|:---:|:---:|:---:|
+|<image width="200" src="https://i.imgur.com/B9hsYGg.gif"/>|<image width="200" src="https://i.imgur.com/biWVxD2.gif"/>|<image width="200" src="https://i.imgur.com/1Ouwflq.gif"/>|
+
+|삭제_실패|삭제_성공|
+|:---:|:---:|
+|<image width="200" src="https://i.imgur.com/nt3NaXX.gif"/>|<image width="200" src="https://i.imgur.com/M7EGS72.gif"/>|
+
+|상품 수정|
+|:---:|
+<image width="200" src="https://i.imgur.com/ipTsOmH.gif"/>
 
 ---
 
 ## UML
+<image width="600" src="https://i.imgur.com/Y8T66D8.jpg"/>
 
-<image width="500" src="https://i.imgur.com/isTPzq2.jpg"/>
+### Model
+<image width="600" src="https://i.imgur.com/g6rss4c.jpg"/>
 
+### View
+<image width="600" src="https://i.imgur.com/4wSeO4B.jpg"/>
+
+### Controller
+<image width="600" src="https://i.imgur.com/A2OuZMf.jpg"/>
+
+### Network
+<image width="400" src="https://i.imgur.com/IZnmh7J.jpg"/>
 
 ---
 
@@ -163,13 +195,49 @@ let promise = expectation(description: "")
 - escaping closure
 
 ### PR 후 개선사항
+1️⃣ Mock 테스트를 위한 Mock 객체 변경
+- 변경전: 
+    - 기존에는 URLSessionDataTask의 init()을 이용하여 원하는 Mock data와 response를 할당하는 방법을 선택
+- 변경후: 
+    - URLProtocol을 채택하는 방법을 선택
+    - `deprecated`된 URLSessionDataTask의 init()을 사용하지 않고, URLProtocol을 채택한 MockURLProtocol 객체를 활용했다. 
+
+```swift
+final class MockURLProtocol: URLProtocol {
+  static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
+  
+  override class func canInit(with request: URLRequest) -> Bool {
+    return true
+  }
+  
+  override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+    return request
+  }
+  
+  override func startLoading() {
+    guard let handler = MockURLProtocol.requestHandler else {
+      return
+    }
+    do {
+      let (response, data) = try handler(request)
+      client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+      client?.urlProtocol(self, didLoad: data)
+      client?.urlProtocolDidFinishLoading(self)
+    } catch {
+      client?.urlProtocol(self, didFailWithError: error)
+    }
+  }
+  
+  override func stopLoading() { }
+}
+```
+
 
 ---
 
 ## STEP 2
 
 ### 고민한 점(트러블 슈팅)
-
 1️⃣ stroyBoard vs code UI 구현
 - STEP2를 시작하기 전, UI 구현에 있어 어떠한 방법을 선택할 지 고민했다.
 - 각각 장단점이 있는 것 같다.
@@ -191,8 +259,8 @@ let promise = expectation(description: "")
 > ❗️ 결국 명확한 원인을 찾을 수 없었다. 
 > 하지만 cell의 contents size height 만큼 offset이 아래쪽에 있다는 것을 확인했고,
 > collection view의 layout이 변경될 때, `collectionView.contentsOffset`을 변경해주는 방법으로 문제를 해결했다.
-
-<image width="600" src="https://i.imgur.com/FkYdHJY.png"/>  
+  
+<image width="600" src="https://i.imgur.com/FkYdHJY.png"/>    
 
 
 4️⃣ reuseCell에 대한 고민
@@ -256,6 +324,8 @@ DispatchQueue.main.async {
     dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
   }
 ```
+7️⃣ 
+
 
 ### 질문사항
 1️⃣ cell prototype을 두개 만들면서 발생하는 많은 중복 코드
@@ -281,8 +351,28 @@ GridCell화면에서 첫번째 셀, 두번째 셀이 safeArea안에서 잡히지
 - URLQueryItem
 - URLRequest
 - escaping closure
+- NSCache
 
 ### PR 후 개선사항
+1️⃣ pagination 기능 수정
+- scroll할 때마다, 자동으로 불릴 수 있도록 UICollectionViewDelegate을 채택
+- `scrollViewDidScroll` 메서드를 통해 scroll할 때마다 호출
+- contentOffset을 계산하여 원하는 offset point에서 pagination될 수 있도록 구현
+- pagination Y point는 아래처럼 계산했다. 
+    - (content영역 Size) * (한 화면에 보여지는 cell의 수 / 서버에서 GET한 데이터의 수)
+```swift
+func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let contentOffsetY = scrollView.contentOffset.y
+    let collectionViewContentSize = self.collectionView.contentSize.height
+    let paginationY = collectionViewContentSize * (Constants.itemsPerView / CGFloat(pages.count))
+    
+    if contentOffsetY > collectionViewContentSize - paginationY {
+      currentPageNumber += 1
+      fetchPages()
+    }
+}
+```
+
 ---
 
 ## II STEP 1
@@ -300,8 +390,8 @@ GridCell화면에서 첫번째 셀, 두번째 셀이 safeArea안에서 잡히지
     1. 굳이 Cell을 사용한 화면구현이 필요없다. CollectionView, TableView가 사용되는 가장 큰 이유는 반복되는 Cell들을 사용하기 위한이라고 생각한다. 이 화면에서는 반복되는 Cell이 없다고 판단됐다.
     2. Cell protoType이 4가지 이상 존재해야한다.(이미지뷰, 버튼이 있는 뷰, 텍스트필드뷰, 텍스트뷰 등이 구현된 Cell) 하지만 이 요소들이 반복되지 않고, 한번만 쓰인다.
     3. 상단의 scrollView 영역만 collectionView를 쓰는것도 생각해봤다. 하지만 이미지는 5개 이상 생성되지 않는다. 따라서 많은 Cell을 반복적으로 사용하는 collectionView에 적합하지 않다.
-> 따라서 상단은 scrollView, 중단은 stackView, 하단은 TextView로 구현하기로 결정했다.  
-![](https://i.imgur.com/sXgYrv9.png)
+> 따라서 상단은 scrollView, 중단은 stackView, 하단은 TextView로 구현하기로 결정했다.    
+![](https://i.imgur.com/sXgYrv9.png)  
 
 2️⃣ HTTP POST 구현
 - 일단 POST API 명세서를 보면 헤더와 바디에 필요한 요구사항들을 확인할 수 있다.
@@ -387,8 +477,8 @@ self.dismiss(animated: true, completion: nil)
 
 ### 질문사항
 1️⃣ textview부분만 키보드 내리는 것 적용하는 방법
-프로젝트 요구사항을 보면 키보드가 올라왔을 때 컨텐츠를 가리지 않도록 한다는 조건이 있습니다. 
-![](https://i.imgur.com/amUTGrJ.png)  
+프로젝트 요구사항을 보면 키보드가 올라왔을 때 컨텐츠를 가리지 않도록 한다는 조건이 있습니다.   
+![](https://i.imgur.com/amUTGrJ.png)    
 중간에 있는 **상품명 ~ 재고수량 TextField**는 키보드가 가릴 일이 없습니다. 하지만 아래에 있는 **description textView**와 같은 경우는 가립니다!
 따라서 **description textView**를 클릭하여 키보드가 올라왔을 때만 view.origin.y를 올려주려했습니다 😭
 하지만 `NotificationCenter`가 키보드가 올라오는 액션(UIResponder.keyboardWillShowNotification)를 감지하여 origin을 올려주기 때문에  **description textView**의 키보드가 올라왔을 때만 origin을 올려주지 못했습니다.
@@ -421,56 +511,213 @@ RegistrationView와 EditingView가 완벽히 겹치는 코드가 많아서 프�
 - imagePickerController
 - NotificationCenter
 - UIAlertController
----
 
-## Ground Rules
-### 스크럼
-- 🌈  10시 시작 
-- 스크럼 시간은 30분이 넘지 않기
-- 오늘의 목표 / 공유할 이슈 / 컨디션 공유
-- 자신의 부족한 부분 / 우리 팀이 아쉬운 부분 토론
-- 상황에 따라 조정 가능
-
-### 주간 활동 시간
-- 월, 화, 수, 목, 금 : 10시 ~ 24시
-- 점심시간 : 13시 ~ 14시
-- 저녁시간 : 18시 ~ 20시
-- 상황에 따라 조정 가능
+### PR 후 개선사항
+1️⃣ UITextView 키보드를 사용할 때만 frame 변경하도록 변경
+- 기존에는 NotificationCenter를 통해 키보드가 나타나고, 없어질 때 view의 frame을 적용하는 메서드가 불리도록 구현했다.
+- 하지만 우리의 기획대로라면 UITextView의 키보드만을 tracking해야하기 때문에 기존의 NotificationCenter 방식을 사용하지 않아야한다.
+- `UITextViewDelegate` 채택 -> textViewDidBeginEditing(), textViewDidEndEditing() 메서드를 통해 UITextView의 Editing시작, Editing종료되는 시점에 view의 frame을 조정하는 로직을 구현
 
 ---
 
-## 🪧 프로젝트 관련 규칙
-### 코딩 컨벤션
-#### Swift 코드 스타일
-코드 스타일은 [스타일쉐어 가이드 컨벤션](https://github.com/StyleShare/swift-style-guide#%EC%A4%84%EB%B0%94%EA%BF%88) 에 따라 진행한다.
+## II STEP 2
 
-### Commit 규칙
-커밋 제목은 최대 50자 입력
-본문은 한 줄 최대 72자 입력
+### 고민한 점(트러블 슈팅)
+#### 📌II-STEP2-1
+1️⃣ 상품 상세화면은 어떻게 구현할까
+- 상품 상세화면은 크게 3가지 파트로 나뉜다고 판단했다. 
+    - 상단: scroll을 통해 나열된 Image가 보여지는 곳
+    - 중단: 상품의 정보가 text로 보여지는 곳
+    - 하단: 상품의 설명이 여러줄로 보여지는 곳
+- 상, 중, 하가 수직으로 나열되어있기 때문에 vertical StackView를 사용하여 layout을 잡아주었다.
+- vertical StackView의 aliment와 distribution을 fill로 주어서 모든 컨텐츠가 화면에 꽉 차도록 설정했다.
+- image scroll view와 상품 정보 stack view의 높이값을 화면 비율에 맞추어 설정해주어서 모든 기기에 알맞은 사이즈를 갖도록 했다.
+- 상품 이름 label과 설명 label은 길어질수도 있는 유동적인 정보임으로 line을 0으로 설정해주었다.
+- 하단의 상품 설명은 scroll view로 구성했고, 글자의 line이 길어지면 scroll을 통해 모든 정보를 확인할 수 있도록 했다.
+- 또한, 상품 설명 scroll view의 subview는 바로 label이 아니라 UIView로 설정했고, UIView 안에 label을 넣어주었다.  
 
-### Commit 메세지
-🪛[chore]: 코드 수정, 내부 파일 수정.  
-✨[feat]: 새로운 기능 구현.  
-🎨[style]: 스타일 관련 기능.(코드의 구조/형태 개선)  
-➕[add]: Feat 이외의 부수적인 코드 추가, 라이브러리 추가  
-🔧[file]: 새로운 파일 생성, 삭제 시  
-🐛[fix]: 버그, 오류 해결.  
-🔥[del]: 쓸모없는 코드/파일 삭제.  
-📝[docs]: README나 WIKI 등의 문서 개정.  
-💄[mod]: storyboard 파일,UI 수정한 경우.  
-✏️[correct]: 주로 문법의 오류나 타입의 변경, 이름 변경 등에 사용합니다.  
-🚚[move]: 프로젝트 내 파일이나 코드(리소스)의 이동.  
-⏪️[rename]: 파일 이름 변경이 있을 때 사용합니다.  
-⚡️[improve]: 향상이 있을 때 사용합니다.  
-♻️[refactor]: 전면 수정이 있을 때 사용합니다  
-🔀[merge]: 다른브렌치를 merge 할 때 사용합니다.  
-✅ [test]: 테스트 코드를 작성할 때 사용합니다.  
-  
-### Commit Body 규칙
-제목 끝에 마침표(.) 금지
-한글로 작성
+<image width="400" src="https://i.imgur.com/IxJKZZL.png"/>  
 
-### 브랜치 이름 규칙
-`STEP1-1`, `STEP1-2`, `STEP2-1``STEP2-2` ...
+2️⃣ 상품 상세화면을 들어왔을 때, 경로 찾기
+- **상품 상세화면**에 뿌려질 데이터를 위해선 상품마다 각기 다른 Endpoint가 존재한다. 
+    - {{api_host}}/api/products/{{product_id}} 
+- 위의 예시처럼 상품 `product_id`가 있고, 그 상품의 상세 정보를 가져오기 위해선 `product_id`가 필요하다.
+- 🤔 **상품 상세화면**에선 `product_id`가 없어서 아직 데이터를 받아오지 못하는데 어디에서 `product_id`를 알아내야 할지에 대해서 고민했다.
+- 이전 화면인 **상품 리스트 화면**에선 GET의 response로 다양한 정보를 받을 수 있는데, 그 중 상품 식별번호인 `id` 값을 가지고있다.
+- 따라서 상품 Cell을 클릭했을 때, 해당 `id`값을 상세화면에 전달해주면 된다고 판단했다.
+> 이전 화면에서 메서드 주입으로 `id`을 받아오고 그것을 통해 해당 **상품 상세 정보**를 GET할 수 있었다.
+
+3️⃣ 상품상세 화면 데이터 get
+- 상품상세 화면에선 GET을 통해 데이터를 필요한 곳에 뿌려준다.
+- 때문에 HTTP 통신을 담당하는 메서드와 같은 경우, 
+    - 1)최초 상품상세 화면 진입시 
+    - 2)Edit 후 변경된 데이터가 적용된 상품상세 화면 진입시 
+- 호출되어야한다.
+- viewDidLoad()는 해당 VC의 인스턴스가 생성될 때, 호출된다.
+- present된 화면을 들어갔다가 나온다 하더라도 VC의 인스턴스는 메모리에서 해제되지 않고있기 때문에 viewDidLoad()는 호출되지 않는다.
+> 따라서 viewWillApear()에서 호출해주었고, 두 가지 경우에 모두 HTTP 통신을 할 수 있도록 해주었다.
+
+#### 📌II-STEP2-2
+1️⃣ HTTP통신 delete의 실패...🤔 productSecret(secretKey) 조회😭
+- delete 구현을 하고 실행했을 때, network status 400 오류가 발생했다.
+- 경로값에 `product_id`와 `product_secret`을 넣어주면 되기 때문에 오타의 가능성이 낮다고 판단했고, 다른 이유를 찾아보았다.
+> 👏 delete에서 요구하는 `product_secret`에 대해서 오해하고 있었다. 
+> `product_secret`는 판매자 비밀번호인 `secret`와 다르다.
+- `product_secret`는 판매자 비밀번호가 아니라 상품 삭제에 필요한 secretKey였다.
+- 이를 얻기 위해선 상품 삭제 Secret 조회 경로에 판매자 비밀번호를 바디에 넣어 POST해야한다.
+> 이런 과정을 통해 response로 얻은 `productSecret(secretKey)`를 delete 경로값에 넣어주어서 문제를 해결하였다.
+
+2️⃣ password가 실패했을 때, 처리방법  
+<image width="200" src="https://i.imgur.com/qxw2ZdM.png"/>  
+- 위처럼 게시 상품을 삭제하기 위해선 password를 입력해야한다. 
+- 만약 사용자가 잘못된 password를 입력했을 경우, 그 다음은 어떠한 식으로 app이 동작해야하는 지에 대해서 고민했다. 
+- 결정에 앞서 세 가지 사항을 목표로 했다.
+    - 첫번째, 사용자 입장에게 비밀번호가 잘못 됐다는 것을 알려야한다.
+    - 두번째, 사용자에게 계속해서 비밀번호를 입력할 기회를 주어야한다.
+    - 세번째, 많은 선택지를 주는 것은 사용자로 하여금 혼동의 여지를 준다. 사용자의 선택지를 줄여서 행동을 단순화 시켜야한다.  
+    
+<image width="200" src="https://i.imgur.com/6W56CNu.png"/>  
+- password가 틀렸을 경우, 비밀번호가 틀렸다는 것을 명확히 알리는 alert을 띄웠다.
+- 확인 버튼을 누르면 다시 pssword 입력창이 뜨도록 구현했다.
+
+3️⃣ delete에 대한 고민
+- 판매자 비밀번호(password)를 입력하고, `상품 삭제 secret 조회` 통신이 성공하면 올바른 비밀번호, 실패하면 잘못된 비밀번호이다.
+- 순서를 적어보면 **비밀번호 입력 -> 버튼 클릭 -> `상품 삭제 secret 조회` -> delete 성공 or 실패** 순서로 동작한다. 
+- 하나의 트리거(버튼)로 `상품 삭제 secret 조회` 통신 결과에 delete의 여부가 달라진다.
+> 이를 해결하기 해서 `상품 삭제 secret 조회` 메서드에 completionHandler를 파라미터로 받도록하고, 성공시 secretKey(String)과 성공여부(Bool)을 튜플타입으로 completionHandler에 전달하도록 했다.
+```swift
+private func checkSecretKey(
+    _ inputPassword: String?,
+    completionHandler: @escaping (String, Bool) -> Void
+  ) {
+    guard let pageId = self.pageId else {
+      return
+    }
+    guard let inputPassword = inputPassword else {
+      return
+    }
+    self.httpProvider.searchSecret(
+      .secretKey(productId: pageId),
+      inputPassword
+    ) { result in
+      switch result {
+      case .success(let data):
+        guard let reponseSecret = String(data: data, encoding: .utf8) else {
+          return
+        }
+        completionHandler(reponseSecret, true)
+      case .failure(let error):
+        print(error)
+        completionHandler(error.localizedDescription, false)
+      }
+    }
+  }
+```
+
+4️⃣ scrollView paging
+- scrollView의 paging를 적용하기 위해선 imageView의 frame 계산을 해야했고, 이를 구현하는데 가장 많은 고민을 했다.  
+<image width="600" src="https://i.imgur.com/jyfyWd5.png"/>  
+
+- 위 그림처럼 page마다 **scrollView의 bounds.origin**은 **view.frame * page수** 이다.
+- imageView는 scrollView frame 영역의 중앙에 위치하기 때문에 margin을 더해줘야한다.
+- 따라서 **imageView의 page당 origin**은 **view.frame * page수 + margin**이 된다.
+- 이 계산을 바탕으로 아래와 같은 코드를 구현하였다.
+```swift
+for index in 0..<images.count {
+      let imageView = UIImageView()
+      imageView.loadImage(urlString: images[index].url)
+      let margin = (imageScrollView.frame.width - imageScrollView.frame.height) / 2
+      let originX = (self.frame.width * CGFloat(index)) + margin
+      imageView.frame = CGRect(
+        x: originX,
+        y: 0,
+        width: imageScrollView.frame.height,
+        height: imageScrollView.frame.height
+      )
+      imageScrollView.addSubview(imageView)
+      imageScrollView.contentSize.width = imageScrollView.frame.width * CGFloat(index + 1)
+    }
+```
+
+5️⃣ pageControl
+- 이번 프로젝트 요구 조건에는 없었지만 `pageControl`을 추가하면 UI적으로 더 좋을 것 같다고 생각하여 `UIPageControl`을 사용해보았다. 
+- `pageControl`의 `numberOfPage`로 이미지 전체 개수를 설정해주고 `UIScrollViewDelegate`를 채택하여 `scrollViewDidScroll` 메서드에서 xPosition값으로 스크롤뷰의 현재 x의 위치에서 스크롤뷰의 가로를 나눈 값을 설정해주었다. 
+- 그리고 현재 위치를 UIPageControl의 currentPage로 설정해주었다.
+- 마지막으로 DetailViewController에서 viewWillAppear 시점에서 scrollview의 delegate를 Detailcontroller인 self로 설정해주었다.
+```swift
+extension DetailViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let xPosition = scrollView.contentOffset.x / scrollView.frame.width
+    let pageNumber = Int(round(xPosition))
+    detailView.setCurrentPage(pageNumber)
+  }
+}
+```
+
+6️⃣ 자신의 게시물만 수정 가능하도록 하기
+- 상품의 Edit은 애초에 상품 게시자만 접근할 수 있도록 하는 것이 논리적으로 당연하다고 판단했다.
+- 자신이 등록한 상품이 아님에도 Edit를 시도하면 어차피 Edit은 실패하기 때문에 사용자 경험상 정말 좋지 않을 것이다.
+- 따라서 상품의 게시자만 Edit에 접근할 수 있도록 구현해야 한다고 판단했다.
+- 상품상세 화면에서는 get response로 받아온 데이터를 알고있다. 
+- 이 데이터 중에서 해당 상품의 게시자를 식별할 수 있는 식별자는 `vender_ID` 밖에 없다.
+- 사실상 우리는 식별자로 `user identifier`와 `password`만 알고있기 때문에 `vender_ID`와 현재 사용자가 같은지 다른지를 판단할 수 없다.
+- 따라서 이전에 POST 과정에서 알아낸 `vender_ID` 값을 강제로 넣어줬다.
+- 이를 통해 사용자의 id와 네트워크 통신을 통해 받은 작성자의 id가 같을 경우에만 `rightBarButtonItem`에 버튼을 추가하도록 구현하였다.
+```swift
+    if product?.venderId == Constants.venderId {
+      self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+        barButtonSystemItem: .action,
+        target: self,
+        action: #selector(presentActionSheet)
+      )
+    }
+```
+
+### 질문사항 
+1️⃣ Network 관련 추상화
+Network 관련 객체를 보면 반복되는 코드가 많은 것 같습니다. 
+또한, 호출되는 곳에서는 경우에 따라 사용하는 메서드가 달라지고, 메서드가 달라져 파라미터를 주입하는 방법도 달라집니다. 그렇기 때문에 매우 복잡해보입니다.
+이러한 이유로 추상화가 안된 것 같다라는 생각을 했습니다.
+막연하게 추상화가 안 됐다고만 판단되고 어떻게 해야할지는 모르겠습니다. 😭
+추상화 시점에서 바라본 구조적인 문제를 지적해주시고 어떤 방법이 좋은지 말씀해주시면 정말정말정말 감사하겠습니다!!!
+
+2️⃣ Alert layout 오류  
+<img width="500" src="https://i.imgur.com/z2cVS6Q.png">  
+detail view에서 수정/삭제 버튼을 탭하면 action sheet 후 비밀번호를 입력하는 alert창을 띄우도록 하였는데 위와 같이 alert창 내의 UIView에서 레이아웃 에러가 발생했습니다. UIAlertController에서의 에러인 것 같아서 해결하지 못하였는데 alert을 사용할 때 추가적으로 설정해줘야하는 부분이 있는건지 여쭤보고 싶습니다.
+
+3️⃣ action sheet 선택 기준 (HIG)
+- HIG의 action sheet 파트를 보면   
+![](https://i.imgur.com/52EJjEe.png)    
+<image width="300" src="https://i.imgur.com/ZXrHuLr.png"/>    
+> 파괴적(destructive)이거나 위험한 작업을 수행하는 버튼에는 파괴적인(destructive) 스타일을 사용하고 이러한 버튼을 작업 시트의 맨 위에 배치합니다.
+
+- 라고 나와있습니다!
+- 하지만 저희 요구사항에는 반대로 나와있습니다. (하지만 HIG를...따르라고 하시기도 했어요.)  
+![](https://i.imgur.com/7GAfY5n.png)   
+
+저희가 HIG를 잘못 읽은건지 아니면 HIG에서 제안하는 경우와 다른 경우인 건지 궁금합니다.🤔
+
+4️⃣ Edit 권한에 대해서
+위에 고민한 점에서 `II-STEP2-2 > 6️⃣ 자신의 게시물만 수정 가능하도록 하기`를 보시면 저희가 요구사항과 다르게 작성한 점이 있습니다.
+위와 같은 방법이 좋지 않은 방법임을 알고있지만, 내가 작성한 게시물이 아님에도 Edit을 허용해주는 것이 너무 논리적으로 말이 되지 않는다고 판단하여 저러한 방법을 선택했습니다.
+vender_ID는 게시물을 POST할 때, response로 주어지는 데이터에서 알아냈습니다.
+(vender_ID는 서버에서 유저의 identifier에 따라 생성해주는 것으로 예상하고 있습니다.)
+만약 서버에서 vender_ID 책정하는 방법을 바꾼다면 아주아주 크리티컬한 버그가 발생될 것으로 생각이 들긴합니다 😭
+어떻게 이 부분을 해결해야할까요? 좋은 방법이 있을까요?
+
+### 배운 개념
+- AlertController
+- HTTP POST/DELETE
+- Delegate pattern
+
+### PR 후 개선사항
+1️⃣ Network 객체 추상화
+- 기존에는 통신을 할 때, HTTP Method에 따라 호출하는 통신 메서드가 달랐다.
+    - GET이 필요하면 getData, POST가 필요하면 postData
+- 변경후: getData, postData, patchData 등 메서드를 `func execute(_: HttpRequirements, completionHandler) {}` 하나로 합쳤다.
+    - 다만 HttpRequirements 타입을 파라미터로 받도록 했고, endpoint만 입력하면 Method를 자동으로 설정해주도록 구현했다.
+
+2️⃣ H.I.G에 따른 action sheet 변경
+- H.I.G에서 설명하듯이 destructive한 버튼이 가장 상단에 위치하도록 변경했다.
 
 ---

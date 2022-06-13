@@ -35,8 +35,10 @@ enum Layout: Int {
     switch self {
     case .list:
       layout.itemSize = CGSize(
-        width: UIScreen.main.bounds.width - (layout.sectionInset.left + layout.sectionInset.right),
-        height: UIScreen.main.bounds.height/Constants.listCellCountPerColumn
+        width:
+          UIScreen.main.bounds.width - (layout.sectionInset.left + layout.sectionInset.right),
+        height:
+          UIScreen.main.bounds.height/Constants.listCellCountPerColumn
       )
     case .grid:
       layout.itemSize = CGSize(

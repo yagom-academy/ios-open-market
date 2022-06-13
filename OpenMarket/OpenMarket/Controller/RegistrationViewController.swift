@@ -20,7 +20,7 @@ final class RegistrationViewController: UIViewController {
     static let maxImageCount = 5
   }
   
-  private let apiProvider = HttpProvider()
+  private let httpProvider = HttpProvider()
   private lazy var registrationView = RegistrationView()
   private let picker = UIImagePickerController()
   private var selectedImages: [ImageFile] = []
@@ -83,7 +83,10 @@ final class RegistrationViewController: UIViewController {
     
     let group = DispatchGroup()
     DispatchQueue.global().async(group: group) {
-      self.apiProvider.post(.registration, params, self.selectedImages) { result in
+      let networkRequirement = HttpRequirements(
+        endpoint: .registration(params: params, images: self.selectedImages)
+      )
+      self.httpProvider.execute(networkRequirement) { result in
         switch result {
         case .success(_):
           return
@@ -142,8 +145,7 @@ extension RegistrationViewController {
   }
 }
 //MARK: - ImagePickerController
-extension RegistrationViewController: UIImagePickerControllerDelegate,
-                                      UINavigationControllerDelegate {
+extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   private func presentAlbum() {
     picker.sourceType = .photoLibrary
     picker.allowsEditing = true

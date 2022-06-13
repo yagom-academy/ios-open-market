@@ -19,9 +19,8 @@ final class MainViewController: UIViewController {
   typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
   typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
   
-  private let apiProvider = HttpProvider()
+  private let httpProvider = HttpProvider()
   private lazy var collectionView = CollectionView()
-  private lazy var editingView = EditingView()
   private lazy var dataSource = makeDataSource()
   private var currentPageNumber = 1
   private var productsList:PageInformation?
@@ -60,7 +59,10 @@ final class MainViewController: UIViewController {
   }
   
   private func fetchPages() {
-    apiProvider.get(.productList(pageNumber: currentPageNumber, itemsPerPage: 20)) { data in
+    let networkRequirements = HttpRequirements(
+      endpoint: .page(pageNumber: currentPageNumber, itemsPerPage: 20)
+    )
+    httpProvider.execute(networkRequirements) { data in
       guard let data = try? data.get() else {
         return
       }

@@ -7,80 +7,63 @@
 
 import Foundation
 
-enum HttpMethod {
-  static let get = "GET"
-  static let post = "POST"
-  static let patch = "PATCH"
-}
-
 struct HttpProvider {
+  private enum UserInfo {
+    static let identifier = "8de44ec8-d1b8-11ec-9676-43acdce229f5"
+  }
+  
   private let session: URLSession
   
   init(session: URLSession = URLSession.shared) {
     self.session = session
   }
-  
-  func excuteDataTask(
-    with request: URLRequest,
-    _ completionHandler: @escaping (Result<Data, NetworkError>) -> Void
-  ) {
-    session.dataTask(with: request) { data, response, error in
-      guard error == nil else {
-        completionHandler(.failure(.invalid))
-        return
-      }
-      guard let response = response as? HTTPURLResponse,
-            (200..<300).contains(response.statusCode)
-      else {
-        completionHandler(.failure(.statusCodeError))
-        return
-      }
-      guard let data = data else {
-        completionHandler(.failure(.invalid))
-        return
-      }
-      
-      completionHandler(.success(data))
-    }.resume()
-  }
-  
-  func get(
-    _ endpoint: Endpoint,
+
+  func execute(
+    _ networkRequirements: HttpRequirements,
     completionHandler: @escaping (Result<Data, NetworkError>) -> Void
   ) {
-    guard let url = endpoint.url else {
+    guard let url = networkRequirements.endpoint.url else {
       completionHandler(.failure(.invalid))
       return
     }
     
-    var request = URLRequest(url: url)
-    request.httpMethod = HttpMethod.get
-    
-    excuteDataTask(with: request, completionHandler)
-  }
-  
-  func post(
-    _ endpoint: Endpoint,
-    _ params: Params,
-    _ images: [ImageFile],
-    completionHandler: @escaping (Result<Data, NetworkError>) -> Void
-  ) {
-    guard let url = endpoint.url else {
-      completionHandler(.failure(.invalid))
-      return
-    }
-    
-    var request = URLRequest(url: url)
     let boundary = "Boundary-\(UUID().uuidString)"
-    request.httpMethod = HttpMethod.post
-    request.setValue("8de44ec8-d1b8-11ec-9676-43acdce229f5", forHTTPHeaderField: "identifier")
-    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-    request.httpBody = setupBody(params, images, boundary)
+    var request = URLRequest(url: url)
+    request.httpMethod = networkRequirements.httpMethod.rawValue
     
-    excuteDataTask(with: request, completionHandler)
+    switch networkRequirements.endpoint {
+    case .healthChecker:
+      break
+      
+    case .page:
+      break
+      
+    case .registration(let params, let images):
+      request.setValue(UserInfo.identifier, forHTTPHeaderField: "identifier")
+      request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+      request.httpBody = setUpPostBody(params, images, boundary)
+      
+    case .productInformation:
+      break
+      
+    case .edit(_, let params):
+      request.setValue(UserInfo.identifier, forHTTPHeaderField: "identifier")
+      request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+      request.httpBody = setUpPatchBody(params)
+      
+    case .secretKey(_, let secret):
+      request.setValue(UserInfo.identifier, forHTTPHeaderField: "identifier")
+      request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+      request.httpBody = "{\"secret\": \"\(secret)\"}".data(using: .utf8)
+      
+    case .delete:
+      request.setValue(UserInfo.identifier, forHTTPHeaderField: "identifier")
+    }
+    
+    executeDataTask(with: request, completionHandler)
   }
   
-  func setupBody(_ params: Params, _ images: [ImageFile], _ boundary: String) -> Data? {
+  private func setUpPostBody(_ params: Params, _ images: [ImageFile], _ boundary: String) -> Data? {
     guard let jsonData = try? JSONEncoder().encode(params) else {
       return nil
     }
@@ -105,32 +88,37 @@ struct HttpProvider {
     return body
   }
   
-  func patch(
-    _ endpoint: Endpoint,
-    _ params: Params,
-    completionHandler: @escaping (Result<Data, NetworkError>) -> Void
-  ) {
-    guard let url = endpoint.url else {
-      completionHandler(.failure(.invalid))
-      return
-    }
-    
-    var request = URLRequest(url: url)
-    request.httpMethod = HttpMethod.patch
-    request.setValue("8de44ec8-d1b8-11ec-9676-43acdce229f5", forHTTPHeaderField: "identifier")
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.httpBody = setupBody(params)
-    
-    excuteDataTask(with: request, completionHandler)
-  }
-  
-  func setupBody(_ params: Params) -> Data? {
+  private func setUpPatchBody(_ params: Params) -> Data? {
     guard let jsonData = try? JSONEncoder().encode(params) else {
       return nil
     }
     var body = Data()
     body.append(jsonData)
     return body
+  }
+  
+  private func executeDataTask(
+    with request: URLRequest,
+    _ completionHandler: @escaping (Result<Data, NetworkError>) -> Void
+  ) {
+    session.dataTask(with: request) { data, response, error in
+      guard error == nil else {
+        completionHandler(.failure(.invalid))
+        return
+      }
+      guard let response = response as? HTTPURLResponse,
+            (200..<300).contains(response.statusCode)
+      else {
+        completionHandler(.failure(.statusCodeError))
+        return
+      }
+      guard let data = data else {
+        completionHandler(.failure(.invalid))
+        return
+      }
+      
+      completionHandler(.success(data))
+    }.resume()
   }
 }
 
