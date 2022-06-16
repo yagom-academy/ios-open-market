@@ -81,11 +81,7 @@ final class ProductGridCell: UICollectionViewCell, ProductCell {
         layer.borderWidth = 2.0
         layer.borderColor = UIColor.systemGray3.cgColor
     }
-}
-
-// MARK: - ProductGridCell Method
-
-extension ProductGridCell {
+    
     private func configureLayout() {
         contentView.addSubview(mainStackView)
         

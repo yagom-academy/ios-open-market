@@ -22,16 +22,16 @@ struct NetworkManager {
         self.session = session
     }
     
-    func checkServerState(completion: @escaping (Result<String, NetworkError>) -> Void) {
-        guard let urlRequst = EndPoint.serverState.urlRequest else {
+    func request(api: APIable, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        guard let urlRequst = api.makeURLRequest() else {
             completion(.failure(.urlError))
             return
         }
         
         session.dataTask(with: urlRequst) { data, response, error in
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                    (200..<300).contains(statusCode),
-                    error == nil else {
+                  (200..<300).contains(statusCode),
+                  error == nil else {
                 completion(.failure(.severError))
                 return
             }
@@ -41,20 +41,33 @@ struct NetworkManager {
                 return
             }
             
-            completion(.success(text.trimmingCharacters(in:CharacterSet(charactersIn: "\""))))
+            completion(.success(text))
         }.resume()
     }
     
-    func request<T: Decodable>(endPoint: EndPoint, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        guard let urlRequst = endPoint.urlRequest else {
+    func request<T: Decodable>(api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        guard let urlRequest = api.makeURLRequest() else {
             completion(.failure(.urlError))
             return
         }
         
-        session.dataTask(with: urlRequst) { data, response, error in
+        runDataTask(urlRequest: urlRequest, completion: completion)
+    }
+    
+    func requestMutiPartFormData<T: Decodable>(api: APIable, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        guard let urlRequest = api.makeMutiPartFormDataURLRequest() else {
+            completion(.failure(.urlError))
+            return
+        }
+        
+        runDataTask(urlRequest: urlRequest, completion: completion)
+    }
+    
+    private func runDataTask<T: Decodable>(urlRequest: URLRequest, completion: @escaping (Result<T, NetworkError>) -> Void) {
+        session.dataTask(with: urlRequest) { data, response, error in
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                    (200..<300).contains(statusCode),
-                    error == nil else {
+                  (200..<300).contains(statusCode),
+                  error == nil else {
                 completion(.failure(.severError))
                 return
             }
@@ -73,4 +86,5 @@ struct NetworkManager {
             }
         }.resume()
     }
+    
 }

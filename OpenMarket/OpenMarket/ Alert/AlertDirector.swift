@@ -44,13 +44,4 @@ final class AlertDirector {
             .setCancelButton()
             .show()
     }
-    
-    func createInputPasswordAlert(okAction: @escaping (UIAlertAction) -> Void) {
-        AlertBuilder(viewController: viewController)
-            .setTitle("암호를 입력해주세요")
-            .setFirstActionTitle("확인")
-            .setFirstAction(okAction)
-            .setCancelButton()
-            .show()
-    }
 }

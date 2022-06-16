@@ -13,11 +13,11 @@ final class ProductDetailViewController: UIViewController {
     
     private let networkManager = NetworkManager()
     
-    private var mainView: ProductDetailView?
-    private let product: Product
+    private let mainView = ProductDetailView(frame: .zero)
+    private var product: Product
     
     private var dataSource: DataSource?
-    private var snapshot: Snapshot?
+    private var snapshot = Snapshot()
     
     init(product: Product) {
         self.product = product
@@ -28,29 +28,38 @@ final class ProductDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func loadView() {
-        super.loadView()
-        mainView = ProductDetailView(frame: view.bounds)
-        view = mainView
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         requestData()
         configureView()
-        
+        registerNotification()
     }
     
-    // MARK: - Configure
+    // MARK: - Configure Method
     
     private func configureView() {
-        mainView?.configure(data: product)
+        configureMainView()
         configureCollectionView()
         configureNavigationBar()
     }
     
+    private func configureMainView() {
+        view.addSubview(mainView)
+        
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        mainView.configure(data: product)
+    }
+    
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
+        if product.vendorId == UserInformation.id {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editButtonDidTapped))
+        }
         navigationItem.title = product.name
     }
     
@@ -60,33 +69,42 @@ final class ProductDetailViewController: UIViewController {
             
             self.navigationController?.pushViewController(EditViewController(product: self.product), animated: true)
         } deleteAction: { [weak self] _ in
-            let alert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle:.alert)
-            alert.addTextField()
-            
-            let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-                guard let text = alert.textFields?.first?.text else { return }
-                // MARK: ToDO: Delete Product
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .default)
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            self?.present(alert, animated: true)
+            self?.showInputPasswordAlert()
         }
     }
     
+    private func showInputPasswordAlert() {
+        let alert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle:.alert)
+        alert.addTextField()
+        
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            guard let password = alert.textFields?.first?.text else { return }
+            guard let id = self?.product.id else { return }
+            
+            self?.requestPassword(id: id, userPassword: password)
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+    
     private func configureCollectionView() {
-        mainView?.productImageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
-        mainView?.productImageCollectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: UICollectionView.elementKindSectionFooter)
+        mainView.productImageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(forName: .update, object: "patch", queue: .main) { [weak self] _ in
+            self?.requestData()
+        }
     }
     
     // MARK: - CollectionView DataSource
     
     private func makeDataSource() -> DataSource? {
-        guard let mainView = mainView else { return nil }
-        
         let datasource = DataSource(collectionView: mainView.productImageCollectionView) { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.identifier, for: indexPath) as? ProductImageCell ?? ProductImageCell()
             
@@ -96,50 +114,43 @@ final class ProductDetailViewController: UIViewController {
             return cell
         }
         
-        datasource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionFooter else { return nil }
-            
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UICollectionView.elementKindSectionFooter, for: indexPath)
-            
-            view.backgroundColor = .systemRed
-            return view
-        }
-        
         return datasource
     }
     
-    private func makeSnapshot() -> Snapshot? {
-        var snapshot = dataSource?.snapshot()
-        snapshot?.deleteAllItems()
-        snapshot?.appendSections([.main])
+    private func makeSnapshot() -> Snapshot {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        
         return snapshot
     }
     
     private func applySnapshot(images: [UIImage]) {
         DispatchQueue.main.async { [self] in
-            snapshot?.appendItems(images)
-            guard let snapshot = snapshot else { return }
+            snapshot.appendItems(images)
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
     }
     
     // MARK: - NetWork Method
-
+    
     private func requestData() {
         guard let id = product.id else { return }
         
-        let endPoint = EndPoint.requestProduct(id: id)
+        let requestProductAPI = RequestProduct(path: "\(id)")
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
+        networkManager.request(api: requestProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
             case .success(let data):
-                self.mainView?.configure(data: data)
-                let imagesUrl = data.images?.compactMap { $0.url }
-                imagesUrl?.forEach({ url in
-                    self.requestImage(urlString: url)
-                })
+                self.snapshot = self.makeSnapshot()
+                self.product = data
+                self.mainView.configure(data: data)
+                data.images?
+                    .compactMap { $0.url }
+                    .forEach { url in
+                        self.requestImage(urlString: url)
+                    }
             case .failure(_):
                 AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
             }
@@ -153,6 +164,40 @@ final class ProductDetailViewController: UIViewController {
                 self?.applySnapshot(images: [image])
             case .failure(_):
                 break
+            }
+        }
+    }
+    
+    private func requestPassword(id: Int, userPassword: String) {
+        let params = ["secret": "\(userPassword)"]
+        let requestProductPasswordAPI = RequestProductPassword(path: "\(id)/secret", bodyParameters: params)
+        
+        networkManager.request(api: requestProductPasswordAPI) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let productPassword):
+                self.deleteData(id: id, password: productPassword)
+            case .failure(_):
+                AlertDirector(viewController: self).createErrorAlert(message: "비밀번호가 틀렸습니다")
+            }
+        }
+    }
+    
+    private func deleteData(id: Int, password: String) {
+        let deleteProductAPI = DeleteProduct(path: "\(id)/\(password)")
+        
+        networkManager.request(api: deleteProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .update, object: nil)
+                    self.navigationController?.popViewController(animated: true)
+                }
+            case .failure(_):
+                AlertDirector(viewController: self).createErrorAlert(message: "제품을 삭제하지 못했습니다.")
             }
         }
     }

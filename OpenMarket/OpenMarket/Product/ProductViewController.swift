@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol ProductViewControllerDelegate: AnyObject {
-    func refreshData()
-}
-
 // MARK: - Abstract Class
 
 class ProductViewController: UIViewController {
@@ -22,7 +18,6 @@ class ProductViewController: UIViewController {
     var mainView: ProdctView?
     var dataSource: DataSource?
     var snapshot: Snapshot?
-    weak var delegate: ProductViewControllerDelegate?
     
     override func loadView() {
         super.loadView()

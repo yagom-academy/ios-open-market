@@ -18,6 +18,8 @@ final class RegisterViewController: ProductViewController {
         registerNotification()
     }
     
+    // MARK: - Configure Method
+    
     override func configureCollectionView() {
         super.configureCollectionView()
         mainView?.collectionView.delegate = self
@@ -38,17 +40,16 @@ final class RegisterViewController: ProductViewController {
     }
     
     @objc override func doneButtonDidTapped() {
-        guard let sendData = multipartFormData() else { return }
+        guard let uploadProduct = makeUploadProduct() else { return }
+        let createProductAPI = CreateProduct(bodyParameters: uploadProduct)
         
-        let endPoint = EndPoint.createProduct(sendData: sendData)
-        
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<Product, NetworkError>) in
+        networkManager.requestMutiPartFormData(api: createProductAPI) { [weak self] (result: Result<Product, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    self.delegate?.refreshData()
+                    NotificationCenter.default.post(name: .update, object: nil)
                     self.dismiss(animated: true)
                 }
             case .failure(_):
@@ -57,51 +58,33 @@ final class RegisterViewController: ProductViewController {
         }
     }
     
-    private func multipartFormData() -> Data? {
+    private func makeUploadProduct() -> UploadProduct? {
         guard let snapshot = snapshot else { return nil }
-        guard let uploadProduct = mainView?.makeEncodableModel() else { return nil }
-
+        var uploadProduct = mainView?.makeEncodableModel()
+        
         let images = snapshot.itemIdentifiers[0..<snapshot.numberOfItems - 1]
         let imageDatas = images.compactMap { compress(image: $0) }
         
-        var data = Data()
-        let boundary = EndPoint.boundary
-        let userName = "두파리"
-
-        let newLine = "\r\n"
-        let boundaryPrefix = "--\(boundary)\r\n"
-        let boundarySuffix = "\r\n--\(boundary)--\r\n"
-        
-        data.appendString(boundaryPrefix)
-        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
-        data.append(try! JSONEncoder().encode(uploadProduct))
-        data.appendString(newLine)
-        
-        for imageData in imageDatas {
-            data.appendString(boundaryPrefix)
-            data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(userName + UUID().uuidString).jpg\"\r\n")
-            data.appendString("Content-Type: image/jpg\r\n\r\n")
-            data.append(imageData)
-            data.appendString(newLine)
+        uploadProduct?.images = imageDatas.map { imageData in
+            return ImageInformation(fileName: "두파리 + \(UUID().uuidString)", data: imageData, type: ".jpg")
         }
         
-        data.appendString(boundarySuffix)
-        return data
+        return uploadProduct
     }
     
     private func compress(image: UIImage) -> Data? {
         guard var jpegData = image.jpegData(compressionQuality: 1.0) else { return nil }
-
+        
         while jpegData.count >= 300 * 1024 {
             guard let image = UIImage(data: jpegData) else { return nil }
             guard let data = image.jpegData(compressionQuality: 0.8) else { return nil }
             
             jpegData = data
         }
-
+        
         return jpegData
     }
-
+    
     // MARK: - CollectionView DataSource
     
     override func makeDataSource() -> DataSource? {
@@ -170,15 +153,6 @@ private extension UIImage {
         }
         
         return renderImage
-    }
-}
-
-// MARK: - Data
-
-private extension Data {
-    mutating func appendString(_ string: String) {
-        guard let data = string.data(using: .utf8) else { return }
-        append(data)
     }
 }
 

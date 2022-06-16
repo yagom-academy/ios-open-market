@@ -17,9 +17,9 @@ final class MainViewController: UIViewController {
     private var networkManager = NetworkManager()
     private let cellLayoutSegmentControl = UISegmentedControl(items: ProductCollectionViewLayoutType.names)
     
-    private var mainView: MainView?
+    private var mainView = MainView()
     private var dataSource: DataSource?
-    private var snapshot: Snapshot?
+    private var snapshot = Snapshot()
     
     private var pageNumber = 1
     
@@ -29,18 +29,26 @@ final class MainViewController: UIViewController {
         configureNavigationBar()
         configureRefreshControl()
         requestData(pageNumber: pageNumber)
+        registerNotification()
     }
     
-    override func loadView() {
-        super.loadView()
-        mainView = MainView(frame: view.bounds)
-        view = mainView
-    }
-    
+    // MARK: - Configure Method
+
     private func configureView() {
-        mainView?.backgroundColor = .systemBackground
+        configureMainView()
         configureCollectionView()
         configureSegmentControl()
+    }
+    
+    private func configureMainView() {
+        view.addSubview(mainView)
+        
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
     
     private func configureNavigationBar() {
@@ -57,7 +65,6 @@ final class MainViewController: UIViewController {
     
     @objc private func addButtonDidTapped() {
         let registerViewController = RegisterViewController()
-        registerViewController.delegate = self
         
         let registerNavigationController = UINavigationController(rootViewController: registerViewController)
         registerNavigationController.modalPresentationStyle = .fullScreen
@@ -66,17 +73,23 @@ final class MainViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        mainView?.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
-        mainView?.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
-        mainView?.collectionView.delegate = self
-        mainView?.collectionView.prefetchDataSource = self
+        mainView.collectionView.register(ProductGridCell.self, forCellWithReuseIdentifier: ProductGridCell.identifier)
+        mainView.collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
+        mainView.collectionView.delegate = self
+        mainView.collectionView.prefetchDataSource = self
         dataSource = makeDataSource()
         snapshot = makeSnapshot()
     }
     
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(forName: .update, object: nil, queue: .main) { [weak self] _ in
+            self?.resetData()
+        }
+    }
+    
     private func configureRefreshControl() {
-        mainView?.collectionView.refreshControl = UIRefreshControl()
-        mainView?.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        mainView.collectionView.refreshControl = UIRefreshControl()
+        mainView.collectionView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
     @objc private func handleRefreshControl() {
@@ -96,8 +109,8 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func segmentValueDidChanged() {
-        mainView?.changeLayout(index: cellLayoutSegmentControl.selectedSegmentIndex)
-        mainView?.collectionView.reloadData()
+        mainView.changeLayout(index: cellLayoutSegmentControl.selectedSegmentIndex)
+        mainView.collectionView.reloadData()
     }
 }
 
@@ -105,9 +118,10 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     private func requestData(pageNumber: Int) {
-        let endPoint = EndPoint.requestList(page: pageNumber, itemsPerPage: Constant.requestItemCount)
+        let params = ["page_no": "\(pageNumber)", "items_per_page": "\(Constant.requestItemCount)"]
+        let requestProductListAPI = RequestProductList(queryParameters: params)
         
-        networkManager.request(endPoint: endPoint) { [weak self] (result: Result<ProductList, NetworkError>) in
+        networkManager.request(api: requestProductListAPI) { [weak self] (result: Result<ProductList, NetworkError>) in
             guard let self = self else { return }
             
             switch result {
@@ -117,8 +131,8 @@ extension MainViewController {
                 self.applySnapshot(products: result)
                 
                 DispatchQueue.main.async {
-                    self.mainView?.indicatorView.stop()
-                    self.mainView?.collectionView.refreshControl?.stop()
+                    self.mainView.indicatorView.stop()
+                    self.mainView.collectionView.refreshControl?.stop()
                 }
             case .failure(_):
                 AlertDirector(viewController: self).createErrorAlert(message: "데이터를 불러오지 못했습니다.")
@@ -139,10 +153,9 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let product = snapshot?.itemIdentifiers[indexPath.item] else { return }
+        let product = snapshot.itemIdentifiers[indexPath.item]
         
         let productDetailViewController = ProductDetailViewController(product: product)
-        // editViewController.delegate = self
 
         navigationController?.pushViewController(productDetailViewController, animated: true)
     }
@@ -152,8 +165,6 @@ extension MainViewController: UICollectionViewDelegate {
 
 extension MainViewController {
     private func makeDataSource() -> DataSource? {
-        guard let mainView = mainView else { return nil }
-        
         let dataSource = DataSource(collectionView: mainView.collectionView) { [weak self] collectionView, indexPath, itemIdentifier in
             guard let self = self else { return nil }
             
@@ -173,20 +184,17 @@ extension MainViewController {
         return dataSource
     }
      
-    private func makeSnapshot() -> Snapshot? {
-        var snapshot = dataSource?.snapshot()
-        snapshot?.deleteAllItems()
-        snapshot?.appendSections([.main])
+    private func makeSnapshot() -> Snapshot {
+        var snapshot = Snapshot()
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
         
         return snapshot
     }
     
     private func applySnapshot(products: [Product]) {
         DispatchQueue.main.async { [self] in
-            snapshot?.appendItems(products)
-            
-            guard let snapshot = snapshot else { return }
-            
+            snapshot.appendItems(products)
             dataSource?.apply(snapshot, animatingDifferences: false)
         }
     }
@@ -208,13 +216,5 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
             pageNumber += 1
             requestData(pageNumber: pageNumber)
         }
-    }
-}
-
-//MARK: - ProductViewController Delegate
-
-extension MainViewController: ProductViewControllerDelegate {
-    func refreshData() {
-        resetData()
     }
 }
