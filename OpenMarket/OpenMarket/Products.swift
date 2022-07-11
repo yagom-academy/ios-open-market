@@ -10,8 +10,8 @@ struct Page: Codable {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let createdAt: Date
-    let issuedAt: Date
+    let createdAt: String
+    let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
         case id
