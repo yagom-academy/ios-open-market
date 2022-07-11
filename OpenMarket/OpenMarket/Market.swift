@@ -12,6 +12,9 @@ struct Market: Codable {
     let offset: Int
     let limit: Int
     let pages: [Product]
+    let lastPage: Int
+    let hasNext: Bool
+    let hasPrev: Bool
     
     enum CodingKeys: String, CodingKey {
         case pageNumber = "page_no"
@@ -20,5 +23,8 @@ struct Market: Codable {
         case offset
         case limit
         case pages
+        case lastPage = "last_page"
+        case hasNext = "has_next"
+        case hasPrev = "has_prev"
     }
 }
