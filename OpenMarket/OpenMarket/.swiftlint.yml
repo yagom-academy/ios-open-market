@@ -1,0 +1,22 @@
+disabled_rules:
+  - object_literal
+  - file_name
+  - trailing_whitespace
+  - sorted_imports
+  - file_header
+  - vertical_whitespace_opening_braces
+  - vertical_whitespace_closing_braces
+line_length: 200
+force_cast: error
+
+opt_in_rules:
+  - empty_count
+  - missing_docs
+included:
+  - Source
+excluded:
+  - Carthage
+  - Pods
+  - Source/ExcludedFolder
+  - Source/ExcludedFile.swift
+
