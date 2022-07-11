@@ -1,6 +1,6 @@
 //
 //  OpenMarket - AppDelegate.swift
-//  Created by yagom. 
+//  Created by 케이, 수꿍. 
 //  Copyright © yagom. All rights reserved.
 // 
 

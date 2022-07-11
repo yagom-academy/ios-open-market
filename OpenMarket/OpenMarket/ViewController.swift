@@ -1,6 +1,6 @@
 //
 //  OpenMarket - ViewController.swift
-//  Created by yagom. 
+//  Created by 케이, 수꿍. 
 //  Copyright © yagom. All rights reserved.
 // 
 
@@ -10,7 +10,12 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        guard let path = Bundle.main.path(forResource: "mock", ofType: "json") else {
+            return
+        }
+        
+        print(path)
     }
 
 
