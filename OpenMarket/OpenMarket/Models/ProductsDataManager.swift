@@ -31,13 +31,13 @@ struct ProductsDataManager {
             }
             
             guard let data = data else {
-                let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "")
+                let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "Can't response data")
                 completion(.failure(DecodingError.dataCorrupted(decodingContext)))
                 return
             }
             
             guard let decodedData = try? JSONDecoder().decode(Products.self, from: data) else {
-                let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "")
+                let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "Can't decode JSON")
                 completion(.failure(DecodingError.typeMismatch(Products.self, decodingContext)))
                 return
             }
