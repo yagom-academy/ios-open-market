@@ -7,12 +7,15 @@
 import UIKit
 
 class ViewController: UIViewController {
+    var json = JsonParser()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        testJsonParser()
     }
-
-
+    
+    func testJsonParser() {
+        json.fetch()
+    }
 }
 

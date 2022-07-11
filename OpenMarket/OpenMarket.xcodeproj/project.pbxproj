@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8ABFEF12287C04A700CB6BB9 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABFEF11287C04A700CB6BB9 /* JsonParser.swift */; };
 		A3F85D37287BEDA100AD00C7 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D36287BEDA100AD00C7 /* Network.swift */; };
 		A3F85D3F287BF5EC00AD00C7 /* JsonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D3E287BF5EC00AD00C7 /* JsonTest.swift */; };
 		A3F85D46287BFA5C00AD00C7 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D45287BFA5C00AD00C7 /* Page.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8ABFEF11287C04A700CB6BB9 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		A3F85D36287BEDA100AD00C7 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		A3F85D3C287BF5EC00AD00C7 /* JsonTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3F85D3E287BF5EC00AD00C7 /* JsonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonTest.swift; sourceTree = "<group>"; };
@@ -61,6 +63,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8ABFEF10287C048500CB6BB9 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				8ABFEF11287C04A700CB6BB9 /* JsonParser.swift */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		8ABFEF15287C14BE00CB6BB9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A3F85D36287BEDA100AD00C7 /* Network.swift */,
+				A3F85D45287BFA5C00AD00C7 /* Page.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		A3F85D3D287BF5EC00AD00C7 /* JsonTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,11 +109,11 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				8ABFEF15287C14BE00CB6BB9 /* Model */,
+				8ABFEF10287C048500CB6BB9 /* Json */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				A3F85D36287BEDA100AD00C7 /* Network.swift */,
-				A3F85D45287BFA5C00AD00C7 /* Page.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -213,6 +232,7 @@
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				8ABFEF12287C04A700CB6BB9 /* JsonParser.swift in Sources */,
 				A3F85D37287BEDA100AD00C7 /* Network.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				A3F85D46287BFA5C00AD00C7 /* Page.swift in Sources */,

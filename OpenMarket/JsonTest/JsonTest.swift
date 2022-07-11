@@ -2,7 +2,7 @@
 //  JsonTest.swift
 //  JsonTest
 //
-//  Created by 허건 on 2022/07/11.
+//  Created by BaekGom, Brad on 2022/07/11.
 //
 
 import XCTest
