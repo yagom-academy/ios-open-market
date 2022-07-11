@@ -13,7 +13,7 @@ struct Page: Codable {
     let createdAt: String
     let issuedAt: String
     
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case vendorId = "vendor_id"
         case name
@@ -39,7 +39,7 @@ struct Products: Codable {
     let hasNext: Bool
     let hasPrev: Bool
     
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, CaseIterable {
         case pageNo = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
