@@ -14,7 +14,7 @@ struct Page: Codable {
     let thumbnail: String
     let currency: String
     let price: Int
-    let barginPrice: Int
+    let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
     let createdAt: String
@@ -27,7 +27,7 @@ struct Page: Codable {
         case thumbnail = "thumbnail"
         case currency = "currency"
         case price = "price"
-        case barginPrice = "bargin_price"
+        case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock = "stock"
         case createdAt = "created_at"
