@@ -8,7 +8,7 @@
 import Foundation
 
 struct JSONData {
-    static func parse(_ fileName: String, _ fileExtension: String) -> Market? {
+    func parse(fileName: String, fileExtension: String) -> Market? {
         guard let path = Bundle.main.path(forResource: fileName, ofType: fileExtension) else {
             return nil
         }

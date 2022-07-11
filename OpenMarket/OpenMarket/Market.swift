@@ -5,7 +5,11 @@
 //  Created by 케이, 수꿍 on 2022/07/11.
 //
 
-struct Market: Codable {
+struct Market: Codable, Equatable {
+    static func == (lhs: Market, rhs: Market) -> Bool {
+        return type(of: lhs) == type(of: rhs)
+    }
+    
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
