@@ -2,16 +2,15 @@
 //  ProductPage.swift
 //  OpenMarket
 //
-//  Created by 이원빈 on 2022/07/11.
+//  Created by 웡빙, 보리사랑 on 2022/07/11.
 //
-
 import Foundation
 
 struct ProductPage: Codable {
     let pageNo: Int
     let itemsPerPage: Int
     let totalCount: Int
-    let offSet: Int
+    let offset: Int
     let limit: Int
     let pages: [Product]
     let lastPage: Int
@@ -22,7 +21,7 @@ struct ProductPage: Codable {
         case pageNo = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
-        case offSet = "off_set"
+        case offset
         case limit
         case pages
         case lastPage = "last_page"
