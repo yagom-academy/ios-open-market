@@ -13,6 +13,7 @@ struct ItemList: Codable {
     let totalCount: Int
     let offset: Int
     let limit: Int
+    let pages: [Page]
     let lastPage: Int
     let hasNext: Bool
     let hasPrevious: Bool
@@ -23,6 +24,7 @@ struct ItemList: Codable {
         case totalCount = "total_count"
         case offset = "offset"
         case limit = "limit"
+        case pages = "pages"
         case lastPage = "last_page"
         case hasNext = "has_next"
         case hasPrevious = "has_prev"
