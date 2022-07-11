@@ -7,8 +7,8 @@
 
 import UIKit
 
-struct ProductAPI<T: Decodable> {
-    func fetch(_ fileName: String) -> Result<T, APIError> {
+struct ProductAPI {
+    func fetch<T: Decodable>(_ fileName: String, for type: T.Type) -> Result<T, APIError> {
         let jsonDecoder = JSONDecoder()
 
         do {
