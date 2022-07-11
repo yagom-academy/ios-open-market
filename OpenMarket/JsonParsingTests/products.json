@@ -1,4 +1,3 @@
-let productsJson = """
 {
   "page_no": 1,
   "items_per_page": 20,
@@ -141,5 +140,3 @@ let productsJson = """
   "has_next": false,
   "has_prev": false
 }
-
-""".data(using: .utf8)
