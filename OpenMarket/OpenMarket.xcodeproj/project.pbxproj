@@ -50,6 +50,87 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		4F4F1130287BFA63006D41A4 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				4F4F1135287BFAED006D41A4 /* Presentation */,
+				4F4F1136287BFAF9006D41A4 /* Domain */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		4F4F1131287BFA6F006D41A4 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		4F4F1132287BFA78006D41A4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4F4F1133287BFA82006D41A4 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		4F4F1134287BFA87006D41A4 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				C70FB10825BEF61D00C9924E /* Info.plist */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		4F4F1135287BFAED006D41A4 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				4F4F1139287BFB12006D41A4 /* ViewControllers */,
+				4F4F1138287BFB0B006D41A4 /* Views */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		4F4F1136287BFAF9006D41A4 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				4F4F1137287BFB04006D41A4 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		4F4F1137287BFB04006D41A4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4F4F1138287BFB0B006D41A4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4F4F1139287BFB12006D41A4 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -64,12 +145,11 @@
 			isa = PBXGroup;
 			children = (
 				90F3BBE8287BE11900E81F76 /* .swiftlint.yml */,
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
+				4F4F1130287BFA63006D41A4 /* Application */,
+				4F4F1131287BFA6F006D41A4 /* Networking */,
+				4F4F1132287BFA78006D41A4 /* Extensions */,
+				4F4F1133287BFA82006D41A4 /* Utilities */,
+				4F4F1134287BFA87006D41A4 /* Assets */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -340,7 +420,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GDKDK6KP5Z;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/Assets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -361,7 +441,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GDKDK6KP5Z;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/Assets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
