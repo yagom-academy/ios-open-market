@@ -11,6 +11,7 @@
 		18761AEA287BF6AD00057C43 /* tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AE9287BF6AD00057C43 /* tests.swift */; };
 		18761AEB287BF84500057C43 /* tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AE9287BF6AD00057C43 /* tests.swift */; };
 		18761AEC287BF84800057C43 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
+		18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */; };
 		B4816965287BF4D2004359E3 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -34,6 +35,7 @@
 		18761AE0287BF67500057C43 /* JsonParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18761AE2287BF67500057C43 /* JsonParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParsingTests.swift; sourceTree = "<group>"; };
 		18761AE9287BF6AD00057C43 /* tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tests.swift; sourceTree = "<group>"; };
+		18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
 		B4816964287BF4D2004359E3 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +73,30 @@
 			path = JsonParsingTests;
 			sourceTree = "<group>";
 		};
+		18761AEE287C0AF800057C43 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		18761AF0287C0B0800057C43 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B4816964287BF4D2004359E3 /* Products.swift */,
+				18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		18761AF1287C0B0E00057C43 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -94,11 +120,12 @@
 			children = (
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				B4816964287BF4D2004359E3 /* Products.swift */,
+				18761AF0287C0B0800057C43 /* Models */,
+				18761AF1287C0B0E00057C43 /* Controllers */,
+				18761AEE287C0AF800057C43 /* Views */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 				18761AE9287BF6AD00057C43 /* tests.swift */,
 			);
@@ -218,6 +245,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				18761AEA287BF6AD00057C43 /* tests.swift in Sources */,
 				B4816965287BF4D2004359E3 /* Products.swift in Sources */,
+				18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
@@ -261,7 +289,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = bonf.JsonParsingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -280,7 +308,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = bonf.JsonParsingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
