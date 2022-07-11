@@ -10,7 +10,6 @@
 		18761AE3287BF67500057C43 /* JsonParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AE2287BF67500057C43 /* JsonParsingTests.swift */; };
 		18761AEC287BF84800057C43 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */; };
-		18761AF7287C0FF500057C43 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AF6287C0FF500057C43 /* URLSessionError.swift */; };
 		B4816965287BF4D2004359E3 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		B4816990287C0E2C004359E3 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = B481698D287C0CFC004359E3 /* products.json */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -35,7 +34,6 @@
 		18761AE0287BF67500057C43 /* JsonParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18761AE2287BF67500057C43 /* JsonParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParsingTests.swift; sourceTree = "<group>"; };
 		18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
-		18761AF6287C0FF500057C43 /* URLSessionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionError.swift; sourceTree = "<group>"; };
 		B4816964287BF4D2004359E3 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		B481698D287C0CFC004359E3 /* products.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,7 +85,6 @@
 			children = (
 				B4816964287BF4D2004359E3 /* Products.swift */,
 				18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */,
-				18761AF6287C0FF500057C43 /* URLSessionError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -244,7 +241,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18761AF7287C0FF500057C43 /* URLSessionError.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				B4816965287BF4D2004359E3 /* Products.swift in Sources */,
 				18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */,
