@@ -10,14 +10,5 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let path = Bundle.main.path(forResource: "mock", ofType: "json") else {
-            return
-        }
-        
-        print(path)
     }
-
-
 }
-
