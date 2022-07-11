@@ -14,6 +14,22 @@ struct ProductsDataManager {
                 return
             }
             
+            if let response = response as? HTTPURLResponse {
+                switch response.statusCode {
+                case 300..<400:
+                    completion(.failure(URLSessionError.redirection))
+                    return
+                case 400..<500:
+                    completion(.failure(URLSessionError.clientError))
+                    return
+                case 500..<600:
+                    completion(.failure(URLSessionError.serverError))
+                    return
+                default:
+                    break
+                }
+            }
+            
             guard let data = data else {
                 let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "")
                 completion(.failure(DecodingError.dataCorrupted(decodingContext)))
