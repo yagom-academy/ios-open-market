@@ -8,12 +8,62 @@
 import XCTest
 @testable import OpenMarket
 
+struct MockData {
+    let data: Data? = NSDataAsset.init(name: "products")?.data
+}
+
+class MockURLSessionDataTask: URLSessionDataTask {
+    override init() {}
+    var resumeDidCall: () -> Void = {}
+
+    override func resume() {
+        resumeDidCall
+    }
+}
+
+class MockURLSession: URLSessionProtocol {
+    var isRequestSuccess: Bool
+    var sessionDataTask: MockURLSessionDataTask?
+
+    init(isRequestSuccess: Bool = true) {
+        self.isRequestSuccess = isRequestSuccess
+    }
+
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+
+        let successResponse = HTTPURLResponse(url: request.url!,
+                                             statusCode: 200,
+                                             httpVersion: "2",
+                                             headerFields: nil)
+        let failureResponse = HTTPURLResponse(url: request.url!,
+                                              statusCode: 402,
+                                              httpVersion: "2",
+                                              headerFields: nil)
+
+        let sessionDataTask = MockURLSessionDataTask()
+
+        if isRequestSuccess {
+            sessionDataTask.resumeDidCall = {
+                completionHandler(MockData().data, successResponse, nil)
+            }
+        } else {
+            sessionDataTask.resumeDidCall = {
+                completionHandler(nil, failureResponse, nil)
+            }
+        }
+
+        self.sessionDataTask = sessionDataTask
+        return sessionDataTask
+    }
+}
+
 class ProductAPITests: XCTestCase {
+    let mockSession = MockURLSession()
     var sut: ProductAPI!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = ProductAPI()
+        sut = .init(session: mockSession)
     }
 
     override func tearDownWithError() throws {
@@ -22,61 +72,21 @@ class ProductAPITests: XCTestCase {
         sut = nil
     }
 
-    func test_주어진_파일에서_데이터반환() {
-        // given
-        let expectation = "KRW"
+    func test_데이터를_불러왔을때_불러온_데이터를_반환() {
+        guard let data = MockData().data,
+              let expectation = try? JSONDecoder().decode(Products.self, from: data) else {
+            XCTFail("No data for expectation")
+            return
+        }
 
-        // when
-        let fetchedData = sut.fetch("products", for: Products.self)
-        var result: Products? {
-            switch fetchedData {
+        sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
+                 for: Products.self) { result in
+            switch result {
             case .success(let products):
-                return products
+                XCTAssertEqual(expectation, products)
             case .failure(_):
-                return nil
+                XCTFail("Failed to load data")
             }
         }
-        let currency = result?.pages[0].currency
-
-        // then
-        XCTAssertEqual(expectation, currency)
-    }
-
-    func test_데이터파일이_없을때_jsonFileNotFound_오류반환() {
-        // given
-        let expectation = APIError.jsonFileNotFound
-
-        // when
-        let fetchedData = sut.fetch("product", for: Products.self)
-        var error: APIError? {
-            switch fetchedData {
-            case .success(_):
-                return nil
-            case .failure(let error):
-                return error
-            }
-        }
-
-        // then
-        XCTAssertEqual(expectation, error)
-    }
-
-    func test_디코딩에_실패했을때_failedToDecode_오류반환() {
-        // given
-        let expectation = APIError.failedToDecode
-
-        // when
-        let fetchedData = sut.fetch("products", for: Product.self)
-        var error: APIError? {
-            switch fetchedData {
-            case .success(_):
-                return nil
-            case .failure(let error):
-                return error
-            }
-        }
-
-        // then
-        XCTAssertEqual(expectation, error)
     }
 }

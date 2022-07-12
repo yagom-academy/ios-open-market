@@ -10,34 +10,23 @@ import UIKit
 struct ProductAPI {
     private let session: URLSessionProtocol
 
-    init(_ session: URLSessionProtocol = URLSession.shared) {
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
-
-    func fetch<T: Decodable>(_ fileName: String, for type: T.Type) -> Result<T, APIError> {
-        let jsonDecoder = JSONDecoder()
-
-        do {
-            guard let asset = NSDataAsset.init(name: fileName) else {
-                return .failure(.jsonFileNotFound)
-            }
-
-            let result = try jsonDecoder.decode(T.self, from: asset.data)
-            return .success(result)
-        } catch {
-            return .failure(.failedToDecode)
-        }
-    }
-
+    
     func call<T: Decodable>(_ urlString: String, for type: T.Type, completion: @escaping (Result<T, APIError>) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(.failure(.invalidURL))
             return
         }
 
-        let requestURL = URLRequest(url: url)
+        let request = URLRequest(url: url)
+        
+        dataTask(request: request, completion: completion)
+    }
 
-        let task = self.session.dataTask(with: requestURL) { (data, response, error) in
+    private func dataTask<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
+        let task = session.dataTask(with: request) { (data, response, error) in
 
             guard let response = response as? HTTPURLResponse,
                   (200...299) ~= response.statusCode else {

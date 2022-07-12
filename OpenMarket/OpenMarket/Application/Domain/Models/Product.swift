@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-struct Products: Codable {
+struct Products: Codable, Equatable {
     let pages: [Product]
 }
 
-struct Product: Codable {
+struct Product: Codable, Equatable {
     let id: Int
     let vendorId: Int
     let name: String
