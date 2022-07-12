@@ -13,28 +13,40 @@ struct ProductAPI {
 
         do {
             guard let asset = NSDataAsset.init(name: fileName) else {
-                return .failure(APIError.jsonFileNotFound)
+                return .failure(.jsonFileNotFound)
             }
 
             let result = try jsonDecoder.decode(T.self, from: asset.data)
             return .success(result)
         } catch {
-            return .failure(APIError.failedToDecode)
+            return .failure(.failedToDecode)
         }
     }
 
     func call<T: Decodable>(_ urlString: String, for type: T.Type, completion: @escaping (Result<T, APIError>) -> Void) {
         guard let url = URL(string: urlString) else {
-            completion(.failure(APIError.failedToDecode))
+            completion(.failure(.invalidURL))
             return
         }
 
         let requestURL = URLRequest(url: url)
 
-        let task = URLSession.shared.dataTask(with: requestURL) { (data, _, _) in
+        let task = URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+
+            guard let response = response as? HTTPURLResponse,
+                  (200...299) ~= response.statusCode else {
+                completion(.failure(.networkConnectionIsBad))
+                return
+            }
+
+            if error != nil {
+                completion(.failure(.unknownErrorOccured))
+                return
+            }
+
             guard let data = data,
                   let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
-                completion(.failure(APIError.failedToDecode))
+                completion(.failure(.failedToDecode))
                 return
             }
 
