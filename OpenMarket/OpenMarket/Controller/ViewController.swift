@@ -16,7 +16,4 @@ let openMarketURLsession = OpenMarketURLSession()
             dump(array)
         }
     }
-
-
 }
-

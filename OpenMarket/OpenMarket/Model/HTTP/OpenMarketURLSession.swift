@@ -27,7 +27,8 @@ class OpenMarketURLSession {
             }
             
             guard let safeData = data else { return }
-            print(String(decoding: safeData, as: UTF8.self))
+            let itemData: ItemList? = JSONDecoder.decodeJson(jsonData: safeData)
+            completion(itemData)
         }
         task.resume()
     }

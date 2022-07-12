@@ -23,3 +23,17 @@ extension JSONDecoder {
         }
     }
 }
+
+extension JSONDecoder {
+    static func decodeJson<T: Codable>(jsonData: Data) -> T? {
+        let decoder = JSONDecoder()
+        
+        do {
+            let itemInfo =  try decoder.decode(T.self, from: jsonData)
+            return itemInfo
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+}
