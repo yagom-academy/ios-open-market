@@ -1,6 +1,6 @@
 import Foundation
 
-struct Page: Codable {
+struct Page: Decodable {
     let id: Int
     let vendorId: Int
     let name: String
@@ -28,7 +28,7 @@ struct Page: Codable {
     }
 }
 
-struct Products: Codable {
+struct Products: Decodable {
     let pageNo: Int
     let itemsPerPage: Int
     let totalCount: Int
