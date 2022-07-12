@@ -32,9 +32,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "72136A1D287C1C9B00AAA3A0"
+               BlueprintIdentifier = "72136A2A287C1D4800AAA3A0"
                BuildableName = "ItemListTest.xctest"
                BlueprintName = "ItemListTest"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "72A8FE98287DB17200EB4338"
+               BuildableName = "OpenMarketURLSessionTests.xctest"
+               BlueprintName = "OpenMarketURLSessionTests"
                ReferencedContainer = "container:OpenMarket.xcodeproj">
             </BuildableReference>
          </TestableReference>
