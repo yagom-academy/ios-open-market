@@ -19,17 +19,25 @@ class RequestTests: XCTestCase {
     }
     
     func test_APIRequest를_받아와서_디코딩이_잘되는지() {
+        // given
+        let expectation = expectation(description: "비동기 요청을 기다림.")
         struct RequestData: APIRequest {}
         let requestData = RequestData()
-
-        requestData.requestData(pageNumber: 1, itemPerPage: 10)
-        { (result: Result<ProductsList, Error>) in
+        var resultName: String?
+        
+        // when
+        requestData.requestData(pageNumber: 1, itemPerPage: 1)
+        { (result: Result<ProductsDetailList, Error>) in
                 switch result {
                 case .success(let data):
-                    print(data.pages[0].name)
+                    resultName = data.pages[0].name
                 case .failure(let error):
                     print(error)
                 }
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 300)
+        // then
+        XCTAssertEqual("1", resultName)
     }
 }

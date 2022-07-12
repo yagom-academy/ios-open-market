@@ -29,7 +29,7 @@ protocol APIRequest {
 extension APIRequest {
     func requestData(pageNumber: Int,
                      itemPerPage: Int,
-                     completion: @escaping (Result<ProductsList, Error>) -> Void) {
+                     completion: @escaping (Result<ProductsDetailList, Error>) -> Void) {
         var urlComponets = URLComponents(string: URLHost.openMarket + URLAdditionalPath.product)
         let pageNumber = URLQueryItem(name: "page_no", value: "\(pageNumber)")
         let itemPerPage = URLQueryItem(name: "items_per_page", value: "\(itemPerPage)")
@@ -38,7 +38,7 @@ extension APIRequest {
         guard let url = urlComponets?.url else { return }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {
-                print(error as Any)
+                completion(.failure(error ?? NetworkError.requestError))
                 return
             }
             
@@ -49,9 +49,8 @@ extension APIRequest {
                 return
             }
             
-            
             guard let safeData = data else { return }
-            guard let decodedData = try? JSONDecoder().decode(ProductsList.self,
+            guard let decodedData = try? JSONDecoder().decode(ProductsDetailList.self,
                                                               from: safeData)
             else {
                 completion(.failure(CodableError.decodeError))

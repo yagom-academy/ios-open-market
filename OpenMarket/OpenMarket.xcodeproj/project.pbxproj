@@ -139,8 +139,8 @@
 				37239698287D054E001EFC70 /* ProductsDetailList.swift */,
 				D71BB6DF287D07CE006035C6 /* ProductDetail.swift */,
 				D71BB6DD287D0722006035C6 /* ProductsList.swift */,
-				3723969E287D11F0001EFC70 /* SecretProducts.swift */,
 				D71BB6E1287D098E006035C6 /* ProductImage.swift */,
+				3723969E287D11F0001EFC70 /* SecretProducts.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
