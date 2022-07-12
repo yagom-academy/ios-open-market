@@ -8,6 +8,12 @@
 import UIKit
 
 struct ProductAPI {
+    private let session: URLSessionProtocol
+
+    init(_ session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+
     func fetch<T: Decodable>(_ fileName: String, for type: T.Type) -> Result<T, APIError> {
         let jsonDecoder = JSONDecoder()
 
@@ -31,7 +37,7 @@ struct ProductAPI {
 
         let requestURL = URLRequest(url: url)
 
-        let task = URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+        let task = self.session.dataTask(with: requestURL) { (data, response, error) in
 
             guard let response = response as? HTTPURLResponse,
                   (200...299) ~= response.statusCode else {
