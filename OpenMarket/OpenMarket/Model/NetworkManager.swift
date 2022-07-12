@@ -9,21 +9,21 @@ import Foundation
 
 class NetworkManager {
     let session: URLSessionProtocol
-
+    
     init(session: URLSessionProtocol = URLSession(configuration: .default)) {
         self.session = session
     }
-
+    
     func fetch<T: Decodable>(dataType: T.Type, request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
-
+        
         let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-
+            
             if let data = data,
-                let response = response as? HTTPURLResponse,
+               let response = response as? HTTPURLResponse,
                (200...299).contains(response.statusCode){
                 do {
                     let data = try JSONDecoder().decode(dataType, from: data)
