@@ -17,6 +17,7 @@ struct ProductDetail: Decodable {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
+    let images: [ProductImage]
     let createdAt: Date
     let issuedAt: Date
     
@@ -30,6 +31,7 @@ struct ProductDetail: Decodable {
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
+        case images
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }

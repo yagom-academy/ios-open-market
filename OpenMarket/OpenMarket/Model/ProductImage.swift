@@ -1,11 +1,11 @@
 //
-//  Image.swift
+//  ProductImage.swift
 //  OpenMarket
 //
 //  Created by 김동용 on 2022/07/12.
 //
 
-struct Image: Codable {
+struct ProductImage: Codable {
     let id: Int
     let url: String
     let thumbnailURL: String
