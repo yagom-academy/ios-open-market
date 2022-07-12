@@ -12,15 +12,15 @@ enum DataTaskError: Error {
     case invalidDataError
 }
 
-struct URLSessionProvider {
-    let session: URLSessionProtocol
-    let baseURL = "https://market-training.yagom-academy.kr/"
+class URLSessionProvider {
+    private let session: URLSessionProtocol
+    private let baseURL = "https://market-training.yagom-academy.kr/"
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
     
-    func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+   private func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
         let task = session.dataTask(with: request) { data, urlResponse, error in
             guard let response = urlResponse as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 return completionHandler(.failure(.incorrectResponseError))
