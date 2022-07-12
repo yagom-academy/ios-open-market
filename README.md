@@ -20,7 +20,7 @@
     - [🚀 STEP 1](#-STEP-1)
 
 - STEP 내용
-    - [1️⃣ STEP 1](https://github.com/bradheo65/ios-open-market/tree/step01/Docs/Step01.md)
+    - [1️⃣ STEP 1](https://github.com/bradheo65/ios-open-market/blob/Step1/Docs/Step01.md)
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
 
