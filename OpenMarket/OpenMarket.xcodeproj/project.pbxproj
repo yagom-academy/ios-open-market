@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05B5A7D2287D4E1600865293 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B5A7D1287D4E1600865293 /* URLSessionProtocol.swift */; };
 		8F4809B4287CFB3A00A77BCD /* MarketInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4809B3287CFB3A00A77BCD /* MarketInformation.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05B5A7D1287D4E1600865293 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		8F4809B3287CFB3A00A77BCD /* MarketInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInformation.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				8F4809B3287CFB3A00A77BCD /* MarketInformation.swift */,
+				05B5A7D1287D4E1600865293 /* URLSessionProtocol.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05B5A7D2287D4E1600865293 /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				8F4809B4287CFB3A00A77BCD /* MarketInformation.swift in Sources */,
