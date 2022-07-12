@@ -6,15 +6,12 @@
 //
 import UIKit
 
-func decodeJsonData() -> ProductPage? {
-    guard let filePath = NSDataAsset.init(name: "MockData") else {
-        return nil
-    }
-    
+func decode<T: Decodable>(from data: Data, to type: T.Type) -> T? {
     let decoder = JSONDecoder()
-    var fetchedData: ProductPage?
+    var fetchedData: T
     do {
-        fetchedData = try decoder.decode(ProductPage.self, from: filePath.data)
+        fetchedData = try decoder.decode(type, from: data)
+        return fetchedData
     } catch {
         switch error {
         case DecodingError.typeMismatch(let type, let context):
@@ -29,6 +26,6 @@ func decodeJsonData() -> ProductPage? {
         default:
             break
         }
+        return nil
     }
-    return fetchedData
 }
