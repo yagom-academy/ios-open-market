@@ -15,6 +15,8 @@
 		453EAC60287C347200EFCBB9 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC4C287C048300EFCBB9 /* Product.swift */; };
 		453EAC61287C347400EFCBB9 /* ProductPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFBDAA6287C0C1E001540FD /* ProductPage.swift */; };
 		453EAC62287C347700EFCBB9 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC4E287C050100EFCBB9 /* Currency.swift */; };
+		453EAC64287C7BFB00EFCBB9 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC63287C7BFB00EFCBB9 /* URLSession.swift */; };
+		453EAC67287C7C6300EFCBB9 /* URLCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC66287C7C6300EFCBB9 /* URLCommand.swift */; };
 		AF3D5330287C0FE500DBFAFA /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */; };
 		AFFBDAA7287C0C1E001540FD /* ProductPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFBDAA6287C0C1E001540FD /* ProductPage.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -40,6 +42,8 @@
 		453EAC4E287C050100EFCBB9 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		453EAC55287C341400EFCBB9 /* DataFetchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataFetchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		453EAC57287C341400EFCBB9 /* DataFetchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchTests.swift; sourceTree = "<group>"; };
+		453EAC63287C7BFB00EFCBB9 /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
+		453EAC66287C7C6300EFCBB9 /* URLCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCommand.swift; sourceTree = "<group>"; };
 		AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		AFFBDAA6287C0C1E001540FD /* ProductPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPage.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,10 +92,19 @@
 			path = DataFetchTests;
 			sourceTree = "<group>";
 		};
+		453EAC65287C7C5900EFCBB9 /* Command */ = {
+			isa = PBXGroup;
+			children = (
+				453EAC66287C7C6300EFCBB9 /* URLCommand.swift */,
+			);
+			path = Command;
+			sourceTree = "<group>";
+		};
 		AF3D532E287C0FD500DBFAFA /* Utility */ = {
 			isa = PBXGroup;
 			children = (
 				AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */,
+				453EAC63287C7BFB00EFCBB9 /* URLSession.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -117,6 +130,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				453EAC65287C7C5900EFCBB9 /* Command */,
 				AF3D532E287C0FD500DBFAFA /* Utility */,
 				453EAC4B287C00C900EFCBB9 /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -245,10 +259,12 @@
 			files = (
 				AF3D5330287C0FE500DBFAFA /* JsonDecoder.swift in Sources */,
 				AFFBDAA7287C0C1E001540FD /* ProductPage.swift in Sources */,
+				453EAC64287C7BFB00EFCBB9 /* URLSession.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				453EAC4F287C050100EFCBB9 /* Currency.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				453EAC67287C7C6300EFCBB9 /* URLCommand.swift in Sources */,
 				453EAC4D287C048300EFCBB9 /* Product.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

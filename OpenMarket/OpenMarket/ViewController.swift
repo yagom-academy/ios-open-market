@@ -9,7 +9,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //checkUrl()
+        //checkUrlComponents()
+        dataTask()
     }
 }
 
