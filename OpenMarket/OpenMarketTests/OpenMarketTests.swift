@@ -38,8 +38,10 @@ class OpenMarketTests: XCTestCase {
         
         // when
         var result: MarketInformation?
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
         
-        sut.fetch(for: url,
+        sut.fetch(request: request,
                   dataType: MarketInformation.self) { response in
             if case let .success(product) = response {
                 result = product
@@ -79,8 +81,10 @@ class OpenMarketTests: XCTestCase {
         
         // when
         var result: MarketInformation?
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
         
-        sut.fetch(for: url,
+        sut.fetch(request: request,
                   dataType: MarketInformation.self) { response in
             if case let .success(product) = response {
                 result = product
@@ -115,8 +119,10 @@ class OpenMarketTests: XCTestCase {
         
         // when
         var result: Error?
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
         
-        sut.fetch(for: url,
+        sut.fetch(request: request,
                   dataType: MarketInformation.self) { response in
             if case let .failure(error) = response {
                 result = error

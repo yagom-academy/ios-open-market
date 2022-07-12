@@ -14,14 +14,9 @@ class NetworkManager {
         self.session = session
     }
     
-    func fetch<T: Decodable>(for url: String, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetch<T: Decodable>(request: URLRequest, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         
-        guard let url = URL(string: url) else {
-            return
-        }
-        
-        let dataTask: URLSessionDataTask = session.dataTask(with: url, completionHandler: { (data, response, error) in
-            
+        let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -42,7 +37,8 @@ class NetworkManager {
             } else {
                 completion(.failure(NetworkError.outOfRange))
             }
-        })
+        }
+        
         dataTask.resume()
     }
 }
