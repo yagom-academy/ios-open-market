@@ -8,24 +8,26 @@
 import Foundation
 
 class OpenMarketURLSession {
-    let baseURL = "{{api-host}}/"
-    let session = URLSession(configuration: .default)
-    
-    func dataTask(url: String) {
-        guard let url = URL(string: "\(baseURL) + \(url)") else { return }
-        let request = URLRequest(url: url)
+    func getMethod(url: String, completion: @escaping (ItemList?) -> Void) {
+        guard let url = URL(string: url) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
         
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
+                print("Error: error calling GET")
+                print(error!)
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
+                print("Error: HTTP request failed")
                 return
             }
             
             guard let safeData = data else { return }
+            print(String(decoding: safeData, as: UTF8.self))
         }
         task.resume()
     }
