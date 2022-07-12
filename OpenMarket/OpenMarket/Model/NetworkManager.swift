@@ -10,27 +10,38 @@ import Foundation
 class NetworkManager {
     let session: URLSessionProtocol
     
-    init(session: URLSessionProtocol = URLSession(configuration: .default)) {
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func fetch<T: Decodable>(dataType: T.Type, request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+    func fetch<T: Decodable>(for url: String, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         
-        let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
+        guard let url = URL(string: url) else {
+            return
+        }
+        
+        let dataTask: URLSessionDataTask = session.dataTask(with: url, completionHandler: { (data, response, error) in
+            let responseTest = response as! HTTPURLResponse
+            
             if let error = error {
                 completion(.failure(error))
                 return
             }
             
-            if let data = data,
-               let response = response as? HTTPURLResponse,
-               (200...299).contains(response.statusCode){
+            guard let data = data,
+                  let response = response as? HTTPURLResponse else {
+                return
+            }
+            
+            if (200..<400).contains(response.statusCode) {
                 do {
                     let data = try JSONDecoder().decode(dataType, from: data)
+                    completion(.success(data))
                 } catch {
                     completion(.failure(error))
                 }
             }
-        }).resume()
+        })
+        dataTask.resume()
     }
 }
