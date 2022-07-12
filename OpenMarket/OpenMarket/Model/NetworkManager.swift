@@ -38,8 +38,10 @@ class NetworkManager {
                     let data = try JSONDecoder().decode(dataType, from: data)
                     completion(.success(data))
                 } catch {
-                    completion(.failure(error))
+                    completion(.failure(NetworkError.failToDecoding))
                 }
+            } else {
+                completion(.failure(NetworkError.outOfRange))
             }
         })
         dataTask.resume()

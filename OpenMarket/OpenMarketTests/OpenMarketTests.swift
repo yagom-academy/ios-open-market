@@ -55,5 +55,33 @@ class OpenMarketTests: XCTestCase {
             }
         }
     }
+    
+    func test_fetchData_Data가_있고_statusCode가_500일때() {
+        // given
+        let url = "https://market-training.yagom-academy.kr/api/products/3541"
+        let mockResponse: MockURLSession.Response = {
+            let data = NSDataAsset(name: "products", bundle: .main)?.data
+            let successResponse = HTTPURLResponse(url: URL(string: url)!,
+                                                  statusCode: 500,
+                                                  httpVersion: nil,
+                                                  headerFields: nil)
+            return (data: data,
+                    urlResponse: successResponse,
+                    error: nil)
+        }()
+        let mockURLSession = MockURLSession(response: mockResponse)
+        let sut = NetworkManager(session: mockURLSession)
+        
+        // when
+        var result: Error?
+        
+        sut.fetch(for: url,
+                  dataType: MarketInformation.self) { response in
+            if case let .failure(error) = response {
+                result = error
+                XCTAssertNotNil(result)
+            }
+        }
+    }
 }
 
