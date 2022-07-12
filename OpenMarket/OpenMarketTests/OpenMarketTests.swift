@@ -22,7 +22,7 @@ class OpenMarketTests: XCTestCase {
     
     func test_fetchData_Data가_있고_statusCode가_200일때() {
         // given
-        let url = "https://market-training.yagom-academy.kr/api/products/3541"
+        let url = "https://market-training.yagom-academy.kr/"
         let mockResponse: MockURLSession.Response = {
             let data = NSDataAsset(name: "products", bundle: .main)?.data
             let successResponse = HTTPURLResponse(url: URL(string: url)!,
@@ -56,9 +56,50 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
+    func test_fetchData_statusCode가_200이고_원하는_값이_아닐때() {
+        // given
+        struct MarketInformationTest: Decodable {
+            let pageNo: Int
+        }
+        
+        
+        let url = "https://market-training.yagom-academy.kr/"
+        let mockResponse: MockURLSession.Response = {
+            let data = NSDataAsset(name: "products", bundle: .main)?.data
+            let successResponse = HTTPURLResponse(url: URL(string: url)!,
+                                                  statusCode: 200,
+                                                  httpVersion: nil,
+                                                  headerFields: nil)
+            return (data: data,
+                    urlResponse: successResponse,
+                    error: nil)
+        }()
+        let mockURLSession = MockURLSession(response: mockResponse)
+        let sut = NetworkManager(session: mockURLSession)
+        
+        // when
+        var result: MarketInformation?
+        
+        sut.fetch(for: url,
+                  dataType: MarketInformation.self) { response in
+            if case let .success(product) = response {
+                result = product
+                
+                // then
+                guard let data = NSDataAsset(name: "products")?.data else {
+                    return
+                }
+                
+                let expectation = try? JSONDecoder().decode(MarketInformationTest.self, from: data)
+                
+                XCTAssertEqual(result?.pageNo, expectation?.pageNo)
+            }
+        }
+    }
+    
     func test_fetchData_Data가_있고_statusCode가_500일때() {
         // given
-        let url = "https://market-training.yagom-academy.kr/api/products/3541"
+        let url = "https://market-training.yagom-academy.kr/"
         let mockResponse: MockURLSession.Response = {
             let data = NSDataAsset(name: "products", bundle: .main)?.data
             let successResponse = HTTPURLResponse(url: URL(string: url)!,
