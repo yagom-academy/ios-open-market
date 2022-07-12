@@ -5,7 +5,6 @@
 //  Created by 주디, 재재 on 2022/07/12.
 //
 
-import Foundation
 import UIKit
 
 
