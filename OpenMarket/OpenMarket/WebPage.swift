@@ -1,12 +1,12 @@
 //
-//  Market.swift
+//  WebPage.swift
 //  OpenMarket
 //
 //  Created by 케이, 수꿍 on 2022/07/11.
 //
 
-struct Market: Codable, Equatable {
-    static func == (lhs: Market, rhs: Market) -> Bool {
+struct WebPage: Codable, Equatable {
+    static func == (lhs: WebPage, rhs: WebPage) -> Bool {
         return type(of: lhs) == type(of: rhs)
     }
     

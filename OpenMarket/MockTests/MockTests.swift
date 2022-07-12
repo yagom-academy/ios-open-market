@@ -23,7 +23,7 @@ class MockTests: XCTestCase {
     
     func test_fetchData_메서드가_status_code가_200일때_mock_data를_예상한_값과_동일하게_가져오는지_테스트() throws {
         // given
-        let expectation: Market? = JSONData.decode(fileName: "Mock", fileExtension: "json", dataType: Market.self)
+        let expectation: WebPage? = JSONData.decode(fileName: "Mock", fileExtension: "json", dataType: WebPage.self)
         
         let url = "https://market-training.yagom-academy.kr/"
         let mockResponse: MockURLSession.Response = {
@@ -32,12 +32,12 @@ class MockTests: XCTestCase {
             return (data: data, urlResponse: successResponse, error: nil)
         }()
         
-        var result: Market?
+        var result: WebPage?
         let mockURLSession = MockURLSession(response: mockResponse)
         let sut = URLData(session: mockURLSession)
         
         // when
-        sut.fetchData(url: URL(string: url)!, dataType: Market.self) { response in
+        sut.fetchData(url: URL(string: url)!, dataType: WebPage.self) { response in
             if case let .success(market) = response {
                 result = market
             }
@@ -45,5 +45,31 @@ class MockTests: XCTestCase {
         
         // then
         XCTAssertEqual(expectation?.pages.count, result?.pages.count)
+    }
+    
+    func test_fetchData_메서드가_status_code가_500일때_mock_data를_가져오는데_실패하는지_테스트() throws {
+        // given
+        let expectation: WebPage? = JSONData.decode(fileName: "Mock", fileExtension: "json", dataType: WebPage.self)
+        
+        let url = "https://market-training.yagom-academy.kr/"
+        let mockResponse: MockURLSession.Response = {
+            let data = JSONData.parse(fileName: "Mock", fileExtension: "json")
+            let successResponse = HTTPURLResponse(url: URL(string: url)!, statusCode: 500, httpVersion: nil, headerFields: nil)
+            return (data: data, urlResponse: successResponse, error: nil)
+        }()
+        
+        var result: WebPage?
+        let mockURLSession = MockURLSession(response: mockResponse)
+        let sut = URLData(session: mockURLSession)
+        
+        // when
+        sut.fetchData(url: URL(string: url)!, dataType: WebPage.self) { response in
+            if case let .success(market) = response {
+                result = market
+            }
+        }
+        
+        // then
+        XCTAssertNotEqual(expectation?.pages.count, result?.pages.count)
     }
 }
