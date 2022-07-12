@@ -21,7 +21,6 @@ class NetworkManager {
         }
         
         let dataTask: URLSessionDataTask = session.dataTask(with: url, completionHandler: { (data, response, error) in
-            let responseTest = response as! HTTPURLResponse
             
             if let error = error {
                 completion(.failure(error))
