@@ -2,7 +2,7 @@
 //  ItemList.swift
 //  OpenMarket
 //
-//  Created by Kiwon Song on 2022/07/11.
+//  Created by Kiwi, Hugh on 2022/07/11.
 //
 
 import Foundation
