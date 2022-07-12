@@ -8,11 +8,11 @@
 import UIKit
 
 
-class MockURLSessionDataTask: URLSessionDataTask {
+class MockURLSessionDataTask: URLSessionDataTaskProtocol {
     var newResume: () -> Void = {}
     
-    override func resume() {
-        newResume
+    func resume() {
+        newResume()
     }
 }
 
@@ -23,7 +23,7 @@ class MockURLSession: URLSessionProtocol {
         self.isSuccess = isSuccess
     }
     
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         var success: HTTPURLResponse?
         var failure: HTTPURLResponse?
         
