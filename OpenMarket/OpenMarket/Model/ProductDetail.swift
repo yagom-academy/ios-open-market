@@ -8,19 +8,19 @@
 import Foundation
 
 struct ProductDetail: Decodable {
-    private(set) var id: Int
-    private(set) var venderID: Int
-    private(set) var name: String
-    private(set) var thumbnail: String
-    private(set) var currency: String
-    private(set) var price: Int
-    private(set) var bargainPrice: Int
-    private(set) var discountedPrice: Int
-    private(set) var stock: Int
-    private(set) var createdAt: Date
-    private(set) var issuedAt: Date
+    let id: Int
+    let venderID: Int
+    let name: String
+    let thumbnail: String
+    let currency: Currency
+    let price: Int
+    let bargainPrice: Int
+    let discountedPrice: Int
+    let stock: Int
+    let createdAt: Date
+    let issuedAt: Date
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case venderID = "vendor_id"
         case name

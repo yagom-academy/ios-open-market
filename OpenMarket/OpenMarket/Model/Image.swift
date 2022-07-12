@@ -5,14 +5,14 @@
 //  Created by 김동용 on 2022/07/12.
 //
 
-struct Image: Decodable {
-    private(set) var id: Int
-    private(set) var url: String
-    private(set) var thumbnailURL: String
-    private(set) var succeed: Bool
-    private(set) var issuedAt: String
+struct Image: Codable {
+    let id: Int
+    let url: String
+    let thumbnailURL: String
+    let succeed: Bool
+    let issuedAt: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case url
         case thumbnailURL = "thrumbnail_url"

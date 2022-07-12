@@ -1,16 +1,19 @@
 //
-//  Product.swift
+//  ProductList.swift
 //  OpenMarket
 //
-//  Created by NAMU on 2022/07/12.
+//  Created by 김동용 on 2022/07/12.
 //
 
-struct ProductsDetailList: Decodable {
+struct ProductsList: Decodable {
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
     let offset: Int
     let limit: Int
+    let lastPage: Int
+    let hasNext: Bool
+    let hasPrevious: Bool
     let pages: [ProductDetail]
     
     private enum CodingKeys: String, CodingKey {
@@ -19,6 +22,9 @@ struct ProductsDetailList: Decodable {
         case totalCount = "total_count"
         case offset
         case limit
+        case lastPage = "last_page"
+        case hasNext = "has_next"
+        case hasPrevious = "has_prev"
         case pages
     }
 }
