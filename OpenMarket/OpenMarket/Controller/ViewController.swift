@@ -11,9 +11,9 @@ let openMarketURLsession = OpenMarketURLSession()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        openMarketURLsession.getMethod(url: "https://market-training.yagom-academy.kr/api/products") { listArray in
-            guard let array = listArray else { return }
-            dump(array)
+        openMarketURLsession.getMethod(pageNumber: 1, itemsPerPage: 10) { listArray in
+            let itemData: ItemList? = JSONDecoder.decodeJson(jsonData: listArray!)
+            dump(itemData)
         }
     }
 }
