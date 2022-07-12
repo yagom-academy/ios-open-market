@@ -8,14 +8,14 @@
 import Foundation
 
 class URLData {
-    var session: URLSession
+    var session: URLSessionProtocol
     
-    init(session: URLSession) {
+    init(session: URLSessionProtocol) {
         self.session = session
     }
     
     func fetchData<T: Codable>(url: URL, dataType: T.Type, completion: @escaping (Result<T,Error>) -> Void) {
-        let dataTask: URLSessionDataTask = session.dataTask(with: url) { data, response, error in
+        let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return

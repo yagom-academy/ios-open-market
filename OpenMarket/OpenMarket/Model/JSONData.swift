@@ -8,19 +8,23 @@
 import Foundation
 
 struct JSONData {
-    func parse(fileName: String, fileExtension: String) -> Market? {
+    static func parse(fileName: String, fileExtension: String) -> Data? {
         guard let path = Bundle.main.path(forResource: fileName, ofType: fileExtension) else {
             return nil
         }
         guard let jsonString = try? String(contentsOfFile: path) else {
             return nil
         }
-        let decoder = JSONDecoder()
         let data = jsonString.data(using: .utf8)
-        guard let data = data,
-            let market = try? decoder.decode(Market.self, from: data) else {
+        return data
+    }
+    
+    static func decode<T: Decodable>(fileName: String, fileExtension: String, dataType: T.Type) -> T? {
+        guard let parsedData = JSONData.parse(fileName: fileName, fileExtension: fileExtension) else {
             return nil
         }
-        return market
+        let decoder = JSONDecoder()
+        let decodedData = try? decoder.decode(T.self, from: parsedData)
+        return decodedData
     }
 }

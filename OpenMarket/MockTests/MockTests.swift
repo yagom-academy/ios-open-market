@@ -9,49 +9,41 @@ import XCTest
 @testable import OpenMarket
 
 class MockTests: XCTestCase {
-    var sut: JSONData!
+    var sut: URLData!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        sut = JSONData()
     }
 
     override func tearDownWithError() throws {
         try super.setUpWithError()
-        
         sut = nil
     }
-
-    func test_parse_Mock_json_파일에서_마켓_타입을_정상적으로_가져오는지_테스트() throws {
-        // given
-        guard let market = sut.parse(fileName: "Mock", fileExtension: "json") else {
-            return
-        }
-        
-        // when
-        let result = Market.self == type(of: market)
-        
-        // then
-        XCTAssertTrue(result)
-    }
     
-    func test_parse_Mock_json_파일에서_추출한_pages의_각각의_id가_모두_추출되는지_테스트() throws {
-        //given
-        let expectation = [20, 19, 18, 17, 16, 15, 13, 4, 3, 2]
+    func test_fetchData_메서드가_status_code가_200일때_mock_data를_예상한_값과_동일하게_가져오는지_테스트() throws {
+        // given
+        let expectation: Market? = JSONData.decode(fileName: "Mock", fileExtension: "json", dataType: Market.self)
+        
+        let url = "https://market-training.yagom-academy.kr/"
+        let mockResponse: MockURLSession.Response = {
+            let data = JSONData.parse(fileName: "Mock", fileExtension: "json")
+            let successResponse = HTTPURLResponse(url: URL(string: url)!, statusCode: 200, httpVersion: nil, headerFields: nil)
+            return (data: data, urlResponse: successResponse, error: nil)
+        }()
+        
+        var result: Market?
+        let mockURLSession = MockURLSession(response: mockResponse)
+        let sut = URLData(session: mockURLSession)
         
         // when
-        guard let market = sut.parse(fileName: "Mock", fileExtension: "json") else {
-            return
-        }
-        
-        var result: [Int] = []
-        
-        market.pages.forEach {
-            result.append($0.id)
+        sut.fetchData(url: URL(string: url)!, dataType: Market.self) { response in
+            if case let .success(market) = response {
+                result = market
+            }
         }
         
         // then
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation?.pages.count, result?.pages.count)
     }
 }
