@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8ABFEF1E287D400200CB6BB9 /* UrlCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABFEF1D287D400200CB6BB9 /* UrlCollection.swift */; };
 		A3B08FD8287D04C0003337B3 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B08FD7287D04C0003337B3 /* JsonParser.swift */; };
 		A3F85D37287BEDA100AD00C7 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D36287BEDA100AD00C7 /* Network.swift */; };
 		A3F85D3F287BF5EC00AD00C7 /* JsonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D3E287BF5EC00AD00C7 /* JsonTest.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8ABFEF1D287D400200CB6BB9 /* UrlCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlCollection.swift; sourceTree = "<group>"; };
 		A3B08FD7287D04C0003337B3 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		A3F85D36287BEDA100AD00C7 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		A3F85D3C287BF5EC00AD00C7 /* JsonTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +74,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8ABFEF1C287D3FB300CB6BB9 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				8ABFEF1D287D400200CB6BB9 /* UrlCollection.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
 		A3B08FD6287D04AA003337B3 /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +119,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				8ABFEF1C287D3FB300CB6BB9 /* Enum */,
 				8ABFEF15287C14BE00CB6BB9 /* Model */,
 				A3B08FD6287D04AA003337B3 /* Json */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
@@ -231,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				8ABFEF1E287D400200CB6BB9 /* UrlCollection.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				A3F85D37287BEDA100AD00C7 /* Network.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,

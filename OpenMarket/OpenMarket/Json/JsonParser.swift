@@ -8,21 +8,25 @@
 import Foundation
 
 struct JsonParser {
-    let url: String = "https://market-training.yagom-academy.kr/api/products/"
     
-    func fetch(from url: String) {
-        var request = URLRequest.init(url: URL(string: url)!)
+    func fetch(by url: String) {
+        guard let url = URL(string: url) else {
+            return
+        }
+        
+        var request = URLRequest.init(url: url)
         request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             guard let data = data, error == nil else {
                 return
             }
-            var result: Network?
+            
+            var result: Page?
             
             do {
-                result = try JSONDecoder().decode(Network.self, from: data)
+                result = try JSONDecoder().decode(Page.self, from: data)
             }
             catch {
                 print("fail error: \(error)")

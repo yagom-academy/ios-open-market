@@ -11,8 +11,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        jsonParser.fetch(from: jsonParser.url)
+        jsonParser.fetch(by: UrlCollection.productDetailInquery)
     }
-    
 }
-
