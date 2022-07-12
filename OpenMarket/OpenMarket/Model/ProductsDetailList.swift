@@ -5,7 +5,7 @@
 //  Created by NAMU on 2022/07/12.
 //
 
-struct ProductsDetailList: Decodable {
+struct ProductsDetailList: Codable {
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int

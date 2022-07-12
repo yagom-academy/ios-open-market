@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+import UIKit.NSDataAsset
 
 enum HTTPMethod: String {
     case get = "GET"
@@ -27,14 +27,12 @@ enum URLAdditionalPath {
 protocol APIRequest { }
 
 extension APIRequest {
-    func requestData(pageNumber: Int,
-                     itemPerPage: Int,
-                     completion: @escaping (Result<ProductsDetailList, Error>) -> Void) {
-        var urlComponets = URLComponents(string: URLHost.openMarket + URLAdditionalPath.product)
-        let pageNumber = URLQueryItem(name: "page_no", value: "\(pageNumber)")
-        let itemPerPage = URLQueryItem(name: "items_per_page", value: "\(itemPerPage)")
-        urlComponets?.queryItems?.append(pageNumber)
-        urlComponets?.queryItems?.append(itemPerPage)
+    func request<T: Codable>(url: String,
+                                 with urlQueryItems: [URLQueryItem],
+                                 completion: @escaping (Result<T, Error>) -> Void)
+    {
+        var urlComponets = URLComponents(string: url)
+        urlQueryItems.forEach { urlComponets?.queryItems?.append($0) }
         guard let url = urlComponets?.url else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -51,7 +49,7 @@ extension APIRequest {
             }
             
             guard let safeData = data else { return }
-            guard let decodedData = try? JSONDecoder().decode(ProductsDetailList.self,
+            guard let decodedData = try? JSONDecoder().decode(T.self,
                                                               from: safeData)
             else {
                 completion(.failure(CodableError.decodeError))
@@ -62,9 +60,12 @@ extension APIRequest {
         task.resume()
     }
     
-    func requestMockData(completion: @escaping (Result<ProductsDetailList, Error>) -> Void) {
-        let urlComponets = URLComponents(string: URLHost.openMarket + URLAdditionalPath.product)
-        
+    func requestMockData<T: Codable>(url: String,
+                                     with urlQueryItems: [URLQueryItem],
+                                     completion: @escaping (Result<T, Error>) -> Void)
+    {
+        var urlComponets = URLComponents(string: url)
+        urlQueryItems.forEach { urlComponets?.queryItems?.append($0) }
         guard let url = urlComponets?.url else { return }
         
         let data = NSDataAsset(name: "MockData")?.data
@@ -89,7 +90,7 @@ extension APIRequest {
             }
             
             guard let safeData = data else { return }
-            guard let decodedData = try? JSONDecoder().decode(ProductsDetailList.self,
+            guard let decodedData = try? JSONDecoder().decode(T.self,
                                                               from: safeData)
             else {
                 completion(.failure(CodableError.decodeError))
