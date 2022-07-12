@@ -14,30 +14,19 @@ struct ProductsDataManager {
                 return
             }
             
-            if let response = response as? HTTPURLResponse {
-                switch response.statusCode {
-                case 300..<400:
-                    completion(.failure(URLSessionError.redirection))
-                    return
-                case 400..<500:
-                    completion(.failure(URLSessionError.clientError))
-                    return
-                case 500..<600:
-                    completion(.failure(URLSessionError.serverError))
-                    return
-                default:
-                    break
-                }
+            if let urlError = responseErrorhandling(response: response) {
+                completion(.failure(urlError))
+                return
             }
             
             guard let data = data else {
-                let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "Can't response data")
+                let decodingContext = makeContext(by: "data")
                 completion(.failure(DecodingError.dataCorrupted(decodingContext)))
                 return
             }
             
             guard let decodedData = try? JSONDecoder().decode(Products.self, from: data) else {
-                let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "Can't decode JSON")
+                let decodingContext = makeContext(by: "JSON")
                 completion(.failure(DecodingError.typeMismatch(Products.self, decodingContext)))
                 return
             }
@@ -45,5 +34,24 @@ struct ProductsDataManager {
             completion(.success(decodedData))
         }
         task.resume()
+    }
+    
+    private func makeContext(by errorDebugDescription: String) -> DecodingError.Context {
+        let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "Can't response \(errorDebugDescription)")
+        return decodingContext
+    }
+    
+    private func responseErrorhandling(response: URLResponse?) -> URLSessionError? {
+        guard let response = response as? HTTPURLResponse else { return nil }
+        switch response.statusCode {
+        case 300..<400:
+                return URLSessionError.redirection
+        case 400..<500:
+            return URLSessionError.clientError
+        case 500..<600:
+            return URLSessionError.serverError
+        default:
+            return nil
+        }
     }
 }
