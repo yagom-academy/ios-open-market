@@ -8,9 +8,9 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketTests: XCTestCase {
-    var mockData: NSDataAsset?
-    var jsonDecoder: JSONDecoder?
+class ParsingTests: XCTestCase {
+    var mockData: NSDataAsset!
+    var jsonDecoder: JSONDecoder!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -26,29 +26,25 @@ class OpenMarketTests: XCTestCase {
     
     func test_목데이터디코딩이_잘되는지() {
         // given
-        guard let data = mockData?.data
-        else { return }
-        guard let openMaketData = try? jsonDecoder?.decode(ProductsDetailList.self, from: data)
-        else { return }
+        let data = (mockData?.data)!
+        let openMaketData = try? jsonDecoder.decode(ProductsDetailList.self, from: data)
         
         // when
         let result = "Test Product"
         
         // then
-        XCTAssertEqual(result, openMaketData.pages[0].name)
+        XCTAssertEqual(result, openMaketData!.pages[2].name)
     }
     
-    func test_목데이터디코딩이_잘못된값을가져오지는않는지() {
+    func test_목데이터디코딩의_실패케이스() {
         // given
-        guard let data = mockData?.data
-        else { return }
-        guard let openMaketData = try? jsonDecoder?.decode(ProductsDetailList.self, from: data)
-        else { return }
+        let data = (mockData?.data)!
+        let openMaketData = try? jsonDecoder?.decode(ProductsDetailList.self, from: data)
         
         // when
-        let result = 0
+        let result = "123123213"
         
         // then
-        XCTAssertNotEqual(result, openMaketData.pages[0].id)
+        XCTAssertNotEqual(result, openMaketData!.pages[2].thumbnail)
     }
 }

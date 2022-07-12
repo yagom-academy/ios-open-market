@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct ProductDetail: Decodable {
+struct ProductDetail: Codable {
     let id: Int
-    let venderID: Int
+    let vendorID: Int
     let name: String
     let thumbnail: String
     let currency: Currency
@@ -17,13 +17,12 @@ struct ProductDetail: Decodable {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let images: [ProductImage]
-    let createdAt: Date
-    let issuedAt: Date
-    
+    let createdAt: String
+    let issuedAt: String
+
     private enum CodingKeys: String, CodingKey {
         case id
-        case venderID = "vendor_id"
+        case vendorID = "vendor_id"
         case name
         case thumbnail
         case currency
@@ -31,7 +30,6 @@ struct ProductDetail: Decodable {
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
-        case images
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
