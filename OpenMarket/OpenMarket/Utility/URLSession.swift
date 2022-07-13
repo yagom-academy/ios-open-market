@@ -10,7 +10,7 @@ import Foundation
 func dataTask() {
     let config = URLSessionConfiguration.default
     let session = URLSession(configuration: config)
-    var urlComponents = URLComponents(string: UrlData.urlHost.rawValue + "api/products?")
+    var urlComponents = URLComponents(string: URLData.host.rawValue + URLData.lookUpProductList.rawValue)
     let pageNo = URLQueryItem(name: "page_no", value: "1")
     let itemsPerPage = URLQueryItem(name: "items_per_page", value: "10")
     urlComponents?.queryItems?.append(pageNo)
@@ -27,14 +27,12 @@ func dataTask() {
               successsRange.contains(statusCode) else {
             return
         }
-        guard let resultData = data else {
-            return
-        }
-        guard let fetchedData = decode(from: resultData, to: ProductPage.self) else {
+        guard let resultData = data,
+              let fetchedData = decode(from: resultData, to: ProductPage.self) else {
             debugPrint("ERROR: FAILURE DECODING ")
             return
         }
-        fetchedData.showSelf()
+        fetchedData.printPage()
     }
     dataTask.resume()
 }

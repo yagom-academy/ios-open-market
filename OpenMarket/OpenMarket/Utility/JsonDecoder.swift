@@ -24,7 +24,7 @@ func decode<T: Decodable>(from data: Data, to type: T.Type) -> T? {
         case DecodingError.keyNotFound(_ , let context):
             print(context.debugDescription)
         default:
-            break
+            print(error)
         }
         return nil
     }
