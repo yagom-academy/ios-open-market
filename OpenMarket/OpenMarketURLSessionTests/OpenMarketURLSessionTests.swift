@@ -9,31 +9,48 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketURLSessionTests: XCTestCase {
-    var openMarketURLsession: OpenMarketURLSession!
+    let mockSession = MockURLSession()
+    var sut: OpenMarketURLSession!
     
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        openMarketURLsession = .init()
+        sut = .init(session: mockSession)
     }
-
+    
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func test_getMethod함수의_파라미터에_입력한_pageNumber와_서버에서_받아온_pageNumber가_일치하는지_확인() {
+    
+    func test_getMethod_성공() {
         // given
-        openMarketURLsession.getMethod(pageNumber: 2000, itemsPerPage: 10) { result in
+        let response: ItemList? = JSONDecoder.decodeJson(jsonData: MockData().data)
+        
+        // when,then
+        sut.getMethod { result in
             switch result {
             case .success(let data):
-                let safeData: ItemList? = JSONDecoder.decodeJson(jsonData: data!)
-                print(safeData!.pageNumber)
-                XCTAssertEqual(1, safeData!.pageNumber)
-            case .failure(.dataError):
-                XCTFail("dataError")
-            case .failure(.statusError):
-                XCTFail("statusError")
-            case .failure(.defaultError):
-                XCTFail("defaultError")
+                guard let itemList: ItemList? = JSONDecoder.decodeJson(jsonData: data!) else {
+                    XCTFail("Decode Error")
+                    return
+                }
+                XCTAssertEqual(itemList?.pageNumber, response?.pageNumber)
+                XCTAssertEqual(itemList?.itemsPerPage, response?.itemsPerPage)
+            case .failure(_):
+                XCTFail("getMethod failure")
+            }
+        }
+    }
+    
+    func test_getMethod_실패() {
+        // given
+        sut = OpenMarketURLSession(session: MockURLSession(isRequestSuccess: false))
+        
+        // when,then
+        sut.getMethod { result in
+            switch result {
+            case .success(_):
+                XCTFail("result is success")
+            case .failure(let error):
+                XCTAssertEqual(error, ResponseError.statusError)
             }
         }
     }
