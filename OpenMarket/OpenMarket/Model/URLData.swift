@@ -14,7 +14,7 @@ class URLData {
         self.session = session
     }
     
-    func fetchData<T: Codable>(url: URLRequestable, dataType: T.Type, completion: @escaping (Result<T,Error>) -> Void) {
+    func fetchData<T: Codable>(url: URLAlternativeProtocol, dataType: T.Type, completion: @escaping (Result<T,Error>) -> Void) {
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))

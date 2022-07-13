@@ -7,6 +7,6 @@
 
 import Foundation
 
-extension URL: URLRequestable {
+extension URL: URLAlternativeProtocol {
     
 }

@@ -16,7 +16,7 @@ class MockURLSession: URLSessionProtocol {
         self.response = response
     }
     
-    func dataTask(with url: URLRequestable, completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+    func dataTask(with url: URLAlternativeProtocol, completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         return MockURLSessionDataTask {
             completion(self.response.data, self.response.urlResponse, self.response.error)
         }
