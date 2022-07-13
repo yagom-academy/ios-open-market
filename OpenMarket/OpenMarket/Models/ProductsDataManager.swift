@@ -45,7 +45,7 @@ struct ProductsDataManager {
         guard let response = response as? HTTPURLResponse else { return nil }
         switch response.statusCode {
         case 300..<400:
-            return URLSessionError.redirection
+                return URLSessionError.redirection
         case 400..<500:
             return URLSessionError.clientError
         case 500..<600:
