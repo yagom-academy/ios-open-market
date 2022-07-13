@@ -1,5 +1,5 @@
 //
-//  JsonParer.swift
+//  JSONParser.swift
 //  OpenMarket
 //
 //  Created by BaekGom, Brad on 2022/07/12.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct JsonParser {
+struct JSONParser {
     
     func fetch(by url: String) {
         guard let url = URL(string: url) else {
@@ -23,10 +23,10 @@ struct JsonParser {
                 return
             }
             
-            var result: Page?
+            var result: Product?
             
             do {
-                result = try JSONDecoder().decode(Page.self, from: data)
+                result = try JSONDecoder().decode(Product.self, from: data)
             }
             catch {
                 print("fail error: \(error)")

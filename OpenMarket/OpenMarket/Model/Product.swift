@@ -1,5 +1,5 @@
 //
-//  Page.swift
+//  Product.swift
 //  OpenMarket
 //
 //  Created by BaekGom, Brad on 2022/07/11.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Page: Decodable {
+struct Product: Decodable {
     let id: Int
     let vendorId: Int
     let name: String
@@ -21,7 +21,7 @@ struct Page: Decodable {
     let issuedAt: String
 }
 
-extension Page {
+extension Product {
     enum CodingKeys: String, CodingKey {
         case id
         case vendorId = "vendor_id"

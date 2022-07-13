@@ -26,7 +26,7 @@ class JsonTest: XCTestCase {
     
     func test_MockData_파일의_page_no_값이_디코딩되는지() {
         // given
-        let mockInformation = try? jsonDecoder.decode(Network.self, from: mock.data)
+        let mockInformation = try? jsonDecoder.decode(ProductListResponse.self, from: mock.data)
         
         // when
         let reult = 1
@@ -37,7 +37,7 @@ class JsonTest: XCTestCase {
     
     func test_MockData_파일의_pages_id_값이_디코딩되는지() {
         // given
-        let mockInformation = try? jsonDecoder.decode(Network.self, from: mock.data)
+        let mockInformation = try? jsonDecoder.decode(ProductListResponse.self, from: mock.data)
         
         // when
         let reult = 20

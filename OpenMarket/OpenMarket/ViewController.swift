@@ -7,10 +7,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let jsonParser = JsonParser()
+    let jsonParser = JSONParser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        jsonParser.fetch(by: UrlCollection.productDetailInquery)
+        jsonParser.fetch(by: URLCollection.productDetailInquery)
     }
 }
