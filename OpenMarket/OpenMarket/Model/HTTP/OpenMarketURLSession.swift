@@ -8,7 +8,12 @@
 import Foundation
 
 class OpenMarketURLSession {
+    let session: URLSessionProtocol
     let baseURL = "https://market-training.yagom-academy.kr/"
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+            self.session = session
+        }
     
     func loadData(request: URLRequest, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
