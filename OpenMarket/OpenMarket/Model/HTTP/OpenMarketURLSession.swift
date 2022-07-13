@@ -13,10 +13,10 @@ class OpenMarketURLSession {
     
     init(session: URLSessionProtocol = URLSession.shared) {
             self.session = session
-        }
+    }
     
     func loadData(request: URLRequest, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return completion(.failure(.defaultError))
             }
