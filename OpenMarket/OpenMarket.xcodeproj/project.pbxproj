@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1859965E287EC02600B04E60 /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1859965D287EC02600B04E60 /* ItemCollectionViewCell.swift */; };
+		18599660287EC18D00B04E60 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1859965F287EC18D00B04E60 /* Section.swift */; };
 		18761AE3287BF67500057C43 /* JsonParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AE2287BF67500057C43 /* JsonParsingTests.swift */; };
 		18761AEC287BF84800057C43 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */; };
@@ -14,7 +16,6 @@
 		B4816965287BF4D2004359E3 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		B4816990287C0E2C004359E3 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = B481698D287C0CFC004359E3 /* products.json */; };
 		B4AC53AE287C4C5E007EDBF4 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AC53AD287C4C5E007EDBF4 /* URLSessionError.swift */; };
-		B4E496E4287E9C1700CD04C5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E496E3287E9C1700CD04C5 /* MainView.swift */; };
 		B4E496E6287EA62B00CD04C5 /* Titles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E496E5287EA62B00CD04C5 /* Titles.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -34,13 +35,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1859965D287EC02600B04E60 /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		1859965F287EC18D00B04E60 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		18761AE0287BF67500057C43 /* JsonParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18761AE2287BF67500057C43 /* JsonParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParsingTests.swift; sourceTree = "<group>"; };
 		18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
 		B4816964287BF4D2004359E3 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		B481698D287C0CFC004359E3 /* products.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		B4AC53AD287C4C5E007EDBF4 /* URLSessionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionError.swift; sourceTree = "<group>"; };
-		B4E496E3287E9C1700CD04C5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B4E496E5287EA62B00CD04C5 /* Titles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Titles.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */,
 				B4AC53AD287C4C5E007EDBF4 /* URLSessionError.swift */,
 				B4E496E5287EA62B00CD04C5 /* Titles.swift */,
+				1859965F287EC18D00B04E60 /* Section.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -100,7 +103,7 @@
 		B4E496E2287E9C0D00CD04C5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B4E496E3287E9C1700CD04C5 /* MainView.swift */,
+				1859965D287EC02600B04E60 /* ItemCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -249,10 +252,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
-				B4E496E4287E9C1700CD04C5 /* MainView.swift in Sources */,
 				B4816965287BF4D2004359E3 /* Products.swift in Sources */,
 				18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */,
+				1859965E287EC02600B04E60 /* ItemCollectionViewCell.swift in Sources */,
 				B4E496E6287EA62B00CD04C5 /* Titles.swift in Sources */,
+				18599660287EC18D00B04E60 /* Section.swift in Sources */,
 				B4AC53AE287C4C5E007EDBF4 /* URLSessionError.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
@@ -370,7 +374,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -425,7 +429,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -442,7 +446,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -461,7 +465,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
