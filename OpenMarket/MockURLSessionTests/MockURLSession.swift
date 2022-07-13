@@ -16,7 +16,7 @@ class MockURLSessionDataTask: URLSessionDataTaskProtocol {
     }
 }
 
-class MockURLSession: URLSessionProtocol {
+final class MockURLSession: URLSessionProtocol {
     var isSuccess: Bool
     
     init(isSuccess: Bool) {

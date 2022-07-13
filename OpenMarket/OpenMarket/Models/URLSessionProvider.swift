@@ -21,7 +21,7 @@ class URLSessionProvider {
     }
     
    private func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
-        let task = session.dataTask(with: request) { data, urlResponse, error in
+       session.dataTask(with: request) { data, urlResponse, error in
             guard let response = urlResponse as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 return completionHandler(.failure(.incorrectResponseError))
             }
@@ -31,9 +31,7 @@ class URLSessionProvider {
             }
             
             return completionHandler(.success(data))
-        }
-        
-        task.resume()
+        } .resume()
     }
     
     func receivePage(number: Int, countOfItems: Int, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
