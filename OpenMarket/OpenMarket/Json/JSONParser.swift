@@ -14,7 +14,7 @@ struct JSONParser {
             return
         }
         
-        var request = URLRequest.init(url: url)
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -34,7 +34,6 @@ struct JSONParser {
             guard let json = result else {
                 return
             }
-            print(json)
         }
         task.resume()
     }
