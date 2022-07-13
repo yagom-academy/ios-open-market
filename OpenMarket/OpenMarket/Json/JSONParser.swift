@@ -9,7 +9,7 @@ import Foundation
 
 struct JSONParser {
     
-    func fetch(by url: String) {
+    func fetch(by url: String, completion: @escaping (Result<Any, Error>) -> ()) {
         guard let url = URL(string: url) else {
             return
         }
@@ -19,20 +19,14 @@ struct JSONParser {
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            var result: Product?
-            
-            do {
-                result = try JSONDecoder().decode(Product.self, from: data)
-            }
-            catch {
-                print("fail error: \(error)")
-            }
-            guard let json = result else {
-                return
+            if let data = data {
+                do {
+                    let decodeData = try JSONDecoder().decode(Product.self, from: data)
+                    completion(.success(decodeData))
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
             }
         }
         task.resume()

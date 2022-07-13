@@ -11,6 +11,17 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        jsonParser.fetch(by: URLCollection.productDetailInquery)
+        getProuctData()
+    }
+    
+    func getProuctData() {
+        jsonParser.fetch(by: URLCollection.productDetailInquery, completion: { (response) in
+            switch response {
+            case .success(let data):
+                print(data)
+            case .failure(let data):
+                print(data)
+            }
+        })
     }
 }
