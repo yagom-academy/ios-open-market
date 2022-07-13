@@ -1,6 +1,6 @@
 //
 //  OpenMarket - AppDelegate.swift
-//  Created by yagom. 
+//  Created by groot, bard. 
 //  Copyright © yagom. All rights reserved.
 // 
 

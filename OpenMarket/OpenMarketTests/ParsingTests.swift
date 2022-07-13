@@ -2,7 +2,7 @@
 //  ParsingTests.swift
 //  ParsingTests
 //
-//  Created by 김동용 on 2022/07/12.
+//  Created by groot, bard on 2022/07/12.
 //
 
 import XCTest
