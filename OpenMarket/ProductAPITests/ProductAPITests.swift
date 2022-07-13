@@ -12,7 +12,7 @@ struct DummyData {
     let data: Data?
     let response: URLResponse?
     let error: Error?
-    var completionHandler: DataTaskCompletionHandler? = nil
+    var completionHandler: DataTaskCompletionHandler?
 
     func completion() {
         completionHandler?(data, response, error)
@@ -26,7 +26,7 @@ class StubURLSession: URLSessionProtocol {
         self.dummyData = dummy
     }
 
-    func dataTask(with request: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
+    func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
         return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)
     }
 }
@@ -49,6 +49,7 @@ class ProductAPITests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
+
         sut = ProductAPI()
     }
 
@@ -58,10 +59,19 @@ class ProductAPITests: XCTestCase {
         sut = nil
     }
 
-    func test_데이터를_요청했을때_불러온_데이터를_반환() {
+    func test_데이터를_요청했을때_불러온_DummyData를_반환() {
         // given
-        let promise = expectation(description: "URLSession Data")
-        let expectation = "USD"
+        let promise = expectation(description: "Calling URLSession dummy data")
+        let url = URL(string: "https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10")!
+
+        let dummyData = NSDataAsset.init(name: "products")?.data
+        let dummyResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let dummy = DummyData(data: dummyData, response: dummyResponse, error: nil)
+
+        let stubUrlSession = StubURLSession(dummy: dummy)
+        sut = ProductAPI(session: stubUrlSession)
+
+        let presetValue = "KRW"
 
         // when
         sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
@@ -69,44 +79,35 @@ class ProductAPITests: XCTestCase {
             switch result {
             case .success(let products):
                 // then
-                XCTAssertNotEqual(expectation, products.pages[0].currency)
+                XCTAssertEqual(presetValue, products.pages[0].currency)
                 promise.fulfill()
             case .failure(_):
                 XCTFail("Failed to load data")
+                promise.fulfill()
             }
         }
-        
         wait(for: [promise], timeout: 1)
     }
-    
-    func test_데이터를_요청했을때_불러온_DummyData를_반환() {
+
+    func test_데이터를_요청했을때_불러온_데이터를_반환() {
         // given
-        let promise = expectation(description: "")
-        let url = URL(string: "https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10")!
+        let promise = expectation(description: "Calling URLSession Data")
+        let presetValue = "USD"
 
-        do {
-            let data = NSDataAsset.init(name: "products")?.data
-            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
-            let dummy = DummyData(data: data, response: response, error: nil)
-            let stubUrlSession = StubURLSession(dummy: dummy)
-            sut = ProductAPI(session: stubUrlSession)
-            let expectation = "KRW"
-
-            // when
-            sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
-                     for: Products.self) { result in
-                switch result {
-                case .success(let products):
-                    // then
-                    XCTAssertEqual(expectation, products.pages[0].currency)
-                    promise.fulfill()
-                case .failure(_):
-                    XCTFail("Failed to load data")
-                }
+        // when
+        sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
+                 for: Products.self) { result in
+            switch result {
+            case .success(let products):
+                // then
+                XCTAssertEqual(presetValue, products.pages[0].currency)
+                promise.fulfill()
+            case .failure(_):
+                XCTFail("Failed to load data")
+                promise.fulfill()
             }
-            wait(for: [promise], timeout: 1)
-        } catch {
-            XCTFail("Failed to load data")
         }
+
+        wait(for: [promise], timeout: 1)
     }
 }
