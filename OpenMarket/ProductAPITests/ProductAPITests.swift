@@ -8,62 +8,48 @@
 import XCTest
 @testable import OpenMarket
 
-struct MockData {
-    let data: Data? = NSDataAsset.init(name: "products")?.data
+struct DummyData {
+    let data: Data?
+    let response: URLResponse?
+    let error: Error?
+    var completionHandler: DataTaskCompletionHandler? = nil
+
+    func completion() {
+        completionHandler?(data, response, error)
+    }
 }
 
-class MockURLSessionDataTask: URLSessionDataTask {
-    override init() {}
-    var resumeDidCall: () -> Void = {}
+class StubURLSession: URLSessionProtocol {
+    var dummyData: DummyData?
+
+    init(dummy: DummyData) {
+        self.dummyData = dummy
+    }
+
+    func dataTask(with request: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
+        return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)
+    }
+}
+
+class StubURLSessionDataTask: URLSessionDataTask {
+    var dummyData: DummyData?
+
+    init(dummy: DummyData?, completionHandler: DataTaskCompletionHandler?) {
+        self.dummyData = dummy
+        self.dummyData?.completionHandler = completionHandler
+    }
 
     override func resume() {
-        resumeDidCall
-    }
-}
-
-class MockURLSession: URLSessionProtocol {
-    var isRequestSuccess: Bool
-    var sessionDataTask: MockURLSessionDataTask?
-
-    init(isRequestSuccess: Bool = true) {
-        self.isRequestSuccess = isRequestSuccess
-    }
-
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-
-        let successResponse = HTTPURLResponse(url: request.url!,
-                                             statusCode: 200,
-                                             httpVersion: "2",
-                                             headerFields: nil)
-        let failureResponse = HTTPURLResponse(url: request.url!,
-                                              statusCode: 402,
-                                              httpVersion: "2",
-                                              headerFields: nil)
-
-        let sessionDataTask = MockURLSessionDataTask()
-
-        if isRequestSuccess {
-            sessionDataTask.resumeDidCall = {
-                completionHandler(MockData().data, successResponse, nil)
-            }
-        } else {
-            sessionDataTask.resumeDidCall = {
-                completionHandler(nil, failureResponse, nil)
-            }
-        }
-
-        self.sessionDataTask = sessionDataTask
-        return sessionDataTask
+        dummyData?.completion()
     }
 }
 
 class ProductAPITests: XCTestCase {
-    let mockSession = MockURLSession()
     var sut: ProductAPI!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = .init(session: mockSession)
+        sut = ProductAPI()
     }
 
     override func tearDownWithError() throws {
@@ -72,21 +58,55 @@ class ProductAPITests: XCTestCase {
         sut = nil
     }
 
-    func test_데이터를_불러왔을때_불러온_데이터를_반환() {
-        guard let data = MockData().data,
-              let expectation = try? JSONDecoder().decode(Products.self, from: data) else {
-            XCTFail("No data for expectation")
-            return
-        }
+    func test_데이터를_요청했을때_불러온_데이터를_반환() {
+        // given
+        let promise = expectation(description: "URLSession Data")
+        let expectation = "USD"
 
+        // when
         sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
                  for: Products.self) { result in
             switch result {
             case .success(let products):
-                XCTAssertEqual(expectation, products)
+                // then
+                XCTAssertNotEqual(expectation, products.pages[0].currency)
+                promise.fulfill()
             case .failure(_):
                 XCTFail("Failed to load data")
             }
+        }
+        
+        wait(for: [promise], timeout: 1)
+    }
+    
+    func test_데이터를_요청했을때_불러온_DummyData를_반환() {
+        // given
+        let promise = expectation(description: "")
+        let url = URL(string: "https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10")!
+
+        do {
+            let data = NSDataAsset.init(name: "products")?.data
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+            let dummy = DummyData(data: data, response: response, error: nil)
+            let stubUrlSession = StubURLSession(dummy: dummy)
+            sut = ProductAPI(session: stubUrlSession)
+            let expectation = "KRW"
+
+            // when
+            sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
+                     for: Products.self) { result in
+                switch result {
+                case .success(let products):
+                    // then
+                    XCTAssertEqual(expectation, products.pages[0].currency)
+                    promise.fulfill()
+                case .failure(_):
+                    XCTFail("Failed to load data")
+                }
+            }
+            wait(for: [promise], timeout: 1)
+        } catch {
+            XCTFail("Failed to load data")
         }
     }
 }

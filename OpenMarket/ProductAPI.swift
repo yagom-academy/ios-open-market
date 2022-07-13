@@ -13,20 +13,18 @@ struct ProductAPI {
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
-    
+
     func call<T: Decodable>(_ urlString: String, for type: T.Type, completion: @escaping (Result<T, APIError>) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(.failure(.invalidURL))
             return
         }
 
-        let request = URLRequest(url: url)
-        
-        dataTask(request: request, completion: completion)
+        dataTask(url: url, completion: completion)
     }
 
-    private func dataTask<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
-        let task = session.dataTask(with: request) { (data, response, error) in
+    private func dataTask<T: Decodable>(url: URL, completion: @escaping (Result<T, APIError>) -> Void) {
+        let task = session.dataTask(with: url) { (data, response, error) in
 
             guard let response = response as? HTTPURLResponse,
                   (200...299) ~= response.statusCode else {
