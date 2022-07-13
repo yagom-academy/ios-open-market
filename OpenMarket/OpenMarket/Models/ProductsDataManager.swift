@@ -1,13 +1,21 @@
 import Foundation
 
 struct ProductsDataManager {
+    let url = "https://market-training.yagom-academy.kr/api/products"
+    
     func getData(pageNumber: Int, itemsPerPage: Int, completion: @escaping (Result<Products, Error>) -> Void) {
         
-        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)") else { return }
+        var urlComponent = URLComponents(string: url)
+        urlComponent?.queryItems = [
+            URLQueryItem(name: "page_no", value: String(pageNumber)),
+            URLQueryItem(name: "items_per_page", value: String(itemsPerPage))
+        ]
         
-        let request = URLRequest(url: url)
+        guard let urlComponentURL = urlComponent?.url else { return }
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let request = URLRequest(url: urlComponentURL)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             if let error = error {
                 completion(.failure(error))
