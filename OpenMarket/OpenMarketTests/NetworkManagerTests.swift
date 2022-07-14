@@ -63,7 +63,6 @@ class NetworkManagerTests: XCTestCase {
             let pageNo: Int
         }
         
-        
         let url = "https://market-training.yagom-academy.kr/"
         let mockResponse: MockURLSession.Response = {
             let data = NSDataAsset(name: "products", bundle: .main)?.data
@@ -130,4 +129,3 @@ class NetworkManagerTests: XCTestCase {
         }
     }
 }
-
