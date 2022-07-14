@@ -73,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				05B5A7F9287D926B00865293 /* OpenMarketTests.swift */,
+				8F1A0BB4287D91B10071EF7A /* Mock */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -89,7 +90,6 @@
 		8F4809B5287CFF2500A77BCD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8F1A0BB4287D91B10071EF7A /* Mock */,
 				8F4809B3287CFB3A00A77BCD /* MarketInformation.swift */,
 				05B5A7D1287D4E1600865293 /* URLSessionProtocol.swift */,
 				05B5A7D3287D4E4E00865293 /* NetworkManager.swift */,
