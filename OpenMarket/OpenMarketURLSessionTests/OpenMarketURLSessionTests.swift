@@ -16,10 +16,6 @@ class OpenMarketURLSessionTests: XCTestCase {
         sut = .init(session: mockSession)
     }
     
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-    
     func test_getMethod_성공() {
         // given
         let response: ItemList? = JSONDecoder.decodeJson(jsonData: MockData().data)

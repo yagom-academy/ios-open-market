@@ -8,15 +8,11 @@
 import XCTest
 @testable import OpenMarket
 
-class ItemListTest: XCTestCase {
+class JSONDecoderTest: XCTestCase {
     var itemList: ItemList!
 
     override func setUpWithError() throws {
         itemList = JSONDecoder.decodeJson(jsonName: "Products")
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
     func test_Parsing을_통한_pageNumber의_반환값이_1인지확인() {
