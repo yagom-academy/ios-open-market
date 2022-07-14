@@ -7,12 +7,21 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    let jsonParser = JSONParser()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        getProuctData()
     }
-
-
+    
+    func getProuctData() {
+        jsonParser.dataTask(by: URLCollection.productDetailInquery, completion: { (response) in
+            switch response {
+            case .success(let data):
+                print(data)
+            case .failure(let data):
+                print(data)
+            }
+        })
+    }
 }
-
