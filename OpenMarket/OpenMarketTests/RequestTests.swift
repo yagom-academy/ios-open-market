@@ -8,30 +8,35 @@
 import XCTest
 @testable import OpenMarket
 
+struct GetData: APIRequest {
+    var method: HTTPMethod = .get
+    var baseURL: String = URLHost.openMarket.url + URLAdditionalPath.product.value
+    var headers: [String : String]?
+    var query: [URLQueryItem]? = [
+        URLQueryItem(name: "page_no", value: "\(1)"),
+        URLQueryItem(name: "items_per_page", value: "\(1)")
+    ]
+    var body: Data?
+}
+
 class RequestTests: XCTestCase {
-    
+    var sut: GetData?
     override func setUpWithError() throws {
         try super.setUpWithError()
+        sut = GetData()
     }
     
     override func tearDownWithError() throws {
         try super.tearDownWithError()
+        sut = nil
     }
     
-    func test_APIRequest를_받아와서_디코딩이_잘되는지() {
+    func test_mockSession을받아와서_디코딩이잘되는지() {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
-        struct RequestData: APIRequest {}
-        let requestData = RequestData()
-        let url = URLHost.openMarket + URLAdditionalPath.product
-        let pageNumber = URLQueryItem(name: "page_no", value: "\(1)")
-        let itemPerPage = URLQueryItem(name: "items_per_page", value: "\(1)")
-        let urlQueryItems = [pageNumber, itemPerPage]
         var resultName: String?
         
-        // when
-        requestData.request(url: url, with: urlQueryItems)
-        { (result: Result<ProductsDetailList, Error>) in
+        sut?.executeMockData { (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let data):
                 resultName = data.pages[0].name
@@ -42,26 +47,19 @@ class RequestTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 300)
         
-        let result = "1"
+        // when
+        let result = "Test Product"
         
         // then
         XCTAssertEqual(result, resultName)
     }
     
-    func test_mockDataResponse를_받아와서_decoding이잘되는지() {
+    func test_APIRequest를_받아와서_디코딩이_잘되는지() {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
-        struct RequestData: APIRequest {}
-        let requestData = RequestData()
-        let url = URLHost.openMarket + URLAdditionalPath.product
-        let pageNumber = URLQueryItem(name: "page_no", value: "\(1)")
-        let itemPerPage = URLQueryItem(name: "items_per_page", value: "\(1)")
-        let urlQueryItems = [pageNumber, itemPerPage]
         var resultName: String?
         
-        // when
-        requestData.requestMockData(url: url, with: urlQueryItems)
-        { (result: Result<ProductsDetailList, Error>) in
+        sut?.execute { (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let data):
                 resultName = data.pages[0].name
@@ -72,6 +70,7 @@ class RequestTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 300)
         
+        // when
         let result = "Test Product"
         
         // then

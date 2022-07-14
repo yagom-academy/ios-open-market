@@ -35,16 +35,4 @@ class ParsingTests: XCTestCase {
         // then
         XCTAssertEqual(result, openMaketData!.pages[2].name)
     }
-    
-    func test_목데이터디코딩의_실패케이스() {
-        // given
-        let data = (mockData?.data)!
-        let openMaketData = try? jsonDecoder?.decode(ProductsDetailList.self, from: data)
-        
-        // when
-        let result = "123123213"
-        
-        // then
-        XCTAssertNotEqual(result, openMaketData!.pages[2].thumbnail)
-    }
 }
