@@ -34,16 +34,25 @@ struct DataManager {
         }
         task.resume()
     }
-        let jsonDecoder: JSONDecoder = JSONDecoder()
-        let targetType = type(of: target)
-        
+    
+    static func makeDataFrom(fileName: String) -> Data? {
         guard let dataAsset: NSDataAsset = NSDataAsset.init(name: fileName) else {
             return nil
         }
-
+        return dataAsset.data
+    }
+    
+    static func parse<T: Decodable>(_ data: Data?, into target: T) -> T? {
+        let jsonDecoder: JSONDecoder = JSONDecoder()
+        let targetType = type(of: target)
+        
+        guard let data = data else {
+            return nil
+        }
+        
         do {
-            let data = try jsonDecoder.decode(targetType.self, from: dataAsset.data)
-            return data
+            let decodedData = try jsonDecoder.decode(targetType.self, from: data)
+            return decodedData
         } catch {
             return nil
         }
