@@ -9,7 +9,7 @@ import Foundation
 
 final class NetworkManager {
     private let session: URLSessionProtocol
-    private let baseURL = "https://market-training.yagom-academy.kr/"
+    private let baseURL = "https://market-training.yagom-academy.kr/api/products"
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -35,23 +35,19 @@ final class NetworkManager {
         task.resume()
     }
     
-    func getMethod(pageNumber: Int? = nil, itemsPerPage: Int? = nil, productId: Int? = nil, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
-        var safeURL: URL
+    func getItemList(pageNumber: Int, itemsPerPage: Int, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
+        guard let url = URL(string: baseURL + URLPath.itemListPath(pageNumber: pageNumber, itemsPerPage: itemsPerPage).description) else { return }
         
-        if productId == nil {
-            guard let pageNumber = pageNumber,
-                  let itemsPerPage = itemsPerPage,
-                  let url = URL(string: baseURL + "api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)") else { return }
-            
-            safeURL = url
-        } else {
-            guard let productId = productId,
-                  let url = URL(string: baseURL + "api/products/\(productId)") else { return }
-            
-            safeURL = url
-        }
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.get.type
         
-        var request = URLRequest(url: safeURL)
+        loadData(request: request, completion: completion)
+    }
+    
+    func getProduct(productId: Int, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
+        guard let url = URL(string: baseURL + URLPath.productPath(productId: productId).description) else { return }
+        
+        var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.type
         
         loadData(request: request, completion: completion)

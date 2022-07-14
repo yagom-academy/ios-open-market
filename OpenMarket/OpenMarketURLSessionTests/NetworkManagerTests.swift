@@ -22,7 +22,7 @@ class NetworkManagerTests: XCTestCase {
         let response: ItemList? = JSONDecoder.decodeJson(jsonData: MockData().data)
         
         // when,then
-        sut.getMethod { result in
+        sut.getItemList(pageNumber: 1, itemsPerPage: 10) { result in
             switch result {
             case .success(let data):
                 guard let itemList: ItemList? = JSONDecoder.decodeJson(jsonData: data!) else {
@@ -42,7 +42,7 @@ class NetworkManagerTests: XCTestCase {
         sut = NetworkManager(session: MockURLSession(isRequestSuccess: false))
         
         // when,then
-        sut.getMethod { result in
+        sut.getItemList(pageNumber: 1, itemsPerPage: 10) { result in
             switch result {
             case .success(_):
                 XCTFail("result is success")
