@@ -11,12 +11,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let address = "https://market-training.yagom-academy.kr/api/products"
-        let pageNo = URLQueryItem(name: "pageNo", value: "1")
-        let itemsPerPage = URLQueryItem(name: "itemsPerPage", value: "10")
+        let address = NetworkNamespace.url.name
+        let pageNo = URLQueryItem(name: NetworkNamespace.pageNo.name, value: "1")
+        let itemsPerPage = URLQueryItem(name: NetworkNamespace.itemsPerPage.name, value: "10")
         let queryItems = [pageNo, itemsPerPage]
         
-        getProductList(address: address, queryItems: queryItems, httpMethod: "GET")
+        getProductList(address: address, queryItems: queryItems, httpMethod: NetworkNamespace.get.name)
     }
     
     private func getProductList(address: String, queryItems: [URLQueryItem], httpMethod: String) {

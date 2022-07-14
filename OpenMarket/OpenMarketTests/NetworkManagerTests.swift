@@ -21,7 +21,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_GET메서드를_요청한경우_parsing을_제대로한다() {
         // given
-        let url = "https://market-training.yagom-academy.kr/"
+        let url = NetworkNamespace.url.name
         let mockResponse: MockURLSession.Response = {
             let data = NSDataAsset(name: "products", bundle: .main)?.data
             let successResponse = HTTPURLResponse(url: URL(string: url)!,
@@ -38,7 +38,7 @@ class NetworkManagerTests: XCTestCase {
         // when
         var result: MarketInformation?
         var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "GET"
+        request.httpMethod = NetworkNamespace.get.name
         
         sut.fetch(request: request,
                   dataType: MarketInformation.self) { response in
@@ -63,7 +63,7 @@ class NetworkManagerTests: XCTestCase {
             let pageNo: Int
         }
         
-        let url = "https://market-training.yagom-academy.kr/"
+        let url = NetworkNamespace.url.name
         let mockResponse: MockURLSession.Response = {
             let data = NSDataAsset(name: "products", bundle: .main)?.data
             let successResponse = HTTPURLResponse(url: URL(string: url)!,
@@ -80,7 +80,7 @@ class NetworkManagerTests: XCTestCase {
         // when
         var result: MarketInformation?
         var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "GET"
+        request.httpMethod = NetworkNamespace.get.name
         
         sut.fetch(request: request,
                   dataType: MarketInformation.self) { response in
@@ -101,7 +101,7 @@ class NetworkManagerTests: XCTestCase {
     
     func test_GET메서드_요청시_statusCode가_500이면_error를_반환한다() {
         // given
-        let url = "https://market-training.yagom-academy.kr/"
+        let url = NetworkNamespace.url.name
         let mockResponse: MockURLSession.Response = {
             let data = NSDataAsset(name: "products", bundle: .main)?.data
             let successResponse = HTTPURLResponse(url: URL(string: url)!,
@@ -118,7 +118,7 @@ class NetworkManagerTests: XCTestCase {
         // when
         var result: Error?
         var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "GET"
+        request.httpMethod = NetworkNamespace.get.name
         
         sut.fetch(request: request,
                   dataType: MarketInformation.self) { response in
