@@ -8,4 +8,13 @@
 enum NetworkError: Error {
     case outOfRange
     case failToDecoding
+    
+    var message: String {
+        switch self {
+        case .outOfRange:
+            return "요청하신 작업을 수행할 수 없습니다."
+        case .failToDecoding:
+            return "디코딩을 할 수 없습니다."
+        }
+    }
 }

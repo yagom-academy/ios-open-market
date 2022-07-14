@@ -33,9 +33,11 @@ final class NetworkManager {
                     completion(.success(data))
                 } catch {
                     completion(.failure(NetworkError.failToDecoding))
+                    print(NetworkError.failToDecoding.message)
                 }
             } else {
                 completion(.failure(NetworkError.outOfRange))
+                print(NetworkError.outOfRange.message)
             }
         }
         
