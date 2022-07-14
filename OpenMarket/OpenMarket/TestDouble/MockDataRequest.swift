@@ -2,7 +2,7 @@
 //  MockDataRequest.swift
 //  OpenMarket
 //
-//  Created by 김동용 on 2022/07/14.
+//  Created by groot, bard on 2022/07/14.
 //
 
 import Foundation
