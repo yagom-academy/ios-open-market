@@ -7,15 +7,15 @@
 
 import Foundation
 
-class NetworkManager {
-    let session: URLSessionProtocol
-    let baseURL = "https://market-training.yagom-academy.kr/"
+final class NetworkManager {
+    private let session: URLSessionProtocol
+    private let baseURL = "https://market-training.yagom-academy.kr/"
     
     init(session: URLSessionProtocol = URLSession.shared) {
-            self.session = session
+        self.session = session
     }
     
-    func loadData(request: URLRequest, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
+    private func loadData(request: URLRequest, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return completion(.failure(.defaultError))
@@ -27,7 +27,7 @@ class NetworkManager {
             }
             
             guard let safeData = data else {
-                return  completion(.failure(.dataError))
+                return completion(.failure(.dataError))
             }
             
             completion(.success(safeData))
