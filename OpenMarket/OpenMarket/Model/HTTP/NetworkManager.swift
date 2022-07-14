@@ -1,5 +1,5 @@
 //
-//  OpenMarketURLSession.swift
+//  NetworkManager.swift
 //  OpenMarket
 //
 //  Created by Kiwi, Hugh on 2022/07/12.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class OpenMarketURLSession {
+class NetworkManager {
     let session: URLSessionProtocol
     let baseURL = "https://market-training.yagom-academy.kr/"
     

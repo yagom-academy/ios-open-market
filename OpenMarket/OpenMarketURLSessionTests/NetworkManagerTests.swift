@@ -1,6 +1,6 @@
 //
-//  OpenMarketURLSessionTests.swift
-//  OpenMarketURLSessionTests
+//  NetworkManagerTests.swift
+//  NetworkManagerTests
 //
 //  Created by dhoney96 on 2022/07/12.
 //
@@ -8,9 +8,9 @@
 import XCTest
 @testable import OpenMarket
 
-class OpenMarketURLSessionTests: XCTestCase {
+class NetworkManagerTests: XCTestCase {
     let mockSession = MockURLSession()
-    var sut: OpenMarketURLSession!
+    var sut: NetworkManager!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -39,7 +39,7 @@ class OpenMarketURLSessionTests: XCTestCase {
     
     func test_getMethod_실패() {
         // given
-        sut = OpenMarketURLSession(session: MockURLSession(isRequestSuccess: false))
+        sut = NetworkManager(session: MockURLSession(isRequestSuccess: false))
         
         // when,then
         sut.getMethod { result in
