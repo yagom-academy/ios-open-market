@@ -50,6 +50,8 @@ final class MockURLSession: URLSessionProtocol {
 }
 
 class MockURLSessionTests: XCTestCase {
+    let dataDecoder = DataDecoder()
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
     }
@@ -64,12 +66,12 @@ class MockURLSessionTests: XCTestCase {
         let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
         
         guard let mockData = NSDataAsset.init(name: "MockData")?.data,
-              let page = decodeMarket(type: Page.self, data: mockData) else { return }
+              let page = dataDecoder.decode(type: Page.self, data: mockData) else { return }
         
         sut.receivePage(subURL: subURL) { result in
             switch result {
             case .success(let data):
-                let responsedData = decodeMarket(type: Page.self, data: data)
+                let responsedData = self.dataDecoder.decode(type: Page.self, data: data)
                 XCTAssertEqual(responsedData?.pageNumber, page.pageNumber)
                 XCTAssertEqual(responsedData?.itemsPerPage, page.itemsPerPage)
             case .failure(_):
@@ -100,7 +102,7 @@ class MockURLSessionTests: XCTestCase {
         sut.receivePage(subURL: subURL) { result in
             switch result {
             case .success(let data):
-                let responsedData = decodeMarket(type: Page.self, data: data)
+                let responsedData = self.dataDecoder.decode(type: Page.self, data: data)
                 XCTAssertEqual(responsedData?.totalCount, 325)
             case .failure(_):
                 XCTFail("서버 데이터 불일치 오류")
