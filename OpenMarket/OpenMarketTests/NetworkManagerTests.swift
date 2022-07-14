@@ -7,7 +7,7 @@
 
 import XCTest
 
-class OpenMarketTests: XCTestCase {
+class NetworkManagerTests: XCTestCase {
     var sut: NetworkManager?
     
     override func setUpWithError() throws {
@@ -19,7 +19,7 @@ class OpenMarketTests: XCTestCase {
         sut = nil
     }
     
-    func test_fetchData_Data가_있고_statusCode가_200일때() {
+    func test_GET메서드를_요청한경우_parsing을_제대로한다() {
         // given
         let url = "https://market-training.yagom-academy.kr/"
         let mockResponse: MockURLSession.Response = {
@@ -57,7 +57,7 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    func test_fetchData_statusCode가_200이고_원하는_값이_아닐때() {
+    func test_GET메서드를_요청한경우_서버매핑모델이_달라서_parsing에_실패한다() {
         // given
         struct MarketInformationTest: Decodable {
             let pageNo: Int
@@ -100,7 +100,7 @@ class OpenMarketTests: XCTestCase {
         }
     }
     
-    func test_fetchData_Data가_있고_statusCode가_500일때() {
+    func test_GET메서드_요청시_statusCode가_500이면_error를_반환한다() {
         // given
         let url = "https://market-training.yagom-academy.kr/"
         let mockResponse: MockURLSession.Response = {
