@@ -14,6 +14,7 @@ class MockTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
+        sut = NetworkProvider(session: URLSession.shared)
     }
 
     override func tearDownWithError() throws {
@@ -34,7 +35,7 @@ class MockTests: XCTestCase {
         
         var result: ProductList?
         let mockURLSession = MockURLSession(response: mockResponse)
-        let sut = NetworkProvider(session: mockURLSession)
+        sut = NetworkProvider(session: mockURLSession)
         
         // when
         sut.fetchData(url: URL(string: url)!, dataType: ProductList.self) { response in
@@ -59,8 +60,8 @@ class MockTests: XCTestCase {
         }()
         
         var result: ProductList?
-        let mockURLSession = MockURLSession(response: mockResponse)
-        let sut = NetworkProvider(session: mockURLSession)
+        let mockURLSession = MockURLSession(response: mockResponse!)
+        sut = NetworkProvider(session: mockURLSession)
         
         // when
         sut.fetchData(url: URL(string: url)!, dataType: ProductList.self) { response in
