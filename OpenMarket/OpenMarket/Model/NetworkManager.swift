@@ -7,8 +7,8 @@
 
 import Foundation
 
-class NetworkManager {
-    let session: URLSessionProtocol
+final class NetworkManager {
+    private let session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session

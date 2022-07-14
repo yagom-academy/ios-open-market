@@ -7,10 +7,10 @@
 
 import Foundation
 
-class MockURLSession: URLSessionProtocol {
+final class MockURLSession: URLSessionProtocol {
     typealias Response = (data: Data?, urlResponse: URLResponse?, error: Error?)
     
-    let response: Response
+    private let response: Response
     
     init(response: Response) {
         self.response = response
