@@ -2,7 +2,7 @@
 //  NetworkManagerTests.swift
 //  NetworkManagerTests
 //
-//  Created by dhoney96 on 2022/07/12.
+//  Created by Kiwi, Hugh on 2022/07/12.
 //
 
 import XCTest
@@ -19,13 +19,13 @@ class NetworkManagerTests: XCTestCase {
     
     func test_getMethod_성공() {
         // given
-        let response: ItemList? = JSONDecoder.decodeJson(jsonData: MockData().data)
+        let response: ItemList? = JSONDecoder.decodeJson(jsonName: "Products")
         
         // when,then
         sut.getItemList(pageNumber: 1, itemsPerPage: 10) { result in
             switch result {
-            case .success(let data):
-                guard let itemList: ItemList? = JSONDecoder.decodeJson(jsonData: data!) else {
+            case .success(_):
+                guard let itemList: ItemList? = JSONDecoder.decodeJson(jsonName: "Products") else {
                     XCTFail("Decode Error")
                     return
                 }
