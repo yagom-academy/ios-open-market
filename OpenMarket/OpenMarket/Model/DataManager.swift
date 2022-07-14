@@ -8,7 +8,32 @@
 import UIKit
 
 struct DataManager {
-    static func parse<T: Decodable>(_ fileName: String, into target: T) -> T? {
+    static let openMarketAPIURL = "https://market-training.yagom-academy.kr/api/"
+    
+    static func performRequestToAPI(with request: String, completion: @escaping ((Data) -> Void)) {
+        let requestURL = DataManager.openMarketAPIURL + request
+        
+        guard let url = URL(string: requestURL) else { return }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            completion(data)
+        }
+        task.resume()
+    }
         let jsonDecoder: JSONDecoder = JSONDecoder()
         let targetType = type(of: target)
         
