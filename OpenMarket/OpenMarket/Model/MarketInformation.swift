@@ -10,7 +10,7 @@ struct MarketInformation: Decodable {
     let totalCount: Int
     let offset: Int
     let limit: Int
-    let pages: [Page]
+    let pages: [SaleInformation]
     let lastPage: Int
     let hasNext: Bool
     let hasPrev: Bool
@@ -28,7 +28,7 @@ struct MarketInformation: Decodable {
     }
 }
 
-struct Page: Decodable {
+struct SaleInformation: Decodable {
     let id: Int
     let vendorId: Int
     let name: String
