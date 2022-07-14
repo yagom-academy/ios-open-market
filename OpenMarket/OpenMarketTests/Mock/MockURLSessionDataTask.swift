@@ -8,7 +8,7 @@
 import Foundation
 
 final class MockURLSessionDataTask: URLSessionDataTask {
-    private let resumeHandler:() -> Void
+    private let resumeHandler: () -> Void
 
     init(resumeHandler: @escaping () -> Void) {
         self.resumeHandler = resumeHandler
