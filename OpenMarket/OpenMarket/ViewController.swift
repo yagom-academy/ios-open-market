@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         let address = "https://market-training.yagom-academy.kr/api/products"
         let pageNo = URLQueryItem(name: "pageNo", value: "1")
         let itemsPerPage = URLQueryItem(name: "itemsPerPage", value: "10")
-        let queryItems = [pageNo,itemsPerPage]
+        let queryItems = [pageNo, itemsPerPage]
         
         getProductList(address: address, queryItems: queryItems, httpMethod: "GET")
     }
