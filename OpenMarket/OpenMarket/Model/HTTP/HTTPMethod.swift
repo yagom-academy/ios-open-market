@@ -5,10 +5,10 @@
 //  Created by Kiwi, Hugh on 2022/07/12.
 //
 
-enum RequestType {
+enum HTTPMethod {
     case get
     
-    var method: String {
+    var type: String {
         switch self {
         case .get:
             return "GET"

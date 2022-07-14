@@ -8,5 +8,5 @@
 enum ResponseError: Error {
     case statusError
     case dataError
-    case defaultError
+    case defaultResponseError
 }

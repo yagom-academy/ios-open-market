@@ -18,7 +18,7 @@ final class NetworkManager {
     private func loadData(request: URLRequest, completion: @escaping (Result<Data?, ResponseError>) -> Void) {
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                return completion(.failure(.defaultError))
+                return completion(.failure(.defaultResponseError))
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
@@ -26,11 +26,11 @@ final class NetworkManager {
                 return completion(.failure(.statusError))
             }
             
-            guard let safeData = data else {
+            guard let result = data else {
                 return completion(.failure(.dataError))
             }
             
-            completion(.success(safeData))
+            completion(.success(result))
         }
         task.resume()
     }
@@ -52,7 +52,7 @@ final class NetworkManager {
         }
         
         var request = URLRequest(url: safeURL)
-        request.httpMethod = RequestType.get.method
+        request.httpMethod = HTTPMethod.get.type
         
         loadData(request: request, completion: completion)
     }
