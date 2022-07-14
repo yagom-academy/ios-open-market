@@ -12,6 +12,7 @@ class JSONDecoderTest: XCTestCase {
     var itemList: ItemList!
 
     override func setUpWithError() throws {
+        try super.setUpWithError()
         itemList = JSONDecoder.decodeJson(jsonName: "Products")
     }
     

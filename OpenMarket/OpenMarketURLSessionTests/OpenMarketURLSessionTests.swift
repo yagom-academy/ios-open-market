@@ -13,6 +13,7 @@ class OpenMarketURLSessionTests: XCTestCase {
     var sut: OpenMarketURLSession!
     
     override func setUpWithError() throws {
+        try super.setUpWithError()
         sut = .init(session: mockSession)
     }
     
