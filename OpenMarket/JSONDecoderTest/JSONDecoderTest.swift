@@ -37,4 +37,12 @@ class JSONDecoderTest: XCTestCase {
         // then
         XCTAssertEqual(data, result)
     }
+    
+    func test_JSON파일의_이름이_다를때_nil을_반환하는지_확인() {
+        // given
+        let itemList: ItemList? = JSONDecoder.decodeJson(jsonName: "Item")
+        
+        // when, then
+        XCTAssertNil(itemList)
+    }
 }
