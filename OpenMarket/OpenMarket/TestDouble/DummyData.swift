@@ -26,7 +26,7 @@ class StubURLSession: URLSessionProtocol {
         self.dummyData = dummy
     }
     
-    func dataTask(with request: URLRequest,
+    func mockDataTask(with request: URLRequest,
                   completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTaskProtocol {
 
         return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)

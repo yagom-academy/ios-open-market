@@ -21,17 +21,20 @@ class RequestTests: XCTestCase {
     func test_APIRequest를_받아와서_디코딩이_잘되는지() {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
-        struct RequestData: APIRequest {}
-        let requestData = RequestData()
-        let url = URLHost.openMarket + URLAdditionalPath.product
-        let pageNumber = URLQueryItem(name: "page_no", value: "\(1)")
-        let itemPerPage = URLQueryItem(name: "items_per_page", value: "\(1)")
-        let urlQueryItems = [pageNumber, itemPerPage]
+        struct GetData: APIRequest {
+            var method: HTTPMethod = .get
+            var baseURL: String = URLHost.openMarket.url + URLAdditionalPath.product.value
+            var headers: [String : String]?
+            var query: [URLQueryItem]? = [
+                URLQueryItem(name: "page_no", value: "\(1)"),
+                URLQueryItem(name: "items_per_page", value: "\(1)")
+            ]
+            var body: Data?
+        }
+        let getData = GetData()
         var resultName: String?
         
-        // when
-        requestData.request(url: url, with: urlQueryItems)
-        { (result: Result<ProductsDetailList, Error>) in
+        getData.execute { (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let data):
                 resultName = data.pages[0].name
@@ -41,9 +44,9 @@ class RequestTests: XCTestCase {
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 300)
-        
-        let result = "1"
-        
+
+        let result = "Test Product"
+
         // then
         XCTAssertEqual(result, resultName)
     }
@@ -53,7 +56,7 @@ class RequestTests: XCTestCase {
         let expectation = expectation(description: "비동기 요청을 기다림.")
         struct RequestData: MockAPIRequest {}
         let requestData = RequestData()
-        let url = URLHost.openMarket + URLAdditionalPath.product
+        let url = URLHost.openMarket.url + URLAdditionalPath.product.value
         let pageNumber = URLQueryItem(name: "page_no", value: "\(1)")
         let itemPerPage = URLQueryItem(name: "items_per_page", value: "\(1)")
         let urlQueryItems = [pageNumber, itemPerPage]
@@ -73,7 +76,6 @@ class RequestTests: XCTestCase {
         wait(for: [expectation], timeout: 300)
 
         let result = "Test Product"
-        
         // then
         XCTAssertEqual(result, resultName)
     }

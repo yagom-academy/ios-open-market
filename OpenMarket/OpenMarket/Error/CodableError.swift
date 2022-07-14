@@ -6,6 +6,6 @@
 //
 
 enum CodableError: Error {
-    case decodeError
-    case encodeError
+    case decode
+    case encode
 }
