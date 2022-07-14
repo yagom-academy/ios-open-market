@@ -14,7 +14,7 @@ class NetworkProvider {
         self.session = session
     }
     
-    func fetchData<T: Codable>(url: URLAlternativeProtocol, dataType: T.Type, completion: @escaping (Result<T,NetworkError>) -> Void) {
+    func requestAndDecode<T: Codable>(url: URL, dataType: T.Type, completion: @escaping (Result<T,NetworkError>) -> Void) {
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) { data, response, error in
             if error != nil {
                 completion(.failure(.unknownErrorOccured))
