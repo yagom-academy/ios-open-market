@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
     
     func getProuctData() {
-        jsonParser.fetch(by: URLCollection.productDetailInquery, completion: { (response) in
+        jsonParser.dataTask(by: URLCollection.productDetailInquery, completion: { (response) in
             switch response {
             case .success(let data):
                 print(data)

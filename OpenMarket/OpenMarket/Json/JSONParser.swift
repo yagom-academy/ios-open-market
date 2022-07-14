@@ -7,9 +7,14 @@
 
 import Foundation
 
-struct JSONParser {
+class JSONParser {
+    let session: URLSessionProtocol
     
-    func fetch(by url: String, completion: @escaping (Result<Any, Error>) -> ()) {
+    init(session: URLSessionProtocol = URLSession.shared){
+        self.session = session
+    }
+    
+    func dataTask(by url: String, completion: @escaping (Result<Any, CustomError>) -> ()) {
         guard let url = URL(string: url) else {
             return
         }
@@ -17,7 +22,12 @@ struct JSONParser {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = session.dataTask(with: request) { (data, response, error) in
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completion(.failure(CustomError.statusCodeError))
+            }
             
             if let data = data {
                 do {
@@ -32,3 +42,9 @@ struct JSONParser {
         task.resume()
     }
 }
+
+protocol URLSessionProtocol {
+    func dataTask(with request: URLRequest,completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+}
+
+extension URLSession: URLSessionProtocol { }

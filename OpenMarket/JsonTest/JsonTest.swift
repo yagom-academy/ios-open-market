@@ -11,11 +11,15 @@ import XCTest
 class JsonTest: XCTestCase {
     var mock: NSDataAsset!
     var jsonDecoder: JSONDecoder!
+    
+    let mockSession = MockURLSession()
+    var sut: JSONParser!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         mock = NSDataAsset.init(name: "products")
         jsonDecoder = JSONDecoder()
+        sut = .init(session: mockSession)
     }
 
     override func tearDownWithError() throws {
@@ -24,25 +28,34 @@ class JsonTest: XCTestCase {
         jsonDecoder = nil
     }
     
-    func test_MockData_파일의_page_no_값이_디코딩되는지() {
-        // given
-        let mockInformation = try? jsonDecoder.decode(ProductListResponse.self, from: mock.data)
-        
-        // when
-        let reult = 1
-        
-        // then
-        XCTAssertEqual(reult, mockInformation?.pageNo)
+    func test_getPageNo_success() {
+        //given
+        let realdata = try? jsonDecoder.decode(ProductListResponse.self, from: mock.data)
+        //when
+        sut.dataTask(by: URLCollection.productListInquery, completion: { (response) in
+            switch response {
+            case .success(let data):
+                guard let testvalue = try? JSONDecoder().decode(ProductListResponse.self, from: data as! Data) else {
+                    XCTFail("Decode Error")
+                    return
+                }
+                XCTAssertEqual(testvalue.pageNo, realdata?.pageNo)
+            case .failure(_):
+                XCTFail("Get Fail")
+            }
+        })
     }
     
-    func test_MockData_파일의_pages_id_값이_디코딩되는지() {
-        // given
-        let mockInformation = try? jsonDecoder.decode(ProductListResponse.self, from: mock.data)
+    func test_getPageNo_failure() {
+        sut = JSONParser(session: MockURLSession(isRequestSuccess: false))
         
-        // when
-        let reult = 20
-        
-        // then
-        XCTAssertEqual(reult, mockInformation?.pages[0].id)
+        sut.dataTask(by: URLCollection.productListInquery, completion: { (response) in
+            switch response {
+            case .success(_):
+                XCTFail("result is success")
+            case .failure(let error):
+                XCTAssertEqual(error, CustomError.statusCodeError)
+            }
+        })
     }
 }
