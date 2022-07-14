@@ -9,7 +9,7 @@ import XCTest
 @testable import OpenMarket
 
 class URLDataTests: XCTestCase {
-    var sut: URLData!
+    var sut: NetworkProvider!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -24,13 +24,13 @@ class URLDataTests: XCTestCase {
     func test_fetchData_메서드가_실제_홈페이지에서_data를_가져오는지_테스트() throws {
         // given
         let url = "https://market-training.yagom-academy.kr/api/products?page_no=1&items_per_page=10"
-        var result: WebPage?
+        var result: ProductList?
         let urlSession = URLSession.shared
-        let sut = URLData(session: urlSession)
+        let sut = NetworkProvider(session: urlSession)
         let promise = expectation(description: "It makes random value")
         
         // when
-        sut.fetchData(url: URL(string: url)!, dataType: WebPage.self) { response in
+        sut.fetchData(url: URL(string: url)!, dataType: ProductList.self) { response in
             if case let .success(market) = response {
                 result = market
                 // then

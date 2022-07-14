@@ -1,5 +1,5 @@
 //
-//  URLData.swift
+//  NetworkProvider.swift
 //  OpenMarket
 //
 //  Created by 케이, 수꿍 on 2022/07/12.
@@ -7,17 +7,17 @@
 
 import Foundation
 
-class URLData {
+class NetworkProvider {
     var session: URLSessionProtocol
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
     
-    func fetchData<T: Codable>(url: URLAlternativeProtocol, dataType: T.Type, completion: @escaping (Result<T,Error>) -> Void) {
+    func fetchData<T: Codable>(url: URLAlternativeProtocol, dataType: T.Type, completion: @escaping (Result<T,NetworkError>) -> Void) {
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
+            if error != nil {
+                completion(.failure(.unknownErrorOccured))
                 return
             }
             
@@ -28,10 +28,10 @@ class URLData {
                     let decodedData = try JSONDecoder().decode(T.self, from: verifiedData)
                     completion(.success(decodedData))
                 } catch {
-                    completion(.failure(NetworkError.unableToParse))
+                    completion(.failure(.failedToDecode))
                 }
             } else {
-                completion(.failure(NetworkError.serverSideProblem))
+                completion(.failure(.networkConnectionIsBad))
             }
         }
         dataTask.resume()

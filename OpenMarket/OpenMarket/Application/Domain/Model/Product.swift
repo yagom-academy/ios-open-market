@@ -5,6 +5,8 @@
 //  Created by 케이, 수꿍 on 2022/07/11.
 //
 
+import UIKit
+
 struct Product: Codable {
     let id: Int
     let venderID: Int
@@ -30,5 +32,14 @@ struct Product: Codable {
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
+    }
+    
+    var thumbnailImage: UIImage? {
+        if let url = URL(string: thumbnail),
+           let imageData = try? Data(contentsOf: url) {
+            let image = UIImage(data: imageData)
+            return image
+        }
+        return nil
     }
 }
