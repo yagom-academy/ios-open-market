@@ -48,10 +48,10 @@ class RequestTests: XCTestCase {
         XCTAssertEqual(result, resultName)
     }
     
-    func test_mockDataResponse를_받아와서_decoding이잘되는지() {
+    func test_mockDataResponse를_받아와서_디코딩이잘되는지() {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
-        struct RequestData: APIRequest {}
+        struct RequestData: MockAPIRequest {}
         let requestData = RequestData()
         let url = URLHost.openMarket + URLAdditionalPath.product
         let pageNumber = URLQueryItem(name: "page_no", value: "\(1)")
@@ -71,7 +71,7 @@ class RequestTests: XCTestCase {
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 300)
-        
+
         let result = "Test Product"
         
         // then
