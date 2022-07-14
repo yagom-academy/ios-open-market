@@ -13,9 +13,18 @@ import UIKit
 
 class MainViewController: UIViewController {
     // MARK: - Properties
-    private let segmantController: UISegmentedControl = {
+    private var shouldHideFirstView: Bool? {
+        didSet {
+            guard let shouldHideFirstView = shouldHideFirstView else { return }
+            self.firstView.isHidden = shouldHideFirstView
+            self.secondView.isHidden = !shouldHideFirstView
+        }
+    }
+    
+    private let segmentController: UISegmentedControl = {
         let segmentController = UISegmentedControl(items: ["Table", "Grid"])
         segmentController.translatesAutoresizingMaskIntoConstraints = true
+        segmentController.selectedSegmentIndex = 0
         return segmentController
     }()
     
@@ -36,11 +45,39 @@ class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .systemBackground
         addUIComponents()
+        configurateLayout()
+        setupSegment()
     }
+    
     private func addUIComponents() {
-        self.navigationController?.navigationItem.titleView = segmantController
+        self.navigationItem.titleView = segmentController
         self.view.addSubview(firstView)
         self.view.addSubview(secondView)
+    }
+    
+    @objc private func didChangeValue(segment: UISegmentedControl) {
+        self.shouldHideFirstView = segment.selectedSegmentIndex != 0
+    }
+    
+    private func configurateLayout() {
+        NSLayoutConstraint.activate([
+            self.firstView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.firstView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.firstView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.firstView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+        NSLayoutConstraint.activate([
+            self.secondView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.secondView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.secondView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.secondView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    private func setupSegment() {
+        didChangeValue(segment: self.segmentController)
+        self.segmentController.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
     }
 }
