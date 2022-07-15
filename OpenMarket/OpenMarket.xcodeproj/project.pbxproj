@@ -41,13 +41,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4252740A287D6FFF00A63D7F /* Model */ = {
+		4252740A287D6FFF00A63D7F /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				4252740B287D700C00A63D7F /* ItemListPage.swift */,
 				FDE9CB682880024800A78B24 /* DataManager.swift */,
 			);
-			path = Model;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4252743228810FC700A63D7F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4252743328810FFF00A63D7F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		425274342881101B00A63D7F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ItemListPageViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		425274352881103B00A63D7F /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				4252740A287D6FFF00A63D7F /* Models */,
+				4252743328810FFF00A63D7F /* Views */,
+				425274342881101B00A63D7F /* Controllers */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -69,14 +106,9 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ItemListPageViewController.swift */,
-				4252740A287D6FFF00A63D7F /* Model */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
+				4252743228810FC700A63D7F /* Resources */,
+				425274352881103B00A63D7F /* Sources */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
