@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let productsDataManager = ProductsDataManager()
-        productsDataManager.getData(pageNumber: 1, itemsPerPage: 50) { (result: Products) in
+        productsDataManager.getData(pageNumber: 1, itemsPerPage: 10) { (result: Products) in
             self.Products = result
             
             DispatchQueue.main.async {
@@ -116,7 +116,7 @@ extension ViewController {
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(Array(0...49))
+        snapshot.appendItems(Array(0...9))
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
@@ -127,8 +127,16 @@ extension ViewController {
         if segmentControl?.selectedSegmentIndex == Titles.LIST.rawValue {
             self.collectionView?.setCollectionViewLayout(createListLayout(), animated: true)
             setupCollectionViewLayout()
+            collectionView?.visibleCells.forEach{ cell in
+                guard let cell = cell as? ItemCollectionViewCell else { return }
+                cell.setAxis(segment: .LIST)
+            }
         } else if segmentControl?.selectedSegmentIndex == Titles.GRID.rawValue {
             self.collectionView?.setCollectionViewLayout(createGridLayout(), animated: true)
+            collectionView?.visibleCells.forEach{ cell in
+                guard let cell = cell as? ItemCollectionViewCell else { return }
+                cell.setAxis(segment: .GRID)
+            }
         }
     }
 }

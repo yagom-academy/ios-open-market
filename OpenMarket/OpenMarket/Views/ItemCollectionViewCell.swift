@@ -8,7 +8,6 @@ class ItemCollectionViewCell: UICollectionViewCell {
         didSet {
             guard let product = product else { return }
 
-//            itemImageView.image = image
             itemNameLabel.text = product.name
             itemPriceLabel.text = String(product.price)
             itemStockLabel.text = String(product.stock)
@@ -17,7 +16,6 @@ class ItemCollectionViewCell: UICollectionViewCell {
     
     let itemImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(systemName: "tshirt.fill")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -51,6 +49,15 @@ class ItemCollectionViewCell: UICollectionViewCell {
         label.text = ""
         return label
     }()
+    
+    let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        return stackView
+    }()
 
     
     // MARK: - Life Cycle
@@ -67,33 +74,53 @@ class ItemCollectionViewCell: UICollectionViewCell {
 
 extension ItemCollectionViewCell {
     private func configureLayout() {
+        addSubview(stackView)
         
         itemNameAndPriceStackView.addArrangedSubview(itemNameLabel)
         itemNameAndPriceStackView.addArrangedSubview(itemPriceLabel)
         
-        addSubview(itemImageView)
-        addSubview(itemNameAndPriceStackView)
-        addSubview(itemStockLabel)
-        
+        stackView.addArrangedSubview(itemImageView)
+        stackView.addArrangedSubview(itemNameAndPriceStackView)
+        stackView.addArrangedSubview(itemStockLabel)
+
         NSLayoutConstraint.activate([
-            itemImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            itemImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2),
-            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            itemImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor)
+            self.itemImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.3),
+            self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 1.0)
         ])
         
-        NSLayoutConstraint.activate([
-            itemNameAndPriceStackView.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor),
-            itemNameAndPriceStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
-            itemNameAndPriceStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-            itemNameAndPriceStackView.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
+//        NSLayoutConstraint.activate([
+//            itemNameAndPriceStackView.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor),
+//            itemNameAndPriceStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
+//            itemNameAndPriceStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+//            itemNameAndPriceStackView.centerYAnchor.constraint(equalTo: centerYAnchor)
+//        ])
         
         NSLayoutConstraint.activate([
-            itemStockLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            itemStockLabel.leadingAnchor.constraint(equalTo: itemNameAndPriceStackView.trailingAnchor),
-            itemStockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            itemStockLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    
+    func setAxis(segment: Titles) {
+        switch segment {
+        case .LIST:
+            UIView.animate(withDuration: 0.3) {
+                self.stackView.axis = .horizontal
+            }
+            NSLayoutConstraint.activate([
+                self.itemImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.3),
+                self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor)
+            ])
+        case .GRID:
+            UIView.animate(withDuration: 0.3) {
+                self.stackView.axis = .vertical
+            }
+            NSLayoutConstraint.activate([
+                self.itemImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.8),
+                self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.4)
+            ])
+        }
     }
 }
