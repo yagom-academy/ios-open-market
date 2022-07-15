@@ -53,6 +53,15 @@ enum URLAdditionalPath {
             return "/api/products"
         }
     }
+    
+    var mockFileName: String {
+        switch self {
+        case .healthChecker:
+            return ""
+        case .product:
+            return "MockData"
+        }
+    }
 }
 
 protocol APIRequest {
@@ -61,13 +70,14 @@ protocol APIRequest {
     var headers: [String: String]? { get }
     var query: [URLQueryItem]? { get }
     var body: Data? { get }
+    var path: URLAdditionalPath { get }
 }
 
 extension APIRequest {
     var url: URL? {
         var component = URLComponents(string: self.baseURL)
         component?.queryItems = query
-
+        
         return component?.url
     }
     
@@ -79,36 +89,5 @@ extension APIRequest {
         self.headers?.forEach { request.addValue($0, forHTTPHeaderField: $1) }
         
         return request
-    }
-    
-    func execute<T: Codable>(completion: @escaping (Result<T, Error>) -> Void) {
-        guard let request = self.urlRequest else { return }
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard error == nil else {
-                completion(.failure(NetworkError.request))
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse,
-                  200 <= response.statusCode, response.statusCode < 300
-            else {
-                completion(.failure(NetworkError.response))
-                return
-            }
-            
-            guard let safeData = data else {
-                completion(.failure(NetworkError.invalidData))
-                return
-            }
-            
-            guard let decodedData = try? JSONDecoder().decode(T.self, from: safeData)
-            else {
-                completion(.failure(CodableError.decode))
-                return
-            }
-            completion(.success(decodedData))
-        }
-        task.resume()
     }
 }

@@ -9,8 +9,11 @@ import XCTest
 @testable import OpenMarket
 
 struct GetData: APIRequest {
+    var path: URLAdditionalPath = .product
     var method: HTTPMethod = .get
-    var baseURL: String = URLHost.openMarket.url + URLAdditionalPath.product.value
+    var baseURL: String {
+        URLHost.openMarket.url + path.value
+    }
     var headers: [String : String]?
     var query: [URLQueryItem]? = [
         URLQueryItem(name: "page_no", value: "\(1)"),
@@ -35,16 +38,18 @@ class RequestTests: XCTestCase {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
         var resultName: String?
+        let mockSession = MockSession()
         
-        sut?.executeMockData { (result: Result<ProductsDetailList, Error>) in
+        mockSession.dataTask(with: sut!) { (result: Result<ProductsDetailList, Error>) in
             switch result {
-            case .success(let data):
-                resultName = data.pages[0].name
-            case .failure(let error):
-                print(error)
+            case .success(let success):
+                resultName = success.pages[0].name
+            case .failure(_):
+                break
             }
             expectation.fulfill()
         }
+            
         wait(for: [expectation], timeout: 300)
         
         // when
@@ -58,20 +63,22 @@ class RequestTests: XCTestCase {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
         var resultName: String?
+        let myURLSession = MyURLSession()
         
-        sut?.execute { (result: Result<ProductsDetailList, Error>) in
+        myURLSession.dataTask(with: sut!) { (result: Result<ProductsDetailList, Error>) in
             switch result {
-            case .success(let data):
-                resultName = data.pages[0].name
-            case .failure(let error):
-                print(error)
+            case .success(let success):
+                resultName = success.pages[0].name
+            case .failure(_):
+                break
             }
             expectation.fulfill()
         }
+            
         wait(for: [expectation], timeout: 300)
         
         // when
-        let result = "Test Product"
+        let result = "데릭"
         
         // then
         XCTAssertEqual(result, resultName)
