@@ -25,31 +25,42 @@ final class ItemListPageViewController: UIViewController {
         static var questionMark = "?"
         static var ampersand = "&"
     }
-
+    
     private var itemListPage: ItemListPage?
     
     private let queryString = QueryCharacter.questionMark + QueryKey.pageNumber + QueryValue.pageNumber + QueryCharacter.ampersand + QueryKey.itemsPerPage + QueryValue.itemsPerPage
+    
     private lazy var url = Path.products + queryString
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        DataManager.performRequestToAPI(with: url) { data in
+        
+        DataManager.performRequestToAPI(with: url) { (result: Result<Data, APIError>) in
+            self.fetchParsedData(basedOn: result)
+        }
+    }
+    
+    private func fetchParsedData(basedOn result: Result<Data, APIError>) {
+        switch result {
+        case .success(let data):
             guard let parsedData = DataManager.parse(data, into: self.itemListPage) else {
                 return
             }
             
             self.itemListPage = parsedData
+            
+        case .failure(let error):
+            print(error)
         }
     }
-
-   private func fetchDataForItemListPage() {
-       let data = DataManager.makeDataFrom(fileName: "products")
-       
-       guard let parsedData = DataManager.parse(data, into: itemListPage) else {
-           return
-       }
-
-       itemListPage = parsedData
-   }
+    
+    private func fetchDataForItemListPage() {
+        let data = DataManager.makeDataFrom(fileName: "products")
+        
+        guard let parsedData = DataManager.parse(data, into: itemListPage) else {
+            return
+        }
+        
+        itemListPage = parsedData
+    }
 }

@@ -16,6 +16,7 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		FDE9CB692880024800A78B24 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE9CB682880024800A78B24 /* DataManager.swift */; };
 		FDE9CB9A2881546300A78B24 /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE9CB992881546300A78B24 /* DataManagerTests.swift */; };
+		FDE9CBA6288158F200A78B24 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE9CBA5288158F200A78B24 /* APIError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		FDE9CB682880024800A78B24 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		FDE9CB972881546300A78B24 /* DataManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE9CB992881546300A78B24 /* DataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
+		FDE9CBA5288158F200A78B24 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 		4252740A287D6FFF00A63D7F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FDE9CBA4288158D100A78B24 /* Errors */,
 				4252740B287D700C00A63D7F /* ItemListPage.swift */,
 				FDE9CB682880024800A78B24 /* DataManager.swift */,
 			);
@@ -141,6 +144,14 @@
 				FDE9CB992881546300A78B24 /* DataManagerTests.swift */,
 			);
 			path = DataManagerTests;
+			sourceTree = "<group>";
+		};
+		FDE9CBA4288158D100A78B24 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				FDE9CBA5288158F200A78B24 /* APIError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ItemListPageViewController.swift in Sources */,
+				FDE9CBA6288158F200A78B24 /* APIError.swift in Sources */,
 				FDE9CB692880024800A78B24 /* DataManager.swift in Sources */,
 				4252740C287D700C00A63D7F /* ItemListPage.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

@@ -8,28 +8,29 @@
 import UIKit
 
 struct DataManager {
-    static let openMarketAPIURL = "https://market-training.yagom-academy.kr/api/"
+    static let openMarketHostAPI = "https://market-training.yagom-academy.kr"
     
-    static func performRequestToAPI(with request: String, completion: @escaping ((Data) -> Void)) {
-        let requestURL = DataManager.openMarketAPIURL + request
+    static func performRequestToAPI(with request: String, completion: @escaping (Result<Data, APIError>) -> Void) {
+        let requestURL = DataManager.openMarketHostAPI + request
         
-        guard let url = URL(string: requestURL) else { return }
+        guard let url = URL(string: requestURL) else {
+            return
+        }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print(error)
-                return
+            if error != nil {
+                return completion(.failure(.client))
             }
             
             guard isValidResponse(response) else {
-                return
+                return completion(.failure(.server))
             }
             
             guard let data = data else {
-                return
+                return completion(.failure(.data))
             }
             
-            completion(data)
+            completion(.success(data))
         }
         task.resume()
     }
@@ -37,8 +38,8 @@ struct DataManager {
     private static func isValidResponse(_ response: URLResponse?) -> Bool {
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {
-                  return false
-              }
+            return false
+        }
         
         return true
     }
@@ -67,5 +68,3 @@ struct DataManager {
         }
     }
 }
-
-
