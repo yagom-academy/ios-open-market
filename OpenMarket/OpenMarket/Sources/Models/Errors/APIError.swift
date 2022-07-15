@@ -5,7 +5,7 @@
 //  Created by minsson, yeton on 2022/07/15.
 //
 
-import Foundation
+// MARK: - Enum
 
 enum APIError: Error {
     case decodingJson

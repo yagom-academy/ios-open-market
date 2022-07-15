@@ -7,30 +7,16 @@
 import UIKit
 
 final class ItemListPageViewController: UIViewController {
-    private enum QueryValue {
-        static var pageNumber = "1"
-        static var itemsPerPage = "10"
-    }
     
-    private enum QueryKey {
-        static var pageNumber = "page_no="
-        static var itemsPerPage = "items_per_page="
-    }
-    
-    private enum Path {
-        static var products = "/api/products"
-    }
-    
-    private enum QueryCharacter {
-        static var questionMark = "?"
-        static var ampersand = "&"
-    }
+    // MARK: - Properties
     
     private var itemListPage: ItemListPage?
     
     private let queryString = QueryCharacter.questionMark + QueryKey.pageNumber + QueryValue.pageNumber + QueryCharacter.ampersand + QueryKey.itemsPerPage + QueryValue.itemsPerPage
     
     private lazy var url = Path.products + queryString
+    
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +25,12 @@ final class ItemListPageViewController: UIViewController {
             self.fetchParsedData(basedOn: result)
         }
     }
-    
-    private func fetchParsedData(basedOn result: Result<Data, APIError>) {
+}
+
+// MARK: - Private Actions
+
+private extension ItemListPageViewController {
+    func fetchParsedData(basedOn result: Result<Data, APIError>) {
         switch result {
         case .success(let data):
             guard let parsedData = DataManager.parse(data, into: self.itemListPage) else {
@@ -54,7 +44,7 @@ final class ItemListPageViewController: UIViewController {
         }
     }
     
-    private func fetchDataForItemListPage() {
+    func fetchDataForItemListPage() {
         let data = DataManager.makeDataFrom(fileName: "products")
         
         guard let parsedData = DataManager.parse(data, into: itemListPage) else {
@@ -62,5 +52,28 @@ final class ItemListPageViewController: UIViewController {
         }
         
         itemListPage = parsedData
+    }
+}
+
+// MARK: - Private Enums
+
+private extension ItemListPageViewController {
+    enum QueryValue {
+        static var pageNumber = "1"
+        static var itemsPerPage = "10"
+    }
+    
+    enum QueryKey {
+        static var pageNumber = "page_no="
+        static var itemsPerPage = "items_per_page="
+    }
+    
+    enum Path {
+        static var products = "/api/products"
+    }
+    
+    enum QueryCharacter {
+        static var questionMark = "?"
+        static var ampersand = "&"
     }
 }

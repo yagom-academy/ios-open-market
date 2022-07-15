@@ -8,7 +8,12 @@
 import UIKit
 
 struct DataManager {
-    static let openMarketHostAPI = "https://market-training.yagom-academy.kr"
+    
+    // MARK: - Properties
+    
+    private static let openMarketHostAPI = "https://market-training.yagom-academy.kr"
+    
+    // MARK: - Static Actions
     
     static func performRequestToAPI(with request: String, completion: @escaping (Result<Data, APIError>) -> Void) {
         let requestURL = DataManager.openMarketHostAPI + request
@@ -35,15 +40,6 @@ struct DataManager {
         task.resume()
     }
     
-    private static func isValidResponse(_ response: URLResponse?) -> Bool {
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            return false
-        }
-        
-        return true
-    }
-    
     static func makeDataFrom(fileName: String) -> Data? {
         guard let dataAsset: NSDataAsset = NSDataAsset.init(name: fileName) else {
             return nil
@@ -66,5 +62,18 @@ struct DataManager {
         } catch {
             return nil
         }
+    }
+}
+
+// MARK: - Private Static Actions
+
+private extension DataManager {
+    static func isValidResponse(_ response: URLResponse?) -> Bool {
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            return false
+        }
+        
+        return true
     }
 }
