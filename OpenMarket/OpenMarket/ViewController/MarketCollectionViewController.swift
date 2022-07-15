@@ -17,8 +17,14 @@ class MarketCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.collectionViewLayout = createLayout()
+
     }
     
+    func createLayout() -> UICollectionViewLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: configuration)
+    }
 }
 
 extension MarketCollectionViewController {
