@@ -1,6 +1,6 @@
 //
 //  OpenMarket - SceneDelegate.swift
-//  Created by yagom. 
+//  Created by Kiwi, Hugh. 
 //  Copyright © yagom. All rights reserved.
 // 
 
