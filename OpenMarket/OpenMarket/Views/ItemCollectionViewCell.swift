@@ -4,9 +4,20 @@ class ItemCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    var product: Page? {
+        didSet {
+            guard let product = product else { return }
+
+//            itemImageView.image = image
+            itemNameLabel.text = product.name
+            itemPriceLabel.text = String(product.price)
+            itemStockLabel.text = String(product.stock)
+        }
+    }
+    
     let itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "tshirt.fill")
+//        imageView.image = UIImage(systemName: "tshirt.fill")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -14,13 +25,13 @@ class ItemCollectionViewCell: UICollectionViewCell {
     let itemNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "아이폰 12 mini"
+        label.text = ""
         return label
     }()
     
     let itemPriceLabel: UILabel = {
         let label = UILabel()
-        label.text = "100,000원"
+        label.text = ""
         return label
     }()
     
@@ -37,7 +48,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
     let itemStockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "127개 남음."
+        label.text = ""
         return label
     }()
 

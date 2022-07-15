@@ -5,12 +5,30 @@ class ViewController: UIViewController {
     var collectionView: UICollectionView?
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>?
     
+    var productImages: [UIImage] = []
+    var Products: Products? {
+        didSet {
+            Products?.pages.forEach {
+                guard let imageUrl = URL(string: $0.thumbnail),
+                      let imageData = try? Data(contentsOf: imageUrl),
+                      let image = UIImage(data: imageData) else { return }
+                
+                productImages.append(image)
+            }
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let avd = ProductsDataManager()
-        avd.getData(pageNumber: 1, itemsPerPage: 10) { (result: Products) in
-            print(result)
+        let productsDataManager = ProductsDataManager()
+        productsDataManager.getData(pageNumber: 1, itemsPerPage: 50) { (result: Products) in
+            self.Products = result
+            
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()                
+            }
         }
         
         configureHierarchy()
@@ -30,7 +48,7 @@ class ViewController: UIViewController {
         flowLayout.estimatedItemSize = CGSize(width: width, height: height * 0.08)
 
         collectionView?.collectionViewLayout = flowLayout
-        collectionView?.backgroundColor = .systemGray
+//        collectionView?.backgroundColor = .systemGray
     }
 }
 
@@ -85,12 +103,20 @@ extension ViewController {
         guard let collectionView = collectionView else { return }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+            cell.product = self.Products?.pages[indexPath.row]
+            
+            
+            if self.productImages.isEmpty == false {
+                cell.itemImageView.image = self.productImages[indexPath.row]
+            }
+
+            return cell
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(Array(0...94))
+        snapshot.appendItems(Array(0...49))
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
