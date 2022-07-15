@@ -7,11 +7,25 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var segmentSwitch: UISegmentedControl!
+    
     let jsonParser = JSONParser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getProuctData()
+    }
+    
+    @IBAction func switchView(_ sender: UISegmentedControl) {
+        print(sender.selectedSegmentIndex)
+        switch sender.selectedSegmentIndex {
+        case 0:
+            segmentSwitch.backgroundColor = .yellow
+        case 1:
+            segmentSwitch.backgroundColor = .blue
+        default:
+            break
+        }
     }
     
     func getProuctData() {
