@@ -12,9 +12,8 @@ final class ItemListPageViewController: UIViewController {
     
     private var itemListPage: ItemListPage?
     
-    private let queryString = QueryCharacter.questionMark + QueryKey.pageNumber + QueryValue.pageNumber + QueryCharacter.ampersand + QueryKey.itemsPerPage + QueryValue.itemsPerPage
-    
     private lazy var url = Path.products + queryString
+    private let queryString = QueryCharacter.questionMark + QueryKey.pageNumber + QueryValue.pageNumber + QueryCharacter.ampersand + QueryKey.itemsPerPage + QueryValue.itemsPerPage
     
     // MARK: - Life Cycle
     
