@@ -14,8 +14,7 @@ final class NetworkManager {
         self.session = session
     }
     
-    func fetch<T: Decodable>(request: URLRequest, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        
+    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
@@ -28,13 +27,7 @@ final class NetworkManager {
             }
             
             if (200..<400).contains(response.statusCode) {
-                do {
-                    let data = try JSONDecoder().decode(dataType, from: data)
-                    completion(.success(data))
-                } catch {
-                    completion(.failure(NetworkError.failToDecoding))
-                    print(NetworkError.failToDecoding.message)
-                }
+                completion(.success(data))
             } else {
                 completion(.failure(NetworkError.outOfRange))
                 print(NetworkError.outOfRange.message)

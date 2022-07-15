@@ -7,10 +7,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let address = NetworkNamespace.url.name
         let pageNo = URLQueryItem(name: NetworkNamespace.pageNo.name, value: "1")
         let itemsPerPage = URLQueryItem(name: NetworkNamespace.itemsPerPage.name, value: "10")
@@ -32,14 +32,5 @@ class ViewController: UIViewController {
         
         request.httpMethod = httpMethod
         components?.queryItems = queryItems
-        
-        netWorkManager.fetch(request: request, dataType: MarketInformation.self) { result in
-            switch result {
-            case .success(let product):
-                print(product)
-            case . failure(let error):
-                print(error)
-            }
-        }
-     }
+    }
 }
