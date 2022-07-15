@@ -5,8 +5,6 @@
 //  Created by groot, bard on 2022/07/12.
 //
 
-import Foundation
-
 struct ProductDetail: Codable {
     let id: Int
     let vendorID: Int
