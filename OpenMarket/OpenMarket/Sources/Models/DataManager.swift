@@ -2,7 +2,7 @@
 //  DataManager.swift
 //  OpenMarket
 //
-//  Created by minsson on 2022/07/14.
+//  Created by minsson, yeton on 2022/07/14.
 //
 
 import UIKit
@@ -21,8 +21,7 @@ struct DataManager {
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                (200...299).contains(httpResponse.statusCode) else {
+            guard isValidResponse(response) else {
                 return
             }
             
@@ -35,10 +34,20 @@ struct DataManager {
         task.resume()
     }
     
+    private static func isValidResponse(_ response: URLResponse?) -> Bool {
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+                  return false
+              }
+        
+        return true
+    }
+    
     static func makeDataFrom(fileName: String) -> Data? {
         guard let dataAsset: NSDataAsset = NSDataAsset.init(name: fileName) else {
             return nil
         }
+        
         return dataAsset.data
     }
     
