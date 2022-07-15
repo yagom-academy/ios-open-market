@@ -10,13 +10,14 @@
 
 ## 📑 목차
 
-- [🧑🏻‍💻🧑🏻‍💻 개발자 소개](#개발자-소개)
-- [💡 키워드](#키워드)
-- [🤔 핵심경험](#핵심경험)
-- [📚 참고문서](#참고문서)
-- [📝 기능설명](#기능설명)
-- [🚀 TroubleShooting](#TroubleShooting)
-- [1️⃣ STEP 1](https://github.com/Jeon-Minsu/ios-bank-manager/tree/step01/Docs/Step01.md)
+- [🧑🏻‍💻🧑🏻‍💻 개발자 소개](#-개발자-소개)
+- [💡 키워드](#-키워드)
+- [🤔 핵심경험](#-핵심경험)
+- [🗂 폴더 구조](#-폴더-구조)
+- [📝 기능설명](#-기능설명)
+- [🚀 TroubleShooting](#-TroubleShooting)
+- [📚 참고문서](#-참고문서)
+- [1️⃣ STEP 1](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP01/Docs/Step01.md)
 
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
@@ -47,25 +48,49 @@
 - [x] CodingKeys 프로토콜의 활용
 - [x] 네트워크 상황과 무관한 네트워킹 데이터 타입의 단위 테스트(Unit Test)
 
+## 🗂 폴더 구조
 
-## 📚 참고문서
+```
+└── OpenMarket
+    ├── OpenMarket
+    │   ├── Application
+    │   │   ├── AppDelegate.swift
+    │   │   ├── SceneDelegate.swift
+    │   │   ├── Presentation
+    │   │   │   └── ViewController
+    │   │   │       └── ViewController.swift
+    │   │   └── Domain
+    │   │       └── Model
+    │   │           ├── productList.swift
+    │   │           └── product.swift
+    │   ├── Networking
+    │   │   ├── Protocol
+    │   │   │   ├── URLSessionProtocol.swift
+    │   │   │   └── URLSessionDataTaskProtocol.swift
+    │   │   ├── NetworkProvider.swift
+    │   │   └── NetworkError.swift
+    │   └── Resource
+    │       ├── Info
+    │       ├── Assets
+    │       └── LaunchScreen
+    ├── Mock
+    │   ├── MockURLSession.swift
+    │   ├── MockURLSessionDataTask.swift
+    │   └── Mock.json
+    └── MockTests
+        └── MockTests.swift
+```
 
-- [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
-    - [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
-    
 ## 📝 기능설명
     
 ### 네트워크 통신을 담당할 타입을 설계하고 구현
-    - JSONData
-        - JSON 파일에 대한 parse, decode 기능 수행
-    - WebPage, Product
+    - ProductList, Product
         - 서버 API 데이터 형식을 고려하여 모델 타입 구현
-    - URLData
+    - NetworkProvider
         - 서버로부터 데이터를 받아오는 기능을 수행
         - 기능을 수행한 위한 protocol, extension 별도 생성
     - NetworkError
         - 서버로부터 데이터를 받아오는 도중 발생하는 에러 표현
-
 
 ## 🚀 TroubleShooting
     
@@ -77,4 +102,8 @@
     
 #### T2. 하나의 파라미터에 서로 다른 두개의 타입 사용 고민 해결.
 - fetchData메서드와 dataTask(with:) 메서드의 매개변수로 URL 타입과 URLRequest 타입을 모두 사용하기 위해 메서드 오버로딩을 생각했었습니다. protocol 선언후 두 타입이 채택하는 방법이 많은 양의 코드를 반복하는 오버로딩 방식보다 가독성과 효율적인 측면에서 낫다고 판단해 들어갈수있는 모든 타입이 특정 프로토콜을 채택하는 방식으로 문제를 해결했습니다.
---- 
+
+## 📚 참고문서
+
+- [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
+    - [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)-
