@@ -3,6 +3,7 @@ import UIKit
 class ItemCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
+    
     let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "tshirt.fill")
@@ -28,7 +29,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.spacing = 2
         stackView.alignment = .leading
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -71,11 +72,10 @@ extension ItemCollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            itemNameAndPriceStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             itemNameAndPriceStackView.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor),
             itemNameAndPriceStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
-            itemNameAndPriceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            
+            itemNameAndPriceStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+            itemNameAndPriceStackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([

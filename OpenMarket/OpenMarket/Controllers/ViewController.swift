@@ -11,6 +11,21 @@ class ViewController: UIViewController {
         configureHierarchy()
         configureDataSoure()
         configureSegmentControl()
+        
+        setupCollectionViewLayout()
+    }
+        
+    private func setupCollectionViewLayout() {
+        let flowLayout = UICollectionViewFlowLayout()
+
+        let width = self.view.frame.width
+        let height = self.view.frame.height
+
+        flowLayout.minimumLineSpacing = 2
+        flowLayout.estimatedItemSize = CGSize(width: width, height: height * 0.08)
+
+        collectionView?.collectionViewLayout = flowLayout
+        collectionView?.backgroundColor = .systemGray
     }
 }
 
@@ -59,7 +74,7 @@ extension ViewController {
     
     private func configureDataSoure() {
         let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Int> { (cell, indexPath, identifier) in
-            cell.backgroundColor = .yellow
+            cell.backgroundColor = .systemBackground
         }
         
         guard let collectionView = collectionView else { return }
@@ -80,6 +95,7 @@ extension ViewController {
     @objc private func changeLayout() {
         if segmentControl?.selectedSegmentIndex == Titles.LIST.rawValue {
             self.collectionView?.setCollectionViewLayout(createListLayout(), animated: true)
+            setupCollectionViewLayout()
         } else if segmentControl?.selectedSegmentIndex == Titles.GRID.rawValue {
             self.collectionView?.setCollectionViewLayout(createGridLayout(), animated: true)
         }
