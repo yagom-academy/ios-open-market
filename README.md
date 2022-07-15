@@ -4,7 +4,7 @@
 오픈마켓을 창설하여 상품을 관리해본다.
 
 > 프로젝트 기간: 2022-07-11 ~ 2022-07-22</br>
-> 팀원: [수꿍](https://github.com/Jeon-Minsu), [케이](https://github.com/KayAhnDS) </br>
+> 팀원: [수꿍](https://github.com/Jeon-Minsu), [케이](https://github.com/KayAhnDS), [데릭](https://github.com/derrickkim0109) </br>
 리뷰어: [Wody](https://github.com/Wody95)</br>
 그라운드롤: [GroundRule](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP01/Docs/GroundRule.md)
 
@@ -21,10 +21,10 @@
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
 
-|케이|수꿍|
-|:---:|:---:|
-|<image src = "https://user-images.githubusercontent.com/99063327/178641788-995112c1-924a-4768-b46b-c9bf3a04a994.jpeg" width="250" height="250">| <image src = "https://i.imgur.com/6HkYdmp.png" width="250" height="250">
-|[케이](https://github.com/KayAhnDS)|[수꿍](https://github.com/Jeon-Minsu)|
+|케이|수꿍|데릭|
+|:---:|:---:|:---:|
+|<image src = "https://user-images.githubusercontent.com/99063327/178641788-995112c1-924a-4768-b46b-c9bf3a04a994.jpeg" width="250" height="250">| <image src = "https://i.imgur.com/6HkYdmp.png" width="250" height="250">|<image src = "https://avatars.githubusercontent.com/u/59466342?v=4" width="250" height="250">
+|[케이](https://github.com/KayAhnDS)|[수꿍](https://github.com/Jeon-Minsu)|[데릭](https://github.com/derrickkim0109)|
 
 ## 💡 키워드
 
