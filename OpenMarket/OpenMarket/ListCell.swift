@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionViewListLayoutCell: UICollectionViewCell {
+class ListCell: UICollectionViewCell {
     
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
@@ -25,10 +25,20 @@ class CollectionViewListLayoutCell: UICollectionViewCell {
         return stackview
     }()
     
+    private let horizontalStackView: UIStackView = {
+        let stackview = UIStackView()
+        stackview.translatesAutoresizingMaskIntoConstraints = false
+        stackview.axis = .horizontal
+        stackview.alignment = .fill
+        stackview.distribution = .equalSpacing
+        return stackview
+    }()
+    
     private let productNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.numberOfLines = 0
         label.text = "Mac mini"
         return label
     }()
@@ -53,14 +63,26 @@ class CollectionViewListLayoutCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupAddSubviews()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupAddSubviews() {
         self.contentView.addSubview(productImageView)
         self.contentView.addSubview(verticalStackView)
-        self.contentView.addSubview(indicatorLabel)
         
-        verticalStackView.addArrangedSubview(productNameLabel)
+        horizontalStackView.addArrangedSubview(productNameLabel)
+        horizontalStackView.addArrangedSubview(indicatorLabel)
+        
+        verticalStackView.addArrangedSubview(horizontalStackView)
         verticalStackView.addArrangedSubview(productPriceLabel)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             productImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             productImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
@@ -73,16 +95,8 @@ class CollectionViewListLayoutCell: UICollectionViewCell {
             verticalStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor),
             verticalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             verticalStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
-            verticalStackView.trailingAnchor.constraint(equalTo: self.indicatorLabel.leadingAnchor)
+            verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
         ])
-        NSLayoutConstraint.activate([
-            indicatorLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            indicatorLabel.bottomAnchor.constraint(equalTo: productNameLabel.bottomAnchor)
-        ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func setupCellData(with inputData: Product) {
@@ -94,6 +108,7 @@ class CollectionViewListLayoutCell: UICollectionViewCell {
         self.productPriceLabel.text = "\(inputData.currency) \(inputData.price)"
         setupIndicatorLabelData(stock: inputData.stock)
     }
+    
     private func setupIndicatorLabelData(stock: Int) {
         let attriubutedString: NSMutableAttributedString
         if stock > 0 {
@@ -114,7 +129,10 @@ class CollectionViewListLayoutCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        self.indicatorLabel.textColor = .lightGray
+        self.indicatorLabel.textColor = nil
+        self.productImageView.image = nil
+        self.productNameLabel.text = nil
+        self.productPriceLabel.text = nil
     }
 }
 

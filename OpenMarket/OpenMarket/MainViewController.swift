@@ -9,7 +9,6 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: - Instance Properties
     private let manager = NetworkManager()
-    
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
     
     enum Section {
@@ -21,6 +20,15 @@ class MainViewController: UIViewController {
         didSet {
             guard let shouldHideListLayout = shouldHideListLayout else { return }
             print("DID TAPPED SEGMENT CONTROLLER")
+            if shouldHideListLayout {
+                self.view.subviews.forEach { $0.removeFromSuperview() }
+                configureHierarchy(with: createGridLayout)
+                configureGridDataSource()
+            } else {
+                self.view.subviews.forEach { $0.removeFromSuperview() }
+                configureHierarchy(with: createListLayout)
+                configureListDataSource()
+            }
         }
     }
     
@@ -39,7 +47,7 @@ class MainViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         addUIComponents()
         setupSegment()
-        configureHierarchy()
+        configureHierarchy(with: createListLayout)
         configureListDataSource()
     }
     
@@ -62,7 +70,7 @@ extension MainViewController {
         let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
-    //연습
+
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                              heightDimension: .fractionalHeight(1.0))
@@ -84,14 +92,15 @@ extension MainViewController {
 }
 
 extension MainViewController {
-    private func configureHierarchy(){
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+    private func configureHierarchy(with layout: () -> UICollectionViewLayout){
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(collectionView)
         collectionView.delegate = self
     }
+    
     private func configureListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewListLayoutCell, Product> { (cell, indexPath, product) in
+        let cellRegistration = UICollectionView.CellRegistration<ListCell, Product> { (cell, indexPath, product) in
             cell.setupCellData(with: product)
         }
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
@@ -109,14 +118,10 @@ extension MainViewController {
         }
     }
     
-    func configureGridDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridLayoutCell, Product> { (cell, indexPath, product) in
+    private func configureGridDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<GridCell, Product> { (cell, indexPath, product) in
             cell.setupCellData(with: product)
-            cell.layer.borderColor = UIColor.lightGray.cgColor
-            cell.layer.borderWidth = 3
-            cell.layer.cornerRadius = 20
         }
-        
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
