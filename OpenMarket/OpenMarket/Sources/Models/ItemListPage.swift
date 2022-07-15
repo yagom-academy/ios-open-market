@@ -2,7 +2,7 @@
 //  ItemListPage.swift
 //  OpenMarket
 //
-//  Created by 민쏜, 예톤 on 2022/07/12.
+//  Created by minsson, yeton on 2022/07/12.
 //
 
 // MARK: - ItemListPage
