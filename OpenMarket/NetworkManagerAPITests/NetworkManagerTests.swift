@@ -1,6 +1,6 @@
 //
-//  ProductAPITests.swift
-//  ProductAPITests
+//  NetworkManagerTests.swift
+//  NetworkManagerTests
 //
 //  Created by Gordon Choi on 2022/07/11.
 //
@@ -44,13 +44,13 @@ class StubURLSessionDataTask: URLSessionDataTask {
     }
 }
 
-class ProductAPITests: XCTestCase {
-    var sut: ProductAPI!
+class NetworkManagerTests: XCTestCase {
+    var sut: NetworkManager!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        sut = ProductAPI()
+        sut = NetworkManager()
     }
 
     override func tearDownWithError() throws {
@@ -59,7 +59,7 @@ class ProductAPITests: XCTestCase {
         sut = nil
     }
 
-    func test_데이터를_요청했을때_불러온_DummyData를_반환() {
+    func test_데이터를_요청했을때_성공을_가정하고_불러온_DummyData를_반환() {
         // given
         let promise = expectation(description: "Calling URLSession dummy data")
         let url = URL(string: "https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10")!
@@ -69,12 +69,12 @@ class ProductAPITests: XCTestCase {
         let dummy = DummyData(data: dummyData, response: dummyResponse, error: nil)
 
         let stubUrlSession = StubURLSession(dummy: dummy)
-        sut = ProductAPI(session: stubUrlSession)
+        sut = NetworkManager(session: stubUrlSession)
 
         let presetValue = "KRW"
 
         // when
-        sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
+        sut.requestAndDecode("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
                  for: Products.self) { result in
             switch result {
             case .success(let products):
@@ -86,28 +86,6 @@ class ProductAPITests: XCTestCase {
                 promise.fulfill()
             }
         }
-        wait(for: [promise], timeout: 1)
-    }
-
-    func test_데이터를_요청했을때_불러온_데이터를_반환() {
-        // given
-        let promise = expectation(description: "Calling URLSession Data")
-        let presetValue = "USD"
-
-        // when
-        sut.call("https://market-training.yagom-academy.kr/api/products?page-no=1&items-per-page=10",
-                 for: Products.self) { result in
-            switch result {
-            case .success(let products):
-                // then
-                XCTAssertEqual(presetValue, products.pages[0].currency)
-                promise.fulfill()
-            case .failure(_):
-                XCTFail("Failed to load data")
-                promise.fulfill()
-            }
-        }
-
         wait(for: [promise], timeout: 1)
     }
 }
