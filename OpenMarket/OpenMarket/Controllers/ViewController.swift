@@ -8,6 +8,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let avd = ProductsDataManager()
+        avd.getData(pageNumber: 1, itemsPerPage: 10) { (result: Products) in
+            print(result)
+        }
+        
         configureHierarchy()
         configureDataSoure()
         configureSegmentControl()
