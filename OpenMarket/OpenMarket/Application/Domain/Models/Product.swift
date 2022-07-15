@@ -5,7 +5,6 @@
 //  Created by Gordon Choi on 2022/07/11.
 //
 
-import Foundation
 import UIKit
 
 struct Products: Codable, Equatable {
@@ -16,7 +15,6 @@ struct Product: Codable, Equatable {
     let id: Int
     let vendorId: Int
     let name: String
-    let thumbnail: String
     let currency: String
     let price: Int
     let bargainPrice: Int
@@ -24,6 +22,8 @@ struct Product: Codable, Equatable {
     let stock: Int
     let createdDate: String
     let issuedDate: String
+    
+    private let thumbnail: String
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -38,7 +38,9 @@ struct Product: Codable, Equatable {
         case createdDate = "created_at"
         case issuedDate = "issued_at"
     }
-    
+}
+
+extension Product {
     var thumbnailImage: UIImage? {
         if let url = URL(string: thumbnail),
            let imageData = try? Data(contentsOf: url) {
