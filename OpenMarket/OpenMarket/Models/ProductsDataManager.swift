@@ -21,7 +21,7 @@ struct ProductsDataManager {
                 completion(.failure(error))
                 return
             }
-            
+
             if let urlError = responseErrorhandling(response: response) {
                 completion(.failure(urlError))
                 return
