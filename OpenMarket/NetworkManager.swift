@@ -1,5 +1,5 @@
 //
-//  ProductAPI.swift
+//  NetworkManager.swift
 //  OpenMarket
 //
 //  Created by Derrick kim on 2022/07/11.
@@ -7,23 +7,19 @@
 
 import UIKit
 
-struct ProductAPI {
+struct NetworkManager {
     private let session: URLSessionProtocol
 
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
 
-    func call<T: Decodable>(_ urlString: String, for type: T.Type, completion: @escaping (Result<T, APIError>) -> Void) {
+    func requestAndDecode<T: Decodable>(_ urlString: String, for type: T.Type, completion: @escaping (Result<T, APIError>) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(.failure(.invalidURL))
             return
         }
 
-        dataTask(url: url, completion: completion)
-    }
-
-    private func dataTask<T: Decodable>(url: URL, completion: @escaping (Result<T, APIError>) -> Void) {
         let task = session.dataTask(with: url) { (data, response, error) in
 
             guard let response = response as? HTTPURLResponse,
