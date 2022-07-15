@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
         addUIComponents()
         setupSegment()
         configureHierarchy()
-        configureDataSource()
+        configureListDataSource()
     }
     
     private func addUIComponents() {
@@ -58,33 +58,41 @@ class MainViewController: UIViewController {
 }
 // MARK: - Modern Collection View List Style
 extension MainViewController {
-    private func createLayout() -> UICollectionViewLayout {
+    private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         return UICollectionViewCompositionalLayout.list(using: config)
+    }
+    //연습
+    private func createGridLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .absolute(250))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let spacing = CGFloat(10)
+        group.interItemSpacing = .fixed(spacing)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
 }
 
 extension MainViewController {
     private func configureHierarchy(){
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(collectionView)
         collectionView.delegate = self
     }
-    private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Product> { (cell, indexPath, product) in
-            var content = cell.defaultContentConfiguration()
-            guard let url = URL(string: product.thumbnail) else {
-                return
-            }
-            do {
-                content.image = UIImage(data: try Data(contentsOf: url))
-                content.text = product.name
-                content.secondaryText = String(product.price)
-                cell.contentConfiguration = content
-            } catch {
-                print("ASDASD")
-            }
+    private func configureListDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewListLayoutCell, Product> { (cell, indexPath, product) in
+            cell.setupCellData(with: product)
         }
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
@@ -92,6 +100,28 @@ extension MainViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
         
+        // initial data
+        manager.dataTask { [weak self] productList in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(productList)
+            self?.dataSource?.apply(snapshot, animatingDifferences: false)
+        }
+    }
+    
+    func configureGridDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionViewGridLayoutCell, Product> { (cell, indexPath, product) in
+            cell.setupCellData(with: product)
+            cell.layer.borderColor = UIColor.lightGray.cgColor
+            cell.layer.borderWidth = 3
+            cell.layer.cornerRadius = 20
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        }
+
         // initial data
         manager.dataTask { [weak self] productList in
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
