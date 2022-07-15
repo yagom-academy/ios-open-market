@@ -20,21 +20,25 @@ class NetworkManagerTests: XCTestCase {
     func test_getMethod_성공() {
         // given
         let response: ItemList? = JSONDecoder.decodeJson(jsonName: "Products")
+        let promise = expectation(description: "async Test")
         
         // when,then
         sut.getItemList(pageNumber: 1, itemsPerPage: 10) { result in
             switch result {
-            case .success(_):
-                guard let itemList: ItemList? = JSONDecoder.decodeJson(jsonName: "Products") else {
+            case .success(let data):
+                guard let itemList: ItemList? = JSONDecoder.decodeJson(jsonData: data!) else {
                     XCTFail("Decode Error")
                     return
                 }
+                //resultPageNumber = itemList!.pageNumber
                 XCTAssertEqual(itemList?.pageNumber, response?.pageNumber)
                 XCTAssertEqual(itemList?.itemsPerPage, response?.itemsPerPage)
             case .failure(_):
                 XCTFail("getMethod failure")
             }
+            promise.fulfill()
         }
+        wait(for: [promise], timeout: 5)
     }
     
     func test_getMethod_실패() {
