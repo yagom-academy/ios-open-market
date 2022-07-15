@@ -1,0 +1,52 @@
+//
+//  DataManagerTests.swift
+//  DataManagerTests
+//
+//  Created by minsson, yeton on 2022/07/15.
+//
+
+import XCTest
+@testable import OpenMarket
+
+class DataManagerTests: XCTestCase {
+    var mockData: NSDataAsset!
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+    }
+
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+    }
+
+    func test_makeDataFrom메서드_json파일명을_넣을시_옵셔널Data타입으로_반환한다() {
+        // given
+        let filename = "products"
+        
+        // when
+        let result = DataManager.makeDataFrom(fileName: filename)
+        
+        // then
+        XCTAssertTrue(type(of: result) == Data?.self)
+    }
+    
+    func test_mockData를_parse하면_첫번째_아이템_id는_20이다() {
+        // given
+        let filename = "products"
+        let data = DataManager.makeDataFrom(fileName: filename)
+        var itemListPage: ItemListPage?
+        
+        // when
+        guard let parsedData = DataManager.parse(data, into: itemListPage) else {
+            return
+        }
+        
+        itemListPage = parsedData
+        
+        let result = itemListPage?.items[0].id
+        let expectation = 20
+        
+        // then
+        XCTAssertEqual(result, expectation)
+    }
+}
