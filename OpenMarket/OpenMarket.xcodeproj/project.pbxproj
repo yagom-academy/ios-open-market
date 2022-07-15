@@ -128,11 +128,11 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				D70EECFF2880FAC9003679E9 /* Resources */,
-				D70EECFD2880F9D6003679E9 /* Controller */,
-				D70EECFE2880F9E5003679E9 /* View */,
 				D71BB6DC287D06BA006035C6 /* Model */,
+				D70EECFE2880F9E5003679E9 /* View */,
+				D70EECFD2880F9D6003679E9 /* Controller */,
 				D71BB6F9287D8FBC006035C6 /* TestDouble */,
+				D70EECFF2880FAC9003679E9 /* Resources */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
