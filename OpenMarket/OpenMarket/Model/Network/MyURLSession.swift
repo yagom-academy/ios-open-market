@@ -2,15 +2,14 @@
 //  MyURLSession.swift
 //  OpenMarket
 //
-//  Created by NAMU on 2022/07/15.
+//  Created by groot, bard on 2022/07/15.
 //
 
 import Foundation
 
 class MyURLSession: SessionProtocol {
     func dataTask<T: Codable>(with request: APIRequest,
-                              completionHandler: @escaping (Result<T, Error>) -> Void)
-    {
+                              completionHandler: @escaping (Result<T, Error>) -> Void) {
         execute(with: request, completion: completionHandler)
     }
     

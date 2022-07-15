@@ -90,9 +90,9 @@
 		372396A3287D194A001EFC70 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				D71BB6F7287D8D85006035C6 /* SessionProtocol.swift */,
 				372396A4287D195C001EFC70 /* APIRequest.swift */,
 				373B48002880F4940068F781 /* MyURLSession.swift */,
+				D71BB6F7287D8D85006035C6 /* SessionProtocol.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -100,9 +100,9 @@
 		372396A6287D2FB0001EFC70 /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				372396A7287D2FD9001EFC70 /* NetworkError.swift */,
 				372396A9287D303C001EFC70 /* CodableError.swift */,
 				D70EECF82880F747003679E9 /* DataError.swift */,
+				372396A7287D2FD9001EFC70 /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -128,31 +128,63 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
-				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
-				372396A6287D2FB0001EFC70 /* Error */,
-				372396A3287D194A001EFC70 /* Network */,
-				D71BB6F9287D8FBC006035C6 /* TestDouble */,
+				D70EECFF2880FAC9003679E9 /* Resources */,
+				D70EECFD2880F9D6003679E9 /* Controller */,
+				D70EECFE2880F9E5003679E9 /* View */,
 				D71BB6DC287D06BA006035C6 /* Model */,
+				D71BB6F9287D8FBC006035C6 /* TestDouble */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		D70EECFB2880F873003679E9 /* JSONModel */ = {
+			isa = PBXGroup;
+			children = (
+				3723969A287D0C85001EFC70 /* Currency.swift */,
+				D71BB6DF287D07CE006035C6 /* ProductDetail.swift */,
+				D71BB6E1287D098E006035C6 /* ProductImage.swift */,
+				37239698287D054E001EFC70 /* ProductsDetailList.swift */,
+				D71BB6DD287D0722006035C6 /* ProductsList.swift */,
+				3723969C287D0FC5001EFC70 /* RegisterationProduct.swift */,
+				3723969E287D11F0001EFC70 /* SecretProducts.swift */,
+			);
+			path = JSONModel;
+			sourceTree = "<group>";
+		};
+		D70EECFD2880F9D6003679E9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		D70EECFE2880F9E5003679E9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D70EECFF2880FAC9003679E9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
+				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				C70FB10825BEF61D00C9924E /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D71BB6DC287D06BA006035C6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3723969A287D0C85001EFC70 /* Currency.swift */,
-				3723969C287D0FC5001EFC70 /* RegisterationProduct.swift */,
-				37239698287D054E001EFC70 /* ProductsDetailList.swift */,
-				D71BB6DF287D07CE006035C6 /* ProductDetail.swift */,
-				D71BB6DD287D0722006035C6 /* ProductsList.swift */,
-				D71BB6E1287D098E006035C6 /* ProductImage.swift */,
-				3723969E287D11F0001EFC70 /* SecretProducts.swift */,
+				372396A6287D2FB0001EFC70 /* Error */,
+				D70EECFB2880F873003679E9 /* JSONModel */,
+				372396A3287D194A001EFC70 /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -455,7 +487,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -474,7 +506,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = OpenMarket/Info.plist;
+				INFOPLIST_FILE = OpenMarket/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
