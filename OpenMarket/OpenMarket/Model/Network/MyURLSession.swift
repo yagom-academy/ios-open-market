@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MyURLSession: SessionProtocol {
+final class MyURLSession: SessionProtocol {
     func dataTask<T: Codable>(with request: APIRequest,
                               completionHandler: @escaping (Result<T, Error>) -> Void) {
         execute(with: request, completionHandler: completionHandler)

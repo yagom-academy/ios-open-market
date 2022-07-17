@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-class ParsingTests: XCTestCase {
+final class ParsingTests: XCTestCase {
     var mockData: NSDataAsset!
     var jsonDecoder: JSONDecoder!
     

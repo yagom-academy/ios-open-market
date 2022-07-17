@@ -1,12 +1,12 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - OpenMarketViewController.swift
 //  Created by groot, bard. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class ViewController: UIViewController {
+final class OpenMarketViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

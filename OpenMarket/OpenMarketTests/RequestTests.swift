@@ -22,7 +22,7 @@ struct GetData: APIRequest {
     var body: Data?
 }
 
-class RequestTests: XCTestCase {
+final class RequestTests: XCTestCase {
     var sut: GetData?
     override func setUpWithError() throws {
         try super.setUpWithError()
