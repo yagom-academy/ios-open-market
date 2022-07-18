@@ -33,4 +33,15 @@ final class NetworkManager {
         }
         dataTask.resume()
     }
+    
+    func getProductInquiry(request: URLRequest?,
+                        completion: @escaping (Result<Data, Error>) -> Void) {
+        let baseURL = URL(string: NetworkNamespace.url.name)
+        guard let url = baseURL else { return }
+        
+        var request = request ?? URLRequest(url: url)
+        request.httpMethod = NetworkNamespace.get.name
+        
+        fetch(request: request, completion: completion)
+    }
 }
