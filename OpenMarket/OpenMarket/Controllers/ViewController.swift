@@ -105,7 +105,7 @@ extension ViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
             cell.product = self.Products?.pages[indexPath.row]
-            
+            cell.currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex)
             
             if self.productImages.isEmpty == false {
                 cell.itemImageView.image = self.productImages[indexPath.row]
