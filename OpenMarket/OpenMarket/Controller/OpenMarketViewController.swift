@@ -11,8 +11,14 @@ class OpenMarketViewController: UIViewController {
         case list
     }
     
+    enum GridSection {
+        case grid
+    }
+    
     var productsList = [ProductDetail]()
-    var dataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
+    var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
+    var gridViewDataSource: UICollectionViewDiffableDataSource<GridSection, ProductDetail>? = nil
+    
     let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["List", "Grid"])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +33,31 @@ class OpenMarketViewController: UIViewController {
         return listView
     }()
     
-    let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell,
+    lazy var gridView: UICollectionView = {
+        let layout = self.createLayout()
+        let gridView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        gridView.translatesAutoresizingMaskIntoConstraints = false
+
+        return gridView
+    }()
+
+    func createLayout() -> UICollectionViewCompositionalLayout{
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.25))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        group.interItemSpacing = .fixed(10)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = CGFloat(10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+
+        return layout
+    }
+    
+    let listViewCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell,
                                                                 ProductDetail> { (cell, indexPath, item) in
         guard let url = URL(string: item.thumbnail) else { return }
         guard let data = try? Data(contentsOf: url) else { return }
@@ -37,16 +67,20 @@ class OpenMarketViewController: UIViewController {
         let first = "\(item.currency.rawValue) \(item.price.description)"
         let second = "\(item.currency.rawValue) \(item.bargainPrice.description)"
         let attributeString = NSMutableAttributedString(string: "\(first) \(second)")
+                                                                    
         attributeString.addAttributes([
             .strikethroughStyle: NSUnderlineStyle.single.rawValue,
             .foregroundColor: UIColor.systemRed
         ], range: NSMakeRange(0, first.count))
+                                                                    
         content.secondaryAttributedText = attributeString
         content.image = UIImage(data: data)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
+                                                                    
         let options = UICellAccessory.OutlineDisclosureOptions(style: .header)
         let accessory = UICellAccessory.disclosureIndicator()
         var text = "잔여수량 : \(item.stock)"
+                                                                    
         if item.stock == 0 {
             text = "품절"
             let soldOutAccessory = UICellAccessory.label(text: text,
@@ -61,14 +95,17 @@ class OpenMarketViewController: UIViewController {
         cell.contentConfiguration = content
     }
     
-    let gridView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let gridView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        gridView.backgroundColor = .yellow
-        gridView.translatesAutoresizingMaskIntoConstraints = false
-
-        return gridView
-    }()
+    let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell,
+                                                                     ProductDetail> { (cell, indexPath, item) in
+        guard let url = URL(string: item.thumbnail) else { return }
+        guard let data = try? Data(contentsOf: url) else { return }
+                                                                         
+        cell.productImage.image = UIImage(data: data)
+        cell.productName.text = item.name
+        cell.price.text = "\(item.price)"
+        cell.bargainPrice.text = "\(item.bargainPrice)"
+        cell.stock.text = "\(item.stock)"
+    }
     
     var shouldHideListView: Bool? {
         didSet {
@@ -81,7 +118,6 @@ class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        
         self.fetchData()
         self.setSubviews()
         self.setNavigationController()
@@ -108,6 +144,7 @@ class OpenMarketViewController: UIViewController {
                 }
                 if self.productsList.count == 30 {
                     self.configurationSnapshot()
+                    self.configurationGridSnapshot()
                 }
             case .failure(let error):
                 print(error)
@@ -117,9 +154,14 @@ class OpenMarketViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: listView) {
+        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: listView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductDetail) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: identifier)
+            return collectionView.dequeueConfiguredReusableCell(using: self.listViewCellRegistration, for: indexPath, item: identifier)
+        }
+        
+        gridViewDataSource = UICollectionViewDiffableDataSource<GridSection, ProductDetail>(collectionView: gridView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductDetail) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.gridViewCellRegistration, for: indexPath, item: identifier)
         }
     }
     
@@ -127,7 +169,14 @@ class OpenMarketViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
         snapshot.appendSections([.list])
         snapshot.appendItems(productsList)
-        dataSource?.apply(snapshot, animatingDifferences: false)
+        listViewDataSource?.apply(snapshot, animatingDifferences: false)
+    }
+    
+    private func configurationGridSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<GridSection, ProductDetail>()
+        snapshot.appendSections([.grid])
+        snapshot.appendItems(productsList)
+        gridViewDataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 
