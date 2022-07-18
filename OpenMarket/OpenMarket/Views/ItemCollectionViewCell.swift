@@ -87,6 +87,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         label.text = ""
         label.textColor = .systemGray
         label.numberOfLines = 0
+        label.textAlignment = .right
         return label
     }()
     
@@ -179,37 +180,6 @@ extension ItemCollectionViewCell {
     override func prepareForReuse() {
         itemStockLabel.textColor = .systemGray
         itemSaleLabel.textColor = .systemGray
-        switch currentSeguement {
-        case .LIST:
-            self.stackView.axis = .horizontal
-            self.accessories = [
-                .disclosureIndicator()
-            ]
-            self.priceStackView.axis = .horizontal
-            //                self.itemImageViewLayoutConstraint?.constant = -(self.multiplieToConstant ?? 0.0)
-            self.itemNameAndPriceStackView.alignment = .leading
-            self.layer.borderWidth = 0
-            self.layer.borderColor = nil
-            self.layoutIfNeeded()
-            
-        case .GRID:
-            
-            self.stackView.axis = .vertical
-            self.accessories = [
-                .delete()
-            ]
-            self.priceStackView.axis = .vertical
-            //                self.itemImageViewLayoutConstraint?.constant = 0
-            self.itemNameAndPriceStackView.alignment = .center
-            self.layer.borderWidth = 1
-            self.layer.borderColor = UIColor.systemGray.cgColor
-            self.layer.cornerRadius = 20
-            self.clipsToBounds = true
-            self.layoutIfNeeded()
-            
-        case .none:
-            break
-        }
     }
 }
 extension String {

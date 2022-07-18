@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let productsDataManager = ProductsDataManager()
-        productsDataManager.getData(pageNumber: 1, itemsPerPage: 10) { (result: Products) in
+        productsDataManager.getData(pageNumber: 1, itemsPerPage: 50) { (result: Products) in
             self.Products = result
             
             DispatchQueue.main.async {
@@ -106,7 +106,37 @@ extension ViewController {
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
             cell.product = self.Products?.pages[indexPath.row]
             cell.currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex)
-            
+            switch cell.currentSeguement {
+            case .LIST:
+                cell.stackView.axis = .horizontal
+                cell.accessories = [
+                    .disclosureIndicator()
+                ]
+                cell.priceStackView.axis = .horizontal
+                //                self.itemImageViewLayoutConstraint?.constant = -(self.multiplieToConstant ?? 0.0)
+                cell.itemNameAndPriceStackView.alignment = .leading
+                cell.layer.borderWidth = 0
+                cell.layer.borderColor = nil
+                cell.layoutIfNeeded()
+                
+            case .GRID:
+                
+                cell.stackView.axis = .vertical
+                cell.accessories = [
+                    .delete()
+                ]
+                cell.priceStackView.axis = .vertical
+                //                self.itemImageViewLayoutConstraint?.constant = 0
+                cell.itemNameAndPriceStackView.alignment = .center
+                cell.layer.borderWidth = 1
+                cell.layer.borderColor = UIColor.systemGray.cgColor
+                cell.layer.cornerRadius = 20
+                cell.clipsToBounds = true
+                cell.layoutIfNeeded()
+                
+            case .none:
+                break
+            }
             if self.productImages.isEmpty == false {
                 cell.itemImageView.image = self.productImages[indexPath.row]
             }
@@ -116,7 +146,7 @@ extension ViewController {
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(Array(0...9))
+        snapshot.appendItems(Array(0...49))
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
