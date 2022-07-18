@@ -27,11 +27,11 @@ final class MockURLSession: URLSessionProtocol {
                                               headerFields: nil)
         
         let sessionDataTask = MockURLSessionDataTask()
-        let assetData = NSDataAsset(name: "products")?.data ?? Data()
+        let assetData = NSDataAsset.init(name: "products", bundle: Bundle(for: MockURLSession.self))!
         
         if isRequestSuccess {
             sessionDataTask.resumeHandler = {
-                completionHandler(assetData, sucessResponse, nil)
+                completionHandler(assetData.data, sucessResponse, nil)
             }
         } else {
             sessionDataTask.resumeHandler = {

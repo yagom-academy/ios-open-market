@@ -36,20 +36,17 @@ class NetworkManagerTests: XCTestCase {
         sut?.getProductInquiry(request: nil, completion: { expectation in
             switch expectation {
             case .failure(_):
-                print("😀")
                 XCTFail("failure")
             case .success(let data):
                 guard let expectation = try? JSONDecoder().decode(MarketInformation.self, from: data) else {
-                    print("🥰")
                     XCTFail("decode error")
                     return
                 }
-                print("😎")
                 XCTAssertEqual(result?.pageNo, expectation.pageNo)
                 promise.fulfill()
             }
         })
         
-        wait(for: [promise], timeout: 10)
+        wait(for: [promise], timeout: 5)
     }
 }
