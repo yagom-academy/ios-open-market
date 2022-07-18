@@ -24,10 +24,12 @@ class MainViewController: UIViewController {
                 self.view.subviews.forEach { $0.removeFromSuperview() }
                 configureHierarchy(with: createGridLayout)
                 configureGridDataSource()
+                fetchData()
             } else {
                 self.view.subviews.forEach { $0.removeFromSuperview() }
                 configureHierarchy(with: createListLayout)
                 configureListDataSource()
+                fetchData()
             }
         }
     }
@@ -49,6 +51,16 @@ class MainViewController: UIViewController {
         setupSegment()
         configureHierarchy(with: createListLayout)
         configureListDataSource()
+        fetchData()
+    }
+    
+    func fetchData() {
+        manager.dataTask { [weak self] productList in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(productList)
+            self?.dataSource?.apply(snapshot, animatingDifferences: false)
+        }
     }
     
     private func addUIComponents() {
@@ -108,14 +120,6 @@ extension MainViewController {
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
-        
-        // initial data
-        manager.dataTask { [weak self] productList in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(productList)
-            self?.dataSource?.apply(snapshot, animatingDifferences: false)
-        }
     }
     
     private func configureGridDataSource() {
@@ -125,14 +129,6 @@ extension MainViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-        }
-
-        // initial data
-        manager.dataTask { [weak self] productList in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(productList)
-            self?.dataSource?.apply(snapshot, animatingDifferences: false)
         }
     }
 }
