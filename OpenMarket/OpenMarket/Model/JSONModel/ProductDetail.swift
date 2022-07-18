@@ -5,7 +5,7 @@
 //  Created by groot, bard on 2022/07/12.
 //
 
-struct ProductDetail: Codable {
+struct ProductDetail: Codable, Hashable {
     let id: Int
     let vendorID: Int
     let name: String
