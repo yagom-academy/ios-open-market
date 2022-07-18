@@ -1,9 +1,8 @@
 import UIKit
 
-class ItemCollectionViewCell: UICollectionViewCell {
+class ItemCollectionViewCell: UICollectionViewListCell {
     
     // MARK: - Properties
-    
     var itemImageViewLayoutConstraint: NSLayoutConstraint?
     var multiplieToConstant: CGFloat?
     var product: Page? {
@@ -11,8 +10,9 @@ class ItemCollectionViewCell: UICollectionViewCell {
             guard let product = product else { return }
 
             itemNameLabel.text = product.name
-            itemPriceLabel.text = String(product.price)
-            itemStockLabel.text = String(product.stock)
+            
+            itemPriceLabel.text = "\(product.currency) \(product.price)"
+            
             if product.stock == 0 {
                 itemStockLabel.text = "품절"
                 itemStockLabel.textColor = .systemYellow
@@ -38,6 +38,14 @@ class ItemCollectionViewCell: UICollectionViewCell {
     let itemPriceLabel: UILabel = {
         let label = UILabel()
         label.text = ""
+        label.textColor = .systemGray
+        return label
+    }()
+    
+    let itemSaleLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textColor = .systemGray
         return label
     }()
     
@@ -55,6 +63,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
+        label.textColor = .systemGray
         return label
     }()
     
@@ -96,6 +105,10 @@ extension ItemCollectionViewCell {
         itemImageViewLayoutConstraint = itemImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         itemImageViewLayoutConstraint?.constant = -(multiplieToConstant ?? 0.0)
         itemImageViewLayoutConstraint?.isActive = true
+
+        self.accessories = [
+            .disclosureIndicator()
+        ]
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -110,6 +123,9 @@ extension ItemCollectionViewCell {
         case .LIST:
             UIView.animate(withDuration: 0.3) {
                 self.stackView.axis = .horizontal
+                self.accessories = [
+                    .disclosureIndicator()
+                ]
                 self.itemImageViewLayoutConstraint?.constant = -(self.multiplieToConstant ?? 0.0)
                 self.itemNameAndPriceStackView.alignment = .leading
                 self.layer.borderWidth = 0
@@ -119,6 +135,9 @@ extension ItemCollectionViewCell {
         case .GRID:
             UIView.animate(withDuration: 0.3) {
                 self.stackView.axis = .vertical
+                self.accessories = [
+                    .delete()
+                ]
                 self.itemImageViewLayoutConstraint?.constant = 0
                 self.itemNameAndPriceStackView.alignment = .center
                 self.layer.borderWidth = 1
