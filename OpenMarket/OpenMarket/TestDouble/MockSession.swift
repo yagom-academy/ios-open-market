@@ -7,7 +7,7 @@
 
 import UIKit.NSDataAsset
 
-class MockSession: SessionProtocol {
+final class MockSession: SessionProtocol {
     func dataTask<T: Codable>(with request: APIRequest,
                               completionHandler: @escaping (Result<T, Error>) -> Void) {
         guard let mockData = NSDataAsset(name: request.path.mockFileName)?.data else {
