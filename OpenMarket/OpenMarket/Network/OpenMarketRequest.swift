@@ -9,23 +9,23 @@ import Foundation
 
 struct OpenMarketRequest {
 
-    private func createQuery(of pageNo: String = "1", with itemsPerPage: String = "20") -> [URLQueryItem] {
+    func createQuery(of pageNo: String = "1", with itemsPerPage: String = "20") -> [URLQueryItem] {
         let pageNo = URLQueryItem(name: NetworkNamespace.pageNo.name, value: pageNo)
         let itemsPerPage = URLQueryItem(name: NetworkNamespace.itemsPerPage.name, value: itemsPerPage)
         
         return [pageNo, itemsPerPage]
     }
     
-    func requestProductList () -> URLRequest? {
+    func requestProductList(queryItems: [URLQueryItem]) -> URLRequest? {
         let address = NetworkNamespace.url.name
         var components = URLComponents(string: address)
         
-        components?.queryItems = createQuery()
+        components?.queryItems = queryItems
         
         guard let url = components?.url else {
             return nil
         }
-            
+
         return URLRequest(url: url)
     }
 }
