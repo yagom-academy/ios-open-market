@@ -9,6 +9,8 @@ import UIKit
 
 class GridCell: UICollectionViewCell {
     
+    let numberFormatter = NumberFormatter()
+    
     private let verticalStackView: UIStackView = {
         let stackview = UIStackView()
         stackview.translatesAutoresizingMaskIntoConstraints = false
@@ -53,6 +55,7 @@ class GridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        numberFormatter.numberStyle = .decimal
         setupAddSubviews()
         setupConstraints()
         setupLayer()
@@ -72,8 +75,8 @@ class GridCell: UICollectionViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.heightAnchor.constraint(equalToConstant: 100),
-            productImageView.widthAnchor.constraint(equalToConstant: 100)
+            productImageView.heightAnchor.constraint(equalToConstant: 150),
+            productImageView.widthAnchor.constraint(equalToConstant: 150)
         ])
         NSLayoutConstraint.activate([
             verticalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
@@ -95,7 +98,16 @@ class GridCell: UICollectionViewCell {
         }
         self.productImageView.loadImage(url: url)
         self.productNameLabel.text = inputData.name
-        self.productPriceLabel.text = "\(inputData.currency) \(inputData.price)"
+        let price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
+        self.productPriceLabel.text = "\(inputData.currency) " + (price ?? "")
+        if inputData.stock > 0 {
+            self.productStockLabel.text = "잔여수량 : \(inputData.stock)"
+            self.productStockLabel.textColor = .lightGray
+        } else {
+            self.productStockLabel.text = "품절"
+            self.productStockLabel.textColor = .orange
+        }
+        
     }
 }
 

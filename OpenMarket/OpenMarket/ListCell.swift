@@ -9,6 +9,8 @@ import UIKit
 
 class ListCell: UICollectionViewCell {
     
+    let numberFormatter = NumberFormatter()
+    
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,6 +65,7 @@ class ListCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        numberFormatter.numberStyle = .decimal
         setupAddSubviews()
         setupConstraints()
     }
@@ -105,14 +108,16 @@ class ListCell: UICollectionViewCell {
         }
         self.productImageView.loadImage(url: url)
         self.productNameLabel.text = inputData.name
-        self.productPriceLabel.text = "\(inputData.currency) \(inputData.price)"
+        let price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
+        self.productPriceLabel.text = "\(inputData.currency) " + (price ?? "")
         setupIndicatorLabelData(stock: inputData.stock)
     }
     
     private func setupIndicatorLabelData(stock: Int) {
         let attriubutedString: NSMutableAttributedString
         if stock > 0 {
-            attriubutedString = NSMutableAttributedString(string: "재고 : \(stock) ")
+            attriubutedString = NSMutableAttributedString(string: "잔여수량 : \(stock) ")
+            self.indicatorLabel.textColor = .lightGray
         } else {
             attriubutedString = NSMutableAttributedString(string: "품절 ")
             self.indicatorLabel.textColor = .orange
