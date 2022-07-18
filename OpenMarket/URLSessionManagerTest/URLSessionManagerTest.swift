@@ -28,7 +28,7 @@ class URLSessionManagerTests: XCTestCase {
         guard let mockData = NSDataAsset.init(name: "MockData")?.data,
               let page = dataDecoder.decode(type: Page.self, data: mockData) else { return }
         
-        sut.receiveData(subURL: subURL) { result in
+        sut.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
                 let responsedData = self.dataDecoder.decode(type: Page.self, data: data)
@@ -45,7 +45,7 @@ class URLSessionManagerTests: XCTestCase {
         let sut = URLSessionManager(session: mockURLSession)
         let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
         
-        sut.receiveData(subURL: subURL) { result in
+        sut.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(_):
                 XCTFail("서버 요청이 실패하지 않은 오류")
@@ -59,7 +59,7 @@ class URLSessionManagerTests: XCTestCase {
         let sut = URLSessionManager(session: URLSession.shared)
         let subURL = SubURL().pageURL(number: 2, countOfItems: 10)
         
-        sut.receiveData(subURL: subURL) { result in
+        sut.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
                 let responsedData = self.dataDecoder.decode(type: Page.self, data: data)

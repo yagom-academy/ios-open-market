@@ -14,11 +14,13 @@ class MarketCollectionViewController: UICollectionViewController {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     lazy var dataSource = makeDataSource()
+    private var items: [Item] = []
+    private let sessionManager = URLSessionManager(session: URLSession.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = createLayout()
-
+        receivePageData()
     }
     
     func createLayout() -> UICollectionViewLayout {
@@ -37,38 +39,56 @@ extension MarketCollectionViewController {
     }
     
     func productCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
-        
         return .init { cell, _, item in
             var configuration = cell.defaultContentConfiguration()
             
             configuration.text = item.productName
             configuration.secondaryText = item.price
-            configuration.image = item.productImage
-            configuration.imageProperties.maximumSize = CGSize(width: 40, height: 40)
+            configuration.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+  
+            self.sessionManager.receiveData(baseURL: item.productImage) { result in
+                switch result {
+                case .success(let data):
+                    guard let imageData = UIImage(data: data) else { return }
+                    
+                    configuration.image = imageData
+                    
+                    DispatchQueue.main.async {
+                        cell.contentConfiguration = configuration
+                    }
+                case .failure(_):
+                    print("서버 통신 실패")
+                }
+            }
             
-            cell.contentConfiguration = configuration
-            
-            let disclosureAccessory = UICellAccessory.disclosureIndicator()
-            cell.accessories = [disclosureAccessory]
+            cell.accessories = [.disclosureIndicator()]
         }
     }
     
+    func applySnapshots() {
+        var itemSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        itemSnapshot.appendSections([.main])
+        itemSnapshot.appendItems(items)
+        dataSource.apply(itemSnapshot, animatingDifferences: false)
+    }
+    
     func receivePageData() {
-        let sut = URLSessionManager(session: URLSession.shared)
-        let subURL = SubURL().pageURL(number: 1, countOfItems: 10)
-        let dataDecoder = DataDecoder()
-        
-        sut.receiveData(baseURL: subURL) { result in
+        let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
+
+        sessionManager.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
-                guard let page = dataDecoder.decode(type: Page.self, data: data) else {
-                    return
-                }
-                var items: [Item] = page.pages.map {
+                guard let page = DataDecoder().decode(type: Page.self, data: data) else { return }
+                
+                self.items = page.pages.map {
                     Item(product: $0 )
                 }
+                
+                DispatchQueue.main.async {
+                    self.applySnapshots()
+                }
             case .failure(_):
-                print("서버 데이터 불일치 오류")
+                print("서버 통신 실패")
             }
         }
     }
