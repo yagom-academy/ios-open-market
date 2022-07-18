@@ -49,4 +49,27 @@ class NetworkManagerTests: XCTestCase {
         
         wait(for: [promise], timeout: 5)
     }
+
+    func test_상품리스트를_요청하면_매핑에_실패한다() {
+        // given
+        let promise = expectation(description: "매핑 테스트")
+
+        // when
+        sut?.getProductInquiry(request: nil, completion: { expectation in
+            switch expectation {
+            case .failure(_):
+                XCTFail("failure")
+            case .success(let data):
+                guard let result = try? JSONDecoder().decode(MarketInformation.self, from: data) else {
+                    XCTFail("decode error")
+                    return
+                }
+                
+                XCTAssertEqual(result.pageNo, 2)
+                promise.fulfill()
+            }
+        })
+        
+        wait(for: [promise], timeout: 5)
+    }
 }
