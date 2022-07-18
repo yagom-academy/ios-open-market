@@ -42,13 +42,14 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
         label.numberOfLines = 0
+        label.textAlignment = .center
         return label
     }()
     
     let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 2
+        stackView.spacing = 5
         stackView.alignment = .leading
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -97,6 +98,8 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
+        stackView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        stackView.isLayoutMarginsRelativeArrangement = false
         return stackView
     }()
     
@@ -118,20 +121,14 @@ extension ItemCollectionViewCell {
         addSubview(stackView)
         
         itemNameAndPriceStackView.addArrangedSubview(itemNameLabel)
-        itemNameAndPriceStackView.addArrangedSubview(priceStackView)
         priceStackView.addArrangedSubview(itemPriceLabel)
+        itemNameAndPriceStackView.addArrangedSubview(priceStackView)
         
         stackView.addArrangedSubview(itemImageView)
         stackView.addArrangedSubview(itemNameAndPriceStackView)
         stackView.addArrangedSubview(itemStockLabel)
         
         itemImageView.widthAnchor.constraint(equalTo: self.itemImageView.heightAnchor).isActive = true
-        
-        //        multiplieToConstant = contentView.frame.width * 0.7
-        
-        //        itemImageViewLayoutConstraint = itemImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
-        //        itemImageViewLayoutConstraint?.constant = -(multiplieToConstant ?? 0.0)
-        //        itemImageViewLayoutConstraint?.isActive = true
         
         self.accessories = [
             .disclosureIndicator()
@@ -148,32 +145,35 @@ extension ItemCollectionViewCell {
     func setAxis(segment: Titles) {
         switch segment {
         case .LIST:
-            
+            UIView.animate(withDuration: 0.5) {
                 self.stackView.axis = .horizontal
                 self.accessories = [
                     .disclosureIndicator()
                 ]
                 self.priceStackView.axis = .horizontal
-                //                self.itemImageViewLayoutConstraint?.constant = -(self.multiplieToConstant ?? 0.0)
                 self.itemNameAndPriceStackView.alignment = .leading
                 self.layer.borderWidth = 0
                 self.layer.borderColor = nil
+                self.layer.cornerRadius = 0
+                self.clipsToBounds = false
+                self.stackView.isLayoutMarginsRelativeArrangement = false
                 self.layoutIfNeeded()
-            
+            }
         case .GRID:
+            UIView.animate(withDuration: 0.5) {
                 self.stackView.axis = .vertical
                 self.accessories = [
                     .delete()
                 ]
                 self.priceStackView.axis = .vertical
-                //                self.itemImageViewLayoutConstraint?.constant = 0
-                self.itemNameAndPriceStackView.alignment = .center
+                self.itemNameAndPriceStackView.alignment = .fill
                 self.layer.borderWidth = 1
                 self.layer.borderColor = UIColor.systemGray.cgColor
                 self.layer.cornerRadius = 20
                 self.clipsToBounds = true
+                self.stackView.isLayoutMarginsRelativeArrangement = true
                 self.layoutIfNeeded()
-            
+            }
         }
     }
     

@@ -66,7 +66,7 @@ extension ViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.31))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         group.interItemSpacing = .fixed(10)
         
@@ -117,6 +117,9 @@ extension ViewController {
                 cell.itemNameAndPriceStackView.alignment = .leading
                 cell.layer.borderWidth = 0
                 cell.layer.borderColor = nil
+                cell.layer.cornerRadius = 0
+                cell.clipsToBounds = false
+                cell.stackView.isLayoutMarginsRelativeArrangement = false
                 cell.layoutIfNeeded()
                 
             case .GRID:
@@ -127,17 +130,18 @@ extension ViewController {
                 ]
                 cell.priceStackView.axis = .vertical
                 //                self.itemImageViewLayoutConstraint?.constant = 0
-                cell.itemNameAndPriceStackView.alignment = .center
+                cell.itemNameAndPriceStackView.alignment = .fill
                 cell.layer.borderWidth = 1
                 cell.layer.borderColor = UIColor.systemGray.cgColor
                 cell.layer.cornerRadius = 20
                 cell.clipsToBounds = true
                 cell.layoutIfNeeded()
+                cell.stackView.isLayoutMarginsRelativeArrangement = true
                 
             case .none:
                 break
             }
-            if self.productImages.isEmpty == false {
+            if self.productImages.count > 0 {
                 cell.itemImageView.image = self.productImages[indexPath.row]
             }
 
