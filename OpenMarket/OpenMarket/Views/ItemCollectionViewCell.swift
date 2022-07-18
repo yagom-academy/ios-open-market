@@ -11,6 +11,12 @@ class ItemCollectionViewCell: UICollectionViewCell {
             itemNameLabel.text = product.name
             itemPriceLabel.text = String(product.price)
             itemStockLabel.text = String(product.stock)
+            if product.stock == 0 {
+                itemStockLabel.text = "품절"
+                itemStockLabel.textColor = .systemYellow
+            } else {
+                itemStockLabel.text = "잔여수량 : \(product.stock)"
+            }
         }
     }
     
@@ -122,5 +128,9 @@ extension ItemCollectionViewCell {
                 self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.4)
             ])
         }
+    }
+    
+    override func prepareForReuse() {
+        itemStockLabel.textColor = .systemGray
     }
 }

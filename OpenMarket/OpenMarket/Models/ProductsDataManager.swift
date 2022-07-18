@@ -27,7 +27,6 @@ struct ProductsDataManager {
                 completion(decodedData)
             } catch {
                 print(error)
-                return
             }
         }
         task.resume()
