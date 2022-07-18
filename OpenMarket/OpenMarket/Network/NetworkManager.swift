@@ -35,7 +35,7 @@ final class NetworkManager {
     }
     
     func getProductInquiry(request: URLRequest?,
-                        completion: @escaping (Result<Data, Error>) -> Void) {
+                           completion: @escaping (Result<Data, Error>) -> Void) {
         let baseURL = URL(string: NetworkNamespace.url.name)
         guard let url = baseURL else { return }
         
