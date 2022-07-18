@@ -57,7 +57,6 @@ class ListCell: UICollectionViewCell {
     private let productBargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .red
         label.numberOfLines = 0
         label.text = "JPY 300"
         label.sizeToFit()
@@ -103,8 +102,8 @@ class ListCell: UICollectionViewCell {
         upperHorizontalStackView.addArrangedSubview(productNameLabel)
         upperHorizontalStackView.addArrangedSubview(indicatorLabel)
         
-        lowerHorizontalStackView.addArrangedSubview(productBargainPriceLabel)
         lowerHorizontalStackView.addArrangedSubview(productPriceLabel)
+        lowerHorizontalStackView.addArrangedSubview(productBargainPriceLabel)
     }
     
     private func setupConstraints() {
@@ -149,8 +148,12 @@ class ListCell: UICollectionViewCell {
             let price = numberFormatter.string(from: NSNumber.init(value: price))
             let bargainPrice = numberFormatter.string(from: NSNumber.init(value: bargainPrice))
     
-            self.productPriceLabel.text = " \(upperCurreny) " + (bargainPrice ?? "0")
-            self.productBargainPriceLabel.strikethrough(from: "\(upperCurreny) \(price   ?? "0")")
+//            self.productPriceLabel.text = "\(upperCurreny) " + (bargainPrice ?? "0")
+//            self.productBargainPriceLabel.strikethrough(from: "\(upperCurreny) \(price   ?? "0")")
+//
+            self.productPriceLabel.strikethrough(from: "\(upperCurreny) " + (price ?? "0"))
+            self.productBargainPriceLabel.text = " \(upperCurreny) " + (bargainPrice ?? "0")
+            self.productPriceLabel.textColor = .red
         }
     }
     
