@@ -52,4 +52,24 @@ extension MarketCollectionViewController {
             cell.accessories = [disclosureAccessory]
         }
     }
+    
+    func receivePageData() {
+        let sut = URLSessionManager(session: URLSession.shared)
+        let subURL = SubURL().pageURL(number: 1, countOfItems: 10)
+        let dataDecoder = DataDecoder()
+        
+        sut.receiveData(baseURL: subURL) { result in
+            switch result {
+            case .success(let data):
+                guard let page = dataDecoder.decode(type: Page.self, data: data) else {
+                    return
+                }
+                var items: [Item] = page.pages.map {
+                    Item(product: $0 )
+                }
+            case .failure(_):
+                print("서버 데이터 불일치 오류")
+            }
+        }
+    }
 }
