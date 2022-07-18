@@ -50,7 +50,7 @@ class ListCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.alignment = .center
+        stackView.alignment = .fill
         return stackView
     }()
     
@@ -58,6 +58,7 @@ class ListCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.textColor = .lightGray
         label.text = "JPY 300"
         label.sizeToFit()
         return label
@@ -112,11 +113,13 @@ class ListCell: UICollectionViewCell {
             productImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             productImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             productImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -10),
-            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
-            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
+//            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
+//            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
+            productImageView.widthAnchor.constraint(equalToConstant: 50),
+            productImageView.heightAnchor.constraint(equalToConstant: 50)
         ])
         NSLayoutConstraint.activate([
-            verticalStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor),
+            verticalStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
             verticalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             verticalStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
             verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
@@ -136,6 +139,7 @@ class ListCell: UICollectionViewCell {
                         bargainPrice: inputData.bargainPrice
         )
         setupIndicatorLabelData(stock: inputData.stock)
+        self.productImageView.setContentCompressionResistancePriority(UILayoutPriority(1000), for: .vertical)
     }
     
     private func setupPriceLabel(currency: Currency, price: Int, bargainPrice: Int) {
@@ -147,10 +151,6 @@ class ListCell: UICollectionViewCell {
         } else { // 할인 됨
             let price = numberFormatter.string(from: NSNumber.init(value: price))
             let bargainPrice = numberFormatter.string(from: NSNumber.init(value: bargainPrice))
-    
-//            self.productPriceLabel.text = "\(upperCurreny) " + (bargainPrice ?? "0")
-//            self.productBargainPriceLabel.strikethrough(from: "\(upperCurreny) \(price   ?? "0")")
-//
             self.productPriceLabel.strikethrough(from: "\(upperCurreny) " + (price ?? "0"))
             self.productBargainPriceLabel.text = " \(upperCurreny) " + (bargainPrice ?? "0")
             self.productPriceLabel.textColor = .red
@@ -180,8 +180,9 @@ class ListCell: UICollectionViewCell {
     override func prepareForReuse() {
         self.indicatorLabel.textColor = nil
         self.productImageView.image = nil
-        self.productNameLabel.text = nil
-        self.productPriceLabel.text = nil
+        self.productPriceLabel.textColor = .lightGray
+        self.productPriceLabel.attributedText = nil
+        self.productBargainPriceLabel.isHidden = false
     }
 }
 
@@ -200,7 +201,6 @@ extension UIImageView {
 extension UILabel {
     func strikethrough(from text: String?) {
         guard let text = text else { return }
-        
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributedString.length))
         self.attributedText = attributedString

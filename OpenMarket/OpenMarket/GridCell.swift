@@ -35,6 +35,15 @@ class GridCell: UICollectionViewCell {
         return label
     }()
     
+    private let productBargainPriceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .lightGray
+        label.numberOfLines = 0
+        label.text = "JPY 300"
+        return label
+    }()
+    
     private let productPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -70,6 +79,7 @@ class GridCell: UICollectionViewCell {
         verticalStackView.addArrangedSubview(productImageView)
         verticalStackView.addArrangedSubview(productNameLabel)
         verticalStackView.addArrangedSubview(productPriceLabel)
+        verticalStackView.addArrangedSubview(productBargainPriceLabel)
         verticalStackView.addArrangedSubview(productStockLabel)
     }
     
@@ -98,8 +108,9 @@ class GridCell: UICollectionViewCell {
         }
         self.productImageView.loadImage(url: url)
         self.productNameLabel.text = inputData.name
-        let price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
-        self.productPriceLabel.text = "\(inputData.currency) " + (price ?? "")
+        
+        setupProductBargainPriceLabel(with: inputData)
+        
         if inputData.stock > 0 {
             self.productStockLabel.text = "잔여수량 : \(inputData.stock)"
             self.productStockLabel.textColor = .lightGray
@@ -108,6 +119,26 @@ class GridCell: UICollectionViewCell {
             self.productStockLabel.textColor = .orange
         }
         
+    }
+    private func setupProductBargainPriceLabel(with inputData: Product) {
+        if inputData.price == inputData.bargainPrice { //할인 안하면 > 그대로 + 할인가격 히든
+            self.productBargainPriceLabel.isHidden = true
+            let price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
+            self.productPriceLabel.text = "\(inputData.currency.rawValue.uppercased()) " + (price ?? "")
+        } else { //할인 한 경우 > 원가격 빨간색 + 밑줄 , 바겐프라이스 출력
+            var price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
+            price = "\(inputData.currency.rawValue.uppercased()) " + (price ?? "")
+            self.productPriceLabel.strikethrough(from: price)
+            self.productPriceLabel.textColor = .red
+            let bargainPrice = numberFormatter.string(from: NSNumber.init(value: inputData.bargainPrice))
+            self.productBargainPriceLabel.text = "\(inputData.currency.rawValue.uppercased()) " + (bargainPrice ?? "")
+        }
+    }
+    
+    override func prepareForReuse() {
+        self.productPriceLabel.textColor = .lightGray
+        self.productPriceLabel.attributedText = nil
+        self.productBargainPriceLabel.isHidden = false
     }
 }
 
