@@ -11,8 +11,8 @@ struct OpenMarketRequest {
     private let address = NetworkNamespace.url.name
     
     func createQuery(of pageNo: String = "1", with itemsPerPage: String = "20") -> [URLQueryItem] {
-        let pageNo = URLQueryItem(name: NetworkNamespace.pageNo.name, value: pageNo)
-        let itemsPerPage = URLQueryItem(name: NetworkNamespace.itemsPerPage.name, value: itemsPerPage)
+        let pageNo = URLQueryItem(name: ModelNameSpace.pageNo.name, value: pageNo)
+        let itemsPerPage = URLQueryItem(name: ModelNameSpace.itemsPerPage.name, value: itemsPerPage)
         
         return [pageNo, itemsPerPage]
     }
