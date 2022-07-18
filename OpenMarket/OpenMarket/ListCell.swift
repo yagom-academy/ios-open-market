@@ -27,7 +27,7 @@ class ListCell: UICollectionViewCell {
         return stackview
     }()
     
-    private let horizontalStackView: UIStackView = {
+    private let upperHorizontalStackView: UIStackView = {
         let stackview = UIStackView()
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .horizontal
@@ -42,6 +42,25 @@ class ListCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.numberOfLines = 0
         label.text = "Mac mini"
+        return label
+    }()
+    
+    private let lowerHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    private let productBargainPriceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .red
+        label.numberOfLines = 0
+        label.text = "JPY 300"
+        label.sizeToFit()
         return label
     }()
     
@@ -78,11 +97,14 @@ class ListCell: UICollectionViewCell {
         self.contentView.addSubview(productImageView)
         self.contentView.addSubview(verticalStackView)
         
-        horizontalStackView.addArrangedSubview(productNameLabel)
-        horizontalStackView.addArrangedSubview(indicatorLabel)
+        verticalStackView.addArrangedSubview(upperHorizontalStackView)
+        verticalStackView.addArrangedSubview(lowerHorizontalStackView)
         
-        verticalStackView.addArrangedSubview(horizontalStackView)
-        verticalStackView.addArrangedSubview(productPriceLabel)
+        upperHorizontalStackView.addArrangedSubview(productNameLabel)
+        upperHorizontalStackView.addArrangedSubview(indicatorLabel)
+        
+        lowerHorizontalStackView.addArrangedSubview(productBargainPriceLabel)
+        lowerHorizontalStackView.addArrangedSubview(productPriceLabel)
     }
     
     private func setupConstraints() {
@@ -108,9 +130,28 @@ class ListCell: UICollectionViewCell {
         }
         self.productImageView.loadImage(url: url)
         self.productNameLabel.text = inputData.name
-        let price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
-        self.productPriceLabel.text = "\(inputData.currency) " + (price ?? "")
+//        let price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
+//        self.productPriceLabel.text = "\(inputData.currency) " + (price ?? "")
+        setupPriceLabel(currency: inputData.currency,
+                        price: inputData.price,
+                        bargainPrice: inputData.bargainPrice
+        )
         setupIndicatorLabelData(stock: inputData.stock)
+    }
+    
+    private func setupPriceLabel(currency: Currency, price: Int, bargainPrice: Int) {
+        let upperCurreny = currency.rawValue.uppercased()
+        if price == bargainPrice { // 할인 안함
+            let price = numberFormatter.string(from: NSNumber.init(value: price))
+            self.productBargainPriceLabel.isHidden = true
+            self.productPriceLabel.text = "\(upperCurreny) " + (price ?? "")
+        } else { // 할인 됨
+            let price = numberFormatter.string(from: NSNumber.init(value: price))
+            let bargainPrice = numberFormatter.string(from: NSNumber.init(value: bargainPrice))
+    
+            self.productPriceLabel.text = " \(upperCurreny) " + (bargainPrice ?? "0")
+            self.productBargainPriceLabel.strikethrough(from: "\(upperCurreny) \(price   ?? "0")")
+        }
     }
     
     private func setupIndicatorLabelData(stock: Int) {
@@ -153,4 +194,12 @@ extension UIImageView {
     }
 }
 
-
+extension UILabel {
+    func strikethrough(from text: String?) {
+        guard let text = text else { return }
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributedString.length))
+        self.attributedText = attributedString
+    }
+}
