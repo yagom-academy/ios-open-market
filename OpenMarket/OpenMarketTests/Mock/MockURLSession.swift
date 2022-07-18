@@ -6,19 +6,39 @@
 //
 
 import Foundation
+import UIKit
 
 final class MockURLSession: URLSessionProtocol {
-    typealias Response = (data: Data?, urlResponse: URLResponse?, error: Error?)
     
-    private let response: Response
-    
-    init(response: Response) {
-        self.response = response
+    var isRequestSuccess: Bool
+    init(isRequestSucess: Bool = true) {
+        self.isRequestSuccess = isRequestSucess
     }
     
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        return MockURLSessionDataTask(resumeHandler: {
-            completionHandler(self.response.data, self.response.urlResponse, self.response.error)
-        })
+        
+        let sucessResponse = HTTPURLResponse(url: request.url!,
+                                             statusCode: 200,
+                                             httpVersion: "2",
+                                             headerFields: nil)
+        let failureResponse = HTTPURLResponse(url: request.url!,
+                                              statusCode: 404,
+                                              httpVersion: "2",
+                                              headerFields: nil)
+        
+        let sessionDataTask = MockURLSessionDataTask()
+        let assetData = NSDataAsset(name: "products")?.data ?? Data()
+        
+        if isRequestSuccess {
+            sessionDataTask.resumeHandler = {
+                completionHandler(assetData, sucessResponse, nil)
+            }
+        } else {
+            sessionDataTask.resumeHandler = {
+                completionHandler(nil, failureResponse, nil)
+            }
+        }
+        
+        return sessionDataTask
     }
 }
