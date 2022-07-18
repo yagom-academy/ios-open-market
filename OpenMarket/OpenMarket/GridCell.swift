@@ -98,8 +98,8 @@ class GridCell: UICollectionViewCell {
     
     private func setupLayer() {
         self.layer.borderColor = UIColor.lightGray.cgColor
-        self.layer.borderWidth = 3
-        self.layer.cornerRadius = 20
+        self.layer.borderWidth = 2
+        self.layer.cornerRadius = 12
     }
     
     func setupCellData(with inputData: Product) {

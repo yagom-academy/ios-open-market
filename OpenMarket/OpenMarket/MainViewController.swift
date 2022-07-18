@@ -22,22 +22,26 @@ class MainViewController: UIViewController {
             print("DID TAPPED SEGMENT CONTROLLER")
             if shouldHideListLayout {
                 self.view.subviews.forEach { $0.removeFromSuperview() }
-                configureHierarchy(with: createGridLayout)
+                self.view.addSubview(collectionView)
                 configureGridDataSource()
                 fetchData()
+                collectionView.setCollectionViewLayout(createGridLayout(), animated: false)
             } else {
                 self.view.subviews.forEach { $0.removeFromSuperview() }
-                configureHierarchy(with: createListLayout)
+                self.view.addSubview(collectionView)
                 configureListDataSource()
                 fetchData()
+                collectionView.setCollectionViewLayout(createListLayout(), animated: false)
             }
         }
     }
     
     private let segmentController: UISegmentedControl = {
-        let segmentController = UISegmentedControl(items: ["Table", "Grid"])
+        let segmentController = UISegmentedControl(items: ["List", "Grid"])
         segmentController.translatesAutoresizingMaskIntoConstraints = true
         segmentController.selectedSegmentIndex = 0
+        segmentController.tintColor = .systemBlue
+        segmentController.backgroundColor = .systemBlue
         return segmentController
     }()
     
@@ -49,7 +53,7 @@ class MainViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         addUIComponents()
         setupSegment()
-        configureHierarchy(with: createListLayout)
+        configureHierarchy()
         configureListDataSource()
         fetchData()
     }
@@ -65,10 +69,14 @@ class MainViewController: UIViewController {
     
     private func addUIComponents() {
         self.navigationItem.titleView = segmentController
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
     }
     
     @objc private func didChangeValue(segment: UISegmentedControl) {
         self.shouldHideListLayout = segment.selectedSegmentIndex != 0
+    }
+    
+    @objc private func addButtonDidTapped() {
     }
     
     private func setupSegment() {
@@ -78,11 +86,28 @@ class MainViewController: UIViewController {
 }
 // MARK: - Modern Collection View List Style
 extension MainViewController {
+    
+//    private func createListLayout() -> UICollectionViewLayout {
+//        let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+//        return UICollectionViewCompositionalLayout.list(using: config)
+//    }
+    
     private func createListLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-        return UICollectionViewCompositionalLayout.list(using: config)
-    }
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .absolute(70))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                              heightDimension: .fractionalHeight(1.0))
@@ -104,8 +129,9 @@ extension MainViewController {
 }
 
 extension MainViewController {
-    private func configureHierarchy(with layout: () -> UICollectionViewLayout){
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout())
+    private func configureHierarchy(){
+        collectionView.frame = view.bounds
+        collectionView.setCollectionViewLayout(createListLayout(), animated: false)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(collectionView)
         collectionView.delegate = self

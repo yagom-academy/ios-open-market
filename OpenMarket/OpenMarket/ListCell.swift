@@ -23,7 +23,7 @@ class ListCell: UICollectionViewCell {
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .vertical
         stackview.alignment = .fill
-        stackview.distribution = .fill
+        stackview.distribution = .fillEqually
         return stackview
     }()
     
@@ -49,8 +49,8 @@ class ListCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fill
         stackView.alignment = .fill
+        stackView.distribution = .fill
         return stackView
     }()
     
@@ -82,11 +82,13 @@ class ListCell: UICollectionViewCell {
         return label
     }()
     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         numberFormatter.numberStyle = .decimal
         setupAddSubviews()
         setupConstraints()
+        setupLayer()
     }
     
     required init?(coder: NSCoder) {
@@ -116,14 +118,20 @@ class ListCell: UICollectionViewCell {
 //            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
 //            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
             productImageView.widthAnchor.constraint(equalToConstant: 50),
-            productImageView.heightAnchor.constraint(equalToConstant: 50)
+            productImageView.heightAnchor.constraint(equalToConstant: 50),
+            
         ])
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
-            verticalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            verticalStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            verticalStackView.topAnchor.constraint(equalTo: productImageView.topAnchor),
+            verticalStackView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor),
             verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
         ])
+    }
+    
+    private func setupLayer() {
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.layer.borderWidth = 0.5
     }
     
     func setupCellData(with inputData: Product) {
