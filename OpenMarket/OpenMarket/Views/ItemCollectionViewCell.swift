@@ -4,6 +4,8 @@ class ItemCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    var itemImageViewLayoutConstraint: NSLayoutConstraint?
+    var multiplieToConstant: CGFloat?
     var product: Page? {
         didSet {
             guard let product = product else { return }
@@ -88,18 +90,12 @@ extension ItemCollectionViewCell {
         stackView.addArrangedSubview(itemImageView)
         stackView.addArrangedSubview(itemNameAndPriceStackView)
         stackView.addArrangedSubview(itemStockLabel)
-
-        NSLayoutConstraint.activate([
-            self.itemImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.3),
-            self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 1.0)
-        ])
         
-//        NSLayoutConstraint.activate([
-//            itemNameAndPriceStackView.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor),
-//            itemNameAndPriceStackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
-//            itemNameAndPriceStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-//            itemNameAndPriceStackView.centerYAnchor.constraint(equalTo: centerYAnchor)
-//        ])
+        multiplieToConstant = contentView.frame.width * 0.7
+        
+        itemImageViewLayoutConstraint = itemImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+        itemImageViewLayoutConstraint?.constant = -(multiplieToConstant ?? 0.0)
+        itemImageViewLayoutConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -114,19 +110,21 @@ extension ItemCollectionViewCell {
         case .LIST:
             UIView.animate(withDuration: 0.3) {
                 self.stackView.axis = .horizontal
+                self.itemImageViewLayoutConstraint?.constant = -(self.multiplieToConstant ?? 0.0)
+                self.itemNameAndPriceStackView.alignment = .leading
+                self.layer.borderWidth = 0
+                self.layer.borderColor = nil
+                self.layoutIfNeeded()
             }
-            NSLayoutConstraint.activate([
-                self.itemImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.3),
-                self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor)
-            ])
         case .GRID:
             UIView.animate(withDuration: 0.3) {
                 self.stackView.axis = .vertical
+                self.itemImageViewLayoutConstraint?.constant = 0
+                self.itemNameAndPriceStackView.alignment = .center
+                self.layer.borderWidth = 1
+                self.layer.borderColor = UIColor.systemGray.cgColor
+                self.layoutIfNeeded()
             }
-            NSLayoutConstraint.activate([
-                self.itemImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.8),
-                self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.4)
-            ])
         }
     }
     
