@@ -24,44 +24,72 @@ class MarketCollectionViewController: UICollectionViewController {
     }
     
     func createLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: configuration)
+        
+        let estimatedHeight = CGFloat(60)
+        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(estimatedHeight))
+        let item = NSCollectionLayoutItem(layoutSize: layoutSize)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: layoutSize,
+                                                       subitem: item,
+                                                       count: 1)
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.interGroupSpacing = 10
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+        
+//        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+//        return UICollectionViewCompositionalLayout.list(using: configuration)
     }
 }
 
 extension MarketCollectionViewController {
     func makeDataSource() -> DataSource {
-        let registraioin = productCellRegistration()
-        
-        return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: registraioin, for: indexPath, item: item)
-        }
-    }
-    
-    func productCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
-        return .init { cell, _, item in
-            var configuration = cell.defaultContentConfiguration()
+        let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
+            cell.nameLabel.text = item.productName
+            cell.priceLabel.text = item.price
             
-            configuration.text = item.productName
-            configuration.secondaryText = item.price
-            configuration.imageProperties.maximumSize = CGSize(width: 50, height: 50)
-  
             self.sessionManager.receiveData(baseURL: item.productImage) { result in
                 switch result {
                 case .success(let data):
                     guard let imageData = UIImage(data: data) else { return }
                     
-                    configuration.image = imageData
-                    
                     DispatchQueue.main.async {
-                        cell.contentConfiguration = configuration
+                        cell.imageView.image = imageData
                     }
                 case .failure(_):
                     print("서버 통신 실패")
                 }
             }
+                
+           
             
-            cell.accessories = [.disclosureIndicator()]
+//            var configuration = cell.defaultContentConfiguration()
+//
+//            configuration.text = item.productName
+//            configuration.secondaryText = item.price
+//            configuration.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+//
+//            self.sessionManager.receiveData(baseURL: item.productImage) { result in
+//                switch result {
+//                case .success(let data):
+//                    guard let imageData = UIImage(data: data) else { return }
+//
+//                    configuration.image = imageData
+//
+//                    DispatchQueue.main.async {
+//                        cell.contentConfiguration = configuration
+//                    }
+//                case .failure(_):
+//                    print("서버 통신 실패")
+//                }
+//            }
+//
+//            cell.accessories = [.disclosureIndicator(), .label(text: item.stock)]
+        }
+        
+        return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> MarketListCollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
         }
     }
     
