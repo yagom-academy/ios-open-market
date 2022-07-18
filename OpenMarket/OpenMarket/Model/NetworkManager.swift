@@ -21,19 +21,16 @@ final class NetworkManager {
                 return
             }
             
-            guard let data = data,
-                  let response = response as? HTTPURLResponse else {
-                return
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completion(.failure(NetworkError.outOfRange))
             }
             
-            if (200..<400).contains(response.statusCode) {
-                completion(.success(data))
-            } else {
-                completion(.failure(NetworkError.outOfRange))
-                print(NetworkError.outOfRange.message)
+            guard let data = data else {
+                return completion(.failure(NetworkError.noneData))
             }
+            completion(.success(data))
         }
-        
         dataTask.resume()
     }
 }
