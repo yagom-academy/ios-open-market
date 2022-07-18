@@ -119,6 +119,8 @@ extension ViewController {
                 cell.layer.borderColor = nil
                 cell.layer.cornerRadius = 0
                 cell.clipsToBounds = false
+                cell.stackView.spacing = 10
+                cell.stackViewTraillingContraint?.constant = -8
                 cell.stackView.isLayoutMarginsRelativeArrangement = false
                 cell.layoutIfNeeded()
                 
@@ -135,8 +137,10 @@ extension ViewController {
                 cell.layer.borderColor = UIColor.systemGray.cgColor
                 cell.layer.cornerRadius = 20
                 cell.clipsToBounds = true
-                cell.layoutIfNeeded()
+                cell.stackView.spacing = 0
+                cell.stackViewTraillingContraint?.constant = 0
                 cell.stackView.isLayoutMarginsRelativeArrangement = true
+                cell.layoutIfNeeded()
                 
             case .none:
                 break

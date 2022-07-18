@@ -7,6 +7,8 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     var currentSeguement: Titles?
     var itemImageViewLayoutConstraint: NSLayoutConstraint?
     var multiplieToConstant: CGFloat?
+    var stackViewTraillingContraint: NSLayoutConstraint?
+    
     var product: Page? {
         didSet {
             guard let product = product else { return }
@@ -95,6 +97,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 10
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -134,10 +137,13 @@ extension ItemCollectionViewCell {
             .disclosureIndicator()
         ]
         
+        stackViewTraillingContraint = stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+        stackViewTraillingContraint?.isActive = true
+        
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
@@ -145,7 +151,7 @@ extension ItemCollectionViewCell {
     func setAxis(segment: Titles) {
         switch segment {
         case .LIST:
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.3) {
                 self.stackView.axis = .horizontal
                 self.accessories = [
                     .disclosureIndicator()
@@ -156,11 +162,13 @@ extension ItemCollectionViewCell {
                 self.layer.borderColor = nil
                 self.layer.cornerRadius = 0
                 self.clipsToBounds = false
+                self.stackView.spacing = 10
+                self.stackViewTraillingContraint?.constant = -8
                 self.stackView.isLayoutMarginsRelativeArrangement = false
                 self.layoutIfNeeded()
             }
         case .GRID:
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.3) {
                 self.stackView.axis = .vertical
                 self.accessories = [
                     .delete()
@@ -170,7 +178,9 @@ extension ItemCollectionViewCell {
                 self.layer.borderWidth = 1
                 self.layer.borderColor = UIColor.systemGray.cgColor
                 self.layer.cornerRadius = 20
+                self.stackView.spacing = 0
                 self.clipsToBounds = true
+                self.stackViewTraillingContraint?.constant = 0
                 self.stackView.isLayoutMarginsRelativeArrangement = true
                 self.layoutIfNeeded()
             }
