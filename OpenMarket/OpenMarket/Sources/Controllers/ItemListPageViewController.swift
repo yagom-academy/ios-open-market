@@ -32,12 +32,7 @@ private extension ItemListPageViewController {
     func fetchParsedData(basedOn result: Result<Data, NetworkingError>) {
         switch result {
         case .success(let data):
-            guard let parsedData = DataManager.parse(data, into: self.itemListPage) else {
-                return
-            }
-            
-            self.itemListPage = parsedData
-            
+            itemListPage = DataManager.parse(data, into: ItemListPage.self)
         case .failure(let error):
             print(error)
         }

@@ -33,14 +33,13 @@ class DataManagerTests: XCTestCase {
     func test_mockData를_parse하면_첫번째_아이템_id는_20이다() {
         // given
         let filename = "products"
-        let data = DataManager.makeDataFrom(fileName: filename)
+        guard let data = DataManager.makeDataFrom(fileName: filename) else {
+            return
+        }
         var itemListPage: ItemListPage?
         
         // when
-        guard let parsedData = DataManager.parse(data, into: itemListPage) else {
-            return
-        }
-        
+        let parsedData = DataManager.parse(data, into: ItemListPage.self)
         itemListPage = parsedData
         
         let result = itemListPage?.items[0].id

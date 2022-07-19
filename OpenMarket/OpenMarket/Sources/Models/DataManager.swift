@@ -44,16 +44,11 @@ struct DataManager {
         return dataAsset.data
     }
     
-    static func parse<T: Decodable>(_ data: Data?, into target: T) -> T? {
+    static func parse<T: Decodable>(_ data: Data, into type: T.Type) -> T? {
         let jsonDecoder: JSONDecoder = JSONDecoder()
-        let targetType = type(of: target)
-        
-        guard let data = data else {
-            return nil
-        }
-        
+                
         do {
-            let decodedData = try jsonDecoder.decode(targetType.self, from: data)
+            let decodedData = try jsonDecoder.decode(T.self, from: data)
             return decodedData
         } catch {
             return nil
