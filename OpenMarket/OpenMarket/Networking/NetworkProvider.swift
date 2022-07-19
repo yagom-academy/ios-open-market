@@ -10,11 +10,16 @@ import Foundation
 class NetworkProvider {
     var session: URLSessionProtocol
     
-    init(session: URLSessionProtocol) {
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func requestAndDecode<T: Codable>(url: URL, dataType: T.Type, completion: @escaping (Result<T,NetworkError>) -> Void) {
+    func requestAndDecode<T: Codable>(url: String, dataType: T.Type, completion: @escaping (Result<T,NetworkError>) -> Void) {
+        guard let url = URL(string: url) else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) { data, response, error in
             if error != nil {
                 completion(.failure(.unknownErrorOccured))
