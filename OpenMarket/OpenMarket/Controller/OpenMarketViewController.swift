@@ -6,11 +6,13 @@
 
 import UIKit
 
-class OpenMarketViewController: UIViewController {    
+final class OpenMarketViewController: UIViewController {
+    // MARK: - properties
+    
     var loadingView : UIView?
-    var productsList = [ProductDetail]()
-    let listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
-    lazy var listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+    private var productsList = [ProductDetail]()
+    private let listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+    private lazy var listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
     lazy var listCollectionView = ListCollectionView(frame: .zero, collectionViewLayout: listLayout)
     lazy var gridCollectionView = GridCollecntionView(frame: .null, collectionViewLayout: createGridLayout())
     
@@ -21,13 +23,15 @@ class OpenMarketViewController: UIViewController {
         return segmentedControl
     }()
     
-    var shouldHideListView: Bool? {
+    private var shouldHideListView: Bool? {
         didSet {
             guard let shouldHideListView = self.shouldHideListView else { return }
             self.listCollectionView.isHidden = shouldHideListView
             self.gridCollectionView.isHidden = !self.listCollectionView.isHidden
         }
     }
+    
+    // MARK: - functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +64,7 @@ class OpenMarketViewController: UIViewController {
         }
     }
     
-    func createGridLayout() -> UICollectionViewCompositionalLayout {
+    private func createGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -82,6 +86,8 @@ class OpenMarketViewController: UIViewController {
         return layout
     }
     
+    // MARK: - @objc functions
+    
     @objc func segmentButtonDidTap(sender: UISegmentedControl) {
         self.shouldHideListView = (sender.selectedSegmentIndex != 0)
     }
@@ -89,5 +95,30 @@ class OpenMarketViewController: UIViewController {
     @objc func productRegistrationButtonDidTap() {
         print("productRegistrationButtonDidTapped")
     }
+}
+
+// MARK: - extensions
+
+extension OpenMarketViewController {
+    private func showSpinner(on view : UIView) {
+        let spinnerView = UIView.init(frame: view.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
+        activityIndicatorView.startAnimating()
+        activityIndicatorView.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(activityIndicatorView)
+            view.addSubview(spinnerView)
+        }
+        
+        loadingView = spinnerView
+    }
     
+    private func removeSpinner() {
+        DispatchQueue.main.async {
+            self.loadingView?.removeFromSuperview()
+            self.loadingView = nil
+        }
+    }
 }

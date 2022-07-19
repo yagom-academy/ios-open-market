@@ -7,7 +7,9 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell {
+    // MARK: - properties
+    
     var productImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -39,7 +41,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -50,11 +52,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    override func draw(_ rect: CGRect) {
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 1.5
-        self.layer.borderColor = UIColor.systemGray3.cgColor
-    }
+    // MARK: - initializers
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,13 +65,21 @@ class GridCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setSubViews() {
+    // MARK: - functions
+    
+    override func draw(_ rect: CGRect) {
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 1.5
+        self.layer.borderColor = UIColor.systemGray3.cgColor
+    }
+    
+    private func setSubViews() {
         self.contentView.addSubview(productImage)
         self.contentView.addSubview(stackView)
         [productName, price, stock].forEach { stackView.addArrangedSubview($0) }
     }
     
-    func setStackViewConstraints() {
+    private func setStackViewConstraints() {
         NSLayoutConstraint.activate(
             [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
              productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),

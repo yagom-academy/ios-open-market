@@ -57,26 +57,4 @@ extension OpenMarketViewController {
             self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         ])
     }
-    
-    func showSpinner(on view : UIView) {
-        let spinnerView = UIView.init(frame: view.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-        let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
-        activityIndicatorView.startAnimating()
-        activityIndicatorView.center = spinnerView.center
-        
-        DispatchQueue.main.async {
-            spinnerView.addSubview(activityIndicatorView)
-            view.addSubview(spinnerView)
-        }
-        
-        loadingView = spinnerView
-    }
-    
-    func removeSpinner() {
-        DispatchQueue.main.async {
-            self.loadingView?.removeFromSuperview()
-            self.loadingView = nil
-        }
-    }
 }

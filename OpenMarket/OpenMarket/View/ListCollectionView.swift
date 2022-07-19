@@ -7,20 +7,11 @@
 
 import UIKit
 
-class ListCollectionView: UICollectionView {
-    var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
+final class ListCollectionView: UICollectionView {
+    // MARK: - properties
     
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDataSource()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    let listViewCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ProductDetail> {
+    private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
+    private let listViewCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ProductDetail> {
         (cell, indexPath, item) in
         var content = cell.defaultContentConfiguration()
         content.text = item.name
@@ -49,6 +40,20 @@ class ListCollectionView: UICollectionView {
         cell.accessories = [stockAccessory, accessory]
         cell.contentConfiguration = content
     }
+    
+    // MARK: - initializers
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.configureDataSource()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - functions
     
     private func configureDataSource() {
         listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) {
