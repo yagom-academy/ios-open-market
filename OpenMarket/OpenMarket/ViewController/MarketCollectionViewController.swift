@@ -13,16 +13,43 @@ class MarketCollectionViewController: UICollectionViewController {
     }
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    lazy var dataSource = makeGridDataSource()
+    lazy var dataSource = makeListDataSource()
     private var items: [Item] = []
     private let sessionManager = URLSessionManager(session: URLSession.shared)
     
+    
+    let segmentedControl: UISegmentedControl = {
+        let segmentedControl = UIKit.UISegmentedControl(items: ["LIST", "GRID"])
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentedControl.layer.borderWidth = 1.0
+        return segmentedControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.collectionViewLayout = createGridLayout()
+        collectionView.collectionViewLayout = createListLayout()
         receivePageData()
+        navigationItem.titleView = segmentedControl
+        segmentedControl.addTarget(self, action: #selector(indexChanged), for: .valueChanged)
     }
-    
+
+    @objc func indexChanged(segmentedControl: UISegmentedControl) {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            collectionView.collectionViewLayout = createListLayout()
+            dataSource = makeListDataSource()
+            receivePageData()
+        } else {
+            collectionView.collectionViewLayout = createGridLayout()
+            dataSource = makeGridDataSource()
+            receivePageData()
+        }
+    }
+
     func createListLayout() -> UICollectionViewLayout {
         let estimatedHeight = CGFloat(60)
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
