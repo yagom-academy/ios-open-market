@@ -117,6 +117,13 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
+    let separator: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray5
+        return view
+    }()
+    
     
     // MARK: - Life Cycle
     
@@ -145,6 +152,7 @@ extension ItemCollectionViewCell {
         
         
         
+        
         itemImageView.widthAnchor.constraint(equalTo: self.itemImageView.heightAnchor).isActive = true
         
         
@@ -159,6 +167,15 @@ extension ItemCollectionViewCell {
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        addSubview(separator)
+        
+        NSLayoutConstraint.activate([
+            separator.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 1),
+            separator.heightAnchor.constraint(equalToConstant: 1),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor), // itemImageView.trailingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
     

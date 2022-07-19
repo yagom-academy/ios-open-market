@@ -26,7 +26,7 @@ class ViewController: UIViewController {
             self.Products = result
             
             DispatchQueue.main.async {
-                self.collectionView?.reloadData()                
+                self.collectionView?.reloadData()
             }
         }
         
