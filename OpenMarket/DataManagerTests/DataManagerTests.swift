@@ -34,6 +34,7 @@ class DataManagerTests: XCTestCase {
         // given
         let filename = "products"
         guard let data = NetworkManager.makeDataFrom(fileName: filename) else {
+            XCTFail("JSON 데이터 파일명 및 형식 확인 필요")
             return
         }
         var itemListPage: ItemListPage?
