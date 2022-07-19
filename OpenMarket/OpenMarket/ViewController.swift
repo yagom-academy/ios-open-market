@@ -11,8 +11,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var firstView: UIView!
     @IBOutlet weak var secondView: UIView!
     
-    var productList: Product
-    
     let jsonParser = JSONParser()
     
     override func viewDidLoad() {
@@ -76,10 +74,12 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
             switch response {
             case .success(let data):
                 DispatchQueue.main.async {
-//                    self.productList = data
-//                    guard let decodedata = self.productList else { return }
+                    self.productData = data
+                    guard let decodedata = self.productData else { return }
                     
+                    cell.productName.text = decodedata.pages[indexPath.row].name
                 }
+                
             case .failure(let data):
                 print(data)
             }
