@@ -35,19 +35,38 @@ class FirstViewController: UIViewController {
     let jsonParser = JSONParser()
     var productData: ProductListResponse?
     
+    var dataStore: [ProductListResponse] = []
+    
+    let URLSemaphore = DispatchSemaphore(value: 0)
+    
     @IBOutlet weak var productCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
+        self.setData()
         
+    }
+    
+    func setData() {
+        jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
+            switch response {
+            case .success(let data):
+                self.productData = data
+                self.dataStore = [data]
+                self.URLSemaphore.signal()
+            case .failure(let data):
+                print(data)
+            }
+        })
+        URLSemaphore.wait()
     }
 }
 
 extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return dataStore[0].pages.count
     }
     
     func makeImage(thumbnail: String) -> UIImage? {
@@ -69,21 +88,9 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
-        
-        jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
-            switch response {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    self.productData = data
-                    guard let decodedata = self.productData else { return }
-                    
-                    cell.productName.text = decodedata.pages[indexPath.row].name
-                }
-                
-            case .failure(let data):
-                print(data)
-            }
-        })
+        cell.productImage.image = makeImage(thumbnail: dataStore[0].pages[indexPath.row].thumbnail)
+        cell.productName.text = dataStore[0].pages[indexPath.row].name
+        cell.productPrice.text = "\(dataStore[0].pages[indexPath.row].price)"
         
         return cell
     }
