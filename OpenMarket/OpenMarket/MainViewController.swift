@@ -50,16 +50,39 @@ class MainViewController: UIViewController {
         return segmentController
     }()
     
+    private lazy var activitiIndicator: UIActivityIndicatorView = {
+        // Create an indicator.
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.color = UIColor.red
+        // Also show the indicator even when the animation is stopped.
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        // Start animation.
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
+    
+    
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        DispatchQueue.main.async {
+            self.collectionView.alpha = 0
+            self.activitiIndicator.startAnimating()
+        }
         self.view.backgroundColor = .systemBackground
+        self.listLayout = createListLayout()
+        self.gridLayout = createGridLayout()
         addUIComponents()
+        activitiIndicator.startAnimating()
         setupSegment()
-        configureHierarchy()
         configureListDataSource()
+        configureGridDataSource()
+        configureHierarchy()
         fetchData()
     }
     
@@ -68,20 +91,23 @@ class MainViewController: UIViewController {
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
             snapshot.appendItems(productList)
-            self?.dataSource?.apply(snapshot, animatingDifferences: false)
+            self?.gridDataSource?.apply(snapshot, animatingDifferences: false)
+            self?.listDataSource?.apply(snapshot, animatingDifferences: false)
+            DispatchQueue.main.async {
+                self?.activitiIndicator.stopAnimating()
+                self?.collectionView.alpha = 1
+            }
         }
     }
     
     private func addUIComponents() {
         self.navigationItem.titleView = segmentController
+        self.view.addSubview(activitiIndicator)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
     }
     
-    @objc private func didChangeValue(segment: UISegmentedControl) {
-        self.shouldHideListLayout = segment.selectedSegmentIndex != 0
-    }
-    
     @objc private func addButtonDidTapped() {
+        print("add button tapped")
     }
     
     private func setupSegment() {
