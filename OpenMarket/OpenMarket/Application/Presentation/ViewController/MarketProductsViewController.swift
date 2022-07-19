@@ -7,7 +7,19 @@
 import UIKit
 
 final class MarketProductsViewController: UIViewController {
+    enum Section {
+        case main
+    }
+    
+    private var productDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>? = nil
+    private var productCollectionView: UICollectionView! = nil
     private let segmentedControl = UISegmentedControl(items: ["List","Grid"])
+    
+    private let networkProvider = NetworkProvider()
+    private var productsModel: [ProductEntity] = []
+    
+    private var isSelected: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -30,7 +42,7 @@ extension MarketProductsViewController {
                         self?.configureSegmentedControl()
                         self?.configureHierarchy()
                         self?.configureDataSource()
-                        self?.collectionView.reloadData()
+                        self?.productCollectionView.reloadData()
                     }
                 }
             case .failure(let error):
@@ -42,7 +54,44 @@ extension MarketProductsViewController {
         }
     }
 }
+
+// MARK: Configure CollectionView Layout
+
 private extension MarketProductsViewController {
+     func createListLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.2))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+
+    func createGridLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.8))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+}
+
+// - MARK: Configure UI Elements
+
+private extension MarketProductsViewController {
+    func configureHierarchy() {
+        productCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        productCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        productCollectionView.backgroundColor = .systemBackground
+        
+        view.addSubview(productCollectionView)
+    }
+    
     func configureSegmentedControl() {
         let xPostion:CGFloat = 65
         let yPostion:CGFloat = 55
@@ -61,6 +110,30 @@ private extension MarketProductsViewController {
         self.navigationItem.titleView = segmentedControl
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
     }
+    
+    func configureDataSource() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
+        snapshot.appendSections([.main])
+        
+        let cellListRegistration = UICollectionView.CellRegistration<ProductCollectionViewCell, ProductEntity> { (cell, indexPath, item) in
+            cell.configure(item)
+            
+            if self.isSelected == false {
+                cell.accessories = [.disclosureIndicator()]
+            } else {
+                cell.accessories = [.delete()]
+            }
+        }
+        
+        productDataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: productCollectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductEntity) -> UICollectionViewCell? in
+            
+            return collectionView.dequeueConfiguredReusableCell(using: cellListRegistration, for: indexPath, item: identifier)
+        }
+        
+        snapshot.appendItems(productsModel)
+        
+        productDataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -72,9 +145,9 @@ private extension MarketProductsViewController {
         
         switch items {
         case 0 :
-            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-            collectionView.visibleCells.forEach { cell in
-                guard let cell = cell as? CustomCollectionViewCell else {
+            productCollectionView.setCollectionViewLayout(createListLayout(), animated: true)
+            productCollectionView.visibleCells.forEach { cell in
+                guard let cell = cell as? ProductCollectionViewCell else {
                     return
                 }
                 
@@ -85,9 +158,9 @@ private extension MarketProductsViewController {
                 cell.configureStackView(of: .horizontal, textAlignment: .left)
             }
         case 1:
-            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
-            collectionView.visibleCells.forEach { cell in
-                guard let cell = cell as? CustomCollectionViewCell else {
+            productCollectionView.setCollectionViewLayout(createGridLayout(), animated: true)
+            productCollectionView.visibleCells.forEach { cell in
+                guard let cell = cell as? ProductCollectionViewCell else {
                     return
                 }
                 
@@ -99,7 +172,7 @@ private extension MarketProductsViewController {
                 cell.configureStackView(of: .vertical, textAlignment: .center)
             }
             
-            collectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .init(rawValue: 0), animated: false)
+            productCollectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .init(rawValue: 0), animated: false)
         default:
             break
         }

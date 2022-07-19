@@ -128,4 +128,12 @@ final class ProductCollectionViewCell: UICollectionViewListCell {
             secondaryStackView.alignment = .fill
         }
     }
+    
+    func configure(_ data: ProductEntity) {
+        imageView.image = data.thumbnailImage
+        titleLabel.text = data.name
+        originPriceLabel.text = data.originalPrice.description
+        bargainPriceLabel.text = data.discountedPrice.description
+        stockLabel.text = data.stock.description == "0" ? "품절" : data.stock.description
+    }
 }
