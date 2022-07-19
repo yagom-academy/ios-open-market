@@ -8,6 +8,14 @@
 import UIKit
 
 extension OpenMarketViewController {
+    //MARK: - Name space
+    
+    var plusButtonName : String {
+        "plus"
+    }
+    
+    //MARK: - View layout functions
+    
     func setUI(){
         self.setSubviews()
         self.setNavigationController()
@@ -26,7 +34,7 @@ extension OpenMarketViewController {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.topItem?.titleView = segmentedControl
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem
-        = UIBarButtonItem(image: UIImage(systemName: "plus"),
+        = UIBarButtonItem(image: UIImage(systemName: plusButtonName),
                           style: .plain,
                           target: self,
                           action: #selector(productRegistrationButtonDidTap))
