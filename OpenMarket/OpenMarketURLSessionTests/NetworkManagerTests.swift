@@ -30,7 +30,6 @@ class NetworkManagerTests: XCTestCase {
                     XCTFail("Decode Error")
                     return
                 }
-                //resultPageNumber = itemList!.pageNumber
                 XCTAssertEqual(itemList?.pageNumber, response?.pageNumber)
                 XCTAssertEqual(itemList?.itemsPerPage, response?.itemsPerPage)
             case .failure(_):

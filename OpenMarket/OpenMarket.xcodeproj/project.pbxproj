@@ -101,7 +101,6 @@
 		4D2E02EC287E515F00918335 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
-				4D2E02ED287E518E00918335 /* URLSessionProtocol.swift */,
 				72BAD12C287E5324001752F7 /* MockData.swift */,
 				72BAD12E287E53A3001752F7 /* MockURLSessionDataTask.swift */,
 				72BAD130287E545D001752F7 /* MockURLSession.swift */,
@@ -112,7 +111,6 @@
 		4DF04F99287C1ACC00A61BD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4D2E02EC287E515F00918335 /* Mock */,
 				72B1FB22287D27B3004D6DE6 /* HTTP */,
 				4DF04F9B287C1AD900A61BD9 /* JSON */,
 			);
@@ -149,6 +147,7 @@
 		72A8FE9A287DB17200EB4338 /* OpenMarketURLSessionTests */ = {
 			isa = PBXGroup;
 			children = (
+				4D2E02EC287E515F00918335 /* Mock */,
 				72A8FE9B287DB17200EB4338 /* NetworkManagerTests.swift */,
 			);
 			path = OpenMarketURLSessionTests;
@@ -157,6 +156,7 @@
 		72B1FB22287D27B3004D6DE6 /* HTTP */ = {
 			isa = PBXGroup;
 			children = (
+				4D2E02ED287E518E00918335 /* URLSessionProtocol.swift */,
 				72B1FB23287D27DA004D6DE6 /* NetworkManager.swift */,
 				72A8FE92287D9E4600EB4338 /* HTTPMethod.swift */,
 				4D97B143287DA88C0088F5DA /* ResponseError.swift */,
