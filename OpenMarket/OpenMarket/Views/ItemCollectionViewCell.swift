@@ -206,7 +206,7 @@ extension ItemCollectionViewCell {
                 self.itemNameAndPriceStackView.alignment = .fill
                 self.itemImageViewLayoutConstraint?.isActive = true
                 self.layer.borderWidth = 1
-                self.layer.borderColor = UIColor.systemGray.cgColor
+                self.layer.borderColor = UIColor.systemGray3.cgColor
                 self.layer.cornerRadius = 10
                 self.stackView.spacing = 0
                 self.clipsToBounds = true
@@ -220,12 +220,5 @@ extension ItemCollectionViewCell {
     override func prepareForReuse() {
         itemStockLabel.textColor = .systemGray
         itemSaleLabel.textColor = .systemGray
-    }
-}
-extension String {
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
-        return attributeString
     }
 }

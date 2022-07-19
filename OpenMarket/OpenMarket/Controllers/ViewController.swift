@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         configureHierarchy()
         configureDataSoure()
         configureSegmentControl()
-        
+        configureNavigationBarRightButton()
         setupCollectionViewLayout()
     }
         
@@ -56,7 +56,22 @@ extension ViewController {
         segmentControl = UISegmentedControl(items: Titles.toString)
         segmentControl?.selectedSegmentIndex = Titles.LIST.rawValue
         segmentControl?.addTarget(self, action: #selector(changeLayout), for: .valueChanged)
+        segmentControl?.backgroundColor = .white
+        segmentControl?.selectedSegmentTintColor = .systemBlue
+        segmentControl?.defaultConfiguration(color: .systemBlue)
+        segmentControl?.selectedConfiguration(color: .white)
+        segmentControl?.layer.borderWidth = 1.0
+        segmentControl?.layer.cornerRadius = 5.0
+        segmentControl?.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentControl?.layer.masksToBounds = true
+        segmentControl?.setWidth(100, forSegmentAt: 0)
+        segmentControl?.setWidth(100, forSegmentAt: 1)
+        
         navigationItem.titleView = segmentControl
+    }
+    
+    private func configureNavigationBarRightButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: nil)
     }
 }
 
