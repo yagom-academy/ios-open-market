@@ -1,4 +1,47 @@
+//
+//  OpenMarket - ViewController.swift
+//  Created by 케이, 수꿍.
+//  Copyright © yagom. All rights reserved.
+//
+
+import UIKit
+
+final class MarketProductsViewController: UIViewController {
     private let segmentedControl = UISegmentedControl(items: ["List","Grid"])
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
+        fetchData()
+    }
+}
+
+// MARK: Networking
+
+extension MarketProductsViewController {
+    func fetchData() {
+        self.networkProvider.requestAndDecode(url: "https://market-training.yagom-academy.kr/api/products?page_no=1&items_per_page=10", dataType: ProductList.self) { result in
+            switch result {
+            case .success(let productList):
+                productList.pages.forEach { product in
+                    let item = ProductEntity(thumbnailImage: product.thumbnailImage!, name: product.name, originalPrice: product.price, discountedPrice: product.bargainPrice, stock: product.stock)
+                    self.productsModel.append(item)
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        self?.configureSegmentedControl()
+                        self?.configureHierarchy()
+                        self?.configureDataSource()
+                        self?.collectionView.reloadData()
+                    }
+                }
+            case .failure(let error):
+                let alertController = UIAlertController(title: "알림", message: error.errorDescription, preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                alertController.addAction(alertAction)
+                self.present(alertController, animated: true)
+            }
+        }
+    }
+}
 private extension MarketProductsViewController {
     func configureSegmentedControl() {
         let xPostion:CGFloat = 65
