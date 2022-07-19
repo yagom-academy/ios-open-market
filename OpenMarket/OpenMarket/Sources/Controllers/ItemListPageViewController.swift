@@ -1,5 +1,5 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - ItemListPageViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
@@ -41,16 +41,6 @@ private extension ItemListPageViewController {
         case .failure(let error):
             print(error)
         }
-    }
-    
-    func fetchDataForItemListPage() {
-        let data = DataManager.makeDataFrom(fileName: "products")
-        
-        guard let parsedData = DataManager.parse(data, into: itemListPage) else {
-            return
-        }
-        
-        itemListPage = parsedData
     }
 }
 
