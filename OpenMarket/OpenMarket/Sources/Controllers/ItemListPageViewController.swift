@@ -20,7 +20,7 @@ final class ItemListPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DataManager.performRequestToAPI(from: HostAPI.openMarket.url, with: request) { (result: Result<Data, NetworkingError>) in
+        NetworkManager.performRequestToAPI(from: HostAPI.openMarket.url, with: request) { (result: Result<Data, NetworkingError>) in
             self.fetchParsedData(basedOn: result)
         }
     }
@@ -32,7 +32,7 @@ private extension ItemListPageViewController {
     func fetchParsedData(basedOn result: Result<Data, NetworkingError>) {
         switch result {
         case .success(let data):
-            itemListPage = DataManager.parse(data, into: ItemListPage.self)
+            itemListPage = NetworkManager.parse(data, into: ItemListPage.self)
         case .failure(let error):
             print(error)
         }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DataManager {
+struct NetworkManager {
     
     // MARK: - Static Actions
     
@@ -60,7 +60,7 @@ struct DataManager {
 
 // MARK: - Private Static Actions
 
-private extension DataManager {
+private extension NetworkManager {
     static func isValidResponse(_ response: URLResponse?) -> Bool {
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {

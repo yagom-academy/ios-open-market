@@ -24,7 +24,7 @@ class DataManagerTests: XCTestCase {
         let filename = "products"
         
         // when
-        let result = DataManager.makeDataFrom(fileName: filename)
+        let result = NetworkManager.makeDataFrom(fileName: filename)
         
         // then
         XCTAssertTrue(type(of: result) == Data?.self)
@@ -33,13 +33,13 @@ class DataManagerTests: XCTestCase {
     func test_mockData를_parse하면_첫번째_아이템_id는_20이다() {
         // given
         let filename = "products"
-        guard let data = DataManager.makeDataFrom(fileName: filename) else {
+        guard let data = NetworkManager.makeDataFrom(fileName: filename) else {
             return
         }
         var itemListPage: ItemListPage?
         
         // when
-        let parsedData = DataManager.parse(data, into: ItemListPage.self)
+        let parsedData = NetworkManager.parse(data, into: ItemListPage.self)
         itemListPage = parsedData
         
         let result = itemListPage?.items[0].id
