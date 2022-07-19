@@ -45,7 +45,6 @@ extension OpenMarketViewController {
                                         action: #selector(segmentButtonDidTap(sender:)),
                                         for: .valueChanged)
         self.segmentedControl.selectedSegmentIndex = 0
-        self.segmentButtonDidTap(sender: self.segmentedControl)
     }
     
     func setListViewConstraints() {
