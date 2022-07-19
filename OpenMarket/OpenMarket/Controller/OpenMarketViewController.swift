@@ -72,8 +72,8 @@ class OpenMarketViewController: UIViewController {
         
         var content = cell.defaultContentConfiguration()
         content.text = item.name
-        let first = "\(item.currency.rawValue) \(item.price.description)"
-        let second = "\n\(item.currency.rawValue) \(item.bargainPrice.description)"
+        let first = "\(item.currency.rawValue) \(item.price.formatNumber())"
+        let second = "\n\(item.currency.rawValue) \(item.bargainPrice.formatNumber())"
         
         content.secondaryAttributedText = NSMutableAttributedString()
             .bold(string: first)
@@ -112,8 +112,8 @@ class OpenMarketViewController: UIViewController {
         cell.productImage.image = UIImage(data: data)
         cell.productName.text = item.name
         
-        let first = "\(item.currency.rawValue) \(item.price.description)"
-        let second = "\n\(item.currency.rawValue) \(item.bargainPrice.description)"
+        let first = "\(item.currency.rawValue) \(item.price.formatNumber())"
+        let second = "\n\(item.currency.rawValue) \(item.bargainPrice.formatNumber())"
         cell.price.attributedText = NSMutableAttributedString()
             .bold(string: first)
             .regular(string: second)
@@ -129,7 +129,7 @@ class OpenMarketViewController: UIViewController {
         }
         
         cell.stock.text = text
-        cell.stock.font = .preferredFont(forTextStyle: .body)
+        cell.stock.font = .preferredFont(forTextStyle: .footnote)
     }
     
     var shouldHideListView: Bool? {
@@ -217,70 +217,5 @@ class OpenMarketViewController: UIViewController {
         snapshot.appendSections([.grid])
         snapshot.appendItems(productsList)
         gridViewDataSource?.apply(snapshot, animatingDifferences: false)
-    }
-}
-
-struct ProductsRequest: APIRequest {
-    var path: URLAdditionalPath = .product
-    var method: HTTPMethod = .get
-    var baseURL: String {
-        URLHost.openMarket.url + path.value
-    }
-    var headers: [String : String]?
-    var query: [URLQueryItem]? {
-        [
-            URLQueryItem(name: "page_no", value: "\(1)"),
-            URLQueryItem(name: "items_per_page", value: "\(30)")
-        ]
-    }
-    var body: Data?
-}
-
-
-extension OpenMarketViewController {
-    func showSpinner(onView : UIView) {
-        
-        let spinnerView = UIView.init(frame: onView.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-        let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
-        activityIndicatorView.startAnimating()
-        activityIndicatorView.center = spinnerView.center
-        
-        DispatchQueue.main.async {
-            spinnerView.addSubview(activityIndicatorView)
-            onView.addSubview(spinnerView)
-        }
-        
-        loadingView = spinnerView
-    }
-    
-    func removeSpinner() {
-        DispatchQueue.main.async {
-            self.loadingView?.removeFromSuperview()
-            self.loadingView = nil
-        }
-    }
-}
-
-extension NSMutableAttributedString {
-    func bold(string: String) -> NSMutableAttributedString {
-        let attributes: [NSAttributedString.Key: Any] =
-        [
-            .font: UIFont.preferredFont(forTextStyle: .footnote),
-            .strikethroughStyle: NSUnderlineStyle.single.rawValue,
-            .foregroundColor: UIColor.systemRed
-        ]
-        self.append(NSAttributedString(string: string, attributes: attributes))
-        return self
-    }
-    
-    func regular(string: String) -> NSMutableAttributedString {
-        let attributes: [NSAttributedString.Key: Any] =
-        [
-            .font: UIFont.preferredFont(forTextStyle: .footnote),
-            .foregroundColor: UIColor.systemGray
-        ]
-        self.append(NSAttributedString(string: string, attributes: attributes))
-        return self
     }
 }
