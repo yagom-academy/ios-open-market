@@ -99,8 +99,8 @@
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c4q-LB-SD3">
                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="108"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="100" id="HsW-Ng-MJC"/>
-                                                                <constraint firstAttribute="height" constant="108" id="WiY-y2-Ibv"/>
+                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="HsW-Ng-MJC"/>
+                                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="108" id="WiY-y2-Ibv"/>
                                                             </constraints>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Gp7-OK-F19">
