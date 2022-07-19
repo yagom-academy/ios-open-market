@@ -21,7 +21,15 @@ class FirstViewController: UIViewController {
         super.viewDidLoad()
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
+//        self.productCollectionView.setCollectionViewLayout(<#T##layout: UICollectionViewLayout##UICollectionViewLayout#>, animated: <#T##Bool#>)
         self.setData()
+    }
+    
+    func getLayout() -> UICollectionViewCompositionalLayout {
+        
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        return layout
     }
     
     func setData() {
