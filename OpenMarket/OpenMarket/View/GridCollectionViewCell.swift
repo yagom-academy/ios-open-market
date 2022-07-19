@@ -10,7 +10,6 @@ import UIKit
 class GridCollectionViewCell: UICollectionViewCell {
     var productImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -19,6 +18,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     var productName: UILabel = {
         let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -26,14 +26,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     var price: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
-    var bargainPrice: UILabel = {
-        let label = UILabel()
-        label.tintColor = .systemGray
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -47,15 +40,21 @@ class GridCollectionViewCell: UICollectionViewCell {
     }()
     
     let stackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = 10
+        stackView.distribution = .equalCentering
+        stackView.spacing = 5
         
         return stackView
     }()
+    
+    override func draw(_ rect: CGRect) {
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 1.5
+        self.layer.borderColor = UIColor.systemGray3.cgColor
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -69,16 +68,21 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func setSubViews() {
-        self.addSubview(stackView)
-        [productImage, productName, price, bargainPrice, stock].forEach { stackView.addArrangedSubview($0) }
+        self.contentView.addSubview(productImage)
+        self.contentView.addSubview(stackView)
+        [productName, price, stock].forEach { stackView.addArrangedSubview($0) }
     }
     
     func setStackViewConstraints() {
-        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: self.contentView.safeAreaLayoutGuide.topAnchor),
-                                     stackView.leadingAnchor.constraint(equalTo: self.contentView.safeAreaLayoutGuide.leadingAnchor),
-                                     stackView.trailingAnchor.constraint(equalTo: self.contentView.safeAreaLayoutGuide.trailingAnchor),
-                                     stackView.bottomAnchor.constraint(equalTo: self.contentView.safeAreaLayoutGuide.bottomAnchor),
-                                     stackView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
-                                     stackView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor)])
+        NSLayoutConstraint.activate(
+            [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+             productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+             productImage.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+             productImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.5)])
+        
+        NSLayoutConstraint.activate(
+            [stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+             stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+             stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
     }
 }

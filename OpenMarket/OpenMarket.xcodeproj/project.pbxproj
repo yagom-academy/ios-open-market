@@ -157,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
-				D7D4647F28858AC30040A0A7 /* GridCollectionViewCell.swift */,
 				D7D8CED528842D8B0064E8C3 /* OpenMarketViewController+extension.swift */,
 			);
 			path = Controller;
@@ -166,6 +165,7 @@
 		D70EECFE2880F9E5003679E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D7D4647F28858AC30040A0A7 /* GridCollectionViewCell.swift */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
 			path = View;

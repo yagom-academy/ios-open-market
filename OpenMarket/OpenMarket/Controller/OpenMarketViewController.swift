@@ -37,74 +37,98 @@ class OpenMarketViewController: UIViewController {
         let layout = self.createLayout()
         let gridView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         gridView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return gridView
     }()
-
+    
     func createLayout() -> UICollectionViewCompositionalLayout{
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.25))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        group.interItemSpacing = .fixed(10)
-
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(self.view.frame.height * 0.3))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitem: item, count: 2)
+        group.interItemSpacing = .fixed(20)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = CGFloat(10)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5,
+                                                        leading: 5,
+                                                        bottom: 5,
+                                                        trailing: 5)
         let layout = UICollectionViewCompositionalLayout(section: section)
-
+        
         return layout
     }
     
     let listViewCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell,
-                                                                ProductDetail> { (cell, indexPath, item) in
+                                                                     ProductDetail>
+    { (cell, indexPath, item) in
         guard let url = URL(string: item.thumbnail) else { return }
         guard let data = try? Data(contentsOf: url) else { return }
         
         var content = cell.defaultContentConfiguration()
         content.text = item.name
         let first = "\(item.currency.rawValue) \(item.price.description)"
-        let second = "\(item.currency.rawValue) \(item.bargainPrice.description)"
-        let attributeString = NSMutableAttributedString(string: "\(first) \(second)")
-                                                                    
-        attributeString.addAttributes([
-            .strikethroughStyle: NSUnderlineStyle.single.rawValue,
-            .foregroundColor: UIColor.systemRed
-        ], range: NSMakeRange(0, first.count))
-                                                                    
-        content.secondaryAttributedText = attributeString
+        let second = "\n\(item.currency.rawValue) \(item.bargainPrice.description)"
+        
+        content.secondaryAttributedText = NSMutableAttributedString()
+            .bold(string: first)
+            .regular(string: second)
         content.image = UIImage(data: data)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
-                                                                    
-        let options = UICellAccessory.OutlineDisclosureOptions(style: .header)
+        
         let accessory = UICellAccessory.disclosureIndicator()
-        var text = "잔여수량 : \(item.stock)"
-                                                                    
+        var stockAccessory = UICellAccessory.disclosureIndicator()
+        
         if item.stock == 0 {
-            text = "품절"
-            let soldOutAccessory = UICellAccessory.label(text: text,
-                                                         options: .init(tintColor: .systemOrange,
-                                                                        font: .preferredFont(forTextStyle: .footnote)))
-            cell.accessories = [soldOutAccessory, accessory]
+            let text = "품절"
+            stockAccessory = UICellAccessory.label(
+                text: text,
+                options: .init(tintColor: .systemOrange,
+                               font: .preferredFont(forTextStyle: .footnote))
+            )
         } else {
-            let stockAccessory = UICellAccessory.label(text: text,
-                                                       options: .init(font: .preferredFont(forTextStyle: .footnote)))
-            cell.accessories = [stockAccessory, accessory]
+            let text = "잔여수량 : \(item.stock)"
+            stockAccessory = UICellAccessory.label(
+                text: text,
+                options: .init(tintColor: .systemGray,
+                               font: .preferredFont(forTextStyle: .footnote))
+            )
         }
+        cell.accessories = [stockAccessory, accessory]
         cell.contentConfiguration = content
     }
     
     let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell,
-                                                                     ProductDetail> { (cell, indexPath, item) in
+                                                                     ProductDetail>
+    { (cell, indexPath, item) in
         guard let url = URL(string: item.thumbnail) else { return }
         guard let data = try? Data(contentsOf: url) else { return }
-                                                                         
+        
         cell.productImage.image = UIImage(data: data)
         cell.productName.text = item.name
-        cell.price.text = "\(item.price)"
-        cell.bargainPrice.text = "\(item.bargainPrice)"
-        cell.stock.text = "\(item.stock)"
+        
+        let first = "\(item.currency.rawValue) \(item.price.description)"
+        let second = "\n\(item.currency.rawValue) \(item.bargainPrice.description)"
+        cell.price.attributedText = NSMutableAttributedString()
+            .bold(string: first)
+            .regular(string: second)
+        
+        var text = ""
+        
+        if item.stock == 0 {
+            text = "품절"
+            cell.stock.textColor = .systemOrange
+        } else {
+            text = "잔여수량 : \(item.stock)"
+            cell.stock.textColor = .systemGray
+        }
+        
+        cell.stock.text = text
+        cell.stock.font = .preferredFont(forTextStyle: .body)
     }
     
     var shouldHideListView: Bool? {
@@ -136,7 +160,9 @@ class OpenMarketViewController: UIViewController {
     private func fetchData() {
         let productsRequest = ProductsRequest()
         let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: productsRequest) { (result: Result<ProductsDetailList, Error>) in
+        myURLSession.dataTask(with: productsRequest)
+        {
+            (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
                 for number in 0...29 {
@@ -154,14 +180,24 @@ class OpenMarketViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: listView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductDetail) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: self.listViewCellRegistration, for: indexPath, item: identifier)
+        listViewDataSource = UICollectionViewDiffableDataSource<Section,
+                                                                ProductDetail>(collectionView: listView)
+        {
+            (collectionView: UICollectionView,
+             indexPath: IndexPath,
+             identifier: ProductDetail) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.listViewCellRegistration,
+                                                                for: indexPath, item: identifier)
         }
         
-        gridViewDataSource = UICollectionViewDiffableDataSource<GridSection, ProductDetail>(collectionView: gridView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductDetail) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: self.gridViewCellRegistration, for: indexPath, item: identifier)
+        gridViewDataSource = UICollectionViewDiffableDataSource<GridSection,
+                                                                ProductDetail>(collectionView: gridView)
+        {
+            (collectionView: UICollectionView,
+             indexPath: IndexPath,
+             identifier: ProductDetail) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.gridViewCellRegistration,
+                                                                for: indexPath, item: identifier)
         }
     }
     
@@ -194,4 +230,27 @@ struct ProductsRequest: APIRequest {
         ]
     }
     var body: Data?
+}
+
+extension NSMutableAttributedString {
+    func bold(string: String) -> NSMutableAttributedString {
+        let attributes: [NSAttributedString.Key: Any] =
+        [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+            .foregroundColor: UIColor.systemRed
+        ]
+        self.append(NSAttributedString(string: string, attributes: attributes))
+        return self
+    }
+    
+    func regular(string: String) -> NSMutableAttributedString {
+        let attributes: [NSAttributedString.Key: Any] =
+        [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            .foregroundColor: UIColor.systemGray
+        ]
+        self.append(NSAttributedString(string: string, attributes: attributes))
+        return self
+    }
 }
