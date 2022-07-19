@@ -84,7 +84,7 @@ extension MarketCollectionViewController {
             cell.nameLabel.text = item.productName
             cell.priceLabel.text = item.price
             cell.bargainPriceLabel.text = item.bargainPrice
-            cell.stockLabel.text = item.stock
+            cell.stockLabel.text = "잔여수량 : " + item.stock
             
             self.sessionManager.receiveData(baseURL: item.productImage) { result in
                 switch result {

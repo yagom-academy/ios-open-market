@@ -16,25 +16,25 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
     let bargainPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
     let stockLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
@@ -42,7 +42,7 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = 5
         stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -54,15 +54,18 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
         verticalStackView.addArrangedSubview(priceLabel)
         verticalStackView.addArrangedSubview(bargainPriceLabel)
         verticalStackView.addArrangedSubview(stockLabel)
-
         
         self.addSubview(verticalStackView)
         
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.systemGray3.cgColor
+        
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            verticalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
+            verticalStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+            verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
+            verticalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8)
         ])
     }
     
