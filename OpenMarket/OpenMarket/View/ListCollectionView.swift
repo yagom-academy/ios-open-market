@@ -23,13 +23,13 @@ final class ListCollectionView: UICollectionView {
         var stockAccessory = UICellAccessory.disclosureIndicator()
         
         if item.stock == 0 {
-            let text = "품절"
+            let text = PriceText.soldOut.text
             stockAccessory = UICellAccessory.label(
                 text: text,
                 options: .init(tintColor: .systemOrange,
                                font: .preferredFont(forTextStyle: .footnote)))
         } else {
-            let text = "잔여수량 : \(item.stock)"
+            let text = "\(PriceText.stock.text)\(item.stock)"
             stockAccessory = UICellAccessory.label(
                 text: text,
                 options: .init(tintColor: .systemGray,

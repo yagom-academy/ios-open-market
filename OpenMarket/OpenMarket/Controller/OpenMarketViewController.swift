@@ -48,10 +48,10 @@ final class OpenMarketViewController: UIViewController {
             (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
-                for number in 0...29 {
+                for number in 0..<Product.itemPerPage.number {
                     self.productsList.append(success.pages[number])
                 }
-                if self.productsList.count == 30 {
+                if self.productsList.count == Product.itemPerPage.number {
                     self.gridCollectionView.configureSnapshot(productsList: self.productsList)
                     self.listCollectionView.configureSnapshot(productsList: self.productsList)
                 }

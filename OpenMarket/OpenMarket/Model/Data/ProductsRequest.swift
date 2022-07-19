@@ -16,8 +16,8 @@ struct ProductsRequest: APIRequest {
     var headers: [String : String]?
     var query: [URLQueryItem]? {
         [
-            URLQueryItem(name: "page_no", value: "\(1)"),
-            URLQueryItem(name: "items_per_page", value: "\(30)")
+            URLQueryItem(name: Product.page.text, value: "\(Product.page.number)"),
+            URLQueryItem(name: Product.itemPerPage.text, value: "\(Product.itemPerPage.number)")
         ]
     }
     var body: Data?
