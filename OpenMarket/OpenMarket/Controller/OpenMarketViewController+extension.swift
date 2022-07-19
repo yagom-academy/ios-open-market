@@ -8,21 +8,28 @@
 import UIKit
 
 extension OpenMarketViewController {
+    func setUI(){
+        self.setSubviews()
+        self.setNavigationController()
+        self.setSegmentedControl()
+        self.setListViewConstraints()
+        self.setGridViewConstraints()
+    }
+    
+    func setSubviews() {
+        self.view.addSubview(self.segmentedControl)
+        self.view.addSubview(self.listCollectionView)
+        self.view.addSubview(self.gridCollectionView)
+    }
+    
     func setNavigationController() {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.topItem?.titleView = segmentedControl
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem
         = UIBarButtonItem(image: UIImage(systemName: "plus"),
-                        style: .plain,
+                          style: .plain,
                           target: self,
                           action: #selector(productRegistrationButtonDidTap))
-    }
-    
-    func setSubviews() {
-        self.view.addSubview(self.segmentedControl)
-        self.view.addSubview(self.listView)
-        self.view.addSubview(self.gridView)
-        self.setConstraints()
     }
     
     func setSegmentedControl() {
@@ -33,26 +40,21 @@ extension OpenMarketViewController {
         self.segmentButtonDidTap(sender: self.segmentedControl)
     }
     
-    func setConstraints(){
-        setListViewConstraints()
-        setGridViewConstraints()
-    }
-    
     func setListViewConstraints() {
         NSLayoutConstraint.activate([
-            self.listView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.listView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.listView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.listView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.listCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.listCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.listCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         ])
     }
     
     func setGridViewConstraints() {
         NSLayoutConstraint.activate([
-            self.gridView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.gridView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.gridView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.gridView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.gridCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.gridCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.gridCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
         ])
     }
     
