@@ -109,9 +109,29 @@ extension MarketCollectionViewController {
     func makeGridDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketGridCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.nameLabel.text = item.productName
-            cell.priceLabel.text = item.price
-            cell.bargainPriceLabel.text = item.bargainPrice
-            cell.stockLabel.text = "잔여수량 : " + item.stock
+            
+            if item.price == item.bargainPrice {
+                cell.priceLabel.text = item.price
+                cell.priceLabel.textColor = .systemGray
+            } else {
+                let price = item.price + "\n" + item.bargainPrice
+                let attributeString = NSMutableAttributedString(string: price)
+                
+                attributeString.addAttribute(.strikethroughStyle,
+                                             value: NSUnderlineStyle.single.rawValue,
+                                             range: NSMakeRange(0, item.price.count))
+                attributeString.addAttribute(.foregroundColor,
+                                             value: UIColor.systemGray,
+                                             range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
+                cell.priceLabel.attributedText = attributeString
+            }
+            
+            if item.stock != "0" {
+                cell.stockLabel.text = "잔여수량 : " + item.stock
+            } else {
+                cell.stockLabel.text = "품절"
+                cell.stockLabel.textColor = .systemOrange
+            }
             
             self.sessionManager.receiveData(baseURL: item.productImage) { result in
                 switch result {

@@ -16,13 +16,28 @@ class MarketListCollectionViewCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .systemRed
+        return label
+    }()
+    
+    let bargainPriceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
+        return label
+    }()
+    
+    let stockLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
     
@@ -47,6 +62,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
        
         verticalStackView.addArrangedSubview(nameLabel)
         verticalStackView.addArrangedSubview(priceLabel)
+        verticalStackView.addArrangedSubview(bargainPriceLabel)
         
         entireStackView.addArrangedSubview(imageView)
         entireStackView.addArrangedSubview(verticalStackView)
@@ -73,6 +89,10 @@ class MarketListCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    override func prepareForReuse() {
+        stockLabel.textColor = .systemGray
+    }
 }
 
 extension CALayer {
@@ -85,3 +105,4 @@ extension CALayer {
         self.addSublayer(border)
     }
 }
+

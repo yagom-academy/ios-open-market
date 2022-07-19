@@ -23,18 +23,16 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
     let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        return label
-    }()
-    
-    let bargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .systemRed
+        label.numberOfLines = 2
+        label.textAlignment = .center
         return label
     }()
     
     let stockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
         return label
     }()
     
@@ -52,7 +50,6 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
         verticalStackView.addArrangedSubview(imageView)
         verticalStackView.addArrangedSubview(nameLabel)
         verticalStackView.addArrangedSubview(priceLabel)
-        verticalStackView.addArrangedSubview(bargainPriceLabel)
         verticalStackView.addArrangedSubview(stockLabel)
         
         self.addSubview(verticalStackView)
@@ -65,7 +62,8 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
             verticalStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
             verticalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
-            verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8)
+            verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5)
         ])
     }
     
@@ -76,5 +74,10 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func prepareForReuse() {
+        stockLabel.textColor = .systemGray
+        priceLabel.textColor = .systemRed
     }
 }

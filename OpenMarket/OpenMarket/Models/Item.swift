@@ -16,8 +16,8 @@ struct Item: Hashable {
     
     init(product: Product) {
         self.productName = product.name
-        self.price = String(product.price) 
-        self.bargainPrice = String(product.bargainPrice)
+        self.price = product.currency.rawValue + " " + String(product.price)
+        self.bargainPrice = product.currency.rawValue + " " + String(product.bargainPrice)
         self.stock = String(product.stock)
         self.productImage = product.thumbnail
     }
