@@ -11,6 +11,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var firstView: UIView!
     @IBOutlet weak var secondView: UIView!
     
+    var productList: Product
     
     let jsonParser = JSONParser()
     
@@ -19,14 +20,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func switchView(_ sender: UISegmentedControl) {
-        print(sender.selectedSegmentIndex)
         switch sender.selectedSegmentIndex {
         case 0:
-            // segmentSwitch.backgroundColor = .yellow
             firstView.alpha = 1
             secondView.alpha = 0
         case 1:
-            // segmentSwitch.backgroundColor = .blue
             firstView.alpha = 0
             secondView.alpha = 1
         default:
@@ -46,67 +44,47 @@ class FirstViewController: UIViewController {
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
         
-        getProuctData()
-        print("--------------")
-        print(productData)
     }
-    
-    func getProuctData() {
-        jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
-            switch response {
-            case .success(let data):
-                // print(data)
-                self.productData = data
-
-            case .failure(let data):
-                print(data)
-            }
-        })
-        print(self.productData)
-
-    }
-    
-    func getProuctList(_ data: ProductListResponse) {
-        print(data.pageNo)
-        print(data.itemsPerPage)
-        print(data.totalCount)
-        print(data.offset)
-        print(data.limit)
-        print(data.pages[0].id)
-        print(data.pages[0].vendorId)
-        print(data.pages[0].name)
-        print(data.pages[0].thumbnail)
-        print(data.pages[0].currency)
-        print(data.pages[0].price)
-        print(data.pages[0].bargainPrice)
-        print(data.pages[0].discountedPrice)
-        print(data.pages[0].stock)
-        print(data.pages[0].createdAt)
-        print(data.pages[0].issuedAt)
-    }
-    
 }
 
 extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return 9
+    }
+    
+    func makeImage(thumbnail: String) -> UIImage? {
+        if thumbnail.isEmpty || thumbnail.count == 0 {
+            return nil
+        }
+        
+        do {
+            let url = URL(string: thumbnail)
+            if url != nil {
+                let data = try Data(contentsOf: url!)
+                return UIImage(data: data)
+            }
+        } catch {
+            print(CustomError.unkownError)
+        }
+        return nil
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
+        
         jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
             switch response {
             case .success(let data):
-                // print(data)
                 DispatchQueue.main.async {
-                    self.productData = data
-                    cell.myLabel.text = "Hi Collection Label \(indexPath.row), \(self.productData?.pages[indexPath.row].name)"
+//                    self.productList = data
+//                    guard let decodedata = self.productList else { return }
+                    
                 }
             case .failure(let data):
                 print(data)
             }
         })
-
+        
         return cell
     }
 }
