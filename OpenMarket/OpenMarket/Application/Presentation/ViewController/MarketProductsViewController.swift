@@ -16,6 +16,8 @@ private extension MarketProductsViewController {
     
     func configureNavigationItems() {
         self.navigationItem.titleView = segmentedControl
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+    }
     }
 }
 
@@ -58,5 +60,9 @@ private extension MarketProductsViewController {
         default:
             break
         }
+    }
+    
+    @objc func addTapped() {
+        
     }
 }
