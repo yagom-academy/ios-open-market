@@ -26,8 +26,8 @@ extension OpenMarketViewController {
     
     func setSubviews() {
         self.view.addSubview(self.segmentedControl)
-        self.view.addSubview(self.listCollectionView)
         self.view.addSubview(self.gridCollectionView)
+        self.view.addSubview(self.listCollectionView)
     }
     
     func setNavigationController() {
@@ -45,6 +45,7 @@ extension OpenMarketViewController {
                                         action: #selector(segmentButtonDidTap(sender:)),
                                         for: .valueChanged)
         self.segmentedControl.selectedSegmentIndex = 0
+        
     }
     
     func setListViewConstraints() {
