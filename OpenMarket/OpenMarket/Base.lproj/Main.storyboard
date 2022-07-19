@@ -151,6 +151,7 @@
                             <constraint firstItem="lJS-gT-3IU" firstAttribute="leading" secondItem="dHE-EZ-PcS" secondAttribute="leading" id="vv0-9h-odD"/>
                         </constraints>
                     </view>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="productCollectionView" destination="lJS-gT-3IU" id="6ct-9V-hzN"/>
                     </connections>
