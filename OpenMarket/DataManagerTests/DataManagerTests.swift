@@ -9,8 +9,6 @@ import XCTest
 @testable import OpenMarket
 
 class DataManagerTests: XCTestCase {
-    var mockData: NSDataAsset!
-
     override func setUpWithError() throws {
         try super.setUpWithError()
     }
