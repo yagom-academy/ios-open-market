@@ -9,14 +9,10 @@ import UIKit
 
 struct DataManager {
     
-    // MARK: - Properties
-    
-    private static let openMarketHostAPI = "https://market-training.yagom-academy.kr"
-    
     // MARK: - Static Actions
     
     static func performRequestToAPI(with request: String, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
-        let requestURL = DataManager.openMarketHostAPI + request
+        let requestURL = HostAPI.openMarket.url + request
         
         guard let url = URL(string: requestURL) else {
             return
