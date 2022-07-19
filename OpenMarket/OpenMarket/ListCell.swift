@@ -116,9 +116,9 @@ class ListCell: UICollectionViewCell {
             productImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             productImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -10),
 //            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
-//            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
-            productImageView.widthAnchor.constraint(equalToConstant: 50),
-            productImageView.heightAnchor.constraint(equalToConstant: 50),
+            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
+//            productImageView.widthAnchor.constraint(equalToConstant: 50),
+//            productImageView.heightAnchor.constraint(equalToConstant: 50),
             
         ])
         NSLayoutConstraint.activate([

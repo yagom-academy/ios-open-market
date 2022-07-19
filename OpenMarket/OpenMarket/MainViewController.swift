@@ -9,7 +9,11 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: - Instance Properties
     private let manager = NetworkManager()
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    
+    private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    private var listLayout: UICollectionViewLayout? = nil
+    private var gridLayout: UICollectionViewLayout? = nil
     
     enum Section {
         case main
@@ -21,24 +25,25 @@ class MainViewController: UIViewController {
             guard let shouldHideListLayout = shouldHideListLayout else { return }
             print("DID TAPPED SEGMENT CONTROLLER")
             if shouldHideListLayout {
-                self.view.subviews.forEach { $0.removeFromSuperview() }
-                self.view.addSubview(collectionView)
-                configureGridDataSource()
-                fetchData()
-                collectionView.setCollectionViewLayout(createGridLayout(), animated: false)
+                guard let gridLayout = gridLayout else {
+                    return
+                }
+                collectionView.dataSource = gridDataSource
+                collectionView.setCollectionViewLayout(gridLayout, animated: true)
             } else {
-                self.view.subviews.forEach { $0.removeFromSuperview() }
-                self.view.addSubview(collectionView)
-                configureListDataSource()
-                fetchData()
-                collectionView.setCollectionViewLayout(createListLayout(), animated: false)
+                
+                guard let listLayout = listLayout else {
+                    return
+                }
+                collectionView.dataSource = listDataSource
+                collectionView.setCollectionViewLayout(listLayout, animated: true)
             }
         }
     }
     
     private let segmentController: UISegmentedControl = {
         let segmentController = UISegmentedControl(items: ["List", "Grid"])
-        segmentController.translatesAutoresizingMaskIntoConstraints = true
+        segmentController.translatesAutoresizingMaskIntoConstraints = false
         segmentController.selectedSegmentIndex = 0
         segmentController.tintColor = .systemBlue
         segmentController.backgroundColor = .systemBlue
@@ -83,57 +88,65 @@ class MainViewController: UIViewController {
         didChangeValue(segment: self.segmentController)
         self.segmentController.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
     }
+    
+    @objc private func didChangeValue(segment: UISegmentedControl) {
+        self.shouldHideListLayout = segment.selectedSegmentIndex != 0
+    }
 }
-// MARK: - Modern Collection View List Style
+// MARK: - Modern Collection Create Layout
 extension MainViewController {
     
-//    private func createListLayout() -> UICollectionViewLayout {
-//        let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-//        return UICollectionViewCompositionalLayout.list(using: config)
-//    }
+    //    private func createListLayout() -> UICollectionViewLayout {
+    //        let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+    //        return UICollectionViewCompositionalLayout.list(using: config)
+    //    }
     
     private func createListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                             heightDimension: .fractionalHeight(1.0))
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .absolute(70))
+                                               heightDimension: .absolute(70))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                             heightDimension: .fractionalHeight(1.0))
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .absolute(250))
+                                               heightDimension: .absolute(250))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let spacing = CGFloat(10)
         group.interItemSpacing = .fixed(spacing)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = spacing
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
 }
-
+// MARK: - Modern Collection VIew Configure Datasource
 extension MainViewController {
     private func configureHierarchy(){
         collectionView.frame = view.bounds
-        collectionView.setCollectionViewLayout(createListLayout(), animated: false)
+        guard let listLayout = listLayout else {
+            return
+        }
+        collectionView.setCollectionViewLayout(listLayout, animated: true)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(collectionView)
+        collectionView.dataSource = listDataSource
         collectionView.delegate = self
     }
     
@@ -141,7 +154,7 @@ extension MainViewController {
         let cellRegistration = UICollectionView.CellRegistration<ListCell, Product> { (cell, indexPath, product) in
             cell.setupCellData(with: product)
         }
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
+        listDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
@@ -152,7 +165,7 @@ extension MainViewController {
         let cellRegistration = UICollectionView.CellRegistration<GridCell, Product> { (cell, indexPath, product) in
             cell.setupCellData(with: product)
         }
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
+        gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }

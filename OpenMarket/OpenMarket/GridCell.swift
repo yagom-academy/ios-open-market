@@ -17,6 +17,7 @@ class GridCell: UICollectionViewCell {
         stackview.axis = .vertical
         stackview.alignment = .center
         stackview.distribution = .equalSpacing
+        stackview.spacing = 0
         return stackview
     }()
     
@@ -32,6 +33,7 @@ class GridCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.text = "Mac mini"
+        label.sizeToFit()
         return label
     }()
     
@@ -41,6 +43,7 @@ class GridCell: UICollectionViewCell {
         label.textColor = .lightGray
         label.numberOfLines = 0
         label.text = "JPY 300"
+        label.sizeToFit()
         return label
     }()
     
@@ -50,6 +53,7 @@ class GridCell: UICollectionViewCell {
         label.textColor = .lightGray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.text = "JPY 800"
+        label.sizeToFit()
         return label
     }()
     
@@ -59,6 +63,7 @@ class GridCell: UICollectionViewCell {
         label.textColor = .lightGray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.text = "잔여수량: 20"
+        label.sizeToFit()
         return label
     }()
     
@@ -85,8 +90,11 @@ class GridCell: UICollectionViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.heightAnchor.constraint(equalToConstant: 150),
-            productImageView.widthAnchor.constraint(equalToConstant: 150)
+//            productImageView.heightAnchor.constraint(equalToConstant: 150),
+//            productImageView.widthAnchor.constraint(equalToConstant: 150)
+            productImageView.leadingAnchor.constraint(equalTo: self.verticalStackView.leadingAnchor, constant: 10),
+            productImageView.trailingAnchor.constraint(equalTo: self.verticalStackView.trailingAnchor, constant: -10),
+            productImageView.heightAnchor.constraint(equalTo: self.productImageView.widthAnchor)
         ])
         NSLayoutConstraint.activate([
             verticalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
