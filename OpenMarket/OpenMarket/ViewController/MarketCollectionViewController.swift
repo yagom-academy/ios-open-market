@@ -33,13 +33,10 @@ class MarketCollectionViewController: UICollectionViewController {
                                                        subitem: item,
                                                        count: 1)
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        section.interGroupSpacing = 10
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        section.interGroupSpacing = 1
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
-        
-//        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-//        return UICollectionViewCompositionalLayout.list(using: configuration)
     }
 }
 
@@ -48,6 +45,7 @@ extension MarketCollectionViewController {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.nameLabel.text = item.productName
             cell.priceLabel.text = item.price
+            cell.backgroundColor = .white
             
             self.sessionManager.receiveData(baseURL: item.productImage) { result in
                 switch result {
@@ -62,7 +60,6 @@ extension MarketCollectionViewController {
                 }
             }
                 
-           
             
 //            var configuration = cell.defaultContentConfiguration()
 //

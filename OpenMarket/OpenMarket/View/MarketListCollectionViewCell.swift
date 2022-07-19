@@ -11,34 +11,26 @@ class MarketListCollectionViewCell: UICollectionViewCell {
  
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
         return imageView
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let verticalStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .center
+//        stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
         stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -46,7 +38,6 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -54,11 +45,6 @@ class MarketListCollectionViewCell: UICollectionViewCell {
     
     private func arrangeSubView() {
        
-        
-//        [nameLabel, priceLabel].forEach {
-//            verticalStackView.addArrangedSubview($0)
-//        }
-        
         verticalStackView.addArrangedSubview(nameLabel)
         verticalStackView.addArrangedSubview(priceLabel)
         
@@ -76,16 +62,26 @@ class MarketListCollectionViewCell: UICollectionViewCell {
             imageView.heightAnchor.constraint(equalToConstant: 50),
             imageView.widthAnchor.constraint(equalToConstant: 50)
         ])
-        
-    
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         arrangeSubView()
+        self.contentView.layer.addBottomBorder()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+extension CALayer {
+    func addBottomBorder() {
+        let border = CALayer()
+        border.backgroundColor = UIColor.systemGray3.cgColor
+        
+        border.frame = CGRect(x: 0, y: frame.height - 0.5, width: frame.width, height: 0.5)
+        
+        self.addSublayer(border)
     }
 }
