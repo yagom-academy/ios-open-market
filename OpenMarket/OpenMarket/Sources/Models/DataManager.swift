@@ -11,10 +11,11 @@ struct DataManager {
     
     // MARK: - Static Actions
     
-    static func performRequestToAPI(with request: String, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
-        let requestURL = HostAPI.openMarket.url + request
+    static func performRequestToAPI(from hostAPI: String, with request: String,
+                                    completion: @escaping (Result<Data, NetworkingError>) -> Void) {
+        let url = hostAPI + request
         
-        guard let url = URL(string: requestURL) else {
+        guard let url = URL(string: url) else {
             return
         }
         
@@ -44,7 +45,8 @@ struct DataManager {
         return dataAsset.data
     }
     
-    static func parse<T: Decodable>(_ data: Data, into type: T.Type) -> T? {
+    static func parse<T: Decodable>(_ data: Data,
+                                    into type: T.Type) -> T? {
         let jsonDecoder: JSONDecoder = JSONDecoder()
                 
         do {

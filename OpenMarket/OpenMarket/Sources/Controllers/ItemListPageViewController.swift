@@ -12,7 +12,7 @@ final class ItemListPageViewController: UIViewController {
     
     private var itemListPage: ItemListPage?
     
-    private lazy var url = Path.products + queryString
+    private lazy var request = Path.products + queryString
     private let queryString = QueryCharacter.questionMark + QueryKey.pageNumber + QueryValue.pageNumber + QueryCharacter.ampersand + QueryKey.itemsPerPage + QueryValue.itemsPerPage
     
     // MARK: - Life Cycle
@@ -20,7 +20,7 @@ final class ItemListPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DataManager.performRequestToAPI(with: url) { (result: Result<Data, NetworkingError>) in
+        DataManager.performRequestToAPI(from: HostAPI.openMarket.url, with: request) { (result: Result<Data, NetworkingError>) in
             self.fetchParsedData(basedOn: result)
         }
     }
