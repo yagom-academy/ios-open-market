@@ -15,6 +15,7 @@ class OpenMarketViewController: UIViewController {
         case grid
     }
     
+    var loadingView : UIView?
     var productsList = [ProductDetail]()
     var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
     var gridViewDataSource: UICollectionViewDiffableDataSource<GridSection, ProductDetail>? = nil
@@ -141,6 +142,7 @@ class OpenMarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.showSpinner(onView: self.view)
         self.view.backgroundColor = .systemBackground
         self.fetchData()
         self.setSubviews()
@@ -172,6 +174,8 @@ class OpenMarketViewController: UIViewController {
                     self.configurationSnapshot()
                     self.configurationGridSnapshot()
                 }
+                self.removeSpinner()
+                
             case .failure(let error):
                 print(error)
                 break
@@ -232,11 +236,37 @@ struct ProductsRequest: APIRequest {
     var body: Data?
 }
 
+
+extension OpenMarketViewController {
+    func showSpinner(onView : UIView) {
+        
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
+        activityIndicatorView.startAnimating()
+        activityIndicatorView.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(activityIndicatorView)
+            onView.addSubview(spinnerView)
+        }
+        
+        loadingView = spinnerView
+    }
+    
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            self.loadingView?.removeFromSuperview()
+            self.loadingView = nil
+        }
+    }
+}
+
 extension NSMutableAttributedString {
     func bold(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
-            .font: UIFont.preferredFont(forTextStyle: .body),
+            .font: UIFont.preferredFont(forTextStyle: .footnote),
             .strikethroughStyle: NSUnderlineStyle.single.rawValue,
             .foregroundColor: UIColor.systemRed
         ]
@@ -247,7 +277,7 @@ extension NSMutableAttributedString {
     func regular(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
-            .font: UIFont.preferredFont(forTextStyle: .body),
+            .font: UIFont.preferredFont(forTextStyle: .footnote),
             .foregroundColor: UIColor.systemGray
         ]
         self.append(NSAttributedString(string: string, attributes: attributes))
