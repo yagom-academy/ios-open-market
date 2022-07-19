@@ -6,18 +6,21 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UICollectionViewDelegate {
+class MainViewController: UIViewController {
     
     enum Section {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
-    let segment = UISegmentedControl(items: ["List", "Grid"])
+    var dataSource: UICollectionViewDiffableDataSource<Section, Page>! = nil
     var listCollectionView: UICollectionView! = nil
+    let segment = UISegmentedControl(items: ["List", "Grid"])
+    let manager = NetworkManager()
+    var items: ItemList? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getItemList()
         self.view.backgroundColor = .white
         self.navigationItem.titleView = segment
         configureSegment()
@@ -25,6 +28,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate {
         configureDataSource()
     }
 }
+
 
 extension MainViewController {
     private func configureSegment() {
@@ -66,27 +70,41 @@ extension MainViewController {
     }
     
     private func configureDataSource() {
-        
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Int> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Page> { (cell, indexPath, item) in
+            //let itemData: ItemList? = JSONDecoder.decodeJson(jsonData: item)
             var content = cell.defaultContentConfiguration()
-            content.text = "\(item)"
+            content.text = "\(item.name)"
             cell.contentConfiguration = content
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: listCollectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Int) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listCollectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Page) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
         
         // initial data
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(Array(0..<94))
+        //snapshot.appendItems(items!.pages)
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+    private func getItemList() {
+        manager.getItemList(pageNumber: 1, itemsPerPage: 10) { result in
+            switch result {
+            case .success(let data):
+                guard let data = data else { return }
+                let itemData: ItemList? = JSONDecoder.decodeJson(jsonData: data)
+                self.items = itemData
+                dump(itemData)
+            case .failure(ResponseError.dataError):
+                return
+            case .failure(ResponseError.defaultResponseError):
+                return
+            case .failure(ResponseError.statusError):
+                return
+            }
+        }
     }
 }

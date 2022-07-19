@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Page: Codable {
+struct Page: Codable, Hashable {
     let id: Int
     let vendorId: Int
     let name: String
