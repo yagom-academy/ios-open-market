@@ -12,7 +12,6 @@ class ViewController: UIViewController {
                 guard let imageUrl = URL(string: $0.thumbnail),
                       let imageData = try? Data(contentsOf: imageUrl),
                       let image = UIImage(data: imageData) else { return }
-                
                 productImages.append(image)
             }
         }
@@ -105,46 +104,9 @@ extension ViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
             cell.product = self.Products?.pages[indexPath.row]
-            cell.currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex)
-            switch cell.currentSeguement {
-            case .LIST:
-                cell.stackView.axis = .horizontal
-                cell.accessories = [
-                    .disclosureIndicator()
-                ]
-                cell.priceStackView.axis = .horizontal
-                //                self.itemImageViewLayoutConstraint?.constant = -(self.multiplieToConstant ?? 0.0)
-                cell.itemNameAndPriceStackView.alignment = .leading
-                cell.layer.borderWidth = 0
-                cell.layer.borderColor = nil
-                cell.layer.cornerRadius = 0
-                cell.clipsToBounds = false
-                cell.stackView.spacing = 10
-                cell.stackViewTraillingContraint?.constant = -8
-                cell.stackView.isLayoutMarginsRelativeArrangement = false
-                cell.layoutIfNeeded()
-                
-            case .GRID:
-                
-                cell.stackView.axis = .vertical
-                cell.accessories = [
-                    .delete()
-                ]
-                cell.priceStackView.axis = .vertical
-                //                self.itemImageViewLayoutConstraint?.constant = 0
-                cell.itemNameAndPriceStackView.alignment = .fill
-                cell.layer.borderWidth = 1
-                cell.layer.borderColor = UIColor.systemGray.cgColor
-                cell.layer.cornerRadius = 20
-                cell.clipsToBounds = true
-                cell.stackView.spacing = 0
-                cell.stackViewTraillingContraint?.constant = 0
-                cell.stackView.isLayoutMarginsRelativeArrangement = true
-                cell.layoutIfNeeded()
-                
-            case .none:
-                break
-            }
+            guard let currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex) else { return nil }
+            cell.setAxis(segment: currentSeguement)
+            
             if self.productImages.count > 0 {
                 cell.itemImageView.image = self.productImages[indexPath.row]
             }
