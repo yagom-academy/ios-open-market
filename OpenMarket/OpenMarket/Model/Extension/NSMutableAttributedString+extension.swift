@@ -8,7 +8,7 @@
 import UIKit
 
 extension NSMutableAttributedString {
-    func bold(string: String) -> NSMutableAttributedString {
+    func makePriceText(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
             .font: UIFont.preferredFont(forTextStyle: .footnote),
@@ -19,7 +19,7 @@ extension NSMutableAttributedString {
         return self
     }
     
-    func regular(string: String) -> NSMutableAttributedString {
+    func makeBargainPriceText(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
             .font: UIFont.preferredFont(forTextStyle: .footnote),

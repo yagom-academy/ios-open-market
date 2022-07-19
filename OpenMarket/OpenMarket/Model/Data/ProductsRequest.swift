@@ -2,7 +2,7 @@
 //  ProductsRequest.swift
 //  OpenMarket
 //
-//  Created by NAMU on 2022/07/19.
+//  Created by groot, bard on 2022/07/19.
 //
 
 import Foundation

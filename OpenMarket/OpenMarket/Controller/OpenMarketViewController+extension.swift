@@ -56,8 +56,8 @@ extension OpenMarketViewController {
         ])
     }
     
-    func showSpinner(onView : UIView) {
-        let spinnerView = UIView.init(frame: onView.bounds)
+    func showSpinner(on view : UIView) {
+        let spinnerView = UIView.init(frame: view.bounds)
         spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
         let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
         activityIndicatorView.startAnimating()
@@ -65,7 +65,7 @@ extension OpenMarketViewController {
         
         DispatchQueue.main.async {
             spinnerView.addSubview(activityIndicatorView)
-            onView.addSubview(spinnerView)
+            view.addSubview(spinnerView)
         }
         
         loadingView = spinnerView
