@@ -20,7 +20,7 @@ final class ItemListPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DataManager.performRequestToAPI(with: url) { (result: Result<Data, APIError>) in
+        DataManager.performRequestToAPI(with: url) { (result: Result<Data, NetworkingError>) in
             self.fetchParsedData(basedOn: result)
         }
     }
@@ -29,7 +29,7 @@ final class ItemListPageViewController: UIViewController {
 // MARK: - Private Actions
 
 private extension ItemListPageViewController {
-    func fetchParsedData(basedOn result: Result<Data, APIError>) {
+    func fetchParsedData(basedOn result: Result<Data, NetworkingError>) {
         switch result {
         case .success(let data):
             guard let parsedData = DataManager.parse(data, into: self.itemListPage) else {

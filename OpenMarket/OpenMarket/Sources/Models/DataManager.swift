@@ -15,7 +15,7 @@ struct DataManager {
     
     // MARK: - Static Actions
     
-    static func performRequestToAPI(with request: String, completion: @escaping (Result<Data, APIError>) -> Void) {
+    static func performRequestToAPI(with request: String, completion: @escaping (Result<Data, NetworkingError>) -> Void) {
         let requestURL = DataManager.openMarketHostAPI + request
         
         guard let url = URL(string: requestURL) else {
@@ -24,15 +24,15 @@ struct DataManager {
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
-                return completion(.failure(.client))
+                return completion(.failure(.clientTransport))
             }
             
             guard isValidResponse(response) else {
-                return completion(.failure(.server))
+                return completion(.failure(.serverSideInvalidResponse))
             }
             
             guard let data = data else {
-                return completion(.failure(.data))
+                return completion(.failure(.missingData))
             }
             
             completion(.success(data))
