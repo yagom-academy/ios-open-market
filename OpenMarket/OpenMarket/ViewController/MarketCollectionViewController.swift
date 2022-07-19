@@ -13,18 +13,17 @@ class MarketCollectionViewController: UICollectionViewController {
     }
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    lazy var dataSource = makeDataSource()
+    lazy var dataSource = makeGridDataSource()
     private var items: [Item] = []
     private let sessionManager = URLSessionManager(session: URLSession.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.collectionViewLayout = createLayout()
+        collectionView.collectionViewLayout = createGridLayout()
         receivePageData()
     }
     
-    func createLayout() -> UICollectionViewLayout {
-        
+    func createListLayout() -> UICollectionViewLayout {
         let estimatedHeight = CGFloat(60)
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .estimated(estimatedHeight))
@@ -38,14 +37,28 @@ class MarketCollectionViewController: UICollectionViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
+    
+    func createGridLayout() -> UICollectionViewLayout {
+        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: layoutSize)
+        let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .fractionalHeight(0.33))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
+                                                       subitem: item,
+                                                       count: 2)
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }
 
 extension MarketCollectionViewController {
-    func makeDataSource() -> DataSource {
+    func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.nameLabel.text = item.productName
             cell.priceLabel.text = item.price
-            cell.backgroundColor = .white
             
             self.sessionManager.receiveData(baseURL: item.productImage) { result in
                 switch result {
@@ -59,33 +72,35 @@ extension MarketCollectionViewController {
                     print("서버 통신 실패")
                 }
             }
-                
-            
-//            var configuration = cell.defaultContentConfiguration()
-//
-//            configuration.text = item.productName
-//            configuration.secondaryText = item.price
-//            configuration.imageProperties.maximumSize = CGSize(width: 50, height: 50)
-//
-//            self.sessionManager.receiveData(baseURL: item.productImage) { result in
-//                switch result {
-//                case .success(let data):
-//                    guard let imageData = UIImage(data: data) else { return }
-//
-//                    configuration.image = imageData
-//
-//                    DispatchQueue.main.async {
-//                        cell.contentConfiguration = configuration
-//                    }
-//                case .failure(_):
-//                    print("서버 통신 실패")
-//                }
-//            }
-//
-//            cell.accessories = [.disclosureIndicator(), .label(text: item.stock)]
         }
         
-        return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> MarketListCollectionViewCell? in
+        return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
+        }
+    }
+    
+    func makeGridDataSource() -> DataSource {
+        let registration = UICollectionView.CellRegistration<MarketGridCollectionViewCell, Item>.init { cell, indexPath, item in
+            cell.nameLabel.text = item.productName
+            cell.priceLabel.text = item.price
+            cell.bargainPriceLabel.text = item.bargainPrice
+            cell.stockLabel.text = item.stock
+            
+            self.sessionManager.receiveData(baseURL: item.productImage) { result in
+                switch result {
+                case .success(let data):
+                    guard let imageData = UIImage(data: data) else { return }
+                    
+                    DispatchQueue.main.async {
+                        cell.imageView.image = imageData
+                    }
+                case .failure(_):
+                    print("서버 통신 실패")
+                }
+            }
+        }
+        
+        return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
         }
     }
