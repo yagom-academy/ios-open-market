@@ -13,7 +13,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let accessaryImageView: UIImageView = {
+    private let accessaryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "greaterthan")
         imageView.tintColor = .systemGray
@@ -41,7 +41,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let horizontalStackView: UIStackView = {
+    private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
@@ -49,7 +49,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    let subHorizontalStackView: UIStackView = {
+    private let subHorizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -57,7 +57,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    let verticalStackView: UIStackView = {
+    private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         stackView.axis = .vertical
@@ -66,7 +66,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    let entireStackView: UIStackView = {
+    private let entireStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .horizontal

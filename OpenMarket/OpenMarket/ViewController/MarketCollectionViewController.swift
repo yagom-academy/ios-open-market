@@ -17,8 +17,7 @@ class MarketCollectionViewController: UICollectionViewController {
     private var items: [Item] = []
     private let sessionManager = URLSessionManager(session: URLSession.shared)
     
-    
-    let segmentedControl: UISegmentedControl = {
+    private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UIKit.UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentTintColor = .systemBlue
@@ -30,7 +29,7 @@ class MarketCollectionViewController: UICollectionViewController {
         return segmentedControl
     }()
     
-    let barbutton: UIBarButtonItem = {
+    private let barbutton: UIBarButtonItem = {
         let addButton = UIBarButtonItem()
         addButton.image = UIImage(systemName: "plus")
         return addButton
@@ -38,14 +37,14 @@ class MarketCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = barbutton
         collectionView.collectionViewLayout = createListLayout()
         receivePageData()
-        navigationItem.titleView = segmentedControl
         segmentedControl.addTarget(self, action: #selector(indexChanged), for: .valueChanged)
-        navigationItem.rightBarButtonItem = barbutton
     }
-
-    @objc func indexChanged(segmentedControl: UISegmentedControl) {
+    
+    @objc private func indexChanged(segmentedControl: UISegmentedControl) {
         if segmentedControl.selectedSegmentIndex == 0 {
             collectionView.collectionViewLayout = createListLayout()
             dataSource = makeListDataSource()
@@ -56,11 +55,12 @@ class MarketCollectionViewController: UICollectionViewController {
             receivePageData()
         }
     }
+}
 
-    func createListLayout() -> UICollectionViewLayout {
-//        let estimatedHeight = CGFloat(60)
+extension MarketCollectionViewController {
+    private func createListLayout() -> UICollectionViewLayout {
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .fractionalHeight(1.0))// estimated(estimatedHeight))
+                                                heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: layoutSize)
         
         let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -75,7 +75,7 @@ class MarketCollectionViewController: UICollectionViewController {
         return layout
     }
     
-    func createGridLayout() -> UICollectionViewLayout {
+    private func createGridLayout() -> UICollectionViewLayout {
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                 heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: layoutSize)
@@ -92,7 +92,7 @@ class MarketCollectionViewController: UICollectionViewController {
 }
 
 extension MarketCollectionViewController {
-    func makeListDataSource() -> DataSource {
+    private func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.nameLabel.text = item.productName
           
@@ -138,7 +138,7 @@ extension MarketCollectionViewController {
         }
     }
     
-    func makeGridDataSource() -> DataSource {
+    private func makeGridDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketGridCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.nameLabel.text = item.productName
             
@@ -183,15 +183,17 @@ extension MarketCollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
         }
     }
-    
-    func applySnapshots() {
+}
+ 
+extension MarketCollectionViewController {
+    private func applySnapshots() {
         var itemSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         itemSnapshot.appendSections([.main])
         itemSnapshot.appendItems(items)
         dataSource.apply(itemSnapshot, animatingDifferences: false)
     }
     
-    func receivePageData() {
+    private func receivePageData() {
         let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
         
         LoadingIndicator.showLoading(superView: view)

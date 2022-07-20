@@ -8,7 +8,6 @@
 import UIKit
 
 class MarketGridCollectionViewCell: UICollectionViewCell {
- 
     let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -36,7 +35,7 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let verticalStackView: UIStackView = {
+    private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.axis = .vertical
