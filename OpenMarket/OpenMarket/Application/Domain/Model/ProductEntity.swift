@@ -2,7 +2,7 @@
 //  ProductEntity.swift
 //  OpenMarket
 //
-//  Created by Derrick kim on 2022/07/19.
+//  Created by 데릭, 케이, 수꿍. 
 //
 
 import UIKit

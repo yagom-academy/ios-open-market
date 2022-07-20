@@ -2,7 +2,7 @@
 //  MockURLSession.swift
 //  OpenMarket
 //
-//  Created by 케이, 수꿍 on 2022/07/12.
+//  Created by 데릭, 케이, 수꿍. 
 //
 
 import Foundation

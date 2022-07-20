@@ -1,6 +1,6 @@
 //
 //  OpenMarket - SceneDelegate.swift
-//  Created by 케이, 수꿍. 
+//  Created by 데릭, 케이, 수꿍. 
 //  Copyright © yagom. All rights reserved.
 // 
 

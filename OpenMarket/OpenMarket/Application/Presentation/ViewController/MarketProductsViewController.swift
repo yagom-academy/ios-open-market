@@ -1,6 +1,6 @@
 //
 //  OpenMarket - MarketProductsViewController.swift
-//  Created by 케이, 수꿍.
+//  Created by 데릭, 케이, 수꿍. 
 //  Copyright © yagom. All rights reserved.
 //
 
@@ -124,8 +124,8 @@ private extension MarketProductsViewController {
     }
     
     func configureListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionListViewCell, ProductEntity> { (cell, indexPath, item) in
-            cell.config(item)
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionCell, ProductEntity> { (cell, indexPath, item) in
+            cell.updateUI(item)
             cell.accessories = [.disclosureIndicator()]
         }
         
@@ -171,12 +171,12 @@ private extension MarketProductsViewController {
     }
     
     func configureGridDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<CollectionGridCell, ProductEntity> { cell, indexPath, item in
+        let cellRegistration = UICollectionView.CellRegistration<GridCollectionCell, ProductEntity> { cell, indexPath, item in
             cell.layer.borderColor = UIColor.systemGray.cgColor
             cell.layer.borderWidth = 1
             cell.layer.cornerRadius = 10
             
-            cell.config(item)
+            cell.updateUI(item)
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
