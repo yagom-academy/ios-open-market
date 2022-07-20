@@ -138,6 +138,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8F0198122887D4E200C47CF0 /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				05B3530C288797690027DCDE /* ListCollectionViewCell.swift */,
+				05B3530E2887CA7F0027DCDE /* GridCollectionViewCell.swift */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
 		8F1A0BB4287D91B10071EF7A /* Mock */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +180,7 @@
 			children = (
 				05F7FA3F28802CBC00F79944 /* .swiftlint.yml */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
+				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				05B5A7F8287D926B00865293 /* OpenMarketTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 				42A30A18F909792EACE5EAB5 /* Pods */,
@@ -194,13 +204,11 @@
 				8F4809B5287CFF2500A77BCD /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				05B3530C288797690027DCDE /* ListCollectionViewCell.swift */,
-				05B3530E2887CA7F0027DCDE /* GridCollectionViewCell.swift */,
+				8F0198122887D4E200C47CF0 /* CollectionViewCell */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
