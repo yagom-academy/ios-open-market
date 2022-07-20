@@ -63,7 +63,7 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
             verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
             verticalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
             verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5)
+            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.58)
         ])
     }
     

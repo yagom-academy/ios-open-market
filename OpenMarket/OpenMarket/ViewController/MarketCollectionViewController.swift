@@ -51,11 +51,14 @@ class MarketCollectionViewController: UICollectionViewController {
     }
 
     func createListLayout() -> UICollectionViewLayout {
-        let estimatedHeight = CGFloat(60)
+//        let estimatedHeight = CGFloat(60)
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(estimatedHeight))
+                                                heightDimension: .fractionalHeight(1.0))// estimated(estimatedHeight))
         let item = NSCollectionLayoutItem(layoutSize: layoutSize)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: layoutSize,
+        
+        let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .fractionalHeight(0.08))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
                                                        subitem: item,
                                                        count: 1)
         let section = NSCollectionLayoutSection(group: group)
@@ -70,7 +73,7 @@ class MarketCollectionViewController: UICollectionViewController {
                                                 heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: layoutSize)
         let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .fractionalHeight(0.33))
+                                                heightDimension: .fractionalHeight(0.35))
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
                                                        subitem: item,
@@ -85,7 +88,29 @@ extension MarketCollectionViewController {
     func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.nameLabel.text = item.productName
-            cell.priceLabel.text = item.price
+          
+            if item.price == item.bargainPrice {
+                cell.priceLabel.text = item.price
+                cell.priceLabel.textColor = .systemGray
+            } else {
+                let price = item.price + " " + item.bargainPrice
+                let attributeString = NSMutableAttributedString(string: price)
+                
+                attributeString.addAttribute(.strikethroughStyle,
+                                             value: NSUnderlineStyle.single.rawValue,
+                                             range: NSMakeRange(0, item.price.count))
+                attributeString.addAttribute(.foregroundColor,
+                                             value: UIColor.systemGray,
+                                             range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
+                cell.priceLabel.attributedText = attributeString
+            }
+            
+            if item.stock != "0" {
+                cell.stockLabel.text = "잔여수량 : " + item.stock
+            } else {
+                cell.stockLabel.text = "품절"
+                cell.stockLabel.textColor = .systemOrange
+            }
             
             self.sessionManager.receiveData(baseURL: item.productImage) { result in
                 switch result {

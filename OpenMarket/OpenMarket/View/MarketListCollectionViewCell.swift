@@ -8,9 +8,15 @@
 import UIKit
 
 class MarketListCollectionViewCell: UICollectionViewCell {
- 
     let imageView: UIImageView = {
         let imageView = UIImageView()
+        return imageView
+    }()
+    
+    let accessaryImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "greaterthan")
+        imageView.tintColor = .systemGray
         return imageView
     }()
     
@@ -27,25 +33,36 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let bargainPriceLabel: UILabel = {
+    let stockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.textAlignment = .right
         label.textColor = .systemGray
         return label
     }()
     
-    let stockLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textColor = .systemGray
-        return label
+    let horizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
+    
+    let subHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        return stackView
     }()
     
     let verticalStackView: UIStackView = {
         let stackView = UIStackView()
-//        stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        stackView.spacing = 2
         return stackView
     }()
     
@@ -54,15 +71,20 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.alignment = .center
         stackView.axis = .horizontal
         stackView.spacing = 10
+        stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private func arrangeSubView() {
-       
-        verticalStackView.addArrangedSubview(nameLabel)
+        subHorizontalStackView.addArrangedSubview(stockLabel)
+        subHorizontalStackView.addArrangedSubview(accessaryImageView)
+        
+        horizontalStackView.addArrangedSubview(nameLabel)
+        horizontalStackView.addArrangedSubview(subHorizontalStackView)
+        
+        verticalStackView.addArrangedSubview(horizontalStackView)
         verticalStackView.addArrangedSubview(priceLabel)
-        verticalStackView.addArrangedSubview(bargainPriceLabel)
         
         entireStackView.addArrangedSubview(imageView)
         entireStackView.addArrangedSubview(verticalStackView)
@@ -70,13 +92,13 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         self.addSubview(entireStackView)
         
         NSLayoutConstraint.activate([
-            entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            entireStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            entireStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            entireStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            entireStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            entireStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            entireStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
             
-            imageView.heightAnchor.constraint(equalToConstant: 50),
-            imageView.widthAnchor.constraint(equalToConstant: 50)
+            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.9),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1)
         ])
     }
     
@@ -92,6 +114,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         stockLabel.textColor = .systemGray
+        priceLabel.textColor = .systemRed
     }
 }
 
