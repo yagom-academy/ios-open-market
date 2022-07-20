@@ -3,7 +3,7 @@ import UIKit
 class ViewController: UIViewController {
     
     // MARK: - Properties
-
+    
     private var collectionView: UICollectionView?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
@@ -124,7 +124,7 @@ extension ViewController {
         
         flowLayout.minimumLineSpacing = 2
         flowLayout.estimatedItemSize = CGSize(width: width, height: height * 0.08)
-
+        
         return flowLayout
     }
     
@@ -173,7 +173,8 @@ extension ViewController {
         let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { (cell, indexPath, identifier) in
             cell.setProduct(by: identifier)
             
-            guard let currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex) else { return }
+            guard let segmentControl = self.segmentControl,
+                  let currentSeguement = Titles(rawValue: segmentControl.selectedSegmentIndex) else { return }
             cell.setAxis(segment: currentSeguement)
             
             if self.productImages.count > indexPath.row {
