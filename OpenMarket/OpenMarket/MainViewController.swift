@@ -27,16 +27,24 @@ class MainViewController: UIViewController {
         return stackView
     }()
     
+    // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addSubview(stackView)
         stackView.addArrangedSubview(collectionView)
+        
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
+        
+        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
     private func getProductList(about pageNumber: String, _ itemPerPage: String) {
@@ -64,7 +72,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath)
         
         return cell
     }
