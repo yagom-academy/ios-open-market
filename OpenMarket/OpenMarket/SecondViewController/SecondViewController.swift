@@ -9,16 +9,15 @@ import UIKit
 
 class SecondViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
-
+    
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
     var productData: ProductListResponse?    
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
-        
         self.setData()
     }
     
@@ -75,6 +74,11 @@ extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         cell.productImage.image = UIImage(data: imageData)
         cell.productName.text = result.pages[indexPath.row].name
+        
+        cell.layer.borderWidth = 2
+        cell.layer.cornerRadius = 20
+        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.isSelected = false
         return cell
     }
 }
@@ -82,9 +86,9 @@ extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension SecondViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
-            let space: CGFloat = (flowayout?.minimumInteritemSpacing ?? 0.0) + (flowayout?.sectionInset.left ?? 0.0) + (flowayout?.sectionInset.right ?? 0.0)
-            let size:CGFloat = (productCollectionView.frame.size.width - space) / 2.0
-            return CGSize(width: size, height: size)
-        }
+        let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
+        let space: CGFloat = (flowayout?.minimumInteritemSpacing ?? 0.0) + (flowayout?.sectionInset.left ?? 0.0) + (flowayout?.sectionInset.right ?? 0.0)
+        let size:CGFloat = (productCollectionView.frame.size.width - space) / 2.0
+        return CGSize(width: size, height: size)
+    }
 }
