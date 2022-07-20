@@ -41,13 +41,13 @@ final class MarketProductsViewController: UIViewController {
         view.backgroundColor = .white
         
         setNavigationItems()
-        getData()
+        fetchData()
     }
 }
 
 
 private extension MarketProductsViewController {
-    func getData() {
+    func fetchData() {
         let url = "https://market-training.yagom-academy.kr/api/products?page_no=1&items_per_page=50"
         
         let openMarket = NetworkProvider(session: URLSession.shared)
