@@ -146,12 +146,12 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				8A845CFF28879981004F0230 /* PaddingLabel.swift */,
 				A375746328868FC6003B6DA6 /* FirstViewController */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				8A845CFF28879981004F0230 /* PaddingLabel.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";

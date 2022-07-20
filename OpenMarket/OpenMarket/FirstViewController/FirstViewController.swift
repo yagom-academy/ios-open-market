@@ -30,6 +30,7 @@ class FirstViewController: UIViewController {
             switch response {
             case .success(let data):
                 self.productData = data
+                
                 self.URLSemaphore.signal()
             case .failure(let data):
                 print(data)
@@ -46,9 +47,9 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
-        
+
         guard let result = productData,
               let imageURL: URL = URL(string: result.pages[indexPath.row].thumbnail),
               let imageData: Data = try? Data(contentsOf: imageURL) else {
@@ -56,11 +57,7 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         }
         cell.accessories = [.disclosureIndicator()]
 
-        cell.productImage.image = UIImage(data: imageData)
-        cell.productName.text = result.pages[indexPath.row].name
-        cell.productPrice.text = "\(result.pages[indexPath.row].price)"
         let productStock = result.pages[indexPath.row].stock
-        
         if productStock == 0 {
             cell.productStock.text = "품절"
             cell.productStock.textColor = .orange
@@ -69,7 +66,27 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
             cell.productStock.textColor = .systemGray
         }
         
-        
+        if result.pages[indexPath.row].bargainPrice > 0 {
+            cell.productPrice.attributedText = cell.productPrice.text?.strikeThrough()
+            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].price)"
+            cell.productPrice.textColor = .systemRed
+            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].discountedPrice)"
+            cell.productDiscountPrice.textColor = .systemGray
+        } else {
+            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].price)"
+            cell.productPrice.textColor = .systemGray
+        }
+        cell.productImage.image = UIImage(data: imageData)
+        cell.productName.text = result.pages[indexPath.row].name
         return cell
+    }
+}
+
+extension String {
+    // 취소선 긋기
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
+        return attributeString
     }
 }
