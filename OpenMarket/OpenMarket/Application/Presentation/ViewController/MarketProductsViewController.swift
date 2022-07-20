@@ -28,7 +28,6 @@ final class MarketProductsViewController: UIViewController {
         }
     }
     
-    private var products: [Product] = []
     private var productsModel: [ProductEntity] = []
     
     private var listCollectionView: UICollectionView!
@@ -55,7 +54,6 @@ private extension MarketProductsViewController {
         openMarket.requestAndDecode(url: url, dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
-                self.products = productList.pages
                 productList.pages.forEach { product in
                     let item = ProductEntity(thumbnailImage: product.thumbnailImage!, name: product.name, currency: product.currency, originalPrice: product.price, discountedPrice: product.bargainPrice, stock: product.stock)
                     self.productsModel.append(item)
