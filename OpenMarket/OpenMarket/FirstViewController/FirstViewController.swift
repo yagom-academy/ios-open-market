@@ -79,6 +79,7 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         cell.productImage.image = UIImage(data: imageData)
         cell.productName.text = result.pages[indexPath.row].name
+        cell.isSelected = false
         return cell
     }
 }
