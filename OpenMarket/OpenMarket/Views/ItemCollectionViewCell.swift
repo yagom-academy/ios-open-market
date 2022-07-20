@@ -36,7 +36,6 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -129,7 +128,10 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureLayout()
+        
+        addViews()
+        configureLayoutContraints()
+        self.accessories = [ .disclosureIndicator() ]
     }
     
     required init?(coder: NSCoder) {
@@ -137,25 +139,27 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     }
 }
 
+
+// MARK: - Functions
+
 extension ItemCollectionViewCell {
-    private func configureLayout() {
+    
+    private func addViews() {
         addSubview(stackView)
+        addSubview(separator)
+        
+        priceStackView.addArrangedSubview(itemPriceLabel)
         
         itemNameAndPriceStackView.addArrangedSubview(itemNameLabel)
-        priceStackView.addArrangedSubview(itemPriceLabel)
         itemNameAndPriceStackView.addArrangedSubview(priceStackView)
-        
         
         stackView.addArrangedSubview(itemImageView)
         stackView.addArrangedSubview(itemNameAndPriceStackView)
         stackView.addArrangedSubview(itemStockLabel)
-        
+    }
+    
+    private func configureLayoutContraints() {
         itemImageView.widthAnchor.constraint(equalTo: self.itemImageView.heightAnchor).isActive = true
-        
-        
-        self.accessories = [
-            .disclosureIndicator()
-        ]
         
         stackViewTraillingContraint = stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         stackViewTraillingContraint?.isActive = true
@@ -166,57 +170,71 @@ extension ItemCollectionViewCell {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
-        addSubview(separator)
-        
         NSLayoutConstraint.activate([
             separator.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 1),
             separator.heightAnchor.constraint(equalToConstant: 1),
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor), // itemImageView.trailingAnchor),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
     
+    private func listLayout() {
+        self.clipsToBounds = false
+        self.layer.cornerRadius = 0
+        self.layer.borderWidth = 0
+        self.layer.borderColor = nil
+        
+        self.stackView.spacing = 10
+        self.stackView.axis = .horizontal
+        self.stackViewTraillingContraint?.constant = -8
+        self.stackView.isLayoutMarginsRelativeArrangement = false
+        
+        self.priceStackView.axis = .horizontal
+        self.itemNameAndPriceStackView.alignment = .leading
+        
+        self.itemImageViewLayoutConstraint?.isActive = false
+        self.accessories = [ .disclosureIndicator() ]
+    }
+    
+    private func gridLayout() {
+        self.clipsToBounds = true
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 10
+        self.layer.borderColor = UIColor.systemGray3.cgColor
+        
+        self.stackView.spacing = 0
+        self.stackView.axis = .vertical
+        self.stackViewTraillingContraint?.constant = 0
+        self.stackView.isLayoutMarginsRelativeArrangement = true
+        
+        self.priceStackView.axis = .vertical
+        self.itemNameAndPriceStackView.alignment = .fill
+        
+        self.itemImageViewLayoutConstraint?.isActive = true
+        self.accessories = [ .delete() ]
+    }
+}
+
+extension ItemCollectionViewCell {
     func setAxis(segment: Titles) {
-        switch segment {
-        case .LIST:
-            UIView.animate(withDuration: 0.3) {
-                self.priceStackView.axis = .horizontal
-                self.stackView.axis = .horizontal
-                self.accessories = [ .disclosureIndicator() ]
-                self.itemNameAndPriceStackView.alignment = .leading
-                self.itemImageViewLayoutConstraint?.isActive = false
-                self.layer.borderWidth = 0
-                self.layer.borderColor = nil
-                self.layer.cornerRadius = 0
-                self.clipsToBounds = false
-                self.stackView.spacing = 10
-                self.stackViewTraillingContraint?.constant = -8
-                self.stackView.isLayoutMarginsRelativeArrangement = false
-                self.layoutIfNeeded()
-            }
-        case .GRID:
-            UIView.animate(withDuration: 0.3) {
-                self.priceStackView.axis = .vertical
-                self.stackView.axis = .vertical
-                self.stackView.distribution = .fill
-                self.accessories = [ .delete() ]
-                self.itemNameAndPriceStackView.alignment = .fill
-                self.itemImageViewLayoutConstraint?.isActive = true
-                self.layer.borderWidth = 1
-                self.layer.borderColor = UIColor.systemGray3.cgColor
-                self.layer.cornerRadius = 10
-                self.stackView.spacing = 0
-                self.clipsToBounds = true
-                self.stackViewTraillingContraint?.constant = 0
-                self.stackView.isLayoutMarginsRelativeArrangement = true
-                self.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3) {
+            switch segment {
+            case .LIST:
+                self.listLayout()
+            case .GRID:
+                self.gridLayout()
             }
         }
     }
-    
+}
+
+
+// MARK: - prepare For Reuse
+
+extension ItemCollectionViewCell {
     override func prepareForReuse() {
-        itemStockLabel.textColor = .systemGray
-        itemSaleLabel.textColor = .systemGray
         itemImageView.image = nil
+        itemSaleLabel.textColor = .systemGray
+        itemStockLabel.textColor = .systemGray
     }
 }
