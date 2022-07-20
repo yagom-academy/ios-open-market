@@ -32,7 +32,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        horizontalStackView.distribution = .fill
+        horizontalStackView.distribution = .equalSpacing
         horizontalStackView.axis = .horizontal
         verticalStackView.distribution = .fillEqually
         verticalStackView.axis = .vertical
@@ -54,18 +54,16 @@ class ListCollectionViewCell: UICollectionViewCell {
         verticalStackView.addArrangedSubview(priceLabel)
         
         NSLayoutConstraint.activate([
-            thumbnailView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            self.contentView.heightAnchor.constraint(equalToConstant: 100),
+            
+            thumbnailView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             thumbnailView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            thumbnailView.heightAnchor.constraint(equalToConstant: 50),
-            thumbnailView.widthAnchor.constraint(equalToConstant: 50),
+            thumbnailView.heightAnchor.constraint(equalToConstant: 70),
+            thumbnailView.widthAnchor.constraint(equalToConstant: 70),
             
             verticalStackView.leadingAnchor.constraint(equalTo: thumbnailView.trailingAnchor, constant: 10),
-            verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            verticalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-
-            accessoryView.heightAnchor.constraint(equalToConstant: 15),
-            accessoryView.widthAnchor.constraint(equalToConstant: 15),
-            accessoryView.trailingAnchor.constraint(equalTo: horizontalStackView.trailingAnchor, constant: -10),
+            verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
+            verticalStackView.centerYAnchor.constraint(equalTo: thumbnailView.centerYAnchor),
             
             stockLabel.trailingAnchor.constraint(equalTo: accessoryView.leadingAnchor, constant: -5)
         ])

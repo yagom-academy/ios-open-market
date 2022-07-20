@@ -73,7 +73,11 @@ extension MainViewController {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Page> { (cell, indexPath, item) in
             cell.titleLabel.text = "\(item.name)"
             cell.stockLabel.text = "잔여수량: \(item.stock)"
-        
+            cell.priceLabel.text = "\(item.currency) \(item.price)"
+            
+            guard let url = URL(string: item.thumbnail),
+                  let imageData = try? Data(contentsOf: url) else { return }
+            cell.thumbnailView.image = UIImage(data: imageData)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listCollectionView) {
