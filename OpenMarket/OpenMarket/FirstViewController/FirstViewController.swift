@@ -7,7 +7,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 class FirstViewController: UIViewController {
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
@@ -22,15 +21,8 @@ class FirstViewController: UIViewController {
         
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
-//        self.productCollectionView.setCollectionViewLayout(<#T##layout: UICollectionViewLayout##UICollectionViewLayout#>, animated: <#T##Bool#>)
+
         self.setData()
-    }
-    
-    func getLayout() -> UICollectionViewCompositionalLayout {
-        
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
-        return layout
     }
     
     func setData() {
@@ -47,7 +39,6 @@ class FirstViewController: UIViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let result = productData else { return 0 }
@@ -55,12 +46,15 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
+        
         guard let result = productData,
               let imageURL: URL = URL(string: result.pages[indexPath.row].thumbnail),
               let imageData: Data = try? Data(contentsOf: imageURL) else {
             return cell
         }
+        cell.accessories = [.disclosureIndicator()]
 
         cell.productImage.image = UIImage(data: imageData)
         cell.productName.text = result.pages[indexPath.row].name
