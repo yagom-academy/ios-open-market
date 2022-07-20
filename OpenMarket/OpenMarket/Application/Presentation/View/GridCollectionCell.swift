@@ -1,13 +1,13 @@
 //
-//  CollectionGridCell.swift
+//  GridCollectionCell.swift
 //  OpenMarket
 //
-//  Created by 전민수 on 2022/07/17.
+//  Created by 데릭, 케이, 수꿍. 
 //
 
 import UIKit
 
-class CollectionGridCell: UICollectionViewCell {
+final class GridCollectionCell: UICollectionViewCell {
     private let rootStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,7 +19,7 @@ class CollectionGridCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let stackView: UIStackView = {
+    private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -30,7 +30,7 @@ class CollectionGridCell: UICollectionViewCell {
         return stackView
     }()
     
-    let productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -39,7 +39,7 @@ class CollectionGridCell: UICollectionViewCell {
         return imageView
     }()
     
-    let productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -47,7 +47,7 @@ class CollectionGridCell: UICollectionViewCell {
         return label
     }()
     
-    let priceLabel: UILabel = {
+    private let originalPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -56,7 +56,7 @@ class CollectionGridCell: UICollectionViewCell {
         return label
     }()
     
-    let discountedLabel: UILabel = {
+    private let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -65,7 +65,7 @@ class CollectionGridCell: UICollectionViewCell {
         return label
     }()
     
-    let stockLabel: UILabel = {
+    private let leftoverLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -77,7 +77,7 @@ class CollectionGridCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configure()
+        configureGridCell()
     }
     
     required init?(coder: NSCoder) {
@@ -89,26 +89,26 @@ class CollectionGridCell: UICollectionViewCell {
         
         productImageView.image = nil
         productNameLabel.text = nil
-        priceLabel.text = nil
-        priceLabel.textColor = .systemGray
-        discountedLabel.text = nil
-        discountedLabel.textColor = .systemGray
-        stockLabel.text = nil
-        stockLabel.textColor = .systemGray
+        originalPriceLabel.text = nil
+        originalPriceLabel.textColor = .systemGray
+        bargainPriceLabel.text = nil
+        bargainPriceLabel.textColor = .systemGray
+        leftoverLabel.text = nil
+        leftoverLabel.textColor = .systemGray
     }
     
 }
 
-extension CollectionGridCell {
-    func configure() {
+extension GridCollectionCell {
+    private func configureGridCell() {
         contentView.addSubview(rootStackView)
         rootStackView.addArrangedSubview(productImageView)
-        rootStackView.addArrangedSubview(stackView)
+        rootStackView.addArrangedSubview(labelStackView)
         
-        stackView.addArrangedSubview(productNameLabel)
-        stackView.addArrangedSubview(priceLabel)
-        stackView.addArrangedSubview(discountedLabel)
-        stackView.addArrangedSubview(stockLabel)
+        labelStackView.addArrangedSubview(productNameLabel)
+        labelStackView.addArrangedSubview(originalPriceLabel)
+        labelStackView.addArrangedSubview(bargainPriceLabel)
+        labelStackView.addArrangedSubview(leftoverLabel)
 
         let inset = CGFloat(10)
             
@@ -120,46 +120,28 @@ extension CollectionGridCell {
         ])
     }
     
-    func config(_ data: ProductEntity) {
+    func updateUI(_ data: ProductEntity) {
         productImageView.image = data.thumbnailImage
         productNameLabel.text = data.name
-        priceLabel.text = data.currency + " " + data.originalPrice.numberFormatter()
-        priceLabel.numberOfLines = 0
-        discountedLabel.text = data.currency + " " + data.discountedPrice.numberFormatter()
-        discountedLabel.numberOfLines = 0
-        stockLabel.text = "잔여수량 : " + String(data.stock)
+        originalPriceLabel.text = data.currency + " " + data.originalPrice.numberFormatter()
+        originalPriceLabel.numberOfLines = 0
+        bargainPriceLabel.text = data.currency + " " + data.discountedPrice.numberFormatter()
+        bargainPriceLabel.numberOfLines = 0
+        leftoverLabel.text = "잔여수량 : " + String(data.stock)
         
         if data.originalPrice == data.discountedPrice {
-            discountedLabel.isHidden = true
-            priceLabel.attributedText = priceLabel.text?.strikeThrough(value: 0)
-            priceLabel.textColor = .systemGray
+            bargainPriceLabel.isHidden = true
+            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: 0)
+            originalPriceLabel.textColor = .systemGray
         } else {
-            discountedLabel.isHidden = false
-            priceLabel.attributedText = priceLabel.text?.strikeThrough(value: NSUnderlineStyle.single.rawValue)
-            priceLabel.textColor = .systemRed
+            bargainPriceLabel.isHidden = false
+            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: NSUnderlineStyle.single.rawValue)
+            originalPriceLabel.textColor = .systemRed
         }
         
         if data.stock == 0 {
-            stockLabel.text = "품절"
-            stockLabel.textColor = .systemYellow
+            leftoverLabel.text = "품절"
+            leftoverLabel.textColor = .systemYellow
         }
-    }
-}
-
-extension String {
-    func strikeThrough(value: Int) -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: value, range: NSMakeRange(0, attributeString.length))
-        
-        return attributeString
-    }
-}
-
-extension Int {
-    func numberFormatter() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        return numberFormatter.string(from: NSNumber(value: self))!
     }
 }
