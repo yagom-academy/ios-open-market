@@ -244,7 +244,6 @@ extension ViewController: UICollectionViewDelegate {
         
         if offsetY > contentHeight {
             if isFetchingEnd {
-                print("새로고침")
                 activityIndicator.startAnimating()
                 startFetching() {
                     self.activityIndicator.stopAnimating()
