@@ -13,10 +13,10 @@ class MainViewController: UIViewController {
     }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Page>! = nil
+    var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
     var listCollectionView: UICollectionView! = nil
     let segment = UISegmentedControl(items: ["List", "Grid"])
     let manager = NetworkManager()
-    var items: ItemList? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +71,6 @@ extension MainViewController {
     
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Page> { (cell, indexPath, item) in
-            //let itemData: ItemList? = JSONDecoder.decodeJson(jsonData: item)
             var content = cell.defaultContentConfiguration()
             content.text = "\(item.name)"
             cell.contentConfiguration = content
@@ -82,22 +81,16 @@ extension MainViewController {
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
-        
-        // initial data
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
-        snapshot.appendSections([.main])
-        //snapshot.appendItems(items!.pages)
-        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     private func getItemList() {
-        manager.getItemList(pageNumber: 1, itemsPerPage: 10) { result in
+        manager.getItemList(pageNumber: 1, itemsPerPage: 10) { [self] result in
             switch result {
             case .success(let data):
-                guard let data = data else { return }
-                let itemData: ItemList? = JSONDecoder.decodeJson(jsonData: data)
-                self.items = itemData
-                dump(itemData)
+                guard let data = data,
+                      let itemData: ItemList = JSONDecoder.decodeJson(jsonData: data) else { return }
+                
+                makeSnapshot(itemData: itemData)
             case .failure(ResponseError.dataError):
                 return
             case .failure(ResponseError.defaultResponseError):
@@ -106,5 +99,11 @@ extension MainViewController {
                 return
             }
         }
+    }
+    
+    private func makeSnapshot(itemData: ItemList) {
+        snapshot.appendSections([.main])
+        snapshot.appendItems(itemData.pages)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }

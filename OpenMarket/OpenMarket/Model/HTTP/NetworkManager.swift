@@ -9,7 +9,7 @@ import Foundation
 
 final class NetworkManager {
     private let session: URLSessionProtocol
-    private let baseURL = "https://market-training.yagom-academy.kr/api/products"
+    private let baseURL = "https://market-training.yagom-academy.kr/"
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
