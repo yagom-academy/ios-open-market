@@ -57,7 +57,7 @@ class ViewController: UIViewController {
 // MARK: - Functions
 
 extension ViewController {
-    private func startFetching(completion: (() -> ())? = nil) {
+    private func startFetching(completion: @escaping () -> ()) {
         isFetchingEnd = false
         productsDataManager.getData(pageNumber: currentPage + 1, itemsPerPage: 20) { (result: Products) in
             
@@ -72,7 +72,6 @@ extension ViewController {
                 self.dataSource?.apply(self.snapshot, animatingDifferences: true)
                 self.isFetchingEnd = true
                 
-                guard let completion = completion else { return }
                 completion()
             }
         }
