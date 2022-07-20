@@ -104,22 +104,36 @@
                                                             </constraints>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Gp7-OK-F19">
-                                                            <rect key="frame" x="100" y="0.0" width="224" height="108"/>
+                                                            <rect key="frame" x="100" y="0.0" width="74" height="108"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t8q-Ig-Fu0">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="224" height="54"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="74" height="54"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1s-Vw-iCN">
-                                                                    <rect key="frame" x="0.0" y="54" width="224" height="54"/>
+                                                                    <rect key="frame" x="0.0" y="54" width="74" height="54"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8i8-xY-6CF" customClass="PaddingLabel" customModule="OpenMarket" customModuleProvider="target">
+                                                            <rect key="frame" x="174" y="0.0" width="150" height="108"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="150" id="Lg3-kh-Gfx"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                                    <real key="value" value="30"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </label>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="c4q-LB-SD3" firstAttribute="leading" secondItem="rMq-6f-v9p" secondAttribute="leading" id="Rkt-eA-3dQ"/>
@@ -138,6 +152,7 @@
                                             <outlet property="productImage" destination="c4q-LB-SD3" id="uiY-z1-mlU"/>
                                             <outlet property="productName" destination="t8q-Ig-Fu0" id="9hH-4J-d2W"/>
                                             <outlet property="productPrice" destination="h1s-Vw-iCN" id="nWJ-zd-ThM"/>
+                                            <outlet property="productStock" destination="8i8-xY-6CF" id="4w6-Bq-uw6"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

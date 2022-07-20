@@ -59,6 +59,16 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.productImage.image = UIImage(data: imageData)
         cell.productName.text = result.pages[indexPath.row].name
         cell.productPrice.text = "\(result.pages[indexPath.row].price)"
+        let productStock = result.pages[indexPath.row].stock
+        
+        if productStock == 0 {
+            cell.productStock.text = "품절"
+            cell.productStock.textColor = .orange
+        } else {
+            cell.productStock.text = "잔여수량 : \(productStock)"
+            cell.productStock.textColor = .systemGray
+        }
+        
         
         return cell
     }
