@@ -75,6 +75,18 @@ extension MainViewController {
             cell.stockLabel.text = "잔여수량: \(item.stock)"
             cell.priceLabel.text = "\(item.currency) \(item.price)"
             
+            if item.price > item.discountedPrice {
+                cell.discountedLabel.isHidden = false
+                cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+                cell.priceLabel.textColor = .systemRed
+                
+                guard let priceText = cell.priceLabel.text else { return }
+                let attribute = NSMutableAttributedString(string: priceText)
+                attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
+                cell.priceLabel.attributedText = attribute
+            }
+            
+            
             guard let url = URL(string: item.thumbnail),
                   let imageData = try? Data(contentsOf: url) else { return }
             cell.thumbnailView.image = UIImage(data: imageData)
