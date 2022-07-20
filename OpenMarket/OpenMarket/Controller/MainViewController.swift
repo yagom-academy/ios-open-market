@@ -73,7 +73,9 @@ extension MainViewController {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Page> { (cell, indexPath, item) in
             cell.titleLabel.text = "\(item.name)"
             cell.stockLabel.text = "잔여수량: \(item.stock)"
+            cell.stockLabel.textColor = .systemGray
             cell.priceLabel.text = "\(item.currency) \(item.price)"
+            cell.priceLabel.textColor = .systemGray
             
             if item.price > item.discountedPrice {
                 cell.discountedLabel.isHidden = false
@@ -84,13 +86,18 @@ extension MainViewController {
                 let attribute = NSMutableAttributedString(string: priceText)
                 attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
                 cell.priceLabel.attributedText = attribute
+                cell.discountedLabel.textColor = .systemGray
             }
             
+            if item.stock == 0 {
+                cell.stockLabel.text = "품절"
+                cell.stockLabel.textColor = .systemYellow
+            }
             
             guard let url = URL(string: item.thumbnail),
                   let imageData = try? Data(contentsOf: url) else { return }
             cell.thumbnailView.image = UIImage(data: imageData)
-                    }
+        }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Page) -> UICollectionViewCell? in

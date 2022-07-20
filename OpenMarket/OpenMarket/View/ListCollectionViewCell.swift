@@ -28,6 +28,8 @@ class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureHorizontalStackView() {
+        let pricePriority = discountedLabel.contentHuggingPriority(for: .horizontal) + 1
+        
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
         priceStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,13 +43,14 @@ class ListCollectionViewCell: UICollectionViewCell {
         verticalStackView.spacing = 10
         horizontalStackView.distribution = .equalSpacing
         horizontalStackView.axis = .horizontal
-        priceStackView.distribution = .fillProportionally
+        priceStackView.distribution = .fill
         priceStackView.axis = .horizontal
+        priceStackView.spacing = 6
         
         titleLabel.textAlignment = .left
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         stockLabel.textAlignment = .right
-        stockLabel.tintColor = .systemGray
+        priceLabel.setContentHuggingPriority(pricePriority, for: .horizontal)
         discountedLabel.isHidden = true
         discountedLabel.textAlignment = .left
         
