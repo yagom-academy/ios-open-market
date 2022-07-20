@@ -34,10 +34,12 @@ class ListCollectionViewCell: UICollectionViewCell {
         
         horizontalStackView.distribution = .equalSpacing
         horizontalStackView.axis = .horizontal
-        verticalStackView.distribution = .fillEqually
+        verticalStackView.distribution = .equalSpacing
         verticalStackView.axis = .vertical
+        verticalStackView.spacing = 10
         
         titleLabel.textAlignment = .left
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         stockLabel.textAlignment = .right
         stockLabel.tintColor = .systemGray
         
@@ -53,9 +55,12 @@ class ListCollectionViewCell: UICollectionViewCell {
         verticalStackView.addArrangedSubview(horizontalStackView)
         verticalStackView.addArrangedSubview(priceLabel)
         
+        let contentViewHeight = self.contentView.heightAnchor.constraint(equalToConstant: 100)
+        contentViewHeight.priority = .defaultHigh
+        
         NSLayoutConstraint.activate([
-            self.contentView.heightAnchor.constraint(equalToConstant: 100),
-            
+            contentViewHeight,
+                
             thumbnailView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             thumbnailView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             thumbnailView.heightAnchor.constraint(equalToConstant: 70),

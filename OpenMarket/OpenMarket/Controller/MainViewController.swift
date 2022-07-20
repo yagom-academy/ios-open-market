@@ -78,7 +78,7 @@ extension MainViewController {
             guard let url = URL(string: item.thumbnail),
                   let imageData = try? Data(contentsOf: url) else { return }
             cell.thumbnailView.image = UIImage(data: imageData)
-        }
+                    }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Page) -> UICollectionViewCell? in
