@@ -1,64 +1,151 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - MarketProductsViewController.swift
 //  Created by 케이, 수꿍.
 //  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
-final class MarketProductsViewController: UIViewController {
-    enum Section {
-        case main
+@available(iOS 14.0, *)
+
+class MarketProductsViewController: UIViewController {
+    let segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["LIST", "GRID"])
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
+    }()
+    
+    var shouldHideListView: Bool? {
+        didSet {
+            guard let shouldHideListView = self.shouldHideListView else {
+                return
+            }
+            
+            self.listCollectionView?.isHidden = shouldHideListView
+            self.gridCollectionView?.isHidden = !self.listCollectionView.isHidden
+        }
     }
     
-    private var productDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>? = nil
-    private var productCollectionView: UICollectionView! = nil
-    private let segmentedControl = UISegmentedControl(items: ["List","Grid"])
+    var products: [Product] = []
+    var productsModel: [ProductEntity] = []
     
-    private let networkProvider = NetworkProvider()
-    private var productsModel: [ProductEntity] = []
-    
-    private var isSelected: Bool = false
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .white
-        fetchData()
-    }
-}
-
-// MARK: Networking
-
-extension MarketProductsViewController {
-    func fetchData() {
-        self.networkProvider.requestAndDecode(url: "https://market-training.yagom-academy.kr/api/products?page_no=1&items_per_page=10", dataType: ProductList.self) { result in
+    func getData() {
+        let url = "https://market-training.yagom-academy.kr/api/products?page_no=1&items_per_page=50"
+        
+        let openMarket = NetworkProvider(session: URLSession.shared)
+        openMarket.requestAndDecode(url: url, dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
+                self.products = productList.pages
                 productList.pages.forEach { product in
-                    let item = ProductEntity(thumbnailImage: product.thumbnailImage!, name: product.name, originalPrice: product.price, discountedPrice: product.bargainPrice, stock: product.stock)
+                    let item = ProductEntity(thumbnailImage: product.thumbnailImage!, name: product.name, currency: product.currency, originalPrice: product.price, discountedPrice: product.bargainPrice, stock: product.stock)
                     self.productsModel.append(item)
-                    
-                    DispatchQueue.main.async { [weak self] in
-                        self?.configureSegmentedControl()
-                        self?.configureHierarchy()
-                        self?.configureDataSource()
-                        self?.productCollectionView.reloadData()
-                    }
                 }
-            case .failure(let error):
-                let alertController = UIAlertController(title: "알림", message: error.errorDescription, preferredStyle: .alert)
-                let alertAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-                alertController.addAction(alertAction)
-                self.present(alertController, animated: true)
+        
+                DispatchQueue.main.async {
+                    self.createGridCollectionView()
+                    self.configDataSource()
+                    self.gridCollectionView.isHidden = true
+                    self.createListCollectionView()
+                    self.configureListDataSource()
+                }
+                
+            default:
+                print("error")
             }
         }
     }
-}
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        
+        makeSegmentedControl()
+        getData()
+        self.segmentedControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
+        self.segmentedControl.selectedSegmentIndex = 0
+    }
+    
+    @objc private func didChangeValue(segment: UISegmentedControl) {
+        self.shouldHideListView = segment.selectedSegmentIndex != 0
+    }
+    
+    private func makeSegmentedControl() {
+        self.navigationItem.titleView = self.segmentedControl
+        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addTapped))
+    }
+    
+    @objc func addTapped() {
+            
+    }
+    
+    enum Section {
+        case main
+    }
 
-// MARK: Configure CollectionView Layout
+    var gridCollectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>!
 
-private extension MarketProductsViewController {
-     func createListLayout() -> UICollectionViewLayout {
+    func createGridLayout() -> UICollectionViewCompositionalLayout{
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.3))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let spacing = CGFloat(10)
+        group.interItemSpacing = .fixed(10)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+
+        return layout
+    }
+
+    func createGridCollectionView() {
+        gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
+        
+        view.addSubview(gridCollectionView)
+        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            gridCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gridCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+    
+    @available(iOS 14.0, *)
+    func configDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionGridCell, ProductEntity> { cell, indexPath, item in
+            cell.layer.borderColor = UIColor.systemGray.cgColor
+            cell.layer.borderWidth = 1
+            cell.layer.cornerRadius = 10
+
+            cell.config(item)
+        }
+
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: gridCollectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        })
+
+        var snapShot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(productsModel)
+        dataSource.apply(snapShot, animatingDifferences: true)
+    }
+    
+    enum Section2 {
+        case main
+    }
+
+    var listCollectionView: UICollectionView!
+    var listDataSource: UICollectionViewDiffableDataSource<Section2, ProductEntity>!
+
+    func createListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.2))
@@ -67,118 +154,37 @@ private extension MarketProductsViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-
-    func createGridLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: 4, leading: 8, bottom: 4, trailing: 8)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.8))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        let section = NSCollectionLayoutSection(group: group)
+    
+    private func createListCollectionView() {
+        listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
+        view.addSubview(listCollectionView)
+        listCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-}
-
-// - MARK: Configure UI Elements
-
-private extension MarketProductsViewController {
-    func configureHierarchy() {
-        productCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
-        productCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        productCollectionView.backgroundColor = .systemBackground
-        
-        view.addSubview(productCollectionView)
+        NSLayoutConstraint.activate([
+            listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            listCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            listCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
     
-    func configureSegmentedControl() {
-        let xPostion:CGFloat = 65
-        let yPostion:CGFloat = 55
-        let elementWidth:CGFloat = 150
-        let elementHeight:CGFloat = 30
-        
-        segmentedControl.frame = CGRect(x: xPostion, y: yPostion, width: elementWidth, height: elementHeight)
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.tintColor = UIColor.yellow
-        segmentedControl.backgroundColor = UIColor.white
-        segmentedControl.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
-        configureNavigationItems()
-    }
-    
-    func configureNavigationItems() {
-        self.navigationItem.titleView = segmentedControl
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
-    }
-    
-    func configureDataSource() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
-        snapshot.appendSections([.main])
-        
-        let cellListRegistration = UICollectionView.CellRegistration<ProductCollectionViewCell, ProductEntity> { (cell, indexPath, item) in
-            cell.configure(item)
-            
-            if self.isSelected == false {
-                cell.accessories = [.disclosureIndicator()]
-            } else {
-                cell.accessories = [.delete()]
-            }
+    private func configureListDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<CollectionListViewCell, ProductEntity> { (cell, indexPath, item) in
+            cell.config(item)
+            cell.accessories = [.disclosureIndicator()]
         }
         
-        productDataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: productCollectionView) {
+        listDataSource = UICollectionViewDiffableDataSource<Section2, ProductEntity>(collectionView: listCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductEntity) -> UICollectionViewCell? in
             
-            return collectionView.dequeueConfiguredReusableCell(using: cellListRegistration, for: indexPath, item: identifier)
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
-        
+
+        var snapshot = NSDiffableDataSourceSnapshot<Section2, ProductEntity>()
+        snapshot.appendSections([.main])
         snapshot.appendItems(productsModel)
-        
-        productDataSource?.apply(snapshot, animatingDifferences: true)
+        listDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
-// MARK: UIElements Action
 
-private extension MarketProductsViewController {
-    @objc func segmentedValueChanged(_ sender:UISegmentedControl!) {
-        let items = sender.selectedSegmentIndex
-        
-        switch items {
-        case 0 :
-            productCollectionView.setCollectionViewLayout(createListLayout(), animated: true)
-            productCollectionView.visibleCells.forEach { cell in
-                guard let cell = cell as? ProductCollectionViewCell else {
-                    return
-                }
-                
-                cell.contentView.layer.borderColor = .none
-                cell.contentView.layer.borderWidth = 0
-                cell.accessories = [.disclosureIndicator()]
-                
-                cell.configureStackView(of: .horizontal, textAlignment: .left)
-            }
-        case 1:
-            productCollectionView.setCollectionViewLayout(createGridLayout(), animated: true)
-            productCollectionView.visibleCells.forEach { cell in
-                guard let cell = cell as? ProductCollectionViewCell else {
-                    return
-                }
-                
-                isSelected = true
-                cell.accessories = [.delete()]
-                cell.contentView.layer.borderColor = UIColor.black.cgColor
-                cell.contentView.layer.borderWidth = 1
-                
-                cell.configureStackView(of: .vertical, textAlignment: .center)
-            }
-            
-            productCollectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .init(rawValue: 0), animated: false)
-        default:
-            break
-        }
-    }
-    
-    @objc func addTapped() {
-        
-    }
-}

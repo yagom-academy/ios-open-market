@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		204406B528878AF4006FFA79 /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204406B428878AF4006FFA79 /* CustomListCell.swift */; };
 		207D45A0287DBD0300CF18D5 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207D459F287DBD0300CF18D5 /* MockURLSession.swift */; };
 		207D45A2287DBD2600CF18D5 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207D45A1287DBD2600CF18D5 /* MockURLSessionDataTask.swift */; };
 		207D45A4287DDADB00CF18D5 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207D45A3287DDADB00CF18D5 /* URLSessionProtocol.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		204406B428878AF4006FFA79 /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
 		207D459F287DBD0300CF18D5 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		207D45A1287DBD2600CF18D5 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		207D45A3287DDADB00CF18D5 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				9093F34528864B7F008014D2 /* ProductCollectionViewCell.swift */,
+				204406B428878AF4006FFA79 /* CustomListCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				207D45A6287DDB2C00CF18D5 /* URLSessionDataTaskProtocol.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				20A3C559287C49B2008B2585 /* Product.swift in Sources */,
+				204406B528878AF4006FFA79 /* CustomListCell.swift in Sources */,
 				9093F34828864CC8008014D2 /* ProductEntity.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				9093F34628864B7F008014D2 /* ProductCollectionViewCell.swift in Sources */,
