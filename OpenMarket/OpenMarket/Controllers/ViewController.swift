@@ -198,7 +198,7 @@ extension ViewController {
             self.collectionView?.setCollectionViewLayout(createListLayout(), animated: true) { bool in
                 self.isFetchingEnd = true
             }
-            collectionView?.visibleCells.forEach{ cell in
+            collectionView?.visibleCells.forEach { cell in
                 guard let cell = cell as? ItemCollectionViewCell else { return }
                 cell.setAxis(segment: .LIST)
             }
@@ -207,7 +207,7 @@ extension ViewController {
             self.collectionView?.setCollectionViewLayout(createGridLayout(), animated: true) { bool in
                 self.isFetchingEnd = true
             }
-            collectionView?.visibleCells.forEach{ cell in
+            collectionView?.visibleCells.forEach { cell in
                 guard let cell = cell as? ItemCollectionViewCell else { return }
                 cell.setAxis(segment: .GRID)
             }
