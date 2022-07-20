@@ -1,17 +1,20 @@
 //
 //  OpenMarket - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  Created by yagom.
+//  Copyright Â© yagom. All rights reserved.
+//
 
 import UIKit
 
 class MainViewController: UIViewController {
     // MARK: Properties
     
-    let segmentedControl: UISegmentedControl = {
+    var cell = ListCollectionViewCell.identifier
+    
+    lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
         segment.selectedSegmentIndex = 0
+        segment.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
@@ -38,8 +41,7 @@ class MainViewController: UIViewController {
     }()
     
     lazy var collectionView: UICollectionView = {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        let layout = createListLayout()
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -73,7 +75,7 @@ class MainViewController: UIViewController {
             wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
         
-        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: cell)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -95,6 +97,51 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func handleSegmentChange() {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
+            cell = ListCollectionViewCell.identifier
+            return
+        default:
+            collectionView.setCollectionViewLayout(createGrideLayout(), animated: true)
+            cell = GridCollectionViewCell.identifier
+            return
+        }
+    }
+    
+    private func createListLayout() -> UICollectionViewCompositionalLayout {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        
+        return layout
+    }
+    
+    private func createGrideLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 2)
+        let spacing = CGFloat(10)
+        group.interItemSpacing = .fixed(spacing)
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    private func setLayout(index: Int) -> UICollectionViewCompositionalLayout {
+        var configuration: UICollectionLayoutListConfiguration
+        var layout: UICollectionViewCompositionalLayout
+        switch index {
+        case 0:
+            configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        default:
+            layout = createGrideLayout()
+        }
+        return layout
+    }
 }
 
 // MARK: Extension
@@ -104,7 +151,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell, for: indexPath)
         return cell
     }
 }
