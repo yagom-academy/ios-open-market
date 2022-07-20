@@ -36,7 +36,7 @@ struct SaleInformation: Decodable {
     let currency: String
     let price: Int
     let bargainPrice: Int
-    let dicountedPrice: Int
+    let discountedPrice: Int
     let stock: Int
     let createdAt: String
     let issuedAt: String
@@ -49,7 +49,7 @@ struct SaleInformation: Decodable {
         case currency
         case price
         case bargainPrice = "bargain_price"
-        case dicountedPrice = "discounted_price"
+        case discountedPrice = "discounted_price"
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"

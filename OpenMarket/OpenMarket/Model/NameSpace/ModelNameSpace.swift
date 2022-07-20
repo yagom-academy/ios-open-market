@@ -22,7 +22,7 @@ enum ModelNameSpace {
     case currency
     case price
     case bargainPrice
-    case dicountedPrice
+    case discountedPrice
     case stock
     case createdAt
     case issuedAt
@@ -61,8 +61,8 @@ enum ModelNameSpace {
             return "price"
         case .bargainPrice:
             return "bargain_price"
-        case .dicountedPrice:
-            return "dicounted_price"
+        case .discountedPrice:
+            return "discounted_price"
         case .stock:
             return "stock"
         case .createdAt:
