@@ -5,7 +5,7 @@
 
 > 프로젝트 기간: 2022-07-11 ~ 2022-07-22</br>
 > 팀원: [수꿍](https://github.com/Jeon-Minsu), [케이](https://github.com/KayAhnDS), [데릭](https://github.com/derrickkim0109) </br>
-리뷰어: [Wody](https://github.com/Wody95)</br>
+리뷰어: [제이슨](https://github.com/ehgud0670)</br>
 그라운드롤: [GroundRule](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP01/Docs/GroundRule.md)
 
 ## 📑 목차
@@ -18,6 +18,7 @@
 - [🚀 TroubleShooting](#-TroubleShooting)
 - [📚 참고문서](#-참고문서)
 - [1️⃣ STEP 1](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP01/Docs/Step01.md)
+- [2️⃣ STEP 2](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP02/Docs/Step02.md)
 
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
@@ -40,29 +41,50 @@
 - `JSONDecoder`
 - `Generics`
 - `Codable`, `CodingKeys`
+- `Server Mapping Model`, `Entity`, `ViewModel`, `Hashable`
+- `String`, `NSAttributedString`, `strikethroughStyle`
+- `Int`, `NumberFormatter`
+- `UISegmentedControl`, `addTarget`, `selectedSegmentIndex`
+- `UICollectionView`, `UICollectionViewDiffableDataSource`
+- `UICollectionViewCompositionalLayout`, `NSCollectionLayoutSize`, `NSCollectionLayoutItem`, `NSCollectionLayoutGroup`, `NSCollectionLayoutSection`
+- `CellRegistration`, `dequeueConfiguredReusableCell`
+- `layer`, `borderColor`, `borderWidth`, `cornerRadius`
+- `NSDiffableDataSourceSnapshot`, `appendSections`, `appendItems`, `apply`
+- `AutoLayout`, `prepareForReuse`
 
+    
 ## 🤔 핵심경험
     
 - [x] 파싱한 JSON 데이터와 매핑할 모델 설계
 - [x] URL Session을 활용한 서버와의 통신
 - [x] CodingKeys 프로토콜의 활용
 - [x] 네트워크 상황과 무관한 네트워킹 데이터 타입의 단위 테스트(Unit Test)
+- [x] Safe Area을 고려한 오토 레이아웃 구현
+- [x] Collection View의 활용
+- [x] Mordern Collection View 활용
 
 ## 🗂 폴더 구조
 
 ```
 └── OpenMarket
     ├── OpenMarket
+    │   ├── Extension
+    │   │   ├── String+Extensions.swift
+    │   │   └── Int+Extensions.swift
     │   ├── Application
     │   │   ├── AppDelegate.swift
     │   │   ├── SceneDelegate.swift
     │   │   ├── Presentation
+    │   │   │   ├── View
+    │   │   │   │   ├── GridCollectionCell.swift
+    │   │   │   │   └── ListCollectionCell.swift
     │   │   │   └── ViewController
-    │   │   │       └── ViewController.swift
+    │   │   │       └── MarketProductsViewController.swift
     │   │   └── Domain
     │   │       └── Model
-    │   │           ├── productList.swift
-    │   │           └── product.swift
+    │   │           ├── ProductList.swift
+    │   │           ├── Product.swift
+    │   │           └── ProductEntity.swift
     │   ├── Networking
     │   │   ├── Protocol
     │   │   │   ├── URLSessionProtocol.swift
@@ -92,18 +114,38 @@
     - NetworkError
         - 서버로부터 데이터를 받아오는 도중 발생하는 에러 표현
 
+### CollectionView Cell을 각 Layout 별로 분리하여 구현 
+    - GridCollectionCell, ListCollectionCell
+        - CollectionView의 Cell 타입 구현 
+    - ProductEntity
+        - 서버 매핑 타입 중 Cell에 필요한 타입들 별도 구현
+    
+### Utilities 
+    - String+Extensions
+        - String 자료형을 확장시켜 필요 메서드 관리
+            * strikeThrough - 해당 문자열의 처음부터 입력 받은 수의 인덱스까지 strikethroughStyle 적용.
+    - Int+Extensions
+        - Int 자료형을 확장시켜 필요 메서드 관리
+            * numberFormatter - 10진수로 변환하고 String 타입으로 변환 후 반환
+
 ## 🚀 TroubleShooting
     
-### STEP 1
+### STEP 2
 
-#### T1. 주고 받는 모델 타입의 불일치로 인한 통신 실패 해결.
-- URLSession와 GET Method를 테스트를 했을때 값을 제대로 받아오지 못하는 문제를 만났습니다. 예를들어 서버에서는 Product 모델 타입의 정보를 주는데 클라이언트에서 받는 모델 타입이 WebPage이면 제대로된 통신이 이뤄질 수 없다는것을 확인하였습니다. 이후 서버에서 주는 형식이 클라이언트에서 받는 형식과 동일 해야 정상적으로 받아올 수 있는것을 확인하였습니다. 
-
+#### T1. AutoLayout
     
-#### T2. 하나의 파라미터에 서로 다른 두개의 타입 사용 고민 해결.
-- fetchData메서드와 dataTask(with:) 메서드의 매개변수로 URL 타입과 URLRequest 타입을 모두 사용하기 위해 메서드 오버로딩을 생각했었습니다. protocol 선언후 두 타입이 채택하는 방법이 많은 양의 코드를 반복하는 오버로딩 방식보다 가독성과 효율적인 측면에서 낫다고 판단해 들어갈수있는 모든 타입이 특정 프로토콜을 채택하는 방식으로 문제를 해결했습니다.
+- 하나의 Cell을 통하여 List에서 Grid로의 AutoLayout을 설정하기 위해 이전에 설정된 List Layout의 Constraints을 제거한 후, Grid의 Constraints를 설정하려 하였으나, 이미 Cell이 생성된 이후에 Constraint를 제거하기 위한 시도를 하기 때문에 오토레이아웃이 정상적으로 설정되지 않는 문제가 발생되었습니다. 이에 notification 등을 통해 알림을 바탕으로 해결할 수 있을까도 고민해보았으나, 해당 방법은 오히려 과하다고 판단하여, 위의 문제를 해결하기 위하여 list, grid 레이아웃을 위한 각각의 셀을 만든 다음, 서로 다른 오토레이아웃을 적용해 문제를 해결하였습니다.
+
+#### T2. Server Mapping Model - Entity - ViewModel
+    
+- 서버로부터 데이터를 요청하여, 이에 대한 응답을 받은 다음, 이를 JSON 데이터 형식으로 변환하여, 해당 데이터를 저장하고, 관리되어야 하는 데이터의 집합을 만들 필요성을 느꼈습니다. 이에, 서버로부터 데이터를 요청하는 부분은 NetworkProvider 인스턴스를 생성하여 URL을 입력받아 requestAndDecode 메서드를 실행하였습니다. 다음으로, 응답을 받은 다음, 이를 JSON 데이터 형식으로 변환하는 부분은 서버로부터의 응답을 바탕으로 성공, 실패 케이스를 분기하여, 서버로부터 성공적으로 응답을 받을시, STEP1에서 구현한 서버 매핑 모델인 ProductList 구조체에 담은 다음, 실제 필요한 데이터를 추출하여 저장 및 관리하기 위해 ProductEntity 구조체를 생성하여 이를 처리하였습니다. 위의 방법들을 통하여 '서버 매핑 모델 - Entity - ViewModel'의 구조를 구현하고자 하였습니다.
 
 ## 📚 참고문서
 
 - [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
-    - [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)-
+    - [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)
+    - [Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
+    - [Lists in UICollectionView](https://camp.yagom-academy.kr/camp/61d414e5e4081120ba7884d2/projects/62caa0aa41131548559889b6)
+    - [Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
+--- 
