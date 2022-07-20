@@ -70,10 +70,10 @@ extension MainViewController {
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Page> { (cell, indexPath, item) in
-            var content = cell.defaultContentConfiguration()
-            content.text = "\(item.name)"
-            cell.contentConfiguration = content
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Page> { (cell, indexPath, item) in
+            cell.titleLabel.text = "\(item.name)"
+            cell.stockLabel.text = "잔여수량: \(item.stock)"
+        
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listCollectionView) {
