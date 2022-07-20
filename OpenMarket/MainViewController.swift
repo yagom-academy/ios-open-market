@@ -10,6 +10,7 @@ class MainViewController: UIViewController {
     // MARK: Properties
     
     private var cell = ListCollectionViewCell.identifier
+    private var productsData: MarketInformation?
     
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
@@ -79,25 +80,28 @@ class MainViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        getProductList(pageNumber: 2, itemPerPage: 10)
     }
     
-    private func getProductList(about pageNumber: String, _ itemPerPage: String) {
+    private func getProductList(pageNumber: Int, itemPerPage: Int) {
         let urlSession = URLSession(configuration: URLSessionConfiguration.default)
         let networkManger = NetworkManager(session: urlSession)
-        let queryItems = OpenMarketRequest().createQuery(of: pageNumber, with: itemPerPage)
+        let queryItems = OpenMarketRequest().createQuery(of: String(pageNumber), with: String(itemPerPage))
         let request = OpenMarketRequest().requestProductList(queryItems: queryItems)
         
         networkManger.getProductInquiry(request: request) { result in
             switch result {
             case .success(let data):
                 guard let productList = try? JSONDecoder().decode(MarketInformation.self, from: data) else { return }
-                print(productList)
-            case .failure(let error):
-                print(error)
+                self.productsData = productList
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showNetworkError(message: NetworkError.outOfRange.message)
+                }
             }
         }
     }
-    
     @objc private func handleSegmentChange() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -141,6 +145,14 @@ class MainViewController: UIViewController {
             layout = createGrideLayout()
         }
         return layout
+    }
+    
+    private func showNetworkError(message: String) {
+        let networkErrorMessage = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "확인", style: .default)
+        networkErrorMessage.addAction(okButton)
+        
+        present(networkErrorMessage, animated: true)
     }
 }
 
