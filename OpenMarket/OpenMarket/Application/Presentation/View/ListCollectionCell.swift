@@ -1,14 +1,13 @@
 //
-//  CollectionListViewCell.swift
+//  ListCollectionCell.swift
 //  OpenMarket
 //
-//  Created by derrick on 2022/07/17.
+//  Created by 데릭, 케이, 수꿍. 
 //
 
 import UIKit
 
-@available(iOS 14.0, *)
-class CollectionListViewCell: UICollectionViewListCell {
+final class ListCollectionCell: UICollectionViewListCell {
     private let rootStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -16,10 +15,11 @@ class CollectionListViewCell: UICollectionViewListCell {
         stackView.distribution = .fill
         stackView.spacing = 10
         stackView.alignment = .center
+        
         return stackView
     }()
     
-    private let stackView: UIStackView = {
+    private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -30,7 +30,7 @@ class CollectionListViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    let productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -38,7 +38,7 @@ class CollectionListViewCell: UICollectionViewListCell {
         return imageView
     }()
     
-    let productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -46,7 +46,7 @@ class CollectionListViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let secondaryStackView: UIStackView = {
+    private let priceLabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -57,7 +57,7 @@ class CollectionListViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    let priceLabel: UILabel = {
+    private let originalPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -66,7 +66,7 @@ class CollectionListViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let discountedLabel: UILabel = {
+    private let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -75,7 +75,7 @@ class CollectionListViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let stockLabel: UILabel = {
+    private let leftoverLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -88,7 +88,7 @@ class CollectionListViewCell: UICollectionViewListCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configure()
+        configureListCell()
     }
     
     required init?(coder: NSCoder) {
@@ -100,64 +100,62 @@ class CollectionListViewCell: UICollectionViewListCell {
         
         productImageView.image = nil
         productNameLabel.text = nil
-        priceLabel.text = nil
-        priceLabel.textColor = .systemGray
-        discountedLabel.text = nil
-        discountedLabel.textColor = .systemGray
-        stockLabel.text = nil
-        stockLabel.textColor = .systemGray
+        originalPriceLabel.text = nil
+        originalPriceLabel.textColor = .systemGray
+        bargainPriceLabel.text = nil
+        bargainPriceLabel.textColor = .systemGray
+        leftoverLabel.text = nil
+        leftoverLabel.textColor = .systemGray
     }
 }
 
-@available(iOS 14.0, *)
-extension CollectionListViewCell {
-    func configure() {
-
+extension ListCollectionCell {
+    private func configureListCell() {
         contentView.addSubview(rootStackView)
         rootStackView.addArrangedSubview(productImageView)
-        rootStackView.addArrangedSubview(stackView)
+        rootStackView.addArrangedSubview(labelStackView)
         
-        stackView.addArrangedSubview(productNameLabel)
-        stackView.addArrangedSubview(secondaryStackView)
+        labelStackView.addArrangedSubview(productNameLabel)
+        labelStackView.addArrangedSubview(priceLabelStackView)
         
-        secondaryStackView.addArrangedSubview(priceLabel)
-        secondaryStackView.addArrangedSubview(discountedLabel)
+        priceLabelStackView.addArrangedSubview(originalPriceLabel)
+        priceLabelStackView.addArrangedSubview(bargainPriceLabel)
         
-        rootStackView.addArrangedSubview(stockLabel)
-        
-        productImageView.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2).isActive = true
-        productImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2).isActive = true
+        rootStackView.addArrangedSubview(leftoverLabel)
         
         NSLayoutConstraint.activate([
             rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            productImageView.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2),
+            productImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2)
         ])
     }
     
-    func config(_ data: ProductEntity) {
+    func updateUI(_ data: ProductEntity) {
         productImageView.image = data.thumbnailImage
         productNameLabel.text = data.name
-        priceLabel.text = data.currency + " " + data.originalPrice.numberFormatter()
-        priceLabel.numberOfLines = 0
-        discountedLabel.text = data.currency + " " + data.discountedPrice.numberFormatter()
-        discountedLabel.numberOfLines = 0
-        stockLabel.text = "잔여수량 : " + String(data.stock)
+        originalPriceLabel.text = data.currency + " " + data.originalPrice.numberFormatter()
+        originalPriceLabel.numberOfLines = 0
+        bargainPriceLabel.text = data.currency + " " + data.discountedPrice.numberFormatter()
+        bargainPriceLabel.numberOfLines = 0
+        leftoverLabel.text = "잔여수량 : " + String(data.stock)
         
         if data.originalPrice == data.discountedPrice {
-            discountedLabel.isHidden = true
-            priceLabel.attributedText = priceLabel.text?.strikeThrough(value: 0)
-            priceLabel.textColor = .systemGray
+            bargainPriceLabel.isHidden = true
+            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: 0)
+            originalPriceLabel.textColor = .systemGray
         } else {
-            discountedLabel.isHidden = false
-            priceLabel.attributedText = priceLabel.text?.strikeThrough(value: NSUnderlineStyle.single.rawValue)
-            priceLabel.textColor = .systemRed
+            bargainPriceLabel.isHidden = false
+            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: NSUnderlineStyle.single.rawValue)
+            originalPriceLabel.textColor = .systemRed
         }
         
         if data.stock == 0 {
-            stockLabel.text = "품절"
-            stockLabel.textColor = .systemYellow
+            leftoverLabel.text = "품절"
+            leftoverLabel.textColor = .systemYellow
         }
     }
 }
