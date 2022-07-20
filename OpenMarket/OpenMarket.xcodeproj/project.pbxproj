@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05B3530D288797690027DCDE /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B3530C288797690027DCDE /* ListCollectionViewCell.swift */; };
+		05B3530F2887CA7F0027DCDE /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B3530E2887CA7F0027DCDE /* GridCollectionViewCell.swift */; };
 		05B5A7D2287D4E1600865293 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B5A7D1287D4E1600865293 /* URLSessionProtocol.swift */; };
 		05B5A7D4287D4E4E00865293 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B5A7D3287D4E4E00865293 /* NetworkManager.swift */; };
 		05B5A7E5287D915B00865293 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B5A7E4287D915B00865293 /* MockURLSessionDataTask.swift */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		05B3530C288797690027DCDE /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
+		05B3530E2887CA7F0027DCDE /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		05B5A7D1287D4E1600865293 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		05B5A7D3287D4E4E00865293 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		05B5A7E4287D915B00865293 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 				05B3530C288797690027DCDE /* ListCollectionViewCell.swift */,
+				05B3530E2887CA7F0027DCDE /* GridCollectionViewCell.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				8F4F82C52885AD7500C76E98 /* ModelNameSpace.swift in Sources */,
 				05B5A7D4287D4E4E00865293 /* NetworkManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
+				05B3530F2887CA7F0027DCDE /* GridCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				05B5A7E5287D915B00865293 /* MockURLSessionDataTask.swift in Sources */,
 				8F1A0BB6287D91EB0071EF7A /* MockURLSession.swift in Sources */,
