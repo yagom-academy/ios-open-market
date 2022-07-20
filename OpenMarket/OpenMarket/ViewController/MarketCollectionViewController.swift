@@ -193,7 +193,8 @@ extension MarketCollectionViewController {
     
     func receivePageData() {
         let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
-
+        
+        LoadingIndicator.showLoading(superView: view)
         sessionManager.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
@@ -205,6 +206,7 @@ extension MarketCollectionViewController {
                 
                 DispatchQueue.main.async {
                     self.applySnapshots()
+                    LoadingIndicator.hideLoading(superView: self.view)
                 }
             case .failure(_):
                 print("서버 통신 실패")
