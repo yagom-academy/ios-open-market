@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A845D0028879981004F0230 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A845CFF28879981004F0230 /* PaddingLabel.swift */; };
 		8ABFEF1E287D400200CB6BB9 /* URLCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABFEF1D287D400200CB6BB9 /* URLCollection.swift */; };
 		8ABFEF24287FFBDD00CB6BB9 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABFEF23287FFBDD00CB6BB9 /* MockURLSession.swift */; };
 		8ABFEF262880072000CB6BB9 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABFEF252880072000CB6BB9 /* CustomError.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8A845CFF28879981004F0230 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		8ABFEF1D287D400200CB6BB9 /* URLCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCollection.swift; sourceTree = "<group>"; };
 		8ABFEF23287FFBDD00CB6BB9 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		8ABFEF252880072000CB6BB9 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
+				8A845CFF28879981004F0230 /* PaddingLabel.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A845D0028879981004F0230 /* PaddingLabel.swift in Sources */,
 				8ABFEF24287FFBDD00CB6BB9 /* MockURLSession.swift in Sources */,
 				A397976728815015004ED681 /* CustomCollectionViewCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
