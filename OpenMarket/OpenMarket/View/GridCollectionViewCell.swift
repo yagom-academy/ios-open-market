@@ -9,6 +9,7 @@ import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
     private let verticalStackView = UIStackView()
+    let titleLabel = UILabel()
     let itemImageView = UIImageView()
     let priceLabel = UILabel()
     let discountedLabel = UILabel()
@@ -25,6 +26,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     private func configure() {
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         itemImageView.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         discountedLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -34,12 +36,14 @@ class GridCollectionViewCell: UICollectionViewCell {
         verticalStackView.axis = .vertical
         verticalStackView.spacing = 5
         
+        titleLabel.textAlignment = .center
         priceLabel.textAlignment = .center
         discountedLabel.isHidden = true
         discountedLabel.textAlignment = .center
         stockLabel.textAlignment = .center
         
         self.contentView.addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(itemImageView)
         verticalStackView.addArrangedSubview(priceLabel)
         verticalStackView.addArrangedSubview(discountedLabel)
