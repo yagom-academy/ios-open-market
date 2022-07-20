@@ -2,7 +2,7 @@
 //  PaddingLabel.swift
 //  OpenMarket
 //
-//  Created by Baek on 2022/07/20.
+//  Created by BaekGom, Brad on 2022/07/20.
 //
 
 import UIKit

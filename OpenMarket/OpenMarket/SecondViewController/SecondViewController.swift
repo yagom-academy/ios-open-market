@@ -1,27 +1,24 @@
 //
-//  FirstViewController.swift
+//  SecondViewController.swift
 //  OpenMarket
 //
-//  Created by BaekGom, Brad on 2022/07/19.
+//  Created by BaekGom, Brad on 2022/07/20.
 //
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class SecondViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
 
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
-    var productData: ProductListResponse?
-    
+    var productData: ProductListResponse?    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
-        
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
-
+        
         self.setData()
     }
     
@@ -39,23 +36,22 @@ class FirstViewController: UIViewController {
     }
 }
 
-extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let result = productData else { return 0 }
         return result.itemsPerPage
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FirstCollectionViewCell
-
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "secondCell", for: indexPath) as! SecondCollectionViewCell
+        
         guard let result = productData,
               let imageURL: URL = URL(string: result.pages[indexPath.row].thumbnail),
               let imageData: Data = try? Data(contentsOf: imageURL) else {
             return cell
         }
-        cell.accessories = [.disclosureIndicator()]
-
+        
         let productStock = result.pages[indexPath.row].stock
         
         if productStock == 0 {
@@ -83,10 +79,12 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
-extension String {
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
-        return attributeString
+extension SecondViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let padding: CGFloat =  50
+        let collectionViewSize = collectionView.frame.size.width - padding
+        
+        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
     }
 }
