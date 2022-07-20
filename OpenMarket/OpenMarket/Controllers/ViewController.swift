@@ -3,9 +3,13 @@ import UIKit
 class ViewController: UIViewController {
     var segmentControl: UISegmentedControl?
     var collectionView: UICollectionView?
-    var dataSource: UICollectionViewDiffableDataSource<Section, Int>?
-    
+    var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
+    var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
     var productImages: [UIImage] = []
+    let productsDataManager = ProductsDataManager()
+    var isFetchingEnd = true
+    var currentPage = 0
+    var currentLastPage: Page?
     var Products: Products? {
         didSet {
             Products?.pages.forEach {
@@ -16,25 +20,82 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+    var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        indicator.backgroundColor = .black.withAlphaComponent(0.3)
+        return indicator
+    }()
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let productsDataManager = ProductsDataManager()
-        productsDataManager.getData(pageNumber: 1, itemsPerPage: 50) { (result: Products) in
-            self.Products = result
-            
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-        }
         
         configureHierarchy()
         configureDataSoure()
         configureSegmentControl()
         configureNavigationBarRightButton()
         setupCollectionViewLayout()
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            activityIndicator.topAnchor.constraint(equalTo: view.topAnchor),
+            activityIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        activityIndicator.startAnimating()
+        isFetchingEnd = false
+        productsDataManager.getData(pageNumber: 1, itemsPerPage: 20) { (result: Products) in
+            self.Products = result
+            self.currentPage = result.pageNo
+            self.snapshot.appendSections([.main])
+
+            guard let Products = self.Products else {
+                return
+            }
+            self.currentLastPage = result.pages.last
+            self.snapshot.appendItems(Products.pages)
+            
+            DispatchQueue.main.async {
+                self.dataSource?.apply(self.snapshot, animatingDifferences: false)
+                self.activityIndicator.stopAnimating()
+                self.isFetchingEnd = true
+            }
+        }
+        refreshControl.backgroundColor = .systemGray5
+        refreshControl.attributedTitle = NSAttributedString(string: "새로고침")
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        
+        collectionView?.refreshControl = refreshControl
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        snapshot.deleteAllItems()
+        productImages.removeAll()
+        if isFetchingEnd {
+            isFetchingEnd = false
+            productsDataManager.getData(pageNumber: 1, itemsPerPage: 20) { (result: Products) in
+                self.isFetchingEnd = false
+                self.Products = result
+                self.currentPage = 1
+                self.snapshot.appendSections([.main])
+                
+                guard let Products = self.Products else {
+                    return
+                }
+                self.currentLastPage = result.pages.last
+                self.snapshot.appendItems(Products.pages)
+                
+                DispatchQueue.main.async {
+                    self.dataSource?.apply(self.snapshot, animatingDifferences: false)
+                    self.refreshControl.endRefreshing()
+                    self.isFetchingEnd = true
+                }
+            }
+        }
     }
         
     private func setupCollectionViewLayout() {
@@ -110,44 +171,42 @@ extension ViewController {
     }
     
     private func configureDataSoure() {
-        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Int> { (cell, indexPath, identifier) in
+        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { (cell, indexPath, identifier) in
+            cell.product = identifier
+            guard let currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex) else { return }
+            cell.setAxis(segment: currentSeguement)
+            
+            if self.productImages.count > indexPath.row {
+                cell.itemImageView.image = self.productImages[indexPath.row]
+            }
             cell.backgroundColor = .systemBackground
         }
         
         guard let collectionView = collectionView else { return }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-            cell.product = self.Products?.pages[indexPath.row]
-            guard let currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex) else { return nil }
-            cell.setAxis(segment: currentSeguement)
-            
-            if self.productImages.count > 0 {
-                cell.itemImageView.image = self.productImages[indexPath.row]
-            }
-
-            return cell
+        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: collectionView) { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(Array(0...49))
-        dataSource?.apply(snapshot, animatingDifferences: false)
     }
-    
 }
 
 extension ViewController {
     @objc private func changeLayout() {
         if segmentControl?.selectedSegmentIndex == Titles.LIST.rawValue {
-            self.collectionView?.setCollectionViewLayout(createListLayout(), animated: true)
+            isFetchingEnd = false
+            self.collectionView?.setCollectionViewLayout(createListLayout(), animated: true) { bool in
+                self.isFetchingEnd = true
+            }
             setupCollectionViewLayout()
             collectionView?.visibleCells.forEach{ cell in
                 guard let cell = cell as? ItemCollectionViewCell else { return }
                 cell.setAxis(segment: .LIST)
             }
         } else if segmentControl?.selectedSegmentIndex == Titles.GRID.rawValue {
-            self.collectionView?.setCollectionViewLayout(createGridLayout(), animated: true)
+            isFetchingEnd = false
+            self.collectionView?.setCollectionViewLayout(createGridLayout(), animated: true) { bool in
+                self.isFetchingEnd = true
+            }
             collectionView?.visibleCells.forEach{ cell in
                 guard let cell = cell as? ItemCollectionViewCell else { return }
                 cell.setAxis(segment: .GRID)
@@ -159,5 +218,38 @@ extension ViewController {
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height - scrollView.frame.height
+        
+        if offsetY > contentHeight {
+            if isFetchingEnd {
+                print("새로고침")
+                activityIndicator.startAnimating()
+                isFetchingEnd = false
+                productsDataManager.getData(pageNumber: currentPage + 1, itemsPerPage: 20) { (result: Products) in
+                    self.currentPage = result.pageNo
+                    self.snapshot.insertItems(result.pages, afterItem: self.currentLastPage!)
+                    
+                    result.pages.forEach {
+                        guard let imageURL = URL(string: $0.thumbnail),
+                              let dataURL = try? Data(contentsOf: imageURL),
+                              let image = UIImage(data: dataURL) else { return }
+                        self.productImages.append(image)
+                    }
+                    
+                    self.currentLastPage = result.pages.last
+                        
+                    DispatchQueue.main.async {
+                        self.dataSource?.apply(self.snapshot)
+                        self.activityIndicator.stopAnimating()
+                        self.isFetchingEnd = true
+                    }
+                }
+            }
+        }
     }
 }

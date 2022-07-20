@@ -1,6 +1,6 @@
 import Foundation
 
-struct Page: Decodable {
+struct Page: Decodable, Hashable {
     let id: Int
     let vendorId: Int
     let name: String

@@ -150,9 +150,6 @@ extension ItemCollectionViewCell {
         stackView.addArrangedSubview(itemNameAndPriceStackView)
         stackView.addArrangedSubview(itemStockLabel)
         
-        
-        
-        
         itemImageView.widthAnchor.constraint(equalTo: self.itemImageView.heightAnchor).isActive = true
         
         
@@ -220,5 +217,6 @@ extension ItemCollectionViewCell {
     override func prepareForReuse() {
         itemStockLabel.textColor = .systemGray
         itemSaleLabel.textColor = .systemGray
+        itemImageView.image = nil
     }
 }
