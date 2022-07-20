@@ -52,7 +52,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
     private let subHorizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         stackView.spacing = 10
         return stackView
     }()
@@ -98,7 +98,9 @@ class MarketListCollectionViewCell: UICollectionViewCell {
             entireStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
             
             imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.9),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1)
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1),
+            
+            accessaryImageView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
         ])
     }
     
