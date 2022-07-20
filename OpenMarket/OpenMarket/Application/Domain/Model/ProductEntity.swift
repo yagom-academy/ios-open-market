@@ -11,6 +11,7 @@ struct ProductEntity: Hashable {
     let id = UUID()
     let thumbnailImage: UIImage
     let name: String
+    let currency: String
     let originalPrice: Int
     let discountedPrice: Int
     let stock: Int
