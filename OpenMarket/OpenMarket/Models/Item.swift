@@ -16,9 +16,17 @@ struct Item: Hashable {
     
     init(product: Product) {
         self.productName = product.name
-        self.price = product.currency.rawValue + " " + String(product.price)
-        self.bargainPrice = product.currency.rawValue + " " + String(product.bargainPrice)
+        self.price = product.currency.rawValue + " " + product.price.devidePrice()
+        self.bargainPrice = product.currency.rawValue + " " + product.bargainPrice.devidePrice()
         self.stock = String(product.stock)
         self.productImage = product.thumbnail
+    }
+}
+
+extension Int {
+    func devidePrice() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(for: self) ?? ""
     }
 }

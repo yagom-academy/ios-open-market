@@ -30,12 +30,19 @@ class MarketCollectionViewController: UICollectionViewController {
         return segmentedControl
     }()
     
+    let barbutton: UIBarButtonItem = {
+        let addButton = UIBarButtonItem()
+        addButton.image = UIImage(systemName: "plus")
+        return addButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = createListLayout()
         receivePageData()
         navigationItem.titleView = segmentedControl
         segmentedControl.addTarget(self, action: #selector(indexChanged), for: .valueChanged)
+        navigationItem.rightBarButtonItem = barbutton
     }
 
     @objc func indexChanged(segmentedControl: UISegmentedControl) {
