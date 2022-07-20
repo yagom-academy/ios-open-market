@@ -1,8 +1,17 @@
 //
-//  String+Extension.swift
+//  String+Extensions.swift
 //  OpenMarket
 //
-//  Created by Kay on 2022/07/20.
+//  Created by 데릭, 케이, 수꿍. 
 //
 
 import Foundation
+
+extension String {
+    func strikeThrough(value: Int) -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: value, range: NSMakeRange(0, attributeString.length))
+        
+        return attributeString
+    }
+}
