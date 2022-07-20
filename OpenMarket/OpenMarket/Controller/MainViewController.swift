@@ -27,9 +27,33 @@ class MainViewController: UIViewController {
         configureHierarchy()
         configureDataSource()
     }
+    
+    private func getItemList() {
+        manager.getItemList(pageNumber: 1, itemsPerPage: 10) { [self] result in
+            switch result {
+            case .success(let data):
+                guard let data = data,
+                      let itemData: ItemList = JSONDecoder.decodeJson(jsonData: data) else { return }
+                
+                makeSnapshot(itemData: itemData)
+            case .failure(ResponseError.dataError):
+                return
+            case .failure(ResponseError.defaultResponseError):
+                return
+            case .failure(ResponseError.statusError):
+                return
+            }
+        }
+    }
+    
+    private func makeSnapshot(itemData: ItemList) {
+        snapshot.appendSections([.main])
+        snapshot.appendItems(itemData.pages)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
 }
 
-
+//MARK: Segment
 extension MainViewController {
     private func configureSegment() {
         segment.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
@@ -55,7 +79,9 @@ extension MainViewController {
             break
         }
     }
-    
+}
+//MARK: ListCollectionView
+extension MainViewController {
     private func createLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
@@ -105,28 +131,5 @@ extension MainViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }
-    
-    private func getItemList() {
-        manager.getItemList(pageNumber: 1, itemsPerPage: 10) { [self] result in
-            switch result {
-            case .success(let data):
-                guard let data = data,
-                      let itemData: ItemList = JSONDecoder.decodeJson(jsonData: data) else { return }
-                
-                makeSnapshot(itemData: itemData)
-            case .failure(ResponseError.dataError):
-                return
-            case .failure(ResponseError.defaultResponseError):
-                return
-            case .failure(ResponseError.statusError):
-                return
-            }
-        }
-    }
-    
-    private func makeSnapshot(itemData: ItemList) {
-        snapshot.appendSections([.main])
-        snapshot.appendItems(itemData.pages)
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
 }
+//MARK: GridCollectionView
