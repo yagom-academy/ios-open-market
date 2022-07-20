@@ -9,9 +9,9 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: Properties
     
-    var cell = ListCollectionViewCell.identifier
+    private var cell = ListCollectionViewCell.identifier
     
-    lazy var segmentedControl: UISegmentedControl = {
+    private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
         return segment
     }()
     
-    let addedButton: UIButton = {
+    private let addedButton: UIButton = {
         let button = UIButton()
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: "plus", withConfiguration: configuration)
@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    lazy var topStackView: UIStackView = {
+    private lazy var topStackView: UIStackView = {
         let stackView = UIStackView()
         let leftCoordinate = (view.frame.width / 2) - (segmentedControl.frame.width / 2)
         stackView.alignment = .fill
@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
         return stackView
     }()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = createListLayout()
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
         return collectionView
     }()
     
-    let wholeComponentStackView: UIStackView = {
+    private let wholeComponentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .fill
