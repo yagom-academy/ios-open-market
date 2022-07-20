@@ -4,13 +4,13 @@ class ViewController: UIViewController {
     
     // MARK: - Properties
 
-    var collectionView: UICollectionView?
-    var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
-    var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
+    private var collectionView: UICollectionView?
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
     
-    let productsDataManager = ProductsDataManager()
-    var productImages: [UIImage] = []
-    var products: Products? {
+    private let productsDataManager = ProductsDataManager()
+    private var productImages: [UIImage] = []
+    private var products: Products? {
         didSet {
             products?.pages.forEach {
                 guard let imageUrl = URL(string: $0.thumbnail),
@@ -21,12 +21,12 @@ class ViewController: UIViewController {
         }
     }
     
-    var currentPage = 0
-    var isFetchingEnd = true
+    private var currentPage = 0
+    private var isFetchingEnd = true
     
-    let refreshControl = UIRefreshControl()
-    var segmentControl: UISegmentedControl?
-    var activityIndicator: UIActivityIndicatorView = {
+    private let refreshControl = UIRefreshControl()
+    private var segmentControl: UISegmentedControl?
+    private var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.backgroundColor = .black.withAlphaComponent(0.3)
         indicator.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
@@ -171,13 +171,13 @@ extension ViewController {
     
     private func configureDataSoure() {
         let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { (cell, indexPath, identifier) in
-            cell.product = identifier
+            cell.setProduct(by: identifier)
             
             guard let currentSeguement = Titles(rawValue: self.segmentControl!.selectedSegmentIndex) else { return }
             cell.setAxis(segment: currentSeguement)
             
             if self.productImages.count > indexPath.row {
-                cell.itemImageView.image = self.productImages[indexPath.row]
+                cell.setImage(by: self.productImages[indexPath.row])
             }
             
             cell.backgroundColor = .systemBackground

@@ -4,11 +4,11 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     // MARK: - Properties
     
-    var itemImageViewLayoutConstraint: NSLayoutConstraint?
-    var multiplieToConstant: CGFloat?
-    var stackViewTraillingContraint: NSLayoutConstraint?
+    private var itemImageViewLayoutConstraint: NSLayoutConstraint?
+    private var multiplieToConstant: CGFloat?
+    private var stackViewTraillingContraint: NSLayoutConstraint?
     
-    var product: Page? {
+    private var product: Page? {
         didSet {
             guard let product = product else { return }
             
@@ -33,13 +33,13 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         }
     }
     
-    let itemImageView: UIImageView = {
+    private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let itemNameLabel: UILabel = {
+    private let itemNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .title3)
@@ -48,7 +48,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let itemSecondNameLabel: UILabel = {
+    private let itemSecondNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .title3)
@@ -57,7 +57,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let priceStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -67,7 +67,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    let itemPriceLabel: UILabel = {
+    private let itemPriceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.text = ""
@@ -75,7 +75,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let itemSaleLabel: UILabel = {
+    private let itemSaleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.text = ""
@@ -83,7 +83,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let itemNameAndPriceStackView: UIStackView = {
+    private let itemNameAndPriceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 2
@@ -93,7 +93,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    let itemStockLabel: UILabel = {
+    private let itemStockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +104,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
@@ -116,7 +116,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    let separator: UIView = {
+    private let separator: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemGray5
@@ -215,6 +215,9 @@ extension ItemCollectionViewCell {
     }
 }
 
+
+// MARK: - Setter Functions
+
 extension ItemCollectionViewCell {
     func setAxis(segment: Titles) {
         UIView.animate(withDuration: 0.3) {
@@ -225,6 +228,14 @@ extension ItemCollectionViewCell {
                 self.gridLayout()
             }
         }
+    }
+    
+    func setProduct(by product: Page) {
+        self.product = product
+    }
+    
+    func setImage(by image: UIImage) {
+        self.itemImageView.image = image
     }
 }
 
