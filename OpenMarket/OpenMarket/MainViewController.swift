@@ -9,6 +9,34 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: Properties
     
+    let segmentedControl: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["LIST", "GRID"])
+        segment.selectedSegmentIndex = 0
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        return segment
+    }()
+    
+    let addedButton: UIButton = {
+        let button = UIButton()
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        let image = UIImage(systemName: "plus", withConfiguration: configuration)
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var topStackView: UIStackView = {
+        let stackView = UIStackView()
+        let leftCoordinate = (view.frame.width / 2) - (segmentedControl.frame.width / 2)
+        stackView.alignment = .fill
+        stackView.distribution = .equalCentering
+        stackView.layoutMargins = UIEdgeInsets(top: .zero, left: leftCoordinate, bottom: .zero, right: 15)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     lazy var collectionView: UICollectionView = {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
@@ -17,9 +45,9 @@ class MainViewController: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return collectionView
     }()
-
-    let stackView: UIStackView = {
-       let stackView = UIStackView()
+    
+    let wholeComponentStackView: UIStackView = {
+        let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.axis = .vertical
@@ -31,14 +59,18 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(stackView)
-        stackView.addArrangedSubview(collectionView)
+        view.addSubview(wholeComponentStackView)
+        wholeComponentStackView.addArrangedSubview(topStackView)
+        wholeComponentStackView.addArrangedSubview(collectionView)
+        
+        topStackView.addArrangedSubview(segmentedControl)
+        topStackView.addArrangedSubview(addedButton)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            wholeComponentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            wholeComponentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            wholeComponentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
         
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
