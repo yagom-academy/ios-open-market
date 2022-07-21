@@ -14,7 +14,9 @@ class NetworkProvider {
         self.session = session
     }
     
-    func requestAndDecode<T: Codable>(url: String, dataType: T.Type, completion: @escaping (Result<T,NetworkError>) -> Void) {
+    func requestAndDecode<T: Codable>(url: String,
+                                      dataType: T.Type,
+                                      completion: @escaping (Result<T,NetworkError>) -> Void) {
         guard let url = URL(string: url) else {
             completion(.failure(.invalidURL))
             return
@@ -30,7 +32,8 @@ class NetworkProvider {
                (200..<300).contains(response.statusCode),
                let verifiedData = data {
                 do {
-                    let decodedData = try JSONDecoder().decode(T.self, from: verifiedData)
+                    let decodedData = try JSONDecoder().decode(T.self,
+                                                               from: verifiedData)
                     completion(.success(decodedData))
                 } catch {
                     completion(.failure(.failedToDecode))
