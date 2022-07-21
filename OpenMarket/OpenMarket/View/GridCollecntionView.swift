@@ -25,7 +25,9 @@ final class GridCollecntionView: UICollectionView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.configureDataSource()
     }
     
     // MARK: - functions
