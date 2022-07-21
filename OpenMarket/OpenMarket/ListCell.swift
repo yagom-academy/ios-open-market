@@ -8,7 +8,7 @@
 import UIKit
 
 final class ListCell: UICollectionViewCell {
-    
+    // MARK: - Cell UIComponents
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,7 @@ final class ListCell: UICollectionViewCell {
         label.sizeToFit()
         return label
     }()
-    
+    // MARK: - Cell Initailize
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupAddSubviews()
@@ -90,7 +90,7 @@ final class ListCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // MARK: - Cell Setup Method
     private func setupAddSubviews() {
         self.contentView.addSubview(productImageView)
         self.contentView.addSubview(verticalStackView)

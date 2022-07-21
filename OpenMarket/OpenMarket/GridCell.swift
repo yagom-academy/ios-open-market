@@ -8,7 +8,7 @@
 import UIKit
 
 final class GridCell: UICollectionViewCell {
-
+    // MARK: - Cell UIComponents
     private let verticalStackView: UIStackView = {
         let stackview = UIStackView()
         stackview.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +64,7 @@ final class GridCell: UICollectionViewCell {
         label.sizeToFit()
         return label
     }()
-    
+    // MARK: - Cell Initailize
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupAddSubviews()
@@ -75,7 +75,7 @@ final class GridCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // MARK: - Cell Setup Method
     private func setupAddSubviews() {
         self.contentView.addSubview(verticalStackView)
         verticalStackView.addArrangedSubview(productImageView)

@@ -19,7 +19,6 @@ class MainViewController: UIViewController {
         case main
     }
     
-    // MARK: - UI Properties
     private var shouldHideListLayout: Bool? {
         didSet {
             guard let shouldHideListLayout = shouldHideListLayout else { return }
@@ -40,7 +39,7 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
+    // MARK: - UI Properties
     private let segmentController: UISegmentedControl = {
         let segmentController = UISegmentedControl(items: ["List", "Grid"])
         segmentController.translatesAutoresizingMaskIntoConstraints = false
@@ -66,34 +65,24 @@ class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.async {
-            self.collectionView.alpha = 0
-            self.activitiIndicator.startAnimating()
-        }
-        self.view.backgroundColor = .systemBackground
+        initializeViewController()
         self.listLayout = createListLayout()
         self.gridLayout = createGridLayout()
         addUIComponents()
-        activitiIndicator.startAnimating()
         setupSegment()
         configureListDataSource()
         configureGridDataSource()
         configureHierarchy()
         fetchData()
     }
-    
-    private func fetchData() {
-        manager.dataTask { [weak self] productList in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(productList)
-            self?.gridDataSource?.apply(snapshot, animatingDifferences: false)
-            self?.listDataSource?.apply(snapshot, animatingDifferences: false)
-            DispatchQueue.main.async {
-                self?.activitiIndicator.stopAnimating()
-                self?.collectionView.alpha = 1
-            }
+    // MARK: - Main View Controller Method
+    private func initializeViewController() {
+        DispatchQueue.main.async {
+            self.collectionView.alpha = 0
+            self.activitiIndicator.startAnimating()
         }
+        self.view.backgroundColor = .systemBackground
+        activitiIndicator.startAnimating()
     }
     
     private func addUIComponents() {
@@ -113,6 +102,20 @@ class MainViewController: UIViewController {
     
     @objc private func didChangeValue(segment: UISegmentedControl) {
         self.shouldHideListLayout = segment.selectedSegmentIndex != 0
+    }
+    
+    private func fetchData() {
+        manager.dataTask { [weak self] productList in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(productList)
+            self?.gridDataSource?.apply(snapshot, animatingDifferences: false)
+            self?.listDataSource?.apply(snapshot, animatingDifferences: false)
+            DispatchQueue.main.async {
+                self?.activitiIndicator.stopAnimating()
+                self?.collectionView.alpha = 1
+            }
+        }
     }
 }
 // MARK: - Modern Collection Create Layout
@@ -154,18 +157,6 @@ extension MainViewController {
 }
 // MARK: - Modern Collection VIew Configure Datasource
 extension MainViewController {
-    private func configureHierarchy(){
-        collectionView.frame = view.bounds
-        guard let listLayout = listLayout else {
-            return
-        }
-        collectionView.setCollectionViewLayout(listLayout, animated: true)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.view.addSubview(collectionView)
-        collectionView.dataSource = listDataSource
-        collectionView.delegate = self
-    }
-    
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCell, Product> { (cell, indexPath, product) in
             cell.setup(with: product)
@@ -186,8 +177,20 @@ extension MainViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }
+    
+    private func configureHierarchy(){
+        collectionView.frame = view.bounds
+        guard let listLayout = listLayout else {
+            return
+        }
+        collectionView.setCollectionViewLayout(listLayout, animated: true)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(collectionView)
+        collectionView.dataSource = listDataSource
+        collectionView.delegate = self
+    }
 }
-
+// MARK: - Modern Collection View Delegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
