@@ -64,6 +64,7 @@ class FirstViewController: UIViewController {
 }
 
 extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let result = productData else { return 0 }
         return result.itemsPerPage
@@ -83,6 +84,7 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let productStock = result.pages[indexPath.row].stock
         guard let priceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].price as NSNumber) else { return cell }
         guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].discountedPrice as NSNumber) else { return cell }
+        cell.productPrice.text = .none
 
         if productStock == 0 {
             cell.productStock.text = "품절"
@@ -94,13 +96,13 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         if result.pages[indexPath.row].bargainPrice > 0 {
             cell.productPrice.attributedText = cell.productPrice.text?.strikeThrough()
-            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
             cell.productPrice.textColor = .systemRed
-            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(dicountedPriceNumberFormatter)"
             cell.productDiscountPrice.textColor = .systemGray
-        } else {
             cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
-            cell.productPrice.textColor = .systemGray
+            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(dicountedPriceNumberFormatter)"
+        } else {
+            cell.productDiscountPrice.textColor = .systemGray
+            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
         }
         
         cell.productImage.image = UIImage(data: imageData)
