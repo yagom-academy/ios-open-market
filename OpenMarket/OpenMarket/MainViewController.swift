@@ -168,7 +168,7 @@ extension MainViewController {
     
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCell, Product> { (cell, indexPath, product) in
-            cell.setupCellData(with: product)
+            cell.setup(with: product)
         }
         listDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
@@ -179,7 +179,7 @@ extension MainViewController {
     
     private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<GridCell, Product> { (cell, indexPath, product) in
-            cell.setupCellData(with: product)
+            cell.setup(with: product)
         }
         gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in

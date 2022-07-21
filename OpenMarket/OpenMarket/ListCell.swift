@@ -126,7 +126,7 @@ final class ListCell: UICollectionViewCell {
         self.layer.borderWidth = 0.5
     }
     
-    func setupCellData(with inputData: Product) {
+    func setup(with inputData: Product) {
         guard let url = URL(string: inputData.thumbnail) else {
             return
         }
