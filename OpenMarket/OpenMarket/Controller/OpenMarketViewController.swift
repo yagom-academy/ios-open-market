@@ -22,7 +22,7 @@ final class OpenMarketViewController: UIViewController {
         
         return segmentedControl
     }()
-
+    
     // MARK: - functions
     
     override func viewDidLoad() {
@@ -40,13 +40,11 @@ final class OpenMarketViewController: UIViewController {
             (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
-                for number in 0..<Product.itemPerPage.number {
-                    self.productsList.append(success.pages[number])
+                (0..<Product.itemPerPage.number).forEach {
+                    self.productsList.append(success.pages[$0])
                 }
-                if self.productsList.count == Product.itemPerPage.number {
-                    self.gridCollectionView.configureSnapshot(productsList: self.productsList)
-                    self.listCollectionView.configureSnapshot(productsList: self.productsList)
-                }
+                self.gridCollectionView.configureSnapshot(productsList: self.productsList)
+                self.listCollectionView.configureSnapshot(productsList: self.productsList)
                 self.removeSpinner()
                 
             case .failure(let error):
