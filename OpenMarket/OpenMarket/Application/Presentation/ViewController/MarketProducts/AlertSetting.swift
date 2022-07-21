@@ -2,7 +2,7 @@
 //  AlertSetting.swift
 //  OpenMarket
 //
-//  Created by 전민수 on 2022/07/21.
+//  Created by 데릭, 케이, 수꿍.
 //
 
 enum AlertSetting {
