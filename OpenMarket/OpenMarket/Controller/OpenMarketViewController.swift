@@ -9,7 +9,7 @@ import UIKit
 final class OpenMarketViewController: UIViewController {
     // MARK: - properties
     
-    var loadingView : UIView?
+    private var loadingView : UIView?
     private var productsList = [ProductDetail]()
     private let listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
     private lazy var listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)

@@ -22,6 +22,20 @@ struct GetData: APIRequest {
     var body: Data?
 }
 
+struct PatchData: APIRequest {
+    var path: URLAdditionalPath = .product
+    var method: HTTPMethod = .patch
+    var baseURL: String {
+        URLHost.openMarket.url + path.value
+    }
+    var headers: [String : String]?
+    var query: [URLQueryItem]? = [
+        URLQueryItem(name: "page_no", value: "\(1)"),
+        URLQueryItem(name: "items_per_page", value: "\(1)")
+    ]
+    var body: Data?
+}
+
 final class RequestTests: XCTestCase {
     var sut: GetData?
     override func setUpWithError() throws {
@@ -82,5 +96,9 @@ final class RequestTests: XCTestCase {
         
         // then
         XCTAssertEqual(result, resultName)
+    }
+    
+    func test_patch를_잘_하는지() {
+        
     }
 }

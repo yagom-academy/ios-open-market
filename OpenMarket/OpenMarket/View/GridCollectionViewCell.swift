@@ -10,7 +10,7 @@ import UIKit
 final class GridCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
     
-    var productImage: UIImageView = {
+    private var productImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    var productName: UILabel = {
+    private var productName: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var price: UILabel = {
+    private var price: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +34,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var stock: UILabel = {
+    private var stock: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -90,5 +90,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
             [stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
              stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
              stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
+    }
+    
+    func setViewItems(item: ProductDetail) {
+        productImage.image = item.setThumbnailImage()
+        productName.text = item.name
+        price.attributedText = item.setPriceText()
+        stock.attributedText = item.setStockText()
     }
 }
