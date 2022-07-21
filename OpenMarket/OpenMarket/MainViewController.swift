@@ -86,6 +86,7 @@ class MainViewController: UIViewController {
     
     private func addUIComponents() {
         self.navigationItem.titleView = segmentController
+        self.view.addSubview(collectionView)
         self.view.addSubview(activitiIndicator)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
     }
@@ -184,7 +185,6 @@ extension MainViewController {
         }
         collectionView.setCollectionViewLayout(listLayout, animated: true)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.view.addSubview(collectionView)
         collectionView.dataSource = listDataSource
         collectionView.delegate = self
     }
