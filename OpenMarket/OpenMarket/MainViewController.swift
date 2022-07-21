@@ -85,9 +85,9 @@ class MainViewController: UIViewController {
     }
     
     private func addUIComponents() {
-        self.navigationItem.titleView = segmentController
         self.view.addSubview(collectionView)
         self.view.addSubview(activitiIndicator)
+        self.navigationItem.titleView = segmentController
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
     }
     
@@ -178,7 +178,7 @@ extension MainViewController {
         }
     }
     
-    private func configureHierarchy(){
+    private func configureHierarchy() {
         collectionView.frame = view.bounds
         guard let listLayout = listLayout else {
             return
