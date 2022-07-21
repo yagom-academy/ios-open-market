@@ -7,8 +7,7 @@
 
 import UIKit
 
-class ListCell: UICollectionViewCell {
-    
+final class ListCell: UICollectionViewCell {
     
     private let productImageView: UIImageView = {
         let imageView = UIImageView()

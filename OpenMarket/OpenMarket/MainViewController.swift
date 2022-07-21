@@ -9,6 +9,7 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: - Instance Properties
     private let manager = NetworkManager()
+    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var listLayout: UICollectionViewLayout? = nil
@@ -81,7 +82,7 @@ class MainViewController: UIViewController {
         fetchData()
     }
     
-    func fetchData() {
+    private func fetchData() {
         manager.dataTask { [weak self] productList in
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
