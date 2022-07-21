@@ -9,7 +9,7 @@ import UIKit
 final class OpenMarketViewController: UIViewController {
     // MARK: - properties
     
-    var loadingView : UIView?
+    private var loadingView : UIView?
     private var productsList = [ProductDetail]()
     private let listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
     private lazy var listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
@@ -23,20 +23,11 @@ final class OpenMarketViewController: UIViewController {
         return segmentedControl
     }()
     
-    private var shouldHideListView: Bool? {
-        didSet {
-            guard let shouldHideListView = self.shouldHideListView else { return }
-            self.listCollectionView.isHidden = shouldHideListView
-            self.gridCollectionView.isHidden = !self.listCollectionView.isHidden
-        }
-    }
-    
     // MARK: - functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        self.showSpinner(on: self.view)
         self.fetchData()
         self.setUI()
     }
@@ -48,14 +39,19 @@ final class OpenMarketViewController: UIViewController {
             (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
-                for number in 0..<Product.itemPerPage.number {
-                    self.productsList.append(success.pages[number])
+                DispatchQueue.main.async {
+                    self.showSpinner(on: self.view)
                 }
-                if self.productsList.count == Product.itemPerPage.number {
-                    self.gridCollectionView.configureSnapshot(productsList: self.productsList)
-                    self.listCollectionView.configureSnapshot(productsList: self.productsList)
+                
+                success.pages.forEach { self.productsList.append($0) }
+                
+                self.gridCollectionView.configureSnapshot(productsList: self.productsList)
+                self.listCollectionView.configureSnapshot(productsList: self.productsList)
+                
+                DispatchQueue.main.async {
+                    self.removeSpinner()
                 }
-                self.removeSpinner()
+                
                 
             case .failure(let error):
                 print(error)
@@ -65,22 +61,17 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
+        let itemSize = Design.itemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(self.view.frame.height * 0.3))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.groupFractionalWidth),
+                                               heightDimension: .absolute(self.view.frame.height * Design.groupFrameHeightRatio))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item, count: 2)
-        group.interItemSpacing = .fixed(20)
+                                                       subitem: item, count: Design.groupCount)
+        group.interItemSpacing = .fixed(Design.interItemSpacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = CGFloat(10)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 5,
-                                                        leading: 5,
-                                                        bottom: 5,
-                                                        trailing: 5)
+        section.interGroupSpacing = CGFloat(Design.interGroupSpacing)
+        section.contentInsets = Design.contentEdgeInsets
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -89,7 +80,16 @@ final class OpenMarketViewController: UIViewController {
     // MARK: - @objc functions
     
     @objc func segmentButtonDidTap(sender: UISegmentedControl) {
-        self.shouldHideListView = (sender.selectedSegmentIndex != 0)
+        switch sender.selectedSegmentIndex {
+        case 0:
+            listCollectionView.isHidden = false
+            gridCollectionView.isHidden = true
+        case 1:
+            listCollectionView.isHidden = true
+            gridCollectionView.isHidden = false
+        default:
+            break
+        }
     }
     
     @objc func productRegistrationButtonDidTap() {
@@ -102,23 +102,37 @@ final class OpenMarketViewController: UIViewController {
 extension OpenMarketViewController {
     private func showSpinner(on view : UIView) {
         let spinnerView = UIView.init(frame: view.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        spinnerView.backgroundColor = .systemGray
+        spinnerView.alpha = Design.spinnerViewAlpha
         let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
         activityIndicatorView.startAnimating()
         activityIndicatorView.center = spinnerView.center
         
-        DispatchQueue.main.async {
-            spinnerView.addSubview(activityIndicatorView)
-            view.addSubview(spinnerView)
-        }
+        spinnerView.addSubview(activityIndicatorView)
+        view.addSubview(spinnerView)
         
         loadingView = spinnerView
     }
     
     private func removeSpinner() {
-        DispatchQueue.main.async {
-            self.loadingView?.removeFromSuperview()
-            self.loadingView = nil
-        }
+        self.loadingView?.removeFromSuperview()
+        self.loadingView = nil
+    }
+    
+    // MARK: - Design
+
+    private enum Design {
+        static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                     heightDimension: .fractionalHeight(1.0))
+        static let spinnerViewAlpha = 0.5
+        static let groupFractionalWidth = 1.0
+        static let groupFrameHeightRatio = 0.3
+        static let groupCount = 2
+        static let interItemSpacing = 20.0
+        static let interGroupSpacing = 10
+        static let contentEdgeInsets = NSDirectionalEdgeInsets(top: 5.0,
+                                                             leading: 5.0,
+                                                             bottom: 5.0,
+                                                             trailing: 5.0)
     }
 }
