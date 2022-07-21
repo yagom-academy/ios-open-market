@@ -14,16 +14,32 @@ class FirstViewController: UIViewController {
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
     var productData: ProductListResponse?
-    
+    lazy var activityIndicator: UIActivityIndicatorView = { // indicator가 사용될 때까지 인스턴스를 생성하지 않도록 lazy로 선언
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center // indicator의 위치 설정
+        activityIndicator.style = UIActivityIndicatorView.Style.large // indicator의 스타일 설정, large와 medium이 있음
+        activityIndicator.startAnimating() // indicator 실행
+        activityIndicator.isHidden = false
+        return activityIndicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addSubview(activityIndicator)
+
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
         self.settingNumberFormaatter()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         self.setData()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating() // indicator 종료
     }
     
     func settingNumberFormaatter() {
@@ -42,6 +58,8 @@ class FirstViewController: UIViewController {
             }
         })
         URLSemaphore.wait()
+        self.stopActivityIndicator()
+        self.productCollectionView.reloadData()
     }
 }
 

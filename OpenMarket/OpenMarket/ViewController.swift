@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         segmentSwitch.selectedSegmentTintColor = .systemBlue
         segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
