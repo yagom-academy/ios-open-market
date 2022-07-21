@@ -10,13 +10,10 @@ import UIKit
 final class GridCollecntionView: UICollectionView {
     // MARK: - properties
     
-    var gridViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
-    let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductDetail> {
+    private var gridViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
+    private let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductDetail> {
         (cell, indexPath, item) in
-        cell.productImage.image = item.setThumbnailImage()
-        cell.productName.text = item.name
-        cell.price.attributedText = item.setPriceText()
-        cell.stock.attributedText = item.setStockText()
+        cell.setViewItems(item)
     }
     
     // MARK: - initializers
