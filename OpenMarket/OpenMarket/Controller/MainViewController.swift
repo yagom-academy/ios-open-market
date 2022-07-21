@@ -19,9 +19,10 @@ class MainViewController: UIViewController {
     let segment = UISegmentedControl(items: ["List", "Grid"])
     let manager = NetworkManager()
     
+    var activityIndicatorView = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        getItemList()
         self.view.backgroundColor = .white
         self.navigationItem.titleView = segment
         configureSegment()
@@ -29,7 +30,13 @@ class MainViewController: UIViewController {
         configureGridDataSource()
         configureListHierarchy()
         configureListDataSource()
-        
+        configureLoadingView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        sleep(10)
+        getItemList()
     }
     
     private func getItemList() {
@@ -46,6 +53,9 @@ class MainViewController: UIViewController {
                 return
             case .failure(ResponseError.statusError):
                 return
+            }
+            DispatchQueue.main.async {
+                self.activityIndicatorView.stopAnimating()
             }
         }
     }
@@ -222,5 +232,19 @@ extension MainViewController {
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
+    }
+}
+//MARK: LoadingView
+extension MainViewController {
+    private func configureLoadingView() {
+        activityIndicatorView = UIActivityIndicatorView(style: .large)
+        activityIndicatorView.startAnimating()
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(activityIndicatorView)
+
+        NSLayoutConstraint.activate([
+            activityIndicatorView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor)
+        ])
     }
 }
