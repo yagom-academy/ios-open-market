@@ -41,7 +41,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         priceLabel.textAlignment = .center
-        discountedLabel.isHidden = true
+        priceLabel.isHidden = true
         discountedLabel.textAlignment = .center
         stockLabel.textAlignment = .center
         
@@ -60,5 +60,15 @@ class GridCollectionViewCell: UICollectionViewCell {
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
         ])
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        priceLabel.text = .none
+        discountedLabel.text = .none
+        priceLabel.textColor = .systemGray
+        priceLabel.attributedText = nil
+        
     }
 }

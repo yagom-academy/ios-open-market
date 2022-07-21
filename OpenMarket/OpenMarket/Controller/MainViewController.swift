@@ -95,10 +95,11 @@ extension MainViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.1))
+                                               heightDimension: .fractionalHeight(0.09))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -112,18 +113,18 @@ extension MainViewController {
     
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Page> { (cell, indexPath, item) in
+            
             cell.titleLabel.text = "\(item.name)"
             cell.stockLabel.text = "잔여수량: \(item.stock)"
             cell.stockLabel.textColor = .systemGray
-            cell.priceLabel.text = "\(item.currency) \(item.price)"
-            cell.priceLabel.textColor = .systemGray
+            cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+            cell.discountedLabel.textColor = .systemGray
             
-            if item.price > item.discountedPrice {
-                cell.discountedLabel.isHidden = false
+            if item.bargainPrice != 0 {
+                cell.priceLabel.isHidden = false
                 cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
                 cell.priceLabel.textColor = .systemRed
-                cell.layer.borderColor = UIColor.systemGray.cgColor
-                cell.layer.borderWidth = 0.2
+                cell.priceLabel.text = "\(item.currency) \(item.price)"
                 
                 guard let priceText = cell.priceLabel.text else { return }
                 let attribute = NSMutableAttributedString(string: priceText)
@@ -185,13 +186,14 @@ extension MainViewController {
             cell.titleLabel.text = "\(item.name)"
             cell.stockLabel.text = "잔여수량: \(item.stock)"
             cell.stockLabel.textColor = .systemGray
-            cell.priceLabel.text = "\(item.currency) \(item.price)"
-            cell.priceLabel.textColor = .systemGray
+            cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+            cell.discountedLabel.textColor = .systemGray
             
-            if item.price > item.discountedPrice {
-                cell.discountedLabel.isHidden = false
+            if item.bargainPrice != 0 {
+                cell.priceLabel.isHidden = false
                 cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
                 cell.priceLabel.textColor = .systemRed
+                cell.priceLabel.text = "\(item.currency) \(item.price)"
                 
                 guard let priceText = cell.priceLabel.text else { return }
                 let attribute = NSMutableAttributedString(string: priceText)

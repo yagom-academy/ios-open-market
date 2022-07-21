@@ -51,7 +51,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         stockLabel.textAlignment = .right
         priceLabel.setContentHuggingPriority(pricePriority, for: .horizontal)
-        discountedLabel.isHidden = true
+        priceLabel.isHidden = true
         discountedLabel.textAlignment = .left
         
         let image = UIImageView(image: UIImage(systemName: "chevron.right"))
@@ -69,7 +69,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         priceStackView.addArrangedSubview(discountedLabel)
         
         NSLayoutConstraint.activate([
-                
+            
             thumbnailView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             thumbnailView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             thumbnailView.heightAnchor.constraint(equalToConstant: 70),
@@ -84,5 +84,14 @@ class ListCollectionViewCell: UICollectionViewCell {
             accessoryView.heightAnchor.constraint(equalToConstant: 17),
             accessoryView.widthAnchor.constraint(equalTo: accessoryView.heightAnchor),
         ])
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        priceLabel.text = .none
+        discountedLabel.text = .none
+        priceLabel.textColor = .systemGray
+        priceLabel.attributedText = nil
     }
 }
