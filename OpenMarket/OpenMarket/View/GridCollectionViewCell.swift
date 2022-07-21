@@ -58,20 +58,17 @@ final class GridCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setSubViews()
         setStackViewConstraints()
+        setBorder()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        fatalError("init(coder:) has not been implemented")
+        setSubViews()
+        setStackViewConstraints()
+        setBorder()
     }
     
     // MARK: - functions
-    
-    override func draw(_ rect: CGRect) {
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 1.5
-        self.layer.borderColor = UIColor.systemGray3.cgColor
-    }
     
     private func setSubViews() {
         self.contentView.addSubview(productImage)
@@ -90,6 +87,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
             [stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
              stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
              stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
+    }
+    
+    private func setBorder() {
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 1.5
+        self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     
     func setViewItems(_ item: ProductDetail) {
