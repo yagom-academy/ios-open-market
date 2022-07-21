@@ -61,22 +61,17 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(LayoutSize.fractionalWidth),
-                                              heightDimension: .fractionalHeight(LayoutSize.fractionalHeight))
+        let itemSize = Design.itemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(GroupSize.fractionalWidth),
-                                               heightDimension: .absolute(self.view.frame.height * GroupSize.frameHeightRatio))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.groupFractionalWidth),
+                                               heightDimension: .absolute(self.view.frame.height * Design.groupFrameHeightRatio))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item, count: GroupSize.groupCount)
-        group.interItemSpacing = .fixed(LayoutSize.interItemSpacing)
+                                                       subitem: item, count: Design.groupCount)
+        group.interItemSpacing = .fixed(Design.interItemSpacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = CGFloat(GroupSize.interGroupSpacing)
-        section.contentInsets = NSDirectionalEdgeInsets(top: GroupSize.topEdgeInset,
-                                                        leading: GroupSize.leadingEdgeInset,
-                                                        bottom: GroupSize.bottomEdgeInset,
-                                                        trailing: GroupSize.trailingEdgeInset)
+        section.interGroupSpacing = CGFloat(Design.interGroupSpacing)
+        section.contentInsets = Design.contentEdgeInsets
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -108,7 +103,7 @@ extension OpenMarketViewController {
     private func showSpinner(on view : UIView) {
         let spinnerView = UIView.init(frame: view.bounds)
         spinnerView.backgroundColor = .systemGray
-        spinnerView.alpha = BackgroundColor.alpha
+        spinnerView.alpha = Design.spinnerViewAlpha
         let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
         activityIndicatorView.startAnimating()
         activityIndicatorView.center = spinnerView.center
@@ -123,34 +118,21 @@ extension OpenMarketViewController {
         self.loadingView?.removeFromSuperview()
         self.loadingView = nil
     }
-}
+    
+    // MARK: - Design
 
-// MARK: - Design
-// MARK: - LayoutSize
-
-enum LayoutSize {
-    static let fractionalWidth = 1.0
-    static let fractionalHeight = 1.0
-    static let interItemSpacing = 20.0
-    static let topEdgeInset = 5
-    static let leadingEdgeInset = 5
-    static let bottomEdgeInset = 5
-    static let trailingEdgeInset = 5
-}
-
-enum GroupSize {
-    static let fractionalWidth = 1.0
-    static let frameHeightRatio = 0.3
-    static let groupCount = 2
-    static let interGroupSpacing = 10
-    static let topEdgeInset = 5.0
-    static let leadingEdgeInset = 5.0
-    static let bottomEdgeInset = 5.0
-    static let trailingEdgeInset = 5.0
-}
-
-// MARK: - Color Literal
-
-enum BackgroundColor {
-    static let alpha = 0.5
+    private enum Design {
+        static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                     heightDimension: .fractionalHeight(1.0))
+        static let spinnerViewAlpha = 0.5
+        static let groupFractionalWidth = 1.0
+        static let groupFrameHeightRatio = 0.3
+        static let groupCount = 2
+        static let interItemSpacing = 20.0
+        static let interGroupSpacing = 10
+        static let contentEdgeInsets = NSDirectionalEdgeInsets(top: 5.0,
+                                                             leading: 5.0,
+                                                             bottom: 5.0,
+                                                             trailing: 5.0)
+    }
 }

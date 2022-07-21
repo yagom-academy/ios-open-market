@@ -8,12 +8,6 @@
 import UIKit
 
 final class ListCollectionView: UICollectionView {
-    // MARK: - image size
-    enum ImageSize {
-        static let width = 70
-        static let height = 70
-    }
-    
     // MARK: - properties
     
     private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
@@ -82,4 +76,12 @@ final class ListCollectionView: UICollectionView {
         
         listViewDataSource?.apply(snapshot, animatingDifferences: false)
     }
+    
+    // MARK: - image size
+    
+    private enum ImageSize {
+        static let width = 70
+        static let height = 70
+    }
 }
+
