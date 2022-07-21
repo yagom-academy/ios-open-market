@@ -13,4 +13,5 @@ class FirstCollectionViewCell: UICollectionViewListCell {
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var productDiscountPrice: UILabel!
     @IBOutlet weak var productStock: UILabel!
+    @IBOutlet weak var spacingView: UIView!
 }

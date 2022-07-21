@@ -35,11 +35,12 @@ class FirstViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.setData()
     }
     
     func stopActivityIndicator() {
-        activityIndicator.stopAnimating() // indicator 종료
+        activityIndicator.stopAnimating()
     }
     
     func settingNumberFormaatter() {
@@ -82,10 +83,17 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.accessories = [.disclosureIndicator()]
 
         let productStock = result.pages[indexPath.row].stock
+        let isCheckPrice = result.pages[indexPath.row].bargainPrice
         guard let priceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].price as NSNumber) else { return cell }
         guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].discountedPrice as NSNumber) else { return cell }
-        cell.productPrice.text = .none
-
+        
+        cell.productImage.image = UIImage(data: imageData)
+        cell.productName.text = result.pages[indexPath.row].name
+        cell.productPrice.attributedText = .none
+        cell.productDiscountPrice.attributedText = .none
+        cell.spacingView.isHidden = true
+        cell.isSelected = false
+        
         if productStock == 0 {
             cell.productStock.text = "품절"
             cell.productStock.textColor = .orange
@@ -93,21 +101,18 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
             cell.productStock.text = "잔여수량 : \(productStock)"
             cell.productStock.textColor = .systemGray
         }
-        
-        if result.pages[indexPath.row].bargainPrice > 0 {
-            cell.productPrice.attributedText = cell.productPrice.text?.strikeThrough()
+
+        if isCheckPrice > 0 {
+            cell.spacingView.isHidden = false
             cell.productPrice.textColor = .systemRed
-            cell.productDiscountPrice.textColor = .systemGray
             cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
+            cell.productPrice.attributedText = cell.productPrice.text?.strikeThrough()
+            cell.productDiscountPrice.textColor = .systemGray
             cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(dicountedPriceNumberFormatter)"
         } else {
             cell.productDiscountPrice.textColor = .systemGray
             cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
         }
-        
-        cell.productImage.image = UIImage(data: imageData)
-        cell.productName.text = result.pages[indexPath.row].name
-        cell.isSelected = false
         return cell
     }
 }

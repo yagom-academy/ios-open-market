@@ -61,7 +61,6 @@ extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let productStock = result.pages[indexPath.row].stock
         guard let priceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].price as NSNumber) else { return cell }
         guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].discountedPrice as NSNumber) else { return cell }
-        cell.productDiscountPrice.text = .none
 
         if productStock == 0 {
             cell.productStock.text = "품절"
