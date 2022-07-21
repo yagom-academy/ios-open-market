@@ -28,7 +28,6 @@ final class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        self.showSpinner(on: self.view)
         self.fetchData()
         self.setUI()
     }
@@ -40,12 +39,21 @@ final class OpenMarketViewController: UIViewController {
             (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
+                DispatchQueue.main.async {
+                    self.showSpinner(on: self.view)
+                }
+                
                 (0..<Product.itemPerPage.number).forEach {
                     self.productsList.append(success.pages[$0])
                 }
+                
                 self.gridCollectionView.configureSnapshot(productsList: self.productsList)
                 self.listCollectionView.configureSnapshot(productsList: self.productsList)
-                self.removeSpinner()
+                
+                DispatchQueue.main.async {
+                    self.removeSpinner()
+                }
+                
                 
             case .failure(let error):
                 print(error)
@@ -106,18 +114,14 @@ extension OpenMarketViewController {
         activityIndicatorView.startAnimating()
         activityIndicatorView.center = spinnerView.center
         
-        DispatchQueue.main.async {
-            spinnerView.addSubview(activityIndicatorView)
-            view.addSubview(spinnerView)
-        }
+        spinnerView.addSubview(activityIndicatorView)
+        view.addSubview(spinnerView)
         
         loadingView = spinnerView
     }
     
     private func removeSpinner() {
-        DispatchQueue.main.async {
-            self.loadingView?.removeFromSuperview()
-            self.loadingView = nil
-        }
+        self.loadingView?.removeFromSuperview()
+        self.loadingView = nil
     }
 }
