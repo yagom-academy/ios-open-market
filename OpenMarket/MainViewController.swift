@@ -8,6 +8,13 @@ import UIKit
 
 class MainViewController: UIViewController {
     // MARK: Properties
+    enum Section {
+        case main
+    }
+    
+    var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>?
+    var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
+    var count = 1
     
     private var cell = ListCollectionViewCell.identifier
     private var productsData: MarketInformation?
@@ -76,17 +83,15 @@ class MainViewController: UIViewController {
             wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
         
-        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: cell)
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        getProductList(pageNumber: 2, itemPerPage: 10)
+        self.snapshot.appendSections([.main])
+        getProductList(pageNumber: 1, itemPerPage: 20)
+        configureDataSource()
     }
     
     private func getProductList(pageNumber: Int, itemPerPage: Int) {
         let urlSession = URLSession(configuration: URLSessionConfiguration.default)
         let networkManger = NetworkManager(session: urlSession)
+        
         let queryItems = OpenMarketRequest().createQuery(of: String(pageNumber), with: String(itemPerPage))
         let request = OpenMarketRequest().requestProductList(queryItems: queryItems)
         
@@ -94,7 +99,20 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let data):
                 guard let productList = try? JSONDecoder().decode(MarketInformation.self, from: data) else { return }
-                self.productsData = productList
+                
+                self.snapshot.appendItems(productList.pages)
+                
+                DispatchQueue.main.sync {
+                    self.dataSource?.apply(self.snapshot, animatingDifferences: false)
+                }
+                
+                DispatchQueue.global().async {
+                    let next = productList.lastPage
+                    if self.count < next {
+                        self.getProductList(pageNumber: self.count, itemPerPage: 20)
+                        self.count += 1
+                    }
+                }
             case .failure(_):
                 DispatchQueue.main.async {
                     self.showNetworkError(message: NetworkError.outOfRange.message)
@@ -102,6 +120,28 @@ class MainViewController: UIViewController {
             }
         }
     }
+
+    func configureDataSource() {
+        
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
+            
+            guard let url = URL(string: product.thumbnail) else { return }
+            guard let imageData = try? Data(contentsOf: url) else { return }
+            
+            let image = UIImage(data: imageData)
+            
+            cell.productThumnail.image = image
+            cell.productName.text = product.name
+            cell.productPrice.text = String(product.price)
+            cell.productSalePrice.text = String(product.bargainPrice)
+            cell.productStockQuntity.text = String(product.stock)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+        }
+    }
+    
     @objc private func handleSegmentChange() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -153,17 +193,5 @@ class MainViewController: UIViewController {
         networkErrorMessage.addAction(okButton)
         
         present(networkErrorMessage, animated: true)
-    }
-}
-
-// MARK: Extension
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell, for: indexPath)
-        return cell
     }
 }
