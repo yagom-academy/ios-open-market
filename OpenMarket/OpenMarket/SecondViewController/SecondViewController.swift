@@ -10,6 +10,7 @@ import UIKit
 class SecondViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     
+    let numberFormatter = NumberFormatter()
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
     var productData: ProductListResponse?    
@@ -18,7 +19,13 @@ class SecondViewController: UIViewController {
         super.viewDidLoad()
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
+        settingNumberFormaatter()
         self.setData()
+    }
+    
+    func settingNumberFormaatter() {
+        numberFormatter.roundingMode = .floor
+        numberFormatter.numberStyle = .decimal
     }
     
     func setData() {
@@ -52,7 +59,9 @@ extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         let productStock = result.pages[indexPath.row].stock
-        
+        guard let priceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].price as NSNumber) else { return cell }
+        guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].discountedPrice as NSNumber) else { return cell }
+
         if productStock == 0 {
             cell.productStock.text = "품절"
             cell.productStock.textColor = .orange
@@ -62,19 +71,20 @@ extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
         
         if result.pages[indexPath.row].bargainPrice > 0 {
-            cell.productPrice.attributedText = cell.productPrice.text?.strikeThrough()
-            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].price)"
-            cell.productPrice.textColor = .systemRed
-            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].discountedPrice)"
-            cell.productDiscountPrice.textColor = .systemGray
+            cell.productDiscountPrice.attributedText = cell.productPrice.text?.strikeThrough()
+            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
+            cell.productDiscountPrice.textColor = .systemRed
+            
+            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(dicountedPriceNumberFormatter)"
+            cell.productPrice.textColor = .systemGray
         } else {
-            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].price)"
+            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
             cell.productPrice.textColor = .systemGray
         }
         
         cell.productImage.image = UIImage(data: imageData)
         cell.productName.text = result.pages[indexPath.row].name
-        
+
         cell.layer.borderWidth = 2
         cell.layer.cornerRadius = 20
         cell.layer.borderColor = UIColor.gray.cgColor

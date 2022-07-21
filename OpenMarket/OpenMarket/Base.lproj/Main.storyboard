@@ -141,7 +141,6 @@
                                                                         </label>
                                                                     </subviews>
                                                                     <constraints>
-                                                                        <constraint firstItem="FZy-wF-F30" firstAttribute="leading" secondItem="h1s-Vw-iCN" secondAttribute="trailing" id="75A-SL-Xjq"/>
                                                                         <constraint firstAttribute="trailing" secondItem="FZy-wF-F30" secondAttribute="trailing" id="7HH-nb-wZm"/>
                                                                         <constraint firstItem="h1s-Vw-iCN" firstAttribute="leading" secondItem="cWJ-Dd-tAK" secondAttribute="leading" id="Ri5-7W-0ur"/>
                                                                         <constraint firstItem="FZy-wF-F30" firstAttribute="top" secondItem="cWJ-Dd-tAK" secondAttribute="top" id="hna-Jg-ySm"/>
@@ -237,10 +236,10 @@
                                                     <rect key="frame" x="0.0" y="10" width="128" height="108"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cyY-HA-Agr">
-                                                            <rect key="frame" x="4" y="0.0" width="120" height="26"/>
+                                                            <rect key="frame" x="14" y="0.0" width="100" height="26"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="120" id="3aO-mg-kgP"/>
-                                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="120" id="psa-zp-8Bx"/>
+                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="3aO-mg-kgP"/>
+                                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="100" id="psa-zp-8Bx"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYX-vI-c7x">
@@ -269,6 +268,7 @@
                                                         </label>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="vFI-AY-4j0" firstAttribute="top" secondItem="gzg-Rj-Hfl" secondAttribute="bottom" id="Np0-2R-1OJ"/>
                                                         <constraint firstItem="LuB-Rh-HZb" firstAttribute="top" secondItem="UYX-vI-c7x" secondAttribute="bottom" id="NwZ-aK-Mgy"/>
                                                         <constraint firstItem="gzg-Rj-Hfl" firstAttribute="top" secondItem="LuB-Rh-HZb" secondAttribute="bottom" id="j4O-h2-ssA"/>
                                                     </constraints>

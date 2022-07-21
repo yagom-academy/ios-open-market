@@ -10,19 +10,25 @@ import UIKit
 class FirstViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     
+    let numberFormatter = NumberFormatter()
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
     var productData: ProductListResponse?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
-        
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
-
+        self.settingNumberFormaatter()
         self.setData()
+    }
+    
+    func settingNumberFormaatter() {
+        numberFormatter.roundingMode = .floor
+        numberFormatter.numberStyle = .decimal
     }
     
     func setData() {
@@ -46,7 +52,7 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+    
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FirstCollectionViewCell
 
         guard let result = productData,
@@ -57,7 +63,9 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.accessories = [.disclosureIndicator()]
 
         let productStock = result.pages[indexPath.row].stock
-        
+        guard let priceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].price as NSNumber) else { return cell }
+        guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].discountedPrice as NSNumber) else { return cell }
+
         if productStock == 0 {
             cell.productStock.text = "품절"
             cell.productStock.textColor = .orange
@@ -68,12 +76,12 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         if result.pages[indexPath.row].bargainPrice > 0 {
             cell.productPrice.attributedText = cell.productPrice.text?.strikeThrough()
-            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].price)"
+            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
             cell.productPrice.textColor = .systemRed
-            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].discountedPrice)"
+            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(dicountedPriceNumberFormatter)"
             cell.productDiscountPrice.textColor = .systemGray
         } else {
-            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(result.pages[indexPath.row].price)"
+            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
             cell.productPrice.textColor = .systemGray
         }
         
