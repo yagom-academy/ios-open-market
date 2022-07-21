@@ -15,6 +15,7 @@ class ListCollectionViewCell: UICollectionViewCell {
     let titleLabel = UILabel()
     let stockLabel = UILabel()
     let priceLabel = UILabel()
+    let spacingView = UIView()
     let discountedLabel = UILabel()
     let thumbnailView = UIImageView()
     
@@ -32,10 +33,11 @@ class ListCollectionViewCell: UICollectionViewCell {
         
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        priceStackView.translatesAutoresizingMaskIntoConstraints = false
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        priceStackView.translatesAutoresizingMaskIntoConstraints = false
+        spacingView.translatesAutoresizingMaskIntoConstraints = false
         discountedLabel.translatesAutoresizingMaskIntoConstraints = false
         
         verticalStackView.distribution = .equalSpacing
@@ -45,13 +47,13 @@ class ListCollectionViewCell: UICollectionViewCell {
         horizontalStackView.axis = .horizontal
         priceStackView.distribution = .fill
         priceStackView.axis = .horizontal
-        priceStackView.spacing = 6
         
         titleLabel.textAlignment = .left
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         stockLabel.textAlignment = .right
         priceLabel.setContentHuggingPriority(pricePriority, for: .horizontal)
         priceLabel.isHidden = true
+        spacingView.setContentHuggingPriority(pricePriority, for: .horizontal)
         discountedLabel.textAlignment = .left
         
         let image = UIImageView(image: UIImage(systemName: "chevron.right"))
@@ -66,6 +68,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         verticalStackView.addArrangedSubview(horizontalStackView)
         verticalStackView.addArrangedSubview(priceStackView)
         priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(spacingView)
         priceStackView.addArrangedSubview(discountedLabel)
         
         NSLayoutConstraint.activate([
@@ -83,15 +86,8 @@ class ListCollectionViewCell: UICollectionViewCell {
             
             accessoryView.heightAnchor.constraint(equalToConstant: 17),
             accessoryView.widthAnchor.constraint(equalTo: accessoryView.heightAnchor),
+            
+            spacingView.widthAnchor.constraint(equalToConstant: 6)
         ])
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        priceLabel.text = .none
-        discountedLabel.text = .none
-        priceLabel.textColor = .systemGray
-        priceLabel.attributedText = nil
     }
 }

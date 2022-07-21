@@ -113,7 +113,9 @@ extension MainViewController {
     
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Page> { (cell, indexPath, item) in
-            
+            cell.spacingView.isHidden = true
+            cell.priceLabel.text = .none
+            cell.priceLabel.attributedText = .none
             cell.titleLabel.text = "\(item.name)"
             cell.stockLabel.text = "잔여수량: \(item.stock)"
             cell.stockLabel.textColor = .systemGray
@@ -121,6 +123,7 @@ extension MainViewController {
             cell.discountedLabel.textColor = .systemGray
             
             if item.bargainPrice != 0 {
+                cell.spacingView.isHidden = false
                 cell.priceLabel.isHidden = false
                 cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
                 cell.priceLabel.textColor = .systemRed
@@ -151,10 +154,8 @@ extension MainViewController {
     }
 }
 //MARK: GridCollectionView
-
 extension MainViewController {
-    
-    func createGridLayout() -> UICollectionViewLayout {
+    private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -173,16 +174,17 @@ extension MainViewController {
         return layout
     }
     
-    func configureGridHierarchy() {
+    private func configureGridHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .systemBackground
         view.addSubview(collectionView)
     }
     
-    func configureGridDataSource() {
+    private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, Page> { (cell, indexPath, item) in
-            
+            cell.priceLabel.text = .none
+            cell.priceLabel.attributedText = .none
             cell.titleLabel.text = "\(item.name)"
             cell.stockLabel.text = "잔여수량: \(item.stock)"
             cell.stockLabel.textColor = .systemGray
