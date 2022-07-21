@@ -12,10 +12,10 @@ class MainViewController: UIViewController {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, Page>! = nil
+    var listDataSource: UICollectionViewDiffableDataSource<Section, Page>! = nil
+    var gridDataSource: UICollectionViewDiffableDataSource<Section, Page>! = nil
     var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
-    var listCollectionView: UICollectionView! = nil
-    var gridCollectionView: UICollectionView! = nil
+    var collectionView: UICollectionView! = nil
     let segment = UISegmentedControl(items: ["List", "Grid"])
     let manager = NetworkManager()
     
@@ -25,10 +25,11 @@ class MainViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.titleView = segment
         configureSegment()
-        configureListHierarchy()
-        configureListDataSource()
         configureGridHierarchy()
         configureGridDataSource()
+        configureListHierarchy()
+        configureListDataSource()
+        
     }
     
     private func getItemList() {
@@ -52,7 +53,8 @@ class MainViewController: UIViewController {
     private func makeSnapshot(itemData: ItemList) {
         snapshot.appendSections([.main])
         snapshot.appendItems(itemData.pages)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        listDataSource.apply(snapshot, animatingDifferences: false)
+        gridDataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
@@ -75,13 +77,11 @@ extension MainViewController {
         let selection = sender.selectedSegmentIndex
         switch selection {
         case 0:
-            listCollectionView.isHidden = false
-            gridCollectionView.isHidden = true
-            listCollectionView.reloadData()
+            collectionView.dataSource = listDataSource
+            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
         case 1:
-            listCollectionView.isHidden = true
-            gridCollectionView.isHidden = false
-            gridCollectionView.reloadData()
+            collectionView.dataSource = gridDataSource
+            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
         default:
             break
         }
@@ -90,16 +90,24 @@ extension MainViewController {
 //MARK: ListCollectionView
 extension MainViewController {
     private func createListLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(0.1))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
     }
     
     private func configureListHierarchy() {
-        listCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
-        listCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(listCollectionView)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(collectionView)
     }
     
     private func configureListDataSource() {
@@ -114,6 +122,8 @@ extension MainViewController {
                 cell.discountedLabel.isHidden = false
                 cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
                 cell.priceLabel.textColor = .systemRed
+                cell.layer.borderColor = UIColor.systemGray.cgColor
+                cell.layer.borderWidth = 0.2
                 
                 guard let priceText = cell.priceLabel.text else { return }
                 let attribute = NSMutableAttributedString(string: priceText)
@@ -132,7 +142,7 @@ extension MainViewController {
             cell.thumbnailView.image = UIImage(data: imageData)
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listCollectionView) {
+        listDataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Page) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
@@ -163,10 +173,10 @@ extension MainViewController {
     }
     
     func configureGridHierarchy() {
-        gridCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
-        gridCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        gridCollectionView.backgroundColor = .systemBackground
-        view.addSubview(gridCollectionView)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.backgroundColor = .systemBackground
+        view.addSubview(collectionView)
     }
     
     func configureGridDataSource() {
@@ -203,7 +213,7 @@ extension MainViewController {
             cell.layer.borderWidth = 1
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: gridCollectionView) {
+        gridDataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Page) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)

@@ -68,11 +68,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(discountedLabel)
         
-        let contentViewHeight = self.contentView.heightAnchor.constraint(equalToConstant: 100)
-        contentViewHeight.priority = .defaultHigh
-        
         NSLayoutConstraint.activate([
-            contentViewHeight,
                 
             thumbnailView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5),
             thumbnailView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
@@ -83,7 +79,10 @@ class ListCollectionViewCell: UICollectionViewCell {
             verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -15),
             verticalStackView.centerYAnchor.constraint(equalTo: thumbnailView.centerYAnchor),
             
-            stockLabel.trailingAnchor.constraint(equalTo: accessoryView.leadingAnchor, constant: -5)
+            stockLabel.trailingAnchor.constraint(equalTo: accessoryView.leadingAnchor, constant: -5),
+            
+            accessoryView.heightAnchor.constraint(equalToConstant: 17),
+            accessoryView.widthAnchor.constraint(equalTo: accessoryView.heightAnchor),
         ])
     }
 }
