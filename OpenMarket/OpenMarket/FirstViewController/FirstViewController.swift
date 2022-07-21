@@ -14,11 +14,11 @@ class FirstViewController: UIViewController {
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
     var productData: ProductListResponse?
-    lazy var activityIndicator: UIActivityIndicatorView = { // indicator가 사용될 때까지 인스턴스를 생성하지 않도록 lazy로 선언
+    lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center // indicator의 위치 설정
-        activityIndicator.style = UIActivityIndicatorView.Style.large // indicator의 스타일 설정, large와 medium이 있음
-        activityIndicator.startAnimating() // indicator 실행
+        activityIndicator.center = self.view.center
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         return activityIndicator
     }()
@@ -107,13 +107,5 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.productName.text = result.pages[indexPath.row].name
         cell.isSelected = false
         return cell
-    }
-}
-
-extension String {
-    func strikeThrough() -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: self)
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0,attributeString.length))
-        return attributeString
     }
 }
