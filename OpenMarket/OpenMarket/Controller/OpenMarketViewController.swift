@@ -22,15 +22,7 @@ final class OpenMarketViewController: UIViewController {
         
         return segmentedControl
     }()
-    
-    private var shouldHideListView: Bool? {
-        didSet {
-            guard let shouldHideListView = self.shouldHideListView else { return }
-            self.listCollectionView.isHidden = shouldHideListView
-            self.gridCollectionView.isHidden = !self.listCollectionView.isHidden
-        }
-    }
-    
+
     // MARK: - functions
     
     override func viewDidLoad() {
@@ -89,7 +81,16 @@ final class OpenMarketViewController: UIViewController {
     // MARK: - @objc functions
     
     @objc func segmentButtonDidTap(sender: UISegmentedControl) {
-        self.shouldHideListView = (sender.selectedSegmentIndex != 0)
+        switch sender.selectedSegmentIndex {
+        case 0:
+            listCollectionView.isHidden = false
+            gridCollectionView.isHidden = true
+        case 1:
+            listCollectionView.isHidden = true
+            gridCollectionView.isHidden = false
+        default:
+            break
+        }
     }
     
     @objc func productRegistrationButtonDidTap() {
