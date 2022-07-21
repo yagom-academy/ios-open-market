@@ -77,6 +77,13 @@ final class ListCollectionView: UICollectionView {
         listViewDataSource?.apply(snapshot, animatingDifferences: false)
     }
     
+    func deleteSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+        snapshot.deleteAllItems()
+        
+        listViewDataSource?.apply(snapshot, animatingDifferences: false)
+    }
+    
     // MARK: - image size
     
     private enum ImageSize {
