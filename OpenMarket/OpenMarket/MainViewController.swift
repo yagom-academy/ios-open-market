@@ -9,7 +9,6 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: - Instance Properties
     private let manager = NetworkManager()
-    
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var listLayout: UICollectionViewLayout? = nil
@@ -51,21 +50,17 @@ class MainViewController: UIViewController {
     }()
     
     private lazy var activitiIndicator: UIActivityIndicatorView = {
-        // Create an indicator.
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         activityIndicator.center = self.view.center
         activityIndicator.color = UIColor.red
-        // Also show the indicator even when the animation is stopped.
+        
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = UIActivityIndicatorView.Style.medium
-        // Start animation.
+        
         activityIndicator.stopAnimating()
         return activityIndicator
     }()
-    
-    
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -121,12 +116,6 @@ class MainViewController: UIViewController {
 }
 // MARK: - Modern Collection Create Layout
 extension MainViewController {
-    
-    //    private func createListLayout() -> UICollectionViewLayout {
-    //        let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-    //        return UICollectionViewCompositionalLayout.list(using: config)
-    //    }
-    
     private func createListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))

@@ -2,14 +2,13 @@
 //  CollectionViewListLayoutCell.swift
 //  OpenMarket
 //
-//  Created by 이원빈 on 2022/07/15.
+//  Created by 웡빙, 보리사랑 on 2022/07/15.
 //
 
 import UIKit
 
 class ListCell: UICollectionViewCell {
     
-    let numberFormatter = NumberFormatter()
     
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
@@ -82,10 +81,8 @@ class ListCell: UICollectionViewCell {
         return label
     }()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        numberFormatter.numberStyle = .decimal
         setupAddSubviews()
         setupConstraints()
         setupLayer()
@@ -115,11 +112,7 @@ class ListCell: UICollectionViewCell {
             productImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             productImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             productImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -10),
-//            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
-//            productImageView.widthAnchor.constraint(equalToConstant: 50),
-//            productImageView.heightAnchor.constraint(equalToConstant: 50),
-            
         ])
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
@@ -140,8 +133,6 @@ class ListCell: UICollectionViewCell {
         }
         self.productImageView.loadImage(url: url)
         self.productNameLabel.text = inputData.name
-//        let price = numberFormatter.string(from: NSNumber.init(value: inputData.price))
-//        self.productPriceLabel.text = "\(inputData.currency) " + (price ?? "")
         setupPriceLabel(currency: inputData.currency,
                         price: inputData.price,
                         bargainPrice: inputData.bargainPrice
@@ -152,15 +143,15 @@ class ListCell: UICollectionViewCell {
     
     private func setupPriceLabel(currency: Currency, price: Int, bargainPrice: Int) {
         let upperCurreny = currency.rawValue.uppercased()
-        if price == bargainPrice { // 할인 안함
-            let price = numberFormatter.string(from: NSNumber.init(value: price))
+        if price == bargainPrice {
+            let price = price.adoptDecimalStyle()
             self.productBargainPriceLabel.isHidden = true
-            self.productPriceLabel.text = "\(upperCurreny) " + (price ?? "")
-        } else { // 할인 됨
-            let price = numberFormatter.string(from: NSNumber.init(value: price))
-            let bargainPrice = numberFormatter.string(from: NSNumber.init(value: bargainPrice))
-            self.productPriceLabel.strikethrough(from: "\(upperCurreny) " + (price ?? "0"))
-            self.productBargainPriceLabel.text = " \(upperCurreny) " + (bargainPrice ?? "0")
+            self.productPriceLabel.text = "\(upperCurreny) " + price
+        } else {
+            let price = price.adoptDecimalStyle()
+            let bargainPrice = bargainPrice.adoptDecimalStyle()
+            self.productPriceLabel.strikethrough(from: "\(upperCurreny) " + price)
+            self.productBargainPriceLabel.text = " \(upperCurreny) " + bargainPrice
             self.productPriceLabel.textColor = .red
         }
     }
@@ -191,26 +182,5 @@ class ListCell: UICollectionViewCell {
         self.productPriceLabel.textColor = .lightGray
         self.productPriceLabel.attributedText = nil
         self.productBargainPriceLabel.isHidden = false
-    }
-}
-
-extension UIImageView {
-    
-    func loadImage(url: URL) {
-        do {
-            let data = try Data(contentsOf: url)
-            self.image = UIImage(data: data)
-        } catch {
-            fatalError("error")
-        }
-    }
-}
-
-extension UILabel {
-    func strikethrough(from text: String?) {
-        guard let text = text else { return }
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributedString.length))
-        self.attributedText = attributedString
     }
 }
