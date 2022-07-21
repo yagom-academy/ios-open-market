@@ -32,7 +32,7 @@ class MainViewController: UIViewController {
     }
     
     private func getItemList() {
-        manager.getItemList(pageNumber: 1, itemsPerPage: 10) { [self] result in
+        manager.getItemList(pageNumber: 1, itemsPerPage: 100) { [self] result in
             switch result {
             case .success(let data):
                 guard let data = data,
@@ -149,7 +149,7 @@ extension MainViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(44))
+                                               heightDimension: .fractionalHeight(0.3))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let spacing = CGFloat(10)
         group.interItemSpacing = .fixed(spacing)
@@ -198,7 +198,9 @@ extension MainViewController {
             guard let url = URL(string: item.thumbnail),
                   let imageData = try? Data(contentsOf: url) else { return }
             cell.itemImageView.image = UIImage(data: imageData)
-            
+            cell.layer.cornerRadius = 10.0
+            cell.layer.borderColor = UIColor.systemGray.cgColor
+            cell.layer.borderWidth = 1
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: gridCollectionView) {
