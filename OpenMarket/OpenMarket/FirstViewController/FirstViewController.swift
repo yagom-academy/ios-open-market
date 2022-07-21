@@ -9,7 +9,7 @@ import UIKit
 
 class FirstViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
-
+    
     let jsonParser = JSONParser()
     let URLSemaphore = DispatchSemaphore(value: 0)
     var productData: ProductListResponse?

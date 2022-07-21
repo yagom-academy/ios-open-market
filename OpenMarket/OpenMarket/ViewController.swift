@@ -15,6 +15,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        segmentSwitch.selectedSegmentTintColor = .systemBlue
+        segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        segmentSwitch.layer.borderWidth = 1
+        segmentSwitch.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
     @IBAction func switchView(_ sender: UISegmentedControl) {
