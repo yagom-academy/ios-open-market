@@ -14,11 +14,9 @@ struct ProductsRequest: APIRequest {
         URLHost.openMarket.url + path.value
     }
     var headers: [String : String]?
-    var query: [URLQueryItem]? {
-        [
-            URLQueryItem(name: Product.page.text, value: "\(Product.page.number)"),
-            URLQueryItem(name: Product.itemPerPage.text, value: "\(Product.itemPerPage.number)")
-        ]
+    var query: [String: String]? {
+        [Product.page.text:  "\(Product.page.number)",
+       Product.itemPerPage.text: "\(Product.itemPerPage.number)"]
     }
     var body: Data?
 }
