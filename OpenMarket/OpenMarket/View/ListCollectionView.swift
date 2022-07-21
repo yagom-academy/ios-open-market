@@ -8,6 +8,12 @@
 import UIKit
 
 final class ListCollectionView: UICollectionView {
+    // MARK: - image size
+    enum ImageSize {
+        static let width = 70
+        static let height = 70
+    }
+    
     // MARK: - properties
     
     private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
@@ -16,13 +22,13 @@ final class ListCollectionView: UICollectionView {
         var content = cell.defaultContentConfiguration()
         content.text = item.name
         content.image = item.setThumbnailImage()
-        content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
+        content.imageProperties.maximumSize = CGSize(width: ImageSize.width, height: ImageSize.height)
         content.secondaryAttributedText = item.setPriceText()
         
         let accessory = UICellAccessory.disclosureIndicator()
         var stockAccessory = UICellAccessory.disclosureIndicator()
         
-        if item.stock == 0 {
+        if item.stock == .zero {
             let text = PriceText.soldOut.text
             stockAccessory = UICellAccessory.label(
                 text: text,

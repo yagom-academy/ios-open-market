@@ -43,9 +43,7 @@ final class OpenMarketViewController: UIViewController {
                     self.showSpinner(on: self.view)
                 }
                 
-                (0..<Product.itemPerPage.number).forEach {
-                    self.productsList.append(success.pages[$0])
-                }
+                success.pages.forEach { self.productsList.append($0) }
                 
                 self.gridCollectionView.configureSnapshot(productsList: self.productsList)
                 self.listCollectionView.configureSnapshot(productsList: self.productsList)
@@ -63,22 +61,22 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(LayoutSize.fractionalWidth),
+                                              heightDimension: .fractionalHeight(LayoutSize.fractionalHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(self.view.frame.height * 0.3))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(GroupSize.fractionalWidth),
+                                               heightDimension: .absolute(self.view.frame.height * GroupSize.frameHeightRatio))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item, count: 2)
-        group.interItemSpacing = .fixed(20)
+                                                       subitem: item, count: GroupSize.groupCount)
+        group.interItemSpacing = .fixed(LayoutSize.interItemSpacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = CGFloat(10)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 5,
-                                                        leading: 5,
-                                                        bottom: 5,
-                                                        trailing: 5)
+        section.interGroupSpacing = CGFloat(GroupSize.interGroupSpacing)
+        section.contentInsets = NSDirectionalEdgeInsets(top: GroupSize.topEdgeInset,
+                                                        leading: GroupSize.leadingEdgeInset,
+                                                        bottom: GroupSize.bottomEdgeInset,
+                                                        trailing: GroupSize.trailingEdgeInset)
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -109,7 +107,8 @@ final class OpenMarketViewController: UIViewController {
 extension OpenMarketViewController {
     private func showSpinner(on view : UIView) {
         let spinnerView = UIView.init(frame: view.bounds)
-        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        spinnerView.backgroundColor = .systemGray
+        spinnerView.alpha = BackgroundColor.alpha
         let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
         activityIndicatorView.startAnimating()
         activityIndicatorView.center = spinnerView.center
@@ -124,4 +123,34 @@ extension OpenMarketViewController {
         self.loadingView?.removeFromSuperview()
         self.loadingView = nil
     }
+}
+
+// MARK: - Design
+// MARK: - LayoutSize
+
+enum LayoutSize {
+    static let fractionalWidth = 1.0
+    static let fractionalHeight = 1.0
+    static let interItemSpacing = 20.0
+    static let topEdgeInset = 5
+    static let leadingEdgeInset = 5
+    static let bottomEdgeInset = 5
+    static let trailingEdgeInset = 5
+}
+
+enum GroupSize {
+    static let fractionalWidth = 1.0
+    static let frameHeightRatio = 0.3
+    static let groupCount = 2
+    static let interGroupSpacing = 10
+    static let topEdgeInset = 5.0
+    static let leadingEdgeInset = 5.0
+    static let bottomEdgeInset = 5.0
+    static let trailingEdgeInset = 5.0
+}
+
+// MARK: - Color Literal
+
+enum BackgroundColor {
+    static let alpha = 0.5
 }
