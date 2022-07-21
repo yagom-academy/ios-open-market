@@ -82,7 +82,6 @@ class MainViewController: UIViewController {
             self.activitiIndicator.startAnimating()
         }
         self.view.backgroundColor = .systemBackground
-        activitiIndicator.startAnimating()
     }
     
     private func addUIComponents() {
