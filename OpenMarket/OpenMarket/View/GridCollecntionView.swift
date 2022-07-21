@@ -51,4 +51,11 @@ final class GridCollecntionView: UICollectionView {
         
         gridViewDataSource?.apply(snapshot, animatingDifferences: false)
     }
+    
+    func deleteSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+        snapshot.deleteAllItems()
+        
+        gridViewDataSource?.apply(snapshot, animatingDifferences: false)
+    }
 }

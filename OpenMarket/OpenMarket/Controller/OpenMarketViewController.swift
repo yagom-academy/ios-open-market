@@ -10,7 +10,6 @@ final class OpenMarketViewController: UIViewController {
     // MARK: - properties
     
     private var loadingView : UIView?
-    private var productsList = [ProductDetail]()
     private let listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
     private lazy var listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
     lazy var listCollectionView = ListCollectionView(frame: .zero, collectionViewLayout: listLayout)
@@ -28,8 +27,23 @@ final class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        self.showSpiner()
+        self.configureRefreshControl()
         self.fetchData()
         self.setUI()
+    }
+    
+    private func showSpiner() {
+        DispatchQueue.main.async {
+            self.showSpinner(on: self.view)
+        }
+    }
+    
+    private func configureRefreshControl() {
+        listCollectionView.refreshControl = UIRefreshControl()
+        gridCollectionView.refreshControl = UIRefreshControl()
+        listCollectionView.refreshControl?.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+        gridCollectionView.refreshControl?.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
     }
     
     private func fetchData() {
@@ -39,19 +53,15 @@ final class OpenMarketViewController: UIViewController {
             (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
-                DispatchQueue.main.async {
-                    self.showSpinner(on: self.view)
-                }
-                
-                success.pages.forEach { self.productsList.append($0) }
-                
-                self.gridCollectionView.configureSnapshot(productsList: self.productsList)
-                self.listCollectionView.configureSnapshot(productsList: self.productsList)
+                self.gridCollectionView.configureSnapshot(productsList: success.pages)
+                self.listCollectionView.configureSnapshot(productsList: success.pages)
                 
                 DispatchQueue.main.async {
+                    guard let loadingView = self.loadingView,
+                          loadingView.isHidden == false
+                    else { return }
                     self.removeSpinner()
                 }
-                
                 
             case .failure(let error):
                 print(error)
@@ -95,6 +105,14 @@ final class OpenMarketViewController: UIViewController {
     @objc func productRegistrationButtonDidTap() {
         print("productRegistrationButtonDidTapped")
     }
+    
+    @objc private func refresh() {
+        self.listCollectionView.deleteSnapshot()
+        self.gridCollectionView.deleteSnapshot()
+        self.fetchData()
+        self.listCollectionView.refreshControl?.endRefreshing()
+        self.gridCollectionView.refreshControl?.endRefreshing()
+    }
 }
 
 // MARK: - extensions
@@ -120,7 +138,7 @@ extension OpenMarketViewController {
     }
     
     // MARK: - Design
-
+    
     private enum Design {
         static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                      heightDimension: .fractionalHeight(1.0))
@@ -131,8 +149,8 @@ extension OpenMarketViewController {
         static let interItemSpacing = 20.0
         static let interGroupSpacing = 10
         static let contentEdgeInsets = NSDirectionalEdgeInsets(top: 5.0,
-                                                             leading: 5.0,
-                                                             bottom: 5.0,
-                                                             trailing: 5.0)
+                                                               leading: 5.0,
+                                                               bottom: 5.0,
+                                                               trailing: 5.0)
     }
 }
