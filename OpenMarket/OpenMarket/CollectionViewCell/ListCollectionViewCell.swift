@@ -11,32 +11,32 @@ class ListCollectionViewCell: UICollectionViewCell {
     static let identifier = "ListCell"
     
     // MARK: Properties
-    private let productThumnail: UIImageView = {
+    let productThumnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    private let productName: UILabel = {
+    let productName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let productPrice: UILabel = {
+    let productPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let productSalePrice: UILabel = {
+    let productSalePrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let productStockQuntity: UILabel = {
+    let productStockQuntity: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -63,7 +63,8 @@ class ListCollectionViewCell: UICollectionViewCell {
     private let preStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
+        stackView.spacing = 50
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -74,8 +75,8 @@ class ListCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(preStackView)
         setStackView()
         setConstraints()
-        
     }
+    
     required init?(coder: NSCoder) {
         fatalError("not implemented")
     }
