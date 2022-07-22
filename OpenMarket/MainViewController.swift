@@ -120,7 +120,7 @@ class MainViewController: UIViewController {
             }
         }
     }
-
+    
     func configureDataSource() {
         
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
@@ -129,11 +129,10 @@ class MainViewController: UIViewController {
             guard let imageData = try? Data(contentsOf: url) else { return }
             
             let image = UIImage(data: imageData)
+            self.showPrice(priceLabel: cell.productPrice, bargainPriceLabel: cell.productSalePrice, product: product)
             
             cell.productThumnail.image = image
             cell.productName.text = product.name
-            cell.productPrice.text = String(product.price)
-            cell.productSalePrice.text = String(product.bargainPrice)
             cell.productStockQuntity.text = String(product.stock)
         }
         
@@ -152,6 +151,19 @@ class MainViewController: UIViewController {
             collectionView.setCollectionViewLayout(createGrideLayout(), animated: true)
             cell = GridCollectionViewCell.identifier
             return
+        }
+    }
+    
+    private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
+        priceLabel.text = "\(product.currency) \(product.price)"
+        if product.bargainPrice == 0.0 {
+            priceLabel.textColor = .systemGray
+            bargainPriceLabel.isHidden = true
+        } else {
+            priceLabel.textColor = .systemRed
+            priceLabel.attributedText = priceLabel.text?.strikeThrough()
+            bargainPriceLabel.text = "\(product.currency) \(product.price)"
+            bargainPriceLabel.textColor = .systemGray
         }
     }
     

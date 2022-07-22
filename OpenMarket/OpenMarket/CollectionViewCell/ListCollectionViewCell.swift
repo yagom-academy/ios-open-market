@@ -136,4 +136,8 @@ class ListCollectionViewCell: UICollectionViewListCell {
             totalStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
         ])
     }
+    
+    override func prepareForReuse() {
+        productPrice.attributedText = nil
+    }
 }
