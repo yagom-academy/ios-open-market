@@ -10,34 +10,91 @@ final class OpenMarketViewController: UIViewController {
     // MARK: - properties
     
     private var loadingView : UIView?
-    private let listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
-    private lazy var listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
-    lazy var listCollectionView = ListCollectionView(frame: .zero, collectionViewLayout: listLayout)
-    lazy var gridCollectionView = GridCollecntionView(frame: .null, collectionViewLayout: createGridLayout())
+    private let listCollectionView: ListCollectionView = {
+        let listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+        let listCollectionView = ListCollectionView(frame: .zero,
+                                                    collectionViewLayout: listLayout)
+        return listCollectionView
+    }()
     
-    let segmentedControl: UISegmentedControl = {
+    lazy var gridCollectionView = GridCollecntionView(frame: .null,
+                                                      collectionViewLayout: createGridLayout())
+    
+    private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["List", "Grid"])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         
         return segmentedControl
     }()
     
-    // MARK: - functions
-    
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        self.showSpiner()
         self.configureRefreshControl()
         self.fetchData()
         self.setUI()
     }
     
-    private func showSpiner() {
-        DispatchQueue.main.async {
-            self.showSpinner(on: self.view)
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.showSpinner(on: self.view)
     }
+    
+    //MARK: - View layout functions
+    
+    private func setUI(){
+        self.setSubviews()
+        self.setNavigationController()
+        self.setSegmentedControl()
+        self.setListViewConstraints()
+        self.setGridViewConstraints()
+    }
+    
+    private func setSubviews() {
+        self.view.addSubview(self.segmentedControl)
+        self.view.addSubview(self.gridCollectionView)
+        self.view.addSubview(self.listCollectionView)
+    }
+    
+    private func setNavigationController() {
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.topItem?.titleView = segmentedControl
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItem
+        = UIBarButtonItem(image: UIImage(systemName: Design.plusButton),
+                          style: .plain,
+                          target: self,
+                          action: #selector(productRegistrationButtonDidTap))
+    }
+    
+    private func setSegmentedControl() {
+        self.segmentedControl.addTarget(self,
+                                        action: #selector(segmentButtonDidTap(sender:)),
+                                        for: .valueChanged)
+        self.segmentedControl.selectedSegmentIndex = 0
+        
+    }
+    
+    private func setListViewConstraints() {
+        NSLayoutConstraint.activate([
+            self.listCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.listCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.listCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+        ])
+    }
+    
+    private func setGridViewConstraints() {
+        NSLayoutConstraint.activate([
+            self.gridCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.gridCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.gridCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+        ])
+    }
+    
+    // MARK: - functions
     
     private func configureRefreshControl() {
         listCollectionView.refreshControl = UIRefreshControl()
@@ -87,37 +144,6 @@ final class OpenMarketViewController: UIViewController {
         return layout
     }
     
-    // MARK: - @objc functions
-    
-    @objc func segmentButtonDidTap(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            listCollectionView.isHidden = false
-            gridCollectionView.isHidden = true
-        case 1:
-            listCollectionView.isHidden = true
-            gridCollectionView.isHidden = false
-        default:
-            break
-        }
-    }
-    
-    @objc func productRegistrationButtonDidTap() {
-        print("productRegistrationButtonDidTapped")
-    }
-    
-    @objc private func refresh() {
-        self.listCollectionView.deleteSnapshot()
-        self.gridCollectionView.deleteSnapshot()
-        self.fetchData()
-        self.listCollectionView.refreshControl?.endRefreshing()
-        self.gridCollectionView.refreshControl?.endRefreshing()
-    }
-}
-
-// MARK: - extensions
-
-extension OpenMarketViewController {
     private func showSpinner(on view : UIView) {
         let spinnerView = UIView.init(frame: view.bounds)
         spinnerView.backgroundColor = .systemGray
@@ -137,20 +163,50 @@ extension OpenMarketViewController {
         self.loadingView = nil
     }
     
-    // MARK: - Design
+    // MARK: - @objc functions
     
-    private enum Design {
-        static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                     heightDimension: .fractionalHeight(1.0))
-        static let spinnerViewAlpha = 0.5
-        static let groupFractionalWidth = 1.0
-        static let groupFrameHeightRatio = 0.3
-        static let groupCount = 2
-        static let interItemSpacing = 20.0
-        static let interGroupSpacing = 10
-        static let contentEdgeInsets = NSDirectionalEdgeInsets(top: 5.0,
-                                                               leading: 5.0,
-                                                               bottom: 5.0,
-                                                               trailing: 5.0)
+    @objc private func segmentButtonDidTap(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            listCollectionView.isHidden = false
+            gridCollectionView.isHidden = true
+        case 1:
+            listCollectionView.isHidden = true
+            gridCollectionView.isHidden = false
+        default:
+            break
+        }
+    }
+    
+    @objc private func productRegistrationButtonDidTap() {
+        print("productRegistrationButtonDidTapped")
+    }
+    
+    @objc private func refresh() {
+        self.listCollectionView.deleteSnapshot()
+        self.gridCollectionView.deleteSnapshot()
+        self.fetchData()
+        self.listCollectionView.refreshControl?.endRefreshing()
+        self.gridCollectionView.refreshControl?.endRefreshing()
     }
 }
+
+
+// MARK: - Design
+
+private enum Design {
+    static let plusButton = "plus"
+    static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                 heightDimension: .fractionalHeight(1.0))
+    static let spinnerViewAlpha = 0.5
+    static let groupFractionalWidth = 1.0
+    static let groupFrameHeightRatio = 0.3
+    static let groupCount = 2
+    static let interItemSpacing = 20.0
+    static let interGroupSpacing = 10
+    static let contentEdgeInsets = NSDirectionalEdgeInsets(top: 5.0,
+                                                           leading: 5.0,
+                                                           bottom: 5.0,
+                                                           trailing: 5.0)
+}
+
