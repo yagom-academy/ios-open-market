@@ -8,7 +8,13 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    lazy var loadingView: UIActivityIndicatorView = {
+    enum Section {
+        case main
+    }
+    
+    // MARK: Properties
+    
+    private lazy var loadingView: UIActivityIndicatorView = {
         let lodingview = UIActivityIndicatorView()
         lodingview.center = self.view.center
         lodingview.startAnimating()
@@ -17,17 +23,12 @@ class MainViewController: UIViewController {
         return lodingview
     }()
     
-    // MARK: Properties
-    enum Section {
-        case main
-    }
-    
-    lazy var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>? = configureListDataSource()
-    var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
-    var count = 1
+    private lazy var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>? = configureListDataSource()
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
+    private var count = 1
     
     private lazy var segmentedControl: UISegmentedControl = {
-        let segment = UISegmentedControl(items: ["LIST", "GRID"])
+        let segment = UISegmentedControl(items: [CollectionViewNamespace.list.name, CollectionViewNamespace.grid.name])
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
@@ -42,7 +43,7 @@ class MainViewController: UIViewController {
     private let addedButton: UIButton = {
         let button = UIButton()
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
-        let image = UIImage(systemName: "plus", withConfiguration: configuration)
+        let image = UIImage(systemName: CollectionViewNamespace.plus.name, withConfiguration: configuration)
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -79,27 +80,37 @@ class MainViewController: UIViewController {
     }()
     
     // MARK: View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(wholeComponentStackView)
+        view.addSubview(loadingView)
+        
+        setStackView()
+        setConstraint()
+        
+        dataSource = configureListDataSource()
+        self.snapshot.appendSections([.main])
+        getProductList(pageNumber: 1, itemPerPage: 20)
+    }
+    
+    // MARK: Method
+    
+    private func setStackView() {
         wholeComponentStackView.addArrangedSubview(topStackView)
         wholeComponentStackView.addArrangedSubview(collectionView)
         
         topStackView.addArrangedSubview(segmentedControl)
         topStackView.addArrangedSubview(addedButton)
-        
+    }
+    
+    private func setConstraint() {
         NSLayoutConstraint.activate([
             wholeComponentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             wholeComponentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             wholeComponentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
-        
-        view.addSubview(loadingView)
-        
-        dataSource = configureListDataSource()
-        self.snapshot.appendSections([.main])
-        getProductList(pageNumber: 1, itemPerPage: 20)
     }
     
     private func getProductList(pageNumber: Int, itemPerPage: Int) {
@@ -128,7 +139,6 @@ class MainViewController: UIViewController {
                         self.count += 1
                     }
                 }
-                
             case .failure(_):
                 DispatchQueue.main.async {
                     self.showNetworkError(message: NetworkError.outOfRange.message)
