@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+class ListCollectionViewCell: UICollectionViewListCell {
     static let identifier = "ListCell"
     
     // MARK: Properties
@@ -20,6 +20,8 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     let productName: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -42,7 +44,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let priceStackView: UIStackView = {
+    private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .leading
         stackView.distribution = .fill
@@ -51,20 +53,38 @@ class ListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let productStackView: UIStackView = {
+    private let upperStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let downStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private let preStackView: UIStackView = {
+    private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 50
+        stackView.spacing = 10
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -72,9 +92,12 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(preStackView)
+        contentView.addSubview(imageStackView)
+        contentView.addSubview(totalStackView)
         setStackView()
         setConstraints()
+        
+        self.accessories = [.disclosureIndicator()]
     }
     
     required init?(coder: NSCoder) {
@@ -82,23 +105,35 @@ class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setStackView() {
-        preStackView.addArrangedSubview(productThumnail)
-        preStackView.addArrangedSubview(productStackView)
-        preStackView.addArrangedSubview(productStockQuntity)
+        imageStackView.addArrangedSubview(productThumnail)
+        totalStackView.addArrangedSubview(labelStackView)
         
-        productStackView.addArrangedSubview(productName)
-        productStackView.addArrangedSubview(priceStackView)
+        labelStackView.addArrangedSubview(upperStackView)
+        labelStackView.addArrangedSubview(downStackView)
         
-        priceStackView.addArrangedSubview(productPrice)
-        priceStackView.addArrangedSubview(productSalePrice)
+        upperStackView.addArrangedSubview(productName)
+        upperStackView.addArrangedSubview(productStockQuntity)
+        
+        downStackView.addArrangedSubview(productPrice)
+        downStackView.addArrangedSubview(productSalePrice)
+        
+        productName.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
+        productStockQuntity.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        productPrice.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            preStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            preStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            preStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            preStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+            imageStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            imageStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            imageStackView.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
+            imageStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 100),
+            imageStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            
+            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            totalStackView.bottomAnchor.constraint(equalTo: imageStackView.bottomAnchor),
+            totalStackView.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: 5),
+            totalStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
         ])
     }
 }
