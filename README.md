@@ -1,4 +1,4 @@
-# 오픈 마켓
+# 오픈 마켓 READE.md
 
 ## 프로젝트 저장소
 > 프로젝트 기간: 2022-07-11 ~ 2022-07-22</br>
@@ -27,62 +27,89 @@
 
 
 ## 프로젝트 소개
-- REST_API를 이용하여 서버와 통신하여 Data를 관리하는 오픈 마켓 프로젝트
-    
-## UML  
+-  URL Session을 활용한 서버와의 통신을 통해 전달받은 JSON 데이터와 매핑할 모델을 활용
+-  Modern CollectionView를 이용해 List, Grid 방식으로 마켓의 물품을 표시하도록 구현
+## UML
 ### [ClassDiagram]
-![](https://i.imgur.com/tUyiMcO.png)
+![](https://i.imgur.com/oAYPB70.jpg)
 
 ## 폴더 구조
 ```
-  ├── OpenMarket
-  │   ├── Model
-  │   │   ├── Error
-  │   │   │   ├── CodableError.swift
-  │   │   │   ├── DataError.swift
-  │   │   │   └── NetworkError.swift
-  │   │   ├── JSONModel
-  │   │   │   ├── Currency.swift
-  │   │   │   ├── ProductDetail.swift
-  │   │   │   ├── ProductImage.swift
-  │   │   │   ├── ProductsDetailList.swift
-  │   │   │   ├── ProductsList.swift
-  │   │   │   ├── RegisterationProduct.swift
-  │   │   │   └── SecretProducts.swift
-  │   │   └── Network
-  │   │       ├── APIRequest.swift
-  │   │       ├── MyURLSession.swift
-  │   │       └── SessionProtocol.swift
-  │   ├── View
-  │   │    ├── LaunchScreen.storyboard
-  │   │    └── Main.storyboard              
-  │   ├── Controller
-  │   │    └── ViewController   
-  │   ├── Resources
-  │   │    ├── AppDelegate.swift
-  │   │    ├── Assets.xcassets
-  │   │    ├── Info.plist
-  │   │    └── SceneDelegate.swift
-  │   ├── TestDouble
-  │   │   └── MockSession.swift
-  │   │
-  │   └── OpenMarketTests
-  │       ├── ParsingTests.swift
-  │       └── RequestTests.swift
-  └── README.md
+├── OpenMarket
+│   ├── OpenMarket
+│   │   ├── Controller
+│   │   │   ├── OpenMarketViewController+extension.swift
+│   │   │   └── OpenMarketViewController.swift
+│   │   ├── Model
+│   │   │   ├── Data
+│   │   │   │   └── ProductsRequest.swift
+│   │   │   ├── Enum
+│   │   │   │   ├── NameSpace.swift
+│   │   │   │   └── Section.swift
+│   │   │   ├── Error
+│   │   │   │   ├── CodableError.swift
+│   │   │   │   ├── DataError.swift
+│   │   │   │   └── NetworkError.swift
+│   │   │   ├── Extension
+│   │   │   │   └── Int+extension.swift
+│   │   │   ├── JSONModel
+│   │   │   │   ├── Currency.swift
+│   │   │   │   ├── ProductDetail.swift
+│   │   │   │   ├── ProductImage.swift
+│   │   │   │   ├── ProductsDetailList.swift
+│   │   │   │   ├── ProductsList.swift
+│   │   │   │   ├── RegisterationProduct.swift
+│   │   │   │   └── SecretProducts.swift
+│   │   │   └── Network
+│   │   │       ├── APIRequest.swift
+│   │   │       ├── MyURLSession.swift
+│   │   │       └── SessionProtocol.swift
+│   │   ├── Resources
+│   │   │   ├── AppDelegate.swift
+│   │   │   ├── Assets.xcassets
+│   │   │   │   └── MockData.dataset
+│   │   │   │       ├── Contents.json
+│   │   │   │       └── MockData.json
+│   │   │   ├── Info.plist
+│   │   │   └── SceneDelegate.swift
+│   │   ├── TestDouble
+│   │   │   └── MockSession.swift
+│   │   └── View
+│   │       ├── LaunchScreen.storyboard
+│   │       ├── GridCollecntionView.swift
+│   │       ├── GridCollectionViewCell.swift
+│   │       └── ListCollectionView.swift
+│   └── OpenMarketTests
+│       ├── ParsingTests.swift
+│       └── RequestTests.swift
+└── README.md
 ```
 
 
 ## 구현내용  
-<!-- ||||
-|:---:|:---:|:---:|
-|<img src = "" width="200" height="500">    |<img src = "" width="200" height="500">|<img src = "" width="200" height="500">| -->
+|||
+|:---:|:---:|
+|레이아웃 변경 화면|화면 스크롤|
+| <img src = "https://i.imgur.com/M2Ibdfr.gif" width="300" height="600">| <img src = "https://i.imgur.com/ZEAimHs.gif" width="300" height="600"> |
+|리스트 화면 새로고침|그리드 화면 새로고침|
+| <img src = "https://i.imgur.com/FKL66Mi.gif" width="300" height="600">| <img src = "https://i.imgur.com/07Ew7QU.gif" width="300" height="600"> |
+
+
 ## 키워드
 - JSON Decoder
 - URLSession
 - MockSession
 - Unit Test
 - Asynchronous Tests
+- Collection View
+- Mordern Collection View
+- Compositional Layout
+- List Configuration
+- UISegmentedControl
+- UIActivityIndicatorView
+- UICollectionViewDiffableDataSource
+- NSMutableAttributedString
+- asynchronous data fetching
 ## 참고문서
 - [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
     - [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
@@ -91,10 +118,15 @@
     - [Lists in UICollectionView](https://developer.apple.com/videos/play/wwdc2020/10026)
     - [Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
 ## 핵심경험
-- 프로토콜을 이용하여 네트워크 구성을 파악하고 추상화 하는 경험을 할 수 있었다.
-- 네트워크가 없는 상황에서 Unit Test를 위하여 MockSession Test 구현해서 테스트하는 경험을 할 수 있었다.
-- URLSession을 위한 MyURLsession을 구현해서 실제 서버와의 통신을 통해 데이터를 받아오는 경험을 할 수 있었다.
-- JSONParsing을 통해 JSON 파일을 데이터로 불러오는 경험을 할 수 있엇다.
+- [x] 프로토콜을 이용하여 네트워크 구성을 파악하고 추상화 하는 경험을 할 수 있었다.
+- [x] 네트워크가 없는 상황에서 Unit Test를 위하여 MockSession Test 구현해서 테스트하는 경험을 할 수 있었다.
+- [x] URLSession을 위한 네트워크 타입을 구현해서 실제 서버와의 통신을 통해 데이터를 받아오는 경험을 할 수 있었다.
+- [x] JSONParsing을 통해 JSON 파일을 데이터로 불러오는 경험을 할 수 있었다.
+- [x] Modern CollectionView를 활용하여 뷰를 구성하는 경험을 할 수 있었다.
+- [x] SegmentedControl을 활용하여 뷰의 내용을 실시간으로 변경하는 경험을 할 수 있었다.
+- [x] UIActivityIndicatorView를 활용하여 로딩화면을 구현하는 경험을 할 수 있었다.
+- [x] UIRefreshControl을 활용하여 화면의 데이터를 변경하는 새로고침 하는 기능을 구현하는 경험을 할 수 있었다.
+- [x] 데이터 비동기 처리를 통한 앱 성능 최적화 경험을 할 수 있었다.
 ## 기능설명
 ### Network
 - **`네트워크 통신을 하는데 필요한 타입들 구현`**
@@ -128,3 +160,13 @@
 - **`OpenMarket 모듈들의 Unit Test를 위한 타입 구현`**
     - ParsingTests
     - RequestTests
+### UICollectionView
+- **`데이터를 표시하는 컬렉션 뷰`**
+    - Mordern Collection View 방식의 List Configuration을 활용한 List layout 컬렉션 뷰
+    - Mordern Collection View 방식의 Compositional Layout 활용한 Grid layout 컬렉션 뷰
+### UISegmentedControl
+- **`UISegmentedControl을 통한 화면 전환`**
+### UIActivityIndicatorView
+- **`로딩 상태를 나타내기 위한 비동기식 뷰 구현`**
+### UIRefreshControl
+- **`데이터의 새로고침 기능을 구현하기 위한 UIRefreshControl 사용`**
