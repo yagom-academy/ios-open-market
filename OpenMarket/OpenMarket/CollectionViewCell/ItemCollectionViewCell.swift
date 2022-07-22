@@ -1,5 +1,5 @@
 //
-//  ListCollectionViewCell.swift
+//  ItemCollectionViewCell.swift
 //  OpenMarket
 //
 //  Created by unchain, hyeon2 on 2022/07/20.
@@ -7,10 +7,9 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewListCell {
-    static let identifier = "ListCell"
+class ItemCollectionViewCell: UICollectionViewListCell {
     
-    // MARK: Properties
+    // MARK: Common
     let productThumnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
@@ -44,6 +43,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
+    // MARK: ListView
     private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .leading
@@ -81,7 +81,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    private let totalStackView: UIStackView = {
+    private let totalListStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .fill
@@ -91,23 +91,9 @@ class ListCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(imageStackView)
-        contentView.addSubview(totalStackView)
-        setStackView()
-        setConstraints()
-        
-        self.accessories = [.disclosureIndicator()]
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("not implemented")
-    }
-    
-    private func setStackView() {
+    private func setListStackView() {
         imageStackView.addArrangedSubview(productThumnail)
-        totalStackView.addArrangedSubview(labelStackView)
+        totalListStackView.addArrangedSubview(labelStackView)
         
         labelStackView.addArrangedSubview(upperStackView)
         labelStackView.addArrangedSubview(downStackView)
@@ -123,7 +109,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         productPrice.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
     }
     
-    private func setConstraints() {
+    private func setListConstraints() {
         NSLayoutConstraint.activate([
             imageStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             imageStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
@@ -131,11 +117,59 @@ class ListCollectionViewCell: UICollectionViewListCell {
             imageStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 80),
             imageStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             
-            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            totalStackView.bottomAnchor.constraint(equalTo: imageStackView.bottomAnchor),
-            totalStackView.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: 5),
-            totalStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
+            totalListStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            totalListStackView.bottomAnchor.constraint(equalTo: imageStackView.bottomAnchor),
+            totalListStackView.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: 5),
+            totalListStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
         ])
+    }
+    
+    // MARK: GridView
+    
+    private let totalGridStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private func setGridStackView() {
+        totalGridStackView.addArrangedSubview(productThumnail)
+        totalGridStackView.addArrangedSubview(productName)
+        totalGridStackView.addArrangedSubview(productPrice)
+        totalGridStackView.addArrangedSubview(bargainPrice)
+        totalGridStackView.addArrangedSubview(productStockQuntity)
+    }
+    
+    private func setGridConstraints() {
+        NSLayoutConstraint.activate([
+            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        ])
+    }
+    
+    // MARK: Inint
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        if MainViewController.viewCell == "LIST" {
+            contentView.addSubview(imageStackView)
+            contentView.addSubview(totalListStackView)
+            setListStackView()
+            setListConstraints()
+            self.accessories = [.disclosureIndicator()]
+        } else if MainViewController.viewCell == "GRID" {
+            contentView.addSubview(totalGridStackView)
+            setGridStackView()
+            setGridConstraints()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("not implemented")
     }
     
     override func prepareForReuse() {

@@ -9,8 +9,6 @@ import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "GridCell"
-    
     // MARK: Properties
     private let productThumnail: UIImageView = {
         let image = UIImageView()
@@ -43,21 +41,9 @@ class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let preStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     // MARK: init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(preStackView)
-        setStackView()
-        setConstraints()
         
     }
     required init?(coder: NSCoder) {
@@ -65,20 +51,5 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: Method
-    private func setStackView() {
-        preStackView.addArrangedSubview(productThumnail)
-        preStackView.addArrangedSubview(productName)
-        preStackView.addArrangedSubview(productPrice)
-        preStackView.addArrangedSubview(productSalePrice)
-        preStackView.addArrangedSubview(productStockQuntity)
-    }
-    
-    private func setConstraints() {
-        NSLayoutConstraint.activate([
-            preStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            preStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            preStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            preStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-        ])
-    }
+
 }

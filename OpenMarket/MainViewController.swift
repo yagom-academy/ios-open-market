@@ -7,6 +7,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    
+    static var viewCell = "LIST"
+    
     // MARK: Properties
     enum Section {
         case main
@@ -16,7 +19,6 @@ class MainViewController: UIViewController {
     var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
     var count = 1
     
-    private var cell = ListCollectionViewCell.identifier
     private var productsData: MarketInformation?
     
     private lazy var segmentedControl: UISegmentedControl = {
@@ -123,7 +125,7 @@ class MainViewController: UIViewController {
     
     func configureDataSource() {
         
-        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
+        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
             
             guard let url = URL(string: product.thumbnail) else { return }
             guard let imageData = try? Data(contentsOf: url) else { return }
@@ -145,12 +147,12 @@ class MainViewController: UIViewController {
     @objc private func handleSegmentChange() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
+            MainViewController.viewCell = "LIST"
             collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-            cell = ListCollectionViewCell.identifier
             return
         default:
+            MainViewController.viewCell = "GRID"
             collectionView.setCollectionViewLayout(createGrideLayout(), animated: true)
-            cell = GridCollectionViewCell.identifier
             return
         }
     }
@@ -188,28 +190,16 @@ class MainViewController: UIViewController {
     private func createGrideLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 2)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.8))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let spacing = CGFloat(10)
         group.interItemSpacing = .fixed(spacing)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-    
-    private func setLayout(index: Int) -> UICollectionViewCompositionalLayout {
-        var configuration: UICollectionLayoutListConfiguration
-        var layout: UICollectionViewCompositionalLayout
-        switch index {
-        case 0:
-            configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-            layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        default:
-            layout = createGrideLayout()
-        }
-        return layout
-    }
-    
+
     private func showNetworkError(message: String) {
         let networkErrorMessage = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okButton = UIAlertAction(title: "확인", style: .default)
