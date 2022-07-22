@@ -9,7 +9,27 @@ import UIKit
 
 class ItemCollectionViewCell: UICollectionViewListCell {
     
-    // MARK: Common
+    // MARK: Inint
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(imageStackView)
+        contentView.addSubview(totalListStackView)
+        
+        setListStackView()
+        setListConstraints()
+        self.accessories = [.disclosureIndicator()]
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("not implemented")
+    }
+    
+    override func prepareForReuse() {
+        productPrice.attributedText = nil
+    }
+    
+    // MARK: Properties
+    
     let productThumnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
@@ -43,7 +63,6 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    // MARK: ListView
     private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .leading
@@ -91,6 +110,31 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
+    
+    // MARK: Method
+    
+    func configureCell(product: SaleInformation) {
+        guard let url = URL(string: product.thumbnail) else { return }
+        
+        NetworkManager().fetch(request: URLRequest(url: url)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let images = UIImage(data: data) else { return }
+                
+                DispatchQueue.main.async {
+                    self?.productThumnail.image = images
+                }
+            case .failure(_):
+                MainViewController().showNetworkError(message: NetworkError.outOfRange.message)
+            }
+        }
+        
+        self.productName.text = product.name
+        
+        showPrice(priceLabel: self.productPrice, bargainPriceLabel: self.bargainPrice, product: product)
+        showSoldOut(productStockQuntity: self.productStockQuntity, product: product)
+    }
+    
     private func setListStackView() {
         imageStackView.addArrangedSubview(productThumnail)
         totalListStackView.addArrangedSubview(labelStackView)
@@ -122,90 +166,6 @@ class ItemCollectionViewCell: UICollectionViewListCell {
             totalListStackView.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: 5),
             totalListStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
         ])
-    }
-    
-    // MARK: GridView
-    
-    private let totalGridStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private func setGridStackView() {
-        totalGridStackView.addArrangedSubview(productThumnail)
-        totalGridStackView.addArrangedSubview(productName)
-        totalGridStackView.addArrangedSubview(productPrice)
-        totalGridStackView.addArrangedSubview(bargainPrice)
-        totalGridStackView.addArrangedSubview(productStockQuntity)
-    }
-    
-    private func setGridConstraints() {
-        NSLayoutConstraint.activate([
-            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-        ])
-    }
-    
-    // MARK: Inint
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(imageStackView)
-        contentView.addSubview(totalListStackView)
-        contentView.addSubview(totalGridStackView)
-        listCellConstrant()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("not implemented")
-    }
-    
-    override func prepareForReuse() {
-        productPrice.attributedText = nil
-    }
-    
-    func listCellConstrant() {
-        totalGridStackView.isHidden = true
-        imageStackView.isHidden = false
-        totalListStackView.isHidden = false
-        setListStackView()
-        setListConstraints()
-        self.accessories = [.disclosureIndicator()]
-    }
-    
-    func gridCellConstrant() {
-        totalGridStackView.isHidden = false
-        imageStackView.isHidden = true
-        totalListStackView.isHidden = true
-        setGridStackView()
-        setGridConstraints()
-    }
-    
-    func configureCell(product: SaleInformation) {
-        guard let url = URL(string: product.thumbnail) else { return }
-        
-        NetworkManager().fetch(request: URLRequest(url: url)) { result in
-            switch result {
-            case .success(let data):
-                guard let images = UIImage(data: data) else { return }
-                
-                DispatchQueue.main.async {
-                    self.productThumnail.image = images
-                }
-            case .failure(_):
-                MainViewController().showNetworkError(message: NetworkError.outOfRange.message)
-            }
-        }
-        
-        self.productName.text = product.name
-        
-        showPrice(priceLabel: self.productPrice, bargainPriceLabel: self.bargainPrice, product: product)
-        showSoldOut(productStockQuntity: self.productStockQuntity, product: product)
     }
     
     private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {

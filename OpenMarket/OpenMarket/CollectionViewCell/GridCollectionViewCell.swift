@@ -9,47 +9,77 @@ import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
     
+    // MARK: init
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setGridStackView()
+        setGridConstraints()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("not implemented")
+    }
+    
     // MARK: Properties
-    private let productThumnail: UIImageView = {
+    
+    let productThumnail: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    private let productName: UILabel = {
+    let productName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let productPrice: UILabel = {
+    let productPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let productSalePrice: UILabel = {
+    let bargainPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let productStockQuntity: UILabel = {
+    let productStockQuntity: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    // MARK: init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-    }
-    required init?(coder: NSCoder) {
-        fatalError("not implemented")
-    }
+
+
+    private let totalGridStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     // MARK: Method
-
+    
+    private func setGridStackView() {
+        totalGridStackView.addArrangedSubview(productThumnail)
+        totalGridStackView.addArrangedSubview(productName)
+        totalGridStackView.addArrangedSubview(productPrice)
+        totalGridStackView.addArrangedSubview(bargainPrice)
+        totalGridStackView.addArrangedSubview(productStockQuntity)
+    }
+    
+    private func setGridConstraints() {
+        NSLayoutConstraint.activate([
+            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        ])
+    }
 }
