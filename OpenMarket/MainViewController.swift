@@ -129,11 +129,12 @@ class MainViewController: UIViewController {
             guard let imageData = try? Data(contentsOf: url) else { return }
             
             let image = UIImage(data: imageData)
-            self.showPrice(priceLabel: cell.productPrice, bargainPriceLabel: cell.productSalePrice, product: product)
             
             cell.productThumnail.image = image
             cell.productName.text = product.name
-            cell.productStockQuntity.text = String(product.stock)
+            
+            self.showPrice(priceLabel: cell.productPrice, bargainPriceLabel: cell.productSalePrice, product: product)
+            self.showSoldOut(productStockQuntity: cell.productStockQuntity, product: product)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
@@ -164,6 +165,16 @@ class MainViewController: UIViewController {
             priceLabel.attributedText = priceLabel.text?.strikeThrough()
             bargainPriceLabel.text = "\(product.currency) \(product.price)"
             bargainPriceLabel.textColor = .systemGray
+        }
+    }
+    
+    private func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
+        if product.stock == 0 {
+            productStockQuntity.text = "품절"
+            productStockQuntity.textColor = .systemOrange
+        } else {
+            productStockQuntity.text = "잔여수량 : \(product.stock)"
+            productStockQuntity.textColor = .systemGray
         }
     }
     
