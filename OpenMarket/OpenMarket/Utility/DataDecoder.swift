@@ -8,17 +8,21 @@
 
 import Foundation
 
+enum ParsingError: Error {
+    case failedDecoding
+    case failedEncoding
+}
+
 struct DataDecoder {
-    func decode<T: Codable>(type: T.Type, data: Data) -> T? {
+    func decode<T: Codable>(type: T.Type, data: Data) throws -> T {
         let jsonDecoder = JSONDecoder()
         
         do {
             let decodedData =  try jsonDecoder.decode(T.self, from: data)
             return decodedData
         } catch {
-            print("Unexpected error: \(error)")
+            throw ParsingError.failedDecoding
+//            print("Unexpected error: \(error)")
         }
-        
-        return nil
     }
 }

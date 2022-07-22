@@ -14,17 +14,16 @@ enum DataTaskError: Error {
 
 struct SubURL {
     func pageURL(number: Int, countOfItems: Int) -> String {
-        return "api/products?page_no=\(number)&items_per_page=\(countOfItems)"
+        return "https://market-training.yagom-academy.kr/api/products?page_no=\(number)&items_per_page=\(countOfItems)"
     }
     
     func productURL(productNumber: Int) -> String {
-        return "/api/products/\(productNumber)"
+        return "https://market-training.yagom-academy.kr//api/products/\(productNumber)"
     }
 }
 
 final class URLSessionManager {
     private let session: URLSessionProtocol
-    private let baseURL = "https://market-training.yagom-academy.kr/"
     
     init(session: URLSessionProtocol) {
         self.session = session
@@ -44,10 +43,8 @@ final class URLSessionManager {
         }.resume()
     }
     
-    func receivePage(subURL: String, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
-        let pageURL = baseURL + subURL
-        
-        guard let url = URL(string: pageURL) else { return }
+    func receiveData(baseURL: String, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+        guard let url = URL(string: baseURL) else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

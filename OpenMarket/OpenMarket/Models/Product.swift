@@ -17,8 +17,8 @@ struct Product: Codable {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let createdAt: Date
-    let issuedAt: Date
+    let createdAt: String
+    let issuedAt: String
     
     private enum CodingKeys: String, CodingKey {
         case id
