@@ -22,7 +22,7 @@
 
 - STEP별 상세 내용
     - [1️⃣ STEP 1](https://github.com/bradheo65/ios-open-market/blob/Step1/Docs/Step01.md)
-    - [1️⃣ STEP 2](https://github.com/bradheo65/ios-open-market/blob/Step2/Docs/Step02.md)
+    - [1️⃣ STEP 2](https://github.com/bradheo65/ios-open-market/blob/Step2-3/Docs/Step02.md)
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
 
