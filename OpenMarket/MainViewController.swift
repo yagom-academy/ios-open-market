@@ -8,6 +8,15 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    lazy var loadingView: UIActivityIndicatorView = {
+        let lodingview = UIActivityIndicatorView()
+        lodingview.center = self.view.center
+        lodingview.startAnimating()
+        lodingview.style = UIActivityIndicatorView.Style.large
+        lodingview.isHidden = false
+        return lodingview
+    }()
+    
     // MARK: Properties
     enum Section {
         case main
@@ -16,8 +25,6 @@ class MainViewController: UIViewController {
     lazy var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>? = configureListDataSource()
     var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
     var count = 1
-    
-    private var productsData: MarketInformation?
     
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
@@ -74,7 +81,6 @@ class MainViewController: UIViewController {
     // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubview(wholeComponentStackView)
         wholeComponentStackView.addArrangedSubview(topStackView)
         wholeComponentStackView.addArrangedSubview(collectionView)
@@ -88,6 +94,8 @@ class MainViewController: UIViewController {
             wholeComponentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
+        
+        view.addSubview(loadingView)
         
         dataSource = configureListDataSource()
         self.snapshot.appendSections([.main])
@@ -110,6 +118,7 @@ class MainViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.dataSource?.apply(self.snapshot, animatingDifferences: false)
+                    self.loadingView.stopAnimating()
                 }
                 
                 DispatchQueue.global().async {
@@ -119,6 +128,7 @@ class MainViewController: UIViewController {
                         self.count += 1
                     }
                 }
+                
             case .failure(_):
                 DispatchQueue.main.async {
                     self.showNetworkError(message: NetworkError.outOfRange.message)
