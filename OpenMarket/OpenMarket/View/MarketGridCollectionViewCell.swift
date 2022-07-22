@@ -8,18 +8,18 @@
 import UIKit
 
 final class MarketGridCollectionViewCell: UICollectionViewCell {
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
     
-    let priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .systemRed
@@ -28,7 +28,7 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .systemGray

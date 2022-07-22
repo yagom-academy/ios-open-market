@@ -8,20 +8,20 @@
 import UIKit
 
 final class LoadingIndicator {
-    static func showLoading(superView: UIView) {
+    static func showLoading(on view: UIView) {
         DispatchQueue.main.async {
             let loadingIndicatorView: UIActivityIndicatorView
             loadingIndicatorView = UIActivityIndicatorView(style: .large)
-            loadingIndicatorView.frame = superView.frame
+            loadingIndicatorView.frame = view.frame
             loadingIndicatorView.color = .systemGray
-            superView.addSubview(loadingIndicatorView)
+            view.addSubview(loadingIndicatorView)
             loadingIndicatorView.startAnimating()
         }
     }
 
-    static func hideLoading(superView: UIView) {
+    static func hideLoading(on view: UIView) {
         DispatchQueue.main.async {
-            superView.subviews.filter({ $0 is UIActivityIndicatorView }).forEach { $0.removeFromSuperview() }
+            view.subviews.filter({ $0 is UIActivityIndicatorView }).forEach { $0.removeFromSuperview() }
         }
     }
 }
