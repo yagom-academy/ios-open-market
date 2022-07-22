@@ -13,6 +13,7 @@
 - [🧑🏻‍💻🧑🏻‍💻 개발자 소개](#-개발자-소개)
 - [💡 키워드](#-키워드)
 - [🤔 핵심경험](#-핵심경험)
+- [📱 실행 화면](#-실행-화면)
 - [🗂 폴더 구조](#-폴더-구조)
 - [📝 기능설명](#-기능설명)
 - [🚀 TroubleShooting](#-TroubleShooting)
@@ -63,6 +64,14 @@
 - [x] Collection View의 활용
 - [x] Mordern Collection View 활용
 
+## 📱 실행 화면(기능 설명)
+
+|메인 화면(List)|메인 화면(Grid)|
+|:--:|:--:|
+|![초기화면 스크롤](https://user-images.githubusercontent.com/99063327/180361852-320b164c-8b3d-4cd7-b088-86179e295aa9.gif)|![그리드화면 스크롤](https://user-images.githubusercontent.com/99063327/180361837-60da3f9c-3717-4f5c-b393-71c658b69298.gif)|
+|오픈 마켓의 상품 목록을 List 화면으로 표시|오픈 마켓의 상품 목록을 Grid 화면으로 표시|
+
+    
 ## 🗂 폴더 구조
 
 ```
