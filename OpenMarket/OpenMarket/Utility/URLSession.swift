@@ -13,7 +13,7 @@ class NetworkManager {
         let session = URLSession(configuration: config)
         var urlComponents = URLComponents(string: URLData.host.rawValue + URLData.lookUpProductList.rawValue)
         let pageNo = URLQueryItem(name: "page_no", value: "1")
-        let itemsPerPage = URLQueryItem(name: "items_per_page", value: "40")
+        let itemsPerPage = URLQueryItem(name: "items_per_page", value: "20")
         urlComponents?.queryItems?.append(pageNo)
         urlComponents?.queryItems?.append(itemsPerPage)
         guard let requestURL = urlComponents?.url else {

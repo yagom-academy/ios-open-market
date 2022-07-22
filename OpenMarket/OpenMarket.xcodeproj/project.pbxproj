@@ -21,6 +21,7 @@
 		AF2257722889391B00C5CE97 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257712889391B00C5CE97 /* Int+Extensions.swift */; };
 		AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257732889392300C5CE97 /* UILabel+Extensions.swift */; };
 		AF2257762889393700C5CE97 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */; };
+		AF24DE76288A86E700BF570B /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF24DE75288A86E700BF570B /* ImageCacheManager.swift */; };
 		AF29C0382881016D00C719EE /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29C0372881016D00C719EE /* ListCell.swift */; };
 		AF29C03A2881034700C719EE /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29C0392881034700C719EE /* GridCell.swift */; };
 		AF3D5330287C0FE500DBFAFA /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */; };
@@ -52,6 +53,7 @@
 		AF2257712889391B00C5CE97 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257732889392300C5CE97 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
+		AF24DE75288A86E700BF570B /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		AF29C0372881016D00C719EE /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		AF29C0392881034700C719EE /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */,
+				AF24DE75288A86E700BF570B /* ImageCacheManager.swift */,
 				453EAC63287C7BFB00EFCBB9 /* URLSession.swift */,
 			);
 			path = Utility;
@@ -278,6 +281,7 @@
 			files = (
 				AF3D5330287C0FE500DBFAFA /* JsonDecoder.swift in Sources */,
 				AFFBDAA7287C0C1E001540FD /* ProductPage.swift in Sources */,
+				AF24DE76288A86E700BF570B /* ImageCacheManager.swift in Sources */,
 				AF29C0382881016D00C719EE /* ListCell.swift in Sources */,
 				AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */,
 				AF29C03A2881034700C719EE /* GridCell.swift in Sources */,

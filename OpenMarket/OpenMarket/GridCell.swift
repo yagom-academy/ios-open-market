@@ -108,10 +108,7 @@ final class GridCell: UICollectionViewCell {
     }
     
     func setup(with inputData: Product) {
-        guard let url = URL(string: inputData.thumbnail) else {
-            return
-        }
-        self.productImageView.loadImage(url: url)
+        self.productImageView.setImageUrl(inputData.thumbnail)
         self.productNameLabel.text = inputData.name
         
         setupProductBargainPriceLabel(with: inputData)
