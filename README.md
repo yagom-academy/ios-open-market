@@ -11,6 +11,7 @@
 ## 📑 목차
 
 - [🧑🏻‍💻🧑🏻‍💻 개발자 소개](#-개발자-소개)
+- [📱 동작 화면](#-동작-화면)
 - [📈 UML](#-UML)
 - [💡 키워드](#-키워드)
 - [🤔 핵심경험](#-핵심경험)
@@ -21,15 +22,22 @@
     - [🚀 STEP 2](#-STEP-2)
 
 - STEP별 상세 내용
-    - [1️⃣ STEP 1](https://github.com/bradheo65/ios-open-market/blob/Step2-3/Docs/Step01.md)
-    - [1️⃣ STEP 2](https://github.com/bradheo65/ios-open-market/blob/Step2-3/Docs/Step02.md)
+    - [1️⃣ STEP 1](https://github.com/bradheo65/ios-open-market/blob/Step1/Docs/Step01.md)
+    - [1️⃣ STEP 2](https://github.com/bradheo65/ios-open-market/blob/Step2/Docs/Step02.md)
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
 
 |||
 |:---:|:---:|
 |<image src = "https://user-images.githubusercontent.com/45350356/174251611-46adf61c-93fa-42a0-815b-2c998af1c258.png" width="250" height="250">| <image src = "https://i.imgur.com/c17eEk8.jpg" width="250" height="250">
-|[브래드](https://github.com/bradheo65)|[백곰](https://github.com/Baek-Gom-95)|
+|[브래드](https://github.com/bradheo65)|[백곰](https://github.com/Baek-Gom-95)|  
+    
+## 📱 동작 화면
+
+### 형태별 동작 화면
+|LIST|GRID|
+|:---:|:---:|
+|<image src = "https://user-images.githubusercontent.com/45350356/180375191-93a7e49e-acf9-45e3-a4cc-619ca86affd1.gif" width="250" height="500">| <image src = "https://user-images.githubusercontent.com/45350356/180376138-1d97f86a-92b0-4f10-86a7-9c7e5d9e6165.gif" width="250" height="500">
 
 ## 📈 UML
 
