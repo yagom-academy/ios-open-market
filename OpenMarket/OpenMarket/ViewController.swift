@@ -6,12 +6,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     @IBOutlet weak var segmentSwitch: UISegmentedControl!
     @IBOutlet weak var firstView: UIView!
     @IBOutlet weak var secondView: UIView!
-    
-    let jsonParser = JSONParser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +21,7 @@ class ViewController: UIViewController {
         segmentSwitch.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
-    @IBAction func switchView(_ sender: UISegmentedControl) {
+    @IBAction private func switchView(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             firstView.alpha = 1

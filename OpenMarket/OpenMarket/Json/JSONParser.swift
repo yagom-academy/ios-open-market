@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import QuartzCore
 
 class JSONParser {
     let session: URLSessionProtocol

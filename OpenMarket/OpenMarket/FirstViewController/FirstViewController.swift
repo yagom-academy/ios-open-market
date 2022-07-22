@@ -7,14 +7,14 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+final class FirstViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     
-    let numberFormatter = NumberFormatter()
-    let jsonParser = JSONParser()
-    let URLSemaphore = DispatchSemaphore(value: 0)
-    var productData: ProductListResponse?
-    lazy var activityIndicator: UIActivityIndicatorView = {
+    private let numberFormatter = NumberFormatter()
+    private let jsonParser = JSONParser()
+    private let URLSemaphore = DispatchSemaphore(value: 0)
+    private var productData: ProductListResponse?
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
         activityIndicator.style = UIActivityIndicatorView.Style.large
@@ -26,7 +26,7 @@ class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(activityIndicator)
-
+        
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
         productCollectionView.delegate = self
@@ -39,16 +39,16 @@ class FirstViewController: UIViewController {
         self.setData()
     }
     
-    func stopActivityIndicator() {
+    private func stopActivityIndicator() {
         activityIndicator.stopAnimating()
     }
     
-    func settingNumberFormaatter() {
+    private func settingNumberFormaatter() {
         numberFormatter.roundingMode = .floor
         numberFormatter.numberStyle = .decimal
     }
     
-    func setData() {
+    private func setData() {
         jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
             switch response {
             case .success(let data):
@@ -72,16 +72,16 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FirstCollectionViewCell
-
+        
         guard let result = productData,
               let imageURL: URL = URL(string: result.pages[indexPath.row].thumbnail),
               let imageData: Data = try? Data(contentsOf: imageURL) else {
             return cell
         }
         cell.accessories = [.disclosureIndicator()]
-
+        
         let productStock = result.pages[indexPath.row].stock
         let isCheckPrice = result.pages[indexPath.row].bargainPrice
         guard let priceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].price as NSNumber) else { return cell }
@@ -101,7 +101,7 @@ extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSou
             cell.productStock.text = "잔여수량 : \(productStock)"
             cell.productStock.textColor = .systemGray
         }
-
+        
         if isCheckPrice > 0 {
             cell.spacingView.isHidden = false
             cell.productPrice.textColor = .systemRed

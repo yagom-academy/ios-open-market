@@ -7,13 +7,13 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+final class SecondViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     
-    let numberFormatter = NumberFormatter()
-    let jsonParser = JSONParser()
-    let URLSemaphore = DispatchSemaphore(value: 0)
-    var productData: ProductListResponse?    
+    private let numberFormatter = NumberFormatter()
+    private let jsonParser = JSONParser()
+    private let URLSemaphore = DispatchSemaphore(value: 0)
+    private var productData: ProductListResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,12 +23,12 @@ class SecondViewController: UIViewController {
         self.setData()
     }
     
-    func settingNumberFormaatter() {
+    private func settingNumberFormaatter() {
         numberFormatter.roundingMode = .floor
         numberFormatter.numberStyle = .decimal
     }
     
-    func setData() {
+    private func setData() {
         jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
             switch response {
             case .success(let data):

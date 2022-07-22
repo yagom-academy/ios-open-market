@@ -2,7 +2,7 @@
 //  SecondCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by 허건 on 2022/07/20.
+//  Created by BaekGom, Brad on 2022/07/20.
 //
 
 import UIKit
