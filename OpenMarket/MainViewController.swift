@@ -24,6 +24,11 @@ class MainViewController: UIViewController {
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.selectedSegmentTintColor = .systemBlue
+        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.link], for: UIControl.State.normal)
+        segment.layer.borderColor = UIColor.systemBlue.cgColor
+        segment.layer.borderWidth = 1
         return segment
     }()
     
@@ -61,6 +66,7 @@ class MainViewController: UIViewController {
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.axis = .vertical
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
