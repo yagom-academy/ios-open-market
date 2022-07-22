@@ -79,6 +79,48 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
+    func configureCell(with item: Item) {
+        let sessionManager = URLSessionManager(session: URLSession.shared)
+        
+        self.nameLabel.text = item.productName
+      
+        if item.price == item.bargainPrice {
+            self.priceLabel.text = item.price
+            self.priceLabel.textColor = .systemGray
+        } else {
+            let price = item.price + " " + item.bargainPrice
+            let attributeString = NSMutableAttributedString(string: price)
+            
+            attributeString.addAttribute(.strikethroughStyle,
+                                         value: NSUnderlineStyle.single.rawValue,
+                                         range: NSMakeRange(0, item.price.count))
+            attributeString.addAttribute(.foregroundColor,
+                                         value: UIColor.systemGray,
+                                         range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
+            self.priceLabel.attributedText = attributeString
+        }
+        
+        if item.stock != "0" {
+            self.stockLabel.text = "잔여수량 : " + item.stock
+        } else {
+            self.stockLabel.text = "품절"
+            self.stockLabel.textColor = .systemOrange
+        }
+        
+        sessionManager.receiveData(baseURL: item.productImage) { result in
+            switch result {
+            case .success(let data):
+                guard let imageData = UIImage(data: data) else { return }
+                
+                DispatchQueue.main.async {
+                    self.imageView.image = imageData
+                }
+            case .failure(_):
+                print("서버 통신 실패")
+            }
+        }
+    }
+    
     private func arrangeSubView() {
         subHorizontalStackView.addArrangedSubview(stockLabel)
         subHorizontalStackView.addArrangedSubview(accessaryImageView)

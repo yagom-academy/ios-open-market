@@ -94,43 +94,7 @@ extension MarketCollectionViewController {
 extension MarketCollectionViewController {
     private func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
-            cell.nameLabel.text = item.productName
-          
-            if item.price == item.bargainPrice {
-                cell.priceLabel.text = item.price
-                cell.priceLabel.textColor = .systemGray
-            } else {
-                let price = item.price + " " + item.bargainPrice
-                let attributeString = NSMutableAttributedString(string: price)
-                
-                attributeString.addAttribute(.strikethroughStyle,
-                                             value: NSUnderlineStyle.single.rawValue,
-                                             range: NSMakeRange(0, item.price.count))
-                attributeString.addAttribute(.foregroundColor,
-                                             value: UIColor.systemGray,
-                                             range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
-                cell.priceLabel.attributedText = attributeString
-            }
-            
-            if item.stock != "0" {
-                cell.stockLabel.text = "잔여수량 : " + item.stock
-            } else {
-                cell.stockLabel.text = "품절"
-                cell.stockLabel.textColor = .systemOrange
-            }
-            
-            self.sessionManager.receiveData(baseURL: item.productImage) { result in
-                switch result {
-                case .success(let data):
-                    guard let imageData = UIImage(data: data) else { return }
-                    
-                    DispatchQueue.main.async {
-                        cell.imageView.image = imageData
-                    }
-                case .failure(_):
-                    print("서버 통신 실패")
-                }
-            }
+            cell.configureCell(with: item)
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
@@ -140,43 +104,7 @@ extension MarketCollectionViewController {
     
     private func makeGridDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketGridCollectionViewCell, Item>.init { cell, indexPath, item in
-            cell.nameLabel.text = item.productName
-            
-            if item.price == item.bargainPrice {
-                cell.priceLabel.text = item.price
-                cell.priceLabel.textColor = .systemGray
-            } else {
-                let price = item.price + "\n" + item.bargainPrice
-                let attributeString = NSMutableAttributedString(string: price)
-                
-                attributeString.addAttribute(.strikethroughStyle,
-                                             value: NSUnderlineStyle.single.rawValue,
-                                             range: NSMakeRange(0, item.price.count))
-                attributeString.addAttribute(.foregroundColor,
-                                             value: UIColor.systemGray,
-                                             range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
-                cell.priceLabel.attributedText = attributeString
-            }
-            
-            if item.stock != "0" {
-                cell.stockLabel.text = "잔여수량 : " + item.stock
-            } else {
-                cell.stockLabel.text = "품절"
-                cell.stockLabel.textColor = .systemOrange
-            }
-            
-            self.sessionManager.receiveData(baseURL: item.productImage) { result in
-                switch result {
-                case .success(let data):
-                    guard let imageData = UIImage(data: data) else { return }
-                    
-                    DispatchQueue.main.async {
-                        cell.imageView.image = imageData
-                    }
-                case .failure(_):
-                    print("서버 통신 실패")
-                }
-            }
+            cell.configureCell(with: item)
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
@@ -196,7 +124,7 @@ extension MarketCollectionViewController {
     private func receivePageData() {
         let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
         
-        LoadingIndicator.showLoading(superView: view)
+        LoadingIndicator.showLoading(on: view)
         sessionManager.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
@@ -208,7 +136,7 @@ extension MarketCollectionViewController {
                 
                 DispatchQueue.main.async {
                     self.applySnapshots()
-                    LoadingIndicator.hideLoading(superView: self.view)
+                    LoadingIndicator.hideLoading(on: self.view)
                 }
             case .failure(_):
                 print("서버 통신 실패")
