@@ -129,7 +129,7 @@ extension MarketCollectionViewController {
     }
 }
  
-// MARK: Data & Snapshot & Alert
+// MARK: Data & Snapshot
 extension MarketCollectionViewController {
     private func applySnapshots() {
         var itemSnapshot = SnapShot()
@@ -145,24 +145,32 @@ extension MarketCollectionViewController {
         sessionManager.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
-                guard let page = DataDecoder().decode(type: Page.self, data: data) else { return }
-                
-                self.items = page.pages.map {
-                    Item(product: $0 )
-                }
+                self.decodeResult(data)
                 
                 DispatchQueue.main.async {
                     self.applySnapshots()
                     LoadingIndicator.hideLoading(on: self.view)
                 }
             case .failure(_):
-                self.showAlert()
+                self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
             }
         }
     }
     
-    private func showAlert() {
-        let failureAlert = UIAlertController(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.", preferredStyle: .alert)
+    private func decodeResult(_ data: Data) {
+        do {
+            let page = try DataDecoder().decode(type: Page.self, data: data)
+            
+            self.items = page.pages.map {
+                Item(product: $0 )
+            }
+        } catch {
+            self.showAlert(title: "데이터 변환 실패", message: "가져온 데이터를 읽을 수 없습니다.")
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let failureAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         failureAlert.addAction(UIAlertAction(title: "확인", style: .default))
         present(failureAlert, animated: true)
     }
