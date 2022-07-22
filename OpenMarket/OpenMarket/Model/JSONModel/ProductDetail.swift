@@ -36,7 +36,7 @@ struct ProductDetail: Codable, Hashable {
 }
 
 extension ProductDetail {
-    func setPriceText() -> NSMutableAttributedString {
+    func makePriceText() -> NSMutableAttributedString {
         let price = "\(self.currency.rawValue) \(self.price.formatNumber())"
         let bargainPrice = "\n\(self.currency.rawValue) \(self.bargainPrice.formatNumber())"
         
@@ -49,7 +49,7 @@ extension ProductDetail {
         }
     }
     
-    func setThumbnailImage() -> UIImage {
+    func makeThumbnailImage() -> UIImage {
         guard let url = URL(string: self.thumbnail),
                 let data = try? Data(contentsOf: url),
                 let image = UIImage(data: data) else {  return UIImage() }
@@ -57,7 +57,7 @@ extension ProductDetail {
         return image
     }
     
-    func setStockText() -> NSMutableAttributedString {
+    func makeStockText() -> NSMutableAttributedString {
         if self.stock == 0 {
             let stockText = PriceText.soldOut.text
             let muttableAttributedString = NSMutableAttributedString(string: stockText)

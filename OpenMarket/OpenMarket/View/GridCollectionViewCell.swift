@@ -67,18 +67,18 @@ final class GridCollectionViewCell: UICollectionViewCell {
     // MARK: - functions
     
     private func commonInit() {
-        setSubViews()
-        setStackViewConstraints()
-        setBorder()
+        setUpSubViews()
+        setUpStackViewConstraints()
+        setUpBorder()
     }
     
-    private func setSubViews() {
+    private func setUpSubViews() {
         self.contentView.addSubview(productImage)
         self.contentView.addSubview(stackView)
         [productName, price, stock].forEach { stackView.addArrangedSubview($0) }
     }
     
-    private func setStackViewConstraints() {
+    private func setUpStackViewConstraints() {
         NSLayoutConstraint.activate(
             [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
              productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
@@ -91,16 +91,16 @@ final class GridCollectionViewCell: UICollectionViewCell {
              stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
     }
     
-    private func setBorder() {
+    private func setUpBorder() {
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 1.5
         self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     
     func setViewItems(_ item: ProductDetail) {
-        productImage.image = item.setThumbnailImage()
+        productImage.image = item.makeThumbnailImage()
         productName.text = item.name
-        price.attributedText = item.setPriceText()
-        stock.attributedText = item.setStockText()
+        price.attributedText = item.makePriceText()
+        stock.attributedText = item.makeStockText()
     }
 }

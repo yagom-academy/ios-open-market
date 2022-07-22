@@ -15,9 +15,9 @@ final class ListCollectionView: UICollectionView {
         (cell, indexPath, item) in
         var content = cell.defaultContentConfiguration()
         content.text = item.name
-        content.image = item.setThumbnailImage()
+        content.image = item.makeThumbnailImage()
         content.imageProperties.maximumSize = CGSize(width: ImageSize.width, height: ImageSize.height)
-        content.secondaryAttributedText = item.setPriceText()
+        content.secondaryAttributedText = item.makePriceText()
         
         let accessory = UICellAccessory.disclosureIndicator()
         var stockAccessory = UICellAccessory.disclosureIndicator()
@@ -46,18 +46,18 @@ final class ListCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDataSource()
+        self.setUpDataSource()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDataSource()
+        self.setUpDataSource()
     }
     
     // MARK: - functions
     
-    private func configureDataSource() {
+    private func setUpDataSource() {
         listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
@@ -72,7 +72,7 @@ final class ListCollectionView: UICollectionView {
         }
     }
     
-    func configureSnapshot(productsList: [ProductDetail]) {
+    func setSnapshot(productsList: [ProductDetail]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
         snapshot.appendSections([.list])
         snapshot.appendItems(productsList)

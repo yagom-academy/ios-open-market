@@ -111,8 +111,8 @@ final class OpenMarketViewController: UIViewController {
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
-                    self?.gridCollectionView.configureSnapshot(productsList: success.pages)
-                    self?.listCollectionView.configureSnapshot(productsList: success.pages)
+                    self?.gridCollectionView.setSnapshot(productsList: success.pages)
+                    self?.listCollectionView.setSnapshot(productsList: success.pages)
                     guard let loadingView = self?.loadingView,
                           loadingView.isHidden == false
                     else { return }
