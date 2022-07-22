@@ -6,11 +6,12 @@
 > 프로젝트 기간: 2022-07-11 ~ 2022-07-22</br>
 > 팀원: [수꿍](https://github.com/Jeon-Minsu), [케이](https://github.com/KayAhnDS), [데릭](https://github.com/derrickkim0109) </br>
 리뷰어: [제이슨](https://github.com/ehgud0670)</br>
-그라운드롤: [GroundRule](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP01/Docs/GroundRule.md)
+
 
 ## 📑 목차
 
 - [🧑🏻‍💻🧑🏻‍💻 개발자 소개](#-개발자-소개)
+- [⏱ TimeLine](#-TimeLine)
 - [💡 키워드](#-키워드)
 - [🤔 핵심경험](#-핵심경험)
 - [📱 실행 화면](#-실행-화면)
@@ -18,8 +19,6 @@
 - [📝 기능설명](#-기능설명)
 - [🚀 TroubleShooting](#-TroubleShooting)
 - [📚 참고문서](#-참고문서)
-- [1️⃣ STEP 1](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP01/Docs/Step01.md)
-- [2️⃣ STEP 2](https://github.com/Jeon-Minsu/ios-open-market/blob/STEP02/Docs/Step02.md)
 
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
@@ -29,6 +28,43 @@
 |<image src = "https://user-images.githubusercontent.com/99063327/178641788-995112c1-924a-4768-b46b-c9bf3a04a994.jpeg" width="250" height="250">| <image src = "https://i.imgur.com/6HkYdmp.png" width="250" height="250">|<image src = "https://avatars.githubusercontent.com/u/59466342?v=4" width="250" height="250">
 |[케이](https://github.com/KayAhnDS)|[수꿍](https://github.com/Jeon-Minsu)|[데릭](https://github.com/derrickkim0109)|
 
+## ⏱ TimeLine
+
+### Week 1
+> 2022.7.11 ~ 2022.7.15
+    
+- 2022.07.11 - STEP1 
+    - 서버 매핑 모델 구현
+    - 네트워크와 무관한 Unit Test을 위한 MockTests 추가
+- 2022.07.12 - STEP1 
+    - URLSession 기능 구현
+- 2022.07.13 - STEP1 PR
+    - URLSession 리팩토링
+    - STEP1 PR 제출
+- 2022.07.14 - STEP1 피드백 반영
+    - 코드 리팩토링(네이밍, 폴더 구조 변경)
+- 2022.07.15 - STEP1 피드백 반영
+    - 문서 수정
+
+
+### Week 2
+    
+> 2022.7.18 ~ 2022.7.22
+    
+- 2022.07.18 - STEP2 
+    - 초기 화면에 필요한 CollectionView 기능 탐색
+- 2022.07.19 - STEP2 
+    - 서버 매핑 모델 활용을 위한 Entity 생성
+    - segmented control 구현
+    - CollectionView 구현
+- 2022.07.20 - STEP2 PR
+    - CollectionView 리팩토링
+    - STEP2 PR 제출
+- 2022.07.21 - STEP1 피드백 반영
+    - STEP2 기능 향상을 위한 기능 테스트(URLCache, NSCache)
+- 2022.07.22 - STEP1 피드백 반영
+    - 문서 수정
+    
 ## 💡 키워드
 
 - `POP`, `protocol`, `extension`
@@ -64,7 +100,7 @@
 - [x] Collection View의 활용
 - [x] Mordern Collection View 활용
 
-## 📱 실행 화면(기능 설명)
+## 📱 실행 화면
 
 |메인 화면(List)|메인 화면(Grid)|
 |:--:|:--:|
