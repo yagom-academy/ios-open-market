@@ -125,7 +125,6 @@
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1XF-Qj-DDz">
                                                                     <rect key="frame" x="35.5" y="0.0" width="5" height="64"/>
-                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="5" id="h8N-m4-lHQ"/>
                                                                     </constraints>
@@ -148,13 +147,13 @@
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8i8-xY-6CF" customClass="PaddingLabel" customModule="OpenMarket" customModuleProvider="target">
-                                                    <rect key="frame" x="272.5" y="0.0" width="71.5" height="128"/>
+                                                    <rect key="frame" x="266.5" y="0.0" width="77.5" height="128"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
-                                                            <real key="value" value="30"/>
+                                                            <real key="value" value="36"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
@@ -312,7 +311,7 @@
     </scenes>
     <designables>
         <designable name="8i8-xY-6CF">
-            <size key="intrinsicContentSize" width="71.5" height="20.5"/>
+            <size key="intrinsicContentSize" width="77.5" height="20.5"/>
         </designable>
     </designables>
     <resources>
