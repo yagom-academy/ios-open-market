@@ -6,7 +6,6 @@
 > 프로젝트 기간: 2022-07-11 ~ 2022-07-22</br>
 > 팀원: [finnn](https://github.com/finnn1), [bonf](https://github.com/apwierk2451) </br>
 리뷰어: [쿠마](https://github.com/leejun6694)</br>
-그라운드룰: [GroundRule](https://github.com/Jeon-Minsu/ios-open-market/tree/step01/Docs/GroundRule.md)
 
 ## 📑 목차
 
