@@ -8,15 +8,21 @@
 import UIKit
 
 final class MarketCollectionViewController: UICollectionViewController {
+    // MARK: Inner types
     enum Section: Hashable {
         case main
     }
     
+    // MARK: Typealias
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<Section, Item>
+    
+    // MARK: Properties
     lazy var dataSource = makeListDataSource()
     private var items: [Item] = []
     private let sessionManager = URLSessionManager(session: URLSession.shared)
     
+    // MARK: UI
     private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UIKit.UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +63,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     }
 }
 
+// MARK: Layout
 extension MarketCollectionViewController {
     private func createListLayout() -> UICollectionViewLayout {
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -91,6 +98,7 @@ extension MarketCollectionViewController {
     }
 }
 
+// MARK: DataSource
 extension MarketCollectionViewController {
     private func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
@@ -113,9 +121,10 @@ extension MarketCollectionViewController {
     }
 }
  
+// MARK: Data & Snapshot
 extension MarketCollectionViewController {
     private func applySnapshots() {
-        var itemSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        var itemSnapshot = SnapShot()
         itemSnapshot.appendSections([.main])
         itemSnapshot.appendItems(items)
         dataSource.apply(itemSnapshot, animatingDifferences: false)
