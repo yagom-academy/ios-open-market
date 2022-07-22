@@ -106,17 +106,17 @@ final class OpenMarketViewController: UIViewController {
     private func fetchData() {
         let productsRequest = ProductsRequest()
         let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: productsRequest) {
+        myURLSession.dataTask(with: productsRequest) { [weak self]
             (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
-                    self.gridCollectionView.configureSnapshot(productsList: success.pages)
-                    self.listCollectionView.configureSnapshot(productsList: success.pages)
-                    guard let loadingView = self.loadingView,
+                    self?.gridCollectionView.configureSnapshot(productsList: success.pages)
+                    self?.listCollectionView.configureSnapshot(productsList: success.pages)
+                    guard let loadingView = self?.loadingView,
                           loadingView.isHidden == false
                     else { return }
-                    self.removeSpinner()
+                    self?.removeSpinner()
                 }
             case .failure(let error):
                 print(error)

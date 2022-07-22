@@ -58,12 +58,15 @@ final class ListCollectionView: UICollectionView {
     // MARK: - functions
     
     private func configureDataSource() {
-        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) {
+        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
              identifier: ProductDetail) -> UICollectionViewCell? in
             
-            return collectionView.dequeueConfiguredReusableCell(using: self.listViewCellRegistration,
+            guard let listViewCellRegistration = self?.listViewCellRegistration
+            else { return UICollectionViewCell() }
+            
+            return collectionView.dequeueConfiguredReusableCell(using: listViewCellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
         }

@@ -56,19 +56,21 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setSubViews()
-        setStackViewConstraints()
-        setBorder()
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        commonInit()
+    }
+    
+    // MARK: - functions
+    
+    private func commonInit() {
         setSubViews()
         setStackViewConstraints()
         setBorder()
     }
-    
-    // MARK: - functions
     
     private func setSubViews() {
         self.contentView.addSubview(productImage)

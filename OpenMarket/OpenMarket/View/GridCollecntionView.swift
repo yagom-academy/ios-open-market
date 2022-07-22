@@ -33,12 +33,15 @@ final class GridCollecntionView: UICollectionView {
     // MARK: - functions
     
     private func configureDataSource() {
-        gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) {
+        gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
              identifier: ProductDetail) -> UICollectionViewCell? in
             
-            return collectionView.dequeueConfiguredReusableCell(using: self.gridViewCellRegistration,
+            guard let gridViewCellRegistration = self?.gridViewCellRegistration
+            else { return UICollectionViewCell() }
+            
+            return collectionView.dequeueConfiguredReusableCell(using: gridViewCellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
         }
