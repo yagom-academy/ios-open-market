@@ -32,7 +32,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let productSalePrice: UILabel = {
+    let bargainPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -55,7 +55,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
     
     private let upperStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .leading
+        stackView.alignment = .bottom
         stackView.distribution = .fill
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,9 +64,10 @@ class ListCollectionViewCell: UICollectionViewListCell {
     
     private let downStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .leading
+        stackView.alignment = .top
         stackView.distribution = .fill
         stackView.axis = .horizontal
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -115,7 +116,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         upperStackView.addArrangedSubview(productStockQuntity)
         
         downStackView.addArrangedSubview(productPrice)
-        downStackView.addArrangedSubview(productSalePrice)
+        downStackView.addArrangedSubview(bargainPrice)
         
         productName.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
         productStockQuntity.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
@@ -126,8 +127,8 @@ class ListCollectionViewCell: UICollectionViewListCell {
         NSLayoutConstraint.activate([
             imageStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             imageStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            imageStackView.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
-            imageStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 100),
+            imageStackView.widthAnchor.constraint(lessThanOrEqualToConstant: 80),
+            imageStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 80),
             imageStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             
             totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),

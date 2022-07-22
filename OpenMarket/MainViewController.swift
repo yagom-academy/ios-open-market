@@ -133,7 +133,7 @@ class MainViewController: UIViewController {
             cell.productThumnail.image = image
             cell.productName.text = product.name
             
-            self.showPrice(priceLabel: cell.productPrice, bargainPriceLabel: cell.productSalePrice, product: product)
+            self.showPrice(priceLabel: cell.productPrice, bargainPriceLabel: cell.bargainPrice, product: product)
             self.showSoldOut(productStockQuntity: cell.productStockQuntity, product: product)
         }
         
