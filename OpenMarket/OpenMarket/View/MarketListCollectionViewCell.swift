@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MarketListCollectionViewCell: UICollectionViewCell {
+final class MarketListCollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -46,6 +46,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -54,6 +55,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
         stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -63,6 +65,7 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.spacing = 2
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -89,18 +92,18 @@ class MarketListCollectionViewCell: UICollectionViewCell {
         entireStackView.addArrangedSubview(imageView)
         entireStackView.addArrangedSubview(verticalStackView)
         
-        self.addSubview(entireStackView)
+        contentView.addSubview(entireStackView)
         
         NSLayoutConstraint.activate([
-            entireStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            entireStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            entireStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            entireStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+            entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            entireStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            entireStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             
-            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.9),
+            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1),
             
-            accessaryImageView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
+            accessaryImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
         ])
     }
     

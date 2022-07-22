@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MarketCollectionViewController: UICollectionViewController {
+final class MarketCollectionViewController: UICollectionViewController {
     enum Section: Hashable {
         case main
     }

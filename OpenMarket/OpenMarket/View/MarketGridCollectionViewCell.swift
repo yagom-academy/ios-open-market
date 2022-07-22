@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MarketGridCollectionViewCell: UICollectionViewCell {
+final class MarketGridCollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -51,18 +51,18 @@ class MarketGridCollectionViewCell: UICollectionViewCell {
         verticalStackView.addArrangedSubview(priceLabel)
         verticalStackView.addArrangedSubview(stockLabel)
         
-        self.addSubview(verticalStackView)
+        contentView.addSubview(verticalStackView)
         
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.systemGray3.cgColor
         
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
-            verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
-            verticalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
-            verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            imageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.58)
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.58)
         ])
     }
     
