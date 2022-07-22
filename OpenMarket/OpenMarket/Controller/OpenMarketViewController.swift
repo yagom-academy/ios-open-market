@@ -18,7 +18,7 @@ final class OpenMarketViewController: UIViewController {
         return listCollectionView
     }()
     
-    lazy var gridCollectionView = GridCollecntionView(frame: .null,
+    private lazy var gridCollectionView = GridCollecntionView(frame: .null,
                                                       collectionViewLayout: createGridLayout())
     
     private let segmentedControl: UISegmentedControl = {
@@ -32,9 +32,9 @@ final class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        self.configureRefreshControl()
+        self.setUpUI()
+        self.setUpRefreshControl()
         self.fetchData()
-        self.setUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,21 +44,21 @@ final class OpenMarketViewController: UIViewController {
     
     //MARK: - View layout functions
     
-    private func setUI(){
-        self.setSubviews()
-        self.setNavigationController()
-        self.setSegmentedControl()
-        self.setListViewConstraints()
-        self.setGridViewConstraints()
+    private func setUpUI(){
+        self.setUpSubviews()
+        self.setUpNavigationController()
+        self.setUpSegmentedControl()
+        self.setUpListViewConstraints()
+        self.setUpGridViewConstraints()
     }
     
-    private func setSubviews() {
+    private func setUpSubviews() {
         self.view.addSubview(self.segmentedControl)
         self.view.addSubview(self.gridCollectionView)
         self.view.addSubview(self.listCollectionView)
     }
     
-    private func setNavigationController() {
+    private func setUpNavigationController() {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.topItem?.titleView = segmentedControl
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem
@@ -68,7 +68,7 @@ final class OpenMarketViewController: UIViewController {
                           action: #selector(productRegistrationButtonDidTap))
     }
     
-    private func setSegmentedControl() {
+    private func setUpSegmentedControl() {
         self.segmentedControl.addTarget(self,
                                         action: #selector(segmentButtonDidTap(sender:)),
                                         for: .valueChanged)
@@ -76,7 +76,7 @@ final class OpenMarketViewController: UIViewController {
         
     }
     
-    private func setListViewConstraints() {
+    private func setUpListViewConstraints() {
         NSLayoutConstraint.activate([
             self.listCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.listCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
@@ -85,7 +85,7 @@ final class OpenMarketViewController: UIViewController {
         ])
     }
     
-    private func setGridViewConstraints() {
+    private func setUpGridViewConstraints() {
         NSLayoutConstraint.activate([
             self.gridCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.gridCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
@@ -96,7 +96,7 @@ final class OpenMarketViewController: UIViewController {
     
     // MARK: - functions
     
-    private func configureRefreshControl() {
+    private func setUpRefreshControl() {
         listCollectionView.refreshControl = UIRefreshControl()
         gridCollectionView.refreshControl = UIRefreshControl()
         listCollectionView.refreshControl?.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
@@ -110,16 +110,14 @@ final class OpenMarketViewController: UIViewController {
             (result: Result<ProductsDetailList, Error>) in
             switch result {
             case .success(let success):
-                self.gridCollectionView.configureSnapshot(productsList: success.pages)
-                self.listCollectionView.configureSnapshot(productsList: success.pages)
-                
                 DispatchQueue.main.async {
+                    self.gridCollectionView.configureSnapshot(productsList: success.pages)
+                    self.listCollectionView.configureSnapshot(productsList: success.pages)
                     guard let loadingView = self.loadingView,
                           loadingView.isHidden == false
                     else { return }
                     self.removeSpinner()
                 }
-                
             case .failure(let error):
                 print(error)
                 break
@@ -159,22 +157,21 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func removeSpinner() {
-        self.loadingView?.removeFromSuperview()
+        self.loadingView?.isHidden = true
         self.loadingView = nil
     }
     
     // MARK: - @objc functions
     
     @objc private func segmentButtonDidTap(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
+        guard let section = Section.init(rawValue: sender.selectedSegmentIndex) else { return }
+        switch section {
+        case .list:
             listCollectionView.isHidden = false
             gridCollectionView.isHidden = true
-        case 1:
+        case .grid:
             listCollectionView.isHidden = true
             gridCollectionView.isHidden = false
-        default:
-            break
         }
     }
     
