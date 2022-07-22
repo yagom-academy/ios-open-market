@@ -13,6 +13,7 @@
 * [핵심경험](#핵심경험)
 * [기능설명](#기능설명)
     * [STEP 1](#STEP1)
+    * [STEP 2](#STEP2)
 
 
 # 프로젝트 소개
@@ -23,12 +24,20 @@
 [![swift](https://img.shields.io/badge/swift-5.6-orange)]()
 [![xcode](https://img.shields.io/badge/Xcode-13.3-blue)]()
 
+
 # UML
 추후 추가 예정
 
 
 # 구현내용
-추후 추가 예정
+
+| 로딩화면 | 화면전환 |
+|:---:|:---:|
+|![](https://i.imgur.com/PBqKh6x.gif)|![](https://i.imgur.com/SCRCLdd.gif)|
+|**List**|**Grid**|
+|![](https://i.imgur.com/i0t3bAr.gif)|![](https://i.imgur.com/F66Woev.gif)|
+
+
 
 # 키워드
 
@@ -39,9 +48,9 @@
 - [x] 파싱한 JSON 데이터와 매핑할 모델 설계
 - [x] URL Session을 활용한 서버와의 통신
 - [x] CodingKeys 프로토콜의 활용
-- [ ] Safe Area을 고려한 오토 레이아웃 구현
-- [ ] Collection View의 활용
-- [ ] Mordern Collection View 활용
+- [x] Safe Area을 고려한 오토 레이아웃 구현
+- [x] Collection View의 활용
+- [x] Mordern Collection View 활용
 - [x]  네트워크 상황과 무관한 네트워킹 데이터 타입의 단위 테스트(Unit Test)
  - [ ] 로컬 캐시 구현
 
@@ -107,3 +116,49 @@ URLSession의 configuration에 대해서 공부해보시면 두 개의 차이점
 서버의 개발이 끝날때까지 기다렸다가 클라이언트가 개발하면 바람직하겠지만 그렇지 않은 경우들이 많기도 하고, 또 서버에서 어떠한 문제가 생길지 모르니 네트워크 통신도 하나의 의존성이라고 생각해주시면 좋을 것 같습니다.
 
 따라서 네트워크라는 의존성을 배제하고나서 단순히 테스트를 하려는 목적인 2번을 달성하려면 mock데이터를 통해서 테스트를 할 수 있도록 코드를 작성하는 것이 중요합니다.
+
+# STEP2
+## 기능설명
+#### `MainViewController`
++ CompositionalLayout을 이용해 ListCollectionView와 GridCollectionView 구현
++ SegmentControl을 이용한 collectionView Layout 전환
++ loading 화면 구현
+
+#### `ListCollectionViewCell`
++ ListCollection에서 사용할 Cell 구현
+
+#### `GridCollectionViewCell`
++ GridCollection에서 사용할 Cell 구현
+
+## 배운개념📚
++ cell을 재사용하기 전 cell에 대한 초기화는 `prepareForReuse`에서 해야하고 cell 내부에 존재하는 content에 대한 초기화는 cell을 생성하는 곳에서 해주어야 한다.
+
++ `UICollectionViewCompositionalLayout` 을 이용해 CollectionView의 Layout 설정
+
+## 문제점 🤬
+1. groupSize의 heightDimension을 설정해 화면에 보이는 item 수를 조절하는 과정에서 비율에 따라 cell이 사라지는 문제점 발생 (아직 해결 못함)
+
+| .fractionalHeight(0.09) | .fractionalHeight(0.1) |
+|:---:|:---:|
+|![](https://i.imgur.com/W9WSMtx.png)|![](https://i.imgur.com/ykRjlYi.png)|
+
+2. Cell을 재사용 하는 과정에서 Cell의 Content가 계속해서 바뀌는 문제점 발생
+    + ListCell에 기준이 되는 Label을 priceLabel이 아닌 discountedLabel로 변경
+    + Cell을 생성하는 부분에서 재사용 되는 Content에 대해 초기화
+
+## 고민한점🤔
+1. 화면 전환 : collectionView를 2개 만들어 `isHidden`을 통해 화면전환를 화게 되면 List와 Grid 상태에서 화면에 위치가 다르기 때문에 collectionView를 하나 만들고 SegmentControl 상태에 따라 collectionView의 layout을 변경 
+
+2. Cell Accessory : Swift에서 제공하는 Cell Accessory를 사용하면 Accessory가 중간에 생기기 때문에 ListCollectionView에서 Label이 길어지면 안보이기 때문에 UILabel과 UIImageView를 사용해 Cell Accessory 구현
+
+
+## 궁금한점🧐
++ GridCollection에 대한 layout을 설정할 때 groupSize의 높이를 저희가 설정한 높이보다 줄이게 되면 안에 있는 content들이 겹치는 현상이 발생했습니다. 이러한 경우 cell에 대한 layout을 수정해 group의 사이즈가 변해도 안에 있는 content들이 겹치는 현상이 발생하지 않도록 해야 하는지 궁금합니다.
+
++ configure 메서드를 통해 View에 대한 세부 설정을 해주었습니다. 하지만 configure 메서드가 너무 뚱뚱해져 가독성이 떨어진다고 생각하는데 어떤 방식으로 코드를 작성하는 것이 좋은지 궁금합니다.
+
+## 궁금한 점에 대한 답변 ❗️
+리뷰 후 수정예정
+
+## 참고 문서
++ [Cell Reuse 관련 문서](https://stackoverflow.com/questions/40773208/what-is-the-correct-way-to-use-prepareforreuse)
