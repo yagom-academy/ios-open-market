@@ -167,27 +167,4 @@ class ItemCollectionViewCell: UICollectionViewListCell {
             totalListStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
         ])
     }
-    
-    private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
-        priceLabel.text = "\(product.currency) \(product.price)"
-        if product.bargainPrice == 0.0 {
-            priceLabel.textColor = .systemGray
-            bargainPriceLabel.isHidden = true
-        } else {
-            priceLabel.textColor = .systemRed
-            priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            bargainPriceLabel.text = "\(product.currency) \(product.price)"
-            bargainPriceLabel.textColor = .systemGray
-        }
-    }
-    
-    private func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
-        if product.stock == 0 {
-            productStockQuntity.text = "품절"
-            productStockQuntity.textColor = .systemOrange
-        } else {
-            productStockQuntity.text = "잔여수량 : \(product.stock)"
-            productStockQuntity.textColor = .systemGray
-        }
-    }
 }
