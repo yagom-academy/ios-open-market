@@ -43,10 +43,18 @@ final class MarketCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
+        receivePageData()
+        addAction()
+    }
+    
+    private func configureUI() {
         navigationItem.titleView = segmentedControl
         navigationItem.rightBarButtonItem = barbutton
         collectionView.collectionViewLayout = createListLayout()
-        receivePageData()
+    }
+    
+    private func addAction() {
         segmentedControl.addTarget(self, action: #selector(indexChanged), for: .valueChanged)
     }
     
@@ -121,7 +129,7 @@ extension MarketCollectionViewController {
     }
 }
  
-// MARK: Data & Snapshot
+// MARK: Data & Snapshot & Alert
 extension MarketCollectionViewController {
     private func applySnapshots() {
         var itemSnapshot = SnapShot()
@@ -148,8 +156,14 @@ extension MarketCollectionViewController {
                     LoadingIndicator.hideLoading(on: self.view)
                 }
             case .failure(_):
-                print("서버 통신 실패")
+                self.showAlert()
             }
         }
+    }
+    
+    private func showAlert() {
+        let failureAlert = UIAlertController(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.", preferredStyle: .alert)
+        failureAlert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(failureAlert, animated: true)
     }
 }
