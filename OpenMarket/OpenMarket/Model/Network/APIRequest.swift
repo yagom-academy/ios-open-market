@@ -76,11 +76,9 @@ protocol APIRequest {
 extension APIRequest {
     var url: URL? {
         var component = URLComponents(string: self.baseURL)
-        var urlQueryItems = [URLQueryItem]()
-        query?.forEach {
-            urlQueryItems.append(URLQueryItem(name: $0.key, value: $0.value))
+        component?.queryItems = query?.reduce([URLQueryItem]()) {
+            $0 + [URLQueryItem(name: $1.key, value: $1.value)]
         }
-        component?.queryItems = urlQueryItems
         
         return component?.url
     }
