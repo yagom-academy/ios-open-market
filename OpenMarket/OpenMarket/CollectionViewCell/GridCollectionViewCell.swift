@@ -16,18 +16,23 @@ class GridCollectionViewCell: ItemCollectionViewCell {
         contentView.addSubview(totalGridStackView)
         setGridStackView()
         setGridConstraints()
+        
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     required init?(coder: NSCoder) {
         fatalError("not implemented")
     }
     
     // MARK: Properties
-
+    
     private let totalGridStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.distribution = .fill
         stackView.axis = .vertical
+    
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -44,10 +49,10 @@ class GridCollectionViewCell: ItemCollectionViewCell {
     
     private func setGridConstraints() {
         NSLayoutConstraint.activate([
-            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])
     }
 }
