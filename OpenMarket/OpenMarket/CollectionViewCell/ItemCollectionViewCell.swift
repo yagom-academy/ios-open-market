@@ -155,17 +155,10 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     // MARK: Inint
     override init(frame: CGRect) {
         super.init(frame: frame)
-        if MainViewController.viewCell == "LIST" {
-            contentView.addSubview(imageStackView)
-            contentView.addSubview(totalListStackView)
-            setListStackView()
-            setListConstraints()
-            self.accessories = [.disclosureIndicator()]
-        } else if MainViewController.viewCell == "GRID" {
-            contentView.addSubview(totalGridStackView)
-            setGridStackView()
-            setGridConstraints()
-        }
+        contentView.addSubview(imageStackView)
+        contentView.addSubview(totalListStackView)
+        contentView.addSubview(totalGridStackView)
+        listCellConstrant()
     }
     
     required init?(coder: NSCoder) {
@@ -174,5 +167,67 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     override func prepareForReuse() {
         productPrice.attributedText = nil
+    }
+    
+    func listCellConstrant() {
+        totalGridStackView.isHidden = true
+        imageStackView.isHidden = false
+        totalListStackView.isHidden = false
+        setListStackView()
+        setListConstraints()
+        self.accessories = [.disclosureIndicator()]
+    }
+    
+    func gridCellConstrant() {
+        totalGridStackView.isHidden = false
+        imageStackView.isHidden = true
+        totalListStackView.isHidden = true
+        setGridStackView()
+        setGridConstraints()
+    }
+    
+    func configureCell(product: SaleInformation) {
+        guard let url = URL(string: product.thumbnail) else { return }
+        
+        NetworkManager().fetch(request: URLRequest(url: url)) { result in
+            switch result {
+            case .success(let data):
+                guard let images = UIImage(data: data) else { return }
+                
+                DispatchQueue.main.async {
+                    self.productThumnail.image = images
+                }
+            case .failure(_):
+                MainViewController().showNetworkError(message: NetworkError.outOfRange.message)
+            }
+        }
+        
+        self.productName.text = product.name
+        
+        showPrice(priceLabel: self.productPrice, bargainPriceLabel: self.bargainPrice, product: product)
+        showSoldOut(productStockQuntity: self.productStockQuntity, product: product)
+    }
+    
+    private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
+        priceLabel.text = "\(product.currency) \(product.price)"
+        if product.bargainPrice == 0.0 {
+            priceLabel.textColor = .systemGray
+            bargainPriceLabel.isHidden = true
+        } else {
+            priceLabel.textColor = .systemRed
+            priceLabel.attributedText = priceLabel.text?.strikeThrough()
+            bargainPriceLabel.text = "\(product.currency) \(product.price)"
+            bargainPriceLabel.textColor = .systemGray
+        }
+    }
+    
+    private func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
+        if product.stock == 0 {
+            productStockQuntity.text = "품절"
+            productStockQuntity.textColor = .systemOrange
+        } else {
+            productStockQuntity.text = "잔여수량 : \(product.stock)"
+            productStockQuntity.textColor = .systemGray
+        }
     }
 }

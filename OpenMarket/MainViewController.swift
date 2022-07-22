@@ -7,9 +7,13 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    
     static var viewCell = "LIST"
-    
+    //        willSet(cell) {
+    //            if cell == "LIST" {
+    //            } else {
+    //            }
+    //        }
+    //    }
     // MARK: Properties
     enum Section {
         case main
@@ -124,19 +128,8 @@ class MainViewController: UIViewController {
     }
     
     func configureDataSource() {
-        
-        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
-            
-            guard let url = URL(string: product.thumbnail) else { return }
-            guard let imageData = try? Data(contentsOf: url) else { return }
-            
-            let image = UIImage(data: imageData)
-            
-            cell.productThumnail.image = image
-            cell.productName.text = product.name
-            
-            self.showPrice(priceLabel: cell.productPrice, bargainPriceLabel: cell.bargainPrice, product: product)
-            self.showSoldOut(productStockQuntity: cell.productStockQuntity, product: product)
+        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, SaleInformation> { [weak self] (cell, indexPath, product) in
+            cell.configureCell(product: product)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
@@ -152,31 +145,8 @@ class MainViewController: UIViewController {
             return
         default:
             MainViewController.viewCell = "GRID"
-            collectionView.setCollectionViewLayout(createGrideLayout(), animated: true)
+            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
             return
-        }
-    }
-    
-    private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
-        priceLabel.text = "\(product.currency) \(product.price)"
-        if product.bargainPrice == 0.0 {
-            priceLabel.textColor = .systemGray
-            bargainPriceLabel.isHidden = true
-        } else {
-            priceLabel.textColor = .systemRed
-            priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            bargainPriceLabel.text = "\(product.currency) \(product.price)"
-            bargainPriceLabel.textColor = .systemGray
-        }
-    }
-    
-    private func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
-        if product.stock == 0 {
-            productStockQuntity.text = "품절"
-            productStockQuntity.textColor = .systemOrange
-        } else {
-            productStockQuntity.text = "잔여수량 : \(product.stock)"
-            productStockQuntity.textColor = .systemGray
         }
     }
     
@@ -187,7 +157,7 @@ class MainViewController: UIViewController {
         return layout
     }
     
-    private func createGrideLayout() -> UICollectionViewCompositionalLayout {
+    private func createGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.8))
@@ -199,8 +169,8 @@ class MainViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-
-    private func showNetworkError(message: String) {
+    
+    func showNetworkError(message: String) {
         let networkErrorMessage = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okButton = UIAlertAction(title: "확인", style: .default)
         networkErrorMessage.addAction(okButton)
