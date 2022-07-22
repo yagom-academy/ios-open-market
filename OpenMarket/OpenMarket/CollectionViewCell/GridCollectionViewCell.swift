@@ -13,7 +13,7 @@ class GridCollectionViewCell: ItemCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        contentView.addSubview(totalGridStackView)
         setGridStackView()
         setGridConstraints()
     }

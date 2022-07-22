@@ -7,19 +7,13 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    static var viewCell = "LIST"
-    //        willSet(cell) {
-    //            if cell == "LIST" {
-    //            } else {
-    //            }
-    //        }
-    //    }
+    
     // MARK: Properties
     enum Section {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>?
+    lazy var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>? = configureListDataSource()
     var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
     var count = 1
     
@@ -89,9 +83,9 @@ class MainViewController: UIViewController {
             wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
         
+        dataSource = configureListDataSource()
         self.snapshot.appendSections([.main])
         getProductList(pageNumber: 1, itemPerPage: 20)
-        configureDataSource()
     }
     
     private func getProductList(pageNumber: Int, itemPerPage: Int) {
@@ -108,7 +102,7 @@ class MainViewController: UIViewController {
                 
                 self.snapshot.appendItems(productList.pages)
                 
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     self.dataSource?.apply(self.snapshot, animatingDifferences: false)
                 }
                 
@@ -127,25 +121,37 @@ class MainViewController: UIViewController {
         }
     }
     
-    func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, SaleInformation> { [weak self] (cell, indexPath, product) in
+    func configureListDataSource() -> UICollectionViewDiffableDataSource<Section, SaleInformation>? {
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
             cell.configureCell(product: product)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
+        return dataSource
+    }
+    
+    func configureGridDataSource() -> UICollectionViewDiffableDataSource<Section, SaleInformation>? {
+        let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
+            cell.configureCell(product: product)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+        }
+        return dataSource
     }
     
     @objc private func handleSegmentChange() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            MainViewController.viewCell = "LIST"
             collectionView.setCollectionViewLayout(createListLayout(), animated: true)
+            dataSource = configureListDataSource()
             return
         default:
-            MainViewController.viewCell = "GRID"
             collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
+            dataSource = configureGridDataSource()
             return
         }
     }
