@@ -70,9 +70,8 @@ protocol APIRequest {
     var headers: [String: String]? { get }
     var query: [String: String]? { get }
     var body: Data? { get }
-    var path: URLAdditionalPath { get }
+    var path: String { get }
 }
-
 extension APIRequest {
     var url: URL? {
         var component = URLComponents(string: self.baseURL)

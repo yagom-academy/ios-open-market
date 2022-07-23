@@ -104,15 +104,22 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func fetchData() {
-        let productsRequest = ProductsRequest()
+        let productsRequest = OpenMarketRequest(path: URLAdditionalPath.product.value,
+                                              method: .get,
+                                              baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
+                                              query: [
+                                                Product.page.text:  "\(Product.page.number)",
+                                                Product.itemPerPage.text: "\(Product.itemPerPage.number)"
+                                              ])
         let myURLSession = MyURLSession()
         myURLSession.dataTask(with: productsRequest) { [weak self]
-            (result: Result<ProductsDetailList, Error>) in
+            (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
+                guard let decoededData = success.decodeImageData() else { return }
                 DispatchQueue.main.async {
-                    self?.gridCollectionView.setSnapshot(productsList: success.pages)
-                    self?.listCollectionView.setSnapshot(productsList: success.pages)
+                    self?.gridCollectionView.setSnapshot(productsList: decoededData.pages)
+                    self?.listCollectionView.setSnapshot(productsList: decoededData.pages)
                     guard let loadingView = self?.loadingView,
                           loadingView.isHidden == false
                     else { return }
@@ -185,6 +192,16 @@ final class OpenMarketViewController: UIViewController {
         self.fetchData()
         self.listCollectionView.refreshControl?.endRefreshing()
         self.gridCollectionView.refreshControl?.endRefreshing()
+    }
+}
+
+extension Data {
+    func decodeImageData() -> ProductsDetailList? {
+        let jsonDecoder = JSONDecoder()
+        var data: ProductsDetailList?
+        
+        data = try? jsonDecoder.decode(ProductsDetailList.self, from: self)
+        return data
     }
 }
 

@@ -98,7 +98,11 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func setViewItems(_ item: ProductDetail) {
-        productImage.image = item.makeThumbnailImage()
+        if let image = ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) {
+            productImage.image = image
+        } else {
+            productImage.image = item.makeThumbnailImage()
+        }
         productName.text = item.name
         price.attributedText = item.makePriceText()
         stock.attributedText = item.makeStockText()

@@ -8,13 +8,13 @@
 import Foundation
 
 final class MyURLSession: SessionProtocol {
-    func dataTask<T: Codable>(with request: APIRequest,
-                              completionHandler: @escaping (Result<T, Error>) -> Void) {
+    func dataTask(with request: APIRequest,
+                              completionHandler: @escaping (Result<Data, Error>) -> Void) {
         execute(with: request, completionHandler: completionHandler)
     }
     
-    func execute<T: Codable>(with request: APIRequest,
-                             completionHandler: @escaping (Result<T, Error>) -> Void) {
+    func execute(with request: APIRequest,
+                             completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let request = request.urlRequest else {
             completionHandler(.failure(NetworkError.request))
             return
@@ -34,12 +34,8 @@ final class MyURLSession: SessionProtocol {
                 completionHandler(.failure(NetworkError.invalidData))
                 return
             }
-            guard let decodedData = try? JSONDecoder().decode(T.self, from: safeData)
-            else {
-                completionHandler(.failure(CodableError.decode))
-                return
-            }
-            completionHandler(.success(decodedData))
+            
+            completionHandler(.success(safeData))
         }
         task.resume()
     }

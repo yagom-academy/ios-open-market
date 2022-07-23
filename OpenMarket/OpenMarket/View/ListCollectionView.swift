@@ -15,12 +15,17 @@ final class ListCollectionView: UICollectionView {
         (cell, indexPath, item) in
         var content = cell.defaultContentConfiguration()
         content.text = item.name
-        content.image = item.makeThumbnailImage()
         content.imageProperties.maximumSize = CGSize(width: ImageSize.width, height: ImageSize.height)
         content.secondaryAttributedText = item.makePriceText()
         
         let accessory = UICellAccessory.disclosureIndicator()
         var stockAccessory = UICellAccessory.disclosureIndicator()
+        
+        if let image = ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) {
+            content.image = image
+        } else {
+            content.image = item.makeThumbnailImage()
+        }
         
         if item.stock == .zero {
             let text = PriceText.soldOut.text

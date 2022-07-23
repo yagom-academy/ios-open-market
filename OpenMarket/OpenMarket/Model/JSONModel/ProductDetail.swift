@@ -19,7 +19,7 @@ struct ProductDetail: Codable, Hashable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-
+    
     private enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
@@ -49,12 +49,24 @@ extension ProductDetail {
         }
     }
     
-    func makeThumbnailImage() -> UIImage {
-        guard let url = URL(string: self.thumbnail),
-                let data = try? Data(contentsOf: url),
-                let image = UIImage(data: data) else {  return UIImage() }
+    func makeThumbnailImage() -> UIImage? {
+        var resultImage: UIImage?
+        let request = OpenMarketRequest(path: "", method: .get, baseURL: thumbnail)
+        let session = MyURLSession()
+        session.execute(with: request) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                guard let image = UIImage(data: success) else { return }
+                if ImageCacheManager.shared.object(forKey: NSString(string: self.thumbnail)) == nil {
+                    ImageCacheManager.shared.setObject(image, forKey: NSString(string: self.thumbnail))
+                }
+                resultImage = image
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
         
-        return image
+        return resultImage
     }
     
     func makeStockText() -> NSMutableAttributedString {
@@ -80,7 +92,7 @@ extension ProductDetail {
             ]
             
             muttableAttributedString.addAttributes(attributes, range: NSMakeRange(0, stockText.count))
-      
+            
             return muttableAttributedString
         }
     }
