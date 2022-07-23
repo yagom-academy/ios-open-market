@@ -76,6 +76,8 @@ final class GridCollectionCell: UICollectionViewCell {
         return label
     }()
     
+    private var viewModel: MarketProductsViewModel?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -120,28 +122,27 @@ final class GridCollectionCell: UICollectionViewCell {
         ])
     }
     
+    private func configureForOriginal() {
+        discountedPriceLabel.isHidden = true
+        originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: 0)
+        originalPriceLabel.textColor = .systemGray
+    }
+    
+    private func configureForBargain() {
+        discountedPriceLabel.isHidden = false
+        originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: NSUnderlineStyle.single.rawValue)
+        originalPriceLabel.textColor = .systemRed
+    }
+    
     func updateUI(_ data: ProductEntity) {
-        productImageView.image = data.thumbnailImage
-        productNameLabel.text = data.name
-        originalPriceLabel.text = data.currency + " " + data.originalPrice.numberFormatter()
-        originalPriceLabel.numberOfLines = 0
-        bargainPriceLabel.text = data.currency + " " + data.discountedPrice.numberFormatter()
-        bargainPriceLabel.numberOfLines = 0
-        leftoverLabel.text = "잔여수량 : " + String(data.stock)
+        viewModel =  MarketProductsViewModel(product: data)
+        productImageView.image = viewModel?.thumbnailImage
+        productNameLabel.text = viewModel?.name
+        originalPriceLabel.text = viewModel?.originalPriceText
+        discountedPriceLabel.text =  viewModel?.discountedPriceText
+        stockLabel.text = viewModel?.stockText
         
-        if data.originalPrice == data.discountedPrice {
-            bargainPriceLabel.isHidden = true
-            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: 0)
-            originalPriceLabel.textColor = .systemGray
-        } else {
-            bargainPriceLabel.isHidden = false
-            originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: NSUnderlineStyle.single.rawValue)
-            originalPriceLabel.textColor = .systemRed
-        }
-        
-        if data.stock == 0 {
-            leftoverLabel.text = "품절"
-            leftoverLabel.textColor = .systemYellow
-        }
+        viewModel?.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
+        stockLabel.textColor = viewModel?.isEmptyStock == true ? .systemYellow : .systemGray
     }
 }

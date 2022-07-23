@@ -9,14 +9,16 @@ import UIKit
 
 final class MarketProductsViewModel {
     private var products: [Product] = []
-    
-    var isDiscountedItem: Bool = true {
-        
-    }
+    private var product: ProductEntity?
     
     init(products: [Product]) {
         self.products = products
     }
+    
+    init(product: ProductEntity) {
+        self.product = product
+    }
+    
     
     func fetchData() -> [ProductEntity] {
         var entityList: [ProductEntity] = []
@@ -39,6 +41,70 @@ final class MarketProductsViewModel {
         
         return entityList
     }
+}
+
+extension MarketProductsViewModel {
+    var thumbnailImage: UIImage? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return product.thumbnailImage
+    }
     
+    var name: String? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return product.name
+    }
     
+    var currency: String? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return product.currency
+    }
+    
+    var originalPriceText: String? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return product.currency + " " + (product.originalPrice.numberFormatter())
+    }
+    
+    var discountedPriceText: String? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return product.currency + " " + (product.discountedPrice.numberFormatter())
+    }
+    
+    var stockText: String? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return isEmptyStock == true ? "품절" : "잔여수량 : \(product.stock)"
+    }
+    
+    var isDiscountedItem: Bool? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return product.originalPrice == product.discountedPrice
+    }
+    
+    var isEmptyStock: Bool? {
+        guard let product = product else {
+            return nil
+        }
+        
+        return product.stock == 0
+    }
 }
