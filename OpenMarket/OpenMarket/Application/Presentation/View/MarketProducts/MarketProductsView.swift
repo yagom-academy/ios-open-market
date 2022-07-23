@@ -14,6 +14,7 @@ final class MarketProductsView: UIView {
     }
     
     private var productsModel: [ProductEntity] = []
+    private var marketProductsViewModel: MarketProductsViewModel?
     
     private var listCollectionView: UICollectionView?
     private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
@@ -80,20 +81,8 @@ private extension MarketProductsView {
                                     dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
-                productList.pages.forEach { product in
-                    guard let thumbnailImage = product.thumbnailImage else {
-                        return
-                    }
-                    
-                    let item = ProductEntity(thumbnailImage: thumbnailImage,
-                                             name: product.name,
-                                             currency: product.currency,
-                                             originalPrice: product.price,
-                                             discountedPrice: product.bargainPrice,
-                                             stock: product.stock)
-                    
-                    self.productsModel.append(item)
-                }
+                let products = productList.pages
+                self.marketProductsViewModel = MarketProductsViewModel(products: products)
                 
                 DispatchQueue.main.async {
                     self.createGridCollectionView(of: rootViewController.view)
@@ -245,7 +234,7 @@ private extension MarketProductsView {
     func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
         snapShot.appendSections([.main])
-        snapShot.appendItems(productsModel)
+        snapShot.appendItems((marketProductsViewModel?.fetchData())!)
         
         dataSource.apply(snapShot,
                          animatingDifferences: true)
