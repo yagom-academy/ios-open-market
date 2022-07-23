@@ -1,8 +1,8 @@
 enum Titles: Int, CaseIterable {
-    case LIST
-    case GRID
+    case list
+    case grid
     
     static var toString: [String] {
-        Titles.allCases.map { String(describing: $0) }
+        Titles.allCases.map { String(describing: $0).uppercased() }
     }
 }

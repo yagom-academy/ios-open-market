@@ -22,7 +22,7 @@ struct ProductsDataManager {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             do {
-                let data = try isData(data, response, error)
+                let data = try checkValidData(data, response, error)
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(decodedData)
             } catch {
@@ -32,7 +32,7 @@ struct ProductsDataManager {
         task.resume()
     }
     
-    private func isData(_ data: Data?, _ response: URLResponse?, _ error: Error?) throws -> Data {
+    private func checkValidData(_ data: Data?, _ response: URLResponse?, _ error: Error?) throws -> Data {
         if let error = error {
             throw error
         }

@@ -104,7 +104,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    private let stackView: UIStackView = {
+    private let productStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
@@ -116,13 +116,12 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    private let separator: UIView = {
+    private let separatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemGray5
         return view
     }()
-    
     
     // MARK: - Life Cycle
     
@@ -139,42 +138,40 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     }
 }
 
-
-// MARK: - Functions
+// MARK: - Cell Layout Method
 
 extension ItemCollectionViewCell {
-    
     private func addViews() {
-        addSubview(stackView)
-        addSubview(separator)
+        addSubview(productStackView)
+        addSubview(separatorView)
         
         priceStackView.addArrangedSubview(itemPriceLabel)
         
         itemNameAndPriceStackView.addArrangedSubview(itemNameLabel)
         itemNameAndPriceStackView.addArrangedSubview(priceStackView)
         
-        stackView.addArrangedSubview(itemImageView)
-        stackView.addArrangedSubview(itemNameAndPriceStackView)
-        stackView.addArrangedSubview(itemStockLabel)
+        productStackView.addArrangedSubview(itemImageView)
+        productStackView.addArrangedSubview(itemNameAndPriceStackView)
+        productStackView.addArrangedSubview(itemStockLabel)
     }
     
     private func configureLayoutContraints() {
         itemImageView.widthAnchor.constraint(equalTo: self.itemImageView.heightAnchor).isActive = true
         
-        stackViewTraillingContraint = stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+        stackViewTraillingContraint = productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         stackViewTraillingContraint?.isActive = true
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            productStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            separator.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 1),
-            separator.heightAnchor.constraint(equalToConstant: 1),
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separatorView.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 1),
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
     
@@ -184,10 +181,10 @@ extension ItemCollectionViewCell {
         self.layer.borderWidth = 0
         self.layer.borderColor = nil
         
-        self.stackView.spacing = 10
-        self.stackView.axis = .horizontal
+        self.productStackView.spacing = 10
+        self.productStackView.axis = .horizontal
         self.stackViewTraillingContraint?.constant = -8
-        self.stackView.isLayoutMarginsRelativeArrangement = false
+        self.productStackView.isLayoutMarginsRelativeArrangement = false
         
         self.priceStackView.axis = .horizontal
         self.itemNameAndPriceStackView.alignment = .leading
@@ -202,10 +199,10 @@ extension ItemCollectionViewCell {
         self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.systemGray3.cgColor
         
-        self.stackView.spacing = 0
-        self.stackView.axis = .vertical
+        self.productStackView.spacing = 0
+        self.productStackView.axis = .vertical
         self.stackViewTraillingContraint?.constant = 0
-        self.stackView.isLayoutMarginsRelativeArrangement = true
+        self.productStackView.isLayoutMarginsRelativeArrangement = true
         
         self.priceStackView.axis = .vertical
         self.itemNameAndPriceStackView.alignment = .fill
@@ -215,16 +212,15 @@ extension ItemCollectionViewCell {
     }
 }
 
-
-// MARK: - Setter Functions
+// MARK: - Setter Method
 
 extension ItemCollectionViewCell {
     func setAxis(segment: Titles) {
         UIView.animate(withDuration: 0.3) {
             switch segment {
-            case .LIST:
+            case .list:
                 self.listLayout()
-            case .GRID:
+            case .grid:
                 self.gridLayout()
             }
         }
@@ -238,7 +234,6 @@ extension ItemCollectionViewCell {
         self.itemImageView.image = image
     }
 }
-
 
 // MARK: - prepare For Reuse
 
