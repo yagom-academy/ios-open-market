@@ -7,6 +7,10 @@
 
 import UIKit
 
+struct ProductList: Codable {
+    let pages: [Product]
+}
+
 struct Product: Codable {
     let id: Int
     let venderID: Int
