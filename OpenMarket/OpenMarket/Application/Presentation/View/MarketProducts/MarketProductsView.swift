@@ -13,7 +13,6 @@ final class MarketProductsView: UIView {
         case main
     }
     
-    private var productsModel: [ProductEntity] = []
     private var marketProductsViewModel: MarketProductsViewModel?
     
     private var listCollectionView: UICollectionView?
@@ -42,8 +41,7 @@ final class MarketProductsView: UIView {
         super.init(frame: .null)
         
         rootViewController.view.backgroundColor = .white
-        setNavigationItems(of: rootViewController)
-        fetchData(from: rootViewController)
+        configureUI(from: rootViewController)
     }
     
     @available(*, unavailable)
@@ -53,7 +51,7 @@ final class MarketProductsView: UIView {
 }
 
 private extension MarketProductsView {
-    func setNavigationItems(of rootViewController: UIViewController) {
+    func setupNavigationItems(of rootViewController: UIViewController) {
         rootViewController.navigationItem.titleView = self.segmentedControl
         rootViewController.navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "+",
                                                                   style: .plain,
@@ -76,8 +74,8 @@ private extension MarketProductsView {
     func fetchData(from rootViewController: UIViewController) {
         let url = "https://market-training.yagom-academy.kr/api/products?page_no=1&items_per_page=50"
         
-        let openMarket = NetworkProvider(session: URLSession.shared)
-        openMarket.requestAndDecode(url: url,
+        let networkProvider = NetworkProvider(session: URLSession.shared)
+        networkProvider.requestAndDecode(url: url,
                                     dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
@@ -85,10 +83,7 @@ private extension MarketProductsView {
                 self.marketProductsViewModel = MarketProductsViewModel(products: products)
                 
                 DispatchQueue.main.async {
-                    self.createGridCollectionView(of: rootViewController.view)
                     self.configureGridDataSource()
-                    self.gridCollectionView.isHidden = true
-                    self.createListCollectionView(of: rootViewController.view)
                     self.configureListDataSource()
                 }
                 
@@ -104,7 +99,16 @@ private extension MarketProductsView {
 }
 
 private extension MarketProductsView {
-    func createListCollectionView(of rootView: UIView) {
+    func configureUI(from rootViewController: UIViewController) {
+        configureListCollectionView(of: rootViewController.view)
+        configureGridCollectionView(of: rootViewController.view)
+        gridCollectionView?.isHidden = true
+        
+        setupNavigationItems(of: rootViewController)
+        fetchData(from: rootViewController)
+    }
+    
+    func configureListCollectionView(of rootView: UIView) {
         listCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: configureListLayout())
         
@@ -123,7 +127,7 @@ private extension MarketProductsView {
         ])
     }
     
-    func createListLayout() -> UICollectionViewLayout {
+    func configureListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -163,9 +167,9 @@ private extension MarketProductsView {
         }
     }
     
-    func createGridCollectionView(of rootView: UIView) {
+    func configureGridCollectionView(of rootView: UIView) {
         gridCollectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: createGridLayout(of: rootView))
+                                              collectionViewLayout: configureGridLayout(of: rootView))
         
         guard let collectionView = gridCollectionView else {
             return
@@ -182,7 +186,7 @@ private extension MarketProductsView {
         ])
     }
     
-    func createGridLayout(of rootView: UIView) -> UICollectionViewCompositionalLayout{
+    func configureGridLayout(of rootView: UIView) -> UICollectionViewCompositionalLayout{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
