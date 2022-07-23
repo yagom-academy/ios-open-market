@@ -62,20 +62,22 @@ final class ListCollectionCell: UICollectionViewListCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .gray
-        
+        label.numberOfLines = 0
+
         return label
     }()
     
-    private let bargainPriceLabel: UILabel = {
+    private let discountedPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .gray
-        
+        label.numberOfLines = 0
+
         return label
     }()
     
-    private let leftoverLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -103,10 +105,10 @@ final class ListCollectionCell: UICollectionViewListCell {
         productNameLabel.text = nil
         originalPriceLabel.text = nil
         originalPriceLabel.textColor = .systemGray
-        bargainPriceLabel.text = nil
-        bargainPriceLabel.textColor = .systemGray
-        leftoverLabel.text = nil
-        leftoverLabel.textColor = .systemGray
+        discountedPriceLabel.text = nil
+        discountedPriceLabel.textColor = .systemGray
+        stockLabel.text = nil
+        stockLabel.textColor = .systemGray
     }
     
     private func configureListCell() {
@@ -118,9 +120,9 @@ final class ListCollectionCell: UICollectionViewListCell {
         labelStackView.addArrangedSubview(priceLabelStackView)
         
         priceLabelStackView.addArrangedSubview(originalPriceLabel)
-        priceLabelStackView.addArrangedSubview(bargainPriceLabel)
+        priceLabelStackView.addArrangedSubview(discountedPriceLabel)
         
-        rootStackView.addArrangedSubview(leftoverLabel)
+        rootStackView.addArrangedSubview(stockLabel)
         
         NSLayoutConstraint.activate([
             rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
