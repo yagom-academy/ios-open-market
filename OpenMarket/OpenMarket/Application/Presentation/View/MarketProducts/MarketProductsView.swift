@@ -112,22 +112,9 @@ private extension MarketProductsView {
                     return
                 }
                 
-                self.presentConfirmAlert(message: message, for: rootViewController)
+                rootViewController.presentConfirmAlert(message: message)
             }
         }
-    }
-    
-    func presentConfirmAlert(message: String, for rootViewController: UIViewController) {
-        let alertController = UIAlertController(title: AlertSetting.controller.title,
-                                                message: message,
-                                                preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: AlertSetting.confirmAction.title,
-                                          style: .default,
-                                          handler: nil)
-        
-        alertController.addAction(confirmAction)
-        rootViewController.present(alertController,
-                     animated: false)
     }
 }
 
