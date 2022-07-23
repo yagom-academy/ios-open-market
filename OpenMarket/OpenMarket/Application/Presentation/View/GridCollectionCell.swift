@@ -80,8 +80,9 @@ final class GridCollectionCell: UICollectionViewCell {
         configureGridCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("not implemnted")
+        super.init(coder: coder)
     }
     
     override func prepareForReuse() {
@@ -97,9 +98,6 @@ final class GridCollectionCell: UICollectionViewCell {
         leftoverLabel.textColor = .systemGray
     }
     
-}
-
-extension GridCollectionCell {
     private func configureGridCell() {
         contentView.addSubview(rootStackView)
         rootStackView.addArrangedSubview(productImageView)
