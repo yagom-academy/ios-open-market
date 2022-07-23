@@ -91,8 +91,9 @@ final class ListCollectionCell: UICollectionViewListCell {
         configureListCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("not implemnted")
+        super.init(coder: coder)
     }
     
     override func prepareForReuse() {
@@ -107,9 +108,7 @@ final class ListCollectionCell: UICollectionViewListCell {
         leftoverLabel.text = nil
         leftoverLabel.textColor = .systemGray
     }
-}
-
-extension ListCollectionCell {
+    
     private func configureListCell() {
         contentView.addSubview(rootStackView)
         rootStackView.addArrangedSubview(productImageView)
