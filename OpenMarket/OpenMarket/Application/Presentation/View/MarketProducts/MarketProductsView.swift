@@ -15,11 +15,11 @@ final class MarketProductsView: UIView {
     
     private var productsModel: [ProductEntity] = []
     
-    private var listCollectionView: UICollectionView!
-    private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>!
+    private var listCollectionView: UICollectionView?
+    private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
     
-    private var gridCollectionView: UICollectionView!
-    private var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>!
+    private var gridCollectionView: UICollectionView?
+    private var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
     
     private let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
@@ -30,14 +30,10 @@ final class MarketProductsView: UIView {
         return control
     }()
     
-    private var shouldHideListView: Bool? {
+    private var shouldHideListView: Bool = true {
         didSet {
-            guard let shouldHideListView = self.shouldHideListView else {
-                return
-            }
-            
             self.listCollectionView?.isHidden = shouldHideListView
-            self.gridCollectionView?.isHidden = !self.listCollectionView.isHidden
+            self.gridCollectionView?.isHidden = !shouldHideListView
         }
     }
     
@@ -121,15 +117,20 @@ private extension MarketProductsView {
 private extension MarketProductsView {
     func createListCollectionView(of rootView: UIView) {
         listCollectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: createListLayout())
-        rootView.addSubview(listCollectionView)
-        listCollectionView.translatesAutoresizingMaskIntoConstraints = false
+                                              collectionViewLayout: configureListLayout())
+        
+        guard let collectionView = listCollectionView else {
+            return
+        }
+        
+        rootView.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            listCollectionView.topAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.topAnchor),
-            listCollectionView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
-            listCollectionView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
-            listCollectionView.bottomAnchor.constraint(equalTo: rootView.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: rootView.bottomAnchor),
         ])
     }
     
@@ -156,7 +157,11 @@ private extension MarketProductsView {
             cell.accessories = [.disclosureIndicator()]
         }
         
-        listDataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: listCollectionView) {
+        guard let collectionView = listCollectionView else {
+            return
+        }
+        
+        listDataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: ProductEntity) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
@@ -164,21 +169,27 @@ private extension MarketProductsView {
                                                                 item: identifier)
         }
         
-        applySnapShot(to: listDataSource)
+        if let dataSource = listDataSource {
+            applySnapShot(to: dataSource)
+        }
     }
     
     func createGridCollectionView(of rootView: UIView) {
         gridCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: createGridLayout(of: rootView))
         
-        rootView.addSubview(gridCollectionView)
-        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        guard let collectionView = gridCollectionView else {
+            return
+        }
+        
+        rootView.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            gridCollectionView.topAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.topAnchor),
-            gridCollectionView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
-            gridCollectionView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
-            gridCollectionView.bottomAnchor.constraint(equalTo: rootView.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: rootView.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: rootView.bottomAnchor),
         ])
     }
     
@@ -215,14 +226,20 @@ private extension MarketProductsView {
             cell.updateUI(item)
         }
         
-        gridDataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: gridCollectionView) { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+        guard let collectionView = gridCollectionView else {
+            return
+        }
+        
+        gridDataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>(collectionView: collectionView) { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                 for: indexPath,
                                                                 item: itemIdentifier)
         }
         
-        applySnapShot(to: gridDataSource)
+        if let dataSource = gridDataSource {
+            applySnapShot(to: dataSource)
+        }
     }
     
     func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>) {
