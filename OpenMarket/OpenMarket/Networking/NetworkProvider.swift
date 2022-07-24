@@ -18,28 +18,33 @@ class NetworkProvider {
                                       dataType: T.Type,
                                       completion: @escaping (Result<T,NetworkError>) -> Void) {
         guard let url = URL(string: url) else {
-            completion(.failure(.invalidURL))
+            completion(.failure(.unknownErrorOccured))
             return
         }
         
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) { data, response, error in
+            
             if error != nil {
                 completion(.failure(.unknownErrorOccured))
                 return
             }
             
-            if let response = response as? HTTPURLResponse,
-               (200..<300).contains(response.statusCode),
-               let verifiedData = data {
-                do {
-                    let decodedData = try JSONDecoder().decode(T.self,
-                                                               from: verifiedData)
-                    completion(.success(decodedData))
-                } catch {
-                    completion(.failure(.failedToDecode))
-                }
-            } else {
-                completion(.failure(.networkConnectionIsBad))
+            guard let response = response as? HTTPURLResponse,
+                  (200..<300).contains(response.statusCode) else {
+                completion(.failure(.invalidURL))
+                return
+            }
+         
+            guard let verifiedData = data else {
+                completion(.failure(.emptyData))
+                return
+            }
+            do {
+                let decodedData = try JSONDecoder().decode(T.self,
+                                                           from: verifiedData)
+                completion(.success(decodedData))
+            } catch {
+                completion(.failure(.failedToDecode))
             }
         }
         dataTask.resume()

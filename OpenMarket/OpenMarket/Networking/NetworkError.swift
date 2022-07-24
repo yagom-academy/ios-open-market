@@ -11,7 +11,7 @@ enum NetworkError: Error, LocalizedError {
     case invalidURL
     case failedToDecode
     case jsonFileNotFound
-    case networkConnectionIsBad
+    case emptyData
     case unknownErrorOccured
     
     var errorDescription: String? {
@@ -22,8 +22,8 @@ enum NetworkError: Error, LocalizedError {
             return "Falied to decode response data."
         case .jsonFileNotFound:
             return "JSON file not found."
-        case .networkConnectionIsBad:
-            return "Network connection is bad."
+        case .emptyData:
+            return "There is no data."
         case .unknownErrorOccured:
             return "Unknown error occured."
         }
