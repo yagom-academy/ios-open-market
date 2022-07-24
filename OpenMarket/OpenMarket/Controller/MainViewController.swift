@@ -24,7 +24,6 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.navigationItem.titleView = segment
         configureSegment()
         configureGridHierarchy()
         configureGridDataSource()
@@ -70,8 +69,9 @@ final class MainViewController: UIViewController {
 //MARK: Segment
 extension MainViewController {
     private func configureSegment() {
-        segment.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
-        segment.setTitleTextAttributes([.foregroundColor : UIColor.systemBlue], for: .normal)
+        self.navigationItem.titleView = segment
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
         segment.selectedSegmentTintColor = .systemBlue
         segment.frame.size.width = view.bounds.width * 0.4
         segment.setWidth(view.bounds.width * 0.2, forSegmentAt: 0)
