@@ -202,8 +202,11 @@ final class MarketProductsView: UIView {
         self.segmentedControl.selectedSegmentIndex = 0
     }
     
-    private func fetchData(from rootViewController: UIViewController) {
-        let url = "https://market-training.yagom-academy.kr/api/products?page_no=1&items_per_page=20"
+    private func fetchData(from rootViewController: UIViewController) { 
+        guard let url = productURLManager.setUpProductListRetrieveQuery(pageNumber: 1,
+                                                                        itemAmount: 10) else {
+            return
+        }
         
         let networkProvider = NetworkProvider(session: URLSession.shared)
         networkProvider.requestAndDecode(url: url,

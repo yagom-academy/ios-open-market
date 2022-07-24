@@ -14,14 +14,9 @@ class NetworkProvider {
         self.session = session
     }
     
-    func requestAndDecode<T: Codable>(url: String,
+    func requestAndDecode<T: Codable>(url: URL,
                                       dataType: T.Type,
                                       completion: @escaping (Result<T,NetworkError>) -> Void) {
-        guard let url = URL(string: url) else {
-            completion(.failure(.unknownErrorOccured))
-            return
-        }
-        
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) { data, response, error in
             
             if error != nil {
