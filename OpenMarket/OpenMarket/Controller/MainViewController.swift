@@ -12,9 +12,9 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    var listDataSource: UICollectionViewDiffableDataSource<Section, Page>! = nil
-    var gridDataSource: UICollectionViewDiffableDataSource<Section, Page>! = nil
-    var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+    var listDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
+    var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
+    var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     var collectionView: UICollectionView! = nil
     let segment = UISegmentedControl(items: ["List", "Grid"])
     let manager = NetworkManager()
@@ -121,7 +121,7 @@ extension MainViewController {
     }
     
     private func configureListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Page> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
             cell.spacingView.isHidden = true
             cell.priceLabel.text = .none
             cell.priceLabel.attributedText = .none
@@ -155,8 +155,8 @@ extension MainViewController {
             cell.thumbnailView.image = UIImage(data: imageData)
         }
         
-        listDataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Page) -> UICollectionViewCell? in
+        listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
@@ -189,7 +189,7 @@ extension MainViewController {
     }
     
     private func configureGridDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, Page> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { (cell, indexPath, item) in
             cell.priceLabel.text = .none
             cell.priceLabel.attributedText = .none
             cell.titleLabel.text = "\(item.name)"
@@ -224,8 +224,8 @@ extension MainViewController {
             cell.layer.borderWidth = 1
         }
         
-        gridDataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Page) -> UICollectionViewCell? in
+        gridDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
