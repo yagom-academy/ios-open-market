@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+final class ListCollectionViewCell: UICollectionViewCell {
     private let horizontalStackView = UIStackView()
     private let verticalStackView = UIStackView()
     private let priceStackView = UIStackView()
@@ -24,8 +24,9 @@ class ListCollectionViewCell: UICollectionViewCell {
         configureHorizontalStackView()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) has not been impl")
     }
     
     private func configureHorizontalStackView() {

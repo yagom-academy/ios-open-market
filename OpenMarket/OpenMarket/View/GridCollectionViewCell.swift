@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell {
     private let verticalStackView = UIStackView()
     let titleLabel = UILabel()
     let itemImageView = UIImageView()
@@ -20,8 +20,9 @@ class GridCollectionViewCell: UICollectionViewCell {
         configure()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) has not been impl")
     }
     
     private func configure() {
