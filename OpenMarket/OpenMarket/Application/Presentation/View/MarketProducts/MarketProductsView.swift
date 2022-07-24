@@ -10,12 +10,13 @@ import UIKit
 
 final class MarketProductsView: UIView {
     // MARK: Properties
+    
     fileprivate enum Section {
         case main
     }
-
+    
+    private let productURLManager = ProductURLManager()
     private var marketProductsViewModel: MarketProductsViewModel?
-    private var sections: [MarketProductsView.Section]?
     
     private var listCollectionView: UICollectionView?
     private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
@@ -47,8 +48,8 @@ final class MarketProductsView: UIView {
     }
     
     @available(*, unavailable)
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
     // MARK: - UI
@@ -154,7 +155,7 @@ final class MarketProductsView: UIView {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalWidth(0.2))
+                                                   heightDimension: .fractionalWidth(0.25))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                            subitem: item,
                                                            count: 1)

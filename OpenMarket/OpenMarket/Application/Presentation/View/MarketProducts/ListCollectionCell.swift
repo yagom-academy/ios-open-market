@@ -132,16 +132,15 @@ final class ListCollectionCell: UICollectionViewListCell {
         priceLabelStackView.addArrangedSubview(discountedPriceLabel)
         
         rootStackView.addArrangedSubview(stockLabel)
-        
-        productImageView.setContentHuggingPriority(UILayoutPriority.fittingSizeLevel , for: .horizontal)
-        
+                
         NSLayoutConstraint.activate([
             rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
             productImageView.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2),
-            productImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2),
+            productImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2)
         ])
     }
     
@@ -174,7 +173,10 @@ private extension CALayer {
     func addBottomBorder() {
         let border = CALayer()
         border.backgroundColor = UIColor.systemGray3.cgColor
-        border.frame = CGRect(x: 0, y: frame.height + 4, width: frame.width, height: 0.5)
+        border.frame = CGRect(x: 0,
+                              y: frame.height + 4,
+                              width: frame.width,
+                              height: 0.5)
         
         self.addSublayer(border)
     }
