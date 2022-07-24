@@ -7,6 +7,7 @@
 import UIKit
 
 final class MarketProductsViewController: UIViewController {
+    // MARK: View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

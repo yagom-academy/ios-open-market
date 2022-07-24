@@ -9,6 +9,7 @@
 import UIKit
 
 final class MarketProductsView: UIView {
+    // MARK: Properties
     fileprivate enum Section {
         case main
     }

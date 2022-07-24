@@ -8,6 +8,8 @@
 import UIKit
 
 final class ListCollectionCell: UICollectionViewListCell {
+    // MARK: Properties
+    
     private let rootStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,6 +91,8 @@ final class ListCollectionCell: UICollectionViewListCell {
     
     private var viewModel: MarketProductsViewModel?
 
+    // MARK: - Cell Life Cycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -114,6 +118,8 @@ final class ListCollectionCell: UICollectionViewListCell {
         stockLabel.textColor = .systemGray
     }
     
+    // MARK: - UI
+
     private func configureListCell() {
         contentView.addSubview(rootStackView)
         rootStackView.addArrangedSubview(productImageView)

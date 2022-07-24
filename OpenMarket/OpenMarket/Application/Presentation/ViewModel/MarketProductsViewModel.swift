@@ -10,6 +10,7 @@ import UIKit
 final class MarketProductsViewModel {
     private var products: [Product] = []
     private var product: ProductEntity?
+    // MARK: Properties
     
     init(products: [Product]) {
         self.products = products
@@ -107,4 +108,7 @@ extension MarketProductsViewModel {
         
         return product.stock == 0
     }
+    
+    // MARK: - Initializer
+
 }
