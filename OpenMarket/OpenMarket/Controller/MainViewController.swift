@@ -26,8 +26,9 @@ final class MainViewController: UIViewController {
         self.view.backgroundColor = .white
         configureSegment()
         configureGridHierarchy()
-        configureGridDataSource()
         configureListHierarchy()
+        self.view.addSubview(collectionView)
+        configureGridDataSource()
         configureListDataSource()
         configureLoadingView()
     }
@@ -117,7 +118,6 @@ extension MainViewController {
     private func configureListHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(collectionView)
     }
     
     private func configureListDataSource() {
@@ -186,8 +186,6 @@ extension MainViewController {
     private func configureGridHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .systemBackground
-        view.addSubview(collectionView)
     }
     
     private func configureGridDataSource() {

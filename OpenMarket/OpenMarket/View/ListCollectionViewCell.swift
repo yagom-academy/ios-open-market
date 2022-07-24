@@ -30,7 +30,9 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureHorizontalStackView() {
-        let pricePriority = discountedLabel.contentHuggingPriority(for: .horizontal) + 1
+        let priceHuggingPriority = discountedLabel.contentHuggingPriority(for: .horizontal) + 1
+        let stockHuggingPriority = titleLabel.contentHuggingPriority(for: .horizontal) + 1
+        let stockCompressionPriority = titleLabel.contentCompressionResistancePriority(for: .horizontal) + 1
         
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,10 +53,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
         
         titleLabel.textAlignment = .left
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        stockLabel.setContentHuggingPriority(stockHuggingPriority, for: .horizontal)
+        stockLabel.setContentCompressionResistancePriority(stockCompressionPriority, for: .horizontal)
         stockLabel.textAlignment = .right
-        priceLabel.setContentHuggingPriority(pricePriority, for: .horizontal)
+        priceLabel.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
         priceLabel.isHidden = true
-        spacingView.setContentHuggingPriority(pricePriority, for: .horizontal)
+        spacingView.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
         discountedLabel.textAlignment = .left
         
         let image = UIImageView(image: UIImage(systemName: "chevron.right"))
@@ -83,6 +87,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
             verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -15),
             verticalStackView.centerYAnchor.constraint(equalTo: thumbnailView.centerYAnchor),
             
+            titleLabel.leadingAnchor.constraint(equalTo: horizontalStackView.leadingAnchor),
+            stockLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 5),
             stockLabel.trailingAnchor.constraint(equalTo: accessoryView.leadingAnchor, constant: -5),
             
             accessoryView.heightAnchor.constraint(equalToConstant: 17),
