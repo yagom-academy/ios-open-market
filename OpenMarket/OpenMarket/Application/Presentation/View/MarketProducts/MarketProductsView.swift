@@ -15,6 +15,7 @@ final class MarketProductsView: UIView {
         case main
     }
     
+    private let networkProvider = NetworkProvider(session: URLSession.shared)
     private let productURLManager = ProductURLManager()
     private var marketProductsViewModel: MarketProductsViewModel?
     
@@ -208,7 +209,6 @@ final class MarketProductsView: UIView {
             return
         }
         
-        let networkProvider = NetworkProvider(session: URLSession.shared)
         networkProvider.requestAndDecode(url: url,
                                          dataType: ProductList.self) { [weak self] result in
             switch result {
