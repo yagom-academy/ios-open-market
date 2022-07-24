@@ -3,7 +3,7 @@ import Foundation
 struct ProductsDataManager {
     let url = "https://market-training.yagom-academy.kr/api/products"
     
-    func getData(pageNumber: Int, itemsPerPage: Int, completion: @escaping (Result<Products, Error>) -> Void) {
+    func getData<T: Decodable>(pageNumber: Int, itemsPerPage: Int, completion: @escaping (T) -> Void) {
         
         var urlComponent = URLComponents(string: url)
         urlComponent?.queryItems = [
@@ -15,45 +15,44 @@ struct ProductsDataManager {
         
         let request = URLRequest(url: urlComponentURL)
         
+        sendRequest(request, completion)
+    }
+    
+    private func sendRequest<T: Decodable>(_ request: URLRequest, _ completion: @escaping (T) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            if let error = error {
-                completion(.failure(error))
-                return
+            do {
+                let data = try checkValidData(data, response, error)
+                let decodedData = try JSONDecoder().decode(T.self, from: data)
+                completion(decodedData)
+            } catch {
+                print(error)
             }
-            
-            if let urlError = responseErrorhandling(response: response) {
-                completion(.failure(urlError))
-                return
-            }
-            
-            guard let data = data else {
-                let decodingContext = makeContext(by: "data")
-                completion(.failure(DecodingError.dataCorrupted(decodingContext)))
-                return
-            }
-            
-            guard let decodedData = try? JSONDecoder().decode(Products.self, from: data) else {
-                let decodingContext = makeContext(by: "JSON")
-                completion(.failure(DecodingError.typeMismatch(Products.self, decodingContext)))
-                return
-            }
-            
-            completion(.success(decodedData))
         }
         task.resume()
     }
     
-    private func makeContext(by errorDebugDescription: String) -> DecodingError.Context {
-        let decodingContext = DecodingError.Context.init(codingPath: Products.CodingKeys.allCases, debugDescription: "Can't response \(errorDebugDescription)")
-        return decodingContext
+    private func checkValidData(_ data: Data?, _ response: URLResponse?, _ error: Error?) throws -> Data {
+        if let error = error {
+            throw error
+        }
+        
+        if let urlError = responseErrorhandling(response) {
+            throw urlError
+        }
+        
+        guard let data = data else {
+            throw URLSessionError.invalidData
+        }
+        
+        return data
     }
-    
-    private func responseErrorhandling(response: URLResponse?) -> URLSessionError? {
+
+    private func responseErrorhandling(_ response: URLResponse?) -> URLSessionError? {
         guard let response = response as? HTTPURLResponse else { return nil }
         switch response.statusCode {
         case 300..<400:
-                return URLSessionError.redirection
+            return URLSessionError.redirection
         case 400..<500:
             return URLSessionError.clientError
         case 500..<600:
