@@ -10,8 +10,9 @@ import UIKit
 final class MarketProductsViewModel {
     // MARK: Properties
     
-    private var productList: ProductList?
     private var productEntity: ProductEntity?
+    
+    weak var delegate: MarketProductsViewDelegate?
     
     var thumbnailImage: UIImage? {
         guard let product = productEntity else {
@@ -78,23 +79,17 @@ final class MarketProductsViewModel {
     }
     
     // MARK: - Initializer
-
-    init(_ productList: ProductList) {
-        self.productList = productList
-    }
     
     init(_ productEntity: ProductEntity) {
         self.productEntity = productEntity
     }
+    
+    init() { }
 
-    func formatData() -> ProductListEntity? {
+    func format(data: ProductList) {
         var entityList = ProductListEntity(productEntity: [])
-        
-        guard let count = productList?.pages else {
-            return nil
-        }
-        
-        for product in count {
+       
+        for product in data.pages {
             guard let thumbnailImage = product.thumbnailImage else {
                 break
             }
@@ -109,6 +104,6 @@ final class MarketProductsViewModel {
                     stock: product.stock))
         }
         
-        return entityList
+        delegate?.didReceiveResponse(MarketProductsView.self, by: entityList)
     }
 }

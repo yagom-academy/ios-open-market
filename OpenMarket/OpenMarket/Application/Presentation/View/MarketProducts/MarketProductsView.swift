@@ -60,6 +60,9 @@ final class MarketProductsView: UIView {
         configureListDataSource()
         configureGridDataSource()
         
+        marketProductsViewModel = MarketProductsViewModel()
+        marketProductsViewModel?.delegate = self
+        
         gridCollectionView?.isHidden = true
         
         setUpNavigationItems(of: rootViewController)
@@ -121,10 +124,6 @@ final class MarketProductsView: UIView {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
-        }
-        
-        if let dataSource = listDataSource {
-            applySnapShot(to: dataSource)
         }
     }
     
@@ -210,15 +209,7 @@ final class MarketProductsView: UIView {
                                          dataType: ProductList.self) { [weak self] result in
             switch result {
             case .success(let productList):
-                self?.marketProductsViewModel = MarketProductsViewModel(productList)
-                
-                DispatchQueue.main.async {
-                    if let listDataSource = self?.listDataSource,
-                       let gridDataSource = self?.gridDataSource {
-                        self?.applySnapShot(to: listDataSource)
-                        self?.applySnapShot(to: gridDataSource)
-                    }
-                }
+                self?.marketProductsViewModel?.format(data: productList)
                 
             case .failure(let error):
                 guard let message = error.errorDescription else {
@@ -232,13 +223,21 @@ final class MarketProductsView: UIView {
         }
     }
     
-    private func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>) {
-        if let data = marketProductsViewModel?.formatData() {
-            var snapShot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
-            snapShot.appendSections([.main])
-            snapShot.appendItems(data.productEntity)
+    private func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity> , by data: ProductListEntity) {
+        var snapShot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(data.productEntity)
 
-            dataSource.apply(snapShot, animatingDifferences: true, completion: nil)
+        dataSource.apply(snapShot, animatingDifferences: true, completion: nil)
+    }
+    
+    private func updateUI(by data: ProductListEntity) {
+        DispatchQueue.main.async { [weak self] in
+            if let listDataSource = self?.listDataSource,
+               let gridDataSource = self?.gridDataSource {
+                self?.applySnapShot(to: listDataSource, by: data)
+                self?.applySnapShot(to: gridDataSource, by: data)
+            }
         }
     }
     
@@ -250,5 +249,11 @@ final class MarketProductsView: UIView {
     
     @objc private func addTapped() {
         
+    }
+}
+
+extension MarketProductsView: MarketProductsViewDelegate {
+    func didReceiveResponse(_ view: MarketProductsView.Type, by data: ProductListEntity) {
+        updateUI(by: data)
     }
 }
