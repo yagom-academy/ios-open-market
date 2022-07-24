@@ -92,6 +92,7 @@ final class ListCollectionCell: UICollectionViewListCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        contentView.layer.addBottomBorder()
         configureListCell()
     }
     
@@ -159,5 +160,15 @@ final class ListCollectionCell: UICollectionViewListCell {
         
         viewModel?.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
         stockLabel.textColor = viewModel?.isEmptyStock == true ? .systemYellow : .systemGray
+    }
+}
+
+private extension CALayer {
+    func addBottomBorder() {
+        let border = CALayer()
+        border.backgroundColor = UIColor.systemGray3.cgColor
+        border.frame = CGRect(x: 0, y: frame.height + 4, width: frame.width, height: 0.5)
+        
+        self.addSublayer(border)
     }
 }
