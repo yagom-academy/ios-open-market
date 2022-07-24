@@ -55,7 +55,7 @@ final class GridCollectionCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .gray
         label.numberOfLines = 0
-
+        
         return label
     }()
     
@@ -65,7 +65,7 @@ final class GridCollectionCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .gray
         label.numberOfLines = 0
-
+        
         return label
     }()
     
@@ -117,9 +117,9 @@ final class GridCollectionCell: UICollectionViewCell {
         labelStackView.addArrangedSubview(originalPriceLabel)
         labelStackView.addArrangedSubview(discountedPriceLabel)
         labelStackView.addArrangedSubview(stockLabel)
-
+        
         let inset = CGFloat(10)
-            
+        
         NSLayoutConstraint.activate([
             rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
             rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
@@ -141,11 +141,11 @@ final class GridCollectionCell: UICollectionViewCell {
     }
     
     func updateUI(_ data: ProductEntity) {
-        viewModel =  MarketProductsViewModel(product: data)
+        viewModel =  MarketProductsViewModel(data)
         productImageView.image = viewModel?.thumbnailImage
         productNameLabel.text = viewModel?.name
         originalPriceLabel.text = viewModel?.originalPriceText
-        discountedPriceLabel.text =  viewModel?.discountedPriceText
+        discountedPriceLabel.text = viewModel?.discountedPriceText
         stockLabel.text = viewModel?.stockText
         
         viewModel?.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()

@@ -36,7 +36,7 @@ final class ListCollectionCell: UICollectionViewListCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-     
+        
         return imageView
     }()
     
@@ -133,14 +133,15 @@ final class ListCollectionCell: UICollectionViewListCell {
         
         rootStackView.addArrangedSubview(stockLabel)
         
+        productImageView.setContentHuggingPriority(UILayoutPriority.fittingSizeLevel , for: .horizontal)
+        
         NSLayoutConstraint.activate([
             rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
             productImageView.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2),
-            productImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2)
+            productImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.width * 0.2),
         ])
     }
     
@@ -157,14 +158,14 @@ final class ListCollectionCell: UICollectionViewListCell {
     }
     
     func updateUI(_ data: ProductEntity) {
-        viewModel =  MarketProductsViewModel(product: data)
+        viewModel =  MarketProductsViewModel(data)
         productImageView.image = viewModel?.thumbnailImage
         productNameLabel.text = viewModel?.name
         originalPriceLabel.text = viewModel?.originalPriceText
-        discountedPriceLabel.text =  viewModel?.discountedPriceText
+        discountedPriceLabel.text = viewModel?.discountedPriceText
         stockLabel.text = viewModel?.stockText
         
-        viewModel?.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
+        viewModel?.isDiscountedItem == true ? self.configureForOriginal() : self.configureForBargain()
         stockLabel.textColor = viewModel?.isEmptyStock == true ? .systemYellow : .systemGray
     }
 }
