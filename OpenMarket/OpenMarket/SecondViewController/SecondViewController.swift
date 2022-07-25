@@ -13,6 +13,7 @@ final class SecondViewController: UIViewController {
     private let numberFormatter = NumberFormatter()
     private let jsonParser = JSONParser()
     private let URLSemaphore = DispatchSemaphore(value: 0)
+    private let itemPage = "items_per_page=20"
     private var productData: ProductListResponse?
     
     override func viewDidLoad() {
@@ -29,7 +30,7 @@ final class SecondViewController: UIViewController {
     }
     
     private func setData() {
-        jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
+        jsonParser.dataTask(by: URLCollection.productListInquery + itemPage, completion: { (response) in
             switch response {
             case .success(let data):
                 self.productData = data

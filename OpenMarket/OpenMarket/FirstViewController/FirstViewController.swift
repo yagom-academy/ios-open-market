@@ -9,11 +9,6 @@ import UIKit
 
 final class FirstViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
-    
-    private let numberFormatter = NumberFormatter()
-    private let jsonParser = JSONParser()
-    private let URLSemaphore = DispatchSemaphore(value: 0)
-    private var productData: ProductListResponse?
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
@@ -22,6 +17,13 @@ final class FirstViewController: UIViewController {
         activityIndicator.isHidden = false
         return activityIndicator
     }()
+    
+    private let numberFormatter = NumberFormatter()
+    private let jsonParser = JSONParser()
+    private let URLSemaphore = DispatchSemaphore(value: 0)
+    private let itemPage = "items_per_page=20"
+    private var productData: ProductListResponse?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +51,7 @@ final class FirstViewController: UIViewController {
     }
     
     private func setData() {
-        jsonParser.dataTask(by: URLCollection.productListInquery, completion: { (response) in
+        jsonParser.dataTask(by: URLCollection.productListInquery + itemPage, completion: { (response) in
             switch response {
             case .success(let data):
                 self.productData = data
