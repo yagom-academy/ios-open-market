@@ -22,7 +22,6 @@ struct DataDecoder {
             return decodedData
         } catch {
             throw ParsingError.failedDecoding
-//            print("Unexpected error: \(error)")
         }
     }
 }
