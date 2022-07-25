@@ -9,15 +9,17 @@ import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
     private let verticalStackView = UIStackView()
-    let titleLabel = UILabel()
-    let itemImageView = UIImageView()
-    let priceLabel = UILabel()
-    let discountedLabel = UILabel()
-    let stockLabel = UILabel()
+    private let titleLabel = UILabel()
+    private let itemImageView = UIImageView()
+    private let priceLabel = UILabel()
+    private let discountedLabel = UILabel()
+    private let stockLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
+        configureAttribute()
+        configureLayout()
+        
     }
     
     @available(*, unavailable)
@@ -25,7 +27,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been impl")
     }
     
-    private func configure() {
+    private func configureAttribute() {
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         itemImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,17 +38,17 @@ final class GridCollectionViewCell: UICollectionViewCell {
         verticalStackView.distribution = .equalSpacing
         verticalStackView.axis = .vertical
         verticalStackView.spacing = 5
-        
         itemImageView.contentMode = .scaleAspectFit
         
         titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 0
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         priceLabel.textAlignment = .center
         priceLabel.isHidden = true
         discountedLabel.textAlignment = .center
         stockLabel.textAlignment = .center
-        
+    }
+    
+    private func configureLayout() {
         self.contentView.addSubview(verticalStackView)
         verticalStackView.addArrangedSubview(itemImageView)
         verticalStackView.addArrangedSubview(titleLabel)

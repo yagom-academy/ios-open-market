@@ -11,17 +11,18 @@ final class ListCollectionViewCell: UICollectionViewCell {
     private let horizontalStackView = UIStackView()
     private let verticalStackView = UIStackView()
     private let priceStackView = UIStackView()
-    var accessoryView = UIImageView()
-    let titleLabel = UILabel()
-    let stockLabel = UILabel()
-    let priceLabel = UILabel()
-    let spacingView = UIView()
-    let discountedLabel = UILabel()
-    let thumbnailView = UIImageView()
+    private var accessoryView = UIImageView()
+    private let titleLabel = UILabel()
+    private let stockLabel = UILabel()
+    private let priceLabel = UILabel()
+    private let spacingView = UIView()
+    private let discountedLabel = UILabel()
+    private let thumbnailView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureHorizontalStackView()
+        configureAttribute()
+        configureLayout()
     }
     
     @available(*, unavailable)
@@ -29,7 +30,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been impl")
     }
     
-    private func configureHorizontalStackView() {
+    private func configureAttribute() {
         let priceHuggingPriority = discountedLabel.contentHuggingPriority(for: .horizontal) + 1
         let stockHuggingPriority = titleLabel.contentHuggingPriority(for: .horizontal) + 1
         let stockCompressionPriority = titleLabel.contentCompressionResistancePriority(for: .horizontal) + 1
@@ -64,7 +65,9 @@ final class ListCollectionViewCell: UICollectionViewCell {
         let image = UIImageView(image: UIImage(systemName: "chevron.right"))
         accessoryView = image
         accessoryView.tintColor = .systemGray
-        
+    }
+    
+    private func configureLayout() {
         contentView.addSubview(thumbnailView)
         contentView.addSubview(verticalStackView)
         horizontalStackView.addArrangedSubview(titleLabel)
