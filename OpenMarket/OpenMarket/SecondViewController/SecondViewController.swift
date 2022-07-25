@@ -52,44 +52,8 @@ extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "secondCell", for: indexPath) as! SecondCollectionViewCell
+        cell.fetchData(data: productData, index: indexPath.row)
         
-        guard let result = productData,
-              let imageURL: URL = URL(string: result.pages[indexPath.row].thumbnail),
-              let imageData: Data = try? Data(contentsOf: imageURL) else {
-            return cell
-        }
-        
-        let productStock = result.pages[indexPath.row].stock
-        guard let priceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].price as NSNumber) else { return cell }
-        guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[indexPath.row].discountedPrice as NSNumber) else { return cell }
-
-        if productStock == 0 {
-            cell.productStock.text = "품절"
-            cell.productStock.textColor = .orange
-        } else {
-            cell.productStock.text = "잔여수량 : \(productStock)"
-            cell.productStock.textColor = .systemGray
-        }
-        
-        if result.pages[indexPath.row].bargainPrice > 0 {
-            cell.productDiscountPrice.attributedText = cell.productPrice.text?.strikeThrough()
-            cell.productDiscountPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
-            cell.productDiscountPrice.textColor = .systemRed
-            
-            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(dicountedPriceNumberFormatter)"
-            cell.productPrice.textColor = .systemGray
-        } else {
-            cell.productPrice.text = "\(result.pages[indexPath.row].currency): \(priceNumberFormatter)"
-            cell.productPrice.textColor = .systemGray
-        }
-        
-        cell.productImage.image = UIImage(data: imageData)
-        cell.productName.text = result.pages[indexPath.row].name
-
-        cell.layer.borderWidth = 2
-        cell.layer.cornerRadius = 20
-        cell.layer.borderColor = UIColor.gray.cgColor
-        cell.isSelected = false
         return cell
     }
 }
