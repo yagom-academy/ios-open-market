@@ -14,10 +14,10 @@ final class ListCollectionView: UICollectionView {
     private let listViewCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ProductDetail> {
         (cell, indexPath, item) in
         var content = cell.defaultContentConfiguration()
+
         content.text = item.name
-        content.image = item.setThumbnailImage()
         content.imageProperties.maximumSize = CGSize(width: ImageSize.width, height: ImageSize.height)
-        content.secondaryAttributedText = item.setPriceText()
+        content.secondaryAttributedText = item.makePriceText()
         
         let accessory = UICellAccessory.disclosureIndicator()
         var stockAccessory = UICellAccessory.disclosureIndicator()
@@ -37,6 +37,28 @@ final class ListCollectionView: UICollectionView {
             )
         }
         
+        if let image = ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) {
+            content.image = image
+        } else {
+            let request = OpenMarketRequest(method: .get, baseURL: item.thumbnail)
+            let session = MyURLSession()
+            session.execute(with: request) { (result: Result<Data, Error>) in
+                switch result {
+                case .success(let success):
+                    guard let image = UIImage(data: success) else { return }
+                    if ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) == nil {
+                        ImageCacheManager.shared.setObject(image, forKey: NSString(string: item.thumbnail))
+                    } else {
+                        DispatchQueue.main.async {
+                            content.image = image
+                        }
+                    }
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+            }
+        }
+        
         cell.accessories = [stockAccessory, accessory]
         cell.contentConfiguration = content
     }
@@ -46,30 +68,33 @@ final class ListCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDataSource()
+        self.setUpDataSource()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDataSource()
+        self.setUpDataSource()
     }
     
     // MARK: - functions
     
-    private func configureDataSource() {
-        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) {
+    private func setUpDataSource() {
+        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
              identifier: ProductDetail) -> UICollectionViewCell? in
             
-            return collectionView.dequeueConfiguredReusableCell(using: self.listViewCellRegistration,
+            guard let listViewCellRegistration = self?.listViewCellRegistration
+            else { return UICollectionViewCell() }
+            
+            return collectionView.dequeueConfiguredReusableCell(using: listViewCellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
         }
     }
     
-    func configureSnapshot(productsList: [ProductDetail]) {
+    func setSnapshot(productsList: [ProductDetail]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
         snapshot.appendSections([.list])
         snapshot.appendItems(productsList)

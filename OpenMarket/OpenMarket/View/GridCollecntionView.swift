@@ -21,30 +21,33 @@ final class GridCollecntionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDataSource()
+        self.setUpDataSource()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.configureDataSource()
+        self.setUpDataSource()
     }
     
     // MARK: - functions
     
-    private func configureDataSource() {
-        gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) {
+    private func setUpDataSource() {
+        gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
              identifier: ProductDetail) -> UICollectionViewCell? in
             
-            return collectionView.dequeueConfiguredReusableCell(using: self.gridViewCellRegistration,
+            guard let gridViewCellRegistration = self?.gridViewCellRegistration
+            else { return UICollectionViewCell() }
+            
+            return collectionView.dequeueConfiguredReusableCell(using: gridViewCellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
         }
     }
     
-    func configureSnapshot(productsList: [ProductDetail]) {
+    func setSnapshot(productsList: [ProductDetail]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
         snapshot.appendSections([.grid])
         snapshot.appendItems(productsList)

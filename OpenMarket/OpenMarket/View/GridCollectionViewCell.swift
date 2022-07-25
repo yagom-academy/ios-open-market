@@ -56,27 +56,35 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setSubViews()
-        setStackViewConstraints()
-        setBorder()
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setSubViews()
-        setStackViewConstraints()
-        setBorder()
+        commonInit()
     }
     
     // MARK: - functions
+    override func prepareForReuse() {
+        productImage.image = nil
+        productName.text = nil
+        price.attributedText = nil
+        stock.attributedText = nil
+    }
     
-    private func setSubViews() {
+    private func commonInit() {
+        setUpSubViews()
+        setUpStackViewConstraints()
+        setUpBorder()
+    }
+    
+    private func setUpSubViews() {
         self.contentView.addSubview(productImage)
         self.contentView.addSubview(stackView)
         [productName, price, stock].forEach { stackView.addArrangedSubview($0) }
     }
     
-    private func setStackViewConstraints() {
+    private func setUpStackViewConstraints() {
         NSLayoutConstraint.activate(
             [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
              productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
@@ -89,16 +97,35 @@ final class GridCollectionViewCell: UICollectionViewCell {
              stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
     }
     
-    private func setBorder() {
+    private func setUpBorder() {
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 1.5
         self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     
     func setViewItems(_ item: ProductDetail) {
-        productImage.image = item.setThumbnailImage()
+        if let image = ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) {
+            productImage.image = image
+        } else {
+            let request = OpenMarketRequest(path: "", method: .get, baseURL: item.thumbnail)
+            let session = MyURLSession()
+            session.execute(with: request) { (result: Result<Data, Error>) in
+                switch result {
+                case .success(let success):
+                    guard let image = UIImage(data: success) else { return }
+                    if ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) == nil {
+                        ImageCacheManager.shared.setObject(image, forKey: NSString(string: item.thumbnail))
+                    }
+                    DispatchQueue.main.async {
+                        self.productImage.image = image
+                    }
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+            }
+        }
         productName.text = item.name
-        price.attributedText = item.setPriceText()
-        stock.attributedText = item.setStockText()
+        price.attributedText = item.makePriceText()
+        stock.attributedText = item.makeStockText()
     }
 }
