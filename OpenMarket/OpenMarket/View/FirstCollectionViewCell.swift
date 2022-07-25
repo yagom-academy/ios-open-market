@@ -8,12 +8,12 @@
 import UIKit
 
 class FirstCollectionViewCell: UICollectionViewListCell {
-    @IBOutlet weak var productImage: UIImageView!
-    @IBOutlet weak var productName: UILabel!
-    @IBOutlet weak var productPrice: UILabel!
-    @IBOutlet weak var productDiscountPrice: UILabel!
-    @IBOutlet weak var productStock: UILabel!
-    @IBOutlet weak var spacingView: UIView!
+    @IBOutlet private weak var productImage: UIImageView!
+    @IBOutlet private weak var productName: UILabel!
+    @IBOutlet private weak var productPrice: UILabel!
+    @IBOutlet private weak var productDiscountPrice: UILabel!
+    @IBOutlet private weak var productStock: UILabel!
+    @IBOutlet private weak var spacingView: UIView!
     
     private let numberFormatter = NumberFormatter()
     

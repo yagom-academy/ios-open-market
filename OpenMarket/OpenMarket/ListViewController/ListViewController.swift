@@ -8,7 +8,7 @@
 import UIKit
 
 final class ListViewController: UIViewController {
-    @IBOutlet weak var productCollectionView: UICollectionView!
+    @IBOutlet private weak var productCollectionView: UICollectionView!
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center

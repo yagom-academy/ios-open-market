@@ -8,7 +8,7 @@
 import UIKit
 
 final class GridViewController: UIViewController {
-    @IBOutlet weak var productCollectionView: UICollectionView!
+    @IBOutlet private weak var productCollectionView: UICollectionView!
     
     private let numberFormatter = NumberFormatter()
     private let jsonParser = JSONParser()

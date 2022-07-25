@@ -8,11 +8,11 @@
 import UIKit
 
 class SecondCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var productImage: UIImageView!
-    @IBOutlet weak var productName: UILabel!
-    @IBOutlet weak var productDiscountPrice: UILabel!
-    @IBOutlet weak var productPrice: UILabel!
-    @IBOutlet weak var productStock: UILabel!
+    @IBOutlet private weak var productImage: UIImageView!
+    @IBOutlet private weak var productName: UILabel!
+    @IBOutlet private weak var productDiscountPrice: UILabel!
+    @IBOutlet private weak var productPrice: UILabel!
+    @IBOutlet private weak var productStock: UILabel!
     
     private let numberFormatter = NumberFormatter()
     
