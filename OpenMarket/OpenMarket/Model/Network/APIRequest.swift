@@ -68,15 +68,16 @@ protocol APIRequest {
     var method: HTTPMethod { get }
     var baseURL: String { get }
     var headers: [String: String]? { get }
-    var query: [URLQueryItem]? { get }
+    var query: [String: String]? { get }
     var body: Data? { get }
-    var path: URLAdditionalPath { get }
+    var path: String? { get }
 }
-
 extension APIRequest {
     var url: URL? {
         var component = URLComponents(string: self.baseURL)
-        component?.queryItems = query
+        component?.queryItems = query?.reduce([URLQueryItem]()) {
+            $0 + [URLQueryItem(name: $1.key, value: $1.value)]
+        }
         
         return component?.url
     }

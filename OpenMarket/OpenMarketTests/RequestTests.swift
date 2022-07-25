@@ -9,20 +9,17 @@ import XCTest
 @testable import OpenMarket
 
 struct GetData: APIRequest {
-    var path: URLAdditionalPath = .product
+    var path: String = ""
     var method: HTTPMethod = .get
     var baseURL: String {
-        URLHost.openMarket.url + path.value
+        URLHost.openMarket.url + URLAdditionalPath.product.value
     }
     var headers: [String : String]?
-    var query: [URLQueryItem]? = [
-        URLQueryItem(name: "page_no", value: "\(1)"),
-        URLQueryItem(name: "items_per_page", value: "\(1)")
-    ]
+    var query: [String : String]? = [Product.page.text: "1", Product.itemPerPage.text: "1"]
     var body: Data?
 }
 
-class RequestTests: XCTestCase {
+final class RequestTests: XCTestCase {
     var sut: GetData?
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -40,10 +37,11 @@ class RequestTests: XCTestCase {
         var resultName: String?
         let mockSession = MockSession()
         
-        mockSession.dataTask(with: sut!) { (result: Result<ProductsDetailList, Error>) in
+        mockSession.dataTask(with: sut!) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                resultName = success.pages[0].name
+                guard let decoededData = success.decodeImageData() else { return }
+                resultName = decoededData.pages[0].name
             case .failure(_):
                 break
             }
@@ -65,10 +63,11 @@ class RequestTests: XCTestCase {
         var resultName: String?
         let myURLSession = MyURLSession()
         
-        myURLSession.dataTask(with: sut!) { (result: Result<ProductsDetailList, Error>) in
+        myURLSession.dataTask(with: sut!) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                resultName = success.pages[0].name
+                guard let decoededData = success.decodeImageData() else { return }
+                resultName = decoededData.pages[0].name
             case .failure(_):
                 break
             }
@@ -78,7 +77,7 @@ class RequestTests: XCTestCase {
         wait(for: [expectation], timeout: 300)
         
         // when
-        let result = "데릭"
+        let result = "사과"
         
         // then
         XCTAssertEqual(result, resultName)
