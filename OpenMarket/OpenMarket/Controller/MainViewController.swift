@@ -122,37 +122,7 @@ extension MainViewController {
     
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
-            cell.spacingView.isHidden = true
-            cell.priceLabel.text = .none
-            cell.priceLabel.attributedText = .none
-            cell.titleLabel.text = "\(item.name)"
-            cell.stockLabel.text = "잔여수량: \(item.stock)"
-            cell.stockLabel.textColor = .systemGray
-            cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
-            cell.discountedLabel.textColor = .systemGray
-            
-            if item.bargainPrice != 0 {
-                cell.spacingView.isHidden = false
-                cell.priceLabel.isHidden = false
-                cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
-                cell.priceLabel.textColor = .systemRed
-                cell.priceLabel.text = "\(item.currency) \(item.price)"
-                
-                guard let priceText = cell.priceLabel.text else { return }
-                let attribute = NSMutableAttributedString(string: priceText)
-                attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
-                cell.priceLabel.attributedText = attribute
-                cell.discountedLabel.textColor = .systemGray
-            }
-            
-            if item.stock == 0 {
-                cell.stockLabel.text = "품절"
-                cell.stockLabel.textColor = .systemYellow
-            }
-            
-            guard let url = URL(string: item.thumbnail),
-                  let imageData = try? Data(contentsOf: url) else { return }
-            cell.thumbnailView.image = UIImage(data: imageData)
+            cell.configureContent(item: item)
         }
         
         listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
@@ -190,38 +160,7 @@ extension MainViewController {
     
     private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { (cell, indexPath, item) in
-            cell.priceLabel.text = .none
-            cell.priceLabel.attributedText = .none
-            cell.titleLabel.text = "\(item.name)"
-            cell.stockLabel.text = "잔여수량: \(item.stock)"
-            cell.stockLabel.textColor = .systemGray
-            cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
-            cell.discountedLabel.textColor = .systemGray
-            
-            if item.bargainPrice != 0 {
-                cell.priceLabel.isHidden = false
-                cell.discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
-                cell.priceLabel.textColor = .systemRed
-                cell.priceLabel.text = "\(item.currency) \(item.price)"
-                
-                guard let priceText = cell.priceLabel.text else { return }
-                let attribute = NSMutableAttributedString(string: priceText)
-                attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
-                cell.priceLabel.attributedText = attribute
-                cell.discountedLabel.textColor = .systemGray
-            }
-            
-            if item.stock == 0 {
-                cell.stockLabel.text = "품절"
-                cell.stockLabel.textColor = .systemYellow
-            }
-            
-            guard let url = URL(string: item.thumbnail),
-                  let imageData = try? Data(contentsOf: url) else { return }
-            cell.itemImageView.image = UIImage(data: imageData)
-            cell.layer.cornerRadius = 10.0
-            cell.layer.borderColor = UIColor.systemGray.cgColor
-            cell.layer.borderWidth = 1
+            cell.configureContent(item: item)
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {

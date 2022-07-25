@@ -63,4 +63,39 @@ final class GridCollectionViewCell: UICollectionViewCell {
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
         ])
     }
+    
+    func configureContent(item: Item) {
+        priceLabel.text = .none
+        priceLabel.attributedText = .none
+        titleLabel.text = "\(item.name)"
+        stockLabel.text = "잔여수량: \(item.stock)"
+        stockLabel.textColor = .systemGray
+        discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+        discountedLabel.textColor = .systemGray
+        
+        if item.bargainPrice != 0 {
+            priceLabel.isHidden = false
+            discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+            priceLabel.textColor = .systemRed
+            priceLabel.text = "\(item.currency) \(item.price)"
+            
+            guard let priceText = priceLabel.text else { return }
+            let attribute = NSMutableAttributedString(string: priceText)
+            attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
+            priceLabel.attributedText = attribute
+            discountedLabel.textColor = .systemGray
+        }
+        
+        if item.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
+        }
+        
+        guard let url = URL(string: item.thumbnail),
+              let imageData = try? Data(contentsOf: url) else { return }
+        itemImageView.image = UIImage(data: imageData)
+        layer.cornerRadius = 10.0
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.borderWidth = 1
+    }
 }

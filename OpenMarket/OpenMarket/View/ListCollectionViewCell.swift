@@ -97,4 +97,38 @@ final class ListCollectionViewCell: UICollectionViewCell {
             spacingView.widthAnchor.constraint(equalToConstant: 6)
         ])
     }
+    
+    func configureContent(item: Item) {
+        spacingView.isHidden = true
+        priceLabel.text = .none
+        priceLabel.attributedText = .none
+        titleLabel.text = "\(item.name)"
+        stockLabel.text = "잔여수량: \(item.stock)"
+        stockLabel.textColor = .systemGray
+        discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+        discountedLabel.textColor = .systemGray
+        
+        if item.bargainPrice != 0 {
+            spacingView.isHidden = false
+            priceLabel.isHidden = false
+            discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+            priceLabel.textColor = .systemRed
+            priceLabel.text = "\(item.currency) \(item.price)"
+            
+            guard let priceText = priceLabel.text else { return }
+            let attribute = NSMutableAttributedString(string: priceText)
+            attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
+            priceLabel.attributedText = attribute
+            discountedLabel.textColor = .systemGray
+        }
+        
+        if item.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
+        }
+        
+        guard let url = URL(string: item.thumbnail),
+              let imageData = try? Data(contentsOf: url) else { return }
+        thumbnailView.image = UIImage(data: imageData)
+    }
 }
