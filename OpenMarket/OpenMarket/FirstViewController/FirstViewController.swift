@@ -23,14 +23,12 @@ final class FirstViewController: UIViewController {
     private let itemPage = "items_per_page=20"
     private var productData: ProductListResponse?
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(activityIndicator)
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
+        self.fetchUICollectionViewConfiguration()
         self.settingNumberFormaatter()
     }
     
@@ -39,6 +37,11 @@ final class FirstViewController: UIViewController {
         self.activityIndicator.startAnimating()
         self.setData()
         self.activityIndicator.stopAnimating()
+    }
+    
+    private func fetchUICollectionViewConfiguration() {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
     }
 
     private func settingNumberFormaatter() {
