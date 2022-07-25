@@ -8,8 +8,8 @@ import UIKit
 
 final class ViewController: UIViewController {
     @IBOutlet weak var segmentSwitch: UISegmentedControl!
-    @IBOutlet weak var firstView: UIView!
-    @IBOutlet weak var secondView: UIView!
+    @IBOutlet weak var collectionListView: UIView!
+    @IBOutlet weak var collectionGridView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +24,11 @@ final class ViewController: UIViewController {
     @IBAction private func switchView(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            firstView.alpha = 1
-            secondView.alpha = 0
+            collectionListView.alpha = 1
+            collectionGridView.alpha = 0
         case 1:
-            firstView.alpha = 0
-            secondView.alpha = 1
+            collectionListView.alpha = 0
+            collectionGridView.alpha = 1
         default:
             break
         }

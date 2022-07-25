@@ -69,8 +69,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="firstView" destination="h8J-oL-8qf" id="jyO-uk-Xpt"/>
-                        <outlet property="secondView" destination="NeI-oj-3fd" id="x3m-7l-Mua"/>
+                        <outlet property="collectionGridView" destination="NeI-oj-3fd" id="x3m-7l-Mua"/>
+                        <outlet property="collectionListView" destination="h8J-oL-8qf" id="jyO-uk-Xpt"/>
                         <outlet property="segmentSwitch" destination="l3C-WK-jnO" id="51W-Mc-o4I"/>
                     </connections>
                 </viewController>
