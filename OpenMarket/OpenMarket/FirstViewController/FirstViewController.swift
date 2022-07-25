@@ -13,7 +13,6 @@ final class FirstViewController: UIViewController {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
         activityIndicator.style = UIActivityIndicatorView.Style.large
-        activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         return activityIndicator
     }()
@@ -28,7 +27,6 @@ final class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(activityIndicator)
-        
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
         productCollectionView.delegate = self
@@ -38,13 +36,11 @@ final class FirstViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.activityIndicator.startAnimating()
         self.setData()
+        self.activityIndicator.stopAnimating()
     }
-    
-    private func stopActivityIndicator() {
-        activityIndicator.stopAnimating()
-    }
-    
+
     private func settingNumberFormaatter() {
         numberFormatter.roundingMode = .floor
         numberFormatter.numberStyle = .decimal
@@ -61,7 +57,6 @@ final class FirstViewController: UIViewController {
             }
         })
         URLSemaphore.wait()
-        self.stopActivityIndicator()
         self.productCollectionView.reloadData()
     }
 }
