@@ -14,7 +14,7 @@ class JSONParser {
         self.session = session
     }
     
-    func dataTask(by url: String, completion: @escaping (Result<Any, CustomError>) -> ()) {
+    func dataTask(by url: String, completion: @escaping (Result<ProductListResponse, CustomError>) -> ()) {
         guard let url = URL(string: url) else {
             return
         }
@@ -31,7 +31,7 @@ class JSONParser {
             
             if let data = data {
                 do {
-                    let decodeData = try JSONDecoder().decode(Product.self, from: data)
+                    let decodeData = try JSONDecoder().decode(ProductListResponse.self, from: data)
                     completion(.success(decodeData))
                 }
                 catch {

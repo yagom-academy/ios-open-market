@@ -35,9 +35,4 @@ extension Product {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
-    
-    var image: UIImage? {
-        let uiImage = UIImage(named: self.thumbnail)
-        return uiImage
-    }
 }
