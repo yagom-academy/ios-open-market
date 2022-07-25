@@ -15,6 +15,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
     @IBOutlet private weak var productStock: UILabel!
     @IBOutlet private weak var spacingView: UIView!
     
+    static let reuseIdentifier = "ListCollectionViewCell"
     private let numberFormatter = NumberFormatter()
     
     private func settingNumberFormaatter() {

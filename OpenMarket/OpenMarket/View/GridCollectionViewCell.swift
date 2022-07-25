@@ -14,6 +14,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var productPrice: UILabel!
     @IBOutlet private weak var productStock: UILabel!
     
+    static let reuseIdentifier = "GridCollectionViewCell"
     private let numberFormatter = NumberFormatter()
     
     private func settingNumberFormaatter() {
