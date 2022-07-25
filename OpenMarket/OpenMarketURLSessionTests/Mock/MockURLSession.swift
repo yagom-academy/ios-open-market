@@ -27,13 +27,10 @@ final class MockURLSession: URLSessionProtocol {
                                               headerFields: nil)
 
         let sessionDataTask = MockURLSessionDataTask()
-        
-        let location = Bundle.main.url(forResource: "Products", withExtension: "json")
-        let data = try? Data(contentsOf: location!)
-        
+ 
         if isRequestSuccess {
             sessionDataTask.resumeDidCall = {
-                completionHandler(data, sucessResponse, nil)
+                completionHandler(MockData(fileName: "Products").data, sucessResponse, nil)
             }
         } else {
             sessionDataTask.resumeDidCall = {

@@ -13,7 +13,7 @@ struct ItemList: Codable {
     let totalCount: Int
     let offset: Int
     let limit: Int
-    let pages: [Page]
+    let pages: [Item]
     let lastPage: Int
     let hasNext: Bool
     let hasPrevious: Bool
