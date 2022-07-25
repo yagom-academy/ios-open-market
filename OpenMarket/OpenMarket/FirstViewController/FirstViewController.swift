@@ -35,7 +35,7 @@ final class FirstViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.activityIndicator.startAnimating()
-        self.setData()
+        self.fetchData()
         self.activityIndicator.stopAnimating()
     }
     
@@ -49,7 +49,7 @@ final class FirstViewController: UIViewController {
         numberFormatter.numberStyle = .decimal
     }
     
-    private func setData() {
+    private func fetchData() {
         jsonParser.dataTask(by: URLCollection.productListInquery + itemPage, completion: { (response) in
             switch response {
             case .success(let data):

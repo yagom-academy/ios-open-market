@@ -21,7 +21,7 @@ final class SecondViewController: UIViewController {
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
         settingNumberFormaatter()
-        self.setData()
+        self.fetchData()
     }
     
     private func settingNumberFormaatter() {
@@ -29,7 +29,7 @@ final class SecondViewController: UIViewController {
         numberFormatter.numberStyle = .decimal
     }
     
-    private func setData() {
+    private func fetchData() {
         jsonParser.dataTask(by: URLCollection.productListInquery + itemPage, completion: { (response) in
             switch response {
             case .success(let data):
