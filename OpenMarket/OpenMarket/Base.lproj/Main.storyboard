@@ -83,7 +83,7 @@
         <!--First View Controller-->
         <scene sceneID="tKB-wu-77e">
             <objects>
-                <viewController storyboardIdentifier="FirstViewController" id="46V-Ir-lUi" userLabel="First View Controller" customClass="FirstViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstViewController" id="46V-Ir-lUi" userLabel="First View Controller" customClass="ListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dHE-EZ-PcS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -207,10 +207,10 @@
             </objects>
             <point key="canvasLocation" x="-252.17391304347828" y="794.19642857142856"/>
         </scene>
-        <!--Second View Controller-->
+        <!--Grid View Controller-->
         <scene sceneID="iDA-0p-sn1">
             <objects>
-                <viewController id="eU1-bM-j8v" customClass="SecondViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="eU1-bM-j8v" customClass="GridViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zqs-ed-IHn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

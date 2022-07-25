@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  ListViewController.swift
 //  OpenMarket
 //
 //  Created by BaekGom, Brad on 2022/07/19.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class FirstViewController: UIViewController {
+final class ListViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -58,7 +58,7 @@ final class FirstViewController: UIViewController {
     }
 }
 
-extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let result = productData else { return 0 }

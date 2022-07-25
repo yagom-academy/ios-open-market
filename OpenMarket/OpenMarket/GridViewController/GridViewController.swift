@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  GridViewController.swift
 //  OpenMarket
 //
 //  Created by BaekGom, Brad on 2022/07/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SecondViewController: UIViewController {
+final class GridViewController: UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     
     private let numberFormatter = NumberFormatter()
@@ -43,7 +43,7 @@ final class SecondViewController: UIViewController {
     }
 }
 
-extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension GridViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let result = productData else { return 0 }
         return result.itemsPerPage
@@ -58,7 +58,7 @@ extension SecondViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
-extension SecondViewController: UICollectionViewDelegateFlowLayout {
+extension GridViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
