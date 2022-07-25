@@ -65,6 +65,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - functions
+    override func prepareForReuse() {
+        productImage.image = nil
+        productName.text = nil
+        price.attributedText = nil
+        stock.attributedText = nil
+    }
     
     private func commonInit() {
         setUpSubViews()
@@ -101,7 +107,22 @@ final class GridCollectionViewCell: UICollectionViewCell {
         if let image = ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) {
             productImage.image = image
         } else {
-            productImage.image = item.makeThumbnailImage()
+            let request = OpenMarketRequest(path: "", method: .get, baseURL: item.thumbnail)
+            let session = MyURLSession()
+            session.execute(with: request) { (result: Result<Data, Error>) in
+                switch result {
+                case .success(let success):
+                    guard let image = UIImage(data: success) else { return }
+                    if ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) == nil {
+                        ImageCacheManager.shared.setObject(image, forKey: NSString(string: item.thumbnail))
+                    }
+                    DispatchQueue.main.async {
+                        self.productImage.image = image
+                    }
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+            }
         }
         productName.text = item.name
         price.attributedText = item.makePriceText()

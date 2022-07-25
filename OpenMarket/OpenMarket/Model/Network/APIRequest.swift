@@ -70,7 +70,7 @@ protocol APIRequest {
     var headers: [String: String]? { get }
     var query: [String: String]? { get }
     var body: Data? { get }
-    var path: String { get }
+    var path: String? { get }
 }
 extension APIRequest {
     var url: URL? {

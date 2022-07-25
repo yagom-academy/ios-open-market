@@ -118,6 +118,7 @@ final class OpenMarketViewController: UIViewController {
             case .success(let success):
                 guard let decoededData = success.decodeImageData() else { return }
                 DispatchQueue.main.async {
+                    decoededData.pages.forEach { $0.pushThumbnailImageCache() }
                     self?.gridCollectionView.setSnapshot(productsList: decoededData.pages)
                     self?.listCollectionView.setSnapshot(productsList: decoededData.pages)
                     guard let loadingView = self?.loadingView,
@@ -126,7 +127,7 @@ final class OpenMarketViewController: UIViewController {
                     self?.removeSpinner()
                 }
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
                 break
             }
         }

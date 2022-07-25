@@ -49,9 +49,8 @@ extension ProductDetail {
         }
     }
     
-    func makeThumbnailImage() -> UIImage? {
-        var resultImage: UIImage?
-        let request = OpenMarketRequest(path: "", method: .get, baseURL: thumbnail)
+    func pushThumbnailImageCache() {
+        let request = OpenMarketRequest(method: .get, baseURL: self.thumbnail)
         let session = MyURLSession()
         session.execute(with: request) { (result: Result<Data, Error>) in
             switch result {
@@ -60,13 +59,10 @@ extension ProductDetail {
                 if ImageCacheManager.shared.object(forKey: NSString(string: self.thumbnail)) == nil {
                     ImageCacheManager.shared.setObject(image, forKey: NSString(string: self.thumbnail))
                 }
-                resultImage = image
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
         }
-        
-        return resultImage
     }
     
     func makeStockText() -> NSMutableAttributedString {
