@@ -51,7 +51,7 @@ extension GridViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "secondCell", for: indexPath) as! SecondCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "secondCell", for: indexPath) as! GridCollectionViewCell
         cell.fetchData(data: productData, index: indexPath.row)
         
         return cell
