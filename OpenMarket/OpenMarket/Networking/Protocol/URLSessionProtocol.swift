@@ -2,17 +2,19 @@
 //  URLSessionProtocol.swift
 //  OpenMarket
 //
-//  Created by 케이, 수꿍 on 2022/07/13.
+//  Created by 데릭, 케이, 수꿍. 
 //
 
 import Foundation
 
 protocol URLSessionProtocol {
-    func dataTask(with url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
+    func dataTask(with url: URL,
+                  completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
 }
 
 extension URLSession: URLSessionProtocol {
-    func dataTask(with url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+    func dataTask(with url: URL,
+                  completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         return dataTask(with: url, completionHandler: completion)
     }
 }

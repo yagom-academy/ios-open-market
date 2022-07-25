@@ -2,7 +2,7 @@
 //  MockTests.swift
 //  MockTests
 //
-//  Created by 케이, 수꿍 on 2022/07/11.
+//  Created by 데릭, 케이, 수꿍.
 //
 
 import XCTest
@@ -16,7 +16,7 @@ class MockTests: XCTestCase {
         
         sut = NetworkProvider(session: URLSession.shared)
     }
-
+    
     override func tearDownWithError() throws {
         try super.setUpWithError()
         sut = nil
@@ -33,7 +33,6 @@ class MockTests: XCTestCase {
         let decodedData = try? JSONDecoder().decode(ProductList.self, from: data)
         
         let expectation: ProductList? = decodedData
-        
         let url = "https://market-training.yagom-academy.kr/"
         let mockResponse: MockURLSession.Response = {
             let successResponse = HTTPURLResponse(url: URL(string: url)!, statusCode: 200, httpVersion: nil, headerFields: nil)
@@ -45,7 +44,7 @@ class MockTests: XCTestCase {
         sut = NetworkProvider(session: mockURLSession)
         
         // when
-        sut.requestAndDecode(url: URL(string: url)!, dataType: ProductList.self) { response in
+        sut.requestAndDecode(url: url, dataType: ProductList.self) { response in
             if case let .success(market) = response {
                 result = market
             }
@@ -75,7 +74,7 @@ class MockTests: XCTestCase {
         sut = NetworkProvider(session: mockURLSession)
         
         // when
-        sut.requestAndDecode(url: URL(string: url)!, dataType: ProductList.self) { response in
+        sut.requestAndDecode(url: url, dataType: ProductList.self) { response in
             switch response {
             case .success(_):
                 break
