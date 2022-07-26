@@ -7,40 +7,14 @@
 
 import UIKit
 
-final class MarketListCollectionViewCell: UICollectionViewCell {
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
-    
+final class MarketListCollectionViewCell: MarketCollectionViewCell {
     private let accessaryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "greaterthan")
         imageView.tintColor = .systemGray
         return imageView
     }()
-    
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
-        return label
-    }()
-    
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textColor = .systemRed
-        return label
-    }()
-    
-    private let stockLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .right
-        label.textColor = .systemGray
-        return label
-    }()
-    
+
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -49,7 +23,7 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     private let subHorizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -58,7 +32,7 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -68,7 +42,7 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     private let entireStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
@@ -78,50 +52,10 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
-    func configureCell(with item: Item) {
-        let sessionManager = URLSessionManager(session: URLSession.shared)
-        
-        self.nameLabel.text = item.productName
-      
-        if item.price == item.bargainPrice {
-            self.priceLabel.text = item.price
-            self.priceLabel.textColor = .systemGray
-        } else {
-            let price = item.price + " " + item.bargainPrice
-            let attributeString = NSMutableAttributedString(string: price)
-            
-            attributeString.addAttribute(.strikethroughStyle,
-                                         value: NSUnderlineStyle.single.rawValue,
-                                         range: NSMakeRange(0, item.price.count))
-            attributeString.addAttribute(.foregroundColor,
-                                         value: UIColor.systemGray,
-                                         range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
-            self.priceLabel.attributedText = attributeString
-        }
-        
-        if item.stock != "0" {
-            self.stockLabel.text = "잔여수량 : " + item.stock
-        } else {
-            self.stockLabel.text = "품절"
-            self.stockLabel.textColor = .systemOrange
-        }
-        
-        sessionManager.receiveData(baseURL: item.productImage) { result in
-            switch result {
-            case .success(let data):
-                guard let imageData = UIImage(data: data) else { return }
-                
-                DispatchQueue.main.async {
-                    self.imageView.image = imageData
-                }
-            case .failure(_):
-                print("서버 통신 실패")
-            }
-        }
-    }
-    
+
     private func arrangeSubView() {
+        stockLabel.textAlignment = .right
+        
         subHorizontalStackView.addArrangedSubview(stockLabel)
         subHorizontalStackView.addArrangedSubview(accessaryImageView)
         
@@ -158,11 +92,6 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    override func prepareForReuse() {
-        stockLabel.textColor = .systemGray
-        priceLabel.textColor = .systemRed
-    }
 }
 
 extension CALayer {
@@ -175,4 +104,3 @@ extension CALayer {
         self.addSublayer(border)
     }
 }
-

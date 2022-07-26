@@ -67,28 +67,28 @@ final class MarketCollectionViewController: UICollectionViewController {
 //            }
 //        }
         
-        sessionManager.inquireSecretKey { result in
-            switch result {
-            case .success(let data):
-                self.sessionManager.deleteData(secretKey: data) { result in
-                    switch result {
-                    case .success(_):
-                        print("삭제 성공!")
-                    case .failure(let error):
-                        print(error)
-                        DispatchQueue.main.async {
-                            self.showAlert(title: "서버 통신 실패", message: "데이터를 삭제하지 못했습니다.")
-                        }
-                    }
-                }
-                print("시크릿키 조회 성공!")
-            case .failure(let error):
-                print(error)
-                DispatchQueue.main.async {
-                    self.showAlert(title: "서버 통신 실패", message: "시크릿키를 조회하지 못했습니다.")
-                }
-            }
-        }
+//        sessionManager.inquireSecretKey { result in
+//            switch result {
+//            case .success(let data):
+//                self.sessionManager.deleteData(secretKey: data) { result in
+//                    switch result {
+//                    case .success(_):
+//                        print("삭제 성공!")
+//                    case .failure(let error):
+//                        print(error)
+//                        DispatchQueue.main.async {
+//                            self.showAlert(title: "서버 통신 실패", message: "데이터를 삭제하지 못했습니다.")
+//                        }
+//                    }
+//                }
+//                print("시크릿키 조회 성공!")
+//            case .failure(let error):
+//                print(error)
+//                DispatchQueue.main.async {
+//                    self.showAlert(title: "서버 통신 실패", message: "시크릿키를 조회하지 못했습니다.")
+//                }
+//            }
+//        }
         receivePageData()
         addAction()
     }
@@ -118,7 +118,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     // MARK: DataSource
     private func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
-            cell.configureCell(with: item)
+            cell.configureCell(with: item,spacingType: " ")
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
@@ -128,7 +128,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     
     private func makeGridDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketGridCollectionViewCell, Item>.init { cell, indexPath, item in
-            cell.configureCell(with: item)
+            cell.configureCell(with: item,spacingType: "\n")
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
