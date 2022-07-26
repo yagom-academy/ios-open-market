@@ -83,11 +83,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(wholeComponentStackView)
-        view.addSubview(loadingView)
-        
-        setStackView()
-        setConstraint()
+        setUI()
         
         dataSource = configureListDataSource()
         self.snapshot.appendSections([.main])
@@ -95,6 +91,14 @@ class MainViewController: UIViewController {
     }
     
     // MARK: Method
+    
+    private func setUI() {
+        view.addSubview(wholeComponentStackView)
+        view.addSubview(loadingView)
+        
+        setStackView()
+        setConstraint()
+    }
     
     private func setStackView() {
         wholeComponentStackView.addArrangedSubview(topStackView)
