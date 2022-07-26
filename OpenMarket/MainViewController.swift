@@ -8,7 +8,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    private enum Section {
+    enum Section {
         case main
     }
     
@@ -84,8 +84,9 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
-        
-        configureDataSource()
+        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "list")
+        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "grid")
+        dataSource = configureDataSource(id: "list")
         self.snapshot.appendSections([.main])
         getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
     }
@@ -130,9 +131,9 @@ final class MainViewController: UIViewController {
                 guard let productList = try? JSONDecoder().decode(MarketInformation.self, from: data) else { return }
                 
                 self.snapshot.appendItems(productList.pages)
+                self.dataSource?.apply(self.snapshot, animatingDifferences: false)
                 
                 DispatchQueue.main.async {
-                    self.dataSource?.apply(self.snapshot, animatingDifferences: false)
                     self.loadingView.stopAnimating()
                 }
                 
@@ -151,42 +152,41 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func configureDataSource() {
-            let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
-                cell.configureCell(product: product)
-            }
-            
-            let gridCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, SaleInformation> { (cell, indexPath, product) in
-                cell.configureCell(product: product)
-            }
-            
-            dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(
-                collectionView: collectionView
-            ) { [weak self] collectionView, indexPath, itemIdentifier in
-                guard let self = self else { return UICollectionViewCell() }
-                switch self.segmentedControl.selectedSegmentIndex {
-                case Metric.firstSegment:
-                    return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
+    func configureDataSource(id: String) -> UICollectionViewDiffableDataSource<Section, SaleInformation>? {
+            dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
+                
+                switch id {
+                case "list":
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as? ListCollectionViewCell else {
+                        fatalError("")
+                    }
+                    cell.configureCell(product: product)
+                    return cell
                 default:
-                    return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: itemIdentifier)
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "grid", for: indexPath) as? GridCollectionViewCell else {
+                        fatalError("")
+                    }
+                    cell.configureCell(product: product)
+                    return cell
                 }
             }
+            return dataSource
         }
-    
-    @objc private func handleSegmentChange() {
-        switch segmentedControl.selectedSegmentIndex {
-        case Metric.firstSegment:
-            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-            configureDataSource()
-            dataSource?.apply(snapshot, animatingDifferences: false)
-            return
-        default:
-            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
-            configureDataSource()
-            dataSource?.apply(snapshot, animatingDifferences: false)
-            return
+        
+        @objc private func handleSegmentChange() {
+            switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                collectionView.setCollectionViewLayout(createListLayout(), animated: true)
+                dataSource = configureDataSource(id: "list")
+                dataSource?.apply(snapshot, animatingDifferences: false)
+                return
+            default:
+                collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
+                dataSource = configureDataSource(id: "grid")
+                dataSource?.apply(snapshot, animatingDifferences: false)
+                return
+            }
         }
-    }
     
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
