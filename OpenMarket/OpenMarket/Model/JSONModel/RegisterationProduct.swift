@@ -8,9 +8,9 @@
 struct RegistrationProduct: Encodable {
     let name: String
     let descriptions: String
-    let price: Int
-    let currency: Currency
-    let discountedPrice: Int
+    let price: Double
+    let currency: String
+    let discountedPrice: Double
     let stock: Int
     let secret: String
     

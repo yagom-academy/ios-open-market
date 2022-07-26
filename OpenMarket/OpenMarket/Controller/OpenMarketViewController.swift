@@ -104,33 +104,33 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func fetchData() {
-        let productsRequest = OpenMarketRequest(path: URLAdditionalPath.product.value,
-                                              method: .get,
-                                              baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
-                                              query: [
-                                                Product.page.text:  "\(Product.page.number)",
-                                                Product.itemPerPage.text: "\(Product.itemPerPage.number)"
-                                              ])
-        let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: productsRequest) { [weak self]
-            (result: Result<Data, Error>) in
-            switch result {
-            case .success(let success):
-                guard let decoededData = success.decodeImageData() else { return }
-                DispatchQueue.main.async {
-                    decoededData.pages.forEach { $0.pushThumbnailImageCache() }
-                    self?.gridCollectionView.setSnapshot(productsList: decoededData.pages)
-                    self?.listCollectionView.setSnapshot(productsList: decoededData.pages)
-                    guard let loadingView = self?.loadingView,
-                          loadingView.isHidden == false
-                    else { return }
-                    self?.removeSpinner()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                break
-            }
-        }
+//        let productsRequest = OpenMarketRequest(path: URLAdditionalPath.product.value,
+//                                              method: .get,
+//                                              baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
+//                                              query: [
+//                                                Product.page.text:  "\(Product.page.number)",
+//                                                Product.itemPerPage.text: "\(Product.itemPerPage.number)"
+//                                              ])
+//        let myURLSession = MyURLSession()
+//        myURLSession.dataTask(with: productsRequest) { [weak self]
+//            (result: Result<Data, Error>) in
+//            switch result {
+//            case .success(let success):
+//                guard let decoededData = success.decodeImageData() else { return }
+//                DispatchQueue.main.async {
+//                    decoededData.pages.forEach { $0.pushThumbnailImageCache() }
+//                    self?.gridCollectionView.setSnapshot(productsList: decoededData.pages)
+//                    self?.listCollectionView.setSnapshot(productsList: decoededData.pages)
+//                    guard let loadingView = self?.loadingView,
+//                          loadingView.isHidden == false
+//                    else { return }
+//                    self?.removeSpinner()
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                break
+//            }
+//        }
     }
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {

@@ -9,14 +9,25 @@ import XCTest
 @testable import OpenMarket
 
 struct GetData: APIRequest {
-    var path: String = ""
+    var body: [String : Data]?
+    var boundary: String?
+    var path: String?
     var method: HTTPMethod = .get
     var baseURL: String {
         URLHost.openMarket.url + URLAdditionalPath.product.value
     }
     var headers: [String : String]?
     var query: [String : String]? = [Product.page.text: "1", Product.itemPerPage.text: "1"]
-    var body: Data?
+}
+
+struct PostRequest: APIRequest {
+    var body: [String : Data]?
+    var boundary: String?
+    var path: String?
+    var method: HTTPMethod
+    var baseURL: String
+    var headers: [String : String]?
+    var query: [String: String]?
 }
 
 final class RequestTests: XCTestCase {
@@ -47,7 +58,7 @@ final class RequestTests: XCTestCase {
             }
             expectation.fulfill()
         }
-            
+        
         wait(for: [expectation], timeout: 300)
         
         // when
@@ -73,7 +84,7 @@ final class RequestTests: XCTestCase {
             }
             expectation.fulfill()
         }
-            
+        
         wait(for: [expectation], timeout: 300)
         
         // when
@@ -81,5 +92,41 @@ final class RequestTests: XCTestCase {
         
         // then
         XCTAssertEqual(result, resultName)
+    }
+    
+    func test_Post() {
+        // given
+        let expectation = expectation(description: "비동기 요청을 기다림.")
+        guard let assetImage = UIImage(named: "1") else { return }
+        guard let pngData = assetImage.pngData() else { return }
+        let product = RegistrationProduct(name: "바드는 천재",
+                                          descriptions: "ㅎ",
+                                          price: 10.0,
+                                          currency: "KRW",
+                                          discountedPrice: 0.0,
+                                          stock: 0, secret: "R49CfVhSdh")
+        guard let productData = try? JSONEncoder().encode(product) else { return }
+        let boundary = "Boundary-\(UUID().uuidString)"
+        let postData = PostRequest(body: ["params" : productData,
+                                          "images": pngData],
+                                   boundary: boundary,
+                                   method: .post,
+                                   baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
+                                   headers: ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
+                                             "Content-Type": "multipart/form-data; boundary=\(boundary)"])
+        let myURLSession = MyURLSession()
+        
+        myURLSession.dataTask(with: postData) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let error):
+                print(error)
+                break
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 300)
     }
 }
