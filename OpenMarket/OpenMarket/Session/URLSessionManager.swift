@@ -34,7 +34,7 @@ final class URLSessionManager {
             guard let response = urlResponse as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 return completionHandler(.failure(.incorrectResponse))
             }
-            
+
             guard let data = data else {
                 return completionHandler(.failure(.invalidData))
             }
@@ -115,6 +115,19 @@ final class URLSessionManager {
         request.httpMethod = "POST"
         request.httpBody =  makeBody(parameters: parameters, boundary: boundary)
         
+        dataTask(request: request, completionHandler: completionHandler)
+    }
+    
+    func patchData(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+        let parameters = "{\n    \"secret\": \"0hvvXjSeAS\",\n    \"discounted_price\": 10000\n}"
+        let postData = parameters.convertData
+
+        var request = URLRequest(url: URL(string: "https://market-training.yagom-academy.kr/api/products/3946")!)
+        request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
+
+        request.httpMethod = "PATCH"
+        request.httpBody = postData
+
         dataTask(request: request, completionHandler: completionHandler)
     }
 }

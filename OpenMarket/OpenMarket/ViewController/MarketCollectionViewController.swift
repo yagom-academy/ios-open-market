@@ -44,16 +44,26 @@ final class MarketCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        sessionManager.postData { result in
+//        sessionManager.postData { result in
+//            switch result {
+//            case .success(_):
+//                print("성공!")
+//            case .failure(let error):
+//                print(error)
+//                DispatchQueue.main.async {
+//                    self.showAlert(title: "서버 통신 실패", message: "데이터를 올리지 못했습니다.")
+//                }
+//            }
+//        }
+        sessionManager.patchData { result in
             switch result {
             case .success(_):
-                print("성공!")
+                print("수정 성공!")
             case .failure(let error):
                 print(error)
                 DispatchQueue.main.async {
-                    self.showAlert(title: "서버 통신 실패", message: "데이터를 올리지 못했습니다.")
+                    self.showAlert(title: "서버 통신 실패", message: "데이터를 수정하지 못했습니다.")
                 }
-
             }
         }
         receivePageData()
