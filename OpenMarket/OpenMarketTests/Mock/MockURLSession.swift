@@ -38,7 +38,6 @@ final class MockURLSession: URLSessionProtocol {
                 completionHandler(nil, failureResponse, nil)
             }
         }
-        
         return sessionDataTask
     }
 }

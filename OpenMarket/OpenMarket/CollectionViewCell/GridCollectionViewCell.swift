@@ -32,7 +32,6 @@ final class GridCollectionViewCell: ItemCollectionViewCell {
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.axis = .vertical
-    
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()

@@ -191,7 +191,6 @@ final class MainViewController: UIViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
-        
         return layout
     }
     
