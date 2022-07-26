@@ -26,28 +26,20 @@ class ProductsViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    override func loadView() {
-        view = ProductDetailView()
-        view.backgroundColor = .systemBackground
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        title = "상품등록"
-        
-//        configureHierarchy()
-//        configureDataSoure()
-//        configureSegmentControl()
-//        configureRefreshControl()
-//        addIndicatorLayout()
-//        configureNavigationBarRightButton()
-//
-//        activityIndicator.startAnimating()
-//        startFetching() {
-//            self.activityIndicator.stopAnimating()
-//        }
+        configureHierarchy()
+        configureDataSoure()
+        configureSegmentControl()
+        configureRefreshControl()
+        addIndicatorLayout()
+        configureNavigationBarRightButton()
+
+        activityIndicator.startAnimating()
+        startFetching() {
+            self.activityIndicator.stopAnimating()
+        }
     }
 }
 
@@ -114,7 +106,12 @@ extension ProductsViewController {
     }
     
     private func configureNavigationBarRightButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(showDetailView))
+    }
+    
+    @objc func showDetailView() {
+        let detailViewController = ProductsDetailViewController()
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     private func configureHierarchy() {
