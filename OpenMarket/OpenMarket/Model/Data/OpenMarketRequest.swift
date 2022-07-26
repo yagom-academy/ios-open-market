@@ -8,7 +8,7 @@
 import Foundation
 
 struct OpenMarketRequest: APIRequest {
-    var body: [String : Data]?
+    var body: [String : [Data]]?
     var boundary: String?
     var path: String?
     var method: HTTPMethod

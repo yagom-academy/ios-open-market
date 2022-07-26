@@ -10,17 +10,12 @@ struct RegistrationProduct: Encodable {
     let descriptions: String
     let price: Double
     let currency: String
-    let discountedPrice: Double
-    let stock: Int
+    let discountedPrice: Double?
+    let stock: Int?
     let secret: String
     
-    private enum CodingKeys: String, CodingKey {
-            case name
-            case descriptions
-            case price
-            case currency
-            case discountedPrice = "discounted_price"
-            case stock
-            case secret
-        }
+    enum CodingKeys: String, CodingKey {
+        case name, descriptions, price, currency, stock, secret
+        case discountedPrice = "discounted_price"
+    }
 }

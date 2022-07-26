@@ -9,7 +9,7 @@ import XCTest
 @testable import OpenMarket
 
 struct GetData: APIRequest {
-    var body: [String : Data]?
+    var body: [String : [Data]]?
     var boundary: String?
     var path: String?
     var method: HTTPMethod = .get
@@ -20,8 +20,8 @@ struct GetData: APIRequest {
     var query: [String : String]? = [Product.page.text: "1", Product.itemPerPage.text: "1"]
 }
 
-struct PostRequest: APIRequest {
-    var body: [String : Data]?
+struct TestRequest: APIRequest {
+    var body: [String : [Data]]?
     var boundary: String?
     var path: String?
     var method: HTTPMethod
@@ -98,17 +98,18 @@ final class RequestTests: XCTestCase {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
         guard let assetImage = UIImage(named: "1") else { return }
-        guard let pngData = assetImage.pngData() else { return }
-        let product = RegistrationProduct(name: "바드는 천재",
+        guard let pngData = assetImage.jpegData(compressionQuality: 10) else { return }
+        let product = RegistrationProduct(name: "글투는 천재",
                                           descriptions: "ㅎ",
                                           price: 10.0,
                                           currency: "KRW",
                                           discountedPrice: 0.0,
-                                          stock: 0, secret: "R49CfVhSdh")
+                                          stock: 0,
+                                          secret: "R49CfVhSdh")
         guard let productData = try? JSONEncoder().encode(product) else { return }
         let boundary = "Boundary-\(UUID().uuidString)"
-        let postData = PostRequest(body: ["params" : productData,
-                                          "images": pngData],
+        let postData = TestRequest(body: ["params" : [productData],
+                                          "images": [pngData]],
                                    boundary: boundary,
                                    method: .post,
                                    baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
@@ -119,7 +120,87 @@ final class RequestTests: XCTestCase {
         myURLSession.dataTask(with: postData) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                print(success)
+                print(String(decoding: success, as: UTF8.self))
+            case .failure(let error):
+                print(error)
+                break
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 300)
+    }
+    
+    func test_POST_Secret() {
+        // given
+        let expectation = expectation(description: "비동기 요청을 기다림.")
+        let myURLSession = MyURLSession()
+        let body = SecretProducts(secret: "R49CfVhSdh")
+        guard let data = try? JSONEncoder().encode(body) else { return }
+        let deleteRequest = TestRequest(body: ["json": [data]],
+                                        path: "/3961/secret",
+                                        method: .post,
+                                        baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
+                                        headers: ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
+                                                  "Content-Type" : "application/json"])
+        myURLSession.dataTask(with: deleteRequest) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                print(String(decoding: success, as: UTF8.self))
+            case .failure(let error):
+                print(error)
+                break
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 300)
+    }
+    
+    func test_DELETE() {
+        // given
+        let expectation = expectation(description: "비동기 요청을 기다림.")
+        let myURLSession = MyURLSession()
+        let deleteRequest = TestRequest(path: "/3961/4f3d6809-0ce2-11ed-9676-f53a4e22d028",
+                                        method: .delete,
+                                        baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
+                                        headers: ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
+                                                  "Content-Type" : "application/json"])
+        myURLSession.dataTask(with: deleteRequest) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                print(String(decoding: success, as: UTF8.self))
+            case .failure(let error):
+                print(error)
+                break
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 300)
+    }
+    
+    func test_PATCH() {
+        // given
+        let expectation = expectation(description: "비동기 요청을 기다림.")
+        let myURLSession = MyURLSession()
+        let body = RegistrationProduct(name: "치킨 먹었다",
+                                          descriptions: "나는 수정했다",
+                                          price: 100000.0,
+                                          currency: "KRW",
+                                          discountedPrice: 0.0,
+                                          stock: 0,
+                                          secret: "R49CfVhSdh")
+        guard let data = try? JSONEncoder().encode(body) else { return }
+        let patchRequest = TestRequest(body: ["json": [data]],
+                                        method: .patch,
+                                        baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value + "/3947/",
+                                        headers: ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
+                                                  "Content-Type" : "application/json"])
+        myURLSession.dataTask(with: patchRequest) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                print(String(decoding: success, as: UTF8.self))
             case .failure(let error):
                 print(error)
                 break

@@ -65,17 +65,17 @@ enum URLAdditionalPath {
 }
 
 protocol APIRequest {
-    var method: HTTPMethod { get }
     var baseURL: String { get }
+    var path: String? { get }
+    var method: HTTPMethod { get }
     var headers: [String: String]? { get }
     var query: [String: String]? { get }
-    var body: [String: Data]? { get }
-    var boundary: String? { get }
-    var path: String? { get }
+    var body: [String: [Data]]? { get }
+    var boundary: String? { get }    
 }
 extension APIRequest {
     var url: URL? {
-        var component = URLComponents(string: self.baseURL)
+        var component = URLComponents(string: self.baseURL + (self.path ?? ""))
         component?.queryItems = query?.reduce([URLQueryItem]()) {
             $0 + [URLQueryItem(name: $1.key, value: $1.value)]
         }
@@ -87,28 +87,30 @@ extension APIRequest {
         guard let url = url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = method.name
-        request.httpBody = createRequestBody()
+        request.httpBody = body?["params"] == nil ? body?["json"]?[0] : createMultiPartFormBody()
         self.headers?.forEach { request.addValue($0.value, forHTTPHeaderField: $0.key) }
         
         return request
     }
     
-    private func createRequestBody() -> Data? {
+    private func createMultiPartFormBody() -> Data? {
+        guard let boundary = self.boundary else { return nil }
         guard let params = body?["params"],
               let paramsData = createMultipartformDataParams(params: params)
         else { return nil }
         guard let images = body?["images"],
               let imagesData = createMultipartformDataImages(images: images)
         else { return nil }
+        let lineBreak = "\r\n"
         
         var requestBody = Data()
         requestBody.append(paramsData)
         requestBody.append(imagesData)
-        
+        requestBody.append("\(lineBreak)--\(boundary)--\(lineBreak)" .data(using: .utf8)!)
         return requestBody
     }
     
-    private func createMultipartformDataParams(params: Data) -> Data? {
+    private func createMultipartformDataParams(params: [Data]) -> Data? {
         guard let boundary = self.boundary else { return nil }
         let lineBreak = "\r\n"
         var paramsBody = Data()
@@ -116,22 +118,22 @@ extension APIRequest {
         paramsBody.append("\(lineBreak)--\(boundary + lineBreak)" .data(using: .utf8)!)
         paramsBody.append("Content-Disposition: form-data; name=\"params\"\(lineBreak)" .data(using: .utf8)!)
         paramsBody.append("Content-Type: application/json \(lineBreak + lineBreak)" .data(using: .utf8)!)
-        paramsBody.append(params)
+        paramsBody.append(params[0])
         
         return paramsBody
     }
     
-    private func createMultipartformDataImages(images: Data) -> Data? {
+    private func createMultipartformDataImages(images: [Data]) -> Data? {
         guard let boundary = self.boundary else { return nil }
         let lineBreak = "\r\n"
-        let fileName = String(decoding: images, as: UTF8.self)
         var imageBody = Data()
         
-        imageBody.append("\(lineBreak)--\(boundary + lineBreak)" .data(using: .utf8)!)
-        imageBody.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName)\"\(lineBreak)" .data(using: .utf8)!)
-        imageBody.append("Content-Type: image/jpeg \(lineBreak + lineBreak)" .data(using: .utf8)!)
-        imageBody.append(images)
-        imageBody.append("\(lineBreak)--\(boundary)--\(lineBreak)" .data(using: .utf8)!)
+        images.forEach {
+            imageBody.append("\(lineBreak)--\(boundary + lineBreak)" .data(using: .utf8)!)
+            imageBody.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(boundary).jpeg\"\(lineBreak)" .data(using: .utf8)!)
+            imageBody.append("Content-Type: image/jpeg \(lineBreak + lineBreak)" .data(using: .utf8)!)
+            imageBody.append($0)
+        }
         
         return imageBody
     }

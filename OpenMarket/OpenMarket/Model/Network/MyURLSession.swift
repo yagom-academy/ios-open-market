@@ -21,15 +21,12 @@ final class MyURLSession: SessionProtocol {
         }
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
-                print(error)
                 completionHandler(.failure(NetworkError.request))
                 return
             }
             guard let response = response as? HTTPURLResponse,
                   200 <= response.statusCode, response.statusCode < 300
             else {
-                print(response)
-                print(data?.description)
                 completionHandler(.failure(NetworkError.response))
                 return
             }
