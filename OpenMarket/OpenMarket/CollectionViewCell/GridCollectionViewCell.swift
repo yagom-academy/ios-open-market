@@ -39,11 +39,11 @@ final class GridCollectionViewCell: ItemCollectionViewCell {
     // MARK: Method
     
     private func setGridStackView() {
-        totalGridStackView.addArrangedSubview(productThumnail)
-        totalGridStackView.addArrangedSubview(productName)
-        totalGridStackView.addArrangedSubview(productPrice)
-        totalGridStackView.addArrangedSubview(bargainPrice)
-        totalGridStackView.addArrangedSubview(productStockQuntity)
+        totalGridStackView.addArrangedSubview(productThumbnailImageView)
+        totalGridStackView.addArrangedSubview(productNameLabel)
+        totalGridStackView.addArrangedSubview(productPriceLabel)
+        totalGridStackView.addArrangedSubview(bargainPriceLabel)
+        totalGridStackView.addArrangedSubview(productStockQuntityLabel)
     }
     
     private func setGridConstraints() {

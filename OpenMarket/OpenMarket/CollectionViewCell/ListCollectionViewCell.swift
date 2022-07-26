@@ -26,7 +26,7 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     }
     
     override func prepareForReuse() {
-        productPrice.attributedText = nil
+        productPriceLabel.attributedText = nil
     }
     
     // MARK: Properties
@@ -81,21 +81,21 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     // MARK: Method
     
     private func setListStackView() {
-        imageStackView.addArrangedSubview(productThumnail)
+        imageStackView.addArrangedSubview(productThumbnailImageView)
         totalListStackView.addArrangedSubview(labelStackView)
         
         labelStackView.addArrangedSubview(upperStackView)
         labelStackView.addArrangedSubview(downStackView)
         
-        upperStackView.addArrangedSubview(productName)
-        upperStackView.addArrangedSubview(productStockQuntity)
+        upperStackView.addArrangedSubview(productNameLabel)
+        upperStackView.addArrangedSubview(productStockQuntityLabel)
         
-        downStackView.addArrangedSubview(productPrice)
-        downStackView.addArrangedSubview(bargainPrice)
+        downStackView.addArrangedSubview(productPriceLabel)
+        downStackView.addArrangedSubview(bargainPriceLabel)
         
-        productName.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
-        productStockQuntity.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
-        productPrice.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        productNameLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
+        productStockQuntityLabel.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        productPriceLabel.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
     }
     
     private func setListConstraints() {
