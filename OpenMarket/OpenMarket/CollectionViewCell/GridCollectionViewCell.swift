@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: ItemCollectionViewCell {
+final class GridCollectionViewCell: ItemCollectionViewCell {
     
     // MARK: init
     

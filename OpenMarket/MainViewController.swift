@@ -6,9 +6,9 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
-    enum Section {
+    private enum Section {
         case main
     }
     

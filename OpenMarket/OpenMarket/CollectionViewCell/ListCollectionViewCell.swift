@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ListCollectionViewCell: ItemCollectionViewCell {
+final class ListCollectionViewCell: ItemCollectionViewCell {
     
-    // MARK: Inint
+    // MARK: Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
