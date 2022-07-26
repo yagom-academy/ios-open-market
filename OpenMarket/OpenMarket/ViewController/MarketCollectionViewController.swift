@@ -44,6 +44,14 @@ final class MarketCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        sessionManager.postData { result in
+            switch result {
+            case .success(let data):
+                print("성공!")
+            case .failure(_):
+                self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
+            }
+        }
         receivePageData()
         addAction()
     }
