@@ -54,7 +54,7 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = Metric.stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -72,7 +72,7 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
         let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 10
+        stackView.spacing = Metric.stackViewSpacing
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -100,15 +100,15 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     
     private func setListConstraints() {
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            imageStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            imageStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.listPositiveConstant),
+            imageStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.listNegativeConstant),
             imageStackView.widthAnchor.constraint(lessThanOrEqualToConstant: 80),
             imageStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 80),
-            imageStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            imageStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.listPositiveConstant),
             
-            totalListStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            totalListStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.listNegativeConstant),
             totalListStackView.bottomAnchor.constraint(equalTo: imageStackView.bottomAnchor),
-            totalListStackView.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: 5),
+            totalListStackView.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: Metric.listPositiveConstant),
             totalListStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
         ])
     }

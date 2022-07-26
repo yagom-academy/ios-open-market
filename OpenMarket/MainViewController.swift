@@ -29,14 +29,14 @@ final class MainViewController: UIViewController {
     
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: [CollectionViewNamespace.list.name, CollectionViewNamespace.grid.name])
-        segment.selectedSegmentIndex = 0
+        segment.selectedSegmentIndex = Metric.firstSegment
         segment.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
         segment.translatesAutoresizingMaskIntoConstraints = false
         segment.selectedSegmentTintColor = .systemBlue
         segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
         segment.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.link], for: UIControl.State.normal)
         segment.layer.borderColor = UIColor.systemBlue.cgColor
-        segment.layer.borderWidth = 1
+        segment.layer.borderWidth = Metric.borderWidth
         return segment
     }()
     
@@ -87,7 +87,7 @@ final class MainViewController: UIViewController {
         
         configureDataSource()
         self.snapshot.appendSections([.main])
-        getProductList(pageNumber: 1, itemPerPage: 20)
+        getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
     }
     
     // MARK: Method
@@ -139,7 +139,7 @@ final class MainViewController: UIViewController {
                 DispatchQueue.global().async {
                     let next = productList.lastPage
                     if self.count < next {
-                        self.getProductList(pageNumber: self.count, itemPerPage: 20)
+                        self.getProductList(pageNumber: self.count, itemPerPage: Metric.itemCount)
                         self.count += 1
                     }
                 }
@@ -165,7 +165,7 @@ final class MainViewController: UIViewController {
             ) { [weak self] collectionView, indexPath, itemIdentifier in
                 guard let self = self else { return UICollectionViewCell() }
                 switch self.segmentedControl.selectedSegmentIndex {
-                case 0:
+                case Metric.firstSegment:
                     return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: itemIdentifier)
                 default:
                     return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: itemIdentifier)
@@ -175,7 +175,7 @@ final class MainViewController: UIViewController {
     
     @objc private func handleSegmentChange() {
         switch segmentedControl.selectedSegmentIndex {
-        case 0:
+        case Metric.firstSegment:
             collectionView.setCollectionViewLayout(createListLayout(), animated: true)
             configureDataSource()
             dataSource?.apply(snapshot, animatingDifferences: false)
@@ -195,13 +195,12 @@ final class MainViewController: UIViewController {
     }
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.itemWidth), heightDimension: .fractionalHeight(Metric.itemHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.42))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        let spacing = CGFloat(10)
-        group.interItemSpacing = .fixed(spacing)
-        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.groupWidth), heightDimension: .fractionalHeight(Metric.groupHeight))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Metric.groupCount)
+        group.interItemSpacing = .fixed(Metric.groupSpacing)
+        group.contentInsets = NSDirectionalEdgeInsets(top: Metric.padding, leading: Metric.padding, bottom: Metric.padding, trailing: Metric.padding)
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout

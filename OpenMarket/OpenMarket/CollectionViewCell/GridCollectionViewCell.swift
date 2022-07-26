@@ -17,8 +17,8 @@ final class GridCollectionViewCell: ItemCollectionViewCell {
         setGridStackView()
         setGridConstraints()
         
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 2
+        self.layer.cornerRadius = Metric.cornerRadius
+        self.layer.borderWidth = Metric.borderWidth
         self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     required init?(coder: NSCoder) {
@@ -48,10 +48,10 @@ final class GridCollectionViewCell: ItemCollectionViewCell {
     
     private func setGridConstraints() {
         NSLayoutConstraint.activate([
-            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.gridPositiveConstant),
+            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.listNegativeConstant),
+            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.listNegativeConstant),
+            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.gridPositiveConstant)
         ])
     }
 }

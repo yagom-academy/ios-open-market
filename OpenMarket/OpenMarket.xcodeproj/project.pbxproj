@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0549E8E4288FFD9D00260891 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0549E8E3288FFD9D00260891 /* Metric.swift */; };
 		054E774A288AC13000E7460B /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E7749288AC13000E7460B /* ItemCollectionViewCell.swift */; };
 		05B3530D288797690027DCDE /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B3530C288797690027DCDE /* ListCollectionViewCell.swift */; };
 		05B3530F2887CA7F0027DCDE /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B3530E2887CA7F0027DCDE /* GridCollectionViewCell.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0549E8E3288FFD9D00260891 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 		054E7749288AC13000E7460B /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		05B3530C288797690027DCDE /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		05B3530E2887CA7F0027DCDE /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				05F7FA41288048E200F79944 /* NetworkNamespace.swift */,
 				8F4F82C42885AD7500C76E98 /* ModelNameSpace.swift */,
 				8F01981F288AF16900C47CF0 /* CollectionViewNamespace.swift */,
+				0549E8E3288FFD9D00260891 /* Metric.swift */,
 			);
 			path = NameSpace;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				05DC9F71288571390097B6E3 /* OpenMarketRequest.swift in Sources */,
 				8F019820288AF16900C47CF0 /* CollectionViewNamespace.swift in Sources */,
+				0549E8E4288FFD9D00260891 /* Metric.swift in Sources */,
 				05F7FA42288048E200F79944 /* NetworkNamespace.swift in Sources */,
 				8F1A0BB8287D96720071EF7A /* NetworkError.swift in Sources */,
 			);
