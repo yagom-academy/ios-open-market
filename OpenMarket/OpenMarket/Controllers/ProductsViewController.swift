@@ -26,20 +26,28 @@ class ProductsViewController: UIViewController {
     
     // MARK: - Life Cycle
     
+    override func loadView() {
+        view = ProductDetailView()
+        view.backgroundColor = .systemBackground
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureHierarchy()
-        configureDataSoure()
-        configureSegmentControl()
-        configureRefreshControl()
-        addIndicatorLayout()
-        configureNavigationBarRightButton()
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        title = "상품등록"
         
-        activityIndicator.startAnimating()
-        startFetching() {
-            self.activityIndicator.stopAnimating()
-        }
+//        configureHierarchy()
+//        configureDataSoure()
+//        configureSegmentControl()
+//        configureRefreshControl()
+//        addIndicatorLayout()
+//        configureNavigationBarRightButton()
+//
+//        activityIndicator.startAnimating()
+//        startFetching() {
+//            self.activityIndicator.stopAnimating()
+//        }
     }
 }
 

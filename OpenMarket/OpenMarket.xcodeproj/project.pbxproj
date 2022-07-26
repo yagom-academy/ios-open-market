@@ -15,6 +15,7 @@
 		18761AEC287BF84800057C43 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */; };
 		188157AF287D437C0082E042 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = B481698D287C0CFC004359E3 /* products.json */; };
+		B45131F9288FA17C00834B99 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45131F8288FA17C00834B99 /* ProductDetailView.swift */; };
 		B4816965287BF4D2004359E3 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		B4816990287C0E2C004359E3 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = B481698D287C0CFC004359E3 /* products.json */; };
 		B4AC53AE287C4C5E007EDBF4 /* URLSessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AC53AD287C4C5E007EDBF4 /* URLSessionError.swift */; };
@@ -44,6 +45,7 @@
 		18761AE0287BF67500057C43 /* JsonParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18761AE2287BF67500057C43 /* JsonParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParsingTests.swift; sourceTree = "<group>"; };
 		18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
+		B45131F8288FA17C00834B99 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		B4816964287BF4D2004359E3 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		B481698D287C0CFC004359E3 /* products.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		B4AC53AD287C4C5E007EDBF4 /* URLSessionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionError.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				1859965D287EC02600B04E60 /* ItemCollectionViewCell.swift */,
+				B45131F8288FA17C00834B99 /* ProductDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				B4816965287BF4D2004359E3 /* Products.swift in Sources */,
 				18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */,
 				1859965E287EC02600B04E60 /* ItemCollectionViewCell.swift in Sources */,
+				B45131F9288FA17C00834B99 /* ProductDetailView.swift in Sources */,
 				B4E496E6287EA62B00CD04C5 /* Titles.swift in Sources */,
 				18599660287EC18D00B04E60 /* Section.swift in Sources */,
 				B4AC53AE287C4C5E007EDBF4 /* URLSessionError.swift in Sources */,
