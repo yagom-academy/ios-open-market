@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
         return lodingview
     }()
     
-    private lazy var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>? = configureListDataSource()
+    private var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
     private var count = 1
     
