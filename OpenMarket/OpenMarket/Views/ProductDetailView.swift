@@ -17,7 +17,28 @@ class ProductDetailView: UIView {
         return scrollView
     }()
     
-    let pickerControl = UIImagePickerController()
+    let itemImageScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let imageStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 8
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    let itemImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = .add
+        return imageView
+    }()
     
     let itemNameTextField: UITextField = {
         let textField = UITextField()
@@ -42,6 +63,7 @@ class ProductDetailView: UIView {
     let currencySegmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["KRW", "USD"])
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentControl.selectedSegmentIndex = 0
         return segmentControl
     }()
     
@@ -74,6 +96,14 @@ class ProductDetailView: UIView {
         return textField
     }()
     
+    let button: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.backgroundColor = .systemGray3
+        return button
+    }()
+    
     let textFieldStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +117,7 @@ class ProductDetailView: UIView {
     let descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "테스트 테스트 테스트"
+        label.text = "테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트"
         label.numberOfLines = 0
         return label
     }()
@@ -113,9 +143,15 @@ extension ProductDetailView {
     private func addViews() {
         addSubview(mainScrollView)
         
+        mainScrollView.addSubview(itemImageScrollView)
         mainScrollView.addSubview(textFieldStackView)
         mainScrollView.addSubview(descriptionLabel)
-                
+        
+        itemImageScrollView.addSubview(imageStackView)
+        
+        imageStackView.addArrangedSubview(itemImageView)
+        imageStackView.addArrangedSubview(button)
+        
         textFieldStackView.addArrangedSubview(itemNameTextField)
         textFieldStackView.addArrangedSubview(currencyStackView)
         textFieldStackView.addArrangedSubview(itemSaleTextField)
@@ -135,7 +171,28 @@ extension ProductDetailView {
         ])
         
         NSLayoutConstraint.activate([
-            textFieldStackView.topAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.topAnchor),
+            itemImageScrollView.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: 15),
+            itemImageScrollView.bottomAnchor.constraint(equalTo: textFieldStackView.topAnchor, constant: -15),
+            itemImageScrollView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
+            itemImageScrollView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor, multiplier: 0.2)
+        ])
+
+        NSLayoutConstraint.activate([
+            imageStackView.leadingAnchor.constraint(equalTo: itemImageScrollView.contentLayoutGuide.leadingAnchor),
+            imageStackView.trailingAnchor.constraint(equalTo: itemImageScrollView.contentLayoutGuide.trailingAnchor),
+            imageStackView.centerYAnchor.constraint(equalTo: itemImageScrollView.centerYAnchor),
+            imageStackView.heightAnchor.constraint(equalTo: itemImageScrollView.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            itemImageView.widthAnchor.constraint(equalTo: itemImageView.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalTo: button.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
             textFieldStackView.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -15),
             textFieldStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
             textFieldStackView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
@@ -150,7 +207,6 @@ extension ProductDetailView {
             descriptionLabel.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
             descriptionLabel.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
         ])
-        
         
     }
 }
