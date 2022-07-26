@@ -46,10 +46,14 @@ final class MarketCollectionViewController: UICollectionViewController {
         configureUI()
         sessionManager.postData { result in
             switch result {
-            case .success(let data):
+            case .success(_):
                 print("성공!")
-            case .failure(_):
-                self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    self.showAlert(title: "서버 통신 실패", message: "데이터를 올리지 못했습니다.")
+                }
+
             }
         }
         receivePageData()
@@ -121,7 +125,9 @@ final class MarketCollectionViewController: UICollectionViewController {
                     LoadingIndicator.hideLoading(on: self.view)
                 }
             case .failure(_):
-                self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
+                }
             }
         }
     }
@@ -134,7 +140,9 @@ final class MarketCollectionViewController: UICollectionViewController {
                 Item(product: $0 )
             }
         } catch {
-            self.showAlert(title: "데이터 변환 실패", message: "가져온 데이터를 읽을 수 없습니다.")
+            DispatchQueue.main.async {
+                self.showAlert(title: "데이터 변환 실패", message: "가져온 데이터를 읽을 수 없습니다.")
+            }
         }
     }
     
