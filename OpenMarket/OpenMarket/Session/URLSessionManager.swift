@@ -34,11 +34,9 @@ final class URLSessionManager {
             guard let response = urlResponse as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 return completionHandler(.failure(.incorrectResponse))
             }
-
             guard let data = data else {
                 return completionHandler(.failure(.invalidData))
             }
-            
             return completionHandler(.success(data))
         }.resume()
     }
@@ -122,12 +120,39 @@ final class URLSessionManager {
         let parameters = "{\n    \"secret\": \"0hvvXjSeAS\",\n    \"discounted_price\": 10000\n}"
         let postData = parameters.convertData
 
-        var request = URLRequest(url: URL(string: "https://market-training.yagom-academy.kr/api/products/3946")!)
+        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3946") else { return }
+        var request = URLRequest(url: url)
+        
         request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
-
         request.httpMethod = "PATCH"
         request.httpBody = postData
 
+        dataTask(request: request, completionHandler: completionHandler)
+    }
+    
+    func inquireSecretKey(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+        let parameters = "{\"secret\": \"0hvvXjSeAS\"}"
+        let postData = parameters.convertData
+        
+        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3943/secret") else { return }
+        var request = URLRequest(url: url)
+        
+        request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = postData
+        
+        dataTask(request: request, completionHandler: completionHandler)
+    }
+    
+    func deleteData(secretKey: Data, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+        guard let secretKey = String(data: secretKey, encoding: .utf8) else { return }
+        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3943/" + secretKey) else { return }
+        var request = URLRequest(url: url)
+        
+        request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
+        request.httpMethod = "DELETE"
+        
         dataTask(request: request, completionHandler: completionHandler)
     }
 }
