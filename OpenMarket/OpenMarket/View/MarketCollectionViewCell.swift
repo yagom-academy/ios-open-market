@@ -35,8 +35,6 @@ class MarketCollectionViewCell: UICollectionViewCell {
     }()
 
     func configureCell(with item: Item, spacingType: String) {
-        let sessionManager = URLSessionManager(session: URLSession.shared)
-        
         self.nameLabel.text = item.productName
         
         if item.price == item.bargainPrice {
@@ -60,19 +58,6 @@ class MarketCollectionViewCell: UICollectionViewCell {
         } else {
             self.stockLabel.text = "품절"
             self.stockLabel.textColor = .systemOrange
-        }
-        
-        sessionManager.receiveData(baseURL: item.productImage) { result in
-            switch result {
-            case .success(let data):
-                guard let imageData = UIImage(data: data) else { return }
-                
-                DispatchQueue.main.async {
-                    self.imageView.image = imageData
-                }
-            case .failure(_):
-                print("서버 통신 실패")
-            }
         }
     }
     
