@@ -73,6 +73,7 @@ protocol APIRequest {
     var body: [String: [Data]]? { get }
     var boundary: String? { get }    
 }
+
 extension APIRequest {
     var url: URL? {
         var component = URLComponents(string: self.baseURL + (self.path ?? ""))
@@ -130,8 +131,8 @@ extension APIRequest {
         
         images.forEach {
             imageBody.append("\(lineBreak)--\(boundary + lineBreak)" .data(using: .utf8)!)
-            imageBody.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(boundary).jpeg\"\(lineBreak)" .data(using: .utf8)!)
-            imageBody.append("Content-Type: image/jpeg \(lineBreak + lineBreak)" .data(using: .utf8)!)
+            imageBody.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(boundary).png\"\(lineBreak)" .data(using: .utf8)!)
+            imageBody.append("Content-Type: image/png \(lineBreak + lineBreak)" .data(using: .utf8)!)
             imageBody.append($0)
         }
         

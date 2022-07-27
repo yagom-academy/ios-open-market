@@ -98,8 +98,8 @@ final class RequestTests: XCTestCase {
         // given
         let expectation = expectation(description: "비동기 요청을 기다림.")
         guard let assetImage = UIImage(named: "1") else { return }
-        guard let pngData = assetImage.jpegData(compressionQuality: 10) else { return }
-        let product = RegistrationProduct(name: "글투는 천재",
+        guard let pngData = assetImage.pngData() else { return }
+        let product = RegistrationProduct(name: "헤드폰",
                                           descriptions: "ㅎ",
                                           price: 10.0,
                                           currency: "KRW",
@@ -109,7 +109,7 @@ final class RequestTests: XCTestCase {
         guard let productData = try? JSONEncoder().encode(product) else { return }
         let boundary = "Boundary-\(UUID().uuidString)"
         let postData = TestRequest(body: ["params" : [productData],
-                                          "images": [pngData]],
+                                          "images": [pngData, pngData, pngData]],
                                    boundary: boundary,
                                    method: .post,
                                    baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
