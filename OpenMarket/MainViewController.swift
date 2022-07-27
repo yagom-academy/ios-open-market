@@ -56,7 +56,7 @@ final class MainViewController: UIViewController {
         let leftCoordinate = (view.frame.width / 2) - (segmentedControl.frame.width / 2)
         stackView.alignment = .fill
         stackView.distribution = .equalCentering
-        stackView.layoutMargins = UIEdgeInsets(top: .zero, left: leftCoordinate, bottom: .zero, right: 15)
+        stackView.layoutMargins = UIEdgeInsets(top: 15, left: leftCoordinate, bottom: 15, right: 15)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +76,6 @@ final class MainViewController: UIViewController {
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.axis = .vertical
-        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -85,6 +84,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setUI()
         
         collectionView.prefetchDataSource = self
