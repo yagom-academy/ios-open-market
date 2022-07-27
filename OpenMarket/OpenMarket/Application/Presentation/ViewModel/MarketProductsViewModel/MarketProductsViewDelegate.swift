@@ -8,5 +8,6 @@
 import UIKit
 
 protocol MarketProductsViewDelegate: AnyObject {
-    func didReceiveResponse(_ view: MarketProductsView.Type, by data: ProductListEntity)
+    func didReceiveResponse(_ view: MarketProductsView.Type,
+                            by data: ProductListEntity)
 }

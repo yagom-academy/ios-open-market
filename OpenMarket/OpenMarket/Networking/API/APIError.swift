@@ -1,5 +1,5 @@
 //
-//  NetworkError.swift
+//  APIError.swift
 //  OpenMarket
 //
 //  Created by 데릭, 케이, 수꿍.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkError: Error, LocalizedError {
+enum APIError: Error, LocalizedError {
     case invalidURL
     case failedToDecode
     case jsonFileNotFound
