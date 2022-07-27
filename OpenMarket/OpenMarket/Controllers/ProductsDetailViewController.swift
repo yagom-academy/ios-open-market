@@ -43,11 +43,12 @@ class ProductsDetailViewController: UIViewController {
         
         detailView.mainScrollView.keyboardDismissMode = .interactive
         
+        detailView.descriptionTextView.delegate = self
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         detailView.mainScrollView.addGestureRecognizer(tap)
         
         addNavigationBarButton()
-        
     }
 
     @objc func endEditing() {
@@ -114,4 +115,18 @@ extension ProductsDetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
+}
+
+extension ProductsDetailViewController: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        guard let detailView = view as? ProductDetailView else { return }
+        guard let textSelectedTextRange = textView.selectedTextRange else { return }
+        let caret = textView.caretRect(for: textSelectedTextRange.start)
+        let scrollPoint = CGPoint(x: 0, y: caret.origin.y - 50)
+        
+        if scrollPoint.y != .infinity && scrollPoint.y > 0.0 {
+            detailView.mainScrollView.setContentOffset(scrollPoint, animated: true)
+        }
+    }
+    
 }
