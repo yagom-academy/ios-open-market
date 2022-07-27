@@ -111,7 +111,7 @@ final class MarketProductsView: UIView {
     
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionCell, ProductEntity> { (cell, indexPath, item) in
-
+            
             cell.updateUI(item)
             cell.accessories = [.disclosureIndicator()]
         }
@@ -151,20 +151,23 @@ final class MarketProductsView: UIView {
     }
     
     private func configureListLayout() -> UICollectionViewLayout {
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalWidth(0.25))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitem: item,
-                                                           count: 1)
-
-            let section = NSCollectionLayoutSection(group: group)
-            let layout = UICollectionViewCompositionalLayout(section: section)
-
-            return layout
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5,
+                                                     leading: 5,
+                                                     bottom: 5,
+                                                     trailing: 5)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalWidth(0.25))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitem: item,
+                                                       count: 1)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
     
     private func configureGridLayout(of rootView: UIView) -> UICollectionViewCompositionalLayout{
@@ -231,8 +234,10 @@ final class MarketProductsView: UIView {
         var snapShot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
         snapShot.appendSections([.main])
         snapShot.appendItems(data.productEntity)
-
-        dataSource.apply(snapShot, animatingDifferences: true, completion: nil)
+        
+        dataSource.apply(snapShot,
+                         animatingDifferences: true,
+                         completion: nil)
     }
     
     private func updateUI(by data: ProductListEntity) {
@@ -246,7 +251,7 @@ final class MarketProductsView: UIView {
     }
     
     // MARK: - Action
-
+    
     @objc private func didSegmentedControlTapped(_ segment: UISegmentedControl) {
         self.shouldHideListView = segment.selectedSegmentIndex != 0
     }
@@ -257,7 +262,8 @@ final class MarketProductsView: UIView {
 }
 
 extension MarketProductsView: MarketProductsViewDelegate {
-    func didReceiveResponse(_ view: MarketProductsView.Type, by data: ProductListEntity) {
+    func didReceiveResponse(_ view: MarketProductsView.Type,
+                            by data: ProductListEntity) {
         updateUI(by: data)
     }
 }

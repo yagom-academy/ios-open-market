@@ -121,10 +121,14 @@ final class GridCollectionCell: UICollectionViewCell {
         let inset = CGFloat(10)
         
         NSLayoutConstraint.activate([
-            rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
-            rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
-            rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset)
+            rootStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                    constant: inset),
+            rootStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                    constant: -inset),
+            rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                               constant: inset),
+            rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                  constant: -inset)
         ])
     }
     

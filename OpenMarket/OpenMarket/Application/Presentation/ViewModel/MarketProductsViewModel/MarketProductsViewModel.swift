@@ -98,7 +98,7 @@ final class MarketProductsViewModel {
                 ProductEntity(
                     thumbnailImage: thumbnailImage,
                     name: product.name,
-                    currency: product.currency,
+                    currency: product.currency.rawValue,
                     originalPrice: product.price,
                     discountedPrice: product.bargainPrice,
                     stock: product.stock))
