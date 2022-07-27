@@ -41,6 +41,8 @@ class ProductsDetailViewController: UIViewController {
         detailView.itemSaleTextField.delegate = self
         detailView.itemStockTextField.delegate = self
         
+        detailView.mainScrollView.keyboardDismissMode = .interactive
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         detailView.mainScrollView.addGestureRecognizer(tap)
         

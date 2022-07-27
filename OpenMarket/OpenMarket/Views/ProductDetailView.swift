@@ -48,6 +48,7 @@ class ProductDetailView: UIView {
     let itemPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품가격"
+        textField.keyboardType = .numberPad
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -76,6 +77,7 @@ class ProductDetailView: UIView {
     let itemSaleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인금액"
+        textField.keyboardType = .numberPad
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -88,6 +90,7 @@ class ProductDetailView: UIView {
     let itemStockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고수량"
+        textField.keyboardType = .numberPad
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -115,12 +118,13 @@ class ProductDetailView: UIView {
         return stackView
     }()
     
-    let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트"
-        label.numberOfLines = 0
-        return label
+    let descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.isScrollEnabled = false
+        textView.isEditable = true
+        textView.text = "테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트"
+        return textView
     }()
     
     // MARK: - Life Cycle
@@ -152,7 +156,7 @@ extension ProductDetailView {
         
         mainScrollView.addSubview(itemImageScrollView)
         mainScrollView.addSubview(textFieldStackView)
-        mainScrollView.addSubview(descriptionLabel)
+        mainScrollView.addSubview(descriptionTextView)
         
         itemImageScrollView.addSubview(imageStackView)
         
@@ -195,7 +199,7 @@ extension ProductDetailView {
         ])
         
         NSLayoutConstraint.activate([
-            textFieldStackView.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -15),
+            textFieldStackView.bottomAnchor.constraint(equalTo: descriptionTextView.topAnchor, constant: -15),
             textFieldStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
             textFieldStackView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
         ])
@@ -205,9 +209,9 @@ extension ProductDetailView {
         ])
         
         NSLayoutConstraint.activate([
-            descriptionLabel.bottomAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.bottomAnchor),
-            descriptionLabel.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
-            descriptionLabel.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
+            descriptionTextView.bottomAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.bottomAnchor),
+            descriptionTextView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
+            descriptionTextView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
         ])
         
     }
