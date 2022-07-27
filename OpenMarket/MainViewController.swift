@@ -12,6 +12,8 @@ final class MainViewController: UIViewController {
         case main
     }
     
+    typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>
+
     // MARK: Properties
     
     private lazy var loadingView: UIActivityIndicatorView = {
@@ -23,7 +25,7 @@ final class MainViewController: UIViewController {
         return lodingview
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>?
+    private var dataSource: DiffableDataSource?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
     private var productPageNumber = 1
     
@@ -149,9 +151,9 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func configureDataSource(id: String) -> UICollectionViewDiffableDataSource<Section, SaleInformation>? {
-        dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
-            
+    private func configureDataSource(id: String) -> DiffableDataSource? {
+        dataSource = DiffableDataSource(collectionView: collectionView)
+        { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
             switch id {
             case "list":
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as? ListCollectionViewCell else {
