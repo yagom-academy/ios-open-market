@@ -12,12 +12,12 @@ enum Metric {
     static let firstSegment: Int = 0
     static let borderWidth: CGFloat = 1
 
-    static let itemWidth: CGFloat = 1.0
-    static let itemHeight: CGFloat = 1.0
-    static let groupCount: Int = 2
-    static let groupWidth: CGFloat = 1.0
-    static let groupHeight: CGFloat = 0.42
-    static let groupSpacing: CGFloat = 10
+    static let gridItemWidth: CGFloat = 1.0
+    static let gridItemHeight: CGFloat = 1.0
+    static let gridGroupCount: Int = 2
+    static let gridGroupWidth: CGFloat = 1.0
+    static let gridGroupHeight: CGFloat = 0.42
+    static let gridGroupSpacing: CGFloat = 10
     static let padding: CGFloat = 10
     
     static let firstPage: Int = 1
@@ -33,4 +33,11 @@ enum Metric {
     
     static let bargainPrice: Double = 0.0
     static let stock: Int = 0
+    
+    static let listItemWidth: CGFloat = 1.0
+    static let listItemHeight: CGFloat = 1.35
+    static let listGroupCount: Int = 1
+    static let listGroupWidth: CGFloat = 1.0
+    static let listGroupHeight: CGFloat = 0.11
+    static let listGroupSpacing: CGFloat = 15
 }

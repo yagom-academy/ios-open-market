@@ -190,26 +190,26 @@ final class MainViewController: UIViewController {
     }
     
     private func createListLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.35))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.listItemWidth), heightDimension: .fractionalHeight(Metric.listItemHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.11))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 0)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.listGroupWidth), heightDimension: .fractionalHeight(Metric.listGroupHeight))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Metric.listGroupCount)
+        group.contentInsets = NSDirectionalEdgeInsets(top: Metric.padding, leading: Metric.padding, bottom: Metric.padding, trailing: .zero)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 15
+        section.interGroupSpacing = Metric.listGroupSpacing
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.itemWidth), heightDimension: .fractionalHeight(Metric.itemHeight))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.gridItemWidth), heightDimension: .fractionalHeight(Metric.gridItemHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.groupWidth), heightDimension: .fractionalHeight(Metric.groupHeight))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Metric.groupCount)
-        group.interItemSpacing = .fixed(Metric.groupSpacing)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.gridGroupWidth), heightDimension: .fractionalHeight(Metric.gridGroupHeight))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Metric.gridGroupCount)
+        group.interItemSpacing = .fixed(Metric.gridGroupSpacing)
         group.contentInsets = NSDirectionalEdgeInsets(top: Metric.padding, leading: Metric.padding, bottom: Metric.padding, trailing: Metric.padding)
         
         let section = NSCollectionLayoutSection(group: group)
