@@ -11,56 +11,9 @@ final class ListCollectionView: UICollectionView {
     // MARK: - properties
     
     private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
-    private let listViewCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ProductDetail> {
+    private let listViewCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductDetail> {
         (cell, indexPath, item) in
-        var content = cell.defaultContentConfiguration()
-
-        content.text = item.name
-        content.imageProperties.maximumSize = CGSize(width: ImageSize.width, height: ImageSize.height)
-        content.secondaryAttributedText = item.makePriceText()
-        
-        let accessory = UICellAccessory.disclosureIndicator()
-        var stockAccessory = UICellAccessory.disclosureIndicator()
-        
-        if item.stock == .zero {
-            let text = PriceText.soldOut.text
-            stockAccessory = UICellAccessory.label(
-                text: text,
-                options: .init(tintColor: .systemOrange,
-                               font: .preferredFont(forTextStyle: .footnote)))
-        } else {
-            let text = "\(PriceText.stock.text)\(item.stock)"
-            stockAccessory = UICellAccessory.label(
-                text: text,
-                options: .init(tintColor: .systemGray,
-                               font: .preferredFont(forTextStyle: .footnote))
-            )
-        }
-        
-        if let image = ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) {
-            content.image = image
-        } else {
-            let request = OpenMarketRequest(method: .get, baseURL: item.thumbnail)
-            let session = MyURLSession()
-            session.execute(with: request) { (result: Result<Data, Error>) in
-                switch result {
-                case .success(let success):
-                    guard let image = UIImage(data: success) else { return }
-                    if ImageCacheManager.shared.object(forKey: NSString(string: item.thumbnail)) == nil {
-                        ImageCacheManager.shared.setObject(image, forKey: NSString(string: item.thumbnail))
-                    } else {
-                        DispatchQueue.main.async {
-                            content.image = image
-                        }
-                    }
-                case .failure(let failure):
-                    print(failure.localizedDescription)
-                }
-            }
-        }
-        
-        cell.accessories = [stockAccessory, accessory]
-        cell.contentConfiguration = content
+        cell.setViewItems(item)
     }
     
     // MARK: - initializers

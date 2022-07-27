@@ -7,21 +7,24 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell {
+final class ListCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
     
     private let productImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
         return imageView
     }()
     
     private let productName: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
         
         return label
     }()
@@ -30,6 +33,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         
         return label
     }()
@@ -41,13 +45,33 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let accessoryImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
+    
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        
+        return stackView
+    }()
+    
+    private let accessoryStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .equalCentering
-        stackView.spacing = 5
+        stackView.distribution = .fill
+        stackView.spacing = 4
         
         return stackView
     }()
@@ -81,20 +105,29 @@ final class GridCollectionViewCell: UICollectionViewCell {
     private func setUpSubViews() {
         self.contentView.addSubview(productImage)
         self.contentView.addSubview(stackView)
-        [productName, price, stock].forEach { stackView.addArrangedSubview($0) }
+        self.contentView.addSubview(accessoryStackView)
+        [productName, price].forEach { stackView.addArrangedSubview($0) }
+        [stock, accessoryImage].forEach { accessoryStackView.addArrangedSubview($0) }
     }
     
     private func setUpStackViewConstraints() {
         NSLayoutConstraint.activate(
-            [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
              productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-             productImage.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-             productImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.5)])
+             productImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+             productImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor)])
         
         NSLayoutConstraint.activate(
-            [stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-             stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-             stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
+            [stackView.leadingAnchor.constraint(equalTo: self.productImage.trailingAnchor, constant: 10),
+             stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+             stackView.topAnchor.constraint(equalTo: self.contentView.topAnchor)])
+        
+        NSLayoutConstraint.activate(
+            [accessoryStackView.leadingAnchor.constraint(equalTo: self.stackView.trailingAnchor),
+             accessoryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+             accessoryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+             accessoryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            ])
     }
     
     private func setUpBorder() {

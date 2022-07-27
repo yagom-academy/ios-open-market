@@ -55,10 +55,8 @@ extension ProductDetail {
         session.execute(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let image = UIImage(data: success) else { return }
-                if ImageCacheManager.shared.object(forKey: NSString(string: self.thumbnail)) == nil {
-                    ImageCacheManager.shared.setObject(image, forKey: NSString(string: self.thumbnail))
-                }
+                guard let image = UIImage(data: success) else { return }      
+                ImageCacheManager.shared.setObject(image, forKey: NSString(string: self.thumbnail))
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
