@@ -149,7 +149,7 @@ final class MainViewController: UIViewController {
         }
     }
     
-    func configureDataSource(id: String) -> UICollectionViewDiffableDataSource<Section, SaleInformation>? {
+    private func configureDataSource(id: String) -> UICollectionViewDiffableDataSource<Section, SaleInformation>? {
         dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
             
             switch id {
