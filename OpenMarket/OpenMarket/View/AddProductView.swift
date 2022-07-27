@@ -23,6 +23,79 @@ final class AddProductView: UIView {
         return view
     }()
     
+    private let productNameTextfield: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.placeholder = "상품명"
+        textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.adjustsFontForContentSizeCategory = true
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let priceTextfield: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.placeholder = "상품가격"
+        textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.adjustsFontForContentSizeCategory = true
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private let bargainPriceTextfield: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.placeholder = "할인금액"
+        textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.adjustsFontForContentSizeCategory = true
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private let stockTextfield: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.placeholder = "재고수량"
+        textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.adjustsFontForContentSizeCategory = true
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private let segmentedControl: UISegmentedControl = {
+        let segmentedControl = UIKit.UISegmentedControl(items: [Currency.krw.rawValue, Currency.usd.rawValue])
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.selectedSegmentIndex = 0
+        return segmentedControl
+    }()
+    
+    private let descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = .preferredFont(forTextStyle: .caption1)
+        textView.adjustsFontForContentSizeCategory = true
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    private let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let infoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     private let entireStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -34,7 +107,18 @@ final class AddProductView: UIView {
     
     func arrangeSubView() {
         self.backgroundColor = .systemBackground
+        
+        priceStackView.addArrangedSubview(priceTextfield)
+        priceStackView.addArrangedSubview(segmentedControl)
+        
+        infoStackView.addArrangedSubview(productNameTextfield)
+        infoStackView.addArrangedSubview(priceStackView)
+        infoStackView.addArrangedSubview(bargainPriceTextfield)
+        infoStackView.addArrangedSubview(stockTextfield)
+        
         entireStackView.addArrangedSubview(collectionView)
+        entireStackView.addArrangedSubview(infoStackView)
+        entireStackView.addArrangedSubview(descriptionTextView)
         
         self.addSubview(entireStackView)
         
