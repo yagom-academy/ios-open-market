@@ -33,13 +33,6 @@ class ProductDetailView: UIView {
         return stackView
     }()
     
-    let itemImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = .add
-        return imageView
-    }()
-    
     let itemNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
@@ -143,6 +136,13 @@ class ProductDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func addToScrollView(of image: UIImage, viewController: UIViewController) {
+        let newImageView = UIImageView(image: image)
+        newImageView.translatesAutoresizingMaskIntoConstraints = false
+        newImageView.widthAnchor.constraint(equalTo: newImageView.heightAnchor).isActive = true
+        
+        imageStackView.insertArrangedSubview(newImageView, at: imageStackView.arrangedSubviews.count - 1)
+    }
 }
 
 extension ProductDetailView {
@@ -155,7 +155,6 @@ extension ProductDetailView {
         
         itemImageScrollView.addSubview(imageStackView)
         
-        imageStackView.addArrangedSubview(itemImageView)
         imageStackView.addArrangedSubview(button)
         
         textFieldStackView.addArrangedSubview(itemNameTextField)
@@ -188,10 +187,6 @@ extension ProductDetailView {
             imageStackView.trailingAnchor.constraint(equalTo: itemImageScrollView.contentLayoutGuide.trailingAnchor),
             imageStackView.centerYAnchor.constraint(equalTo: itemImageScrollView.centerYAnchor),
             imageStackView.heightAnchor.constraint(equalTo: itemImageScrollView.heightAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            itemImageView.widthAnchor.constraint(equalTo: itemImageView.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([

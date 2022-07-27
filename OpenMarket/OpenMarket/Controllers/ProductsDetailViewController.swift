@@ -11,6 +11,8 @@ class ProductsDetailViewController: UIViewController {
 
     let imagePicker = UIImagePickerController()
     
+    let imageCache = NSCache<NSString, UIImage>()
+    
     override func loadView() {
         view = ProductDetailView()
         view.backgroundColor = .systemBackground
@@ -59,6 +61,29 @@ class ProductsDetailViewController: UIViewController {
 }
 
 extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let detailView = view as? ProductDetailView else { return }
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
+              let selectedImageURL = info[UIImagePickerController.InfoKey.imageURL] as? URL else { return }
+        let selectedImageKey = selectedImageURL.lastPathComponent
+        
+        imageCache.setObject(selectedImage, forKey: selectedImageKey as NSString)
+        
+        detailView.addToScrollView(of: selectedImage, viewController: self)
+        detailView.imageStackView.arrangedSubviews.last
+        
+        if detailView.imageStackView.arrangedSubviews.count == 6 {
+            detailView.button.removeFromSuperview()
+        }
+        
+        
+        
+        print(imageCache.value(forKey: "allObjects") as? NSArray)
+        
+        
+        dismiss(animated: true)
+    }
 }
 
 extension ProductsDetailViewController: UITextFieldDelegate {
