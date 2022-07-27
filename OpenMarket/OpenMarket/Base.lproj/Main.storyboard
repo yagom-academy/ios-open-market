@@ -80,10 +80,10 @@
             </objects>
             <point key="canvasLocation" x="122" y="64"/>
         </scene>
-        <!--First View Controller-->
+        <!--List View Controller-->
         <scene sceneID="tKB-wu-77e">
             <objects>
-                <viewController storyboardIdentifier="FirstViewController" id="46V-Ir-lUi" userLabel="First View Controller" customClass="ListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstViewController" id="46V-Ir-lUi" customClass="ListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dHE-EZ-PcS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

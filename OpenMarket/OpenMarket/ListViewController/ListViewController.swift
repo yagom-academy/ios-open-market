@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Foundation
 
 final class ListViewController: UIViewController {
     @IBOutlet private weak var productCollectionView: UICollectionView!
+    
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
@@ -20,7 +22,7 @@ final class ListViewController: UIViewController {
     private let numberFormatter = NumberFormatter()
     private let jsonParser = JSONParser()
     private let URLSemaphore = DispatchSemaphore(value: 0)
-    private let itemPage = "items_per_page=20"
+    private let itemPage = "items_per_page=50"
     private var productData: ProductListResponse?
 
     override func viewDidLoad() {
@@ -36,6 +38,7 @@ final class ListViewController: UIViewController {
         self.activityIndicator.startAnimating()
         self.fetchData()
         self.activityIndicator.stopAnimating()
+        self.uploadData()
     }
     
     private func fetchUICollectionViewConfiguration() {
@@ -53,8 +56,54 @@ final class ListViewController: UIViewController {
                 print(data)
             }
         })
-        URLSemaphore.wait()
+        self.URLSemaphore.wait()
         self.productCollectionView.reloadData()
+    }
+    
+    func uploadData() {
+        let parameters = ["name": "Test Brad", "price":15000, "stock": 1000, "currency": "KRW", "secret": "your_secret_here", "descriptions": "description here"] as [String : Any]
+        let boundary = "Boundary-\(UUID().uuidString)"
+
+        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products") else { return }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.addValue("fa69efb9-0335-11ed-9676-1db1453669a0", forHTTPHeaderField: "identifier")
+        request.addValue("multipart/form-data; boundary\(boundary)",
+                         forHTTPHeaderField: "Content-Type")
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else { return }
+        
+        request.httpBody = httpBody
+
+        let session = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    
+                }
+            }
+            if let error = error {
+                print(error)
+            }
+        }
+        session.resume()
+    }
+    
+    func createBody(paramaeters: [String: Any], boundary: String) -> Data {
+      var body = Data()
+      let boundaryPrefix = "--\(boundary)\r\n"
+      for (key, value) in paramaeters {
+        body.append(boundaryPrefix.data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+        body.append("\(value)\r\n".data(using: .utf8)!)
+      }
+      body.append(boundaryPrefix.data(using: .utf8)!)
+      return body
     }
 }
 
@@ -70,7 +119,6 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.accessories = [.disclosureIndicator()]
         cell.fetchData(data: productData, index: indexPath.row)
-        
         return cell
     }
 }
