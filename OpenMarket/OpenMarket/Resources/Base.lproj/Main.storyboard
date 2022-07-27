@@ -53,7 +53,7 @@
         <!--Add Product View Controller-->
         <scene sceneID="OAm-57-nlc">
             <objects>
-                <viewController id="ZJu-Wh-p5n" customClass="AddProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductViewController" id="ZJu-Wh-p5n" customClass="AddProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="N2e-ti-HnV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
