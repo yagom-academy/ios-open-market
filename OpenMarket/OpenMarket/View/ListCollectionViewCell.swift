@@ -25,7 +25,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        
         return label
     }()
     
@@ -99,7 +98,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     private func commonInit() {
         setUpSubViews()
         setUpStackViewConstraints()
-        setUpBorder()
+        self.setUpBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
     }
     
     private func setUpSubViews() {
@@ -128,12 +127,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
              accessoryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
              accessoryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             ])
-    }
-    
-    private func setUpBorder() {
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 1.5
-        self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     
     func setViewItems(_ item: ProductDetail) {

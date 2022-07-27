@@ -209,9 +209,7 @@ final class OpenMarketViewController: UIViewController {
     }
     
     @objc private func productRegistrationButtonDidTap() {
-        print("productRegistrationButtonDidTapped")
-
-        self.navigationController?.pushViewController(ProductDetailViewController(), animated: true)
+        self.navigationController?.pushViewController(ProductRegistrationViewController(), animated: true)
     }
     
     @objc private func refresh() {
