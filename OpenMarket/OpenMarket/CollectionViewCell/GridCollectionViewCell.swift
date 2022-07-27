@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: ItemCollectionViewCell {
+final class GridCollectionViewCell: ItemCollectionViewCell {
     
     // MARK: init
     
@@ -17,8 +17,8 @@ class GridCollectionViewCell: ItemCollectionViewCell {
         setGridStackView()
         setGridConstraints()
         
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 2
+        self.layer.cornerRadius = Metric.cornerRadius
+        self.layer.borderWidth = Metric.borderWidth
         self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     required init?(coder: NSCoder) {
@@ -32,7 +32,6 @@ class GridCollectionViewCell: ItemCollectionViewCell {
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.axis = .vertical
-    
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -40,19 +39,19 @@ class GridCollectionViewCell: ItemCollectionViewCell {
     // MARK: Method
     
     private func setGridStackView() {
-        totalGridStackView.addArrangedSubview(productThumnail)
-        totalGridStackView.addArrangedSubview(productName)
-        totalGridStackView.addArrangedSubview(productPrice)
-        totalGridStackView.addArrangedSubview(bargainPrice)
-        totalGridStackView.addArrangedSubview(productStockQuntity)
+        totalGridStackView.addArrangedSubview(productThumbnailImageView)
+        totalGridStackView.addArrangedSubview(productNameLabel)
+        totalGridStackView.addArrangedSubview(productPriceLabel)
+        totalGridStackView.addArrangedSubview(bargainPriceLabel)
+        totalGridStackView.addArrangedSubview(productStockQuntityLabel)
     }
     
     private func setGridConstraints() {
         NSLayoutConstraint.activate([
-            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+            totalGridStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.gridPositiveConstant),
+            totalGridStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.listNegativeConstant),
+            totalGridStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.listNegativeConstant),
+            totalGridStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.gridPositiveConstant)
         ])
     }
 }

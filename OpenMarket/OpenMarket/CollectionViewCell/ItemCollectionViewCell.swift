@@ -11,14 +11,14 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     // MARK: Properties
     
-    let productThumnail: UIImageView = {
+    let productThumbnailImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    let productName: UILabel = {
+    let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.adjustsFontForContentSizeCategory = true
@@ -26,27 +26,27 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    let productPrice: UILabel = {
+    let productPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let bargainPrice: UILabel = {
+    let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let productStockQuntity: UILabel = {
+    let productStockQuntityLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
+    private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
         priceLabel.text = "\(product.currency) \(product.price)"
-        if product.bargainPrice == 0.0 {
+        if product.bargainPrice == Metric.bargainPrice {
             priceLabel.textColor = .systemGray
             bargainPriceLabel.isHidden = true
         } else {
@@ -57,8 +57,8 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         }
     }
     
-    func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
-        if product.stock == 0 {
+    private func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
+        if product.stock == Metric.stock {
             productStockQuntity.text = "품절"
             productStockQuntity.textColor = .systemOrange
         } else {
@@ -76,16 +76,16 @@ class ItemCollectionViewCell: UICollectionViewListCell {
                 guard let images = UIImage(data: data) else { return }
                 
                 DispatchQueue.main.async {
-                    self?.productThumnail.image = images
+                    self?.productThumbnailImageView.image = images
                 }
-            case .failure(_):
-                MainViewController().showNetworkError(message: NetworkError.outOfRange.message)
+            case .failure(let error):
+                MainViewController().showNetworkError(message: error.localizedDescription)
             }
         }
         
-        self.productName.text = product.name
+        self.productNameLabel.text = product.name
         
-        showPrice(priceLabel: self.productPrice, bargainPriceLabel: self.bargainPrice, product: product)
-        showSoldOut(productStockQuntity: self.productStockQuntity, product: product)
+        showPrice(priceLabel: self.productPriceLabel, bargainPriceLabel: self.bargainPriceLabel, product: product)
+        showSoldOut(productStockQuntity: self.productStockQuntityLabel, product: product)
     }
 }

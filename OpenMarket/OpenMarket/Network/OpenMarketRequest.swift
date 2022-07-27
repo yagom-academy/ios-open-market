@@ -10,10 +10,9 @@ import Foundation
 struct OpenMarketRequest {
     private let address = NetworkNamespace.url.name
     
-    func createQuery(of pageNo: String = "1", with itemsPerPage: String = "20") -> [URLQueryItem] {
+    func createQuery(of pageNo: String = String(Metric.firstPage), with itemsPerPage: String = String(Metric.itemCount)) -> [URLQueryItem] {
         let pageNo = URLQueryItem(name: ModelNameSpace.pageNo.name, value: pageNo)
         let itemsPerPage = URLQueryItem(name: ModelNameSpace.itemsPerPage.name, value: itemsPerPage)
-        
         return [pageNo, itemsPerPage]
     }
     
@@ -24,7 +23,6 @@ struct OpenMarketRequest {
         guard let url = components?.url else {
             return nil
         }
-
         return URLRequest(url: url)
     }
     
@@ -36,7 +34,6 @@ struct OpenMarketRequest {
         }
         
         url.appendPathComponent(productId)
-        
         return URLRequest(url: url)
     }
 }
