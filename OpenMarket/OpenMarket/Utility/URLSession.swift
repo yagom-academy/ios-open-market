@@ -47,6 +47,50 @@ class NetworkManager {
         }
         dataTask.resume()
     }
+    // MARK: - FETCH 상품 수정
+    func requestProductModification(id: Int, rowData: String, _ completion: @escaping (ProductDetail) -> Void) {
+        guard let url = URL(string: URLData.host + URLData.apiPath + "/\(id)") else {
+            return
+        }
+        let parameters = rowData
+        let postData = parameters.data(using: .utf8)
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.httpBody = postData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(URLData.identifier, forHTTPHeaderField: "identifier")
+        
+        let dataTask = createDataTask(request: request, type: ProductDetail.self) { detail in
+            completion(detail)
+        }
+        dataTask.resume()
+    }
+    
+    func translateToRowData(_ data: ModificationData) -> String {
+        var detailToModify = ["secret": nil, "name": nil, "descriptions": nil,
+                              "thumbnail_id": nil, "price": nil, "currency": nil,
+                              "discounted_price": nil, "stock": nil] as [String : Any?]
+        detailToModify["secret"] = URLData.secret
+        detailToModify["name"] = data.name
+        detailToModify["descriptions"] = data.descriptions
+        detailToModify["thumbnail_id"] = data.thumbnailId
+        detailToModify["price"] = data.price
+        detailToModify["currency"] = data.currency?.rawValue
+        detailToModify["discounted_price"] = data.discountedPrice
+        detailToModify["stock"] = data.stock
+        
+        var result: [String] = []
+        for (key, value) in detailToModify {
+            if value != nil {
+                if value is String || value is Currency {
+                    result.append("\"\(key)\": \"\(value!)\"")
+                } else {
+                    result.append("\"\(key)\": \(value!)")
+                }
+            }
+        }
+        return "{\(result.joined(separator: ","))}"
+    }
 }
 
 extension NetworkManager {
@@ -58,13 +102,13 @@ extension NetworkManager {
             let successsRange = 200..<300
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   successsRange.contains(statusCode) else {
-                return
-            }
+                      return
+                  }
             guard let resultData = data,
                   let fetchedData = decode(from: resultData, to: type.self) else {
-                debugPrint("ERROR: FAILURE DECODING ")
-                return
-            }
+                      debugPrint("ERROR: FAILURE DECODING ")
+                      return
+                  }
             completion(fetchedData)
         }
     }

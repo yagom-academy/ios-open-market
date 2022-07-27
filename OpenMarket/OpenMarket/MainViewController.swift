@@ -14,7 +14,8 @@ class MainViewController: UIViewController {
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var listLayout: UICollectionViewLayout? = nil
     private var gridLayout: UICollectionViewLayout? = nil
-    private var currentMaximumPage = 2
+    private var productLists: [Product] = []
+    private var currentMaximumPage = 1
     enum Section {
         case main
     }
@@ -66,19 +67,19 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // REST API TEST CODE - start
-        let productRegistration = ProductRegistration(name: "마라탕",
-                                                      descriptions: "내일 점심",
-                                                      price: 34000,
-                                                      currency: Currency.krw,
-                                                      discountedPrice: 31000,
-                                                      stock: 1,
-                                                      secret: URLData.secret
-        )
-        let maraImage = UIImage(named: "mara") ?? UIImage()
-        let images = [maraImage]
-        manager.requestProductRegistration(with: productRegistration, images: images) { detail in
-            print("SUCCESS POST - \(detail.id), \(detail.name)")
-        }
+//        let productRegistration = ProductRegistration(name: "마라탕",
+//                                                      descriptions: "내일 점심",
+//                                                      price: 34000,
+//                                                      currency: Currency.krw,
+//                                                      discountedPrice: 31000,
+//                                                      stock: 1,
+//                                                      secret: URLData.secret
+//        )
+//        let maraImage = UIImage(named: "mara") ?? UIImage()
+//        let images = [maraImage]
+//        manager.requestProductRegistration(with: productRegistration, images: images) { detail in
+//            print("SUCCESS POST - \(detail.id), \(detail.name)")
+//        }
         // REST API TEST CODE - end
         initializeViewController()
         self.listLayout = createListLayout()
@@ -109,6 +110,17 @@ class MainViewController: UIViewController {
     
     @objc private func addButtonDidTapped() {
         print("add button tapped")
+        // REST API TEST CODE - start
+        let id = 3994
+        let modificationData = ModificationData(id: id,
+                                           name: "보리보리",
+                                           stock: 10)
+        let rowData = manager.translateToRowData(modificationData)
+        
+        manager.requestProductModification(id: id, rowData: rowData) { detail in
+            print("SUCCESS POST - \(detail.id), \(detail.name)")
+        }
+        // REST API TEST CODE - end
     }
     
     private func setupSegment() {
@@ -122,6 +134,7 @@ class MainViewController: UIViewController {
     
     private func fetchData() {
         manager.requestProductPage(at: currentMaximumPage) { [weak self] productList in
+            self?.productLists = productList
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
             snapshot.appendItems(productList)
@@ -209,6 +222,7 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        print(productLists[indexPath.row].id)
     }
 }
 
