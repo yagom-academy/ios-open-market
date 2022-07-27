@@ -15,10 +15,10 @@ final class MarketProductsView: UIView {
         case main
     }
     
-    private let networkProvider = NetworkProvider(session: URLSession.shared)
-    private let productURLManager = ProductURLManager()
+    private let networkProvider = APIClient(session: URLSession.shared)
     private var marketProductsViewModel: MarketProductsViewModel?
-    
+    private let productListAPIManager = ProductListAPIManager()
+
     private var listCollectionView: UICollectionView?
     private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
     
@@ -206,14 +206,8 @@ final class MarketProductsView: UIView {
         self.segmentedControl.selectedSegmentIndex = 0
     }
     
-    private func fetchData(from rootViewController: UIViewController) { 
-        guard let url = productURLManager.setUpProductListRetrieveQuery(pageNumber: 1,
-                                                                        itemAmount: 10) else {
-            return
-        }
-        
-        networkProvider.requestAndDecode(url: url,
-                                         dataType: ProductList.self) { [weak self] result in
+    private func fetchData(from rootViewController: UIViewController) {
+        productListAPIManager?.retrieveData(dataType: ProductList.self) { [weak self] result in
             switch result {
             case .success(let productList):
                 self?.marketProductsViewModel?.format(data: productList)
