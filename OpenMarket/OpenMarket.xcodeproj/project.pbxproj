@@ -11,6 +11,7 @@
 		20AAF95D287C0D2600E48A96 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AAF95C287C0D2600E48A96 /* Currency.swift */; };
 		20AAF95F287C0DD500E48A96 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AAF95E287C0DD500E48A96 /* Page.swift */; };
 		20ABC74F2881498600E43871 /* MarketCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ABC74E2881498600E43871 /* MarketCollectionViewController.swift */; };
+		20B8CD3B289144E000D4424D /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8CD3A289144E000D4424D /* AddProductViewController.swift */; };
 		20BD32E828859A5000746181 /* MarketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BD32E728859A5000746181 /* MarketListCollectionViewCell.swift */; };
 		20BD923928902AD30098C391 /* MarketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BD923828902AD30098C391 /* MarketCollectionViewCell.swift */; };
 		20DA01D228802638008C3F45 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DA01C82880244D008C3F45 /* MockURLSession.swift */; };
@@ -47,6 +48,7 @@
 		20AAF95C287C0D2600E48A96 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		20AAF95E287C0DD500E48A96 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		20ABC74E2881498600E43871 /* MarketCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewController.swift; sourceTree = "<group>"; };
+		20B8CD3A289144E000D4424D /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		20BD32E728859A5000746181 /* MarketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketListCollectionViewCell.swift; sourceTree = "<group>"; };
 		20BD923828902AD30098C391 /* MarketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewCell.swift; sourceTree = "<group>"; };
 		20DA01C82880244D008C3F45 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				20ABC74E2881498600E43871 /* MarketCollectionViewController.swift */,
+				20B8CD3A289144E000D4424D /* AddProductViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			files = (
 				20BD32E828859A5000746181 /* MarketListCollectionViewCell.swift in Sources */,
 				20BD923928902AD30098C391 /* MarketCollectionViewCell.swift in Sources */,
+				20B8CD3B289144E000D4424D /* AddProductViewController.swift in Sources */,
 				7E52D337289142FB00388E37 /* AddProductCollectionViewCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				20AAF95D287C0D2600E48A96 /* Currency.swift in Sources */,
