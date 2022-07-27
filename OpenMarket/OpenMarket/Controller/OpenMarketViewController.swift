@@ -38,6 +38,12 @@ final class OpenMarketViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.fetchData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.showSpinner(on: self.view)
     }
     
@@ -204,6 +210,8 @@ final class OpenMarketViewController: UIViewController {
     
     @objc private func productRegistrationButtonDidTap() {
         print("productRegistrationButtonDidTapped")
+
+        self.navigationController?.pushViewController(ProductDetailViewController(), animated: true)
     }
     
     @objc private func refresh() {
