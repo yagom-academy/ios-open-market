@@ -94,6 +94,7 @@ final class MainViewController: UIViewController {
     // MARK: Method
     
     private func setUI() {
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(wholeComponentStackView)
         view.addSubview(loadingView)
         
@@ -144,63 +145,73 @@ final class MainViewController: UIViewController {
                         self.count += 1
                     }
                 }
-            case .failure(_):
+            case .failure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkError(message: NetworkError.outOfRange.message)
+                    self.showNetworkError(message: error.localizedDescription)
                 }
             }
         }
     }
     
     func configureDataSource(id: String) -> UICollectionViewDiffableDataSource<Section, SaleInformation>? {
-            dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
-                
-                switch id {
-                case "list":
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as? ListCollectionViewCell else {
-                        fatalError("")
-                    }
-                    cell.configureCell(product: product)
-                    return cell
-                default:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "grid", for: indexPath) as? GridCollectionViewCell else {
-                        fatalError("")
-                    }
-                    cell.configureCell(product: product)
-                    return cell
+        dataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
+            
+            switch id {
+            case "list":
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as? ListCollectionViewCell else {
+                    fatalError("")
                 }
-            }
-            return dataSource
-        }
-        
-        @objc private func handleSegmentChange() {
-            switch segmentedControl.selectedSegmentIndex {
-            case 0:
-                collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-                dataSource = configureDataSource(id: "list")
-                dataSource?.apply(snapshot, animatingDifferences: false)
-                return
+                cell.configureCell(product: product)
+                return cell
             default:
-                collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
-                dataSource = configureDataSource(id: "grid")
-                dataSource?.apply(snapshot, animatingDifferences: false)
-                return
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "grid", for: indexPath) as? GridCollectionViewCell else {
+                    fatalError("")
+                }
+                cell.configureCell(product: product)
+                return cell
             }
         }
+        return dataSource
+    }
     
-    private func createListLayout() -> UICollectionViewCompositionalLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
+    @objc private func handleSegmentChange() {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
+            dataSource = configureDataSource(id: "list")
+            dataSource?.apply(snapshot, animatingDifferences: false)
+            return
+        default:
+            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
+            dataSource = configureDataSource(id: "grid")
+            dataSource?.apply(snapshot, animatingDifferences: false)
+            return
+        }
+    }
+    
+    private func createListLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.35))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.11))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 0)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 15
+        let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.itemWidth), heightDimension: .fractionalHeight(Metric.itemHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Metric.groupWidth), heightDimension: .fractionalHeight(Metric.groupHeight))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Metric.groupCount)
         group.interItemSpacing = .fixed(Metric.groupSpacing)
         group.contentInsets = NSDirectionalEdgeInsets(top: Metric.padding, leading: Metric.padding, bottom: Metric.padding, trailing: Metric.padding)
+        
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout

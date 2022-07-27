@@ -13,12 +13,13 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageStackView)
         contentView.addSubview(totalListStackView)
         
         setListStackView()
         setListConstraints()
+        
         self.accessories = [.disclosureIndicator()]
+        self.contentView.layer.addBottomBorder()
     }
     
     required init?(coder: NSCoder) {
@@ -27,10 +28,11 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     
     override func prepareForReuse() {
         productPriceLabel.attributedText = nil
+        productThumbnailImageView.image = nil
     }
     
     // MARK: Properties
-   
+    
     private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .leading
@@ -81,7 +83,7 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     // MARK: Method
     
     private func setListStackView() {
-        imageStackView.addArrangedSubview(productThumbnailImageView)
+        totalListStackView.addArrangedSubview(productThumbnailImageView)
         totalListStackView.addArrangedSubview(labelStackView)
         
         labelStackView.addArrangedSubview(upperStackView)
@@ -100,16 +102,22 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     
     private func setListConstraints() {
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Metric.listPositiveConstant),
-            imageStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Metric.listNegativeConstant),
-            imageStackView.widthAnchor.constraint(lessThanOrEqualToConstant: 80),
-            imageStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 80),
-            imageStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.listPositiveConstant),
-            
-            totalListStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.listNegativeConstant),
-            totalListStackView.bottomAnchor.constraint(equalTo: imageStackView.bottomAnchor),
-            totalListStackView.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: Metric.listPositiveConstant),
-            totalListStackView.topAnchor.constraint(equalTo: imageStackView.topAnchor)
+            productThumbnailImageView.widthAnchor.constraint(equalToConstant: 80),
+            productThumbnailImageView.heightAnchor.constraint(equalToConstant: 80),
+            totalListStackView.topAnchor.constraint(equalTo: productThumbnailImageView.topAnchor),
+            totalListStackView.bottomAnchor.constraint(equalTo: productThumbnailImageView.bottomAnchor),
+            totalListStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            totalListStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
+    }
+}
+
+extension CALayer {
+    func addBottomBorder() {
+        let border = CALayer()
+        border.backgroundColor = UIColor.systemGray3.cgColor
+        border.frame = CGRect(x: 8, y: frame.height + 5, width: frame.width, height: 1)
+        
+        self.addSublayer(border)
     }
 }
