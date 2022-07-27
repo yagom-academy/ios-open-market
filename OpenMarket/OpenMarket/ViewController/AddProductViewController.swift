@@ -18,10 +18,19 @@ class AddProductViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "상품등록"
+        configureUI()
         productView.collectionView.dataSource = self
     }
 
+    func configureUI() {
+        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
+        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(goBackWithUpdate))
+        navigationItem.title = "상품등록"
+        navigationItem.leftBarButtonItem = cancelBarButton
+        navigationItem.rightBarButtonItem = doneBarButton
+        navigationItem.setHidesBackButton(true, animated: false)
+    }
+    
     @objc private func goBack() {
         self.navigationController?.popViewController(animated: true)
     }
