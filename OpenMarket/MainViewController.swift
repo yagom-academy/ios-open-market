@@ -25,7 +25,7 @@ final class MainViewController: UIViewController {
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, SaleInformation>?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, SaleInformation>()
-    private var count = 1
+    private var productPageNumber = 1
     
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: [CollectionViewNamespace.list.name, CollectionViewNamespace.grid.name])
@@ -84,10 +84,14 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        
+        collectionView.prefetchDataSource = self
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "list")
         collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "grid")
+        
         dataSource = configureDataSource(id: "list")
         self.snapshot.appendSections([.main])
+        
         getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
     }
     
@@ -136,14 +140,6 @@ final class MainViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.loadingView.stopAnimating()
-                }
-                
-                DispatchQueue.global().async {
-                    let next = productList.lastPage
-                    if self.count < next {
-                        self.getProductList(pageNumber: self.count, itemPerPage: Metric.itemCount)
-                        self.count += 1
-                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -223,5 +219,22 @@ final class MainViewController: UIViewController {
         networkErrorMessage.addAction(okButton)
         
         present(networkErrorMessage, animated: true)
+    }
+}
+
+// MARK: Extension
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let last = indexPaths.last else { return }
+        let currentPage = (last.row / 20) + 1
+
+        if currentPage == productPageNumber {
+            self.loadingView.startAnimating()
+            
+            productPageNumber += 1
+            getProductList(pageNumber: productPageNumber, itemPerPage: 20)
+        }
     }
 }
