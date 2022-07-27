@@ -12,6 +12,7 @@ struct ProductDetail: Codable {
     let id: Int
     let vendorID: Int
     let name: String
+    let description: String
     let thumbnail: String
     let currency: String
     let price: Int
@@ -27,6 +28,7 @@ struct ProductDetail: Codable {
         case id
         case vendorID = "vendor_id"
         case name
+        case description
         case thumbnail
         case currency
         case price

@@ -65,31 +65,36 @@ class NetworkManager {
         }
         dataTask.resume()
     }
-    
-    func translateToRowData(_ data: ModificationData) -> String {
-        var detailToModify = ["secret": nil, "name": nil, "descriptions": nil,
-                              "thumbnail_id": nil, "price": nil, "currency": nil,
-                              "discounted_price": nil, "stock": nil] as [String : Any?]
-        detailToModify["secret"] = URLData.secret
-        detailToModify["name"] = data.name
-        detailToModify["descriptions"] = data.descriptions
-        detailToModify["thumbnail_id"] = data.thumbnailId
-        detailToModify["price"] = data.price
-        detailToModify["currency"] = data.currency?.rawValue
-        detailToModify["discounted_price"] = data.discountedPrice
-        detailToModify["stock"] = data.stock
-        
-        var result: [String] = []
-        for (key, value) in detailToModify {
-            if value != nil {
-                if value is String || value is Currency {
-                    result.append("\"\(key)\": \"\(value!)\"")
-                } else {
-                    result.append("\"\(key)\": \(value!)")
-                }
-            }
+    // MARK: - DELETE 상품 삭제
+    func requestProductDeleteKey(id: Int, _ completion: @escaping (String) -> Void) {
+        guard let url = URL(string: URLData.host + URLData.apiPath + "/\(id)/secret") else {
+            return
         }
-        return "{\(result.joined(separator: ","))}"
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = HttpMethod.POST.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(URLData.identifier, forHTTPHeaderField: "identifier")
+        request.httpBody = "{\"secret\": \"\(URLData.secret)\"}".data(using: .utf8)
+        let dataTask = createDataTask(request: request, type: String.self) { deleteKey in
+            completion(deleteKey)
+        }
+        dataTask.resume()
+    }
+    
+    func requestProductDelete(id: Int, key: String) {
+        guard let url = URL(string: URLData.host + URLData.apiPath + "/\(id)/\(key)") else {
+            return
+        }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = HttpMethod.DELETE.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(URLData.identifier, forHTTPHeaderField: "identifier")
+        let dataTask = createDataTask(request: request, type: ProductDetail.self) { detail in
+            print("COMPL")
+        }
+        dataTask.resume()
     }
 }
 
@@ -146,4 +151,31 @@ extension NetworkManager {
         data.append(endBoundaryData)
         return data
     }
+    
+    func translateToRowData(_ data: ModificationData) -> String {
+        var detailToModify = ["secret": nil, "name": nil, "descriptions": nil,
+                              "thumbnail_id": nil, "price": nil, "currency": nil,
+                              "discounted_price": nil, "stock": nil] as [String : Any?]
+        detailToModify["secret"] = URLData.secret
+        detailToModify["name"] = data.name
+        detailToModify["descriptions"] = data.descriptions
+        detailToModify["thumbnail_id"] = data.thumbnailId
+        detailToModify["price"] = data.price
+        detailToModify["currency"] = data.currency?.rawValue
+        detailToModify["discounted_price"] = data.discountedPrice
+        detailToModify["stock"] = data.stock
+        
+        var result: [String] = []
+        for (key, value) in detailToModify {
+            if value != nil {
+                if value is String || value is Currency {
+                    result.append("\"\(key)\": \"\(value!)\"")
+                } else {
+                    result.append("\"\(key)\": \(value!)")
+                }
+            }
+        }
+        return "{\(result.joined(separator: ","))}"
+    }
 }
+

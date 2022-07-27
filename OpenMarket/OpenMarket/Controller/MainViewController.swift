@@ -116,11 +116,16 @@ class MainViewController: UIViewController {
                                            name: "보리보리",
                                            stock: 10)
         let rowData = manager.translateToRowData(modificationData)
-        
         manager.requestProductModification(id: id, rowData: rowData) { detail in
             print("SUCCESS POST - \(detail.id), \(detail.name)")
         }
         // REST API TEST CODE - end
+//        // REST API DELETE CODE TEST - START
+//        let id = 3994
+//        manager.requestProductDeleteKey(id: id) { [weak self] key in
+//            self?.manager.requestProductDelete(id: id, key: key)
+//        }
+//        // REST API DELETE CODE TEST - END
     }
     
     private func setupSegment() {

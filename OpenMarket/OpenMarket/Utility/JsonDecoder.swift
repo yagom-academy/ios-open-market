@@ -7,6 +7,9 @@
 import UIKit
 
 func decode<T: Decodable>(from data: Data, to type: T.Type) -> T? {
+    if type == String.self {
+        return String(data: data, encoding: .utf8) as? T
+    }
     let decoder = JSONDecoder()
     var fetchedData: T
     do {
