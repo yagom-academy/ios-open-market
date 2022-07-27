@@ -11,12 +11,17 @@ struct ProductList: Codable {
     let pages: [Product]
 }
 
+enum Currency: String, Codable {
+    case krw = "KRW"
+    case usd = "USD"
+}
+
 struct Product: Codable {
     let id: Int
     let venderID: Int
     let name: String
     let thumbnail: String
-    let currency: String
+    let currency: Currency
     let price: Int
     let bargainPrice: Int
     let discountedPrice: Int
