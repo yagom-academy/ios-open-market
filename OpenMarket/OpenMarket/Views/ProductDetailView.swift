@@ -136,10 +136,11 @@ class ProductDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func addToScrollView(of image: UIImage, viewController: UIViewController) {
+    func addToScrollView(of image: UIImage, viewController: ProductsDetailViewController) {
         let newImageView = UIImageView(image: image)
         newImageView.translatesAutoresizingMaskIntoConstraints = false
         newImageView.widthAnchor.constraint(equalTo: newImageView.heightAnchor).isActive = true
+        newImageView.isUserInteractionEnabled = true
         
         imageStackView.insertArrangedSubview(newImageView, at: imageStackView.arrangedSubviews.count - 1)
     }
