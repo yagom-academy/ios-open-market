@@ -42,6 +42,8 @@ class ProductDetailView: UIView {
     
     let itemNameTextField: UITextField = {
         let textField = UITextField()
+        textField.placeholder = "상품명"
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
         textField.backgroundColor = .systemBackground
@@ -52,6 +54,8 @@ class ProductDetailView: UIView {
     
     let itemPriceTextField: UITextField = {
         let textField = UITextField()
+        textField.placeholder = "상품가격"
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
         textField.backgroundColor = .systemBackground
@@ -78,6 +82,8 @@ class ProductDetailView: UIView {
     
     let itemSaleTextField: UITextField = {
         let textField = UITextField()
+        textField.placeholder = "할인금액"
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
         textField.backgroundColor = .systemBackground
@@ -88,6 +94,8 @@ class ProductDetailView: UIView {
     
     let itemStockTextField: UITextField = {
         let textField = UITextField()
+        textField.placeholder = "재고수량"
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
         textField.backgroundColor = .systemBackground
@@ -134,8 +142,6 @@ class ProductDetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 
 }
 

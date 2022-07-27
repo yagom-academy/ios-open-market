@@ -29,9 +29,22 @@ class ProductsDetailViewController: UIViewController {
         guard let detailView = view as? ProductDetailView else { return }
         detailView.button.addTarget(self, action: #selector(addButtonDidTapped), for: .touchUpInside)
         
+        detailView.itemNameTextField.delegate = self
+        detailView.itemPriceTextField.delegate = self
+        detailView.itemSaleTextField.delegate = self
+        detailView.itemStockTextField.delegate = self
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+        detailView.mainScrollView.addGestureRecognizer(tap)
+        
         addNavigationBarButton()
+        
     }
 
+    @objc func endEditing() {
+        view.endEditing(true)
+    }
+    
     @objc func addButtonDidTapped() {
         present(imagePicker, animated: true)
     }
@@ -46,5 +59,14 @@ class ProductsDetailViewController: UIViewController {
 }
 
 extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+}
+
+extension ProductsDetailViewController: UITextFieldDelegate {
+    private func textFieldshouldBeginEditing(_ textField: UITextField) {
+        textField.becomeFirstResponder()
+    }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
 }
