@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var listLayout: UICollectionViewLayout? = nil
     private var gridLayout: UICollectionViewLayout? = nil
-    
+    private var currentMaximumPage = 2
     enum Section {
         case main
     }
@@ -65,6 +65,21 @@ class MainViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        // REST API TEST CODE - start
+        let productRegistration = ProductRegistration(name: "마라탕",
+                                                      descriptions: "내일 점심",
+                                                      price: 34000,
+                                                      currency: Currency.krw,
+                                                      discountedPrice: 31000,
+                                                      stock: 1,
+                                                      secret: URLData.secret
+        )
+        let maraImage = UIImage(named: "mara") ?? UIImage()
+        let images = [maraImage]
+        manager.requestProductRegistration(with: productRegistration, images: images) { detail in
+            print("SUCCESS POST - \(detail.id), \(detail.name)")
+        }
+        // REST API TEST CODE - end
         initializeViewController()
         self.listLayout = createListLayout()
         self.gridLayout = createGridLayout()
@@ -75,6 +90,7 @@ class MainViewController: UIViewController {
         configureHierarchy()
         fetchData()
     }
+    
     // MARK: - Main View Controller Method
     private func initializeViewController() {
         DispatchQueue.main.async {
@@ -105,7 +121,7 @@ class MainViewController: UIViewController {
     }
     
     private func fetchData() {
-        manager.dataTask { [weak self] productList in
+        manager.requestProductPage(at: currentMaximumPage) { [weak self] productList in
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
             snapshot.appendItems(productList)
