@@ -65,6 +65,32 @@ extension APIProtocol {
             }
         }
     }
+    
+    func modifyData(using client: APIClient = APIClient.shared,
+                    modifiedProductEntity: ModifiedProductEntity,
+                    completion: @escaping (Result<Data,APIError>) -> Void) {
+        
+        var request = URLRequest(url: configuration.url)
+        
+        request.httpBody = modifiedProductEntity.returnValue()
+        request.httpMethod = configuration.method.rawValue
+        request.setValue(MIMEType.applicationJSON.value,
+                                   forHTTPHeaderField: MIMEType.contentType.value)
+        request.addValue(User.identifier.rawValue,
+                                   forHTTPHeaderField: RequestName.identifier.key)
+        
+        print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+
+        client.requestData(with: request) { result in
+            switch result {
+            case .success(let data):
+                return
+            case .failure(_):
+                return
+            }
+        }
+    }
+    
 }
 
 //MARK: - Product Enrollment
