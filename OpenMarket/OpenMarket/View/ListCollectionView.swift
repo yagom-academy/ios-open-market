@@ -69,4 +69,3 @@ final class ListCollectionView: UICollectionView {
         static let height = 70
     }
 }
-

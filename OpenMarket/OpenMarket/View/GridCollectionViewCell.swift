@@ -75,7 +75,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     private func commonInit() {
         setUpSubViews()
         setUpStackViewConstraints()
-        setUpBorder()
+        self.setUpBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
     }
     
     private func setUpSubViews() {
@@ -95,12 +95,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
             [stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
              stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
              stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
-    }
-    
-    private func setUpBorder() {
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 1.5
-        self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     
     func setViewItems(_ item: ProductDetail) {

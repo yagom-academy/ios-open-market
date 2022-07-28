@@ -99,17 +99,17 @@ final class RequestTests: XCTestCase {
         let expectation = expectation(description: "비동기 요청을 기다림.")
         guard let assetImage = UIImage(named: "1") else { return }
         guard let pngData = assetImage.pngData() else { return }
-        let product = RegistrationProduct(name: "헤드폰",
+        let product = RegistrationProduct(name: "힘내라 수꿍!",
                                           descriptions: "ㅎ",
-                                          price: 10.0,
+                                          price: 1.0,
                                           currency: "KRW",
                                           discountedPrice: 0.0,
-                                          stock: 0,
+                                          stock: 1,
                                           secret: "R49CfVhSdh")
         guard let productData = try? JSONEncoder().encode(product) else { return }
         let boundary = "Boundary-\(UUID().uuidString)"
         let postData = TestRequest(body: ["params" : [productData],
-                                          "images": [pngData, pngData, pngData]],
+                                          "images": [pngData]],
                                    boundary: boundary,
                                    method: .post,
                                    baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
