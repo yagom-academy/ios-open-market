@@ -56,6 +56,21 @@ struct NetworkManager {
             return nil
         }
     }
+    
+    static func fetchImage(from url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            if let data = data,
+               let image = UIImage(data: data) {
+                completion(.success(image))
+            }
+        }
+        
+        task.resume()
+    }
 }
 
 // MARK: - Private Static Actions

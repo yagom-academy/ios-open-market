@@ -2,7 +2,7 @@
 //  ItemListCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by 이예은 on 2022/07/26.
+//  Created by minsson, yeton on 2022/07/26.
 //
 
 import UIKit
@@ -90,10 +90,13 @@ class ItemListCollectionViewCell: UICollectionViewCell {
     private func arrangeSubView() {
         firstHorizontalStackView.addArrangedSubview(stockLabel)
         firstHorizontalStackView.addArrangedSubview(accessaryImageView)
+        
         secondHorizontalStackView.addArrangedSubview(nameLabel)
         secondHorizontalStackView.addArrangedSubview(firstHorizontalStackView)
+        
         thirdVerticalStackView.addArrangedSubview(secondHorizontalStackView)
         thirdVerticalStackView.addArrangedSubview(priceLabel)
+        
         entireStackView.addArrangedSubview(productImageView)
         entireStackView.addArrangedSubview(thirdVerticalStackView)
         
@@ -116,33 +119,37 @@ class ItemListCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         arrangeSubView()
-        configureCell()
-        
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func receiveData(_ data: ItemListPage.Item) {
-        self.item = data
+    func receiveData(_ item: ItemListPage.Item) {
+        configureCell(with: item)
     }
 
-    func configureCell() {
-        guard let item = item else {
+    func configureCell(with item: ItemListPage.Item) {
+        productImageView.image = UIImage(systemName: "photo")
+        
+        nameLabel.text = item.name
+        priceLabel.text = "\(item.price)"
+        stockLabel.text = "잔여수량 : \(item.stock)"
+
+        guard let imageURL = URL(string: item.thumbnail) else {
             return
         }
-        
-        let imageData = item.thumbnail
-        guard let url = URL(string: imageData) else { return }
-        guard let imageData = try? Data(contentsOf: url) else { return }
-        
-        let image = UIImage(data: imageData)
-        
-        self.productImageView.image = image
-        self.stockLabel.text = "잔여수량 : \(item.stock)"
-        self.priceLabel.text = "\(item.price)"
-        self.nameLabel.text = item.name
+
+        NetworkManager.fetchImage(from: imageURL) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let image):
+                    self.productImageView.image = image
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
-    
 }
+

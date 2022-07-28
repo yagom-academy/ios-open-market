@@ -11,9 +11,19 @@ final class ItemListPageViewController: UIViewController {
     // MARK: - Properties
 
     private var itemListPage: ItemListPage?
+    private var snapshot: NSDiffableDataSourceSnapshot<Section, ItemListPage.Item> {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemListPage.Item>()
+
+        snapshot.appendSections([.main])
+        snapshot.appendItems(itemListPage!.items)
+        
+        return snapshot
+    }
     
     private lazy var request = Path.products + queryString
     private let queryString = QueryCharacter.questionMark + QueryKey.pageNumber + QueryValue.pageNumber + QueryCharacter.ampersand + QueryKey.itemsPerPage + QueryValue.itemsPerPage
+    
+    private var collectionViewDiffableDataSource: UICollectionViewDiffableDataSource<Section, ItemListPage.Item>!
     
     // MARK: - UI Components
     
@@ -38,6 +48,10 @@ final class ItemListPageViewController: UIViewController {
         
         setUpSegmentedControlWithLayout()
         setUpItemCollectionViewWithLayout()
+        
+        itemCollectionView.register(ItemListCollectionViewCell.self, forCellWithReuseIdentifier: "itemCell")
+        
+        configureCollectionViewDiffableDataSource()
     }
 }
 
@@ -56,6 +70,9 @@ private extension ItemListPageViewController {
         switch result {
         case .success(let data):
             itemListPage = NetworkManager.parse(data, into: ItemListPage.self)
+            
+            collectionViewDiffableDataSource.apply(self.snapshot, animatingDifferences: true)
+            
         case .failure(let error):
             print(error)
         }
@@ -66,7 +83,6 @@ private extension ItemListPageViewController {
 
 private extension ItemListPageViewController {
     func setUpItemCollectionViewWithLayout() {
-        print(#function)
         itemCollectionView = UICollectionView(frame: .zero, collectionViewLayout: generateCompositionalLayout(numberOfItemsAtRow: 1))
         
         view.addSubview(itemCollectionView)
@@ -82,7 +98,6 @@ private extension ItemListPageViewController {
     }
     
     func generateCompositionalLayout(numberOfItemsAtRow: Int) -> UICollectionViewLayout {
-        print(#function)
         let spacing: CGFloat = 10.0
         
         let itemSize = NSCollectionLayoutSize(
@@ -117,6 +132,22 @@ private extension ItemListPageViewController {
     }
 }
 
+// MARK: - Private Actions for Collection View Model
+
+private extension ItemListPageViewController {
+    func configureCollectionViewDiffableDataSource() {
+        
+        collectionViewDiffableDataSource = .init(collectionView: self.itemCollectionView, cellProvider: { (collectionView, indexPath, itemListPageData) -> UICollectionViewCell? in
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemListCollectionViewCell
+            
+            cell.receiveData(itemListPageData)
+            
+            return cell
+        })
+    }
+}
+
 // MARK: - Private Enums
 
 private extension ItemListPageViewController {
@@ -137,5 +168,9 @@ private extension ItemListPageViewController {
     enum QueryCharacter {
         static var questionMark = "?"
         static var ampersand = "&"
+    }
+    
+    enum Section: CaseIterable {
+        case main
     }
 }

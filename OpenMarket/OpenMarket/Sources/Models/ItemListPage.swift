@@ -30,7 +30,7 @@ struct ItemListPage: Decodable {
     
     // MARK: - Nested Struct
     
-    struct Item: Decodable {
+    struct Item: Decodable, Hashable {
         
         // MARK: - Properties
         
