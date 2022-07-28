@@ -28,6 +28,8 @@
 		AF29C03A2881034700C719EE /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29C0392881034700C719EE /* GridCell.swift */; };
 		AF3D5330287C0FE500DBFAFA /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */; };
 		AF6D741E289121C0007FC5A5 /* ModificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6D741D289121C0007FC5A5 /* ModificationData.swift */; };
+		AFBC2FD52892636700E81A2F /* ProductSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBC2FD42892636700E81A2F /* ProductSetupView.swift */; };
+		AFBC2FD72892668800E81A2F /* ProductSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBC2FD62892668800E81A2F /* ProductSetupViewController.swift */; };
 		AFFBDAA7287C0C1E001540FD /* ProductPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFBDAA6287C0C1E001540FD /* ProductPage.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -63,6 +65,8 @@
 		AF29C0392881034700C719EE /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		AF3D532F287C0FE500DBFAFA /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		AF6D741D289121C0007FC5A5 /* ModificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModificationData.swift; sourceTree = "<group>"; };
+		AFBC2FD42892636700E81A2F /* ProductSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSetupView.swift; sourceTree = "<group>"; };
+		AFBC2FD62892668800E81A2F /* ProductSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSetupViewController.swift; sourceTree = "<group>"; };
 		AFFBDAA6287C0C1E001540FD /* ProductPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPage.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 			children = (
 				AF29C0372881016D00C719EE /* ListCell.swift */,
 				AF29C0392881034700C719EE /* GridCell.swift */,
+				AFBC2FD42892636700E81A2F /* ProductSetupView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -132,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				45B7A50C287FF60500FCB69F /* MainViewController.swift */,
+				AFBC2FD62892668800E81A2F /* ProductSetupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -314,11 +320,13 @@
 				AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */,
 				AF29C03A2881034700C719EE /* GridCell.swift in Sources */,
 				AF2257722889391B00C5CE97 /* Int+Extensions.swift in Sources */,
+				AFBC2FD52892636700E81A2F /* ProductSetupView.swift in Sources */,
 				453EAC64287C7BFB00EFCBB9 /* URLSession.swift in Sources */,
 				453EAC4F287C050100EFCBB9 /* Currency.swift in Sources */,
 				AF2257762889393700C5CE97 /* UIImageView+Extensions.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				AFBC2FD72892668800E81A2F /* ProductSetupViewController.swift in Sources */,
 				45B7A50D287FF60500FCB69F /* MainViewController.swift in Sources */,
 				453EAC67287C7C6300EFCBB9 /* URLCommand.swift in Sources */,
 				453EAC4D287C048300EFCBB9 /* Product.swift in Sources */,
