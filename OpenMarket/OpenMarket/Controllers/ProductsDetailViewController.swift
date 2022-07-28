@@ -49,6 +49,16 @@ class ProductsDetailViewController: UIViewController {
         detailView.mainScrollView.addGestureRecognizer(tap)
         
         addNavigationBarButton()
+        
+        let identifier = "d580792d-0335-11ed-9676-8179e204c0cc"
+        let secret = "G3qccGq9uC"
+        
+        let parameter = Parameters(name: "커피빈", descriptions: "맛있어요", price: 39900, currency: "KRW", secret: secret)
+        guard let image = UIImage(named: "coffeebean") else { return }
+        
+        ProductsDataManager.shared.postData(identifier: identifier, paramter: parameter, image: image) { (data: Page) in
+            print(data)
+        }
     }
 
     @objc func endEditing() {

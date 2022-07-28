@@ -1,6 +1,73 @@
-import Foundation
+import UIKit
 
-struct ProductsDataManager {
+struct Image {
+    static let key: String = "images"
+    
+    let filename: String
+    let data: Data
+    let mimeType: String
+    
+    init?(withImage image: UIImage) {
+        self.mimeType = "image/jpeg"
+        self.filename = "image\(arc4random()).jpeg"
+        
+        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
+        self.data = data
+    }
+}
+
+struct Parameters {
+    static let key: String = "params"
+    
+    let name: String
+    let descriptions: String
+    let price: Int
+    let currency: String
+    let discountedPrice: Int?
+    let stock: Int?
+    let secret: String
+    
+    init(name: String, descriptions: String, price: Int, currency: String, secret: String, discounted_price: Int? = 0, stock: Int? = 0) {
+        self.name = name
+        self.descriptions = descriptions
+        self.price = price
+        self.currency = currency
+        self.discountedPrice = discounted_price
+        self.stock = stock
+        self.secret = secret
+    }
+    
+    func returnParamatersString() -> String {
+        var returnString = String()
+        returnString.append("{\n")
+        returnString.append("""
+                            "name": "\(name)",
+                            "descriptions": "\(descriptions)",
+                            "price": \(price),
+                            "currency": "\(currency)",
+                            "secret": "\(secret)",
+                            """)
+        
+        if let discountedPrice = discountedPrice {
+            returnString.append("\n\"discounted_price\": \(discountedPrice),")
+        }
+        
+        if let stock = stock {
+            returnString.append("\n\"stock\": \(stock)")
+        }
+        
+        returnString.append("\n}")
+                        
+        return returnString
+    }
+}
+
+
+struct ProductsDataManager: Decodable {
+    
+    static let shared = ProductsDataManager()
+    private init() {}
+    
     let url = "https://market-training.yagom-academy.kr/api/products"
     
     func getData<T: Decodable>(pageNumber: Int, itemsPerPage: Int, completion: @escaping (T) -> Void) {
@@ -16,6 +83,41 @@ struct ProductsDataManager {
         let request = URLRequest(url: urlComponentURL)
         
         sendRequest(request, completion)
+    }
+    
+    func postData<T: Decodable>(identifier: String, paramter: Parameters, image: UIImage, completion: @escaping (T) -> Void) {
+        
+        guard let url = URL(string: url) else { return }
+        var postRequest = URLRequest(url: url)
+
+        let boundary = generateBoundary()
+
+        postRequest.httpMethod = "POST"
+        postRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
+        
+        guard let imageInfo = Image(withImage: image) else { return }
+        let dataBody = createDataBody(withParameters: paramter, images: [imageInfo], boundary: boundary)
+        
+        print(String(decoding: dataBody, as: UTF8.self))
+        postRequest.httpBody = dataBody
+
+        let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json)
+                } catch {
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
     }
     
     private func sendRequest<T: Decodable>(_ request: URLRequest, _ completion: @escaping (T) -> Void) {
@@ -59,6 +161,50 @@ struct ProductsDataManager {
             return URLSessionError.serverError
         default:
             return nil
+        }
+    }
+    
+    
+}
+
+// MARK: - generateBoundary
+func generateBoundary() -> String {
+    return "Boundary-\(UUID().uuidString)"
+}
+
+// MARK: - createDataBody
+func createDataBody(withParameters params: Parameters, images: [Image]?, boundary: String) -> Data {
+
+    let lineBreak = "\r\n"
+    var body = Data()
+
+    // parameter 넣기
+    body.append("--\(boundary + lineBreak)")
+    body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
+    body.append("\(params.returnParamatersString() + lineBreak)")
+
+    // image 넣기
+    if let images = images {
+        for image in images {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"\(Image.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
+            body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
+            body.append(image.data)
+            body.append(lineBreak)
+        }
+    }
+
+    // 끝났다고 표시해주기
+    body.append("--\(boundary)--\(lineBreak)")
+
+    return body
+}
+
+// Data에 String을 추가해주는 메서드 정의
+extension Data {
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            self.append(data)
         }
     }
 }

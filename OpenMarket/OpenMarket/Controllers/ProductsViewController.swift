@@ -8,7 +8,6 @@ class ProductsViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
     
-    private let productsDataManager = ProductsDataManager()
     private var productImages: [UIImage] = []
     
     private var currentPage = 0
@@ -48,7 +47,7 @@ class ProductsViewController: UIViewController {
 extension ProductsViewController {
     private func startFetching(completion: @escaping () -> ()) {
         isFetchingEnd = false
-        productsDataManager.getData(pageNumber: currentPage + 1, itemsPerPage: 20) { [self] (products: Products) in
+        ProductsDataManager.shared.getData(pageNumber: currentPage + 1, itemsPerPage: 20) { [self] (products: Products) in
             products.pages.forEach {
                 guard let imageUrl = URL(string: $0.thumbnail),
                       let imageData = try? Data(contentsOf: imageUrl),
