@@ -63,7 +63,7 @@ final class AddProductView: UIView {
         return textField
     }()
 
-    private let segmentedControl: UISegmentedControl = {
+    let segmentedControl: UISegmentedControl = {
         let segmentedControl = UIKit.UISegmentedControl(items: [Currency.krw.rawValue, Currency.usd.rawValue])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
@@ -90,7 +90,7 @@ final class AddProductView: UIView {
     private let infoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = 8
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -132,6 +132,34 @@ final class AddProductView: UIView {
             segmentedControl.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.3),
             infoStackView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2)
         ])
+    }
+    
+    func receiveParam() -> Param? {
+        guard let name = productNameTextfield.text,
+              let price = priceTextfield.text,
+              var bargainPrice = bargainPriceTextfield.text,
+              var stock = stockTextfield.text,
+              let descriptionText = descriptionTextView.text else { return nil }
+
+        var currency = ""
+    
+        if segmentedControl.selectedSegmentIndex == 0 {
+            currency = Currency.krw.rawValue
+        } else {
+            currency = Currency.usd.rawValue
+        }
+        
+        if bargainPrice == "" {
+            bargainPrice = "0"
+        }
+
+        if stock == "" {
+            stock = "0"
+        }
+        
+        let param = Param(productName: name, price: price, bargainPrice: bargainPrice, currency: currency, stock: stock, description: descriptionText)
+        
+        return param
     }
     
     override init(frame: CGRect) {
