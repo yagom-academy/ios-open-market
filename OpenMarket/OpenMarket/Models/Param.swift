@@ -15,7 +15,7 @@ enum VendorInfo {
 struct Param {
     let productName: String
     let price: String
-    let bargainPrice: String
+    let discountedPrice: String
     let currency: String
     let stock: String
     let description: String

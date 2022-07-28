@@ -43,7 +43,7 @@ final class AddProductView: UIView {
         return textField
     }()
 
-    private let bargainPriceTextfield: UITextField = {
+    private let discountedPriceTextfield: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "할인금액"
@@ -113,7 +113,7 @@ final class AddProductView: UIView {
         
         infoStackView.addArrangedSubview(productNameTextfield)
         infoStackView.addArrangedSubview(priceStackView)
-        infoStackView.addArrangedSubview(bargainPriceTextfield)
+        infoStackView.addArrangedSubview(discountedPriceTextfield)
         infoStackView.addArrangedSubview(stockTextfield)
         
         entireStackView.addArrangedSubview(collectionView)
@@ -137,7 +137,7 @@ final class AddProductView: UIView {
     func receiveParam() -> Param? {
         guard let name = productNameTextfield.text,
               let price = priceTextfield.text,
-              var bargainPrice = bargainPriceTextfield.text,
+              var discountedPrice = discountedPriceTextfield.text,
               var stock = stockTextfield.text,
               let descriptionText = descriptionTextView.text else { return nil }
 
@@ -149,15 +149,15 @@ final class AddProductView: UIView {
             currency = Currency.usd.rawValue
         }
         
-        if bargainPrice == "" {
-            bargainPrice = "0"
+        if discountedPrice == "" {
+            discountedPrice = "0"
         }
 
         if stock == "" {
             stock = "0"
         }
         
-        let param = Param(productName: name, price: price, bargainPrice: bargainPrice, currency: currency, stock: stock, description: descriptionText)
+        let param = Param(productName: name, price: price, discountedPrice: discountedPrice, currency: currency, stock: stock, description: descriptionText)
         
         return param
     }

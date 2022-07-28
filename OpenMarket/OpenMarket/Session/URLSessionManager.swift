@@ -66,17 +66,18 @@ final class URLSessionManager {
                 let paramValue = param.bringStringValue(key: "value")
                 body.append(contentsOf: "\r\n\r\n\(paramValue)\r\n".convertData)
             } else {
-                let paramSrc = param.bringStringValue(key: "src")
-                let paramImage = param.bringImageValue(key: "image")
+                let imageParams = param["images"] as? [ImageParam] ?? []
                 
-                guard let fileData = paramImage.jpegData(compressionQuality: 0.5) else {
-                    return Data()
+                for param in imageParams {
+                    guard let fileData = param.imageData.jpegData(compressionQuality: 0.5) else {
+                        return Data()
+                    }
+                    
+                    body.append(contentsOf: "; filename=\"\(param.imageName)\"\r\n".convertData)
+                    body.append(contentsOf: "Content-Type: image/\(param.imageType)\r\n\r\n".convertData)
+                    body.append(contentsOf: fileData)
+                    body.append(contentsOf: "\r\n".convertData)
                 }
-                
-                body.append(contentsOf: "; filename=\"\(paramSrc)\"\r\n".convertData)
-                body.append(contentsOf: "Content-Type: image/\(paramType)\r\n\r\n".convertData)
-                body.append(contentsOf: fileData)
-                body.append(contentsOf: "\r\n".convertData)
             }
         }
         body.append(contentsOf: ("--\(boundary)--\r\n").convertData)

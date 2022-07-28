@@ -56,11 +56,12 @@ class AddProductViewController: UIViewController {
         let sessionManager = URLSessionManager(session: URLSession.shared)
         guard let param = productView.receiveParam() else { return }
         
-        guard param.productName != "", param.price != "", param.description != "" else { return }
+        guard param.productName != "", param.price != "", param.description != "", dataSource.count != 1 else {
+            showAlert(title: "상품 등록 불가", message: "필수 항목을 입력해주십시오./n(상품의 이미지, 이름, 가격, 설명)")
+            return
+        }
         
-        guard dataSource.count != 1 else { return }
-            
-        var dataElement: [[String : Any]] = [
+        let dataElement: [[String : Any]] = [
             [
                 "key": "params",
                 "value": """
@@ -74,19 +75,12 @@ class AddProductViewController: UIViewController {
                         }
                         """,
                 "type": "text"
+            ],
+            [
+                "key": "images",
+                "images": imageParams
             ]
         ]
-        
-        for image in imageParams {
-            let imageElement: [String : Any] =  [
-                "key": "images",
-                "src": "\(image.imageName)",
-                "image": image.imageData,
-                "type": "\(image.imageType)"
-            ]
-            
-            dataElement.append(imageElement)
-        }
         
         sessionManager.postData(dataElement: dataElement) { result in
             switch result {
