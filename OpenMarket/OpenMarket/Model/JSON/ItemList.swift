@@ -2,7 +2,7 @@
 //  ItemList.swift
 //  OpenMarket
 //
-//  Created by dhoney96 on 2022/07/28.
+//  Created by Kiwi, Hugh on 2022/07/28.
 //
 
 struct ItemList: Codable {

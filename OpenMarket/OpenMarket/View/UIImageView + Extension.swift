@@ -2,7 +2,7 @@
 //  UIImageView + Extension.swift
 //  OpenMarket
 //
-//  Created by Kiwon Song on 2022/07/28.
+//  Created by Kiwi, Hugh on 2022/07/28.
 //
 
 import UIKit
