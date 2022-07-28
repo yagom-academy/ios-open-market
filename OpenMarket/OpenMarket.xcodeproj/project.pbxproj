@@ -19,6 +19,8 @@
 		453EAC67287C7C6300EFCBB9 /* URLCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC66287C7C6300EFCBB9 /* URLCommand.swift */; };
 		4573198D28910B5C00795ABB /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4573198C28910B5C00795ABB /* ProductDetail.swift */; };
 		4573198F28910E3500795ABB /* ProductRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4573198E28910E3500795ABB /* ProductRegistration.swift */; };
+		45A402472892746000B45A80 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A402462892746000B45A80 /* UITextField+Extension.swift */; };
+		45A402492892B5A300B45A80 /* PickerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A402482892B5A300B45A80 /* PickerImageView.swift */; };
 		45B7A50D287FF60500FCB69F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B7A50C287FF60500FCB69F /* MainViewController.swift */; };
 		AF2257722889391B00C5CE97 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257712889391B00C5CE97 /* Int+Extensions.swift */; };
 		AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257732889392300C5CE97 /* UILabel+Extensions.swift */; };
@@ -56,6 +58,8 @@
 		453EAC66287C7C6300EFCBB9 /* URLCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCommand.swift; sourceTree = "<group>"; };
 		4573198C28910B5C00795ABB /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		4573198E28910E3500795ABB /* ProductRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistration.swift; sourceTree = "<group>"; };
+		45A402462892746000B45A80 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		45A402482892B5A300B45A80 /* PickerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerImageView.swift; sourceTree = "<group>"; };
 		45B7A50C287FF60500FCB69F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		AF2257712889391B00C5CE97 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257732889392300C5CE97 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
@@ -126,9 +130,10 @@
 		4573199028912A8F00795ABB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AFBC2FD42892636700E81A2F /* ProductSetupView.swift */,
 				AF29C0372881016D00C719EE /* ListCell.swift */,
 				AF29C0392881034700C719EE /* GridCell.swift */,
-				AFBC2FD42892636700E81A2F /* ProductSetupView.swift */,
+				45A402482892B5A300B45A80 /* PickerImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -148,6 +153,7 @@
 				AF2257712889391B00C5CE97 /* Int+Extensions.swift */,
 				AF2257732889392300C5CE97 /* UILabel+Extensions.swift */,
 				AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */,
+				45A402462892746000B45A80 /* UITextField+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -319,6 +325,7 @@
 				AF6D741E289121C0007FC5A5 /* ModificationData.swift in Sources */,
 				AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */,
 				AF29C03A2881034700C719EE /* GridCell.swift in Sources */,
+				45A402472892746000B45A80 /* UITextField+Extension.swift in Sources */,
 				AF2257722889391B00C5CE97 /* Int+Extensions.swift in Sources */,
 				AFBC2FD52892636700E81A2F /* ProductSetupView.swift in Sources */,
 				453EAC64287C7BFB00EFCBB9 /* URLSession.swift in Sources */,
@@ -327,6 +334,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				AFBC2FD72892668800E81A2F /* ProductSetupViewController.swift in Sources */,
+				45A402492892B5A300B45A80 /* PickerImageView.swift in Sources */,
 				45B7A50D287FF60500FCB69F /* MainViewController.swift in Sources */,
 				453EAC67287C7C6300EFCBB9 /* URLCommand.swift in Sources */,
 				453EAC4D287C048300EFCBB9 /* Product.swift in Sources */,

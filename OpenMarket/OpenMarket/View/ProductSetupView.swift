@@ -32,16 +32,13 @@ class ProductSetupView: UIView {
     let horizontalScrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = false
         return scrollView
     }()
     
     lazy var horizontalStackView: UIStackView = {
-        var stackview = UIStackView(arrangedSubviews: [testImage1,
-                                                       testImage2,
-                                                       testImage3,
-                                                       testImage4,
-                                                       testImage5,
-                                                       testImage6])
+        var stackview = UIStackView()
+        stackview.addArrangedSubview(addImageButton)
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .horizontal
         stackview.distribution = .fill
@@ -50,70 +47,20 @@ class ProductSetupView: UIView {
         return stackview
     }()
     
-    let testImage1: UIImageView = {
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "chevron.right")
-        image.backgroundColor = .lightGray
-        image.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        return image
-    }()
-    
-    let testImage2: UIImageView = {
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "chevron.right")
-        image.backgroundColor = .lightGray
-        image.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        return image
-    }()
-    
-    let testImage3: UIImageView = {
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "chevron.right")
-        image.backgroundColor = .lightGray
-        image.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        return image
-    }()
-    
-    let testImage4: UIImageView = {
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "chevron.right")
-        image.backgroundColor = .lightGray
-        image.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        return image
-    }()
-    
-    let testImage5: UIImageView = {
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "chevron.right")
-        image.backgroundColor = .lightGray
-        image.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        return image
-    }()
-    
-    let testImage6: UIImageView = {
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "chevron.right")
-        image.backgroundColor = .lightGray
-        image.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        return image
+    let addImageButton: UIButton = {
+        var button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.backgroundColor = .lightGray
+        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        return button
     }()
     
     let productNameTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.placeholder = " 상품명"
+        textfield.placeholder = "상품명"
         textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true
         textfield.layer.borderColor = UIColor.lightGray.cgColor
         textfield.layer.borderWidth = 1
@@ -126,7 +73,7 @@ class ProductSetupView: UIView {
                                                        currencySegmentControl])
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .horizontal
-        stackview.distribution = .fillProportionally
+        stackview.distribution = .fill
         stackview.alignment = .fill
         stackview.spacing = 10
         return stackview
@@ -135,7 +82,7 @@ class ProductSetupView: UIView {
     let productPriceTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.placeholder = " 상품가격"
+        textfield.placeholder = "상품가격"
         textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true // 수정할 것
         textfield.widthAnchor.constraint(equalToConstant: 260).isActive = true // 수정할 것
         textfield.layer.borderColor = UIColor.lightGray.cgColor
@@ -147,13 +94,14 @@ class ProductSetupView: UIView {
     let currencySegmentControl: UISegmentedControl = {
         var segment = UISegmentedControl(items: ["KRW","USD"])
         segment.translatesAutoresizingMaskIntoConstraints = false
+        segment.selectedSegmentIndex = 0
         return segment
     }()
     
     let productDiscountedPriceTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.placeholder = " 할인금액"
+        textfield.placeholder = "할인금액"
         textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true
         textfield.layer.borderColor = UIColor.lightGray.cgColor
         textfield.layer.borderWidth = 1
@@ -164,7 +112,7 @@ class ProductSetupView: UIView {
     let productStockTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
-        textfield.placeholder = " 재고수량"
+        textfield.placeholder = "재고수량"
         textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true
         textfield.layer.borderColor = UIColor.lightGray.cgColor
         textfield.layer.borderWidth = 1
