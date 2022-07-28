@@ -75,6 +75,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         stockLabel.textColor = .systemGray
         discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
         discountedLabel.textColor = .systemGray
+        itemImageView.fetchImageData(url: item.thumbnail)
         
         if item.bargainPrice != 0 {
             priceLabel.isHidden = false
@@ -94,13 +95,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
             stockLabel.textColor = .systemYellow
         }
         
-        DispatchQueue.global().async {
-            guard let url = URL(string: item.thumbnail),
-                  let imageData = try? Data(contentsOf: url) else { return }
-            DispatchQueue.main.async {
-                self.itemImageView.image = UIImage(data: imageData)
-            }
-        }
         layer.cornerRadius = 10.0
         layer.borderColor = UIColor.systemGray.cgColor
         layer.borderWidth = 1

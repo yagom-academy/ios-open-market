@@ -41,7 +41,7 @@ final class MainViewController: UIViewController {
                     if self.currentPage == 1 {
                         self.configureListCollectionView()
                     }
-                    self.collectionView.reloadData() // 전체적인 스크롤 높이가 변하기 때문에 적절하다. (단순히 row를 추가하기 위해서는 사용하면 안된다.)
+                    self.collectionView.reloadData() 
                     self.isPageRfreshing = true
                     let indexPath = Array(0..<(self.currentPage * 20)).map { IndexPath(item: $0, section: 0) }
                     self.collectionView.reloadItems(at: indexPath)

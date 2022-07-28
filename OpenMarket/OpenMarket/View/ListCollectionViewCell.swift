@@ -68,7 +68,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         spacingView.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
         
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         accessoryView = image
         accessoryView.tintColor = .systemGray
     }
@@ -115,6 +115,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         stockLabel.textColor = .systemGray
         discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
         discountedLabel.textColor = .systemGray
+        thumbnailView.fetchImageData(url: item.thumbnail)
         
         if item.bargainPrice != 0 {
             spacingView.isHidden = false
@@ -133,14 +134,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         if item.stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
-        }
-        
-        DispatchQueue.global().async {
-            guard let url = URL(string: item.thumbnail),
-                  let imageData = try? Data(contentsOf: url) else { return }
-            DispatchQueue.main.async {
-                self.thumbnailView.image = UIImage(data: imageData)
-            }
         }
     }
     
