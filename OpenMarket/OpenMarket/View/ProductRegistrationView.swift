@@ -10,6 +10,7 @@ import UIKit
 class ProductRegistrationView: UIView {
     // MARK: - properties
     
+    private let pickerController = UIImagePickerController()
     var delegate: ImagePickerDelegate?
     
     private let totalStackView: UIStackView = {
@@ -168,6 +169,7 @@ class ProductRegistrationView: UIView {
     }
     
     private func commonInit() {
+        pickerController.delegate = self
         backgroundColor = .systemBackground
         addSubview(totalStackView)
         setUpSubviews()
@@ -183,26 +185,12 @@ class ProductRegistrationView: UIView {
             .forEach { productInformationStackView.addArrangedSubview($0) }
         [productPrice, priceSegmentedControl]
             .forEach { segmentedStackView.addArrangedSubview($0) }
-        
         imageScrollView.addSubview(imageStackView)
-        
+        imageStackView.addArrangedSubview(pirckerView)
         pirckerView.addSubview(imagePrickerButton)
     }
     
     private func setUpConstraints() {
-        NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor, constant: 8),
-            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: -8),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor, constant: 8),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor, constant: -8)
-        ])
-        
-        NSLayoutConstraint.activate([
-            imagePrickerButton.centerXAnchor.constraint(equalTo: pirckerView.centerXAnchor),
-            imagePrickerButton.centerYAnchor.constraint(equalTo: pirckerView.centerYAnchor)])
-        
-        NSLayoutConstraint.activate([pirckerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor, constant: -16),
-                                     pirckerView.widthAnchor.constraint(equalTo: pirckerView.heightAnchor, multiplier: 1.0)])
         NSLayoutConstraint.activate(
             [totalStackView.topAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -212,6 +200,20 @@ class ProductRegistrationView: UIView {
                 .constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
              totalStackView.bottomAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
+        
+        NSLayoutConstraint.activate([
+            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor, constant: 8),
+            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: -8),
+            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor, constant: 8),
+            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor, constant: -8)
+        ])
+        
+        NSLayoutConstraint.activate([pirckerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor, constant: -16),
+                                     pirckerView.widthAnchor.constraint(equalTo: pirckerView.heightAnchor, multiplier: 1.0)])
+        
+        NSLayoutConstraint.activate([
+            imagePrickerButton.centerXAnchor.constraint(equalTo: pirckerView.centerXAnchor),
+            imagePrickerButton.centerYAnchor.constraint(equalTo: pirckerView.centerYAnchor)])
     }
     
     private func setUpSubViewsHeight() {
@@ -229,24 +231,22 @@ class ProductRegistrationView: UIView {
     @objc private func pickImages() {
         guard
             imageStackView.subviews.count < 6 else { return }
-        delegate?.pickImages()
+        delegate?.pickImages(pikerController: pickerController)
     }
 }
 
 // MARK: - extensions
 
 extension ProductRegistrationView: UIImagePickerControllerDelegate,
-                                             UINavigationControllerDelegate {
-    
+                                   UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         else { return }
-
+        
         let imageView = setUpPickerImageView(image: editedImage)
-
         imageStackView.insertArrangedSubview(imageView, at: 0)
-        picker.dismiss(animated: true, completion: nil)
+        self.pickerController.dismiss(animated: true, completion: nil)
     }
     
     func setUpPickerImageView(image: UIImage) -> UIImageView {
@@ -263,8 +263,8 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
     }
 }
 
-// MARK: - delegate
+// MARK: - ImagePickerDelegate
 
 protocol ImagePickerDelegate {
-    func pickImages()
+    func pickImages(pikerController: UIImagePickerController)
 }

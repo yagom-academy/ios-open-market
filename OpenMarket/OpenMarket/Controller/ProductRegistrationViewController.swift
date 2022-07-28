@@ -48,14 +48,11 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
 }
 
 extension ProductRegistrationViewController: ImagePickerDelegate {
-    @objc func pickImages() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        
+    func pickImages(pikerController: UIImagePickerController) {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else { return }
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
+        pikerController.sourceType = .photoLibrary
+        pikerController.allowsEditing = true
         
-        present(imagePickerController, animated: true, completion: nil)
+        present(pikerController, animated: true, completion: nil)
     }
 }
