@@ -1,4 +1,8 @@
-enum Currency: String, Decodable {
-    case krw = "KRW"
-    case usd = "USD"
+enum Currency: Int, Decodable {
+    case krw
+    case usd
+    
+    static var toString: [String] {
+        Titles.allCases.map { String(describing: $0).uppercased() }
+    }
 }

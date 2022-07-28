@@ -9,6 +9,9 @@ class ProductsDetailViewController: UIViewController {
     
     var selectedImageView: UIImageView?
     
+    let identifier = "d580792d-0335-11ed-9676-8179e204c0cc"
+    let secret = "G3qccGq9uC"
+    
     override func loadView() {
         view = ProductDetailView()
         view.backgroundColor = .systemBackground
@@ -45,13 +48,48 @@ class ProductsDetailViewController: UIViewController {
         
         addNavigationBarButton()
         
-        let identifier = "d580792d-0335-11ed-9676-8179e204c0cc"
-        let secret = "G3qccGq9uC"
         
-        let parameter = Parameters(name: "스타벅스", descriptions: "맛없어요", price: 100000, currency: .usd, secret: secret)
         
-        ProductsDataManager.shared.patchData(identifier: identifier, productID: 4029, paramter: parameter) { (data: Page) in
+//        let parameter = Parameters(name: "스타벅스", descriptions: "맛없어요", price: 100000, currency: .usd, secret: secret)
+        
+//        ProductsDataManager.shared.patchData(identifier: identifier, productID: 4029, paramter: parameter) { (data: Page) in
+//            print(data)
+//        }
+        
+        navigationItem.rightBarButtonItem?.action = #selector(doneButtonDidTapped)
+    }
+    
+    @objc func doneButtonDidTapped() {
+        print("done 버튼 눌림")
+        
+        guard let detailView = view as? ProductDetailView else { return }
+        
+        var imageViews = detailView.imageStackView.arrangedSubviews
+        
+        guard let productName = detailView.itemNameTextField.text,
+              let productPrice = Int(detailView.itemPriceTextField.text ?? "0"),
+              let productSale = Int(detailView.itemSaleTextField.text ?? "0"),
+              let productStock = Int(detailView.itemStockTextField.text ?? "0"),
+              let productDesciprtion = detailView.descriptionTextView.text,
+              let productCurrency = Currency(rawValue: detailView.currencySegmentControl.selectedSegmentIndex) else { return }
+        
+        
+        if imageViews.last is UIButton {
+            imageViews.removeLast()
+        }
+        
+        var images: [UIImage] = []
+        imageViews.forEach {
+            guard let imageView = $0 as? UIImageView,
+                  let image = imageView.image else { return }
+            images.append(image)
+        }
+        
+        let parameter = Parameters(name: productName, descriptions: productDesciprtion, price: productPrice, currency: productCurrency, secret: self.secret, discounted_price: productSale, stock: productStock)
+        
+        ProductsDataManager.shared.postData(identifier: identifier, paramter: parameter, images: images) { (data: Page) in
             print(data)
+            self.navigationController?.popViewController(animated: true)
         }
     }
 

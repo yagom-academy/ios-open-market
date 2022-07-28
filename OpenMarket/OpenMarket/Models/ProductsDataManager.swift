@@ -1,6 +1,6 @@
 import UIKit
 
-struct Image {
+struct ImageInfo {
     static let key: String = "images"
     
     let filename: String
@@ -85,7 +85,7 @@ struct ProductsDataManager: Decodable {
         sendRequest(request, completion)
     }
     
-    func postData<T: Decodable>(identifier: String, paramter: Parameters, image: UIImage, completion: @escaping (T) -> Void) {
+    func postData<T: Decodable>(identifier: String, paramter: Parameters, images: [UIImage], completion: @escaping (T) -> Void) {
         
         guard let url = URL(string: url) else { return }
         var postRequest = URLRequest(url: url)
@@ -96,10 +96,16 @@ struct ProductsDataManager: Decodable {
         postRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
         
-        guard let imageInfo = Image(withImage: image) else { return }
-        let dataBody = createDataBody(withParameters: paramter, images: [imageInfo], boundary: boundary)
+        var convertedImages: [ImageInfo] = []
+        images.forEach {
+            guard let convertedImage = ImageInfo(withImage: $0) else { return }
+            convertedImages.append(convertedImage)
+        }
         
-        print(String(decoding: dataBody, as: UTF8.self))
+//        guard let imageInfo = Image(withImage: image) else { return }
+        let dataBody = createDataBody(withParameters: paramter, images: convertedImages, boundary: boundary)
+        
+//        print(String(decoding: dataBody, as: UTF8.self))
         postRequest.httpBody = dataBody
 
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
@@ -108,9 +114,13 @@ struct ProductsDataManager: Decodable {
             }
 
             if let data = data {
+                print(data)
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
+//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    let decodedData = try JSONDecoder().decode(PostResponse.self, from: data)
+                    
+                    guard let t = decodedData as? T else { return }
+                    completion(t)
                 } catch {
                     print(error)
                 }
@@ -203,7 +213,7 @@ func generateBoundary() -> String {
 }
 
 // MARK: - createDataBody
-func createDataBody(withParameters params: Parameters, images: [Image]?, boundary: String) -> Data {
+func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, boundary: String) -> Data {
 
     let lineBreak = "\r\n"
     var body = Data()
@@ -217,7 +227,7 @@ func createDataBody(withParameters params: Parameters, images: [Image]?, boundar
     if let images = images {
         for image in images {
             body.append("--\(boundary + lineBreak)")
-            body.append("Content-Disposition: form-data; name=\"\(Image.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
             body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
             body.append(image.data)
             body.append(lineBreak)
