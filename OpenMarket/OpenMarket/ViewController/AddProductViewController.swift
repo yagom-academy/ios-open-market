@@ -11,7 +11,8 @@ class AddProductViewController: UIViewController {
     private let productView = AddProductView()
     private var dataSource = [UIImage(systemName: "plus")]
     private let imagePicker = UIImagePickerController()
-    
+    private var imageParams: [ImageParam] = []
+
     lazy var viewConstraint = productView.entireStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -260)
     
     override func loadView() {
@@ -22,13 +23,11 @@ class AddProductViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        productView.collectionView.dataSource = self
-        productView.collectionView.delegate = self
-        productView.descriptionTextView.delegate = self
+        configureDelegate()
         configureImagePicker()
     }
     
-    func configureUI() {
+    private func configureUI() {
         let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
         let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(goBackWithUpdate))
         navigationItem.title = "상품등록"
@@ -37,17 +36,70 @@ class AddProductViewController: UIViewController {
         navigationItem.setHidesBackButton(true, animated: false)
     }
     
+    private func configureDelegate() {
+        productView.collectionView.dataSource = self
+        productView.collectionView.delegate = self
+        productView.descriptionTextView.delegate = self
+    }
+    
     private func configureImagePicker() {
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
     }
-    
+
     @objc private func goBack() {
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func goBackWithUpdate() {
+        let sessionManager = URLSessionManager(session: URLSession.shared)
+        guard let param = productView.receiveParam() else { return }
+        
+        guard param.productName != "", param.price != "", param.description != "" else { return }
+        
+        guard dataSource.count != 1 else { return }
+            
+        var dataElement: [[String : Any]] = [
+            [
+                "key": "params",
+                "value": """
+                        {
+                            "name": "\(param.productName)",
+                            "price": \(param.price),
+                            "stock": \(param.stock),
+                            "currency": "\(param.currency)",
+                            "secret": "\(param.secret)",
+                            "descriptions": "\(param.description)"
+                        }
+                        """,
+                "type": "text"
+            ]
+        ]
+        
+        for image in imageParams {
+            let imageElement: [String : Any] =  [
+                "key": "images",
+                "src": "\(image.imageName)",
+                "image": image.imageData,
+                "type": "\(image.imageType)"
+            ]
+            
+            dataElement.append(imageElement)
+        }
+        
+        sessionManager.postData(dataElement: dataElement) { result in
+            switch result {
+            case .success(_):
+                print("성공!")
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    self.showAlert(title: "서버 통신 실패", message: "데이터를 올리지 못했습니다.")
+                }
+            }
+        }
+        
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -84,15 +136,17 @@ extension AddProductViewController: UICollectionViewDelegate {
 
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        var selectedImage: UIImage? = nil
+        var selectedImage = UIImage()
         
         if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             selectedImage = newImage
         } else if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             selectedImage = newImage
         }
-        
+
         dataSource.insert(selectedImage, at: 0)
+        imageParams.append(ImageParam(imageName: "\(dataSource.count - 1)번사진.jpeg", imageData: selectedImage))
+        
         picker.dismiss(animated: true, completion: nil)
         productView.collectionView.reloadData()
     }

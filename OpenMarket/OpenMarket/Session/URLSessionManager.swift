@@ -34,9 +34,11 @@ final class URLSessionManager {
             guard let response = urlResponse as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                 return completionHandler(.failure(.incorrectResponse))
             }
+            
             guard let data = data else {
                 return completionHandler(.failure(.invalidData))
             }
+            
             return completionHandler(.success(data))
         }.resume()
     }
@@ -50,25 +52,26 @@ final class URLSessionManager {
         dataTask(request: request, completionHandler: completionHandler)
     }
     
-    private func makeBody(parameters: [[String : String]], boundary: String) -> Data {
+    private func makeBody(parameters: [[String : Any]], boundary: String) -> Data {
         var body = Data()
         
         for param in parameters {
-            let paramName = param.bringValue(key: "key")
+            let paramName = param.bringStringValue(key: "key")
             body.append(contentsOf: "--\(boundary)\r\n".convertData)
             body.append(contentsOf: "Content-Disposition:form-data; name=\"\(paramName)\"".convertData)
             
-            let paramType = param.bringValue(key: "type")
+            let paramType = param.bringStringValue(key: "type")
             
-            if paramType == "text" {
-                let paramValue = param.bringValue(key: "value")
+            if paramType == "text"{
+                let paramValue = param.bringStringValue(key: "value")
                 body.append(contentsOf: "\r\n\r\n\(paramValue)\r\n".convertData)
-                
             } else {
-                let paramSrc = param.bringValue(key: "src")
+                let paramSrc = param.bringStringValue(key: "src")
+                let paramImage = param.bringImageValue(key: "image")
                 
-                guard let imageData = UIImage(named: "제다이"),
-                      let fileData = imageData.jpegData(compressionQuality: 0.5) else { return Data() }
+                guard let fileData = paramImage.jpegData(compressionQuality: 0.5) else {
+                    return Data()
+                }
                 
                 body.append(contentsOf: "; filename=\"\(paramSrc)\"\r\n".convertData)
                 body.append(contentsOf: "Content-Type: image/\(paramType)\r\n\r\n".convertData)
@@ -76,54 +79,32 @@ final class URLSessionManager {
                 body.append(contentsOf: "\r\n".convertData)
             }
         }
-        
         body.append(contentsOf: ("--\(boundary)--\r\n").convertData)
     
         return body
     }
     
-    func postData(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
-        let parameters: [[String : String]] = [
-            [
-                "key": "params",
-                "value": """
-                        {
-                            "name": "제다이",
-                            "price": 20000,
-                            "stock": 2,
-                            "currency": "USD",
-                            "secret": "0hvvXjSeAS",
-                            "descriptions": "제다이 마스터입니다. (주디 & 재재)"
-                        }
-                        """,
-                "type": "text"
-            ],
-            [
-                "key": "images",
-                "src": "file:///Users/kimjuyoung/Downloads/%E1%84%8C%E1%85%A6%E1%84%83%E1%85%A1%E1%84%8B%E1%85%B5.png",
-                "type": "png"
-            ]]
-        
+    func postData(dataElement: [[String : Any]], completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
         let boundary = "Boundary-\(UUID().uuidString)"
         guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products") else { return }
         var request = URLRequest(url: url)
         
-        request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
+        request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        request.httpBody =  makeBody(parameters: parameters, boundary: boundary)
+        request.httpBody =  makeBody(parameters: dataElement, boundary: boundary)
         
         dataTask(request: request, completionHandler: completionHandler)
     }
     
     func patchData(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
-        let parameters = "{\n    \"secret\": \"0hvvXjSeAS\",\n    \"discounted_price\": 10000\n}"
+        let parameters = "{\n    \"secret\": \"\(VendorInfo.secret)\",\n    \"discounted_price\": 10000\n}"
         let postData = parameters.convertData
 
         guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3946") else { return }
         var request = URLRequest(url: url)
         
-        request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
+        request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
         request.httpMethod = "PATCH"
         request.httpBody = postData
 
@@ -131,13 +112,13 @@ final class URLSessionManager {
     }
     
     func inquireSecretKey(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
-        let parameters = "{\"secret\": \"0hvvXjSeAS\"}"
+        let parameters = "{\"secret\": \"\(VendorInfo.secret)\"}"
         let postData = parameters.convertData
         
         guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3943/secret") else { return }
         var request = URLRequest(url: url)
         
-        request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
+        request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         request.httpBody = postData
@@ -150,7 +131,7 @@ final class URLSessionManager {
         guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3943/" + secretKey) else { return }
         var request = URLRequest(url: url)
         
-        request.addValue("f27bc126-0335-11ed-9676-1776ba240ec2", forHTTPHeaderField: "identifier")
+        request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
         request.httpMethod = "DELETE"
         
         dataTask(request: request, completionHandler: completionHandler)
@@ -167,12 +148,20 @@ extension String {
     }
 }
 
-extension Dictionary where Key == String, Value == String {
-    fileprivate func bringValue(key: String) -> String {
+extension Dictionary where Key == String, Value == Any {
+    fileprivate func bringStringValue(key: String) -> String {
         guard let value = self[key] else {
             return ""
         }
         
-        return value
+        return value as? String ?? ""
+    }
+    
+    fileprivate func bringImageValue(key: String) -> UIImage {
+        guard let value = self[key] else {
+            return UIImage()
+        }
+        
+        return value as? UIImage ?? UIImage()
     }
 }
