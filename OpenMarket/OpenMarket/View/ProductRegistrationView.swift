@@ -171,6 +171,7 @@ class ProductRegistrationView: UIView {
     private func commonInit() {
         pickerController.delegate = self
         backgroundColor = .systemBackground
+        translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
         setUpSubviews()
         setUpSubViewsHeight()
@@ -249,7 +250,7 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         self.pickerController.dismiss(animated: true, completion: nil)
     }
     
-    func setUpPickerImageView(image: UIImage) -> UIImageView {
+    private func setUpPickerImageView(image: UIImage) -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
