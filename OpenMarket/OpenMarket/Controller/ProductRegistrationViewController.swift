@@ -19,8 +19,13 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
         self.view.backgroundColor = .white
         productRegistrationView.delegate = self
         view.addSubview(productRegistrationView)
-        productRegistrationView.translatesAutoresizingMaskIntoConstraints = false
         setUpConstraints()
+        setUpNavigation()
+    }
+    
+    func setUpNavigation() {
+        navigationItem.title = "상품등록"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(registerProducts))
     }
     
     func setUpConstraints() {
@@ -35,14 +40,14 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
     private func setUpNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                              target: nil,
-                                             action: #selector(printDone))
+                                             action: #selector(registerProducts))
         self.navigationItem.title = "상품등록"
         self.navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
     // MARK: - @objc functions
     
-    @objc func printDone() {
+    @objc private func registerProducts() {
         print("done")
     }
 }
