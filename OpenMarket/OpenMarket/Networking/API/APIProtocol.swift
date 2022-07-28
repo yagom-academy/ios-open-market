@@ -42,13 +42,13 @@ extension APIProtocol {
     func enrollData(using client: APIClient = APIClient.shared,
                     postEntity: EnrollProductEntity,
                     completion: @escaping (Result<Data,APIError>) -> Void) {
-
+        
         var request = URLRequest(url: configuration.url)
-
+        
         let dataBody = createDataBody(withParameters: postEntity.parameter,
                                       media: postEntity.images,
                                       boundary: MIMEType.generateBoundary())
-
+        
         request.httpMethod = configuration.method.rawValue
         request.httpBody = dataBody
         request.setValue(MIMEType.multipartFormData.value,
@@ -75,7 +75,7 @@ extension APIProtocol {
                                 boundary: String) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
-
+        
         body.append("--\(boundary + lineBreak)")
         body.append("Content-Disposition: form-data; name=\"\(RequestName.params.key)\"\(lineBreak + lineBreak)")
         body.append(params.returnValue()!)

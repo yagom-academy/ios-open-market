@@ -96,7 +96,6 @@ final class MarketProductsView: UIView {
     private func configureGridCollectionView(of rootView: UIView) {
         gridCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: configureGridLayout(of: rootView))
-        
         guard let collectionView = gridCollectionView else {
             return
         }
@@ -227,7 +226,8 @@ final class MarketProductsView: UIView {
         }
     }
     
-    private func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity> , by data: ProductListEntity) {
+    private func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>,
+                               by data: ProductListEntity) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
         snapShot.appendSections([.main])
         snapShot.appendItems(data.productEntity)
