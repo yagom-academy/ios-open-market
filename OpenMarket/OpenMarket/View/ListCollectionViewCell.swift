@@ -25,9 +25,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
         configureLayout()
     }
     
-    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been impl")
+        super.init(coder: coder)
     }
     
     private func configureAttribute() {
@@ -111,24 +110,26 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     func configureContent(item: Item) {
         titleLabel.text = "\(item.name)"
-        stockLabel.text = "잔여수량: \(item.stock)"
+        stockLabel.text = "잔여수량: \(item.stock.formatNumber())"
         stockLabel.textColor = .systemGray
-        discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
+        discountedLabel.text = "\(item.currency) \(item.discountedPrice.formatNumber())"
         discountedLabel.textColor = .systemGray
         thumbnailView.fetchImageData(url: item.thumbnail)
         
         if item.bargainPrice != 0 {
             spacingView.isHidden = false
+            
+            discountedLabel.text = "\(item.currency) \(item.discountedPrice.formatNumber())"
+            discountedLabel.textColor = .systemGray
+            
+            priceLabel.text = "\(item.currency) \(item.price.formatNumber())"
             priceLabel.isHidden = false
-            discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
             priceLabel.textColor = .systemRed
-            priceLabel.text = "\(item.currency) \(item.price)"
             
             guard let priceText = priceLabel.text else { return }
             let attribute = NSMutableAttributedString(string: priceText)
             attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
             priceLabel.attributedText = attribute
-            discountedLabel.textColor = .systemGray
         }
         
         if item.stock == 0 {

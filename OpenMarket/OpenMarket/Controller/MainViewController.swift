@@ -9,6 +9,7 @@ import UIKit
 final class MainViewController: UIViewController {
     private let networkManager = NetworkManager()
     private var currentPage = 1
+    private let itemsPerPage = 20
     private var items = [Item]()
     private var isPageRfreshing: Bool = true
     
@@ -28,7 +29,7 @@ final class MainViewController: UIViewController {
     
     private func fetchData() {
         isPageRfreshing = false
-        networkManager.fetchItmeList(pageNumber: currentPage, itemsPerPage: 20) { result in
+        networkManager.fetchItmeList(pageNumber: currentPage, itemsPerPage: itemsPerPage) { result in
             switch result {
             case .success(let responseData):
                 guard let data = responseData,
@@ -41,11 +42,11 @@ final class MainViewController: UIViewController {
                     if self.currentPage == 1 {
                         self.configureListCollectionView()
                     }
-                    self.collectionView.reloadData() 
-                    self.isPageRfreshing = true
-                    let indexPath = Array(0..<(self.currentPage * 20)).map { IndexPath(item: $0, section: 0) }
+                    self.collectionView.reloadData()
+                    let indexPath = Array(0..<(self.currentPage * self.itemsPerPage)).map { IndexPath(item: $0, section: 0) }
                     self.collectionView.reloadItems(at: indexPath)
                     self.activityIndicatorView.stopAnimating()
+                    self.isPageRfreshing = true
                 }
             default:
                 return
@@ -74,13 +75,13 @@ extension MainViewController {
         case 0:
             collectionView.setCollectionViewLayout(createListLayout(), animated: true)
             DispatchQueue.main.async { [self] in
-                let indexPath = Array(0..<(currentPage * 20)).map { IndexPath(item: $0, section: 0) }
+                let indexPath = Array(0..<(currentPage * itemsPerPage)).map { IndexPath(item: $0, section: 0) }
                 collectionView.reloadItems(at: indexPath)
             }
         case 1:
             collectionView.setCollectionViewLayout(gridLayout, animated: true)
             DispatchQueue.main.async { [self] in
-                let indexPath = Array(0..<(currentPage * 20)).map { IndexPath(item: $0, section: 0) }
+                let indexPath = Array(0..<(currentPage * itemsPerPage)).map { IndexPath(item: $0, section: 0) }
                 collectionView.reloadItems(at: indexPath)
             }
         default:
@@ -131,7 +132,7 @@ extension MainViewController {
 //MARK: DataSource
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentPage * 20
+        return currentPage * itemsPerPage
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,6 +143,7 @@ extension MainViewController: UICollectionViewDataSource {
             cell.configureContent(item: items[indexPath.row])
             return cell
         }
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell", for: indexPath)
                 as? GridCollectionViewCell else { return UICollectionViewCell() }
         cell.resetContent()

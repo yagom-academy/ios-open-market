@@ -10,9 +10,7 @@ import UIKit
 extension UIImageView {
     func fetchImageData(url: String) {
         guard let url = URL(string: url) else { return }
-        
         URLSession.shared.dataTask(with: url) { data, response, error in
-            
             guard error == nil else { return }
             
             guard let httpResponse = response as? HTTPURLResponse,
