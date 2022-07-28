@@ -180,17 +180,10 @@ class ProductRegistrationView: UIView {
         setUpSubViewsHeight()
         setUpConstraints()
         productDescriptionTextView.delegate = self
+        setUpUiToolbar()
         imagePrickerButton.addTarget(self,
                                      action: #selector(pickImages),
                                      for: .touchUpInside)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide(_:)),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
         addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                     action: #selector(endEditing(_:))))
     }
@@ -237,10 +230,20 @@ class ProductRegistrationView: UIView {
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
-                            multiplier: 0.5),
+                            multiplier: 0.4),
              productInformationStackView.heightAnchor
                 .constraint(equalTo: productDescriptionTextView.heightAnchor,
                             multiplier: 0.5)])
+    }
+    
+    private func setUpUiToolbar() {
+        let keyboardToolbar = UIToolbar()
+        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(endEditing(_:)))
+        keyboardToolbar.items = [doneBarButton]
+        keyboardToolbar.sizeToFit()
+        keyboardToolbar.tintColor = UIColor.systemGray
+        
+        productDescriptionTextView.inputAccessoryView = keyboardToolbar
     }
     
     func postProduct() {
@@ -332,19 +335,19 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         
         return imageView
     }
-}
-
-extension ProductRegistrationView: UITextViewDelegate {
-    @objc private func keyboardWillShow(_ sender: Notification) {
-        frame.origin.y = -(productDescriptionTextView.frame.height)
-    }
-    
-    @objc private func keyboardWillHide(_ sender: Notification) {
-        frame.origin.y = 0
-    }
     
     @objc func endEditing(){
         resignFirstResponder()
+    }
+}
+
+extension ProductRegistrationView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        frame.origin.y = -(productDescriptionTextView.frame.height * 1.5)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        frame.origin.y = 0
     }
 }
 

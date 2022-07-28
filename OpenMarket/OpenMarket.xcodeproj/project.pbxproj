@@ -143,9 +143,9 @@
 		37D96A6B28866ECA002B1A8F /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				37D96A6C28866EDF002B1A8F /* OpenMarketRequest.swift */,
 				D7AE3E43288C0E5B00565F3D /* ImageCacheManager.swift */,
 				D7C4C7182890FAB3007CF8F1 /* OpenMarketRepository.swift */,
+				37D96A6C28866EDF002B1A8F /* OpenMarketRequest.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -205,12 +205,12 @@
 		D70EECFE2880F9E5003679E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D7C4C71C2891027F007CF8F1 /* ProductRegistrationView.swift */,
 				37D96A702886949E002B1A8F /* GridCollecntionView.swift */,
 				D7D4647F28858AC30040A0A7 /* GridCollectionViewCell.swift */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				37D96A6E28869484002B1A8F /* ListCollectionView.swift */,
 				D7C4C7162890D322007CF8F1 /* ListCollectionViewCell.swift */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				D7C4C71C2891027F007CF8F1 /* ProductRegistrationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
