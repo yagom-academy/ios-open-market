@@ -81,7 +81,7 @@ class ItemListCollectionViewCell: UICollectionViewCell {
         
         stackView.alignment = .center
         stackView.axis = .horizontal
-        stackView.spacing = 2
+        stackView.spacing = 10
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView

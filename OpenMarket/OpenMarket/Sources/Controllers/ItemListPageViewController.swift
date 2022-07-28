@@ -28,12 +28,15 @@ final class ItemListPageViewController: UIViewController {
     // MARK: - UI Components
     
     private var itemCollectionView: UICollectionView!
-    
     private let segmentedControl: UISegmentedControl = {
-        let selectionItems = ["LIST", "GRID"]
-        let segmentedControl = UISegmentedControl(items: selectionItems)
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        let selectionItems = [
+            UIImage(systemName: "rectangle.grid.1x2"),
+            UIImage(systemName: "square.grid.2x2")
+        ]
         
+        let segmentedControl = UISegmentedControl(items: selectionItems as [Any])
+        
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
     
@@ -52,10 +55,11 @@ final class ItemListPageViewController: UIViewController {
         itemCollectionView.register(ItemListCollectionViewCell.self, forCellWithReuseIdentifier: "itemCell")
         
         configureCollectionViewDiffableDataSource()
+        touchUpSegmentedControl()
     }
 }
 
-// MARK: - Private Actions
+// MARK: - Private Actions for SegmentedControl
 
 private extension ItemListPageViewController {
     func setUpSegmentedControlWithLayout() {
@@ -66,6 +70,18 @@ private extension ItemListPageViewController {
         segmentedControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
     
+    func touchUpSegmentedControl() {
+        segmentedControl.addTarget(self, action: #selector(selectLayout), for: .valueChanged)
+    }
+    
+    @objc func selectLayout(segmentedControl: UISegmentedControl) {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            itemCollectionView.collectionViewLayout = generateCompositionalLayout(numberOfItemsAtRow: 1)
+        } else {
+            itemCollectionView.collectionViewLayout = generateCompositionalLayout(numberOfItemsAtRow: 2)
+        }
+    }
+}
     func fetchParsedData(basedOn result: Result<Data, NetworkingError>) {
         switch result {
         case .success(let data):
@@ -98,8 +114,6 @@ private extension ItemListPageViewController {
     }
     
     func generateCompositionalLayout(numberOfItemsAtRow: Int) -> UICollectionViewLayout {
-        let spacing: CGFloat = 10.0
-        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
@@ -116,13 +130,6 @@ private extension ItemListPageViewController {
             layoutSize: groupSize,
             subitem: item,
             count: numberOfItemsAtRow
-        )
-        
-        group.contentInsets = NSDirectionalEdgeInsets(
-            top: spacing,
-            leading: spacing,
-            bottom: 0,
-            trailing: spacing
         )
         
         let section = NSCollectionLayoutSection(group: group)
