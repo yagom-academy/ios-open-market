@@ -70,6 +70,7 @@
 		4252740A287D6FFF00A63D7F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				428A986428900DD80066F73E /* ItemListCollectionViewCell.swift */,
 				4252740B287D700C00A63D7F /* ItemListPage.swift */,
 				FDE9CB682880024800A78B24 /* NetworkManager.swift */,
 				4259A5EB2886924A0059B0BA /* HostAPI.swift */,
@@ -98,7 +99,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ItemListPageViewController.swift */,
-				428A986428900DD80066F73E /* ItemListCollectionViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
