@@ -48,7 +48,8 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
     // MARK: - @objc functions
     
     @objc private func registerProducts() {
-        print("done")
+        productRegistrationView.postProduct()
+        navigationController?.popViewController(animated: true)
     }
 }
 
