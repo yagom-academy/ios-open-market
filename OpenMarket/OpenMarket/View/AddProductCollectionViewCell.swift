@@ -10,21 +10,21 @@ import UIKit
 final class AddProductCollectionViewCell: UICollectionViewCell {
     static let id = "ProductCell"
 
-    let productImageButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemGray5
-        return button
+    let productImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .systemGray5
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
 
     private func arrangeSubView() {
-        self.contentView.addSubview(productImageButton)
+        self.contentView.addSubview(productImage)
 
         NSLayoutConstraint.activate([
-            productImageButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            productImageButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
-            productImageButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            productImageButton.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            productImage.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
+            productImage.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+            productImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
         ])
     }
 

@@ -9,7 +9,8 @@ import UIKit
 
 class AddProductViewController: UIViewController {
     private let productView = AddProductView()
-    private lazy var dataSource = [UIImage(named: "바보전구"), UIImage(named: "바보전구"), UIImage(named: "바보전구"), UIImage(named: "바보전구"), UIImage(systemName: "plus")]
+    private var dataSource = [UIImage(systemName: "plus")]
+    private let imagePicker = UIImagePickerController()
 
     override func loadView() {
         super.loadView()
@@ -20,6 +21,8 @@ class AddProductViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         productView.collectionView.dataSource = self
+        productView.collectionView.delegate = self
+        configureImagePicker()
     }
 
     func configureUI() {
@@ -29,6 +32,12 @@ class AddProductViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.rightBarButtonItem = doneBarButton
         navigationItem.setHidesBackButton(true, animated: false)
+    }
+    
+    private func configureImagePicker() {
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
     }
     
     @objc private func goBack() {
@@ -47,7 +56,41 @@ extension AddProductViewController: UICollectionViewDataSource {
 
     func collectionView( _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddProductCollectionViewCell.id, for: indexPath) as? AddProductCollectionViewCell ?? AddProductCollectionViewCell()
-        cell.productImageButton.setImage(dataSource[indexPath.item], for: .normal)
+        cell.productImage.image = dataSource[indexPath.item]
         return cell
+    }
+}
+
+extension AddProductViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row != 5 && indexPath.row == dataSource.count - 1 {
+            self.present(self.imagePicker, animated: true)
+        }
+        
+        if indexPath.row == 5 {
+            showAlert(title: "사진 등록 불가능", message: "사진은 최대 5장까지 가능합니다.")
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let failureAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        failureAlert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(failureAlert, animated: true)
+    }
+}
+
+extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var selectedImage: UIImage? = nil
+        
+        if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            selectedImage = newImage
+        } else if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            selectedImage = newImage
+        }
+    
+        dataSource.insert(selectedImage, at: 0)
+        picker.dismiss(animated: true, completion: nil)
+        productView.collectionView.reloadData()
     }
 }
