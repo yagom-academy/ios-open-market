@@ -7,6 +7,8 @@ class ProductsDetailViewController: UIViewController {
     
     let imageCache = NSCache<NSString, UIImage>()
     
+    var selectedImageView: UIImageView?
+    
     override func loadView() {
         view = ProductDetailView()
         view.backgroundColor = .systemBackground
@@ -61,7 +63,9 @@ class ProductsDetailViewController: UIViewController {
         present(imagePicker, animated: true)
     }
     
-    @objc func changeImageButtonTapped() {
+    @objc func changeImageButtonTapped(_ sender: UITapGestureRecognizer) {
+        selectedImageView = sender.view as? UIImageView
+        
         present(imageChangePicker, animated: true)
     }
     
@@ -98,7 +102,7 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
             }
         case imageChangePicker:
             guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-            print(selectedImage)
+            selectedImageView?.image = selectedImage
         default:
             break
         }
