@@ -114,6 +114,7 @@ class ProductRegistrationView: UIView {
         textField.setUpBoder(cornerRadius: 10,
                              borderWidth: 1.5,
                              borderColor: UIColor.systemGray3.cgColor)
+        textField.keyboardType = .decimalPad
         
         return textField
     }()
@@ -129,6 +130,7 @@ class ProductRegistrationView: UIView {
         textField.setUpBoder(cornerRadius: 10,
                              borderWidth: 1.5,
                              borderColor: UIColor.systemGray3.cgColor)
+        textField.keyboardType = .decimalPad
         
         return textField
     }()
@@ -144,6 +146,7 @@ class ProductRegistrationView: UIView {
         textField.setUpBoder(cornerRadius: 10,
                              borderWidth: 1.5,
                              borderColor: UIColor.systemGray3.cgColor)
+        textField.keyboardType = .numberPad
         
         return textField
     }()
@@ -176,7 +179,20 @@ class ProductRegistrationView: UIView {
         setUpSubviews()
         setUpSubViewsHeight()
         setUpConstraints()
-        imagePrickerButton.addTarget(self, action: #selector(pickImages), for: .touchUpInside)
+        productDescriptionTextView.delegate = self
+        imagePrickerButton.addTarget(self,
+                                     action: #selector(pickImages),
+                                     for: .touchUpInside)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                    action: #selector(endEditing(_:))))
     }
     
     private func setUpSubviews() {
@@ -315,6 +331,20 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         ])
         
         return imageView
+    }
+}
+
+extension ProductRegistrationView: UITextViewDelegate {
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        frame.origin.y = -(productDescriptionTextView.frame.height)
+    }
+    
+    @objc private func keyboardWillHide(_ sender: Notification) {
+        frame.origin.y = 0
+    }
+    
+    @objc func endEditing(){
+        resignFirstResponder()
     }
 }
 
