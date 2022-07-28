@@ -134,7 +134,7 @@ final class AddProductView: UIView {
         ])
     }
     
-    func receiveParam() -> Param? {
+    func createParam() -> Param? {
         guard let name = productNameTextfield.text,
               let price = priceTextfield.text,
               var discountedPrice = discountedPriceTextfield.text,
@@ -160,6 +160,20 @@ final class AddProductView: UIView {
         let param = Param(productName: name, price: price, discountedPrice: discountedPrice, currency: currency, stock: stock, description: descriptionText)
         
         return param
+    }
+    
+    func configure(data: Param) {
+        productNameTextfield.text = data.productName
+        priceTextfield.text = data.price
+        discountedPriceTextfield.text = data.discountedPrice
+        stockTextfield.text = data.stock
+        descriptionTextView.text = data.description
+        
+        if data.currency == Currency.krw.rawValue {
+            segmentedControl.selectedSegmentIndex = 0
+        } else {
+            segmentedControl.selectedSegmentIndex = 1
+        }
     }
     
     override init(frame: CGRect) {

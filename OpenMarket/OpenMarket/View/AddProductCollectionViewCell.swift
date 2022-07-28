@@ -28,6 +28,10 @@ final class AddProductCollectionViewCell: UICollectionViewCell {
         ])
     }
 
+    func configureCell(image: UIImage) {
+        productImage.image = image
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

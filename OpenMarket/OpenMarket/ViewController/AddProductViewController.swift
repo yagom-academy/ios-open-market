@@ -8,12 +8,12 @@
 import UIKit
 
 class AddProductViewController: UIViewController {
+    // MARK: Properties
     private let productView = AddProductView()
-    private var dataSource = [UIImage(systemName: "plus")]
+    private var dataSource: [UIImage] = []
     private let imagePicker = UIImagePickerController()
     private var imageParams: [ImageParam] = []
-
-    lazy var viewConstraint = productView.entireStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -260)
+    private lazy var viewConstraint = productView.entireStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -260)
     
     override func loadView() {
         super.loadView()
@@ -27,6 +27,17 @@ class AddProductViewController: UIViewController {
         configureImagePicker()
     }
     
+    func changeToEditMode(data: Param, images: [ImageParam]) {
+        productView.configure(data: data)
+        images.forEach {
+            guard let image = UIImage(data: $0.imageData ) else { return }
+            dataSource.append(image)
+        }
+        productView.collectionView.reloadData()
+        navigationItem.title = "상품수정"
+    }
+    
+    //MARK: configure
     private func configureUI() {
         let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
         let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(goBackWithUpdate))
@@ -34,6 +45,9 @@ class AddProductViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.rightBarButtonItem = doneBarButton
         navigationItem.setHidesBackButton(true, animated: false)
+        
+        guard let addImage = UIImage(systemName: "plus") else { return }
+        dataSource.append(addImage)
     }
     
     private func configureDelegate() {
@@ -48,13 +62,14 @@ class AddProductViewController: UIViewController {
         imagePicker.delegate = self
     }
 
+    //MARK: buttonAction
     @objc private func goBack() {
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func goBackWithUpdate() {
         let sessionManager = URLSessionManager(session: URLSession.shared)
-        guard let param = productView.receiveParam() else { return }
+        guard let param = productView.createParam() else { return }
         
         guard param.productName != "", param.price != "", param.description != "", dataSource.count != 1 else {
             showAlert(title: "상품 등록 불가", message: "필수 항목을 입력해주십시오.\n(상품의 이미지, 이름, 가격, 설명)")
@@ -68,6 +83,7 @@ class AddProductViewController: UIViewController {
                         {
                             "name": "\(param.productName)",
                             "price": \(param.price),
+                            "discounted_price": \(param.discountedPrice),
                             "stock": \(param.stock),
                             "currency": "\(param.currency)",
                             "secret": "\(param.secret)",
@@ -98,19 +114,18 @@ class AddProductViewController: UIViewController {
     }
 }
 
-extension AddProductViewController: UICollectionViewDataSource {
+//MARK: CollectionView's DataSource & Delegate
+extension AddProductViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView( _ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.dataSource.count
     }
     
     func collectionView( _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddProductCollectionViewCell.id, for: indexPath) as? AddProductCollectionViewCell ?? AddProductCollectionViewCell()
-        cell.productImage.image = dataSource[indexPath.item]
+        cell.configureCell(image: dataSource[indexPath.item])
         return cell
     }
-}
-
-extension AddProductViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row != 5 && indexPath.row == dataSource.count - 1 {
             self.present(self.imagePicker, animated: true)
@@ -128,6 +143,7 @@ extension AddProductViewController: UICollectionViewDelegate {
     }
 }
 
+//MARK: imagePickerController
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         var selectedImage = UIImage()
@@ -161,6 +177,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     }
 }
 
+//MARK: UITextView
 extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         viewConstraint.isActive = true

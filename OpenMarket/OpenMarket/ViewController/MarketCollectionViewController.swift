@@ -35,54 +35,14 @@ final class MarketCollectionViewController: UICollectionViewController {
         return segmentedControl
     }()
     
+    override func viewDidAppear(_ animated: Bool) {
+        receivePageData()
+        collectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-//        sessionManager.postData { result in
-//            switch result {
-//            case .success(_):
-//                print("성공!")
-//            case .failure(let error):
-//                print(error)
-//                DispatchQueue.main.async {
-//                    self.showAlert(title: "서버 통신 실패", message: "데이터를 올리지 못했습니다.")
-//                }
-//            }
-//        }
-//        sessionManager.patchData { result in
-//            switch result {
-//            case .success(_):
-//                print("수정 성공!")
-//            case .failure(let error):
-//                print(error)
-//                DispatchQueue.main.async {
-//                    self.showAlert(title: "서버 통신 실패", message: "데이터를 수정하지 못했습니다.")
-//                }
-//            }
-//        }
-        
-//        sessionManager.inquireSecretKey { result in
-//            switch result {
-//            case .success(let data):
-//                self.sessionManager.deleteData(secretKey: data) { result in
-//                    switch result {
-//                    case .success(_):
-//                        print("삭제 성공!")
-//                    case .failure(let error):
-//                        print(error)
-//                        DispatchQueue.main.async {
-//                            self.showAlert(title: "서버 통신 실패", message: "데이터를 삭제하지 못했습니다.")
-//                        }
-//                    }
-//                }
-//                print("시크릿키 조회 성공!")
-//            case .failure(let error):
-//                print(error)
-//                DispatchQueue.main.async {
-//                    self.showAlert(title: "서버 통신 실패", message: "시크릿키를 조회하지 못했습니다.")
-//                }
-//            }
-//        }
         receivePageData()
         addAction()
     }
