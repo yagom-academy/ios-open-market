@@ -70,7 +70,7 @@ final class AddProductView: UIView {
         return segmentedControl
     }()
     
-    private let descriptionTextView: UITextView = {
+    let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .caption1)
         textView.adjustsFontForContentSizeCategory = true
@@ -91,12 +91,12 @@ final class AddProductView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 10
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private let entireStackView: UIStackView = {
+    let entireStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 10
@@ -128,7 +128,9 @@ final class AddProductView: UIView {
             entireStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 8),
             entireStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             
-            collectionView.heightAnchor.constraint(equalTo: entireStackView.heightAnchor, multiplier: 0.2)
+            collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2),
+            segmentedControl.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.3),
+            infoStackView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2)
         ])
     }
     

@@ -11,20 +11,23 @@ class AddProductViewController: UIViewController {
     private let productView = AddProductView()
     private var dataSource = [UIImage(systemName: "plus")]
     private let imagePicker = UIImagePickerController()
-
+    
+    lazy var viewConstraint = productView.entireStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -260)
+    
     override func loadView() {
         super.loadView()
         view = productView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         productView.collectionView.dataSource = self
         productView.collectionView.delegate = self
+        productView.descriptionTextView.delegate = self
         configureImagePicker()
     }
-
+    
     func configureUI() {
         let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
         let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(goBackWithUpdate))
@@ -43,7 +46,7 @@ class AddProductViewController: UIViewController {
     @objc private func goBack() {
         self.navigationController?.popViewController(animated: true)
     }
-
+    
     @objc private func goBackWithUpdate() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -53,7 +56,7 @@ extension AddProductViewController: UICollectionViewDataSource {
     func collectionView( _ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.dataSource.count
     }
-
+    
     func collectionView( _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddProductCollectionViewCell.id, for: indexPath) as? AddProductCollectionViewCell ?? AddProductCollectionViewCell()
         cell.productImage.image = dataSource[indexPath.item]
@@ -88,9 +91,19 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         } else if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             selectedImage = newImage
         }
-    
+        
         dataSource.insert(selectedImage, at: 0)
         picker.dismiss(animated: true, completion: nil)
         productView.collectionView.reloadData()
+    }
+}
+
+extension AddProductViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        viewConstraint.isActive = true
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        viewConstraint.isActive = false
     }
 }
