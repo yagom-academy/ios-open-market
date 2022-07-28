@@ -17,7 +17,7 @@ struct ProductListAPIManager: APIProtocol {
             .setHost("market-training.yagom-academy.kr")
             .setPath("/api/products")
             .addQuery(items: [ProductURLQueryItem.page_no.value: "1",
-                              ProductURLQueryItem.items_per_page.value: "10"])
+                              ProductURLQueryItem.items_per_page.value: "30"])
             .build()
         
         guard let url = urlComponents.url else {

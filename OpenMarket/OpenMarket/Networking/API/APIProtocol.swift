@@ -12,7 +12,7 @@ protocol APIProtocol {
 }
 
 extension APIProtocol {
-    func retrieveData<T: Decodable>(using client: APIClient = APIClient.shared,
+    func retrieveProduct<T: Decodable>(using client: APIClient = APIClient.shared,
                                     dataType: T.Type,
                                     completion: @escaping (Result<T,APIError>) -> Void) {
         

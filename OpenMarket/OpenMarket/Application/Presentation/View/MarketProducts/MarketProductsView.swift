@@ -15,7 +15,7 @@ final class MarketProductsView: UIView {
         case main
     }
     
-    private let networkProvider = APIClient(session: URLSession.shared)
+    private let networkProvider = APIClient()
     private var marketProductsViewModel: MarketProductsViewModel?
     private let productListAPIManager = ProductListAPIManager()
 
@@ -207,7 +207,7 @@ final class MarketProductsView: UIView {
     }
     
     private func fetchData(from rootViewController: UIViewController) {
-        productListAPIManager?.retrieveData(dataType: ProductList.self) { [weak self] result in
+        productListAPIManager?.retrieveProduct(dataType: ProductList.self) { [weak self] result in
             switch result {
             case .success(let productList):
                 self?.marketProductsViewModel?.format(data: productList)
