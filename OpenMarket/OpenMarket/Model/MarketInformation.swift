@@ -28,15 +28,15 @@ struct MarketInformation: Decodable {
     }
 }
 
-struct SaleInformation: Decodable {
+struct SaleInformation: Decodable, Hashable {
     let id: Int
     let vendorId: Int
     let name: String
     let thumbnail: String
     let currency: String
-    let price: Int
-    let bargainPrice: Int
-    let dicountedPrice: Int
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let createdAt: String
     let issuedAt: String
@@ -49,7 +49,7 @@ struct SaleInformation: Decodable {
         case currency
         case price
         case bargainPrice = "bargain_price"
-        case dicountedPrice = "discounted_price"
+        case discountedPrice = "discounted_price"
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
