@@ -8,4 +8,13 @@
 enum Currency: String, Codable {
     case krw = "KRW"
     case usd = "USD"
+    
+    var value: String {
+        switch self {
+        case .krw:
+            return "0"
+        case .usd:
+            return "1"
+        }
+    }
 }

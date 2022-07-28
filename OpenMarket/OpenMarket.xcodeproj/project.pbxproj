@@ -183,7 +183,6 @@
 		D70EECFB2880F873003679E9 /* JSONModel */ = {
 			isa = PBXGroup;
 			children = (
-				3723969A287D0C85001EFC70 /* Currency.swift */,
 				D71BB6DF287D07CE006035C6 /* ProductDetail.swift */,
 				D71BB6E1287D098E006035C6 /* ProductImage.swift */,
 				37239698287D054E001EFC70 /* ProductsDetailList.swift */,
@@ -260,6 +259,7 @@
 		D7649C8B2886936F00E3F30A /* Enum */ = {
 			isa = PBXGroup;
 			children = (
+				3723969A287D0C85001EFC70 /* Currency.swift */,
 				D7649C892886936800E3F30A /* Section.swift */,
 				37D96A742886C49D002B1A8F /* NameSpace.swift */,
 			);
