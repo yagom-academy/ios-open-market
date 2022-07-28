@@ -91,6 +91,32 @@ extension APIProtocol {
         }
     }
     
+    func retrieveSecret(using client: APIClient = APIClient.shared,
+                        completion: @escaping (Result<Data,APIError>) -> Void) {
+        
+        var request = URLRequest(url: configuration.url)
+        
+        do {
+            let param = ["secret" : User.secret.rawValue]
+            let dataBody = try JSONSerialization.data(withJSONObject: param, options: .init())
+            
+            request.httpBody = dataBody
+            request.httpMethod = configuration.method.rawValue
+            request.setValue(MIMEType.applicationJSON.value, forHTTPHeaderField: MIMEType.contentType.value)
+            request.addValue(User.identifier.rawValue, forHTTPHeaderField: RequestName.identifier.key)
+            
+            client.requestData(with: request) { result in
+                switch result {
+                case .success(let data):
+                    return
+                case .failure(_):
+                    return
+                }
+            }
+        } catch {
+            completion(.failure(.invalidURL))
+        }
+    }
 }
 
 //MARK: - Product Enrollment
