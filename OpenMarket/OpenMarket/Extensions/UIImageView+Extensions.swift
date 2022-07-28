@@ -43,4 +43,8 @@ extension UIImageView {
             }.resume()
         }
     }
+    func setFrame(at constant: Int) {
+        self.heightAnchor.constraint(equalToConstant: CGFloat(constant)).isActive = true
+        self.widthAnchor.constraint(equalToConstant: CGFloat(constant)).isActive = true
+    }
 }
