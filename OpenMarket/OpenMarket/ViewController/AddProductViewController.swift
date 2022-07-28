@@ -57,7 +57,7 @@ class AddProductViewController: UIViewController {
         guard let param = productView.receiveParam() else { return }
         
         guard param.productName != "", param.price != "", param.description != "", dataSource.count != 1 else {
-            showAlert(title: "상품 등록 불가", message: "필수 항목을 입력해주십시오./n(상품의 이미지, 이름, 가격, 설명)")
+            showAlert(title: "상품 등록 불가", message: "필수 항목을 입력해주십시오.\n(상품의 이미지, 이름, 가격, 설명)")
             return
         }
         
@@ -138,11 +138,26 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
             selectedImage = newImage
         }
 
+        let resizedImage = compressImage(selectedImage)
+            
         dataSource.insert(selectedImage, at: 0)
-        imageParams.append(ImageParam(imageName: "\(dataSource.count - 1)번사진.jpeg", imageData: selectedImage))
-        
+        imageParams.append(ImageParam(imageName: "\(dataSource.count - 1)번사진.jpeg", imageData: resizedImage))
+       
         picker.dismiss(animated: true, completion: nil)
         productView.collectionView.reloadData()
+    }
+    
+    private func compressImage(_ image: UIImage) -> Data {
+        guard var imageDataSize = image.jpegData(compressionQuality: 1.0)?.count else { return Data() }
+        var imageData = Data()
+        var scale = 0.9
+        
+        while imageDataSize >= 300 * 1024 {
+            imageData = image.jpegData(compressionQuality: scale) ?? Data()
+            imageDataSize = imageData.count
+            scale -= 0.1
+        }
+        return imageData
     }
 }
 

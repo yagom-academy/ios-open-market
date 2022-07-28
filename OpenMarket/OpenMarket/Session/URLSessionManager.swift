@@ -69,13 +69,9 @@ final class URLSessionManager {
                 let imageParams = param["images"] as? [ImageParam] ?? []
                 
                 for param in imageParams {
-                    guard let fileData = param.imageData.jpegData(compressionQuality: 0.5) else {
-                        return Data()
-                    }
-                    
                     body.append(contentsOf: "; filename=\"\(param.imageName)\"\r\n".convertData)
                     body.append(contentsOf: "Content-Type: image/\(param.imageType)\r\n\r\n".convertData)
-                    body.append(contentsOf: fileData)
+                    body.append(contentsOf: param.imageData)
                     body.append(contentsOf: "\r\n".convertData)
                 }
             }

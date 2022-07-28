@@ -25,5 +25,5 @@ struct Param {
 struct ImageParam {
     let imageName: String
     let imageType: String = "jpeg"
-    let imageData: UIImage
+    let imageData: Data
 }
