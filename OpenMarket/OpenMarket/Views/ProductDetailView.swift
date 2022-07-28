@@ -1,10 +1,3 @@
-//
-//  ProductDetailView.swift
-//  OpenMarket
-//
-//  Created by LeeChiheon on 2022/07/26.
-//
-
 import UIKit
 
 class ProductDetailView: UIView {

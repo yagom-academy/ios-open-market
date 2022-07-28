@@ -1,10 +1,3 @@
-//
-//  ProductsDetailViewController.swift
-//  OpenMarket
-//
-//  Created by 이은찬 on 2022/07/26.
-//
-
 import UIKit
 
 class ProductsDetailViewController: UIViewController {
@@ -53,10 +46,9 @@ class ProductsDetailViewController: UIViewController {
         let identifier = "d580792d-0335-11ed-9676-8179e204c0cc"
         let secret = "G3qccGq9uC"
         
-        let parameter = Parameters(name: "커피빈", descriptions: "맛있어요", price: 39900, currency: "KRW", secret: secret)
-        guard let image = UIImage(named: "coffeebean") else { return }
+        let parameter = Parameters(name: "스타벅스", descriptions: "맛없어요", price: 100000, currency: .usd, secret: secret)
         
-        ProductsDataManager.shared.postData(identifier: identifier, paramter: parameter, image: image) { (data: Page) in
+        ProductsDataManager.shared.patchData(identifier: identifier, productID: 4029, paramter: parameter) { (data: Page) in
             print(data)
         }
     }

@@ -22,12 +22,12 @@ struct Parameters {
     let name: String
     let descriptions: String
     let price: Int
-    let currency: String
+    let currency: Currency
     let discountedPrice: Int?
     let stock: Int?
     let secret: String
     
-    init(name: String, descriptions: String, price: Int, currency: String, secret: String, discounted_price: Int? = 0, stock: Int? = 0) {
+    init(name: String, descriptions: String, price: Int, currency: Currency, secret: String, discounted_price: Int? = 0, stock: Int? = 0) {
         self.name = name
         self.descriptions = descriptions
         self.price = price
@@ -44,7 +44,7 @@ struct Parameters {
                             "name": "\(name)",
                             "descriptions": "\(descriptions)",
                             "price": \(price),
-                            "currency": "\(currency)",
+                            "currency": "\(currency.rawValue)",
                             "secret": "\(secret)",
                             """)
         
@@ -68,7 +68,7 @@ struct ProductsDataManager: Decodable {
     static let shared = ProductsDataManager()
     private init() {}
     
-    let url = "https://market-training.yagom-academy.kr/api/products"
+    var url = "https://market-training.yagom-academy.kr/api/products"
     
     func getData<T: Decodable>(pageNumber: Int, itemsPerPage: Int, completion: @escaping (T) -> Void) {
         
@@ -114,6 +114,36 @@ struct ProductsDataManager: Decodable {
                 } catch {
                     print(error)
                 }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func patchData<T: Decodable>(identifier: String, productID: Int, paramter: Parameters, completion: @escaping (T) -> Void) {
+        
+        guard let url = URL(string: url + "/\(productID)") else { return }
+        var postRequest = URLRequest(url: url)
+
+        let boundary = generateBoundary()
+
+        postRequest.httpMethod = "PATCH"
+        postRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
+        
+        _ = createDataBody(withParameters: paramter, images: nil, boundary: boundary)
+        
+        postRequest.httpBody = paramter.returnParamatersString().data(using: .utf8)
+        print(paramter.returnParamatersString())
+        
+        let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+
+            if let data = data {
+                guard let parsedData = try? JSONDecoder().decode(Page.self, from: data) else { return }
+                print(parsedData)
             }
         }
         
