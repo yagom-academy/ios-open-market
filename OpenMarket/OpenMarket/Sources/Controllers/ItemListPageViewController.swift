@@ -45,9 +45,8 @@ final class ItemListPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NetworkManager.performRequestToAPI(from: HostAPI.openMarket.url, with: request) { (result: Result<Data, NetworkingError>) in
-            self.fetchParsedData(basedOn: result)
-        }
+        
+        retrieveItemData()
         
         setUpSegmentedControlWithLayout()
         setUpItemCollectionViewWithLayout()
@@ -82,6 +81,16 @@ private extension ItemListPageViewController {
         }
     }
 }
+
+// MARK: - Private Actions for CollectionView DataSource & SnapShot
+
+private extension ItemListPageViewController {
+    func retrieveItemData() {
+        NetworkManager.performRequestToAPI(from: HostAPI.openMarket.url, with: request) { (result: Result<Data, NetworkingError>) in
+            self.fetchParsedData(basedOn: result)
+        }
+    }
+    
     func fetchParsedData(basedOn result: Result<Data, NetworkingError>) {
         switch result {
         case .success(let data):
@@ -92,6 +101,17 @@ private extension ItemListPageViewController {
         case .failure(let error):
             print(error)
         }
+    }
+    
+    func configureCollectionViewDiffableDataSource() {
+        collectionViewDiffableDataSource = .init(collectionView: self.itemCollectionView, cellProvider: { (collectionView, indexPath, itemListPageData) -> UICollectionViewCell? in
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemListCollectionViewCell
+            
+            cell.receiveData(itemListPageData)
+            
+            return cell
+        })
     }
 }
 
@@ -136,22 +156,6 @@ private extension ItemListPageViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
-    }
-}
-
-// MARK: - Private Actions for Collection View Model
-
-private extension ItemListPageViewController {
-    func configureCollectionViewDiffableDataSource() {
-        
-        collectionViewDiffableDataSource = .init(collectionView: self.itemCollectionView, cellProvider: { (collectionView, indexPath, itemListPageData) -> UICollectionViewCell? in
-            
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemListCollectionViewCell
-            
-            cell.receiveData(itemListPageData)
-            
-            return cell
-        })
     }
 }
 
