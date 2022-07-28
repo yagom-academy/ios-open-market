@@ -20,4 +20,8 @@ extension UIViewController {
         self.present(alertController,
                      animated: false)
     }
+    
+    func present(to nextViewController: UIViewController) {
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
 }

@@ -41,9 +41,12 @@ final class MarketProductsView: UIView {
         }
     }
     
+    private var rootViewController: UIViewController?
+    
     init(_ rootViewController: UIViewController) {
         super.init(frame: .null)
         
+        self.rootViewController = rootViewController
         rootViewController.view.backgroundColor = .white
         configureUI(from: rootViewController)
     }
@@ -198,8 +201,8 @@ final class MarketProductsView: UIView {
         rootViewController.navigationItem.titleView = self.segmentedControl
         rootViewController.navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "+",
                                                                                 style: .plain,
-                                                                                target: rootViewController,
-                                                                                action: #selector(addTapped))
+                                                                                target: self,
+                                                                                action: #selector(addButtonTapped(_:)))
         self.segmentedControl.addTarget(self,
                                         action: #selector(didSegmentedControlTapped(_:)),
                                         for: .valueChanged)
@@ -250,8 +253,9 @@ final class MarketProductsView: UIView {
         self.shouldHideListView = segment.selectedSegmentIndex != 0
     }
     
-    @objc private func addTapped() {
-        
+    @objc private func addButtonTapped(_ sender: UIBarButtonItem) {
+        let productEnrollmentViewController = ProductEnrollmentViewController()
+        rootViewController?.present(to: productEnrollmentViewController)
     }
 }
 

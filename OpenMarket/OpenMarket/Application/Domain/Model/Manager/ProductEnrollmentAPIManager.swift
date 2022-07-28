@@ -22,6 +22,7 @@ struct ProductEnrollmentAPIManager: APIProtocol {
             return nil
         }
         
-        configuration = APIConfiguration(method: .post, url: url)
+        configuration = APIConfiguration(method: .post,
+                                         url: url)
     }
 }
