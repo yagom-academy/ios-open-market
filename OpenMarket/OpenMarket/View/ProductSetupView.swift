@@ -61,10 +61,8 @@ class ProductSetupView: UIView {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "상품명"
-        textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        textfield.layer.borderColor = UIColor.lightGray.cgColor
-        textfield.layer.borderWidth = 1
-        textfield.layer.cornerRadius = 2
+        textfield.setupLayer()
+        textfield.addLeftPadding()
         return textfield
     }()
     
@@ -83,11 +81,8 @@ class ProductSetupView: UIView {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "상품가격"
-        textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true // 수정할 것
-        textfield.widthAnchor.constraint(equalToConstant: 260).isActive = true // 수정할 것
-        textfield.layer.borderColor = UIColor.lightGray.cgColor
-        textfield.layer.borderWidth = 1
-        textfield.layer.cornerRadius = 2
+        textfield.setupLayer()
+        textfield.addLeftPadding()
         return textfield
     }()
     
@@ -102,10 +97,8 @@ class ProductSetupView: UIView {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "할인금액"
-        textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        textfield.layer.borderColor = UIColor.lightGray.cgColor
-        textfield.layer.borderWidth = 1
-        textfield.layer.cornerRadius = 2
+        textfield.setupLayer()
+        textfield.addLeftPadding()
         return textfield
     }()
     
@@ -113,10 +106,8 @@ class ProductSetupView: UIView {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "재고수량"
-        textfield.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        textfield.layer.borderColor = UIColor.lightGray.cgColor
-        textfield.layer.borderWidth = 1
-        textfield.layer.cornerRadius = 2
+        textfield.setupLayer()
+        textfield.addLeftPadding()
         return textfield
     }()
     
@@ -182,6 +173,13 @@ class ProductSetupView: UIView {
             horizontalStackView.heightAnchor.constraint(equalTo: horizontalScrollView.heightAnchor),
             horizontalStackView.leadingAnchor.constraint(equalTo: horizontalScrollView.contentLayoutGuide.leadingAnchor),
             horizontalStackView.trailingAnchor.constraint(equalTo: horizontalScrollView.contentLayoutGuide.trailingAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            productNameTextField.heightAnchor.constraint(equalToConstant: 35),
+            productPriceTextField.heightAnchor.constraint(equalToConstant: 35),
+            productPriceTextField.widthAnchor.constraint(equalTo: priceStackView.widthAnchor, multiplier: 0.7),
+            productDiscountedPriceTextField.heightAnchor.constraint(equalToConstant: 35),
+            productStockTextField.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
 }
