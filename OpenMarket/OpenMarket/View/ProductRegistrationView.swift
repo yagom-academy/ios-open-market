@@ -10,6 +10,8 @@ import UIKit
 class ProductRegistrationView: UIView {
     // MARK: - properties
     
+    var delegate: ImagePickerDelegate?
+    
     private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,6 +29,33 @@ class ProductRegistrationView: UIView {
                               borderColor: UIColor.systemGray3.cgColor)
         
         return scrollView
+    }()
+    
+    private let imageStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .trailing
+        stackView.spacing = 4
+        
+        return stackView
+    }()
+    
+    private let pirckerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private let imagePrickerButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(systemName: "plus")
+        button.setImage(image, for: .normal)
+        
+        return button
     }()
     
     private let productInformationStackView: UIStackView = {
@@ -121,6 +150,7 @@ class ProductRegistrationView: UIView {
     private let priceSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
                                                           Currency.usd.rawValue])
+        segmentedControl.selectedSegmentIndex = 0
         
         return segmentedControl
     }()
@@ -138,11 +168,12 @@ class ProductRegistrationView: UIView {
     }
     
     private func commonInit() {
-        self.backgroundColor = .systemBackground
-        self.addSubview(totalStackView)
+        backgroundColor = .systemBackground
+        addSubview(totalStackView)
         setUpSubviews()
-        setUpTotalStackViewConstraints()
         setUpSubViewsHeight()
+        setUpConstraints()
+        imagePrickerButton.addTarget(self, action: #selector(pickImages), for: .touchUpInside)
     }
     
     private func setUpSubviews() {
@@ -152,27 +183,88 @@ class ProductRegistrationView: UIView {
             .forEach { productInformationStackView.addArrangedSubview($0) }
         [productPrice, priceSegmentedControl]
             .forEach { segmentedStackView.addArrangedSubview($0) }
+        
+        imageScrollView.addSubview(imageStackView)
+        
+        pirckerView.addSubview(imagePrickerButton)
     }
     
-    private func setUpTotalStackViewConstraints() {
+    private func setUpConstraints() {
+        NSLayoutConstraint.activate([
+            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor, constant: 8),
+            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: -8),
+            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor, constant: 8),
+            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor, constant: -8)
+        ])
+        
+        NSLayoutConstraint.activate([
+            imagePrickerButton.centerXAnchor.constraint(equalTo: pirckerView.centerXAnchor),
+            imagePrickerButton.centerYAnchor.constraint(equalTo: pirckerView.centerYAnchor)])
+        
+        NSLayoutConstraint.activate([pirckerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor, constant: -16),
+                                     pirckerView.widthAnchor.constraint(equalTo: pirckerView.heightAnchor, multiplier: 1.0)])
         NSLayoutConstraint.activate(
             [totalStackView.topAnchor
-                .constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+                .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
              totalStackView.leadingAnchor
-                .constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+                .constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
              totalStackView.trailingAnchor
-                .constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+                .constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
              totalStackView.bottomAnchor
-                .constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)])
+                .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
     }
     
     private func setUpSubViewsHeight() {
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
-                .constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor,
+                .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
                             multiplier: 0.5),
              productInformationStackView.heightAnchor
                 .constraint(equalTo: productDescriptionTextView.heightAnchor,
                             multiplier: 0.5)])
     }
+    
+    // MARK: - @objc functions
+    
+    @objc private func pickImages() {
+        guard
+            imageStackView.subviews.count < 6 else { return }
+        delegate?.pickImages()
+    }
+}
+
+// MARK: - extensions
+
+extension ProductRegistrationView: UIImagePickerControllerDelegate,
+                                             UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+        else { return }
+
+        let imageView = setUpPickerImageView(image: editedImage)
+
+        imageStackView.insertArrangedSubview(imageView, at: 0)
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func setUpPickerImageView(image: UIImage) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = image
+        
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: pirckerView.frame.width),
+            imageView.heightAnchor.constraint(equalToConstant: pirckerView.frame.height)
+        ])
+        
+        return imageView
+    }
+}
+
+// MARK: - delegate
+
+protocol ImagePickerDelegate {
+    func pickImages()
 }
