@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductRegistrationView: UIView {
+final class ProductRegistrationView: UIView, Requestable {
     // MARK: - properties
     
     private let pickerController = UIImagePickerController()
@@ -42,7 +42,7 @@ class ProductRegistrationView: UIView {
         return stackView
     }()
     
-    private let pirckerView: UIView = {
+    private let pickerView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +87,7 @@ class ProductRegistrationView: UIView {
         
         return textView
     }()
-   
+    
     private let productName: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.productNamePlaceholder
@@ -152,7 +152,7 @@ class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let priceSegmentedControl: UISegmentedControl = {
+    private let currencySegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
                                                           Currency.usd.rawValue])
         segmentedControl.selectedSegmentIndex = .zero
@@ -198,11 +198,11 @@ class ProductRegistrationView: UIView {
             .forEach { totalStackView.addArrangedSubview($0) }
         [productName, segmentedStackView, productDiscountedPrice, stock]
             .forEach { productInformationStackView.addArrangedSubview($0) }
-        [productPrice, priceSegmentedControl]
+        [productPrice, currencySegmentedControl]
             .forEach { segmentedStackView.addArrangedSubview($0) }
         imageScrollView.addSubview(imageStackView)
-        imageStackView.addArrangedSubview(pirckerView)
-        pirckerView.addSubview(imagePrickerButton)
+        imageStackView.addArrangedSubview(pickerView)
+        pickerView.addSubview(imagePrickerButton)
         
     }
     
@@ -228,12 +228,16 @@ class ProductRegistrationView: UIView {
                                                      constant: Design.imageScrollViewTrailingAnchorConstant)
         ])
         
-        NSLayoutConstraint.activate([pirckerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor, constant: Design.imageScrollViewHeightAnchorConstant),
-                                     pirckerView.widthAnchor.constraint(equalTo: pirckerView.heightAnchor, multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
+        NSLayoutConstraint.activate([
+            pickerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor,
+                                               constant: Design.imageScrollViewHeightAnchorConstant),
+            
+            pickerView.widthAnchor.constraint(equalTo: pickerView.heightAnchor,
+                                              multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
         
         NSLayoutConstraint.activate([
-            imagePrickerButton.centerXAnchor.constraint(equalTo: pirckerView.centerXAnchor),
-            imagePrickerButton.centerYAnchor.constraint(equalTo: pirckerView.centerYAnchor)])
+            imagePrickerButton.centerXAnchor.constraint(equalTo: pickerView.centerXAnchor),
+            imagePrickerButton.centerYAnchor.constraint(equalTo: pickerView.centerYAnchor)])
     }
     
     private func setUpSubViewsHeight() {
@@ -245,7 +249,7 @@ class ProductRegistrationView: UIView {
                 .constraint(equalTo: productDescriptionTextView.heightAnchor,
                             multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
     }
-   
+    
     private func setUpUiToolbar() {
         let keyboardToolbar = UIToolbar()
         let doneBarButton = UIBarButtonItem(title: Design.barButtonItemTitle,
@@ -259,10 +263,9 @@ class ProductRegistrationView: UIView {
         keyboardToolbar.tintColor = UIColor.systemGray
         
         productDescriptionTextView.inputAccessoryView = keyboardToolbar
-        
     }
     
-    func postProduct() {
+    func register() {
         guard let productName = productName.text,
               let priceText = productPrice.text,
               let priceValue = Double(priceText),
@@ -270,10 +273,10 @@ class ProductRegistrationView: UIView {
               let stock = Int(stockText)
         else { return }
         
-        let images = convertImages()
+        let images = convertImages(view: imageStackView)
         guard !images.isEmpty else { return }
         
-        let currency = priceSegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
+        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
         let product = RegistrationProduct(name: productName,
                                           descriptions: productDescriptionTextView.text,
                                           price: priceValue,
@@ -281,38 +284,7 @@ class ProductRegistrationView: UIView {
                                           discountedPrice: Double(productDiscountedPrice.text ?? "0"),
                                           stock: stock,
                                           secret: "R49CfVhSdh")
-        guard let productData = try? JSONEncoder().encode(product) else { return }
-        
-        let boundary = "Boundary-\(UUID().uuidString)"
-        let postData = OpenMarketRequest(body: ["params" : [productData],
-                                                "images": images],
-                                         boundary: boundary,
-                                         method: .post,
-                                         baseURL: URLHost.openMarket.url + URLAdditionalPath.product.value,
-                                         headers: ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
-                                                   "Content-Type": "multipart/form-data; boundary=\(boundary)"])
-        let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: postData) { (result: Result<Data, Error>) in
-            switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let error):
-                print(error)
-                break
-            }
-        }
-    }
-    
-    private func convertImages() -> [Data] {
-        var images = [Data]()
-        let _ = imageStackView.subviews
-            .filter { $0 != pirckerView }
-            .forEach { guard let imageView = $0 as? UIImageView,
-                             let image = imageView.image else { return }
-                images.append(image.resize(width: Design.imageResizeWidth).pngData() ?? Data())
-            }
-        
-        return images
+        postProduct(images: images, product: product)
     }
     
     // MARK: - @objc functions
@@ -344,8 +316,8 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         imageView.image = image
         
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: pirckerView.frame.width),
-            imageView.heightAnchor.constraint(equalToConstant: pirckerView.frame.height)
+            imageView.widthAnchor.constraint(equalToConstant: pickerView.frame.width),
+            imageView.heightAnchor.constraint(equalToConstant: pickerView.frame.height)
         ])
         
         return imageView
@@ -363,27 +335,6 @@ extension ProductRegistrationView: UITextViewDelegate, UITextFieldDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
-    }
-}
-
-extension UIImage {
-    func resize(width: CGFloat) -> UIImage {
-        let scale = width / self.size.width
-        let newHeight = self.size.height * scale
-        
-        let size = CGSize(width: width, height: newHeight)
-        let render = UIGraphicsImageRenderer(size: size)
-        var renderImage = render.image { context in
-            self.draw(in: CGRect(origin: .zero, size: size))
-        }
-        
-        let imgData = NSData(data: renderImage.pngData()!)
-        let imageSize = Double(imgData.count) / Design.devideImageDataCountByThousand
-        
-        if imageSize > Design.imageDataCountConstraint {
-            renderImage = resize(width: width - Design.renderImageResizeNumber)
-        }
-        return renderImage
     }
 }
 
