@@ -28,6 +28,7 @@ final class AddProductView: UIView {
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품명"
         textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.keyboardType = .default
         textField.adjustsFontForContentSizeCategory = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -38,6 +39,7 @@ final class AddProductView: UIView {
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품가격"
         textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.keyboardType = .numberPad
         textField.adjustsFontForContentSizeCategory = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -48,6 +50,7 @@ final class AddProductView: UIView {
         textField.borderStyle = .roundedRect
         textField.placeholder = "할인금액"
         textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.keyboardType = .numberPad
         textField.adjustsFontForContentSizeCategory = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -58,6 +61,7 @@ final class AddProductView: UIView {
         textField.borderStyle = .roundedRect
         textField.placeholder = "재고수량"
         textField.font = .preferredFont(forTextStyle: .caption1)
+        textField.keyboardType = .numberPad
         textField.adjustsFontForContentSizeCategory = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -126,12 +130,14 @@ final class AddProductView: UIView {
             entireStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             entireStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             entireStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 8),
-            entireStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -8),
             
             collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2),
             segmentedControl.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.3),
             infoStackView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2)
         ])
+        let stackBottomConstraint = entireStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -8)
+            stackBottomConstraint.priority = .defaultHigh
+            stackBottomConstraint.isActive = true
     }
     
     func createParam() -> Param? {

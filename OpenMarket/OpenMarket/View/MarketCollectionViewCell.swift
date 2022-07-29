@@ -23,6 +23,7 @@ class MarketCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .systemRed
+        label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 2
         return label
     }()

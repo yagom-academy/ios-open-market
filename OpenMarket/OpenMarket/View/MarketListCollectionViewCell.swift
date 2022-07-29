@@ -45,7 +45,7 @@ final class MarketListCollectionViewCell: MarketCollectionViewCell {
 
     private let entireStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.distribution = .fill
@@ -71,12 +71,11 @@ final class MarketListCollectionViewCell: MarketCollectionViewCell {
         contentView.addSubview(entireStackView)
         
         NSLayoutConstraint.activate([
-            entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             entireStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             entireStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             
-            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1),
             
             accessaryImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
