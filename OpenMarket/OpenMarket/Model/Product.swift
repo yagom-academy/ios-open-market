@@ -13,9 +13,9 @@ struct Product: Decodable {
     let name: String
     let thumbnail: String
     let currency: String
-    let price: Int
-    let bargainPrice: Int
-    let discountedPrice: Int
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let createdAt: String
     let issuedAt: String
@@ -35,4 +35,10 @@ extension Product {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
+}
+
+struct ImageFile {
+    let key: String
+    let src: Data
+    let type: String
 }

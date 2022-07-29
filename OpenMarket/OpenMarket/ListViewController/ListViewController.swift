@@ -59,6 +59,7 @@ final class ListViewController: UIViewController {
         self.URLSemaphore.wait()
         self.productCollectionView.reloadData()
     }
+ 
     
     func uploadData() {
         let parameters = ["name": "Test Brad", "price":15000, "stock": 1000, "currency": "KRW", "secret": "your_secret_here", "descriptions": "description here"] as [String : Any]
@@ -72,7 +73,7 @@ final class ListViewController: UIViewController {
         request.addValue("multipart/form-data; boundary\(boundary)",
                          forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: []) else { return }
-        
+
         request.httpBody = httpBody
 
         let session = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -94,17 +95,6 @@ final class ListViewController: UIViewController {
         session.resume()
     }
     
-    func createBody(paramaeters: [String: Any], boundary: String) -> Data {
-      var body = Data()
-      let boundaryPrefix = "--\(boundary)\r\n"
-      for (key, value) in paramaeters {
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
-        body.append("\(value)\r\n".data(using: .utf8)!)
-      }
-      body.append(boundaryPrefix.data(using: .utf8)!)
-      return body
-    }
 }
 
 extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
