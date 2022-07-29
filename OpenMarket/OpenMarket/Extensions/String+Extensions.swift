@@ -14,4 +14,12 @@ extension String {
         
         return attributeString
     }
+    
+    func convertToInt() -> Int {
+        guard let convertedString = Int(self) else {
+            return 0
+        }
+        
+        return convertedString
+    }
 }

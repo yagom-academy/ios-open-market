@@ -162,14 +162,18 @@ final class ProductEnrollmentViewController: UIViewController {
         return textView
     }()
     
+    private let productEnrollmentAPIManager = ProductEnrollmentAPIManager()
+    private var productImages: [ProductImage] = []
+    
+    // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        self.productImagePicker.delegate = self
-        
         configureDefaultUI()
     }
+
+    // MARK: - UI
     
     private func configureDefaultUI() {
         configureNavigationItems()
@@ -267,12 +271,50 @@ final class ProductEnrollmentViewController: UIViewController {
         return imageView
     }
     
+    private func register() {
+        let currency = currencySegmentedControl.selectedSegmentIndex == 0 ? Currency.krw : Currency.usd
+        
+        guard let productNameText = productNameTextField.text,
+              let productDescriptionText = productDescriptionTextView.text,
+              let originalPrice = originalPriceTextField.text?.convertToInt(),
+              let discountedPrice = discountedPriceTextField.text?.convertToInt(),
+              let productStock = productStockTextField.text?.convertToInt(),
+              originalPrice > 0,
+              productImages.count > 0 else {
+            
+            self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            return
+        }
+        
+        let parameter = PostParameter(name: productNameText,
+                                      descriptions: productDescriptionText,
+                                      price: originalPrice,
+                                      currency: currency,
+                                      discounted_price: discountedPrice,
+                                      stock: productStock,
+                                      secret: User.secret.rawValue)
+        
+        let productInfo = EnrollProductEntity(parameter: parameter, images: productImages)
+        
+        productEnrollmentAPIManager?.enrollData(postEntity: productInfo) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(_):
+                    self?.presentConfirmAlert(message: AlertMessage.enrollmentSuccess.rawValue)
+                case .failure(_):
+                    self?.presentConfirmAlert(message: AlertMessage.enrollmentFailure.rawValue)
+                }
+            }
+        }
+    }
+    
     @objc private func didTappedCancelButton() {
         dismiss(animated: true)
     }
     
     @objc private func didTappedDoneButton() {
         dismiss(animated: true)
+        register()
     }
     
     @objc private func didTappedImagePickerButton(_ sender: UIButton) {
@@ -291,6 +333,9 @@ extension ProductEnrollmentViewController: UIImagePickerControllerDelegate, UINa
         } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             newImage = possibleImage
         }
+        
+        guard let productImage = ProductImage(withImage: newImage) else { return }
+        productImages.append(productImage)
         
         configureNewImageView(newImage)
         
