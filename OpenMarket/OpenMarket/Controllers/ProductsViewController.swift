@@ -25,6 +25,10 @@ class ProductsViewController: UIViewController {
     
     // MARK: - Life Cycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        refresh()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -99,7 +103,7 @@ extension ProductsViewController {
     private func configureRefreshControl() {
         refreshControl.backgroundColor = .systemGray5
         refreshControl.attributedTitle = NSAttributedString(string: "새로고침")
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         collectionView?.refreshControl = refreshControl
     }
@@ -224,7 +228,7 @@ extension ProductsViewController {
 // MARK: - RefreshControl Method
 
 extension ProductsViewController {
-    @objc private func refresh(_ sender: AnyObject) {
+    @objc private func refresh() {
         snapshot.deleteAllItems()
         productImages.removeAll()
         

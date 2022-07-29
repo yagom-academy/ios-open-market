@@ -29,6 +29,7 @@ class ProductDetailView: UIView {
     let itemNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
+        textField.autocorrectionType = .no
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -116,7 +117,7 @@ class ProductDetailView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.isEditable = true
-        textView.text = "테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트\n테스트"
+        textView.text = "테스트"
         return textView
     }()
     

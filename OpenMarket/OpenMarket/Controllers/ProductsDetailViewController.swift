@@ -5,8 +5,6 @@ class ProductsDetailViewController: UIViewController {
     let imagePicker = UIImagePickerController()
     let imageChangePicker = UIImagePickerController()
     
-    let imageCache = NSCache<NSString, UIImage>()
-    
     var selectedImageView: UIImageView?
     
     let identifier = "d580792d-0335-11ed-9676-8179e204c0cc"
@@ -48,14 +46,6 @@ class ProductsDetailViewController: UIViewController {
         
         addNavigationBarButton()
         
-        
-        
-//        let parameter = Parameters(name: "스타벅스", descriptions: "맛없어요", price: 100000, currency: .usd, secret: secret)
-        
-//        ProductsDataManager.shared.patchData(identifier: identifier, productID: 4029, paramter: parameter) { (data: Page) in
-//            print(data)
-//        }
-        
         navigationItem.rightBarButtonItem?.action = #selector(doneButtonDidTapped)
     }
     
@@ -87,9 +77,11 @@ class ProductsDetailViewController: UIViewController {
         
         let parameter = Parameters(name: productName, descriptions: productDesciprtion, price: productPrice, currency: productCurrency, secret: self.secret, discounted_price: productSale, stock: productStock)
         
-        ProductsDataManager.shared.postData(identifier: identifier, paramter: parameter, images: images) { (data: Page) in
+        ProductsDataManager.shared.postData(identifier: identifier, paramter: parameter, images: images) { (data: PostResponse) in
             print(data)
-            self.navigationController?.popViewController(animated: true)
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 
@@ -122,11 +114,7 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
         switch picker {
         case imagePicker:
             guard let detailView = view as? ProductDetailView else { return }
-            guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,
-                  let selectedImageURL = info[UIImagePickerController.InfoKey.imageURL] as? URL else { return }
-            let selectedImageKey = selectedImageURL.lastPathComponent
-            
-            imageCache.setObject(selectedImage, forKey: selectedImageKey as NSString)
+            guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
             
             detailView.addToScrollView(of: selectedImage, viewController: self)
             
@@ -144,8 +132,6 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
         default:
             break
         }
-        
-//        print(imageCache.value(forKey: "allObjects") as? NSArray)
         
         dismiss(animated: true)
     }

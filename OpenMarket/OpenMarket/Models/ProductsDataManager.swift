@@ -102,10 +102,8 @@ struct ProductsDataManager: Decodable {
             convertedImages.append(convertedImage)
         }
         
-//        guard let imageInfo = Image(withImage: image) else { return }
         let dataBody = createDataBody(withParameters: paramter, images: convertedImages, boundary: boundary)
-        
-//        print(String(decoding: dataBody, as: UTF8.self))
+
         postRequest.httpBody = dataBody
 
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
@@ -114,13 +112,9 @@ struct ProductsDataManager: Decodable {
             }
 
             if let data = data {
-                print(data)
                 do {
-//                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    let decodedData = try JSONDecoder().decode(PostResponse.self, from: data)
-                    
-                    guard let t = decodedData as? T else { return }
-                    completion(t)
+                    let decodedData = try JSONDecoder().decode(T.self, from: data)
+                    completion(decodedData)
                 } catch {
                     print(error)
                 }
