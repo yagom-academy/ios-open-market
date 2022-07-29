@@ -101,7 +101,9 @@ class AddProductViewController: UIViewController {
         sessionManager.postData(dataElement: dataElement) { result in
             switch result {
             case .success(_):
-                self.navigationController?.popViewController(animated: true)
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
             case .failure(let error):
                 print(error)
                 DispatchQueue.main.async {
