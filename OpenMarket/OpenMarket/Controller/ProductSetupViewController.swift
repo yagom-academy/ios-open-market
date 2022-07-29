@@ -12,13 +12,30 @@ class ProductSetupViewController: UIViewController {
     private let manager = NetworkManager.shared
     private var productSetupView: ProductSetupView?
     private var imagePicker = UIImagePickerController()
+    var productId: Int?
+    var viewControllerTitle: String? 
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        navigationItem.title = self.viewControllerTitle
         productSetupView = ProductSetupView(self)
         setupKeyboard()
         setupPickerViewController()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let productId = productId else {
+            productSetupView?.horizontalStackView.addArrangedSubview(productSetupView?.addImageButton ?? UIButton())
+            return // 등록인 경우
+        }
+        manager.requestProductDetail(at: productId) { detail in
+            DispatchQueue.main.async { [weak self] in
+                self?.updateSetup(with: detail)
+            }
+        }
+    }
+    // MARK: - @objc method
     @objc func keyboardWillAppear(_ sender: Notification) {
         print("keyboard up")
     }
@@ -44,6 +61,14 @@ class ProductSetupViewController: UIViewController {
         }
     }
     
+    @objc func pickImage() {
+        if productSetupView?.horizontalStackView.subviews.count == 6 {
+            showAlert(title: "추가할 수 없습니다", message: "5장 이상은 추가 할 수 없습니다.")
+            return
+        }
+        self.present(imagePicker, animated: true)
+    }
+    // MARK: - ProductSetupVC - Private method
     private func createProductRegistration() -> ProductRegistration? {
         guard let productSetupView = productSetupView,
               let productName = productSetupView.productNameTextField.text,
@@ -96,15 +121,21 @@ class ProductSetupViewController: UIViewController {
         productSetupView?.addImageButton.addTarget(self, action: #selector(pickImage), for: .touchUpInside)
     }
     
-    @objc func pickImage() {
-        if productSetupView?.horizontalStackView.subviews.count == 6 {
-            showAlert(title: "추가할 수 없습니다", message: "5장 이상은 추가 할 수 없습니다.")
-            return
+    private func updateSetup(with detail: ProductDetail) {
+        detail.images.forEach { image in
+            let imageView = PickerImageView(frame: CGRect())
+            imageView.setImageUrl(image.url)
+            productSetupView?.horizontalStackView.addArrangedSubview(imageView)
         }
-        self.present(imagePicker, animated: true)
+        productSetupView?.productNameTextField.text = detail.name
+        productSetupView?.productPriceTextField.text = String(detail.price)
+        productSetupView?.productDiscountedPriceTextField.text = String(detail.discountedPrice)
+        productSetupView?.productStockTextField.text = String(detail.stock)
+        productSetupView?.descriptionTextView.text = detail.description
+        productSetupView?.currencySegmentControl.selectedSegmentIndex = detail.currency == Currency.krw.rawValue ? 0 : 1
     }
     
-    func showAlert(title: String, message: String, _ completion: (() -> Void)? = nil) {
+    private func showAlert(title: String, message: String, _ completion: (() -> Void)? = nil) {
         let failureAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
             guard let completion = completion else { return }
@@ -113,6 +144,7 @@ class ProductSetupViewController: UIViewController {
         failureAlert.addAction(confirmAction)
         present(failureAlert, animated: true)
     }
+    
 }
 
 extension ProductSetupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

@@ -32,6 +32,18 @@ class NetworkManager {
         }
         dataTask.resume()
     }
+    // MARK: - GET 상품 상세 조회
+    func requestProductDetail(at id: Int, _ completion: @escaping (ProductDetail) -> Void ) {
+        guard let url = URLComponents(string: URLData.host + URLData.apiPath + "/\(id)")?.url else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = HttpMethod.GET.rawValue
+        let dataTask = createDataTask(request: request, type: ProductDetail.self) { detail in
+            completion(detail)
+        }
+        dataTask.resume()
+    }
     // MARK: - POST 상품 등록
     func requestProductRegistration(with registration: ProductRegistration, images: [UIImage] ,_ completion: @escaping (ProductDetail) -> Void) {
         guard let url = URL(string: URLData.host + URLData.apiPath) else {

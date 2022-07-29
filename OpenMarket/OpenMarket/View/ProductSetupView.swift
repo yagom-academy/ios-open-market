@@ -38,7 +38,7 @@ class ProductSetupView: UIView {
     
     lazy var horizontalStackView: UIStackView = {
         var stackview = UIStackView()
-        stackview.addArrangedSubview(addImageButton)
+        //stackview.addArrangedSubview(addImageButton)
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .horizontal
         stackview.distribution = .fill

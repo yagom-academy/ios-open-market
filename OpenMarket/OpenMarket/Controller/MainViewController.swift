@@ -114,7 +114,9 @@ class MainViewController: UIViewController {
     
     @objc private func addButtonDidTapped() {
         print("add button tapped")
-        navigationController?.pushViewController(ProductSetupViewController(), animated: true)
+        let prodcutDetailVC = ProductSetupViewController()
+        prodcutDetailVC.viewControllerTitle = "상품 등록"
+        navigationController?.pushViewController(prodcutDetailVC, animated: true)
         // REST API TEST CODE - start
 //        let id = 3994
 //        let modificationData = ModificationData(id: id,
@@ -232,7 +234,11 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        print(productLists[indexPath.row].id)
+        let prodcutDetailVC = ProductSetupViewController()
+        prodcutDetailVC.productId = productLists[indexPath.row].id
+        prodcutDetailVC.viewControllerTitle = "상품 수정"
+        print("\(productLists[indexPath.row].id) - \(productLists[indexPath.row].name) is tapped")
+        navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
 }
 
