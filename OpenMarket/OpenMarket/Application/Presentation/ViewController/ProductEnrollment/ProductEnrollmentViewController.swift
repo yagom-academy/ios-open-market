@@ -164,6 +164,7 @@ final class ProductEnrollmentViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.text = "내용"
+        textView.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return textView
     }()
@@ -188,12 +189,18 @@ final class ProductEnrollmentViewController: UIViewController {
         configureRootStackView()
         configureTextFieldStackView()
         configureImageAndPickerScrollView()
+        registerNotificationForKeyboard()
+    }
+    
     private func connectDelegate() {
+        self.productImagePicker.delegate = self
+        
         self.productNameTextField.delegate = self
         self.originalPriceTextField.delegate = self
         self.discountedPriceTextField.delegate = self
         self.productStockTextField.delegate = self
         
+        self.productDescriptionTextView.delegate = self
     }
     
     private func configureNavigationItems() {
@@ -228,7 +235,9 @@ final class ProductEnrollmentViewController: UIViewController {
             rootStackView.leadingAnchor.constraint(equalTo: rootScrollView.leadingAnchor),
             rootStackView.trailingAnchor.constraint(equalTo: rootScrollView.trailingAnchor),
             rootStackView.bottomAnchor.constraint(equalTo: rootScrollView.bottomAnchor),
-            rootStackView.widthAnchor.constraint(equalTo: rootScrollView.widthAnchor)
+            rootStackView.widthAnchor.constraint(equalTo: rootScrollView.widthAnchor),
+            
+            productDescriptionTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -261,6 +270,19 @@ final class ProductEnrollmentViewController: UIViewController {
             
             plusImageButton.widthAnchor.constraint(equalTo: plusImageButton.heightAnchor)
         ])
+    }
+    
+    func registerNotificationForKeyboard() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
     
     private func configureNewImageView(_ image: UIImage) {
@@ -317,12 +339,35 @@ final class ProductEnrollmentViewController: UIViewController {
         }
     }
     
+    // MARK: - Action
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+
+        let contentInset = UIEdgeInsets(
+            top: 0.0,
+            left: 0.0,
+            bottom: keyboardFrame.size.height,
+            right: 0.0)
+        
+        rootScrollView.contentInset = contentInset
+        rootScrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        rootScrollView.contentInset = contentInset
+        rootScrollView.scrollIndicatorInsets = contentInset
+    }
+    
     @objc private func didTappedCancelButton() {
         dismiss(animated: true)
     }
     
     @objc private func didTappedDoneButton() {
-        dismiss(animated: true)
         register()
     }
     
@@ -418,5 +463,18 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
         default:
             break
         }
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension ProductEnrollmentViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView.text.count >= 1000 {
+            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            return false
+        }
+        
+        return true
     }
 }
