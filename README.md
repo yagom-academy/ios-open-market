@@ -184,3 +184,8 @@ flowLayout을 추가하여 CollectionView의 각 높이를 조절하였습니다
 ```swift
 let jsonData = try JSONSerialization.data(withJSONObject: parameterDictionary, options: [])
 ```
+
+---
+
+#### 갑자기 DecodingError가 발생하여 Decoding이 안되는 문제 
+> 어떤 문제 때문인지 인지하는 것에도 시간이 꽤 걸릴 정도로 되던 것에서 문제가 발생하여 당황스러웠습니다. 문제는 `Double` 타입의 데이터가 저희가 구현한 이래로 처음 발생된 것이었습니다. `Double`로 들어오는 데이터의 모델 타입을 `Double`로 변경하여 문제를 해결하였습니다.
