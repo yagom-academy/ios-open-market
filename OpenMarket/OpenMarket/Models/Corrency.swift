@@ -1,8 +1,8 @@
-enum Currency: Int, Decodable {
+enum Currency: Int, Decodable, CaseIterable {
     case krw
     case usd
     
     static var toString: [String] {
-        Titles.allCases.map { String(describing: $0).uppercased() }
+        Currency.allCases.map { String(describing: $0).uppercased() }
     }
 }

@@ -18,47 +18,29 @@ struct ImageInfo {
 
 struct Parameters {
     static let key: String = "params"
+    var parameterDictionary: [String: Any] = [:]
     
-    let name: String
-    let descriptions: String
-    let price: Int
-    let currency: Currency
-    let discountedPrice: Int?
-    let stock: Int?
-    let secret: String
-    
-    init(name: String, descriptions: String, price: Int, currency: Currency, secret: String, discounted_price: Int? = 0, stock: Int? = 0) {
-        self.name = name
-        self.descriptions = descriptions
-        self.price = price
-        self.currency = currency
-        self.discountedPrice = discounted_price
-        self.stock = stock
-        self.secret = secret
+    init(name: String, descriptions: String, price: Int, currency: Currency, secret: String, discountedPrice: Int? = 0, stock: Int? = 0) {
+        
+        self.parameterDictionary["name"] = name
+        self.parameterDictionary["descriptions"] = descriptions
+        self.parameterDictionary["price"] = price
+        self.parameterDictionary["currency"] = Currency.toString[currency.rawValue]
+        self.parameterDictionary["discountedPrice"] = discountedPrice
+        self.parameterDictionary["stock"] = stock
+        self.parameterDictionary["secret"] = secret
     }
     
-    func returnParamatersString() -> String {
-        var returnString = String()
-        returnString.append("{\n")
-        returnString.append("""
-                            "name": "\(name)",
-                            "descriptions": "\(descriptions)",
-                            "price": \(price),
-                            "currency": "\(currency.rawValue)",
-                            "secret": "\(secret)",
-                            """)
-        
-        if let discountedPrice = discountedPrice {
-            returnString.append("\n\"discounted_price\": \(discountedPrice),")
+    func returnParamatersToJsonData() -> Data? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: parameterDictionary, options: [])
+            let decoded = String(data: jsonData, encoding: .utf8)!
+            print(decoded)
+            return jsonData
+        } catch {
+            print(error)
+            return nil
         }
-        
-        if let stock = stock {
-            returnString.append("\n\"stock\": \(stock)")
-        }
-        
-        returnString.append("\n}")
-                        
-        return returnString
     }
 }
 
@@ -129,16 +111,10 @@ struct ProductsDataManager: Decodable {
         guard let url = URL(string: url + "/\(productID)") else { return }
         var postRequest = URLRequest(url: url)
 
-        let boundary = generateBoundary()
-
         postRequest.httpMethod = "PATCH"
         postRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
-        
-        _ = createDataBody(withParameters: paramter, images: nil, boundary: boundary)
-        
-        postRequest.httpBody = paramter.returnParamatersString().data(using: .utf8)
-        print(paramter.returnParamatersString())
+        postRequest.httpBody = paramter.returnParamatersToJsonData()
         
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
             if let response = response {
@@ -150,7 +126,6 @@ struct ProductsDataManager: Decodable {
                 print(parsedData)
             }
         }
-        
         task.resume()
     }
     
@@ -217,7 +192,8 @@ func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, bou
     // parameter 넣기
     body.append("--\(boundary + lineBreak)")
     body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
-    body.append("\(params.returnParamatersString() + lineBreak)")
+    body.append(params.returnParamatersToJsonData())
+    body.append("\(lineBreak)")
 
     // image 넣기
     if let images = images {
@@ -240,6 +216,12 @@ func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, bou
 extension Data {
     mutating func append(_ string: String) {
         if let data = string.data(using: .utf8) {
+            self.append(data)
+        }
+    }
+    
+    mutating func append(_ data: Data?) {
+        if let data = data {
             self.append(data)
         }
     }

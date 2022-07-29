@@ -119,7 +119,7 @@ extension ProductsDetailViewController {
             images.append(image)
         }
         
-        let parameter = Parameters(name: productName, descriptions: productDesciprtion, price: productPrice, currency: productCurrency, secret: UserInfo.secret.rawValue, discounted_price: productSale, stock: productStock)
+        let parameter = Parameters(name: productName, descriptions: productDesciprtion, price: productPrice, currency: productCurrency, secret: UserInfo.secret.rawValue, discountedPrice: productSale, stock: productStock)
         
         ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue, paramter: parameter, images: images) { (data: PostResponse) in
             DispatchQueue.main.async {
