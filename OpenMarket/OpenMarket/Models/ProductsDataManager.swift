@@ -114,13 +114,13 @@ struct ProductsDataManager: Decodable {
             if let data = data {
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
+                    print(decodedData)
                     completion(decodedData)
                 } catch {
                     print(error)
                 }
             }
         }
-        
         task.resume()
     }
     
@@ -202,11 +202,13 @@ struct ProductsDataManager: Decodable {
 }
 
 // MARK: - generateBoundary
+
 func generateBoundary() -> String {
     return "Boundary-\(UUID().uuidString)"
 }
 
 // MARK: - createDataBody
+
 func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, boundary: String) -> Data {
 
     let lineBreak = "\r\n"

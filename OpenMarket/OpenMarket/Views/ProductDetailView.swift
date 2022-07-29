@@ -94,7 +94,7 @@ class ProductDetailView: UIView {
         return textField
     }()
     
-    let button: UIButton = {
+    let rightBarPlusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -125,7 +125,6 @@ class ProductDetailView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addViews()
         configureLayoutContraints()
     }
@@ -142,7 +141,20 @@ class ProductDetailView: UIView {
         
         imageStackView.insertArrangedSubview(newImageView, at: imageStackView.arrangedSubviews.count - 1)
     }
+    
+    func configureDelegate(viewController: UITextFieldDelegate & UITextViewDelegate) {
+        itemNameTextField.delegate = viewController
+        itemPriceTextField.delegate = viewController
+        itemSaleTextField.delegate = viewController
+        itemStockTextField.delegate = viewController
+        
+        mainScrollView.keyboardDismissMode = .interactive
+        
+        descriptionTextView.delegate = viewController
+    }
 }
+
+// MARK: - UIView Functions
 
 extension ProductDetailView {
     private func addViews() {
@@ -154,7 +166,7 @@ extension ProductDetailView {
         
         itemImageScrollView.addSubview(imageStackView)
         
-        imageStackView.addArrangedSubview(button)
+        imageStackView.addArrangedSubview(rightBarPlusButton)
         
         textFieldStackView.addArrangedSubview(itemNameTextField)
         textFieldStackView.addArrangedSubview(currencyStackView)
@@ -166,7 +178,6 @@ extension ProductDetailView {
     }
     
     private func configureLayoutContraints() {
-        
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
@@ -189,7 +200,7 @@ extension ProductDetailView {
         ])
         
         NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalTo: button.heightAnchor)
+            rightBarPlusButton.widthAnchor.constraint(equalTo: rightBarPlusButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -207,6 +218,5 @@ extension ProductDetailView {
             descriptionTextView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
             descriptionTextView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
         ])
-        
     }
 }

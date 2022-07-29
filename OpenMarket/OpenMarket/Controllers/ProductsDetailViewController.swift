@@ -7,9 +7,8 @@ class ProductsDetailViewController: UIViewController {
     
     var selectedImageView: UIImageView?
     
-    let identifier = "d580792d-0335-11ed-9676-8179e204c0cc"
-    let secret = "G3qccGq9uC"
-    
+    // MARK: - Life Cycle
+
     override func loadView() {
         view = ProductDetailView()
         view.backgroundColor = .systemBackground
@@ -18,9 +17,25 @@ class ProductsDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavigationBar()
+        
+        configureImagePicker()
+        
+        guard let detailView = view as? ProductDetailView else { return }
+        
+        detailView.configureDelegate(viewController: self)
+        
+        addNavigationBarButton()
+       
+        addTargetAction()        
+    }
+    
+    private func configureNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
         title = "상품등록"
-        
+    }
+    
+    private func configureImagePicker() {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .photoLibrary
@@ -28,78 +43,19 @@ class ProductsDetailViewController: UIViewController {
         imageChangePicker.delegate = self
         imageChangePicker.allowsEditing = true
         imageChangePicker.sourceType = .photoLibrary
-        
+    }
+    
+    private func addTargetAction() {
         guard let detailView = view as? ProductDetailView else { return }
-        detailView.button.addTarget(self, action: #selector(addButtonDidTapped), for: .touchUpInside)
-        
-        detailView.itemNameTextField.delegate = self
-        detailView.itemPriceTextField.delegate = self
-        detailView.itemSaleTextField.delegate = self
-        detailView.itemStockTextField.delegate = self
-        
-        detailView.mainScrollView.keyboardDismissMode = .interactive
-        
-        detailView.descriptionTextView.delegate = self
+        detailView.rightBarPlusButton.addTarget(self, action: #selector(addButtonDidTapped), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         detailView.mainScrollView.addGestureRecognizer(tap)
         
-        addNavigationBarButton()
-        
         navigationItem.rightBarButtonItem?.action = #selector(doneButtonDidTapped)
     }
     
-    @objc func doneButtonDidTapped() {
-        print("done 버튼 눌림")
-        
-        guard let detailView = view as? ProductDetailView else { return }
-        
-        var imageViews = detailView.imageStackView.arrangedSubviews
-        
-        guard let productName = detailView.itemNameTextField.text,
-              let productPrice = Int(detailView.itemPriceTextField.text ?? "0"),
-              let productSale = Int(detailView.itemSaleTextField.text ?? "0"),
-              let productStock = Int(detailView.itemStockTextField.text ?? "0"),
-              let productDesciprtion = detailView.descriptionTextView.text,
-              let productCurrency = Currency(rawValue: detailView.currencySegmentControl.selectedSegmentIndex) else { return }
-        
-        
-        if imageViews.last is UIButton {
-            imageViews.removeLast()
-        }
-        
-        var images: [UIImage] = []
-        imageViews.forEach {
-            guard let imageView = $0 as? UIImageView,
-                  let image = imageView.image else { return }
-            images.append(image)
-        }
-        
-        let parameter = Parameters(name: productName, descriptions: productDesciprtion, price: productPrice, currency: productCurrency, secret: self.secret, discounted_price: productSale, stock: productStock)
-        
-        ProductsDataManager.shared.postData(identifier: identifier, paramter: parameter, images: images) { (data: PostResponse) in
-            print(data)
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
-    }
-
-    @objc func endEditing() {
-        view.endEditing(true)
-    }
-    
-    @objc func addButtonDidTapped() {
-        present(imagePicker, animated: true)
-    }
-    
-    @objc func changeImageButtonTapped(_ sender: UITapGestureRecognizer) {
-        selectedImageView = sender.view as? UIImageView
-        
-        present(imageChangePicker, animated: true)
-    }
-    
-    func addNavigationBarButton() {
+    private func addNavigationBarButton() {
         navigationController?.navigationBar.topItem?.title = "Cancel"
         navigationController?.navigationBar.backIndicatorImage = UIImage()
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage()
@@ -108,9 +64,10 @@ class ProductsDetailViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePicker & UINavigation ControllerDelegate Function
+
 extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         switch picker {
         case imagePicker:
             guard let detailView = view as? ProductDetailView else { return }
@@ -124,7 +81,7 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
             firstImageView.addGestureRecognizer(tap)
             
             if detailView.imageStackView.arrangedSubviews.count == 6 {
-                detailView.button.removeFromSuperview()
+                detailView.rightBarPlusButton.removeFromSuperview()
             }
         case imageChangePicker:
             guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
@@ -132,10 +89,61 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
         default:
             break
         }
-        
         dismiss(animated: true)
     }
 }
+
+// MARK: - @objc Functions
+
+extension ProductsDetailViewController {
+    @objc private func doneButtonDidTapped() {
+        guard let detailView = view as? ProductDetailView else { return }
+        
+        var imageViews = detailView.imageStackView.arrangedSubviews
+        
+        guard let productName = detailView.itemNameTextField.text,
+              let productPrice = Int(detailView.itemPriceTextField.text ?? "0"),
+              let productSale = Int(detailView.itemSaleTextField.text ?? "0"),
+              let productStock = Int(detailView.itemStockTextField.text ?? "0"),
+              let productDesciprtion = detailView.descriptionTextView.text,
+              let productCurrency = Currency(rawValue: detailView.currencySegmentControl.selectedSegmentIndex) else { return }
+        
+        if imageViews.last is UIButton {
+            imageViews.removeLast()
+        }
+        
+        var images: [UIImage] = []
+        imageViews.forEach {
+            guard let imageView = $0 as? UIImageView,
+                  let image = imageView.image else { return }
+            images.append(image)
+        }
+        
+        let parameter = Parameters(name: productName, descriptions: productDesciprtion, price: productPrice, currency: productCurrency, secret: UserInfo.secret.rawValue, discounted_price: productSale, stock: productStock)
+        
+        ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue, paramter: parameter, images: images) { (data: PostResponse) in
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+
+    @objc private func endEditing() {
+        view.endEditing(true)
+    }
+    
+    @objc private func addButtonDidTapped() {
+        present(imagePicker, animated: true)
+    }
+    
+    @objc private func changeImageButtonTapped(_ sender: UITapGestureRecognizer) {
+        selectedImageView = sender.view as? UIImageView
+        
+        present(imageChangePicker, animated: true)
+    }
+}
+
+// MARK: - UITextFieldDelegate Functions
 
 extension ProductsDetailViewController: UITextFieldDelegate {
     private func textFieldshouldBeginEditing(_ textField: UITextField) {
@@ -146,6 +154,8 @@ extension ProductsDetailViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
     }
 }
+
+// MARK: - UITextViewDelegate Functions
 
 extension ProductsDetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
@@ -158,5 +168,4 @@ extension ProductsDetailViewController: UITextViewDelegate {
             detailView.mainScrollView.setContentOffset(scrollPoint, animated: true)
         }
     }
-    
 }
