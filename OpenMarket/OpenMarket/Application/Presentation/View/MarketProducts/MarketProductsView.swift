@@ -2,7 +2,7 @@
 //  MarketProductsView.swift
 //  OpenMarket
 //
-//  Created by Kay on 2022/07/21.
+//  Created by 데릭, 수꿍.
 //
 
 
@@ -254,7 +254,8 @@ final class MarketProductsView: UIView {
     }
     
     @objc private func addButtonTapped(_ sender: UIBarButtonItem) {
-        let productEnrollmentViewController = ProductEnrollmentViewController()
+        let productEnrollmentViewController = UINavigationController(rootViewController: ProductEnrollmentViewController())
+        productEnrollmentViewController.modalPresentationStyle = .fullScreen
         rootViewController?.present(to: productEnrollmentViewController)
     }
 }

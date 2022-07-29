@@ -22,6 +22,6 @@ extension UIViewController {
     }
     
     func present(to nextViewController: UIViewController) {
-        self.navigationController?.pushViewController(nextViewController, animated: true)
+        self.present(nextViewController, animated: true)
     }
 }
