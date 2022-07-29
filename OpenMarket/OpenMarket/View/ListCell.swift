@@ -137,7 +137,7 @@ final class ListCell: UICollectionViewCell {
         self.productImageView.setContentCompressionResistancePriority(UILayoutPriority(1000), for: .vertical)
     }
     
-    private func setupPriceLabel(currency: Currency, price: Int, bargainPrice: Int) {
+    private func setupPriceLabel(currency: Currency, price: Double, bargainPrice: Double) {
         let upperCurreny = currency.rawValue.uppercased()
         if price == bargainPrice {
             let price = price.adoptDecimalStyle()

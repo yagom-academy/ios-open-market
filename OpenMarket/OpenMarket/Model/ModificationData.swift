@@ -12,8 +12,8 @@ struct ModificationData {
     var name: String? = nil
     var descriptions: String? = nil
     var thumbnailId: String? = nil
-    var price: Int? = nil
+    var price: Double? = nil
     var currency: Currency? = nil
-    var discountedPrice: Int? = nil
+    var discountedPrice: Double? = nil
     var stock: Int? = nil
 }
