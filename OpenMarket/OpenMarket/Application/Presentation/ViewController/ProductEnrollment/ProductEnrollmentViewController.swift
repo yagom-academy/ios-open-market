@@ -8,6 +8,8 @@
 import UIKit
 
 final class ProductEnrollmentViewController: UIViewController {
+    // MARK: - Properties
+
     private let productImagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -91,6 +93,7 @@ final class ProductEnrollmentViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.systemGray2.cgColor
         textField.placeholder = "상품명"
+        textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return textField
     }()
@@ -114,6 +117,7 @@ final class ProductEnrollmentViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "상품가격"
         textField.keyboardType = .numberPad
+        textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return textField
     }()
@@ -137,6 +141,7 @@ final class ProductEnrollmentViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "할인금액"
         textField.keyboardType = .numberPad
+        textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return textField
     }()
@@ -149,6 +154,7 @@ final class ProductEnrollmentViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "재고수량"
         textField.keyboardType = .numberPad
+        textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return textField
     }()
@@ -176,11 +182,18 @@ final class ProductEnrollmentViewController: UIViewController {
     // MARK: - UI
     
     private func configureDefaultUI() {
+        connectDelegate()
         configureNavigationItems()
         configureRootScrollView()
         configureRootStackView()
         configureTextFieldStackView()
         configureImageAndPickerScrollView()
+    private func connectDelegate() {
+        self.productNameTextField.delegate = self
+        self.originalPriceTextField.delegate = self
+        self.discountedPriceTextField.delegate = self
+        self.productStockTextField.delegate = self
+        
     }
     
     private func configureNavigationItems() {
@@ -198,14 +211,10 @@ final class ProductEnrollmentViewController: UIViewController {
         rootScrollView.addSubview(rootStackView)
         
         NSLayoutConstraint.activate([
-            rootScrollView.topAnchor.constraint(equalTo: view.topAnchor,
-                                                constant: 10),
-            rootScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                                    constant: 10),
-            rootScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                     constant: -10),
-            rootScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                                   constant: -10)
+            rootScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            rootScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            rootScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            rootScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -323,6 +332,8 @@ final class ProductEnrollmentViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
+
 extension ProductEnrollmentViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -341,5 +352,71 @@ extension ProductEnrollmentViewController: UIImagePickerControllerDelegate, UINa
         
         picker.dismiss(animated: true,
                        completion: nil)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension ProductEnrollmentViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let char = string.cString(using: String.Encoding.utf8) else {
+            return false
+        }
+        
+        let isBackSpace = strcmp(char, "\\b")
+        if isBackSpace == -92 {
+            return true
+        }
+        
+        return limitTextFieldLength(textField)
+    }
+    
+    private func limitTextFieldLength(_ textField: UITextField) -> Bool {
+        switch textField {
+        case let textField where textField == productNameTextField:
+            if textField.text!.count > 40 {
+                return false
+            }
+        case  let textField where textField == originalPriceTextField:
+            if textField.text!.count > 10 {
+                return false
+            }
+        case  let textField where textField == discountedPriceTextField:
+            if textField.text!.count > 10 {
+                return false
+            }
+        case  let textField where textField == productStockTextField:
+            if textField.text!.count > 10 {
+                return false
+            }
+        default:
+            return true
+        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        switch textField {
+        case productNameTextField:
+            guard let productNameText = productNameTextField.text?.replacingOccurrences(of: " ", with: "") else {
+                return
+            }
+            
+            if productNameText.count == 0 {
+                self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            } else if productNameText.count < 3 {
+                self.presentConfirmAlert(message: AlertMessage.additionalCharacters.rawValue)
+            }
+        case originalPriceTextField:
+            guard let originalPricetext = originalPriceTextField.text else {
+                return
+            }
+            
+            if originalPricetext.count == 0 {
+                self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            }
+        default:
+            break
+        }
     }
 }
