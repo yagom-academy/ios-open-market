@@ -15,7 +15,7 @@ struct ProductEntity: Hashable {
     let thumbnailImage: UIImage
     let name: String
     let currency: String
-    let originalPrice: Int
-    let discountedPrice: Int
+    let originalPrice: Double
+    let discountedPrice: Double
     let stock: Int
 }
