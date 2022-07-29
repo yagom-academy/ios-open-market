@@ -101,7 +101,7 @@ class AddProductViewController: UIViewController {
         sessionManager.postData(dataElement: dataElement) { result in
             switch result {
             case .success(_):
-                print("성공!")
+                self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 print(error)
                 DispatchQueue.main.async {
@@ -109,8 +109,6 @@ class AddProductViewController: UIViewController {
                 }
             }
         }
-        
-        self.navigationController?.popViewController(animated: true)
     }
 }
 
