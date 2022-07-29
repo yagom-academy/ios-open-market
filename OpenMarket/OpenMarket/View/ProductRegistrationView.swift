@@ -17,7 +17,7 @@ class ProductRegistrationView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 5
+        stackView.spacing = Design.stackViewSpacing
         
         return stackView
     }()
@@ -25,8 +25,8 @@ class ProductRegistrationView: UIView {
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.setUpBoder(cornerRadius: 10,
-                              borderWidth: 1.5,
+        scrollView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+                              borderWidth: Design.borderWidth,
                               borderColor: UIColor.systemGray3.cgColor)
         
         return scrollView
@@ -37,7 +37,7 @@ class ProductRegistrationView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .trailing
-        stackView.spacing = 4
+        stackView.spacing = Design.stackViewSpacing
         
         return stackView
     }()
@@ -53,7 +53,7 @@ class ProductRegistrationView: UIView {
     private let imagePrickerButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(systemName: "plus")
+        let image = UIImage(systemName: Design.plusButtonName)
         button.setImage(image, for: .normal)
         
         return button
@@ -64,7 +64,7 @@ class ProductRegistrationView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = 5
+        stackView.spacing = Design.stackViewSpacing
         
         return stackView
     }()
@@ -73,77 +73,81 @@ class ProductRegistrationView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = 5
+        stackView.spacing = Design.stackViewSpacing
         
         return stackView
     }()
     
     private let productDescriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.setUpBoder(cornerRadius: 10,
-                            borderWidth: 1.5,
+        textView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+                            borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         return textView
     }()
-    
+   
     private let productName: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품명"
-        textField.leftView = UIView(frame: CGRect(x: 0,
-                                                  y: 0,
-                                                  width: 5,
+        textField.placeholder = Design.productNamePlaceholder
+        textField.leftView = UIView(frame: CGRect(x: .zero,
+                                                  y: .zero,
+                                                  width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: 10,
-                             borderWidth: 1.5,
+        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+                             borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
+        textField.autocorrectionType = .no
         
         return textField
     }()
     
     private let productPrice: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품가격"
-        textField.leftView = UIView(frame: CGRect(x: 0,
-                                                  y: 0,
-                                                  width: 5,
+        textField.placeholder = Design.productPricePlaceholder
+        textField.leftView = UIView(frame: CGRect(x: .zero,
+                                                  y: .zero,
+                                                  width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: 10,
-                             borderWidth: 1.5,
+        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+                             borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
+        textField.keyboardType = .decimalPad
         
         return textField
     }()
     
     private let productDiscountedPrice: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "할인금액"
-        textField.leftView = UIView(frame: CGRect(x: 0,
-                                                  y: 0,
-                                                  width: 5,
+        textField.placeholder = Design.productDiscountedPricePlaceholder
+        textField.leftView = UIView(frame: CGRect(x: .zero,
+                                                  y: .zero,
+                                                  width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: 10,
-                             borderWidth: 1.5,
+        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+                             borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
+        textField.keyboardType = .decimalPad
         
         return textField
     }()
     
     private let stock: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "재고수량"
-        textField.leftView = UIView(frame: CGRect(x: 0,
-                                                  y: 0,
-                                                  width: 5,
+        textField.placeholder = Design.stockPlaceholder
+        textField.leftView = UIView(frame: CGRect(x: .zero,
+                                                  y: .zero,
+                                                  width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: 10,
-                             borderWidth: 1.5,
+        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+                             borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
+        textField.keyboardType = .numberPad
         
         return textField
     }()
@@ -151,7 +155,7 @@ class ProductRegistrationView: UIView {
     private let priceSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
                                                           Currency.usd.rawValue])
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = .zero
         
         return segmentedControl
     }()
@@ -176,7 +180,17 @@ class ProductRegistrationView: UIView {
         setUpSubviews()
         setUpSubViewsHeight()
         setUpConstraints()
-        imagePrickerButton.addTarget(self, action: #selector(pickImages), for: .touchUpInside)
+        productDescriptionTextView.delegate = self
+        productName.delegate = self
+        productPrice.delegate = self
+        productDiscountedPrice.delegate = self
+        stock.delegate = self
+        setUpUiToolbar()
+        imagePrickerButton.addTarget(self,
+                                     action: #selector(pickImages),
+                                     for: .touchUpInside)
+        addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                    action: #selector(endEditing(_:))))
     }
     
     private func setUpSubviews() {
@@ -189,6 +203,7 @@ class ProductRegistrationView: UIView {
         imageScrollView.addSubview(imageStackView)
         imageStackView.addArrangedSubview(pirckerView)
         pirckerView.addSubview(imagePrickerButton)
+        
     }
     
     private func setUpConstraints() {
@@ -203,14 +218,18 @@ class ProductRegistrationView: UIView {
                 .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
         
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor, constant: 8),
-            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: -8),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor, constant: 8),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor, constant: -8)
+            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
+                                                constant: Design.imageScrollViewTopAnchorConstant),
+            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
+                                                   constant: Design.imageScrollViewBottomAnchorConstant),
+            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
+                                                    constant: Design.imageScrollViewLeadingAnchorConstant),
+            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
+                                                     constant: Design.imageScrollViewTrailingAnchorConstant)
         ])
         
-        NSLayoutConstraint.activate([pirckerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor, constant: -16),
-                                     pirckerView.widthAnchor.constraint(equalTo: pirckerView.heightAnchor, multiplier: 1.0)])
+        NSLayoutConstraint.activate([pirckerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor, constant: Design.imageScrollViewHeightAnchorConstant),
+                                     pirckerView.widthAnchor.constraint(equalTo: pirckerView.heightAnchor, multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
         
         NSLayoutConstraint.activate([
             imagePrickerButton.centerXAnchor.constraint(equalTo: pirckerView.centerXAnchor),
@@ -221,10 +240,26 @@ class ProductRegistrationView: UIView {
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
-                            multiplier: 0.5),
+                            multiplier: Design.safeAreaLayoutGuideHeightAnchorMultiplier),
              productInformationStackView.heightAnchor
                 .constraint(equalTo: productDescriptionTextView.heightAnchor,
-                            multiplier: 0.5)])
+                            multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
+    }
+   
+    private func setUpUiToolbar() {
+        let keyboardToolbar = UIToolbar()
+        let doneBarButton = UIBarButtonItem(title: Design.barButtonItemTitle,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(endEditing(_:)))
+        
+        keyboardToolbar.items = [doneBarButton]
+        keyboardToolbar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        keyboardToolbar.sizeToFit()
+        keyboardToolbar.tintColor = UIColor.systemGray
+        
+        productDescriptionTextView.inputAccessoryView = keyboardToolbar
+        
     }
     
     func postProduct() {
@@ -238,7 +273,7 @@ class ProductRegistrationView: UIView {
         let images = convertImages()
         guard !images.isEmpty else { return }
         
-        let currency = priceSegmentedControl.selectedSegmentIndex == 0 ?  Currency.krw: Currency.usd
+        let currency = priceSegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
         let product = RegistrationProduct(name: productName,
                                           descriptions: productDescriptionTextView.text,
                                           price: priceValue,
@@ -273,11 +308,10 @@ class ProductRegistrationView: UIView {
         let _ = imageStackView.subviews
             .filter { $0 != pirckerView }
             .forEach { guard let imageView = $0 as? UIImageView,
-                             let image = imageView.image
-                else { return }
-                
-                images.append(image.resize(width: 300).pngData() ?? Data())
+                             let image = imageView.image else { return }
+                images.append(image.resize(width: Design.imageResizeWidth).pngData() ?? Data())
             }
+        
         return images
     }
     
@@ -285,7 +319,7 @@ class ProductRegistrationView: UIView {
     
     @objc private func pickImages() {
         guard
-            imageStackView.subviews.count < 6 else { return }
+            imageStackView.subviews.count < Design.imageStackViewSubviewsCount else { return }
         delegate?.pickImages(pikerController: pickerController)
     }
 }
@@ -300,7 +334,7 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         else { return }
         
         let imageView = setUpPickerImageView(image: editedImage)
-        imageStackView.insertArrangedSubview(imageView, at: 0)
+        imageStackView.insertArrangedSubview(imageView, at: .zero)
         self.pickerController.dismiss(animated: true, completion: nil)
     }
     
@@ -316,6 +350,20 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         
         return imageView
     }
+    
+    @objc func endEditing(){
+        resignFirstResponder()
+    }
+}
+
+extension ProductRegistrationView: UITextViewDelegate, UITextFieldDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        frame.origin.y = -productDescriptionTextView.frame.height * 1.2
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        frame.origin.y = .zero
+    }
 }
 
 extension UIImage {
@@ -330,10 +378,10 @@ extension UIImage {
         }
         
         let imgData = NSData(data: renderImage.pngData()!)
-        let imageSize = Double(imgData.count) / 1000
+        let imageSize = Double(imgData.count) / Design.devideImageDataCountByThousand
         
-        if imageSize > 300 {
-            renderImage = resize(width: width - 5)
+        if imageSize > Design.imageDataCountConstraint {
+            renderImage = resize(width: width - Design.renderImageResizeNumber)
         }
         return renderImage
     }
@@ -343,4 +391,32 @@ extension UIImage {
 
 protocol ImagePickerDelegate {
     func pickImages(pikerController: UIImagePickerController)
+}
+
+// MARK: - Design
+
+private enum Design {
+    static let stackViewSpacing = 4.0
+    static let borderCornerRadius = 10.0
+    static let borderWidth = 1.5
+    static let viewFrameWidth = 4.0
+    static let plusButtonName = "plus"
+    static let productNamePlaceholder = "상품명"
+    static let productPricePlaceholder = "상품가격"
+    static let productDiscountedPricePlaceholder = "할인금액"
+    static let stockPlaceholder = "재고수량"
+    static let imageScrollViewTopAnchorConstant = 8.0
+    static let imageScrollViewBottomAnchorConstant = -8.0
+    static let imageScrollViewLeadingAnchorConstant = 8.0
+    static let imageScrollViewTrailingAnchorConstant = -8.0
+    static let imageScrollViewHeightAnchorConstant = -16.0
+    static let imageScrollViewHeightAnchorMultiplier = 1.0
+    static let safeAreaLayoutGuideHeightAnchorMultiplier = 0.4
+    static let productDescriptionTextViewHeightAnchorMultiplier = 0.5
+    static let barButtonItemTitle = "Done"
+    static let imageResizeWidth = 300.0
+    static let imageStackViewSubviewsCount = 6
+    static let imageDataCountConstraint = 300.0
+    static let renderImageResizeNumber = 5.0
+    static let devideImageDataCountByThousand = 1000.0
 }
