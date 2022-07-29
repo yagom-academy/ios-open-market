@@ -8,7 +8,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     // MARK: - Instance Properties
-    private let manager = NetworkManager()
+    private let manager = NetworkManager.shared
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
@@ -89,6 +89,10 @@ class MainViewController: UIViewController {
         configureListDataSource()
         configureGridDataSource()
         configureHierarchy()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchData()
     }
     

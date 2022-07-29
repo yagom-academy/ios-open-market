@@ -22,7 +22,7 @@
 		45A402472892746000B45A80 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A402462892746000B45A80 /* UITextField+Extension.swift */; };
 		45A402492892B5A300B45A80 /* PickerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A402482892B5A300B45A80 /* PickerImageView.swift */; };
 		45B7A50D287FF60500FCB69F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B7A50C287FF60500FCB69F /* MainViewController.swift */; };
-		AF2257722889391B00C5CE97 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257712889391B00C5CE97 /* Int+Extensions.swift */; };
+		AF2257722889391B00C5CE97 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257712889391B00C5CE97 /* Double+Extensions.swift */; };
 		AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257732889392300C5CE97 /* UILabel+Extensions.swift */; };
 		AF2257762889393700C5CE97 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */; };
 		AF24DE76288A86E700BF570B /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF24DE75288A86E700BF570B /* ImageCacheManager.swift */; };
@@ -61,7 +61,7 @@
 		45A402462892746000B45A80 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		45A402482892B5A300B45A80 /* PickerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerImageView.swift; sourceTree = "<group>"; };
 		45B7A50C287FF60500FCB69F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		AF2257712889391B00C5CE97 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		AF2257712889391B00C5CE97 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257732889392300C5CE97 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		AF24DE75288A86E700BF570B /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 		AF2257772889394100C5CE97 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AF2257712889391B00C5CE97 /* Int+Extensions.swift */,
+				AF2257712889391B00C5CE97 /* Double+Extensions.swift */,
 				AF2257732889392300C5CE97 /* UILabel+Extensions.swift */,
 				AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */,
 				45A402462892746000B45A80 /* UITextField+Extension.swift */,
@@ -326,7 +326,7 @@
 				AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */,
 				AF29C03A2881034700C719EE /* GridCell.swift in Sources */,
 				45A402472892746000B45A80 /* UITextField+Extension.swift in Sources */,
-				AF2257722889391B00C5CE97 /* Int+Extensions.swift in Sources */,
+				AF2257722889391B00C5CE97 /* Double+Extensions.swift in Sources */,
 				AFBC2FD52892636700E81A2F /* ProductSetupView.swift in Sources */,
 				453EAC64287C7BFB00EFCBB9 /* URLSession.swift in Sources */,
 				453EAC4F287C050100EFCBB9 /* Currency.swift in Sources */,

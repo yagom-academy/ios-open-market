@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 
 class NetworkManager {
+    static let shared = NetworkManager()
     private let session: URLSession
-    init() {
+    private init() {
         let config = URLSessionConfiguration.default
         session = URLSession(configuration: config)
     }
