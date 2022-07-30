@@ -183,10 +183,10 @@ final class ProductRegistrationView: UIView, Requestable {
               productName.count > 2,
               productDescriptionTextView.text.count > 9,
               let price = makePriceText()
-        else { return }
+        else { return showInvalidInputAlert() }
         
         let images = convertImages(view: imageStackView)
-        guard !images.isEmpty else { return }
+        guard !images.isEmpty else { return showInvalidInputAlert() }
         
         let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
         let product = RegistrationProduct(name: productName,
@@ -197,6 +197,14 @@ final class ProductRegistrationView: UIView, Requestable {
                                           stock: Int(stock.text ?? "0"),
                                           secret: "R49CfVhSdh")
         postProduct(images: images, product: product)
+    }
+    
+    private func showInvalidInputAlert() {
+        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다", message: "필수사항을 입력해주세요", preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "확인", style: .default)
+        postAlert.addAction(alertAction)
+        self.window?.rootViewController?.present(postAlert, animated: true)
     }
     
     private func commonInit() {
