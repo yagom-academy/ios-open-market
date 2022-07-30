@@ -14,11 +14,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        segmentSwitch.selectedSegmentTintColor = .systemBlue
-        segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-        segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
-        segmentSwitch.layer.borderWidth = 1
-        segmentSwitch.layer.borderColor = UIColor.systemBlue.cgColor
+        setSegmentSwitch()
     }
     
     @IBAction private func switchView(_ sender: UISegmentedControl) {
@@ -32,6 +28,14 @@ final class MainViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    private func setSegmentSwitch() {
+        segmentSwitch.selectedSegmentTintColor = .systemBlue
+        segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        segmentSwitch.layer.borderWidth = 1
+        segmentSwitch.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
     func postRequest() {
