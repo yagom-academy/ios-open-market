@@ -23,6 +23,7 @@ final class MainViewController: UIViewController {
         self.view.backgroundColor = .white
         configureSegment()
         configureLoadingView()
+        configureCollectionView()
         self.activityIndicatorView.startAnimating()
         fetchData()
     }
@@ -37,14 +38,12 @@ final class MainViewController: UIViewController {
                 self.items.append(contentsOf: itemData.pages)
                 
                 DispatchQueue.main.async { [self] in
-                    if currentPage == 1 {
-                        configureCollectionView()
-                    }
-                    let indexPath = Array(0..<(currentPage * itemsPerPage)).map { IndexPath(item: $0, section: 0) }
-                    collectionView.reloadItems(at: indexPath)
+                    collectionView.reloadData()
                     activityIndicatorView.stopAnimating()
                 }
-                self.isPageRefreshing = true
+                if itemData.hasNext {
+                    self.isPageRefreshing = true
+                }
             default:
                 return
             }
