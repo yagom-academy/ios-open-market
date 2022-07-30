@@ -11,11 +11,11 @@ struct ProductModificationAPIManager: APIProtocol {
     var configuration: APIConfiguration
     var urlComponent: URLComponents
     
-    init?(productId: Int) {
+    init?(productID: Int) {
         urlComponent = URLComponentsBuilder()
             .setScheme("https")
             .setHost("market-training.yagom-academy.kr")
-            .setPath("/api/products/\(productId)")
+            .setPath("/api/products/\(productID)")
             .build()
         
         guard let url = urlComponent.url else {

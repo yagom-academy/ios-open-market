@@ -11,11 +11,11 @@ struct ProductSecretRetrievalAPIManager: APIProtocol {
     var configuration: APIConfiguration
     var urlComponent: URLComponents
     
-    init?(productId: Int) {
+    init?(productID: Int) {
         urlComponent = URLComponentsBuilder()
             .setScheme("https")
             .setHost("market-training.yagom-academy.kr")
-            .setPath("/api/products/\(productId)/secret")
+            .setPath("/api/products/\(productID)/secret")
             .build()
         
         guard let url = urlComponent.url else {

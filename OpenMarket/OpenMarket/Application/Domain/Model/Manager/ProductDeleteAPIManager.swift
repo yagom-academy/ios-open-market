@@ -11,11 +11,11 @@ struct ProductDeleteAPIManager: APIProtocol {
     var configuration: APIConfiguration
     var urlComponent: URLComponents
     
-    init?(productId: Int, productSecret: String) {
+    init?(productID: Int, productSecret: String) {
         urlComponent = URLComponentsBuilder()
             .setScheme("https")
             .setHost("market-training.yagom-academy.kr")
-            .setPath("/api/products/\(productId)/\(productSecret)")
+            .setPath("/api/products/\(productID)/\(productSecret)")
             .build()
         
         guard let url = urlComponent.url else {
