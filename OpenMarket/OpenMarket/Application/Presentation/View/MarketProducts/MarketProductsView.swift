@@ -18,7 +18,7 @@ final class MarketProductsView: UIView {
     private let networkProvider = APIClient()
     private var marketProductsViewModel: MarketProductsViewModel?
     private let productListAPIManager = ProductListAPIManager()
-
+    
     private var listCollectionView: UICollectionView?
     private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
     
@@ -66,7 +66,7 @@ final class MarketProductsView: UIView {
         configureGridDataSource()
         
         marketProductsViewModel = MarketProductsViewModel()
-        marketProductsViewModel?.delegate = self
+        connectDelegate()
         
         gridCollectionView?.isHidden = true
         
@@ -150,6 +150,12 @@ final class MarketProductsView: UIView {
                                                                 for: indexPath,
                                                                 item: itemIdentifier)
         }
+    }
+    
+    private func connectDelegate() {
+        marketProductsViewModel?.delegate = self
+        listCollectionView?.delegate = self
+        gridCollectionView?.delegate = self
     }
     
     private func configureListLayout() -> UICollectionViewLayout {
@@ -260,9 +266,26 @@ final class MarketProductsView: UIView {
     }
 }
 
+// MARK: - MarketProductsViewDelegate
+
 extension MarketProductsView: MarketProductsViewDelegate {
     func didReceiveResponse(_ view: MarketProductsView.Type,
                             by data: ProductListEntity) {
         updateUI(by: data)
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension MarketProductsView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let productID = shouldHideListView ? self.listDataSource?.itemIdentifier(for: indexPath)?.id : self.gridDataSource?.itemIdentifier(for: indexPath)?.id else {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return
+        }
+        
+        let productDetailViewController = ProductDetailViewController()
+        productDetailViewController.productID = productID
+        rootViewController?.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
