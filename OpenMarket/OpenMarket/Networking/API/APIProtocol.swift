@@ -83,7 +83,7 @@ extension APIProtocol {
 
         client.requestData(with: request) { result in
             switch result {
-            case .success(let data):
+            case .success(_):
                 return
             case .failure(_):
                 return
@@ -107,7 +107,7 @@ extension APIProtocol {
             
             client.requestData(with: request) { result in
                 switch result {
-                case .success(let data):
+                case .success(_):
                     return
                 case .failure(_):
                     return
@@ -127,7 +127,7 @@ extension APIProtocol {
         
         client.requestData(with: deleteRequest) { result in
             switch result {
-            case .success(let data):
+            case .success(_):
                 return
             case .failure(_):
                 return
