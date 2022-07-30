@@ -163,7 +163,8 @@ final class ProductEnrollmentViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
-        textView.text = "내용"
+        textView.text = "제품 상세 설명"
+        textView.textColor = .lightGray
         textView.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return textView
@@ -476,5 +477,19 @@ extension ProductEnrollmentViewController: UITextViewDelegate {
         }
         
         return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "제품 상세 설명" {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = "제품 상세 설명"
+            textView.textColor = .lightGray
+        }
     }
 }
