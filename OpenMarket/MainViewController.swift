@@ -94,8 +94,10 @@ final class MainViewController: UIViewController {
         dataSource = configureDataSource(id: "list")
         self.snapshot.appendSections([.main])
         
+        //NetworkManager().patchProduct(productId: "4158")
+        //NetworkManager().delectProduct(productId: "4135", productSecret: "lP8VFiBqGI")
         getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
-        NetworkManager().postProduct()
+        // NetworkManager().postProduct()
     }
     
     // MARK: Method

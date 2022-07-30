@@ -36,4 +36,8 @@ struct OpenMarketRequest {
         url.appendPathComponent(productId)
         return URLRequest(url: url)
     }
+    
+    func createPostJson(params: [String: Any]) -> Data? {
+        return try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+    }
 }
