@@ -1,17 +1,14 @@
 //
-//  ProductRegistrationView.swift
+//  ProductUpdateView.swift
 //  OpenMarket
 //
-//  Created by groot, bard on 2022/07/27.
+//  Created by groot, bard on 2022/07/30.
 //
 
 import UIKit
 
-final class ProductRegistrationView: UIView, Requestable {
+final class ProductUpdateView: UIView, Requestable {
     // MARK: - properties
-    
-    private let pickerController = UIImagePickerController()
-    var delegate: ImagePickerDelegate?
     
     private let totalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -40,23 +37,6 @@ final class ProductRegistrationView: UIView, Requestable {
         stackView.spacing = Design.stackViewSpacing
         
         return stackView
-    }()
-    
-    private let pickerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    private let imagePrickerButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(systemName: Design.plusButtonName)
-        button.setImage(image, for: .normal)
-        
-        return button
     }()
     
     private let productInformationStackView: UIStackView = {
@@ -173,7 +153,6 @@ final class ProductRegistrationView: UIView, Requestable {
     }
     
     private func commonInit() {
-        pickerController.delegate = self
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
@@ -186,9 +165,6 @@ final class ProductRegistrationView: UIView, Requestable {
         productDiscountedPrice.delegate = self
         stock.delegate = self
         setUpUiToolbar()
-        imagePrickerButton.addTarget(self,
-                                     action: #selector(pickImages),
-                                     for: .touchUpInside)
         addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                     action: #selector(endEditing(_:))))
     }
@@ -201,9 +177,6 @@ final class ProductRegistrationView: UIView, Requestable {
         [productPrice, currencySegmentedControl]
             .forEach { segmentedStackView.addArrangedSubview($0) }
         imageScrollView.addSubview(imageStackView)
-        imageStackView.addArrangedSubview(pickerView)
-        pickerView.addSubview(imagePrickerButton)
-        
     }
     
     private func setUpConstraints() {
@@ -227,17 +200,6 @@ final class ProductRegistrationView: UIView, Requestable {
             imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
                                                      constant: Design.imageScrollViewTrailingAnchorConstant)
         ])
-        
-        NSLayoutConstraint.activate([
-            pickerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor,
-                                               constant: Design.imageScrollViewHeightAnchorConstant),
-            
-            pickerView.widthAnchor.constraint(equalTo: pickerView.heightAnchor,
-                                              multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
-        
-        NSLayoutConstraint.activate([
-            imagePrickerButton.centerXAnchor.constraint(equalTo: pickerView.centerXAnchor),
-            imagePrickerButton.centerYAnchor.constraint(equalTo: pickerView.centerYAnchor)])
     }
     
     private func setUpSubViewsHeight() {
@@ -265,16 +227,13 @@ final class ProductRegistrationView: UIView, Requestable {
         productDescriptionTextView.inputAccessoryView = keyboardToolbar
     }
     
-    func register() {
+    func update() {
         guard let productName = productName.text,
               let priceText = productPrice.text,
               let priceValue = Double(priceText),
               let stockText = stock.text,
               let stock = Int(stockText)
         else { return }
-        
-        let images = convertImages(view: imageStackView)
-        guard !images.isEmpty else { return }
         
         let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
         let product = RegistrationProduct(name: productName,
@@ -284,43 +243,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                           discountedPrice: Double(productDiscountedPrice.text ?? "0"),
                                           stock: stock,
                                           secret: "R49CfVhSdh")
-        postProduct(images: images, product: product)
-    }
-    
-    // MARK: - @objc functions
-    
-    @objc private func pickImages() {
-        guard
-            imageStackView.subviews.count < Design.imageStackViewSubviewsCount else { return }
-        delegate?.pickImages(pikerController: pickerController)
-    }
-}
-
-// MARK: - extensions
-
-extension ProductRegistrationView: UIImagePickerControllerDelegate,
-                                   UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
-        else { return }
-        
-        let imageView = setUpPickerImageView(image: editedImage)
-        imageStackView.insertArrangedSubview(imageView, at: .zero)
-        self.pickerController.dismiss(animated: true, completion: nil)
-    }
-    
-    private func setUpPickerImageView(image: UIImage) -> UIImageView {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = image
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: pickerView.frame.width),
-            imageView.heightAnchor.constraint(equalToConstant: pickerView.frame.height)
-        ])
-        
-        return imageView
+        patchProduct(productId: "123", product: product)
     }
     
     @objc func endEditing(){
@@ -328,7 +251,9 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
     }
 }
 
-extension ProductRegistrationView: UITextViewDelegate, UITextFieldDelegate {
+// MARK: - extensions
+
+extension ProductUpdateView: UITextViewDelegate, UITextFieldDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         frame.origin.y = -productDescriptionTextView.frame.height * 1.2
     }
@@ -336,12 +261,6 @@ extension ProductRegistrationView: UITextViewDelegate, UITextFieldDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
     }
-}
-
-// MARK: - ImagePickerDelegate
-
-protocol ImagePickerDelegate {
-    func pickImages(pikerController: UIImagePickerController)
 }
 
 // MARK: - Design
