@@ -95,6 +95,7 @@ final class MainViewController: UIViewController {
         self.snapshot.appendSections([.main])
         
         getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
+        NetworkManager().postProduct()
     }
     
     // MARK: Method

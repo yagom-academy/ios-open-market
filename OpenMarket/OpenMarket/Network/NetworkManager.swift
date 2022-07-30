@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class NetworkManager {
     private let session: URLSessionProtocol
@@ -43,5 +44,54 @@ final class NetworkManager {
         request.httpMethod = NetworkNamespace.get.name
         
         fetch(request: request, completion: completion)
+    }
+    
+    func postProduct() {
+        guard let url = URL(string: NetworkNamespace.url.name) else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = NetworkNamespace.post.name
+
+        // header - Type
+        let boundary = "\(UUID().uuidString)"
+        request.addValue("multipart/form-data; boundary=\"\(boundary)\"", forHTTPHeaderField: "Content-Type")
+        // header - identifier
+        request.addValue("d1fb22fc-0335-11ed-9676-3bb3eb48793a", forHTTPHeaderField: "identifier")
+        
+        var postData = Data()
+
+        let params: [String: Any] = ["name": "테스트중", "descriptions": "테스트중임", "price": 222, "currency": Currency.KRW.rawValue, "secret": "lP8VFiBqGI"]
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else { return }
+      
+        postData.append("--\(boundary)\r\n".data(using: .utf8)!)
+        postData.append("Content-Disposition: form-data; name=\"params\"\r\n".data(using: .utf8)!)
+        postData.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
+
+        postData.append(jsonData)
+        postData.append("\r\n".data(using: .utf8)!)
+
+        postData.append("--\(boundary)\r\n".data(using: .utf8)!)
+        postData.append("Content-Disposition: form-data; name=\"images\"; filename=\"unchain.png\"\r\n".data(using: .utf8)!)
+        postData.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+        
+        let imageData = UIImage(named: "unchain")
+        guard let imageDataSrc = imageData?.pngData() else {
+            print("이미지 실패")
+            return }
+        postData.append(imageDataSrc)
+        postData.append("\r\n".data(using: .utf8)!)
+        postData.append("--\(boundary)--".data(using: .utf8)!)
+        
+        request.httpBody = postData
+
+        fetch(request: request) { result in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }

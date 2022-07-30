@@ -55,3 +55,8 @@ struct SaleInformation: Decodable, Hashable {
         case issuedAt = "issued_at"
     }
 }
+
+enum Currency: String {
+    case KRW
+    case USD
+}
