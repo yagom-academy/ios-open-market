@@ -23,8 +23,4 @@ extension UIViewController {
         self.present(alertController,
                      animated: false)
     }
-
-    func present(to nextViewController: UIViewController) {
-        self.present(nextViewController, animated: true)
-    }
 }

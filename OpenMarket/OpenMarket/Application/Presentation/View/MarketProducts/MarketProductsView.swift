@@ -262,7 +262,8 @@ final class MarketProductsView: UIView {
     @objc private func addButtonTapped(_ sender: UIBarButtonItem) {
         let productEnrollmentViewController = UINavigationController(rootViewController: ProductEnrollmentViewController())
         productEnrollmentViewController.modalPresentationStyle = .fullScreen
-        rootViewController?.present(to: productEnrollmentViewController)
+
+        rootViewController?.present(productEnrollmentViewController, animated: true)
     }
 }
 
