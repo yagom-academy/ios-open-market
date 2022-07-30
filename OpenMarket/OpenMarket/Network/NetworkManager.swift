@@ -49,27 +49,9 @@ final class NetworkManager {
         let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
 
         guard var request = OpenMarketRequest().creatPostRequest(identifier: identifier) else { return }
-        
-        var postData = Data()
+
         let params: [String: Any] = ["name": "테스트중", "descriptions": "테스트중임", "price": 222, "currency": Currency.KRW.rawValue, "secret": "lP8VFiBqGI"]
-        
-        guard let jsonData = OpenMarketRequest().createPostJson(params: params) else { return }
-
-        postData.append(form: "--\(Multipart.boundaryValue)\r\n")
-        postData.append(form: Multipart.paramContentDisposition)
-        postData.append(form: Multipart.paramContentType)
-
-        postData.append(jsonData)
-        postData.append(form: Multipart.lineFeed)
-
-        postData.append(form: "--\(Multipart.boundaryValue)" + Multipart.lineFeed)
-        postData.append(form: Multipart.imageContentDisposition + "\"unchain.png\"" + Multipart.lineFeed)
-        postData.append(form: ImageType.png.name)
-
-        guard let imageData = OpenMarketRequest().creatPostImage(named: "unchain") else { return }
-        postData.append(imageData)
-        postData.append(form: Multipart.lineFeed)
-        postData.append(form: "--\(Multipart.boundaryValue)--")
+        let postData = OpenMarketRequest().creatPostBody(parms: params)
 
         request.httpBody = postData
 
