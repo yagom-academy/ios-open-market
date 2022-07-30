@@ -47,4 +47,14 @@ struct OpenMarketRequest {
         guard let imageData = image?.jpegData(compressionQuality: 1.0) else { return nil }
         return imageData
     }
+    
+    func creatPostRequest(identifier: String) -> URLRequest? {
+        guard let url = URL(string: NetworkNamespace.url.name) else { return nil }
+        var request = URLRequest(url: url)
+        request.httpMethod = NetworkNamespace.post.name
+
+        request.addValue(Multipart.boundaryForm + "\"\(Multipart.boundaryValue)\"", forHTTPHeaderField: Multipart.contentType)
+        request.addValue(identifier, forHTTPHeaderField: Request.identifier)
+        return request
+    }
 }

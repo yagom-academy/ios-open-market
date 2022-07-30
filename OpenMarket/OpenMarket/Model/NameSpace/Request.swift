@@ -12,7 +12,8 @@ enum Request {
 }
 
 enum Multipart {
-    static let boundary = "multipart/form-data; boundary="
+    static let boundaryForm = "multipart/form-data; boundary="
+    static let boundaryValue = "\(UUID().uuidString)"
     static let contentType = "Content-Type"
     static let paramContentDisposition = "Content-Disposition: form-data; name=\"params\"\r\n"
     static let paramContentType = "Content-Type: application/json\r\n\r\n"
