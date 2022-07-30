@@ -133,9 +133,16 @@
 			isa = PBXGroup;
 			children = (
 				A3B08FD7287D04C0003337B3 /* JSONParser.swift */,
-				8ABFEF23287FFBDD00CB6BB9 /* MockURLSession.swift */,
 			);
 			path = Json;
+			sourceTree = "<group>";
+		};
+		A3F1466728956401002A408F /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				8ABFEF23287FFBDD00CB6BB9 /* MockURLSession.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		A3F85D3D287BF5EC00AD00C7 /* JsonTest */ = {
@@ -167,15 +174,16 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				8A845D0B288951E3004F0230 /* View */,
+				A3F1466728956401002A408F /* Mock */,
 				8A845D0828895129004F0230 /* Extension */,
 				8ABFEF1C287D3FB300CB6BB9 /* Enum */,
+				8A845D0B288951E3004F0230 /* View */,
 				8ABFEF15287C14BE00CB6BB9 /* Model */,
+				A375746328868FC6003B6DA6 /* ViewController */,
 				A3B08FD6287D04AA003337B3 /* Json */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				A3554F5B2893CA23001814E3 /* AddProductViewController.swift */,
-				A375746328868FC6003B6DA6 /* ViewController */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
