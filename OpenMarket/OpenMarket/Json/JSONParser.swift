@@ -20,7 +20,7 @@ class JSONParser {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = HTTPMethod.get
         
         let task = session.dataTask(with: request) { (data, response, error) in
             

@@ -37,7 +37,7 @@ final class MainViewController: UIViewController {
     func postRequest() {
         let imageData = UIImage(named: "TestImage.jpeg")
         let dummyImaage = ImageFile(key: "images", src: (imageData?.jpegData(compressionQuality: 1.0)!)!, type: "file")
-        let parmtersValue = ["name": "백곰Product", "price":15000, "stock": 1000, "currency": "KRW", "secret": "aJo1WTMl7u", "descriptions": "비쌈"] as [String : Any]
+        let parmtersValue = ["name": "백곰Product", "price":15000, "stock": 1000, "currency": "KRW", "secret": VendorInfo.secret, "descriptions": "비쌈"] as [String : Any]
         
         guard let jsonParams = try? JSONSerialization.data(withJSONObject: parmtersValue, options: .prettyPrinted) else {
             return
@@ -50,10 +50,10 @@ final class MainViewController: UIViewController {
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: url)
         
-        request.addValue("fa69efb9-0335-11ed-9676-1db1453669a0", forHTTPHeaderField: "identifier")
+        request.addValue(VendorInfo.identifier, forHTTPHeaderField: "identifier")
         request.addValue("multipart/form-data;boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        request.httpMethod = "POST"
+        request.httpMethod = HTTPMethod.post
 
         let body = createBody(paramaeters: ["params": jsonParams], boundary: boundary, images: dummyImaage)
         request.httpBody = body
