@@ -424,19 +424,23 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
     private func limitTextFieldLength(_ textField: UITextField) -> Bool {
         switch textField {
         case let textField where textField == productNameTextField:
-            if textField.text!.count > 40 {
+            if textField.text!.count >= 40 {
+                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
             }
         case  let textField where textField == originalPriceTextField:
-            if textField.text!.count > 10 {
+            if textField.text!.count >= 10 {
+                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
             }
         case  let textField where textField == discountedPriceTextField:
-            if textField.text!.count > 10 {
+            if textField.text!.count >= 10 {
+                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
             }
         case  let textField where textField == productStockTextField:
-            if textField.text!.count > 10 {
+            if textField.text!.count >= 10 {
+                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
             }
         default:
