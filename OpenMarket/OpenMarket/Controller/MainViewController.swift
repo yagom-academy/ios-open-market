@@ -11,7 +11,7 @@ final class MainViewController: UIViewController {
     private var currentPage = 1
     private let itemsPerPage = 20
     private var items = [Item]()
-    private var isPageRfreshing: Bool = true
+    private var isPageRefreshing = true
     
     private var collectionView: UICollectionView! = nil
     private let gridLayout = GridFlowLayout()
@@ -28,26 +28,23 @@ final class MainViewController: UIViewController {
     }
     
     private func fetchData() {
-        isPageRfreshing = false
+        isPageRefreshing = false
         networkManager.fetchItmeList(pageNumber: currentPage, itemsPerPage: itemsPerPage) { result in
             switch result {
             case .success(let responseData):
                 guard let data = responseData,
                       let itemData: ItemList = JSONDecoder.decodeJson(jsonData: data) else { return }
-                itemData.pages.forEach { item in
-                    self.items.append(item)
-                }
+                self.items.append(contentsOf: itemData.pages)
                 
-                DispatchQueue.main.async {
-                    if self.currentPage == 1 {
-                        self.configureListCollectionView()
+                DispatchQueue.main.async { [self] in
+                    if currentPage == 1 {
+                        configureListCollectionView()
                     }
-                    self.collectionView.reloadData()
-                    let indexPath = Array(0..<(self.currentPage * self.itemsPerPage)).map { IndexPath(item: $0, section: 0) }
-                    self.collectionView.reloadItems(at: indexPath)
-                    self.activityIndicatorView.stopAnimating()
-                    self.isPageRfreshing = true
+                    let indexPath = Array(0..<(currentPage * itemsPerPage)).map { IndexPath(item: $0, section: 0) }
+                    collectionView.reloadItems(at: indexPath)
+                    activityIndicatorView.stopAnimating()
                 }
+                self.isPageRefreshing = true
             default:
                 return
             }
@@ -73,15 +70,15 @@ extension MainViewController {
     @objc private func tapSegment(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
             DispatchQueue.main.async { [self] in
-                let indexPath = Array(0..<(currentPage * itemsPerPage)).map { IndexPath(item: $0, section: 0) }
+                collectionView.setCollectionViewLayout(createListLayout(), animated: true)
+                let indexPath = collectionView.indexPathsForVisibleItems
                 collectionView.reloadItems(at: indexPath)
             }
         case 1:
-            collectionView.setCollectionViewLayout(gridLayout, animated: true)
             DispatchQueue.main.async { [self] in
-                let indexPath = Array(0..<(currentPage * itemsPerPage)).map { IndexPath(item: $0, section: 0) }
+                collectionView.setCollectionViewLayout(gridLayout, animated: true)
+                let indexPath = collectionView.indexPathsForVisibleItems
                 collectionView.reloadItems(at: indexPath)
             }
         default:
@@ -132,7 +129,7 @@ extension MainViewController {
 //MARK: DataSource
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentPage * itemsPerPage
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -172,7 +169,7 @@ extension MainViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard collectionView.contentSize.height > 0 else { return }
         if collectionView.contentOffset.y > (collectionView.contentSize.height - collectionView.frame.height) {
-            if isPageRfreshing {
+            if isPageRefreshing {
                 self.currentPage += 1
                 activityIndicatorView.startAnimating()
                 fetchData()

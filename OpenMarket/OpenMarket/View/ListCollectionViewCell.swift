@@ -112,17 +112,17 @@ final class ListCollectionViewCell: UICollectionViewCell {
         titleLabel.text = "\(item.name)"
         stockLabel.text = "잔여수량: \(item.stock.formatNumber())"
         stockLabel.textColor = .systemGray
-        discountedLabel.text = "\(item.currency) \(item.discountedPrice.formatNumber())"
+        discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
         discountedLabel.textColor = .systemGray
         thumbnailView.fetchImageData(url: item.thumbnail)
         
         if item.bargainPrice != 0 {
             spacingView.isHidden = false
             
-            discountedLabel.text = "\(item.currency) \(item.discountedPrice.formatNumber())"
+            discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
             discountedLabel.textColor = .systemGray
             
-            priceLabel.text = "\(item.currency) \(item.price.formatNumber())"
+            priceLabel.text = "\(item.currency) \(item.price)"
             priceLabel.isHidden = false
             priceLabel.textColor = .systemRed
             
