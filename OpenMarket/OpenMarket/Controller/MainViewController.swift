@@ -44,7 +44,11 @@ final class MainViewController: UIViewController {
                 if itemData.hasNext {
                     self.isPageRefreshing = true
                 }
-            default:
+            case .failure(FetchError.failFetch):
+                return
+            case .failure(FetchError.wrongResponse):
+                return
+            case .failure(FetchError.emptyData):
                 return
             }
         }
@@ -91,7 +95,7 @@ extension MainViewController {
         activityIndicatorView = UIActivityIndicatorView(style: .large)
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(activityIndicatorView)
-
+        
         NSLayoutConstraint.activate([
             activityIndicatorView.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             activityIndicatorView.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor)
@@ -155,7 +159,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
             let widthOfSpacing = CGFloat(gridLayout.numberOfColumns - 1) * gridLayout.minimumInteritemSpacing
             let width = (widthOfCells - widthOfSpacing) / CGFloat(gridLayout.numberOfColumns)
             let height = collectionView.bounds.height * 0.35
-
+            
             return CGSize(width: width, height: height)
         }
         
