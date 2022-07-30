@@ -5,7 +5,7 @@
 //  Created by unchain, hyeon2 on 2022/07/18.
 //
 
-import Foundation
+import UIKit
 
 struct OpenMarketRequest {
     private let address = NetworkNamespace.url.name
@@ -39,5 +39,12 @@ struct OpenMarketRequest {
     
     func createPostJson(params: [String: Any]) -> Data? {
         return try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+    }
+    
+    func creatPostImage(named: String) -> Data? {
+        let image = UIImage(named: named)
+        
+        guard let imageData = image?.jpegData(compressionQuality: 1.0) else { return nil }
+        return imageData
     }
 }

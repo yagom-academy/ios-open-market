@@ -72,9 +72,8 @@ final class NetworkManager {
         postData.append(form: Multipart.imageContentDisposition + "\"unchain.png\"" + Multipart.lineFeed)
         postData.append(form: ImageType.png.name)
 
-        let imageData = UIImage(named: "unchain")
-        guard let imageDataSrc = imageData?.pngData() else { return }
-        postData.append(imageDataSrc)
+        guard let imageData = OpenMarketRequest().creatPostImage(named: "unchain") else { return }
+        postData.append(imageData)
         postData.append(form: Multipart.lineFeed)
         postData.append(form: "--\(boundary)--")
 
