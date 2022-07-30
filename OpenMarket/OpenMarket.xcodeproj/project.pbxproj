@@ -24,6 +24,8 @@
 		37D96A712886949E002B1A8F /* GridCollecntionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D96A702886949E002B1A8F /* GridCollecntionView.swift */; };
 		37D96A752886C49D002B1A8F /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D96A742886C49D002B1A8F /* NameSpace.swift */; };
 		37FBE2322893BF5900240A1E /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FBE2312893BF5900240A1E /* Requestable.swift */; };
+		37FBE2352893D5ED00240A1E /* ProductUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FBE2342893D5ED00240A1E /* ProductUpdateViewController.swift */; };
+		37FBE2372894D69700240A1E /* ProductUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FBE2362894D69700240A1E /* ProductUpdateView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */; };
@@ -72,6 +74,8 @@
 		37D96A702886949E002B1A8F /* GridCollecntionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollecntionView.swift; sourceTree = "<group>"; };
 		37D96A742886C49D002B1A8F /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
 		37FBE2312893BF5900240A1E /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
+		37FBE2342893D5ED00240A1E /* ProductUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdateViewController.swift; sourceTree = "<group>"; };
+		37FBE2362894D69700240A1E /* ProductUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdateView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -208,6 +212,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				D7C9A38728910E44001F4416 /* ProductRegistrationViewController.swift */,
+				37FBE2342893D5ED00240A1E /* ProductUpdateViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -221,6 +226,7 @@
 				37D96A6E28869484002B1A8F /* ListCollectionView.swift */,
 				D7C4C7162890D322007CF8F1 /* ListCollectionViewCell.swift */,
 				D7C4C71C2891027F007CF8F1 /* ProductRegistrationView.swift */,
+				37FBE2362894D69700240A1E /* ProductUpdateView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -402,9 +408,11 @@
 				372396A8287D2FD9001EFC70 /* NetworkError.swift in Sources */,
 				37D96A6D28866EDF002B1A8F /* OpenMarketRequest.swift in Sources */,
 				D7C4C7172890D322007CF8F1 /* ListCollectionViewCell.swift in Sources */,
+				37FBE2372894D69700240A1E /* ProductUpdateView.swift in Sources */,
 				37D96A712886949E002B1A8F /* GridCollecntionView.swift in Sources */,
 				D7649C8A2886936800E3F30A /* Section.swift in Sources */,
 				37D96A6F28869484002B1A8F /* ListCollectionView.swift in Sources */,
+				37FBE2352893D5ED00240A1E /* ProductUpdateViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

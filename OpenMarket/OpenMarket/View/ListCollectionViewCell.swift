@@ -44,14 +44,14 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let accessoryImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(systemName: "chevron.right")
-        imageView.widthAnchor.constraint(equalToConstant: 8).isActive = true
-        imageView.contentMode = .scaleAspectFit
+    private let accessoryImageButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        button.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        button.contentMode = .scaleAspectFit
         
-        return imageView
+        return button
     }()
     
     private let stackView: UIStackView = {
@@ -106,7 +106,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(stackView)
         self.contentView.addSubview(accessoryStackView)
         [productName, price].forEach { stackView.addArrangedSubview($0) }
-        [stock, accessoryImage].forEach { accessoryStackView.addArrangedSubview($0) }
+        [stock, accessoryImageButton].forEach { accessoryStackView.addArrangedSubview($0) }
     }
     
     private func setUpStackViewConstraints() {
