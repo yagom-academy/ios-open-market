@@ -86,7 +86,7 @@ final class ProductRegistrationView: UIView, Requestable {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.text = Design.productDescriptionPlaceholder
-        textView.textColor = .lightGray
+        textView.textColor = .systemGray3
         
         return textView
     }()
@@ -176,6 +176,27 @@ final class ProductRegistrationView: UIView, Requestable {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
+    }
+    
+    func register() {
+        guard let productName = productName.text,
+              productName.count > 2,
+              productDescriptionTextView.text.count > 9,
+              let price = makePriceText()
+        else { return }
+        
+        let images = convertImages(view: imageStackView)
+        guard !images.isEmpty else { return }
+        
+        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
+        let product = RegistrationProduct(name: productName,
+                                          descriptions: productDescriptionTextView.text,
+                                          price: price,
+                                          currency: currency.rawValue,
+                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
+                                          stock: Int(stock.text ?? "0"),
+                                          secret: "R49CfVhSdh")
+        postProduct(images: images, product: product)
     }
     
     private func commonInit() {
@@ -270,26 +291,14 @@ final class ProductRegistrationView: UIView, Requestable {
         productDescriptionTextView.inputAccessoryView = keyboardToolbar
     }
     
-    func register() {
-        guard let productName = productName.text,
-              productName.count > 2,
-              let priceText = productPrice.text,
-              let priceValue = Double(priceText),
-              productDescriptionTextView.text.count > 9
-        else { return }
+    private func makePriceText() -> Double? {
+        guard let priceText = productPrice.text,
+              let price = Double(priceText),
+              let discountedPrice = Double(productDiscountedPrice.text ?? "0"),
+                price > discountedPrice
+        else { return nil }
         
-        let images = convertImages(view: imageStackView)
-        guard !images.isEmpty else { return }
-        
-        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
-        let product = RegistrationProduct(name: productName,
-                                          descriptions: productDescriptionTextView.text,
-                                          price: priceValue,
-                                          currency: currency.rawValue,
-                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
-                                          stock: Int(stock.text ?? "0"),
-                                          secret: "R49CfVhSdh")
-        postProduct(images: images, product: product)
+        return price - discountedPrice
     }
     
     // MARK: - @objc functions
@@ -375,9 +384,9 @@ private enum Design {
     static let viewFrameWidth = 4.0
     static let plusButtonName = "plus"
     static let productNamePlaceholder = "상품명 (3자 이상, 100자 이하)"
-    static let productPricePlaceholder = "상품가격"
-    static let productDiscountedPricePlaceholder = "할인금액"
-    static let stockPlaceholder = "재고수량"
+    static let productPricePlaceholder = "상품가격 (필수입력)"
+    static let productDiscountedPricePlaceholder = "할인금액 (미입력 시 정상가)"
+    static let stockPlaceholder = "재고수량 (미입력 시 품절)"
     static let productDescriptionPlaceholder = "상품 설명 (10자 이상, 1000자 이하)"
     static let imageScrollViewTopAnchorConstant = 8.0
     static let imageScrollViewBottomAnchorConstant = -8.0
