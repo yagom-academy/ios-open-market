@@ -84,6 +84,9 @@ final class ProductRegistrationView: UIView, Requestable {
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = Design.productDescriptionPlaceholder
+        textView.textColor = .lightGray
         
         return textView
     }()
@@ -99,7 +102,6 @@ final class ProductRegistrationView: UIView, Requestable {
         textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
-        textField.autocorrectionType = .no
         
         return textField
     }()
@@ -132,6 +134,8 @@ final class ProductRegistrationView: UIView, Requestable {
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
+        textField.setContentHuggingPriority(.init(rawValue: 1000.0), for: .horizontal)
+        textField.setContentCompressionResistancePriority(.init(rawValue: 1000.0), for: .horizontal)
         
         return textField
     }()
@@ -156,6 +160,8 @@ final class ProductRegistrationView: UIView, Requestable {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
                                                           Currency.usd.rawValue])
         segmentedControl.selectedSegmentIndex = .zero
+        segmentedControl.setContentHuggingPriority(.init(rawValue: 1000.0), for: .horizontal)
+        segmentedControl.setContentCompressionResistancePriority(.init(rawValue: 1000.0), for: .horizontal)
         
         return segmentedControl
     }()
@@ -183,7 +189,6 @@ final class ProductRegistrationView: UIView, Requestable {
         productDescriptionTextView.delegate = self
         productName.delegate = self
         productPrice.delegate = self
-        productDiscountedPrice.delegate = self
         stock.delegate = self
         setUpUiToolbar()
         imagePrickerButton.addTarget(self,
@@ -267,10 +272,10 @@ final class ProductRegistrationView: UIView, Requestable {
     
     func register() {
         guard let productName = productName.text,
+              productName.count > 2,
               let priceText = productPrice.text,
               let priceValue = Double(priceText),
-              let stockText = stock.text,
-              let stock = Int(stockText)
+              productDescriptionTextView.text.count > 9
         else { return }
         
         let images = convertImages(view: imageStackView)
@@ -282,7 +287,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                           price: priceValue,
                                           currency: currency.rawValue,
                                           discountedPrice: Double(productDiscountedPrice.text ?? "0"),
-                                          stock: stock,
+                                          stock: Int(stock.text ?? "0"),
                                           secret: "R49CfVhSdh")
         postProduct(images: images, product: product)
     }
@@ -328,13 +333,30 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
     }
 }
 
-extension ProductRegistrationView: UITextViewDelegate, UITextFieldDelegate {
+extension ProductRegistrationView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         frame.origin.y = -productDescriptionTextView.frame.height * 1.2
+        if textView.text == Design.productDescriptionPlaceholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
+        if textView.text.count == 0 {
+            textView.text = Design.productDescriptionPlaceholder
+            textView.textColor = .lightGray
+        }
+    }
+}
+
+extension ProductRegistrationView: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let textFieldText = textField.text else { return }
+        if textFieldText.count > 100 {
+            textField.deleteBackward()
+        }
     }
 }
 
@@ -352,10 +374,11 @@ private enum Design {
     static let borderWidth = 1.5
     static let viewFrameWidth = 4.0
     static let plusButtonName = "plus"
-    static let productNamePlaceholder = "상품명"
+    static let productNamePlaceholder = "상품명 (3자 이상, 100자 이하)"
     static let productPricePlaceholder = "상품가격"
     static let productDiscountedPricePlaceholder = "할인금액"
     static let stockPlaceholder = "재고수량"
+    static let productDescriptionPlaceholder = "상품 설명 (10자 이상, 1000자 이하)"
     static let imageScrollViewTopAnchorConstant = 8.0
     static let imageScrollViewBottomAnchorConstant = -8.0
     static let imageScrollViewLeadingAnchorConstant = 8.0
