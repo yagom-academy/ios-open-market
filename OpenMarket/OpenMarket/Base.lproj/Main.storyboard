@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -10,22 +8,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o4Z-BU-8vP">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="44"/>
                                 <color key="barTintColor" systemColor="systemBackgroundColor"/>
                                 <items>
                                     <navigationItem id="3os-ZF-ND0">
                                         <nil key="title"/>
                                         <segmentedControl key="titleView" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="l3C-WK-jnO">
-                                            <rect key="frame" x="124.5" y="5.5" width="165" height="33"/>
+                                            <rect key="frame" x="217.5" y="8.5" width="165" height="33"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="LIST"/>
@@ -35,18 +33,22 @@
                                                 <action selector="switchView:" destination="BYZ-38-t0r" eventType="valueChanged" id="LBD-bx-nKN"/>
                                             </connections>
                                         </segmentedControl>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="dlq-Gf-ukg"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="dlq-Gf-ukg">
+                                            <connections>
+                                                <segue destination="xbI-fK-CDy" kind="showDetail" id="CzE-he-cVd"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NeI-oj-3fd">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="600" height="512"/>
                                 <connections>
                                     <segue destination="eU1-bM-j8v" kind="embed" id="5Si-5S-8zC"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h8J-oL-8qf">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="600" height="512"/>
                                 <connections>
                                     <segue destination="46V-Ir-lUi" kind="embed" id="ygn-ec-Hc8"/>
                                 </connections>
@@ -70,6 +72,7 @@
                             <constraint firstItem="o4Z-BU-8vP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="tUE-zd-lnN"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="gpU-39-H9G"/>
                     <connections>
                         <outlet property="collectionGridView" destination="NeI-oj-3fd" id="x3m-7l-Mua"/>
                         <outlet property="collectionListView" destination="h8J-oL-8qf" id="jyO-uk-Xpt"/>
@@ -79,6 +82,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="122" y="64"/>
+        </scene>
+        <!--Add Product View Controller-->
+        <scene sceneID="PWN-BE-dhy">
+            <objects>
+                <viewController id="xbI-fK-CDy" customClass="AddProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Eze-ib-w5J">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yZq-aI-NOQ">
+                                <rect key="frame" x="0.0" y="57" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Title" id="YBU-JN-nK9">
+                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="NHg-bS-xyq">
+                                            <connections>
+                                                <segue destination="BYZ-38-t0r" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="8Tj-sq-0RF"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="57A-Gl-5ed"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xMN-7X-QKA"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="URt-HJ-ksp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1120" y="64"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="tKB-wu-77e">
@@ -310,11 +344,6 @@
             <point key="canvasLocation" x="509" y="795"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="8i8-xY-6CF">
-            <size key="intrinsicContentSize" width="77.5" height="20.5"/>
-        </designable>
-    </designables>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

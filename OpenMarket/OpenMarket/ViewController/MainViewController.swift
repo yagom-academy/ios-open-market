@@ -1,5 +1,5 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - MainViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
@@ -7,7 +7,7 @@
 import UIKit
 
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     @IBOutlet weak var segmentSwitch: UISegmentedControl!
     @IBOutlet weak var collectionListView: UIView!
     @IBOutlet weak var collectionGridView: UIView!
@@ -82,7 +82,7 @@ final class ViewController: UIViewController {
         }
  
         body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"\("images")\"; filename=\"\("aaaaa.jpeg")\"\r\n\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(images.key)\"; filename=\"\(images.key)\"\r\n\r\n".data(using: .utf8)!)
         body.append(images.src)
         body.append("\r\n".data(using: .utf8)!)
         
