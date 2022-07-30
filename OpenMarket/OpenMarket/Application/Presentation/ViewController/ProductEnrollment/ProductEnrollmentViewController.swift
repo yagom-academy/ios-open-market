@@ -218,6 +218,10 @@ final class ProductEnrollmentViewController: UIViewController {
         view.addSubview(rootScrollView)
         rootScrollView.addSubview(rootStackView)
         
+        let heightAnchor = rootScrollView.heightAnchor.constraint(equalTo: rootScrollView.heightAnchor)
+        heightAnchor.priority = .defaultHigh
+        heightAnchor.isActive = true
+        
         NSLayoutConstraint.activate([
             rootScrollView.topAnchor.constraint(equalTo: view.topAnchor),
             rootScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
