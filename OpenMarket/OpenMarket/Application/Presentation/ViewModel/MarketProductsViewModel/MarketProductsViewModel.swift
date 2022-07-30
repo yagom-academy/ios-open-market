@@ -96,6 +96,7 @@ final class MarketProductsViewModel {
             
             entityList.productEntity.append(
                 ProductEntity(
+                    id: product.id,
                     thumbnailImage: thumbnailImage,
                     name: product.name,
                     currency: product.currency.rawValue,
