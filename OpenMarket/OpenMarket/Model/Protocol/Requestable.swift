@@ -54,6 +54,44 @@ extension Requestable {
         }
     }
     
+    func getProduct(_ loadingView: UIView?, _ gridCollectionView: GridCollecntionView, _ listCollectionView: ListCollectionView ) {
+        
+        let productsRequest = OpenMarketRequest(path: URLAdditionalPath.product.value,
+                                                method: .get,
+                                                baseURL: URLHost.openMarket.url,
+                                                query: [
+                                                    Product.page.text:  "\(Product.page.number)",
+                                                    Product.itemPerPage.text: "\(Product.itemPerPage.number)"
+                                                ])
+        let myURLSession = MyURLSession()
+        myURLSession.dataTask(with: productsRequest) {
+            (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                guard let decodedData = success.decodeImageData() else { return }
+                decodedData.pages
+                    .filter { ImageCacheManager.shared.object(forKey: NSString(string: $0.thumbnail)) == nil }
+                    .forEach { $0.pushThumbnailImageCache() }
+                DispatchQueue.main.async {
+                    
+                    guard let loadingView = loadingView else { return }
+                    
+                    defer {
+                        loadingView.isHidden = true
+                    }
+                    
+                    gridCollectionView.setSnapshot(productsList: decodedData.pages)
+                    listCollectionView.setSnapshot(productsList: decodedData.pages)
+                    
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+    }
+    
     func convertImages(view: UIView) -> [Data] {
         var images = [Data]()
         let _ = view.subviews

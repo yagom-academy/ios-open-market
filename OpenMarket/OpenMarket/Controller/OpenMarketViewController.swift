@@ -6,14 +6,15 @@
 
 import UIKit
 
-final class OpenMarketViewController: UIViewController {
+final class OpenMarketViewController: UIViewController, Requestable {
     // MARK: - properties
     
-    private var loadingView : UIView?
+    private var loadingView: UIView?
     private lazy var listCollectionView: ListCollectionView = {
         let layout  = createListLayout()
         let listCollectionView = ListCollectionView(frame: .zero,
                                                     collectionViewLayout: layout)
+        
         return listCollectionView
     }()
     
@@ -28,18 +29,21 @@ final class OpenMarketViewController: UIViewController {
     }()
     
     // MARK: - life cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.setUpUI()
         self.setUpRefreshControl()
-        self.fetchData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.fetchData()
+        self.getProduct(loadingView,
+                        gridCollectionView,
+                        listCollectionView)
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -104,40 +108,12 @@ final class OpenMarketViewController: UIViewController {
     private func setUpRefreshControl() {
         listCollectionView.refreshControl = UIRefreshControl()
         gridCollectionView.refreshControl = UIRefreshControl()
-        listCollectionView.refreshControl?.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
-        gridCollectionView.refreshControl?.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
-    }
-    
-    private func fetchData() {
-        let productsRequest = OpenMarketRequest(path: URLAdditionalPath.product.value,
-                                                method: .get,
-                                                baseURL: URLHost.openMarket.url,
-                                                query: [
-                                                    Product.page.text:  "\(Product.page.number)",
-                                                    Product.itemPerPage.text: "\(Product.itemPerPage.number)"
-                                                ])
-        let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: productsRequest) { [weak self]
-            (result: Result<Data, Error>) in
-            switch result {
-            case .success(let success):
-                guard let decodedData = success.decodeImageData() else { return }
-                decodedData.pages
-                    .filter { ImageCacheManager.shared.object(forKey: NSString(string: $0.thumbnail)) == nil }
-                    .forEach { $0.pushThumbnailImageCache() }
-                DispatchQueue.main.async {
-                    self?.gridCollectionView.setSnapshot(productsList: decodedData.pages)
-                    self?.listCollectionView.setSnapshot(productsList: decodedData.pages)
-                    guard let loadingView = self?.loadingView,
-                          loadingView.isHidden == false
-                    else { return }
-                    self?.removeSpinner()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                break
-            }
-        }
+        listCollectionView.refreshControl?.addTarget(self,
+                                                     action: #selector(self.refresh),
+                                                     for: .valueChanged)
+        gridCollectionView.refreshControl?.addTarget(self,
+                                                     action: #selector(self.refresh),
+                                                     for: .valueChanged)
     }
     
     private func createListLayout() -> UICollectionViewCompositionalLayout {
@@ -189,11 +165,6 @@ final class OpenMarketViewController: UIViewController {
         loadingView = spinnerView
     }
     
-    private func removeSpinner() {
-        self.loadingView?.isHidden = true
-        self.loadingView = nil
-    }
-    
     // MARK: - @objc functions
     
     @objc private func segmentButtonDidTap(sender: UISegmentedControl) {
@@ -209,13 +180,16 @@ final class OpenMarketViewController: UIViewController {
     }
     
     @objc private func productRegistrationButtonDidTap() {
-        self.navigationController?.pushViewController(ProductRegistrationViewController(), animated: true)
+        self.navigationController?.pushViewController(ProductRegistrationViewController(),
+                                                      animated: true)
     }
     
     @objc private func refresh() {
         self.listCollectionView.deleteSnapshot()
         self.gridCollectionView.deleteSnapshot()
-        self.fetchData()
+        self.getProduct(loadingView,
+                        gridCollectionView,
+                        listCollectionView)
         self.listCollectionView.refreshControl?.endRefreshing()
         self.gridCollectionView.refreshControl?.endRefreshing()
     }
@@ -255,4 +229,3 @@ private enum Design {
                                                            bottom: 5.0,
                                                            trailing: 5.0)
 }
-
