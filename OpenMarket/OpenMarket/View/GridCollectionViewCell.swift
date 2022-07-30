@@ -69,8 +69,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func configureContent(item: Item) {
+        guard let stock = item.stock.formatNumber() else { return }
+        
         titleLabel.text = "\(item.name)"
-        stockLabel.text = "잔여수량: \(item.stock.formatNumber())"
+        stockLabel.text = "잔여수량: \(stock)"
         stockLabel.textColor = .systemGray
         discountedLabel.text = "\(item.currency) \(item.discountedPrice)"
         discountedLabel.textColor = .systemGray

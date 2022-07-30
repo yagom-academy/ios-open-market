@@ -8,11 +8,11 @@
 import Foundation
 
 extension Int {
-    func formatNumber() -> String {
+    func formatNumber() -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         
-        guard let number = numberFormatter.string(for: self) else { return "" }
+        guard let number = numberFormatter.string(for: self) else { return nil }
         return number
     }
 }

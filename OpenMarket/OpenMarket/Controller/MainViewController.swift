@@ -38,7 +38,7 @@ final class MainViewController: UIViewController {
                 
                 DispatchQueue.main.async { [self] in
                     if currentPage == 1 {
-                        configureListCollectionView()
+                        configureCollectionView()
                     }
                     let indexPath = Array(0..<(currentPage * itemsPerPage)).map { IndexPath(item: $0, section: 0) }
                     collectionView.reloadItems(at: indexPath)
@@ -108,7 +108,7 @@ extension MainViewController {
         return listLayout
     }
     
-    private func configureListCollectionView() {
+    private func configureCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
         collectionView.dataSource = self
         collectionView.delegate = self

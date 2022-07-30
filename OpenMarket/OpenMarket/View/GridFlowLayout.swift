@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridFlowLayout: UICollectionViewFlowLayout {
+final class GridFlowLayout: UICollectionViewFlowLayout {
     let numberOfColumns = 2
     
     override init() {
