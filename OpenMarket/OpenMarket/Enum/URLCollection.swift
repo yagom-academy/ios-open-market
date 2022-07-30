@@ -5,11 +5,30 @@
 //  Created by BaekGom, Brad on 2022/07/12.
 //
 
+import Foundation
+
 enum URLCollection {
-    static let healthChecker = "https://market-training.yagom-academy.kr/healthChecker"
-    static let productListInquery = "https://market-training.yagom-academy.kr/api/products?page_no=1&"
-    static let productDetailInquery = "https://market-training.yagom-academy.kr/api/products/3541"
-    static let productUploadInquery = "https://market-training.yagom-academy.kr/api/products"
+    static let hostURL = "https://market-training.yagom-academy.kr/"
+    case healthChecker
+    case productList(pageNumber: Int, itemsPerPage: Int)
+    case productDetail(productNumber: Int)
+    case productPost
+    case productPatch(productIdentifier: Int)
+    
+    var string: String {
+        switch self {
+        case .healthChecker:
+            return "/healthChecker"
+        case .productList(let pageNumber, let itemsPerPage):
+            return "/api/products?page_no=\(pageNumber)&items_per_page=\(itemsPerPage)"
+        case .productDetail(let productNumber):
+            return "/api/products/\(productNumber)"
+        case .productPost:
+            return "/api/products/"
+        case .productPatch(let productIdentifier):
+            return "/api/products/\(productIdentifier)"
+        }
+    }
 }
 
 enum VendorInfo {

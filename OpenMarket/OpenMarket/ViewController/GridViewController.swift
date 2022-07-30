@@ -13,7 +13,6 @@ final class GridViewController: UIViewController {
     private let numberFormatter = NumberFormatter()
     private let jsonParser = JSONParser()
     private let URLSemaphore = DispatchSemaphore(value: 0)
-    private let itemPage = "items_per_page=20"
     private var productData: ProductListResponse?
     
     override func viewDidLoad() {
@@ -30,7 +29,7 @@ final class GridViewController: UIViewController {
     }
     
     private func fetchData() {
-        jsonParser.dataTask(by: URLCollection.productListInquery + itemPage, completion: { (response) in
+        jsonParser.dataTask(by: URLCollection.hostURL + URLCollection.productList(pageNumber: 1, itemsPerPage: 10).string, completion: { (response) in
             switch response {
             case .success(let data):
                 self.productData = data
@@ -45,7 +44,9 @@ final class GridViewController: UIViewController {
 
 extension GridViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let result = productData else { return 0 }
+        guard let result = productData else {
+            return 0
+        }
         return result.itemsPerPage
     }
     

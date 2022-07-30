@@ -22,7 +22,6 @@ final class ListViewController: UIViewController {
     private let numberFormatter = NumberFormatter()
     private let jsonParser = JSONParser()
     private let URLSemaphore = DispatchSemaphore(value: 0)
-    private let itemPage = "items_per_page=50"
     private var productData: ProductListResponse?
 
     override func viewDidLoad() {
@@ -46,7 +45,7 @@ final class ListViewController: UIViewController {
     }
     
     private func fetchData() {
-        jsonParser.dataTask(by: URLCollection.productListInquery + itemPage, completion: { (response) in
+        jsonParser.dataTask(by: (URLCollection.hostURL + URLCollection.productList(pageNumber: 1, itemsPerPage: 10).string), completion: { (response) in
             switch response {
             case .success(let data):
                 self.productData = data
@@ -62,7 +61,9 @@ final class ListViewController: UIViewController {
 
 extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let result = productData else { return 0 }
+        guard let result = productData else {
+            return 0
+        }
         return result.itemsPerPage
     }
     
@@ -72,6 +73,7 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.accessories = [.disclosureIndicator()]
         cell.fetchData(data: productData, index: indexPath.row)
+        
         return cell
     }
 }

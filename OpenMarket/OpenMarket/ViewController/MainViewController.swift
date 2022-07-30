@@ -67,7 +67,6 @@ final class MainViewController: UIViewController {
                 print("data",String(describing: error))
                 return
             }
-
             print("result", String(data: data, encoding: .utf8)!)
         }
         task.resume()
@@ -85,7 +84,7 @@ final class MainViewController: UIViewController {
         }
  
         body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"\(images.key)\"; filename=\"\(images.key)\"\r\n\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"\(images.key)\"; filename=\"\(arc4random())\"\r\n\r\n".data(using: .utf8)!)
         body.append(images.src)
         body.append("\r\n".data(using: .utf8)!)
         body.append("--\(boundary)--".data(using: .utf8)!)
