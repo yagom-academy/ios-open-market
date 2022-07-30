@@ -13,4 +13,5 @@ enum AlertMessage: String {
     case additionalCharacters = "상품명은 세 글자 이상 입력되어야 합니다."
     case emptyValue = "값이 없습니다."
     case exceedValue = "글자수가 초과되었습니다."
+    case exceedImages = "이미지를 추가할 수 없습니다."
 }

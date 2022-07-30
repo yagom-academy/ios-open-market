@@ -373,8 +373,12 @@ final class ProductEnrollmentViewController: UIViewController {
     }
     
     @objc private func didTappedImagePickerButton(_ sender: UIButton) {
-        self.present(self.productImagePicker,
-                     animated: true)
+        if productImages.count < 5 {
+            self.present(self.productImagePicker,
+                         animated: true)
+        } else {
+            self.presentConfirmAlert(message: AlertMessage.exceedImages.rawValue)
+        }
     }
 }
 
