@@ -163,9 +163,48 @@
         └── LaunchScreen
 ```
 
+    
 ## 📝 기능설명
     
-### 
+- 서버 통신 기능 구현
+    ```
+    - APIProtocol
+        - 각각의 HTTPMethod에 따른 서버와 통신하는 메서드 구현
+    - APIConfiguration
+        - HTTPMethod에 따른 URL을 생성하는 Configuration 타입 구현
+    - URLComponetsBuilder
+        - Builder Pattern을 활용하여 dynamic하게 URL 생성
+    ```
+
+- 상품등록 UI 구현
+    ```
+    - UIImagePickerController
+    - ScrollView
+    - StackView
+    - TextField
+    - TextView
+    ```
+    
+네트워크 통신을 담당할 타입을 설계하고 구현
+- ProductList, Product
+    - 서버 API 데이터 형식을 고려하여 모델 타입 구현
+- NetworkProvider
+    - 서버로부터 데이터를 받아오는 기능을 수행
+    - 기능을 수행한 위한 protocol, extension 별도 생성
+- NetworkError
+    - 서버로부터 데이터를 받아오는 도중 발생하는 에러 표현
+CollectionView Cell을 각 Layout 별로 분리하여 구현
+- GridCollectionCell, ListCollectionCell
+    - CollectionView의 Cell 타입 구현 
+- ProductEntity
+    - 서버 매핑 타입 중 Cell에 필요한 타입들 별도 구현
+Utilities
+- String+Extensions
+    - String 자료형을 확장시켜 필요 메서드 관리
+        * strikeThrough - 해당 문자열의 처음부터 입력 받은 수의 인덱스까지 strikethroughStyle 적용.
+- Int+Extensions
+    - Int 자료형을 확장시켜 필요 메서드 관리
+        * numberFormatter - 10진수로 변환하고 String 타입으로 변환 후 반환
     
 ## 🚀 TroubleShooting
     
