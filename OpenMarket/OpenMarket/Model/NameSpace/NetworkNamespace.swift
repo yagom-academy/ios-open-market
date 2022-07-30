@@ -21,7 +21,7 @@ enum NetworkNamespace: String {
         case .patch:
             return "PATCH"
         case .del:
-            return "DEL"
+            return "DELETE"
         case .url:
             return "https://market-training.yagom-academy.kr/api/products"
         }

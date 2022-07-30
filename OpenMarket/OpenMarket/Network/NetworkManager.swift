@@ -23,6 +23,7 @@ final class NetworkManager {
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
+                print(response?.description)
                 return completion(.failure(NetworkError.outOfRange))
             }
             
@@ -77,6 +78,32 @@ final class NetworkManager {
         
         guard let jsonData = OpenMarketRequest().createJson(params: params) else { return }
         request.httpBody = jsonData
+        
+        fetch(request: request) { result in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func deleteProduct(productId: String, secret: String) {
+        let components = URLComponents(string: NetworkNamespace.url.name)
+        let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
+        
+        guard var url = components?.url else { return }
+        
+        url.appendPathComponent(productId)
+        url.appendPathComponent(secret)
+        
+        var request = URLRequest(url: url)
+        
+        print(request.url)
+        
+        request.httpMethod = NetworkNamespace.del.name
+        request.addValue(identifier, forHTTPHeaderField: Request.identifier)
         
         fetch(request: request) { result in
             switch result {
