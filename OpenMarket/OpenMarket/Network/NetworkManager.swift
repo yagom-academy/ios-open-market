@@ -66,6 +66,36 @@ final class NetworkManager {
         }
     }
     
+    func postSecret(productId: String, password: String) {
+        let components = URLComponents(string: NetworkNamespace.url.name)
+        let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
+
+        guard var url = components?.url else { return }
+
+        url.appendPathComponent(productId)
+        url.appendPathComponent(Request.secret)
+
+        var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+
+        request.httpMethod = NetworkNamespace.post.name
+        request.addValue(identifier, forHTTPHeaderField: Request.identifier)
+        request.addValue(Multipart.jsonContentType, forHTTPHeaderField: Multipart.contentType)
+        
+        let parameters = "{\"\(Request.secret)\": \"\(password)\"}"
+        let postData = parameters.data(using: .utf8)
+
+        request.httpBody = postData
+            fetch(request: request) { result in
+                switch result {
+                case .success(let data):
+                    self.deleteProduct(productId: productId, productSecretId: data)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        
+    }
+
     func patchProduct(productId: String) {
         let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
         
@@ -89,7 +119,8 @@ final class NetworkManager {
         }
     }
     
-    func deleteProduct(productId: String, secret: String) {
+    func deleteProduct(productId: String, productSecretId: Data) {
+        guard let secret = String(data: productSecretId, encoding: .utf8) else { return }
         let components = URLComponents(string: NetworkNamespace.url.name)
         let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
         
@@ -99,9 +130,7 @@ final class NetworkManager {
         url.appendPathComponent(secret)
         
         var request = URLRequest(url: url)
-        
-        print(request.url)
-        
+
         request.httpMethod = NetworkNamespace.del.name
         request.addValue(identifier, forHTTPHeaderField: Request.identifier)
         
