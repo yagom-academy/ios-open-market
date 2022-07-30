@@ -51,7 +51,7 @@ struct OpenMarketRequest {
         var postData = Data()
         let params = parms
         
-        guard let jsonData = OpenMarketRequest().createPostJson(params: params) else { return nil }
+        guard let jsonData = OpenMarketRequest().createJson(params: params) else { return nil }
 
         postData.append(form: "--\(Multipart.boundaryValue)\r\n")
         postData.append(form: Multipart.paramContentDisposition)
@@ -72,7 +72,7 @@ struct OpenMarketRequest {
         return postData
     }
     
-    private func createPostJson(params: [String: Any]) -> Data? {
+    func createJson(params: [String: Any]) -> Data? {
         return try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
     }
     
