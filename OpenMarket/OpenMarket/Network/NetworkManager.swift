@@ -5,7 +5,6 @@
 //  Created by unchain, hyeon2 on 2022/07/12.
 //
 
-import Foundation
 import UIKit
 
 final class NetworkManager {
@@ -53,35 +52,32 @@ final class NetworkManager {
         request.httpMethod = NetworkNamespace.post.name
 
         let boundary = "\(UUID().uuidString)"
-        request.addValue("multipart/form-data; boundary=\"\(boundary)\"", forHTTPHeaderField: "Content-Type")
-
-        request.addValue("d1fb22fc-0335-11ed-9676-3bb3eb48793a", forHTTPHeaderField: "identifier")
+        request.addValue(Multipart.boundary + "\"\(boundary)\"", forHTTPHeaderField: Multipart.contentType)
+        request.addValue("d1fb22fc-0335-11ed-9676-3bb3eb48793a", forHTTPHeaderField: Request.identifier)
         
         var postData = Data()
 
         let params: [String: Any] = ["name": "테스트중", "descriptions": "테스트중임", "price": 222, "currency": Currency.KRW.rawValue, "secret": "lP8VFiBqGI"]
         
         guard let jsonData = OpenMarketRequest().createPostJson(params: params) else { return }
-      
-        postData.append("--\(boundary)\r\n".data(using: .utf8)!)
-        postData.append("Content-Disposition: form-data; name=\"params\"\r\n".data(using: .utf8)!)
-        postData.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
+
+        postData.append(form: "--\(boundary)\r\n")
+        postData.append(form: Multipart.paramContentDisposition)
+        postData.append(form: Multipart.paramContentType)
 
         postData.append(jsonData)
-        postData.append("\r\n".data(using: .utf8)!)
+        postData.append(form: Multipart.lineFeed)
 
-        postData.append("--\(boundary)\r\n".data(using: .utf8)!)
-        postData.append("Content-Disposition: form-data; name=\"images\"; filename=\"unchain.png\"\r\n".data(using: .utf8)!)
-        postData.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-        
+        postData.append(form: "--\(boundary)" + Multipart.lineFeed)
+        postData.append(form: Multipart.imageContentDisposition + "\"unchain.png\"" + Multipart.lineFeed)
+        postData.append(form: ImageType.png.name)
+
         let imageData = UIImage(named: "unchain")
-        guard let imageDataSrc = imageData?.pngData() else {
-            print("이미지 실패")
-            return }
+        guard let imageDataSrc = imageData?.pngData() else { return }
         postData.append(imageDataSrc)
-        postData.append("\r\n".data(using: .utf8)!)
-        postData.append("--\(boundary)--".data(using: .utf8)!)
-        
+        postData.append(form: Multipart.lineFeed)
+        postData.append(form: "--\(boundary)--")
+
         request.httpBody = postData
 
         fetch(request: request) { result in

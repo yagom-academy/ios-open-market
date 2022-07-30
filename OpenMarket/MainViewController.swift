@@ -94,10 +94,7 @@ final class MainViewController: UIViewController {
         dataSource = configureDataSource(id: "list")
         self.snapshot.appendSections([.main])
         
-        //NetworkManager().patchProduct(productId: "4158")
-        //NetworkManager().delectProduct(productId: "4135", productSecret: "lP8VFiBqGI")
         getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
-        // NetworkManager().postProduct()
     }
     
     // MARK: Method
@@ -155,8 +152,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureDataSource(id: String) -> DiffableDataSource? {
-        dataSource = DiffableDataSource(collectionView: collectionView)
-        { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
+        dataSource = DiffableDataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
             switch id {
             case "list":
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as? ListCollectionViewCell else {
