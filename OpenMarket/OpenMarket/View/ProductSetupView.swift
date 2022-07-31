@@ -126,6 +126,7 @@ class ProductSetupView: UIView {
         self.rootViewController = rootViewController
         addSubViews(rootViewController)
         setupConstraints(rootViewController)
+        keyboardTypeSetup()
     }
     
     required init?(coder: NSCoder) {
@@ -181,5 +182,11 @@ class ProductSetupView: UIView {
             productDiscountedPriceTextField.heightAnchor.constraint(equalToConstant: 35),
             productStockTextField.heightAnchor.constraint(equalToConstant: 35)
         ])
+    }
+    private func keyboardTypeSetup() {
+        productNameTextField.keyboardType = .default
+        productPriceTextField.keyboardType = .numberPad
+        productDiscountedPriceTextField.keyboardType = .numberPad
+        productStockTextField.keyboardType = .numberPad
     }
 }

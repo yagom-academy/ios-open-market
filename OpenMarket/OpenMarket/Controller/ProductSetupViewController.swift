@@ -68,6 +68,16 @@ class ProductSetupViewController: UIViewController {
         }
         self.present(imagePicker, animated: true)
     }
+    @objc private func changeCurrencyKeyboard() {
+        view.endEditing(true)
+        if productSetupView?.currencySegmentControl.selectedSegmentIndex == 0 {
+            productSetupView?.productPriceTextField.keyboardType = .numberPad
+            productSetupView?.productDiscountedPriceTextField.keyboardType = .numberPad
+        } else {
+            productSetupView?.productPriceTextField.keyboardType = .decimalPad
+            productSetupView?.productDiscountedPriceTextField.keyboardType = .decimalPad
+        }
+    }
     // MARK: - ProductSetupVC - Private method
     private func createProductRegistration() -> ProductRegistration? {
         guard let productSetupView = productSetupView,
@@ -113,6 +123,7 @@ class ProductSetupViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonDidTapped))
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
+        productSetupView?.currencySegmentControl.addTarget(self, action: #selector(changeCurrencyKeyboard), for: .valueChanged)
     }
     private func setupPickerViewController() {
         self.imagePicker.sourceType = .photoLibrary
