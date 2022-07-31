@@ -27,8 +27,49 @@ class ProductsDetailViewController: UIViewController {
         
         addNavigationBarButton()
        
-        addTargetAction()        
+        addTargetAction()
+        
+        makeNotification()
     }
+    
+    func makeNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let detailView = view as? ProductDetailView else { return }
+
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+                return
+        }
+        
+        let contentInset = UIEdgeInsets(
+            top: 0.0,
+            left: 0.0,
+            bottom: keyboardFrame.size.height,
+            right: 0.0)
+        detailView.mainScrollView.contentInset = contentInset
+        detailView.mainScrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc private func keyboardWillHide() {
+        guard let detailView = view as? ProductDetailView else { return }
+
+        let contentInset = UIEdgeInsets.zero
+        detailView.mainScrollView.contentInset = contentInset
+        detailView.mainScrollView.scrollIndicatorInsets = contentInset
+    }
+
     
     private func configureNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -159,13 +200,13 @@ extension ProductsDetailViewController: UITextFieldDelegate {
 
 extension ProductsDetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
-        guard let detailView = view as? ProductDetailView else { return }
-        guard let textSelectedTextRange = textView.selectedTextRange else { return }
-        let caret = textView.caretRect(for: textSelectedTextRange.start)
-        let scrollPoint = CGPoint(x: 0, y: caret.origin.y - 50)
-        
-        if scrollPoint.y != .infinity && scrollPoint.y > 0.0 {
-            detailView.mainScrollView.setContentOffset(scrollPoint, animated: true)
-        }
+//        guard let detailView = view as? ProductDetailView else { return }
+//        guard let textSelectedTextRange = textView.selectedTextRange else { return }
+//        let caret = textView.caretRect(for: textSelectedTextRange.start)
+//        let scrollPoint = CGPoint(x: 0, y: caret.origin.y - 50)
+//        
+//        if scrollPoint.y != .infinity && scrollPoint.y > 0.0 {
+//            detailView.mainScrollView.setContentOffset(scrollPoint, animated: true)
+//        }
     }
 }

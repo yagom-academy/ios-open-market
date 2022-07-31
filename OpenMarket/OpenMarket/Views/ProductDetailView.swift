@@ -121,6 +121,16 @@ class ProductDetailView: UIView {
         return textView
     }()
     
+    let mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        return stackView
+    }()
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -160,9 +170,11 @@ extension ProductDetailView {
     private func addViews() {
         addSubview(mainScrollView)
         
-        mainScrollView.addSubview(itemImageScrollView)
-        mainScrollView.addSubview(textFieldStackView)
-        mainScrollView.addSubview(descriptionTextView)
+        mainScrollView.addSubview(mainStackView)
+        
+        mainStackView.addArrangedSubview(itemImageScrollView)
+        mainStackView.addArrangedSubview(textFieldStackView)
+        mainStackView.addArrangedSubview(descriptionTextView)
         
         itemImageScrollView.addSubview(imageStackView)
         
@@ -186,37 +198,27 @@ extension ProductDetailView {
         ])
         
         NSLayoutConstraint.activate([
-            itemImageScrollView.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: 15),
-            itemImageScrollView.bottomAnchor.constraint(equalTo: textFieldStackView.topAnchor, constant: -15),
-            itemImageScrollView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
-            itemImageScrollView.heightAnchor.constraint(equalTo: mainScrollView.heightAnchor, multiplier: 0.2)
+            mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
+            mainStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor)
         ])
-
+        
         NSLayoutConstraint.activate([
-            imageStackView.leadingAnchor.constraint(equalTo: itemImageScrollView.contentLayoutGuide.leadingAnchor),
-            imageStackView.trailingAnchor.constraint(equalTo: itemImageScrollView.contentLayoutGuide.trailingAnchor),
-            imageStackView.centerYAnchor.constraint(equalTo: itemImageScrollView.centerYAnchor),
+            imageStackView.topAnchor.constraint(equalTo: itemImageScrollView.topAnchor),
+            imageStackView.bottomAnchor.constraint(equalTo: itemImageScrollView.bottomAnchor),
+            imageStackView.leadingAnchor.constraint(equalTo: itemImageScrollView.leadingAnchor),
+            imageStackView.trailingAnchor.constraint(equalTo: itemImageScrollView.trailingAnchor),
             imageStackView.heightAnchor.constraint(equalTo: itemImageScrollView.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            rightBarPlusButton.widthAnchor.constraint(equalTo: rightBarPlusButton.heightAnchor)
+            itemImageScrollView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
         ])
         
         NSLayoutConstraint.activate([
-            textFieldStackView.bottomAnchor.constraint(equalTo: descriptionTextView.topAnchor, constant: -15),
-            textFieldStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
-            textFieldStackView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            currencySegmentControl.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3)
-        ])
-        
-        NSLayoutConstraint.activate([
-            descriptionTextView.bottomAnchor.constraint(equalTo: mainScrollView.contentLayoutGuide.bottomAnchor),
-            descriptionTextView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
-            descriptionTextView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor)
+            rightBarPlusButton.heightAnchor.constraint(equalTo: rightBarPlusButton.widthAnchor)
         ])
     }
 }
