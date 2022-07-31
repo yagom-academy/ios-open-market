@@ -117,7 +117,7 @@ class ProductDetailView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.isEditable = true
-        textView.text = "테스트"
+//        textView.text = "테스트"
         return textView
     }()
     

@@ -7,6 +7,11 @@ class ProductsDetailViewController: UIViewController {
     
     var selectedImageView: UIImageView?
     
+    var detailView: ProductDetailView {
+        guard let detailView = view as? ProductDetailView else { return ProductDetailView() }
+        return detailView
+    }
+    
     // MARK: - Life Cycle
 
     override func loadView() {
@@ -21,7 +26,7 @@ class ProductsDetailViewController: UIViewController {
         
         configureImagePicker()
         
-        guard let detailView = view as? ProductDetailView else { return }
+        
         
         detailView.configureDelegate(viewController: self)
         
@@ -30,6 +35,14 @@ class ProductsDetailViewController: UIViewController {
         addTargetAction()
         
         makeNotification()
+    }
+    
+    func presentAlertMessage(message: String) {
+        let alert = UIAlertController(title: "에러!", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(action)
+        present(alert, animated: true)
     }
     
     func makeNotification() {
@@ -46,7 +59,6 @@ class ProductsDetailViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let detailView = view as? ProductDetailView else { return }
 
         guard let userInfo = notification.userInfo,
             let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
@@ -63,7 +75,6 @@ class ProductsDetailViewController: UIViewController {
     }
     
     @objc private func keyboardWillHide() {
-        guard let detailView = view as? ProductDetailView else { return }
 
         let contentInset = UIEdgeInsets.zero
         detailView.mainScrollView.contentInset = contentInset
@@ -87,7 +98,6 @@ class ProductsDetailViewController: UIViewController {
     }
     
     private func addTargetAction() {
-        guard let detailView = view as? ProductDetailView else { return }
         detailView.rightBarPlusButton.addTarget(self, action: #selector(addButtonDidTapped), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
@@ -111,7 +121,7 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         switch picker {
         case imagePicker:
-            guard let detailView = view as? ProductDetailView else { return }
+            
             guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
             
             detailView.addToScrollView(of: selectedImage, viewController: self)
@@ -138,7 +148,18 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
 
 extension ProductsDetailViewController {
     @objc private func doneButtonDidTapped() {
-        guard let detailView = view as? ProductDetailView else { return }
+        
+        
+        if detailView.imageStackView.arrangedSubviews.count <= 1 {
+            presentAlertMessage(message: "이미지를 추가해주세요.")
+            return
+        } else if detailView.itemNameTextField.text?.count ?? 0 < 3 {
+            presentAlertMessage(message: "상품명을 세 글자 이상 작성해주세요.")
+            return
+        } else if detailView.itemPriceTextField.text?.isEmpty ?? true {
+            presentAlertMessage(message: "상품가격을 입력하세요.")
+            return
+        }
         
         var imageViews = detailView.imageStackView.arrangedSubviews
         
@@ -187,26 +208,42 @@ extension ProductsDetailViewController {
 // MARK: - UITextFieldDelegate Functions
 
 extension ProductsDetailViewController: UITextFieldDelegate {
-    private func textFieldshouldBeginEditing(_ textField: UITextField) {
-        textField.becomeFirstResponder()
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        if isEmptySaleAndStockTextField(textField) {
+            detailView.itemSaleTextField.text = "0"
+            detailView.itemStockTextField.text = "0"
+        }
+        
+        if defaultTextField(textField) {
+                textField.text = ""
+        }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+    func isEmptySaleAndStockTextField(_ textField: UITextField) -> Bool {
+        guard let detailView = view as? ProductDetailView else { return false }
+        
+        return textField == detailView.itemNameTextField && detailView.itemSaleTextField.text?.isEmpty ?? false && detailView.itemStockTextField.text?.isEmpty ?? false
+    }
+    
+    func defaultTextField(_ textField: UITextField) -> Bool {
+        guard let detailView = view as? ProductDetailView else { return false }
+        
+        return (textField == detailView.itemStockTextField || textField == detailView.itemSaleTextField) && textField.text == "0"
     }
 }
 
 // MARK: - UITextViewDelegate Functions
 
 extension ProductsDetailViewController: UITextViewDelegate {
-    func textViewDidChangeSelection(_ textView: UITextView) {
-//        guard let detailView = view as? ProductDetailView else { return }
-//        guard let textSelectedTextRange = textView.selectedTextRange else { return }
-//        let caret = textView.caretRect(for: textSelectedTextRange.start)
-//        let scrollPoint = CGPoint(x: 0, y: caret.origin.y - 50)
-//        
-//        if scrollPoint.y != .infinity && scrollPoint.y > 0.0 {
-//            detailView.mainScrollView.setContentOffset(scrollPoint, animated: true)
-//        }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text.cString(using: String.Encoding.utf8) == [0] {
+            return true
+        }
+        if textView.text.count >= 1000 {
+            presentAlertMessage(message: "상품설명은 1000자 이하로 입력해주세요.")
+            return false
+        }
+        return true
     }
 }
