@@ -67,7 +67,7 @@ final class MarketProductsViewModel {
             return nil
         }
         
-        return product.originalPrice == product.discountedPrice
+        return product.originalPrice != product.discountedPrice
     }
     
     var isEmptyStock: Bool? {
