@@ -128,15 +128,17 @@ extension ProductsViewController {
     }
     
     private func configureDataSoure() {
-        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [self] (cell, indexPath, identifier) in
+        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [weak self] (cell, indexPath, identifier) in
+            guard let self = self else { return }
+            
             cell.setProduct(by: identifier)
             
             guard let segmentControl = self.segmentControl,
                   let currentSeguement = Titles(rawValue: segmentControl.selectedSegmentIndex) else { return }
             cell.setAxis(segment: currentSeguement)
             
-            if productImages.count > indexPath.row {
-                cell.setImage(by: productImages[indexPath.row])
+            if self.productImages.count > indexPath.row {
+                cell.setImage(by: self.productImages[indexPath.row])
             }
             
             cell.backgroundColor = .systemBackground
@@ -203,23 +205,64 @@ extension ProductsViewController {
 
 extension ProductsViewController {
     @objc private func changeLayout() {
-        if segmentControl?.selectedSegmentIndex == Titles.list.rawValue {
-            isFetchingEnd = false
-            collectionView?.setCollectionViewLayout(createListLayout(), animated: true) { [self] bool in
-                isFetchingEnd = true
+        guard let collectionView = collectionView else { return }
+        
+        // 화면에 보이는 모든 셀 담기
+        var cellArray: [UICollectionViewCell]
+        switch segmentControl?.selectedSegmentIndex {
+        case Titles.list.rawValue:
+            cellArray = collectionView.visibleCells.filter {
+                guard let indexPath = collectionView.indexPath(for: $0) else { return false }
+                return indexPath.row % 2 == 0
             }
-            collectionView?.visibleCells.forEach { cell in
-                guard let cell = cell as? ItemCollectionViewCell else { return }
-                cell.setAxis(segment: .list)
-            }
-        } else if segmentControl?.selectedSegmentIndex == Titles.grid.rawValue {
-            isFetchingEnd = false
-            collectionView?.setCollectionViewLayout(createGridLayout(), animated: true) { [self] bool in
-                isFetchingEnd = true
-            }
-            collectionView?.visibleCells.forEach { cell in
-                guard let cell = cell as? ItemCollectionViewCell else { return }
-                cell.setAxis(segment: .grid)
+        case Titles.grid.rawValue:
+            cellArray = collectionView.visibleCells
+        default:
+            cellArray = []
+        }
+        
+        // status bar 부터 navigation bar 까지 높이 구하기
+        guard let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height,
+              let navigationBarHeight = navigationController?.navigationBar.frame.height else { return }
+        let totalHeight = statusBarHeight + navigationBarHeight
+        
+        // 현재 스크롤된 위치 구하기
+        let currentOffset = collectionView.contentOffset.y + totalHeight
+        
+        // 가장 위에 셀 구하기
+        let topCell = cellArray.min {
+            let leftCellsDifference = abs($0.frame.minY - currentOffset)
+            let rightCellsDifference = abs($1.frame.minY - currentOffset)
+            
+            return leftCellsDifference < rightCellsDifference
+        }
+        
+        // 가장 위에 셀의 indexPath 구하기
+        guard let topCell = topCell,
+              let topCellIndexPath = collectionView.indexPath(for: topCell) else { return }
+        
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            if self.segmentControl?.selectedSegmentIndex == Titles.list.rawValue {
+                self.isFetchingEnd = false
+                collectionView.setCollectionViewLayout(self.createListLayout(), animated: false) { [weak self] bool in
+                    self?.isFetchingEnd = true
+                }
+                collectionView.visibleCells.forEach { cell in
+                    guard let cell = cell as? ItemCollectionViewCell else { return }
+                    cell.setAxis(segment: .list)
+                }
+                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
+            } else if self.segmentControl?.selectedSegmentIndex == Titles.grid.rawValue {
+                self.isFetchingEnd = false
+                collectionView.setCollectionViewLayout(self.createGridLayout(), animated: false) { [weak self] bool in
+                    self?.isFetchingEnd = true
+                }
+                collectionView.visibleCells.forEach { cell in
+                    guard let cell = cell as? ItemCollectionViewCell else { return }
+                    cell.setAxis(segment: .grid)
+                }
+                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
             }
         }
     }
@@ -235,8 +278,9 @@ extension ProductsViewController {
         currentPage = 0
         
         if isFetchingEnd {
-            startFetching() { [self] in
-                refreshControl.endRefreshing()
+            startFetching() { [weak self] in
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
             }
         }
     }

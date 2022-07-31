@@ -14,14 +14,14 @@ class ItemCollectionViewCell: UICollectionViewListCell {
             
             itemNameLabel.text = product.name
             
-            if product.discountedPrice == product.price {
+            if product.discountedPrice == product.price || product.discountedPrice == 0 {
                 itemPriceLabel.text = "\(product.currency) \(product.price)"
             } else {
                 let salePrice = "\(product.currency) \(product.price)".strikeThrough()
                 itemPriceLabel.attributedText = salePrice
                 itemPriceLabel.textColor = .systemRed
                 self.priceStackView.addArrangedSubview(itemSaleLabel)
-                itemSaleLabel.text = "\(product.currency) \(product.discountedPrice)"
+                itemSaleLabel.text = "\(product.currency) \(product.price - product.discountedPrice)"
             }
             
             if product.stock == 0 {
@@ -209,6 +209,11 @@ extension ItemCollectionViewCell {
         
         self.itemImageViewLayoutConstraint?.isActive = true
         self.accessories = [ .delete() ]
+    }
+    
+    func returnNameLabelText() -> String {
+        guard let name = itemNameLabel.text else { return "" }
+        return name
     }
 }
 

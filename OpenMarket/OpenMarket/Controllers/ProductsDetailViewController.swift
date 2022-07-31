@@ -26,8 +26,6 @@ class ProductsDetailViewController: UIViewController {
         
         configureImagePicker()
         
-        
-        
         detailView.configureDelegate(viewController: self)
         
         addNavigationBarButton()
