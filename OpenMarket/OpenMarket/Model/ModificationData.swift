@@ -2,7 +2,7 @@
 //  ModificationRowData.swift
 //  OpenMarket
 //
-//  Created by 이원빈 on 2022/07/27.
+//  Created by 웡빙, 보리사랑 on 2022/07/27.
 //
 
 import Foundation

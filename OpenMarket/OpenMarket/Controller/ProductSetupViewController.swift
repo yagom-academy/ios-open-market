@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductSetupViewController: UIViewController {
+final class ProductSetupViewController: UIViewController {
     // MARK: - Properties
     private let manager = NetworkManager.shared
     private var productSetupView: ProductSetupView?
@@ -36,16 +36,16 @@ class ProductSetupViewController: UIViewController {
         }
     }
     // MARK: - @objc method
-    @objc func keyboardWillAppear(_ sender: Notification) {
+    @objc private func keyboardWillAppear(_ sender: Notification) {
         print("keyboard up")
     }
-    @objc func keyboardWillDisappear(_ sender: Notification){
+    @objc private func keyboardWillDisappear(_ sender: Notification){
         print("keyboard down")
     }
-    @objc func cancelButtonDidTapped() {
+    @objc private func cancelButtonDidTapped() {
         navigationController?.popViewController(animated: true)
     }
-    @objc func doneButtonDidTapped() {
+    @objc private func doneButtonDidTapped() {
         guard let productRegistration = createProductRegistration(),
               let images = createImages()
         else {
@@ -61,7 +61,7 @@ class ProductSetupViewController: UIViewController {
         }
     }
     
-    @objc func pickImage() {
+    @objc private func pickImage() {
         if productSetupView?.horizontalStackView.subviews.count == 6 {
             showAlert(title: "추가할 수 없습니다", message: "5장 이상은 추가 할 수 없습니다.")
             return

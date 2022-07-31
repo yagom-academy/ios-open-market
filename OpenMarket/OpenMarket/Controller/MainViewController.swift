@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     // MARK: - Instance Properties
     private let manager = NetworkManager.shared
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -62,25 +62,9 @@ class MainViewController: UIViewController {
         activityIndicator.stopAnimating()
         return activityIndicator
     }()
-    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // REST API TEST CODE - start
-//        let productRegistration = ProductRegistration(name: "마라탕",
-//                                                      descriptions: "내일 점심",
-//                                                      price: 34000,
-//                                                      currency: Currency.krw,
-//                                                      discountedPrice: 31000,
-//                                                      stock: 1,
-//                                                      secret: URLData.secret
-//        )
-//        let maraImage = UIImage(named: "mara") ?? UIImage()
-//        let images = [maraImage]
-//        manager.requestProductRegistration(with: productRegistration, images: images) { detail in
-//            print("SUCCESS POST - \(detail.id), \(detail.name)")
-//        }
-        // REST API TEST CODE - end
         initializeViewController()
         self.listLayout = createListLayout()
         self.gridLayout = createGridLayout()
@@ -95,7 +79,6 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         fetchData()
     }
-    
     // MARK: - Main View Controller Method
     private func initializeViewController() {
         DispatchQueue.main.async {
@@ -117,22 +100,6 @@ class MainViewController: UIViewController {
         let prodcutDetailVC = ProductSetupViewController()
         prodcutDetailVC.viewControllerTitle = "상품 등록"
         navigationController?.pushViewController(prodcutDetailVC, animated: true)
-        // REST API TEST CODE - start
-//        let id = 3994
-//        let modificationData = ModificationData(id: id,
-//                                           name: "보리보리",
-//                                           stock: 10)
-//        let rowData = manager.translateToRowData(modificationData)
-//        manager.requestProductModification(id: id, rowData: rowData) { detail in
-//            print("SUCCESS POST - \(detail.id), \(detail.name)")
-//        }
-        // REST API TEST CODE - end
-//        // REST API DELETE CODE TEST - START
-//        let id = 3994
-//        manager.requestProductDeleteKey(id: id) { [weak self] key in
-//            self?.manager.requestProductDelete(id: id, key: key)
-//        }
-//        // REST API DELETE CODE TEST - END
     }
     
     private func setupSegment() {
@@ -204,7 +171,6 @@ extension MainViewController {
         }
         listDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
-            
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }

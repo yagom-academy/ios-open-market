@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductSetupView: UIView {
+final class ProductSetupView: UIView {
     let mainScrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,6 @@ class ProductSetupView: UIView {
     
     lazy var horizontalStackView: UIStackView = {
         var stackview = UIStackView()
-        //stackview.addArrangedSubview(addImageButton)
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .horizontal
         stackview.distribution = .fill
@@ -132,7 +131,7 @@ class ProductSetupView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func addSubViews(_ rootViewController: UIViewController) {
         rootViewController.view.addSubview(mainScrollView)
         mainScrollView.addSubview(mainStackView)

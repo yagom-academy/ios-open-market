@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class NetworkManager {
+final class NetworkManager {
     static let shared = NetworkManager()
     private let session: URLSession
     private init() {
@@ -72,7 +72,6 @@ class NetworkManager {
         request.httpBody = postData
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(URLData.identifier, forHTTPHeaderField: "identifier")
-        
         let dataTask = createDataTask(request: request, type: ProductDetail.self) { detail in
             completion(detail)
         }
@@ -84,7 +83,6 @@ class NetworkManager {
             return
         }
         var request = URLRequest(url: url)
-        
         request.httpMethod = HttpMethod.POST.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(URLData.identifier, forHTTPHeaderField: "identifier")
@@ -100,7 +98,6 @@ class NetworkManager {
             return
         }
         var request = URLRequest(url: url)
-        
         request.httpMethod = HttpMethod.DELETE.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(URLData.identifier, forHTTPHeaderField: "identifier")
@@ -133,23 +130,18 @@ extension NetworkManager {
     
     private func createPostBody(with inputData: ProductRegistration, images: [UIImage], at boundary: String) -> Data? {
         var data = Data()
-        
         guard let paramData = try? JSONEncoder().encode(inputData) else {
             return nil
         }
         guard let startBoundaryData = "\r\n--\(boundary)\r\n".data(using: .utf8) else {
             return nil
         }
-        
-        // params 설정
         data.append(startBoundaryData)
         guard let paramsAttribute = "Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8) else {
             return nil
         }
         data.append(paramsAttribute)
         data.append(paramData)
-        
-        // images 설정
         for (index, image) in images.enumerated() {
             data.append(startBoundaryData)
             let fileName = "\(inputData.name) - \(index)"
@@ -160,7 +152,6 @@ extension NetworkManager {
             }
             data.append(compressionImage)
         }
-        
         guard let endBoundaryData = "\r\n--\(boundary)--\r\n".data(using: .utf8) else {
             return nil
         }

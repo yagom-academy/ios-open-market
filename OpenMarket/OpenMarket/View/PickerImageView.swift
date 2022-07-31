@@ -2,12 +2,12 @@
 //  PickerImageVIew.swift
 //  OpenMarket
 //
-//  Created by 유한석 on 2022/07/28.
+//  Created by 웡빙, 보리사랑 on 2022/07/28.
 //
 
 import UIKit
 
-class PickerImageView: UIImageView {
+final class PickerImageView: UIImageView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
