@@ -189,13 +189,11 @@ func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, bou
     let lineBreak = "\r\n"
     var body = Data()
 
-    // parameter 넣기
     body.append("--\(boundary + lineBreak)")
     body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
     body.append(params.returnParamatersToJsonData())
     body.append("\(lineBreak)")
 
-    // image 넣기
     if let images = images {
         for image in images {
             body.append("--\(boundary + lineBreak)")
@@ -206,13 +204,11 @@ func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, bou
         }
     }
 
-    // 끝났다고 표시해주기
     body.append("--\(boundary)--\(lineBreak)")
 
     return body
 }
 
-// Data에 String을 추가해주는 메서드 정의
 extension Data {
     mutating func append(_ string: String) {
         if let data = string.data(using: .utf8) {

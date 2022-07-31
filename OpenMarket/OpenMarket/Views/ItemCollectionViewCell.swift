@@ -5,8 +5,13 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     // MARK: - Properties
     
     private var itemImageViewLayoutConstraint: NSLayoutConstraint?
-//    private var multiplieToConstant: CGFloat?
     private var stackViewTraillingContraint: NSLayoutConstraint?
+    
+    private let numberFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter
+    }()
     
     private var product: Page? {
         didSet {
@@ -14,14 +19,18 @@ class ItemCollectionViewCell: UICollectionViewListCell {
             
             itemNameLabel.text = product.name
             
+            guard let formattedPriceString = numberFormatter.string(for: product.price) else { return }
+            guard let formattedSaleString = numberFormatter.string(for: product.price - product.discountedPrice) else { return }
             if product.discountedPrice == product.price || product.discountedPrice == 0 {
-                itemPriceLabel.text = "\(product.currency) \(product.price)"
+                itemPriceLabel.text = "\(product.currency) \(formattedPriceString)"
             } else {
-                let salePrice = "\(product.currency) \(product.price)".strikeThrough()
+                let salePrice = "\(product.currency) \(formattedSaleString)".strikeThrough()
                 itemPriceLabel.attributedText = salePrice
                 itemPriceLabel.textColor = .systemRed
                 self.priceStackView.addArrangedSubview(itemSaleLabel)
-                itemSaleLabel.text = "\(product.currency) \(product.price - product.discountedPrice)"
+                
+                guard let formattedSaleString = numberFormatter.string(for: product.price - product.discountedPrice) else { return }
+                itemSaleLabel.text = "\(product.currency) \(formattedSaleString)"
             }
             
             if product.stock == 0 {

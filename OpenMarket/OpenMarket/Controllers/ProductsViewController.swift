@@ -207,7 +207,6 @@ extension ProductsViewController {
     @objc private func changeLayout() {
         guard let collectionView = collectionView else { return }
         
-        // 화면에 보이는 모든 셀 담기
         var cellArray: [UICollectionViewCell]
         switch segmentControl?.selectedSegmentIndex {
         case Titles.list.rawValue:
@@ -221,15 +220,12 @@ extension ProductsViewController {
             cellArray = []
         }
         
-        // status bar 부터 navigation bar 까지 높이 구하기
         guard let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height,
               let navigationBarHeight = navigationController?.navigationBar.frame.height else { return }
         let totalHeight = statusBarHeight + navigationBarHeight
         
-        // 현재 스크롤된 위치 구하기
         let currentOffset = collectionView.contentOffset.y + totalHeight
         
-        // 가장 위에 셀 구하기
         let topCell = cellArray.min {
             let leftCellsDifference = abs($0.frame.minY - currentOffset)
             let rightCellsDifference = abs($1.frame.minY - currentOffset)
@@ -237,7 +233,6 @@ extension ProductsViewController {
             return leftCellsDifference < rightCellsDifference
         }
         
-        // 가장 위에 셀의 indexPath 구하기
         guard let topCell = topCell,
               let topCellIndexPath = collectionView.indexPath(for: topCell) else { return }
         
