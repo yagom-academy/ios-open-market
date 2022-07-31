@@ -35,6 +35,11 @@ final class ProductSetupViewController: UIViewController {
             }
         }
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     // MARK: - @objc method
     @objc private func keyboardWillAppear(_ sender: Notification) {
         print("keyboard up")
