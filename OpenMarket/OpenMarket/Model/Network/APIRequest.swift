@@ -107,7 +107,7 @@ extension APIRequest {
         var requestBody = Data()
         requestBody.append(paramsData)
         requestBody.append(imagesData)
-        requestBody.append("\(lineBreak)--\(boundary)--\(lineBreak)" .data(using: .utf8)!)
+        requestBody.append("\(lineBreak)--\(boundary)--\(lineBreak)")
         return requestBody
     }
     
@@ -116,9 +116,9 @@ extension APIRequest {
         let lineBreak = "\r\n"
         var paramsBody = Data()
         
-        paramsBody.append("\(lineBreak)--\(boundary + lineBreak)" .data(using: .utf8)!)
-        paramsBody.append("Content-Disposition: form-data; name=\"params\"\(lineBreak)" .data(using: .utf8)!)
-        paramsBody.append("Content-Type: application/json \(lineBreak + lineBreak)" .data(using: .utf8)!)
+        paramsBody.append("\(lineBreak)--\(boundary + lineBreak)")
+        paramsBody.append("Content-Disposition: form-data; name=\"params\"\(lineBreak)")
+        paramsBody.append("Content-Type: application/json \(lineBreak + lineBreak)")
         paramsBody.append(params[0])
         
         return paramsBody
@@ -130,9 +130,9 @@ extension APIRequest {
         var imageBody = Data()
         
         images.forEach {
-            imageBody.append("\(lineBreak)--\(boundary + lineBreak)" .data(using: .utf8)!)
-            imageBody.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(boundary).png\"\(lineBreak)" .data(using: .utf8)!)
-            imageBody.append("Content-Type: image/png \(lineBreak + lineBreak)" .data(using: .utf8)!)
+            imageBody.append("\(lineBreak)--\(boundary + lineBreak)")
+            imageBody.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(boundary).png\"\(lineBreak)")
+            imageBody.append("Content-Type: image/png \(lineBreak + lineBreak)")
             imageBody.append($0)
         }
         
