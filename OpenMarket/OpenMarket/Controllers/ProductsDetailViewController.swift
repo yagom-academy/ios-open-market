@@ -157,6 +157,12 @@ extension ProductsDetailViewController {
         } else if detailView.itemPriceTextField.text?.isEmpty ?? true {
             presentAlertMessage(message: "상품가격을 입력하세요.")
             return
+        } else if detailView.descriptionTextView.text.isEmpty {
+            presentAlertMessage(message: "상품설명을 입력하세요.")
+            return
+        } else if detailView.descriptionTextView.text.count < 10 {
+            presentAlertMessage(message: "상품설명을 10자 이상 작성해주세요.")
+            return
         }
         
         var imageViews = detailView.imageStackView.arrangedSubviews
