@@ -84,6 +84,9 @@ final class ProductRegistrationView: UIView, Requestable {
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = Design.productDescriptionPlaceholder
+        textView.textColor = .systemGray3
         
         return textView
     }()
@@ -99,7 +102,6 @@ final class ProductRegistrationView: UIView, Requestable {
         textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
-        textField.autocorrectionType = .no
         
         return textField
     }()
@@ -132,6 +134,8 @@ final class ProductRegistrationView: UIView, Requestable {
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
+        textField.setContentHuggingPriority(.init(rawValue: 1000.0), for: .horizontal)
+        textField.setContentCompressionResistancePriority(.init(rawValue: 1000.0), for: .horizontal)
         
         return textField
     }()
@@ -156,6 +160,8 @@ final class ProductRegistrationView: UIView, Requestable {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
                                                           Currency.usd.rawValue])
         segmentedControl.selectedSegmentIndex = .zero
+        segmentedControl.setContentHuggingPriority(.init(rawValue: 1000.0), for: .horizontal)
+        segmentedControl.setContentCompressionResistancePriority(.init(rawValue: 1000.0), for: .horizontal)
         
         return segmentedControl
     }()
@@ -172,19 +178,46 @@ final class ProductRegistrationView: UIView, Requestable {
         commonInit()
     }
     
+    func register() {
+        guard let productName = productName.text,
+              productName.count > 2,
+              productDescriptionTextView.text.count > 9,
+              let price = makePriceText()
+        else { return showInvalidInputAlert() }
+        
+        let images = convertImages(view: imageStackView)
+        guard !images.isEmpty else { return showInvalidInputAlert() }
+        
+        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
+        let product = RegistrationProduct(name: productName,
+                                          descriptions: productDescriptionTextView.text,
+                                          price: price,
+                                          currency: currency.rawValue,
+                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
+                                          stock: Int(stock.text ?? "0"),
+                                          secret: "R49CfVhSdh")
+        postProduct(images: images, product: product)
+    }
+    
+    private func showInvalidInputAlert() {
+        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다", message: "필수사항을 입력해주세요", preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "확인", style: .default)
+        postAlert.addAction(alertAction)
+        self.window?.rootViewController?.present(postAlert, animated: true)
+    }
+    
     private func commonInit() {
         pickerController.delegate = self
+        productDescriptionTextView.delegate = self
+        productName.delegate = self
+        productPrice.delegate = self
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
         setUpSubviews()
         setUpSubViewsHeight()
         setUpConstraints()
-        productDescriptionTextView.delegate = self
-        productName.delegate = self
-        productPrice.delegate = self
-        productDiscountedPrice.delegate = self
-        stock.delegate = self
         setUpUiToolbar()
         imagePrickerButton.addTarget(self,
                                      action: #selector(pickImages),
@@ -265,26 +298,14 @@ final class ProductRegistrationView: UIView, Requestable {
         productDescriptionTextView.inputAccessoryView = keyboardToolbar
     }
     
-    func register() {
-        guard let productName = productName.text,
-              let priceText = productPrice.text,
-              let priceValue = Double(priceText),
-              let stockText = stock.text,
-              let stock = Int(stockText)
-        else { return }
+    private func makePriceText() -> Double? {
+        guard let priceText = productPrice.text,
+              let price = Double(priceText),
+              let discountedPrice = Double(productDiscountedPrice.text ?? "0"),
+                price > discountedPrice
+        else { return nil }
         
-        let images = convertImages(view: imageStackView)
-        guard !images.isEmpty else { return }
-        
-        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
-        let product = RegistrationProduct(name: productName,
-                                          descriptions: productDescriptionTextView.text,
-                                          price: priceValue,
-                                          currency: currency.rawValue,
-                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
-                                          stock: stock,
-                                          secret: "R49CfVhSdh")
-        postProduct(images: images, product: product)
+        return price - discountedPrice
     }
     
     // MARK: - @objc functions
@@ -328,13 +349,34 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
     }
 }
 
-extension ProductRegistrationView: UITextViewDelegate, UITextFieldDelegate {
+extension ProductRegistrationView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         frame.origin.y = -productDescriptionTextView.frame.height * 1.2
+        if textView.text == Design.productDescriptionPlaceholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
+        if textView.text.count == 0 {
+            textView.text = Design.productDescriptionPlaceholder
+            textView.textColor = .lightGray
+        }
+    }
+}
+
+extension ProductRegistrationView: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let textFieldText = textField.text else { return }
+        if textFieldText.count > 100 {
+            textField.deleteBackward()
+        }
+        
+        if productPrice.text!.components(separatedBy: ".").count > 2 {
+            productPrice.deleteBackward()
+        }
     }
 }
 
@@ -352,10 +394,11 @@ private enum Design {
     static let borderWidth = 1.5
     static let viewFrameWidth = 4.0
     static let plusButtonName = "plus"
-    static let productNamePlaceholder = "상품명"
-    static let productPricePlaceholder = "상품가격"
-    static let productDiscountedPricePlaceholder = "할인금액"
-    static let stockPlaceholder = "재고수량"
+    static let productNamePlaceholder = "상품명 (3자 이상, 100자 이하)"
+    static let productPricePlaceholder = "상품가격 (필수입력)"
+    static let productDiscountedPricePlaceholder = "할인금액 (미입력 시 정상가)"
+    static let stockPlaceholder = "재고수량 (미입력 시 품절)"
+    static let productDescriptionPlaceholder = "상품 설명 (10자 이상, 1000자 이하)"
     static let imageScrollViewTopAnchorConstant = 8.0
     static let imageScrollViewBottomAnchorConstant = -8.0
     static let imageScrollViewLeadingAnchorConstant = 8.0
