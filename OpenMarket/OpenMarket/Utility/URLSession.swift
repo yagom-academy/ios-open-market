@@ -155,7 +155,10 @@ extension NetworkManager {
             let fileName = "\(inputData.name) - \(index)"
             data.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName).png\"\r\n".data(using: .utf8)!)
             data.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
-            data.append((image.jpegData(compressionQuality: 0.2))!)
+            guard let compressionImage = compress(image) else {
+                return nil
+            }
+            data.append(compressionImage)
         }
         
         guard let endBoundaryData = "\r\n--\(boundary)--\r\n".data(using: .utf8) else {
@@ -189,6 +192,15 @@ extension NetworkManager {
             }
         }
         return "{\(result.joined(separator: ","))}"
+    }
+    private func compress(_ Image: UIImage) -> Data? {
+        guard var compressedImage = Image.jpegData(compressionQuality: 0.2) else {
+            return nil
+        }
+        while compressedImage.count > 307200 {
+            compressedImage = UIImage(data: compressedImage)?.jpegData(compressionQuality: 0.5) ?? Data()
+        }
+        return compressedImage
     }
 }
 
