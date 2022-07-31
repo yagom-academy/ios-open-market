@@ -209,16 +209,15 @@ final class ProductRegistrationView: UIView, Requestable {
     
     private func commonInit() {
         pickerController.delegate = self
+        productDescriptionTextView.delegate = self
+        productName.delegate = self
+        productPrice.delegate = self
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
         setUpSubviews()
         setUpSubViewsHeight()
         setUpConstraints()
-        productDescriptionTextView.delegate = self
-        productName.delegate = self
-        productPrice.delegate = self
-        stock.delegate = self
         setUpUiToolbar()
         imagePrickerButton.addTarget(self,
                                      action: #selector(pickImages),
@@ -373,6 +372,10 @@ extension ProductRegistrationView: UITextFieldDelegate {
         guard let textFieldText = textField.text else { return }
         if textFieldText.count > 100 {
             textField.deleteBackward()
+        }
+        
+        if productPrice.text!.components(separatedBy: ".").count > 2 {
+            productPrice.deleteBackward()
         }
     }
 }

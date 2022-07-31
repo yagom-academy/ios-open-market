@@ -11,6 +11,7 @@ protocol Requestable {}
 
 extension Requestable {
     // MARK: - functions
+    
     func postProduct(images: [Data], product: RegistrationProduct) {
         guard !images.isEmpty else { return }
         guard let productData = try? JSONEncoder().encode(product) else { return }
