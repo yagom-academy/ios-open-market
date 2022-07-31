@@ -244,4 +244,8 @@ extension ProductsDetailViewController: UITextViewDelegate {
         }
         return true
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        detailView.descriptionTextViewPlaceHolder.isHidden = !detailView.descriptionTextView.text.isEmpty
+    }
 }

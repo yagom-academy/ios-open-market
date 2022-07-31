@@ -117,8 +117,17 @@ class ProductDetailView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.isEditable = true
-//        textView.text = "테스트"
+        textView.font = .preferredFont(forTextStyle: .body)
         return textView
+    }()
+    
+    let descriptionTextViewPlaceHolder: UILabel = {
+        let label = UILabel()
+        label.text = "상품설명"
+        label.sizeToFit()
+        label.textColor = .tertiaryLabel
+        label.frame.origin = CGPoint(x: 6, y: 8)
+        return label
     }()
     
     let mainStackView: UIStackView = {
@@ -137,12 +146,13 @@ class ProductDetailView: UIView {
         super.init(frame: frame)
         addViews()
         configureLayoutContraints()
+        configureDescriptionPlaceholder()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func addToScrollView(of image: UIImage, viewController: ProductsDetailViewController) {
         let newImageView = UIImageView(image: image)
         newImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -161,6 +171,12 @@ class ProductDetailView: UIView {
         mainScrollView.keyboardDismissMode = .interactive
         
         descriptionTextView.delegate = viewController
+    }
+    
+    func configureDescriptionPlaceholder() {
+        descriptionTextViewPlaceHolder.font = descriptionTextView.font
+        descriptionTextView.addSubview(descriptionTextViewPlaceHolder)
+        descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
     }
 }
 
