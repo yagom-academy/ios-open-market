@@ -20,7 +20,6 @@ final class ListCell: UICollectionViewCell {
         let stackview = UIStackView()
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .vertical
-        stackview.alignment = .fill
         stackview.distribution = .fillEqually
         return stackview
     }()
@@ -68,6 +67,7 @@ final class ListCell: UICollectionViewCell {
         label.textColor = .lightGray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.text = "JPY 800"
+        label.setContentHuggingPriority(UILayoutPriority(251), for: .horizontal)
         return label
     }()
     
@@ -109,14 +109,12 @@ final class ListCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             productImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             productImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            productImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            productImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -10),
-            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
+            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2)
         ])
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
-            verticalStackView.topAnchor.constraint(equalTo: productImageView.topAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor),
+            verticalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            verticalStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
             verticalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
         ])
     }

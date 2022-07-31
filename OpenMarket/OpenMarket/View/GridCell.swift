@@ -87,10 +87,7 @@ final class GridCell: UICollectionViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.heightAnchor.constraint(equalToConstant: 130),
-            productImageView.widthAnchor.constraint(equalToConstant: 130),
-            productImageView.leadingAnchor.constraint(equalTo: self.verticalStackView.leadingAnchor, constant: 10),
-            productImageView.trailingAnchor.constraint(equalTo: self.verticalStackView.trailingAnchor, constant: -10),
+            productImageView.heightAnchor.constraint(equalTo:self.contentView.heightAnchor, multiplier: 0.5),
             productImageView.heightAnchor.constraint(equalTo: self.productImageView.widthAnchor)
         ])
         NSLayoutConstraint.activate([
