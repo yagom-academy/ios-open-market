@@ -167,9 +167,11 @@ flowLayout을 추가하여 CollectionView의 각 높이를 조절하였습니다
 
 ### 구현 내용
 
-|**상품등록**|**이미지 선택**|**Post**|
-|:---:|:---:|:---:|
-|![](https://i.imgur.com/LqXgcYQ.gif)|![](https://i.imgur.com/l14ZEQU.gif)|![](https://i.imgur.com/8fzFZmz.gif)|
+|**상품등록**|**이미지 선택**|
+|:---:|:---:|
+|![](https://i.imgur.com/Vgcz5pC.gif)|![](https://i.imgur.com/l14ZEQU.gif)|
+|**Post**|**입력내용 확인**|
+|![](https://i.imgur.com/6DpOnqV.gif)|![](https://i.imgur.com/9dN0UaJ.gif)|
 
 ### 🚀 TroubleShooting
 
