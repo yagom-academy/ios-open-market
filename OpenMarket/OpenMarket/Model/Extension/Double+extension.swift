@@ -7,15 +7,6 @@
 
 import Foundation
 
-extension Int {
-    func formatNumber() -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
-        return numberFormatter.string(for: self) ?? ""
-    }
-}
-
 extension Double {
     func formatNumber() -> String {
         let numberFormatter = NumberFormatter()
