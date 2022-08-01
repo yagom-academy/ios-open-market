@@ -8,7 +8,7 @@
 import UIKit
 
 final class MarketGridCollectionViewCell: UICollectionViewCell {
-    let imageView: SessionImageView = {
+    private let imageView: SessionImageView = {
         let imageView = SessionImageView()
         return imageView
     }()
@@ -45,14 +45,14 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func configureCell(with item: Item, spacingType: String) {
+    func configureCell(with item: Item) {
         self.nameLabel.text = item.productName
         
         if item.price == item.bargainPrice {
             self.priceLabel.text = item.price
             self.priceLabel.textColor = .systemGray
         } else {
-            let price = item.price + spacingType + item.bargainPrice
+            let price = item.price + "\n" + item.bargainPrice
             let attributeString = NSMutableAttributedString(string: price)
             
             attributeString.addAttribute(.strikethroughStyle,
