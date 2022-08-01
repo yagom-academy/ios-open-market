@@ -190,10 +190,13 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             selectedImage = originalImage
         }
-
+        
+        let imageData = selectedImage?.compress() ?? Data()
+        let image = UIImage(data: imageData)
+        
         if imageCount < 5 {
             let imageView = UIImageView()
-            imageView.image = selectedImage
+            imageView.image = image
             imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
             imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
             imageStackView.insertArrangedSubview(imageView, at: 0)

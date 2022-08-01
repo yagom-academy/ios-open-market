@@ -35,6 +35,7 @@
 		8F4809B4287CFB3A00A77BCD /* MarketInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4809B3287CFB3A00A77BCD /* MarketInformation.swift */; };
 		8F4F82C2288599C700C76E98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		8F4F82C52885AD7500C76E98 /* ModelNameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4F82C42885AD7500C76E98 /* ModelNameSpace.swift */; };
+		8F5E88B8289812D000008560 /* UIImage + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E88B7289812D000008560 /* UIImage + extension.swift */; };
 		8F90025E2895091C00BAA539 /* Data + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F90025D2895091C00BAA539 /* Data + extension.swift */; };
 		8F90026028950B7E00BAA539 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F90025F28950B7E00BAA539 /* Request.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -78,6 +79,7 @@
 		8F28527C2897D0E100F49886 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		8F4809B3287CFB3A00A77BCD /* MarketInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInformation.swift; sourceTree = "<group>"; };
 		8F4F82C42885AD7500C76E98 /* ModelNameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelNameSpace.swift; sourceTree = "<group>"; };
+		8F5E88B7289812D000008560 /* UIImage + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + extension.swift"; sourceTree = "<group>"; };
 		8F90025D2895091C00BAA539 /* Data + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data + extension.swift"; sourceTree = "<group>"; };
 		8F90025F28950B7E00BAA539 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		9D717D9A15801C3B50F50475 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				8F019817288A4A0600C47CF0 /* String + extension.swift */,
+				8F5E88B7289812D000008560 /* UIImage + extension.swift */,
 				8F90025D2895091C00BAA539 /* Data + extension.swift */,
 			);
 			path = Extension;
@@ -435,6 +438,7 @@
 				8F1A0BB6287D91EB0071EF7A /* MockURLSession.swift in Sources */,
 				8F019818288A4A0600C47CF0 /* String + extension.swift in Sources */,
 				05B3530D288797690027DCDE /* ListCollectionViewCell.swift in Sources */,
+				8F5E88B8289812D000008560 /* UIImage + extension.swift in Sources */,
 				8F4809B4287CFB3A00A77BCD /* MarketInformation.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				05DC9F71288571390097B6E3 /* OpenMarketRequest.swift in Sources */,
