@@ -7,7 +7,34 @@
 
 import UIKit
 
-final class MarketGridCollectionViewCell: MarketCollectionViewCell {
+final class MarketGridCollectionViewCell: UICollectionViewCell {
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .systemRed
+        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = .systemGray
+        return label
+    }()
+    
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
@@ -17,7 +44,34 @@ final class MarketGridCollectionViewCell: MarketCollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
+    
+    func configureCell(with item: Item, spacingType: String) {
+        self.nameLabel.text = item.productName
+        
+        if item.price == item.bargainPrice {
+            self.priceLabel.text = item.price
+            self.priceLabel.textColor = .systemGray
+        } else {
+            let price = item.price + spacingType + item.bargainPrice
+            let attributeString = NSMutableAttributedString(string: price)
+            
+            attributeString.addAttribute(.strikethroughStyle,
+                                         value: NSUnderlineStyle.single.rawValue,
+                                         range: NSMakeRange(0, item.price.count))
+            attributeString.addAttribute(.foregroundColor,
+                                         value: UIColor.systemGray,
+                                         range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
+            self.priceLabel.attributedText = attributeString
+        }
+        
+        if item.stock != "0" {
+            self.stockLabel.text = "잔여수량 : " + item.stock
+        } else {
+            self.stockLabel.text = "품절"
+            self.stockLabel.textColor = .systemOrange
+        }
+    }
+    
     private func arrangeSubView() {
         priceLabel.textAlignment = .center
         
@@ -48,5 +102,10 @@ final class MarketGridCollectionViewCell: MarketCollectionViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    override func prepareForReuse(){
+        super.prepareForReuse()
+        stockLabel.textColor = .systemGray
+        priceLabel.textColor = .systemRed
     }
 }
