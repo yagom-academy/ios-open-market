@@ -1,10 +1,8 @@
 import UIKit
 
 class ProductsDetailViewController: UIViewController {
-
-    let imagePicker = UIImagePickerController()
-    let imageChangePicker = UIImagePickerController()
     
+    let imagePicker = UIImagePickerController()
     var selectedImageView: UIImageView?
     
     var detailView: ProductDetailView {
@@ -37,7 +35,7 @@ class ProductsDetailViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    func makeNotification() {
+    private func makeNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -80,10 +78,6 @@ class ProductsDetailViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .photoLibrary
-        
-        imageChangePicker.delegate = self
-        imageChangePicker.allowsEditing = true
-        imageChangePicker.sourceType = .photoLibrary
     }
     
     private func addTargetAction() {
@@ -102,17 +96,38 @@ class ProductsDetailViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
     }
+    
+    private func checkPostCondition() -> Bool {
+        if detailView.imageStackView.arrangedSubviews.count <= 1 {
+            presentAlertMessage(message: "이미지를 추가해주세요.")
+            return false
+        } else if detailView.itemNameTextField.text?.count ?? 0 < 3 {
+            presentAlertMessage(message: "상품명을 세 글자 이상 작성해주세요.")
+            return false
+        } else if detailView.itemPriceTextField.text?.isEmpty ?? true {
+            presentAlertMessage(message: "상품가격을 입력하세요.")
+            return false
+        } else if detailView.descriptionTextView.text.isEmpty {
+            presentAlertMessage(message: "상품설명을 입력하세요.")
+            return false
+        } else if detailView.descriptionTextView.text.count < 10 {
+            presentAlertMessage(message: "상품설명을 10자 이상 작성해주세요.")
+            return false
+        }
+        return true
+    }
 }
 
 // MARK: - UIImagePicker & UINavigation ControllerDelegate Function
 
 extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        switch picker {
-        case imagePicker:
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        if let selectedImageView = selectedImageView {
             
-            guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-            
+            selectedImageView.image = selectedImage
+            self.selectedImageView = nil
+        } else {
             detailView.addToScrollView(of: selectedImage, viewController: self)
             
             let imageStackViewCount = detailView.imageStackView.arrangedSubviews.count - 2
@@ -123,11 +138,6 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
             if detailView.imageStackView.arrangedSubviews.count == 6 {
                 detailView.rightBarPlusButton.removeFromSuperview()
             }
-        case imageChangePicker:
-            guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-            selectedImageView?.image = selectedImage
-        default:
-            break
         }
         dismiss(animated: true)
     }
@@ -189,8 +199,7 @@ extension ProductsDetailViewController {
     
     @objc private func changeImageButtonTapped(_ sender: UITapGestureRecognizer) {
         selectedImageView = sender.view as? UIImageView
-        
-        present(imageChangePicker, animated: true)
+        present(imagePicker, animated: true)
     }
 }
 
