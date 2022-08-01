@@ -39,8 +39,8 @@ class AddProductViewController: UIViewController {
     
     //MARK: configure
     private func configureUI() {
-        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBack))
-        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(goBackWithUpdate))
+        let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonDidTapped))
+        let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(updateButtonDidTapped))
         navigationItem.title = "상품등록"
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.rightBarButtonItem = doneBarButton
@@ -63,11 +63,11 @@ class AddProductViewController: UIViewController {
     }
 
     //MARK: buttonAction
-    @objc private func goBack() {
+    @objc private func cancelButtonDidTapped() {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc private func goBackWithUpdate() {
+    @objc private func updateButtonDidTapped() {
         let sessionManager = URLSessionManager(session: URLSession.shared)
         guard let param = productView.createParam() else { return }
         
@@ -127,12 +127,8 @@ extension AddProductViewController: UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row != 5 && indexPath.row == dataSource.count - 1 {
+        if indexPath.row == dataSource.count - 1 {
             self.present(self.imagePicker, animated: true)
-        }
-        
-        if indexPath.row == 5 {
-            showAlert(title: "사진 등록 불가능", message: "사진은 최대 5장까지 가능합니다.")
         }
     }
     
@@ -148,6 +144,12 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         var selectedImage = UIImage()
         
+        guard imageParams.count != 5 else {
+            picker.dismiss(animated: true, completion: nil)
+            showAlert(title: "사진 등록 불가능", message: "사진은 최대 5장까지 가능합니다.")
+            return
+        }
+        
         if let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             selectedImage = newImage
         } else if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
@@ -158,8 +160,9 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
             
         dataSource.insert(selectedImage, at: 0)
         imageParams.append(ImageParam(imageName: "\(dataSource.count - 1)번사진.jpeg", imageData: resizedImage))
-       
+        
         picker.dismiss(animated: true, completion: nil)
+
         productView.collectionView.reloadData()
     }
     

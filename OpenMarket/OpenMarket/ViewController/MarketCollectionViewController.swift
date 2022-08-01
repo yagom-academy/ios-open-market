@@ -48,7 +48,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     }
     
     private func configureUI() {
-        let addProductBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addNewProduct))
+        let addProductBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addProductButtonDidTapped))
         
         navigationItem.rightBarButtonItem = addProductBarButton
         navigationItem.titleView = segmentedControl
@@ -71,7 +71,7 @@ final class MarketCollectionViewController: UICollectionViewController {
         }
     }
     
-    @objc private func addNewProduct() {
+    @objc private func addProductButtonDidTapped() {
         guard let productVC = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") else { return }
         self.navigationController?.pushViewController(productVC, animated: true)
     }
