@@ -18,6 +18,7 @@
 		A375746628868FE7003B6DA6 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375746528868FE7003B6DA6 /* ListViewController.swift */; };
 		A397976728815015004ED681 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A397976628815015004ED681 /* ListCollectionViewCell.swift */; };
 		A3B08FD8287D04C0003337B3 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B08FD7287D04C0003337B3 /* JSONParser.swift */; };
+		A3C2D4FD2897B7D30013A8AB /* AddProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C2D4FC2897B7D30013A8AB /* AddProductCollectionViewCell.swift */; };
 		A3F85D37287BEDA100AD00C7 /* ProductListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D36287BEDA100AD00C7 /* ProductListResponse.swift */; };
 		A3F85D3F287BF5EC00AD00C7 /* JsonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D3E287BF5EC00AD00C7 /* JsonTest.swift */; };
 		A3F85D46287BFA5C00AD00C7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F85D45287BFA5C00AD00C7 /* Product.swift */; };
@@ -51,6 +52,7 @@
 		A375746528868FE7003B6DA6 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A397976628815015004ED681 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A3B08FD7287D04C0003337B3 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		A3C2D4FC2897B7D30013A8AB /* AddProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		A3F85D36287BEDA100AD00C7 /* ProductListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListResponse.swift; sourceTree = "<group>"; };
 		A3F85D3C287BF5EC00AD00C7 /* JsonTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3F85D3E287BF5EC00AD00C7 /* JsonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonTest.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				A34FAFE22887DB2000BD6ED4 /* GridCollectionViewCell.swift */,
 				A397976628815015004ED681 /* ListCollectionViewCell.swift */,
+				A3C2D4FC2897B7D30013A8AB /* AddProductCollectionViewCell.swift */,
 				8A845CFF28879981004F0230 /* PaddingLabel.swift */,
 			);
 			path = View;
@@ -303,6 +306,7 @@
 				A34FAFE32887DB2000BD6ED4 /* GridCollectionViewCell.swift in Sources */,
 				8A845D0028879981004F0230 /* PaddingLabel.swift in Sources */,
 				A3554F5C2893CA23001814E3 /* AddProductViewController.swift in Sources */,
+				A3C2D4FD2897B7D30013A8AB /* AddProductCollectionViewCell.swift in Sources */,
 				8ABFEF24287FFBDD00CB6BB9 /* MockURLSession.swift in Sources */,
 				A397976728815015004ED681 /* ListCollectionViewCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
