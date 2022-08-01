@@ -11,11 +11,13 @@ class RegistrationViewController: UIViewController {
 
     private let imagePickerController = UIImagePickerController()
     private var imageCount = 0
+    private var images = [UIImage]()
 
     private lazy var doneButton: UIButton = {
         let button = UIButton()
         button.setTitle("Done", for: .normal)
         button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(registerProduct), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -24,10 +26,11 @@ class RegistrationViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Cancel", for: .normal)
         button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(goBackMainViewController), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
@@ -85,7 +88,7 @@ class RegistrationViewController: UIViewController {
     }()
 
     private lazy var segmentedControl: UISegmentedControl = {
-        let segment = UISegmentedControl(items: [Currency.KRW.rawValue, Currency.USD.rawValue])
+        let segment = UISegmentedControl(items: [Currency.KRW.name, Currency.USD.name])
         segment.selectedSegmentIndex = 0
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
@@ -146,6 +149,21 @@ class RegistrationViewController: UIViewController {
         setConstrant()
     }
     
+    @objc private func goBackMainViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func registerProduct() {
+        
+        let params: [String: Any?] = ["name": productNameTextField.text, "descriptions": descriptionTextView.text, "price": productPriceTextField.text, "currency": choiceCurrency()?.name]
+        
+        NetworkManager().postProduct(params: params, image: images[0])
+    }
+    
+    private func choiceCurrency() -> Currency? {
+        return Currency.init(rawValue: segmentedControl.selectedSegmentIndex)
+    }
+    
     @objc private func addImage() {
         present(imagePickerController, animated: true)
     }
@@ -191,8 +209,8 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
             selectedImage = originalImage
         }
         
-        let imageData = selectedImage?.compress() ?? Data()
-        let image = UIImage(data: imageData)
+        // let imageData = selectedImage?.compress() ?? Data()
+        let image = selectedImage
         
         if imageCount < 5 {
             let imageView = UIImageView()
@@ -204,7 +222,10 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         } else {
             print("5장만 넣을 수 있습니다.")
         }
-
+        
+        guard let addedImage = image else { return }
+        images.append(addedImage)
+        
         imagePickerController.dismiss(animated: true)
     }
 }

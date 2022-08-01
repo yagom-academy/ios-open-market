@@ -56,7 +56,16 @@ struct SaleInformation: Decodable, Hashable {
     }
 }
 
-enum Currency: String {
+enum Currency: Int {
     case KRW
     case USD
+    
+    var name: String {
+        switch self {
+        case .KRW:
+            return "KRW"
+        case .USD:
+            return "USD"
+        }
+    }
 }

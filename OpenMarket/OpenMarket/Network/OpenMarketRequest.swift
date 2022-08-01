@@ -47,7 +47,7 @@ struct OpenMarketRequest {
         return request
     }
     
-    func createPostBody(parms: [String: Any]) -> Data? {
+    func createPostBody(parms: [String: Any], image: UIImage) -> Data? {
         var postData = Data()
         let params = parms
         
@@ -61,10 +61,10 @@ struct OpenMarketRequest {
         postData.append(form: Multipart.lineFeed)
 
         postData.append(form: "--\(Multipart.boundaryValue)" + Multipart.lineFeed)
-        postData.append(form: Multipart.imageContentDisposition + "\"unchain.png\"" + Multipart.lineFeed)
-        postData.append(form: ImageType.png.name)
+        postData.append(form: Multipart.imageContentDisposition + "\"unchain.jpg\"" + Multipart.lineFeed)
+        postData.append(form: ImageType.jpeg.name)
 
-        guard let imageData = OpenMarketRequest().createPostImage(named: "unchain") else { return nil }
+        guard let imageData = OpenMarketRequest().createPostImage(image: image) else { return nil }
         postData.append(imageData)
         postData.append(form: Multipart.lineFeed)
         postData.append(form: "--\(Multipart.boundaryValue)--")
@@ -76,10 +76,10 @@ struct OpenMarketRequest {
         return try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
     }
     
-    private func createPostImage(named: String) -> Data? {
-        let image = UIImage(named: named)
+    private func createPostImage(image: UIImage) -> Data? {
+        let image = image
         
-        guard let imageData = image?.jpegData(compressionQuality: 1.0) else { return nil }
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else { return nil }
         return imageData
     }
 }
