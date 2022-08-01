@@ -37,7 +37,7 @@
                                         </segmentedControl>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dlq-Gf-ukg">
                                             <connections>
-                                                <segue destination="xbI-fK-CDy" kind="showDetail" id="CzE-he-cVd"/>
+                                                <action selector="switchAddProductView:" destination="BYZ-38-t0r" id="p1n-yo-qcu"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -88,33 +88,46 @@
         <!--Add Product View Controller-->
         <scene sceneID="PWN-BE-dhy">
             <objects>
-                <viewController id="xbI-fK-CDy" customClass="AddProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addProductViewController" id="xbI-fK-CDy" customClass="AddProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Eze-ib-w5J">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yZq-aI-NOQ">
-                                <rect key="frame" x="0.0" y="57" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yZq-aI-NOQ">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <color key="barTintColor" systemColor="systemBackgroundColor"/>
                                 <items>
-                                    <navigationItem title="Title" id="YBU-JN-nK9">
-                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="NHg-bS-xyq">
+                                    <navigationItem title="상품등록" id="YBU-JN-nK9">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" style="done" id="NHg-bS-xyq">
                                             <connections>
-                                                <segue destination="BYZ-38-t0r" kind="modal" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="8Tj-sq-0RF"/>
+                                                <action selector="back:" destination="xbI-fK-CDy" id="k5G-El-0MD"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="dFE-zQ-oWx"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CuL-Kq-tXS">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="57A-Gl-5ed"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="CuL-Kq-tXS" firstAttribute="top" secondItem="yZq-aI-NOQ" secondAttribute="bottom" id="LKl-FB-dF1"/>
+                            <constraint firstItem="CuL-Kq-tXS" firstAttribute="trailing" secondItem="57A-Gl-5ed" secondAttribute="trailing" id="RxB-4S-CLW"/>
+                            <constraint firstItem="yZq-aI-NOQ" firstAttribute="leading" secondItem="57A-Gl-5ed" secondAttribute="leading" id="SEY-yY-Kel"/>
+                            <constraint firstAttribute="bottom" secondItem="CuL-Kq-tXS" secondAttribute="bottom" id="Uqc-li-mqC"/>
+                            <constraint firstItem="CuL-Kq-tXS" firstAttribute="leading" secondItem="57A-Gl-5ed" secondAttribute="leading" id="VUX-Gh-zkl"/>
+                            <constraint firstItem="yZq-aI-NOQ" firstAttribute="trailing" secondItem="57A-Gl-5ed" secondAttribute="trailing" id="kN7-vk-pll"/>
+                            <constraint firstItem="yZq-aI-NOQ" firstAttribute="top" secondItem="57A-Gl-5ed" secondAttribute="top" id="qTJ-TY-FKh"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xMN-7X-QKA"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URt-HJ-ksp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1120" y="64"/>
+            <point key="canvasLocation" x="1128.985507246377" y="63.616071428571423"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="tKB-wu-77e">

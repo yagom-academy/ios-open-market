@@ -13,4 +13,8 @@ class AddProductViewController: UIViewController {
         print("ok")
     }
     
+    @IBAction func back(_ sender: UIButton) {
+        self.presentingViewController?.dismiss(animated: true)
+    }
+    
 }

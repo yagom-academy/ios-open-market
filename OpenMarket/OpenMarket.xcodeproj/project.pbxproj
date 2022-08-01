@@ -125,6 +125,7 @@
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				A375746528868FE7003B6DA6 /* ListViewController.swift */,
 				A34FAFE02887D93E00BD6ED4 /* GridViewController.swift */,
+				A3554F5B2893CA23001814E3 /* AddProductViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -183,7 +184,6 @@
 				A3B08FD6287D04AA003337B3 /* Json */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				A3554F5B2893CA23001814E3 /* AddProductViewController.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,

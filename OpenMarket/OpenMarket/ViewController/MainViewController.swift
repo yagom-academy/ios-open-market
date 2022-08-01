@@ -30,6 +30,13 @@ final class MainViewController: UIViewController {
         }
     }
     
+    @IBAction private func switchAddProductView(_ sender: UIButton) {
+        guard let addProductViewController = self.storyboard?.instantiateViewController(withIdentifier: "addProductViewController") as? AddProductViewController else { return }
+        addProductViewController.modalTransitionStyle = .coverVertical
+        addProductViewController.modalPresentationStyle = .fullScreen
+                self.present(addProductViewController, animated: true, completion: nil)
+    }
+    
     private func setSegmentSwitch() {
         segmentSwitch.selectedSegmentTintColor = .systemBlue
         segmentSwitch.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
