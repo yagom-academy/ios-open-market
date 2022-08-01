@@ -52,31 +52,42 @@ final class URLSessionManager {
         dataTask(request: request, completionHandler: completionHandler)
     }
     
-    private func makeBody(parameters: [[String : Any]], boundary: String) -> Data {
+    private func makeBody(parameters: [[String : Any]], boundary: String) -> Data? {
         var body = Data()
         
         for param in parameters {
-            let paramName = param.bringStringValue(key: "key")
-            body.append(contentsOf: "--\(boundary)\r\n".convertData)
-            body.append(contentsOf: "Content-Disposition:form-data; name=\"\(paramName)\"".convertData)
+            guard let paramName = param["key"] as? String else { return nil }
+            let paramType = param["type"] as? String
             
-            let paramType = param.bringStringValue(key: "type")
-            
+            guard let boundary = "--\(boundary)\r\n".data(using: .utf8),
+                  let disposition = "Content-Disposition:form-data; name=\"\(paramName)\"".data(using: .utf8) else { return nil }
             if paramType == "text"{
-                let paramValue = param.bringStringValue(key: "value")
-                body.append(contentsOf: "\r\n\r\n\(paramValue)\r\n".convertData)
+                guard let paramValue = param["value"] as? String,
+                      let value = "\r\n\r\n\(paramValue)\r\n".data(using: .utf8) else { return nil }
+                
+                body.append(contentsOf: boundary)
+                body.append(contentsOf: disposition)
+                body.append(contentsOf: value)
             } else {
-                let imageParams = param["images"] as? [ImageParam] ?? []
+                guard let imageParams = param["images"] as? [ImageParam] else { return nil }
                 
                 for param in imageParams {
-                    body.append(contentsOf: "; filename=\"\(param.imageName)\"\r\n".convertData)
-                    body.append(contentsOf: "Content-Type: image/\(param.imageType)\r\n\r\n".convertData)
+                    guard let fileName = "; filename=\"\(param.imageName)\"\r\n".data(using: .utf8),
+                          let contentType = "Content-Type: image/\(param.imageType)\r\n\r\n".data(using: .utf8),
+                          let space = "\r\n".data(using: .utf8) else { return nil }
+                    
+                    body.append(contentsOf: boundary)
+                    body.append(contentsOf: disposition)
+                    body.append(contentsOf: fileName)
+                    body.append(contentsOf: contentType)
                     body.append(contentsOf: param.imageData)
-                    body.append(contentsOf: "\r\n".convertData)
+                    body.append(contentsOf: space)
                 }
             }
         }
-        body.append(contentsOf: ("--\(boundary)--\r\n").convertData)
+        
+        guard let lastBoundary = "--\(boundary)--\r\n".data(using: .utf8) else { return nil }
+        body.append(contentsOf: lastBoundary)
     
         return body
     }
@@ -89,14 +100,14 @@ final class URLSessionManager {
         request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        request.httpBody =  makeBody(parameters: dataElement, boundary: boundary)
+        request.httpBody = makeBody(parameters: dataElement, boundary: boundary)
         
         dataTask(request: request, completionHandler: completionHandler)
     }
     
     func patchData(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
         let parameters = "{\n    \"secret\": \"\(VendorInfo.secret)\",\n    \"discounted_price\": 10000\n}"
-        let postData = parameters.convertData
+        guard let postData = parameters.data(using: .utf8) else { return }
 
         guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3946") else { return }
         var request = URLRequest(url: url)
@@ -110,7 +121,7 @@ final class URLSessionManager {
     
     func inquireSecretKey(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
         let parameters = "{\"secret\": \"\(VendorInfo.secret)\"}"
-        let postData = parameters.convertData
+        guard let postData = parameters.data(using: .utf8) else { return }
         
         guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3943/secret") else { return }
         var request = URLRequest(url: url)
@@ -132,33 +143,5 @@ final class URLSessionManager {
         request.httpMethod = "DELETE"
         
         dataTask(request: request, completionHandler: completionHandler)
-    }
-}
-
-extension String {
-    fileprivate var convertData: Data {
-        guard let data = self.data(using: .utf8) else {
-            return Data()
-        }
-        
-        return data
-    }
-}
-
-extension Dictionary where Key == String, Value == Any {
-    fileprivate func bringStringValue(key: String) -> String {
-        guard let value = self[key] else {
-            return ""
-        }
-        
-        return value as? String ?? ""
-    }
-    
-    fileprivate func bringImageValue(key: String) -> UIImage {
-        guard let value = self[key] else {
-            return UIImage()
-        }
-        
-        return value as? UIImage ?? UIImage()
     }
 }
