@@ -5,20 +5,14 @@ class ProductsDetailViewController: UIViewController {
     let imagePicker = UIImagePickerController()
     var selectedImageView: UIImageView?
     
-    var detailView: ProductDetailView {
-        guard let detailView = view as? ProductDetailView else { return ProductDetailView() }
-        return detailView
-    }
+    var detailView = ProductDetailView()
     
     // MARK: - Life Cycle
     
-    override func loadView() {
-        view = ProductDetailView()
-        view.backgroundColor = .systemBackground
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view = detailView
+        view.backgroundColor = .systemBackground
         configureNavigationBar()
         configureImagePicker()
         detailView.configureDelegate(viewController: self)
