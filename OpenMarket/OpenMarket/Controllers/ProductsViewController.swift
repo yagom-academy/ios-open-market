@@ -38,7 +38,7 @@ class ProductsViewController: UIViewController {
         configureRefreshControl()
         addIndicatorLayout()
         configureNavigationBarRightButton()
-
+        
         activityIndicator.startAnimating()
         startFetching() {
             self.activityIndicator.stopAnimating()

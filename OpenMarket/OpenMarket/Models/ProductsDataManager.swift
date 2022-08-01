@@ -34,8 +34,6 @@ struct Parameters {
     func returnParamatersToJsonData() -> Data? {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: parameterDictionary, options: [])
-            let decoded = String(data: jsonData, encoding: .utf8)!
-            print(decoded)
             return jsonData
         } catch {
             print(error)
@@ -44,9 +42,7 @@ struct Parameters {
     }
 }
 
-
 struct ProductsDataManager: Decodable {
-    
     static let shared = ProductsDataManager()
     private init() {}
     
@@ -68,31 +64,31 @@ struct ProductsDataManager: Decodable {
     }
     
     func postData<T: Decodable>(identifier: String, paramter: Parameters, images: [UIImage], completion: @escaping (T) -> Void) {
-        
         guard let url = URL(string: url) else { return }
         var postRequest = URLRequest(url: url)
-
+        
         let boundary = generateBoundary()
-
+        
         postRequest.httpMethod = "POST"
         postRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
         
         var convertedImages: [ImageInfo] = []
         images.forEach {
-            guard let convertedImage = ImageInfo(withImage: $0) else { return }
-            convertedImages.append(convertedImage)
+            if let convertedImage = ImageInfo(withImage: $0) {
+                convertedImages.append(convertedImage)
+            }
         }
         
         let dataBody = createDataBody(withParameters: paramter, images: convertedImages, boundary: boundary)
-
+        
         postRequest.httpBody = dataBody
-
+        
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
             if let response = response {
                 print(response)
             }
-
+            
             if let data = data {
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
@@ -107,10 +103,9 @@ struct ProductsDataManager: Decodable {
     }
     
     func patchData<T: Decodable>(identifier: String, productID: Int, paramter: Parameters, completion: @escaping (T) -> Void) {
-        
         guard let url = URL(string: url + "/\(productID)") else { return }
         var postRequest = URLRequest(url: url)
-
+        
         postRequest.httpMethod = "PATCH"
         postRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
@@ -120,7 +115,7 @@ struct ProductsDataManager: Decodable {
             if let response = response {
                 print(response)
             }
-
+            
             if let data = data {
                 guard let parsedData = try? JSONDecoder().decode(Page.self, from: data) else { return }
                 print(parsedData)
@@ -158,7 +153,7 @@ struct ProductsDataManager: Decodable {
         
         return data
     }
-
+    
     private func responseErrorhandling(_ response: URLResponse?) -> URLSessionError? {
         guard let response = response as? HTTPURLResponse else { return nil }
         switch response.statusCode {
@@ -172,8 +167,6 @@ struct ProductsDataManager: Decodable {
             return nil
         }
     }
-    
-    
 }
 
 // MARK: - generateBoundary
@@ -185,15 +178,15 @@ func generateBoundary() -> String {
 // MARK: - createDataBody
 
 func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, boundary: String) -> Data {
-
+    
     let lineBreak = "\r\n"
     var body = Data()
-
+    
     body.append("--\(boundary + lineBreak)")
     body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
     body.append(params.returnParamatersToJsonData())
     body.append("\(lineBreak)")
-
+    
     if let images = images {
         for image in images {
             body.append("--\(boundary + lineBreak)")
@@ -203,9 +196,9 @@ func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, bou
             body.append(lineBreak)
         }
     }
-
+    
     body.append("--\(boundary)--\(lineBreak)")
-
+    
     return body
 }
 

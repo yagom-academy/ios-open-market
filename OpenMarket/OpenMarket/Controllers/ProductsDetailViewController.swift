@@ -13,7 +13,7 @@ class ProductsDetailViewController: UIViewController {
     }
     
     // MARK: - Life Cycle
-
+    
     override func loadView() {
         view = ProductDetailView()
         view.backgroundColor = .systemBackground
@@ -21,21 +21,15 @@ class ProductsDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavigationBar()
-        
         configureImagePicker()
-        
         detailView.configureDelegate(viewController: self)
-        
         addNavigationBarButton()
-       
         addTargetAction()
-        
         makeNotification()
     }
     
-    func presentAlertMessage(message: String) {
+    private func presentAlertMessage(message: String) {
         let alert = UIAlertController(title: "에러!", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "확인", style: .default)
         
@@ -57,10 +51,9 @@ class ProductsDetailViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
-
         guard let userInfo = notification.userInfo,
-            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-                return
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
         }
         
         let contentInset = UIEdgeInsets(
@@ -73,12 +66,10 @@ class ProductsDetailViewController: UIViewController {
     }
     
     @objc private func keyboardWillHide() {
-
         let contentInset = UIEdgeInsets.zero
         detailView.mainScrollView.contentInset = contentInset
         detailView.mainScrollView.scrollIndicatorInsets = contentInset
     }
-
     
     private func configureNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -185,15 +176,24 @@ extension ProductsDetailViewController {
             images.append(image)
         }
         
-        let parameter = Parameters(name: productName, descriptions: productDesciprtion, price: productPrice, currency: productCurrency, secret: UserInfo.secret.rawValue, discountedPrice: productSale, stock: productStock)
+        let parameter = Parameters(name: productName,
+                                   descriptions: productDesciprtion,
+                                   price: productPrice,
+                                   currency: productCurrency,
+                                   secret: UserInfo.secret.rawValue,
+                                   discountedPrice: productSale,
+                                   stock: productStock)
         
-        ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue, paramter: parameter, images: images) { (data: PostResponse) in
+        ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue,
+                                            paramter: parameter,
+                                            images: images)
+        { (data: PostResponse) in
             DispatchQueue.main.async {
                 self.navigationController?.popViewController(animated: true)
             }
         }
     }
-
+    
     @objc private func endEditing() {
         view.endEditing(true)
     }
@@ -213,27 +213,29 @@ extension ProductsDetailViewController {
 
 extension ProductsDetailViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         if isEmptySaleAndStockTextField(textField) {
             detailView.itemSaleTextField.text = "0"
             detailView.itemStockTextField.text = "0"
         }
         
         if defaultTextField(textField) {
-                textField.text = ""
+            textField.text = ""
         }
     }
     
     func isEmptySaleAndStockTextField(_ textField: UITextField) -> Bool {
         guard let detailView = view as? ProductDetailView else { return false }
         
-        return textField == detailView.itemNameTextField && detailView.itemSaleTextField.text?.isEmpty ?? false && detailView.itemStockTextField.text?.isEmpty ?? false
+        return textField == detailView.itemNameTextField
+        && detailView.itemSaleTextField.text?.isEmpty ?? false
+        && detailView.itemStockTextField.text?.isEmpty ?? false
     }
     
     func defaultTextField(_ textField: UITextField) -> Bool {
         guard let detailView = view as? ProductDetailView else { return false }
         
-        return (textField == detailView.itemStockTextField || textField == detailView.itemSaleTextField) && textField.text == "0"
+        return (textField == detailView.itemStockTextField || textField == detailView.itemSaleTextField)
+        && textField.text == "0"
     }
 }
 

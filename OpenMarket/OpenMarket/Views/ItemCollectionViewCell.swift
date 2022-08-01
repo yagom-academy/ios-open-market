@@ -251,7 +251,7 @@ extension ItemCollectionViewCell {
         self.accessories = [ .delete() ]
     }
     
-    func returnNameLabelText() -> String {
+    private func getNameLabelText() -> String {
         guard let name = itemNameLabel.text else { return "" }
         return name
     }
