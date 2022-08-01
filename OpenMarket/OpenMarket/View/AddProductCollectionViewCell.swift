@@ -10,7 +10,7 @@ import UIKit
 final class AddProductCollectionViewCell: UICollectionViewCell {
     static let id = "ProductCell"
 
-    let productImage: UIImageView = {
+    private let productImage: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemGray5
         imageView.translatesAutoresizingMaskIntoConstraints = false

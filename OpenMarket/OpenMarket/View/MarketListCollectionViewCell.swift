@@ -8,8 +8,8 @@
 import UIKit
 
 final class MarketListCollectionViewCell: UICollectionViewCell {
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
+    let imageView: SessionImageView = {
+        let imageView = SessionImageView()
         return imageView
     }()
     

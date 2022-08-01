@@ -80,19 +80,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     private func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.configureCell(with: item,spacingType: " ")
-            self.sessionManager.receiveData(baseURL: item.productImage) { result in
-                switch result {
-                case .success(let data):
-                    guard let imageData = UIImage(data: data) else { return }
-                    
-                    DispatchQueue.main.async {
-                        guard indexPath == self.collectionView.indexPath(for: cell) else { return }
-                        cell.imageView.image = imageData
-                    }
-                case .failure(_):
-                    print("서버 통신 실패")
-                }
-            }
+            cell.imageView.configureImage(url: item.productImage, cell, indexPath, self.collectionView)
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
@@ -103,41 +91,13 @@ final class MarketCollectionViewController: UICollectionViewController {
     private func makeGridDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketGridCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.configureCell(with: item,spacingType: "\n")
-            self.sessionManager.receiveData(baseURL: item.productImage) { result in
-                switch result {
-                case .success(let data):
-                    guard let imageData = UIImage(data: data) else { return }
-                    
-                    DispatchQueue.main.async {
-                        guard indexPath == self.collectionView.indexPath(for: cell) else { return }
-                        cell.imageView.image = imageData
-                    }
-                case .failure(_):
-                    print("서버 통신 실패")
-                }
-            }
+            cell.imageView.configureImage(url: item.productImage, cell, indexPath, self.collectionView)
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
         }
     }
-    
-    //   private func configureImage(_ item: Item, _ indexPath: IndexPath, _ cell: UICollectionViewCell) {
-    //        self.sessionManager.receiveData(baseURL: item.productImage) { result in
-    //            switch result {
-    //            case .success(let data):
-    //                guard let imageData = UIImage(data: data) else { return }
-    //
-    //                DispatchQueue.main.async {
-    //                    guard indexPath == self.collectionView.indexPath(for: cell) else { return }
-    //                    cell.imageView.image = imageData
-    //                }
-    //            case .failure(_):
-    //                print("서버 통신 실패")
-    //            }
-    //        }
-    //    }
     
     // MARK: Data & Snapshot
     private func applySnapshots() {
