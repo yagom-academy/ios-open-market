@@ -42,7 +42,7 @@ extension AddProductViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddProductCollectionViewCell.reuseIdentifier, for: indexPath) as! AddProductCollectionViewCell
         cell.backgroundColor = .black
-        cell.profileImageView.image = .add
+        //cell.profileImageView.image = .add
         return cell
     }
     
@@ -52,15 +52,15 @@ extension AddProductViewController: UICollectionViewDataSource, UICollectionView
     }
 }
 
-//extension AddProductViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
-//        flowayout?.scrollDirection = .horizontal
-//        flowayout?.minimumLineSpacing = 20
-//        flowayout?.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-//        return CGSize(width: view.frame.width - 100, height: view.frame.height)
-//    }
-//}
+extension AddProductViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
+        flowayout?.scrollDirection = .horizontal
+        flowayout?.minimumLineSpacing = 20
+        flowayout?.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        return CGSize(width: view.frame.width - 100, height: view.frame.height - 150)
+    }
+}
 
 //extension AddProductViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 //
