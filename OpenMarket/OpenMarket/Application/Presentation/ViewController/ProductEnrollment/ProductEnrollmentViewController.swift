@@ -432,17 +432,17 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
                 self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
             }
-        case  let textField where textField == originalPriceTextField:
+        case let textField where textField == originalPriceTextField:
             if textField.text!.count >= 10 {
                 self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
             }
-        case  let textField where textField == discountedPriceTextField:
+        case let textField where textField == discountedPriceTextField:
             if textField.text!.count >= 10 {
                 self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
             }
-        case  let textField where textField == productStockTextField:
+        case let textField where textField == productStockTextField:
             if textField.text!.count >= 10 {
                 self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
                 return false
