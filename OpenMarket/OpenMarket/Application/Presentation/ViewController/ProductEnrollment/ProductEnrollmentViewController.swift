@@ -413,12 +413,7 @@ extension ProductEnrollmentViewController: UIImagePickerControllerDelegate, UINa
 
 extension ProductEnrollmentViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let char = string.cString(using: String.Encoding.utf8) else {
-            return false
-        }
-        
-        let isBackSpace = strcmp(char, "\\b")
-        if isBackSpace == -92 {
+        if string.isEmpty {
             return true
         }
         
