@@ -94,7 +94,7 @@ class ProductRegistView: UIView {
         return textField
     }()
     
-    let rightBarPlusButton: UIButton = {
+    let addImageButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -194,7 +194,7 @@ extension ProductRegistView {
         
         itemImageScrollView.addSubview(imageStackView)
         
-        imageStackView.addArrangedSubview(rightBarPlusButton)
+        imageStackView.addArrangedSubview(addImageButton)
         
         textFieldStackView.addArrangedSubview(itemNameTextField)
         textFieldStackView.addArrangedSubview(currencyStackView)
@@ -234,7 +234,7 @@ extension ProductRegistView {
         ])
         
         NSLayoutConstraint.activate([
-            rightBarPlusButton.heightAnchor.constraint(equalTo: rightBarPlusButton.widthAnchor)
+            addImageButton.heightAnchor.constraint(equalTo: addImageButton.widthAnchor)
         ])
     }
 }

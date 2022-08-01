@@ -5,17 +5,17 @@ class ProductsRegistViewController: UIViewController {
     let imagePicker = UIImagePickerController()
     var selectedImageView: UIImageView?
     
-    var detailView = ProductRegistView()
+    var registView = ProductRegistView()
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = detailView
+        view = registView
         view.backgroundColor = .systemBackground
         configureNavigationBar()
         configureImagePicker()
-        detailView.configureDelegate(viewController: self)
+        registView.configureDelegate(viewController: self)
         addNavigationBarButton()
         addTargetAction()
         makeNotification()
@@ -53,19 +53,19 @@ class ProductsRegistViewController: UIViewController {
             left: 0.0,
             bottom: keyboardFrame.size.height,
             right: 0.0)
-        detailView.mainScrollView.contentInset = contentInset
-        detailView.mainScrollView.scrollIndicatorInsets = contentInset
+        registView.mainScrollView.contentInset = contentInset
+        registView.mainScrollView.scrollIndicatorInsets = contentInset
     }
     
     @objc private func keyboardWillHide() {
         let contentInset = UIEdgeInsets.zero
-        detailView.mainScrollView.contentInset = contentInset
-        detailView.mainScrollView.scrollIndicatorInsets = contentInset
+        registView.mainScrollView.contentInset = contentInset
+        registView.mainScrollView.scrollIndicatorInsets = contentInset
     }
     
     private func configureNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
-        title = "상품등록"
+//        title = "상품등록"
     }
     
     private func configureImagePicker() {
@@ -75,10 +75,10 @@ class ProductsRegistViewController: UIViewController {
     }
     
     private func addTargetAction() {
-        detailView.rightBarPlusButton.addTarget(self, action: #selector(addButtonDidTapped), for: .touchUpInside)
+        registView.addImageButton.addTarget(self, action: #selector(addButtonDidTapped), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
-        detailView.mainScrollView.addGestureRecognizer(tap)
+        registView.mainScrollView.addGestureRecognizer(tap)
         
         navigationItem.rightBarButtonItem?.action = #selector(doneButtonDidTapped)
     }
@@ -92,19 +92,19 @@ class ProductsRegistViewController: UIViewController {
     }
     
     private func checkPostCondition() -> Bool {
-        if detailView.imageStackView.arrangedSubviews.count <= 1 {
+        if registView.imageStackView.arrangedSubviews.count <= 1 {
             presentAlertMessage(message: "이미지를 추가해주세요.")
             return false
-        } else if detailView.itemNameTextField.text?.count ?? 0 < 3 {
+        } else if registView.itemNameTextField.text?.count ?? 0 < 3 {
             presentAlertMessage(message: "상품명을 세 글자 이상 작성해주세요.")
             return false
-        } else if detailView.itemPriceTextField.text?.isEmpty ?? true {
+        } else if registView.itemPriceTextField.text?.isEmpty ?? true {
             presentAlertMessage(message: "상품가격을 입력하세요.")
             return false
-        } else if detailView.descriptionTextView.text.isEmpty {
+        } else if registView.descriptionTextView.text.isEmpty {
             presentAlertMessage(message: "상품설명을 입력하세요.")
             return false
-        } else if detailView.descriptionTextView.text.count < 10 {
+        } else if registView.descriptionTextView.text.count < 10 {
             presentAlertMessage(message: "상품설명을 10자 이상 작성해주세요.")
             return false
         }
@@ -122,15 +122,15 @@ extension ProductsRegistViewController: UIImagePickerControllerDelegate & UINavi
             selectedImageView.image = selectedImage
             self.selectedImageView = nil
         } else {
-            detailView.addToScrollView(of: selectedImage, viewController: self)
+            registView.addToScrollView(of: selectedImage, viewController: self)
             
-            let imageStackViewCount = detailView.imageStackView.arrangedSubviews.count - 2
-            let firstImageView = detailView.imageStackView.arrangedSubviews[imageStackViewCount]
+            let imageStackViewCount = registView.imageStackView.arrangedSubviews.count - 2
+            let firstImageView = registView.imageStackView.arrangedSubviews[imageStackViewCount]
             let tap = UITapGestureRecognizer(target: self, action: #selector(changeImageButtonTapped))
             firstImageView.addGestureRecognizer(tap)
             
-            if detailView.imageStackView.arrangedSubviews.count == 6 {
-                detailView.rightBarPlusButton.removeFromSuperview()
+            if registView.imageStackView.arrangedSubviews.count == 6 {
+                registView.addImageButton.removeFromSuperview()
             }
         }
         dismiss(animated: true)
@@ -145,14 +145,14 @@ extension ProductsRegistViewController {
             return
         }
         
-        var imageViews = detailView.imageStackView.arrangedSubviews
+        var imageViews = registView.imageStackView.arrangedSubviews
         
-        guard let productName = detailView.itemNameTextField.text,
-              let productPrice = Int(detailView.itemPriceTextField.text ?? "0"),
-              let productSale = Int(detailView.itemSaleTextField.text ?? "0"),
-              let productStock = Int(detailView.itemStockTextField.text ?? "0"),
-              let productDesciprtion = detailView.descriptionTextView.text,
-              let productCurrency = Currency(rawValue: detailView.currencySegmentControl.selectedSegmentIndex) else { return }
+        guard let productName = registView.itemNameTextField.text,
+              let productPrice = Int(registView.itemPriceTextField.text ?? "0"),
+              let productSale = Int(registView.itemSaleTextField.text ?? "0"),
+              let productStock = Int(registView.itemStockTextField.text ?? "0"),
+              let productDesciprtion = registView.descriptionTextView.text,
+              let productCurrency = Currency(rawValue: registView.currencySegmentControl.selectedSegmentIndex) else { return }
         
         if imageViews.last is UIButton {
             imageViews.removeLast()
@@ -202,8 +202,8 @@ extension ProductsRegistViewController {
 extension ProductsRegistViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if isEmptySaleAndStockTextField(textField) {
-            detailView.itemSaleTextField.text = "0"
-            detailView.itemStockTextField.text = "0"
+            registView.itemSaleTextField.text = "0"
+            registView.itemStockTextField.text = "0"
         }
         
         if defaultTextField(textField) {
@@ -242,6 +242,6 @@ extension ProductsRegistViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        detailView.descriptionTextViewPlaceHolder.isHidden = !detailView.descriptionTextView.text.isEmpty
+        registView.descriptionTextViewPlaceHolder.isHidden = !registView.descriptionTextView.text.isEmpty
     }
 }

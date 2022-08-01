@@ -1,10 +1,3 @@
-//
-//  ProductsDetailView.swift
-//  OpenMarket
-//
-//  Created by LeeChiheon on 2022/08/01.
-//
-
 import UIKit
 
 class ProductsDetailView: UIView {
@@ -14,18 +7,21 @@ class ProductsDetailView: UIView {
     let itemImageView1: UIImageView = {
         let image = UIImage(systemName: "pencil")
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     let itemImageView2: UIImageView = {
         let image = UIImage(systemName: "pencil")
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     let itemImageView3: UIImageView = {
         let image = UIImage(systemName: "pencil")
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -41,6 +37,7 @@ class ProductsDetailView: UIView {
     let itemImageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isPagingEnabled = true
         return scrollView
     }()
     
@@ -231,9 +228,9 @@ class ProductsDetailView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            itemImageView1.heightAnchor.constraint(equalTo: itemImageView1.widthAnchor),
-            itemImageView2.heightAnchor.constraint(equalTo: itemImageView2.widthAnchor),
-            itemImageView3.heightAnchor.constraint(equalTo: itemImageView3.widthAnchor),
+            itemImageView1.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor),
+            itemImageView2.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor),
+            itemImageView3.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor)
         ])
     }
     
