@@ -69,6 +69,7 @@ class AddProductViewController: UIViewController {
     
     @objc private func updateButtonDidTapped() {
         let sessionManager = URLSessionManager(session: URLSession.shared)
+        let paramManager = ParamManager()
         guard let param = productView.createParam() else { return }
         
         guard param.productName != "", param.price != "", param.description != "", dataSource.count != 1 else {
@@ -76,27 +77,7 @@ class AddProductViewController: UIViewController {
             return
         }
         
-        let dataElement: [[String : Any]] = [
-            [
-                "key": "params",
-                "value": """
-                        {
-                            "name": "\(param.productName)",
-                            "price": \(param.price),
-                            "discounted_price": \(param.discountedPrice),
-                            "stock": \(param.stock),
-                            "currency": "\(param.currency)",
-                            "secret": "\(param.secret)",
-                            "descriptions": "\(param.description)"
-                        }
-                        """,
-                "type": "text"
-            ],
-            [
-                "key": "images",
-                "images": imageParams
-            ]
-        ]
+        let dataElement = paramManager.combineParam(param: param, imageParams: imageParams)
         
         sessionManager.postData(dataElement: dataElement) { result in
             switch result {
