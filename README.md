@@ -1,7 +1,223 @@
-## iOS 커리어 스타터 캠프
+# 오픈마켓 🏪
+> 기간: 2022-07-11 ~ 2022-07-22
+>
+> 팀원: [Hugh](https://github.com/Hugh-github), [Kiwi](https://github.com/kiwi1023)
+>
+> 리뷰어: [Jake](https://github.com/jryoun1)
 
-### 오픈마켓 프로젝트 저장소
+# 목차
+* [프로젝트 소개](#프로젝트-소개)
+    * [개발환경 및 라이브러리](#개발환경-및-라이브러리)
+* [구현내용](#구현내용)
+* [키워드](#키워드)
+* [핵심경험](#핵심경험)
+* [기능설명](#기능설명)
+    * [STEP 1](#STEP1)
+    * [STEP 2_CompositionalLayout](#STEP2_CompositionalLayout)
+    * [STEP 2_FlowLayout](#STEP2_FlowLayout)
 
-- 이 저장소를 자신의 저장소로 fork하여 프로젝트를 진행합니다
+
+# 프로젝트 소개
+오픈마켓 앱을 iOS 어플리케이션으로 구현해보는 프로젝트입니다.
+다양한 작품들과 해당 작품에 대한 상세한 설명을 볼 수 있습니다.
+
+### 개발환경 및 라이브러리
+[![swift](https://img.shields.io/badge/swift-5.6-orange)]()
+[![xcode](https://img.shields.io/badge/Xcode-13.3-blue)]()
 
 
+# UML
+추후 추가 예정
+
+
+# 구현내용
+
+| 로딩화면 | 화면전환 |
+|:---:|:---:|
+|![](https://i.imgur.com/PBqKh6x.gif)|![](https://i.imgur.com/SCRCLdd.gif)|
+|**List**|**Grid**|
+|![](https://i.imgur.com/i0t3bAr.gif)|![](https://i.imgur.com/F66Woev.gif)|
+
+# 참고문서 📜
+
+- [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
+    - [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)
+    - [Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
+    - [Lists in UICollectionView](https://developer.apple.com/videos/play/wwdc2020/10026)
+    - [Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
+
+# 키워드
+
+`URLSession`,`GCD`, `Synchronous`,`Asynchronous`, `Thread`, `Concurrent Programming`, `Functional Programming`,`Modern Collection View`, `Delegation`, `MVC`, `Design Patterns`
+
+# 핵심경험
+
+- [x] 파싱한 JSON 데이터와 매핑할 모델 설계
+- [x] URL Session을 활용한 서버와의 통신
+- [x] CodingKeys 프로토콜의 활용
+- [x] Safe Area을 고려한 오토 레이아웃 구현
+- [x] Collection View의 활용
+- [x] Mordern Collection View 활용
+- [x]  네트워크 상황과 무관한 네트워킹 데이터 타입의 단위 테스트(Unit Test)
+ - [x] 로컬 캐시 구현
+
+# STEP1
+
+## 기능설명
+
+#### `ItmeList`, `Page` 
++ 서버에서 받아오는 JSON 파일과 매칭할 데이터 모델
+#### `OpenMarketURLSession` 
++ `getMethod`를 통해 서버에 있는 데이터를 조회하는 로직 구현
+#### `RequestType` 
++ http Request Method를 정의하는 타입
+#### `URLSessionProtocol` 
++ 의존성 주입 및 Mock test를 위해 생성한 프로토콜
+#### `MockURLSessionDataTask` : 
++ `URLSessionDataTask` 상속받아 `resume()` 재정의
+#### `MockURLSession` 
++ `OperMarketURLSession`에 주입하기 위해 `URLSessionProtocol` 채택
+
+## 배운개념📚
+
+1. MockData를 이용한 Network Unit Test 하기
+    + 서버가 구현되지 않은 상태에서 테스트를 진행할 필요가 있다. 또한 네트워크 통신을 통해 테스트를 진행하게 되면 단위 테스트의 속도도 느려지고 인터넷 연결에 의존하기 때문에 테스트를 신뢰할 수 없다.
+2. URL Session
+    + URLSession을 이용해 서버와 데이터를 주고 받고 @escaping closure를 이용해 받아온 데이터를 활용할 수 있었다.
+
+3. 비동기 단위 테스트
+    + `expectation`, `fullfill()`, `wait`을 이용해 비동기 단위 테스트를 할 수 있다. wait에 설정한 시간(초) 이내에 테스트를 성공하지 못한다면 실패로 처리한다.
+
+## 고민한점🤔
+1. dataTask 과정에서 에러가 발생하면 어떻게 에러를 처리해야 하는지 고민했습니다. dataTask 메서드에 존재하는 escaping closure 같은 경우 throws 키워드가 존재하지 않아 에러를 던질 방법이 존재하지 않았습니다. 에러가 발생할 경우 해당 에러들을 처리해 주는 방법을 고민한 결과 Result 타입을 사용했습니다.
+
+2. URLSession 내부에서 getMethod를 구현할 당시 파라미터를 클로저로 받은다음 escaping키워드 처리해야하는 이유에 대해서 고민을 하게 되었습니다. 알아본 결과 URLSession과 관련된 메서드들은 기본적으로 비동기 처리를 하고 있습니다. 그렇기 때문에 서버에서 받아온 data를 외부에서 사용하려면 data를 클로저의 파라미터로 받은 다음 @escaping 키워드를 사용하여 메서드가 종료된 후에 사용가능하게 만들어 주어야한다는 것을 알게 되었습니다.
+
+## 궁금한점🧐
+1. URLSession의 dataTask 메서드를 호출할때 아래의 사진 1번에서는 싱글톤을 통해서 호출하고 있으나, 사진 2번에서는 session이란 상수에 URLSession의 인스턴스를 생성하고 호출을 하고 있습니다. 코드를 실행하는데 있어 두가지 방법의 차이가 딱히 보이지 않는데 혹시 두 방법의 차이점을 알고 계신게 있다면 알려주시면 정말 감사하겠습니다!
+
+- **사진 1**
+![](https://i.imgur.com/3hhTGPS.png)
+- **사진 2**
+![](https://i.imgur.com/zjIdZly.png)
+
+2. 서버가 존재하고 해당 서버에서 데이터를 가져올 수 있다면 네트워크와 무관한 테스틀 진행하는 이유에는 어떤게 있는지 궁금합니다. 실제 서버와 통시하여 테스트를 진행하면 속도가 느리지만 더 직관적으로 확인할 수 있다고 생각합니다.
+
+## 궁금한 점에 대한 답변 ❗️
+
+***1.***
+
+URLSession의 configuration에 대해서 공부해보시면 두 개의 차이점에 대해서 발견하실 수 있을 것 같습니다.
+추가로 default인 싱글톤을 통해서 호출하는 dataTask는 configuration이 가능한지에 대해서도 알아보시면 좋을 것 같아요 🙏🏻
+
+- URL session의 기능과 동작은 상당수가 세션을 생성할때 사용된 configuration의 종류에 따라서 결정된다. 싱글톤 shared 세션은 기초적인 요청에 사용되며 직접 생성한 것만큼 커스터마이징할 수 없다. 그렇지만 제한된 요구사항 내에서는 좋은 출발점이 된다.
+ 
+***2.***
+
+지금 작성하시는 테스트의 목적은 response가 ItemList타입으로 데이터가 잘 decode 되었는지 확인하는 테스트라고 생각해주시면 될 것 같습니다. 이는 2가지 과정이 포함된 것이라고 볼 수 있을 것 같네요.
+
+1. response가 서버로부터 잘 내려오는가
+2. 정상적으로 내려온 response를 decode해서 ItemList타입으로 잘 맵핑되는가
+
+이때 1번의 경우에는 실제로 개발을 하다보면 아직 서버가 개발이 덜 된 상태에서도 클라이언트가 개발하는 경우도 있고, 클라이언트 개발자가 인터넷이 없는 환경에서도 코드를 작성할 수도 있습니다.
+서버의 개발이 끝날때까지 기다렸다가 클라이언트가 개발하면 바람직하겠지만 그렇지 않은 경우들이 많기도 하고, 또 서버에서 어떠한 문제가 생길지 모르니 네트워크 통신도 하나의 의존성이라고 생각해주시면 좋을 것 같습니다.
+
+따라서 네트워크라는 의존성을 배제하고나서 단순히 테스트를 하려는 목적인 2번을 달성하려면 mock데이터를 통해서 테스트를 할 수 있도록 코드를 작성하는 것이 중요합니다.
+
+# STEP2_CompositionalLayout
+## 기능설명
+#### `MainViewController`
++ CompositionalLayout을 이용해 ListCollectionView와 GridCollectionView 구현
++ SegmentControl을 이용한 collectionView Layout 전환
++ loading 화면 구현
+
+#### `ListCollectionViewCell`
++ ListCollection에서 사용할 Cell 구현
+
+#### `GridCollectionViewCell`
++ GridCollection에서 사용할 Cell 구현
+
+## 배운개념📚
++ cell을 재사용하기 전 cell에 대한 초기화는 `prepareForReuse`에서 해야하고 cell 내부에 존재하는 content에 대한 초기화는 cell을 생성하는 곳에서 해주어야 한다.
+
++ `UICollectionViewCompositionalLayout` 을 이용해 CollectionView의 Layout 설정
+
+## 문제점 🤬
+1. groupSize의 heightDimension을 설정해 화면에 보이는 item 수를 조절하는 과정에서 비율에 따라 cell이 사라지는 문제점 발생
+
+| .fractionalHeight(0.09) | .fractionalHeight(0.1) |
+|:---:|:---:|
+|![](https://i.imgur.com/W9WSMtx.png)|![](https://i.imgur.com/ykRjlYi.png)|
+
+```swift
+// 수정전
+let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+// 수정후
+let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+```
+listLayout 같은 경우 하나의 group이 하나의 item이기 때문에 아래 코드와 같이 수정을 하면 문제를 해결할 수 있었다.
+
+
+2. Cell을 재사용 하는 과정에서 Cell의 Content가 계속해서 바뀌는 문제점 발생
+    + ListCell에 기준이 되는 Label을 priceLabel이 아닌 discountedLabel로 변경
+    + Cell을 생성하는 부분에서 재사용 되는 Content에 대해 초기화
+
+## 고민한점🤔
+1. 화면 전환 : collectionView를 2개 만들어 `isHidden`을 통해 화면전환를 화게 되면 List와 Grid 상태에서 화면에 위치가 다르기 때문에 collectionView를 하나 만들고 SegmentControl 상태에 따라 collectionView의 layout을 변경 
+
+2. Cell Accessory : Swift에서 제공하는 Cell Accessory를 사용하면 Accessory가 중간에 생기기 때문에 ListCollectionView에서 Label이 길어지면 안보이기 때문에 UILabel과 UIImageView를 사용해 Cell Accessory 구현
+
+
+## 궁금한점🧐
++ GridCollection에 대한 layout을 설정할 때 groupSize의 높이를 저희가 설정한 높이보다 줄이게 되면 안에 있는 content들이 겹치는 현상이 발생했습니다. 이러한 경우 cell에 대한 layout을 수정해 group의 사이즈가 변해도 안에 있는 content들이 겹치는 현상이 발생하지 않도록 해야 하는지 궁금합니다.
+
++ configure 메서드를 통해 View에 대한 세부 설정을 해주었습니다. 하지만 configure 메서드가 너무 뚱뚱해져 가독성이 떨어진다고 생각하는데 어떤 방식으로 코드를 작성하는 것이 좋은지 궁금합니다.
+
+## 궁금한 점에 대한 답변 ❗️
+***1.***
+
+말씀해주신 문제의 원인은 fractionHeight의 경우에는 전체 기기를 0~1 사이로 보고 값을 결정해주게 되는데, 이때 0.3으로 설정하시게되면 화면에 3개의 cell이 보여질 정도의 height를 가지게 됩니다. 그리고 cell에서 layout을 잡아주신 것은 3개 정도가 보여질 정도의 높이를 가졌을 때를 가정하고 잡았기 때문에 0.2로 변경하게 되면 당연히 cell의 내용이 잘릴 수 밖에 없습니다.
+
+이러한 부분을 해결하기 위해서는 heightDimension을 estimated로 설정하거나, 고정된 Height를 주는 방법이 있을 것 같네요.
+
+만약 cell 내부의 크기가 동적으로 변경되어야한다면 이 글을 참고해보시면 도움이 될 것 같네요. 다만 현재 프로젝트에서는 동적으로 cell의 크기가 변경되는 것 같지는 않아보입니다!
+
+***2.***
+
+무엇을 configure하는지 함수명만 보고는 알 수가 없습니다.
+아래 함수는 각 UIComponent들의 attributes를 configure하기도하고, layout적인 요소들도 configure해주고 있는데 이러한 부분을 분리시켜주세요. 🙏🏻
+
+configureAttributes()
+configureLayout()
+## 참고 문서
++ [Cell Reuse 관련 문서](https://stackoverflow.com/questions/40773208/what-is-the-correct-way-to-use-prepareforreuse)
+
+# STEP2_FlowLayout
+## 기능설명
+전체적인 코드는 CompositionalLayout으로 작성한 코드와 유사하다 단지 collectionView의 layout을 설정하는 과정에서 FlowLayout을 사용하였다. 추가적으로 FlowLayout을 사용했기 때문에 UICollectionViewDataSource와 UICollectionViewFlowLayoutDelegate를 채택해 collectionView에서 사용할 item을 생성하고 사이즈를 설정해 주었다.
+## 배운개념📚
++ `Data(contentsOf:)` 사용과 관련하여 해당 생성자는 기본적으로 동기적으로 동작하기 때문에 서버로 부터 받아온 데이터를 처리하기에는 적합하지 않다. 따라서 서버에서 받아온 데이터를 처리하는 과정은 비동기로 UIImageView의 image를 설정하는 과정은 동기로 처리하는 방법을 사용했다.
+
++ `reloadData`, `reloadItem`, `reconfigureItems` 차이를 이해 reloadData 같은 경우 collectionView, tableView의 전체적인 영역을 update하기 위해 사용한다. 반면 reloadItem과 reconfigureItems같은 경우 cell에 대한 update를 하는데 reloadItem 같은 경우는 기존 cell을 제거하고 새로운 cell을 생성한다. 반면 configureItems같은 경우 기존에 존재하는 cell에 대해 update를 진행한다.
+
+## 문제점 🤬
+1. segmentControl을 통해 layout 전환 시 이전 화면에서 보이던 cell의 layout을 현재 화면의 cell에서도 그대로 적용되는 문제점이 발생 
+
++ reloadItem을 사용해 이전 화면에서 사용 중인 cell을 제거하고 layout전환 시 새로운 cell을 생성해 해당 문제를 해결
+
+2. 서버에서 데이터를 가져오기 전에 cell을 생성
++ fetchData 메서드 내부에서 DispatchQueue를 사용해 UI를 업데이트 하도록 설정 추가적으로 Notification을 통해 해당 문제를 해결하는 방법도 존재한다.
+
+## 고민한점🤔
+1. collectionView의 layout 상태에 따라 itemSize설정
++ UICollectionViewFlowLayoutDelegate를 채택해 현재 layout 상태를 확인하고 itemSize를 설정해 주었다.
+
+
+## 궁금한점🧐
++ 현재 저희가 List와 Grid에서 사용할 cell을 각각 만들어 주었기 때문에 세그먼트를 통해 layout을 변경하는 과정에서 reloadItem를 사용하지 않으면 화면이 전화되는 시점에 존재하는 cell들의 layout이 변하지 않는 걸 확인했습니다. reloadItem를 통해 cell을 새로 만들어 주니 해당 문제는 해결됐지만 모든 indexPath에 대해 cell을 만들어 주는 것이 비효율적이라 생각합니다. 혹시 어떠한 방법으로 해당 문제를 해결할 수 있을지 궁금합니다.
+
++ 스크롤을 통한 Pagination 과정에서 fetchData를 호출할 때 reloadData를 호출하여 collectionView의 전체적인 업데이트를 해주었습니다. 추가적으로 cell에 대한 update를 해주기 위해 reconfigureItems를 사용해 기존 cell을 유지하면서 업데이트를 하려 했지만 에러(특정 경우 앱이 꺼짐 및 layout 전환 시 몇몇 cell의 layout이 변하지 않음) 가 발생해 결국 모든 indexPath에 대해 reloadItem을 해주었습니다. 혹시 reconfigureItems를 사용하면 발생하는 에러가 reconfigureItems는 추가된 cell이 아니라 기존 cell에 대한 데이터만 업데이트를 하기 때문에 발생한 에러인지 궁금합니다.
+
+## 궁금한 점에 대한 답변 ❗️
