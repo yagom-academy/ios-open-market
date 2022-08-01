@@ -70,6 +70,12 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
             self.stockLabel.text = "품절"
             self.stockLabel.textColor = .systemOrange
         }
+        
+        if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: item.productImage)) {
+            imageView.image = cachedImage
+        } else {
+            imageView.configureImage(url: item.productImage)
+        }
     }
     
     private func arrangeSubView() {

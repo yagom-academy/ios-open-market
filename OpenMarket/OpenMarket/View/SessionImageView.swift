@@ -8,8 +8,9 @@
 import UIKit
 
 class SessionImageView: UIImageView {
-    func configureImage(url: String, _ cell: UICollectionViewCell, _ indexPath: IndexPath, _ collectionView: UICollectionView) {
+    func configureImage(url: String) {
         let sessionManager = URLSessionManager(session: URLSession.shared)
+        let cachedKey = NSString(string: url)
         
         sessionManager.receiveData(baseURL: url) { result in
             switch result {
@@ -17,7 +18,7 @@ class SessionImageView: UIImageView {
                 guard let imageData = UIImage(data: data) else { return }
                 
                 DispatchQueue.main.async {
-                    guard indexPath == collectionView.indexPath(for: cell) else { return }
+                    ImageCacheManager.shared.setObject(imageData, forKey: cachedKey)
                     self.image = imageData
                 }
             case .failure(_):
