@@ -1,6 +1,6 @@
 import UIKit
 
-class ProductDetailView: UIView {
+class ProductRegistView: UIView {
 
     // MARK: - Properties
     
@@ -153,7 +153,7 @@ class ProductDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addToScrollView(of image: UIImage, viewController: ProductsDetailViewController) {
+    func addToScrollView(of image: UIImage, viewController: ProductsRegistViewController) {
         let newImageView = UIImageView(image: image)
         newImageView.translatesAutoresizingMaskIntoConstraints = false
         newImageView.widthAnchor.constraint(equalTo: newImageView.heightAnchor).isActive = true
@@ -182,7 +182,7 @@ class ProductDetailView: UIView {
 
 // MARK: - UIView Functions
 
-extension ProductDetailView {
+extension ProductRegistView {
     private func addViews() {
         addSubview(mainScrollView)
         

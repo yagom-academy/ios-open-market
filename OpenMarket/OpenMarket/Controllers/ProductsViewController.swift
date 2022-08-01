@@ -114,7 +114,7 @@ extension ProductsViewController {
     }
     
     @objc func showDetailView() {
-        let detailViewController = ProductsDetailViewController()
+        let detailViewController = ProductsRegistViewController()
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     

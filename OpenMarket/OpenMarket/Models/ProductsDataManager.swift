@@ -85,17 +85,12 @@ struct ProductsDataManager: Decodable {
         postRequest.httpBody = dataBody
         
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
             
             if let data = data {
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
-                    print(decodedData)
                     completion(decodedData)
                 } catch {
-                    print(error)
                 }
             }
         }
@@ -132,7 +127,6 @@ struct ProductsDataManager: Decodable {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(decodedData)
             } catch {
-                print(error)
             }
         }
         task.resume()

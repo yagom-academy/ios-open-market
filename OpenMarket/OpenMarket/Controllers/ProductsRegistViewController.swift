@@ -1,11 +1,11 @@
 import UIKit
 
-class ProductsDetailViewController: UIViewController {
+class ProductsRegistViewController: UIViewController {
     
     let imagePicker = UIImagePickerController()
     var selectedImageView: UIImageView?
     
-    var detailView = ProductDetailView()
+    var detailView = ProductRegistView()
     
     // MARK: - Life Cycle
     
@@ -114,7 +114,7 @@ class ProductsDetailViewController: UIViewController {
 
 // MARK: - UIImagePicker & UINavigation ControllerDelegate Function
 
-extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+extension ProductsRegistViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         if let selectedImageView = selectedImageView {
@@ -139,7 +139,7 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
 
 // MARK: - @objc Functions
 
-extension ProductsDetailViewController {
+extension ProductsRegistViewController {
     @objc private func doneButtonDidTapped() {
         if checkPostCondition() == false {
             return
@@ -199,7 +199,7 @@ extension ProductsDetailViewController {
 
 // MARK: - UITextFieldDelegate Functions
 
-extension ProductsDetailViewController: UITextFieldDelegate {
+extension ProductsRegistViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if isEmptySaleAndStockTextField(textField) {
             detailView.itemSaleTextField.text = "0"
@@ -212,7 +212,7 @@ extension ProductsDetailViewController: UITextFieldDelegate {
     }
     
     func isEmptySaleAndStockTextField(_ textField: UITextField) -> Bool {
-        guard let detailView = view as? ProductDetailView else { return false }
+        guard let detailView = view as? ProductRegistView else { return false }
         
         return textField == detailView.itemNameTextField
         && detailView.itemSaleTextField.text?.isEmpty ?? false
@@ -220,7 +220,7 @@ extension ProductsDetailViewController: UITextFieldDelegate {
     }
     
     func defaultTextField(_ textField: UITextField) -> Bool {
-        guard let detailView = view as? ProductDetailView else { return false }
+        guard let detailView = view as? ProductRegistView else { return false }
         
         return (textField == detailView.itemStockTextField || textField == detailView.itemSaleTextField)
         && textField.text == "0"
@@ -229,7 +229,7 @@ extension ProductsDetailViewController: UITextFieldDelegate {
 
 // MARK: - UITextViewDelegate Functions
 
-extension ProductsDetailViewController: UITextViewDelegate {
+extension ProductsRegistViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text.cString(using: String.Encoding.utf8) == [0] {
             return true
