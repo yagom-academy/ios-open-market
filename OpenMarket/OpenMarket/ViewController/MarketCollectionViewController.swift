@@ -35,11 +35,10 @@ final class MarketCollectionViewController: UICollectionViewController {
         return segmentedControl
     }()
     
-    private let barbutton: UIBarButtonItem = {
-        let addButton = UIBarButtonItem()
-        addButton.image = UIImage(systemName: "plus")
-        return addButton
-    }()
+    override func viewDidAppear(_ animated: Bool) {
+        receivePageData()
+        collectionView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,8 +48,10 @@ final class MarketCollectionViewController: UICollectionViewController {
     }
     
     private func configureUI() {
+        let addProductBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addProductButtonDidTapped))
+        
+        navigationItem.rightBarButtonItem = addProductBarButton
         navigationItem.titleView = segmentedControl
-        navigationItem.rightBarButtonItem = barbutton
         collectionView.collectionViewLayout = createListLayout()
     }
     
@@ -69,45 +70,13 @@ final class MarketCollectionViewController: UICollectionViewController {
             receivePageData()
         }
     }
-}
-
-// MARK: Layout
-extension MarketCollectionViewController {
-    private func createListLayout() -> UICollectionViewLayout {
-        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: layoutSize)
-        
-        let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .fractionalHeight(0.08))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
-                                                       subitem: item,
-                                                       count: 1)
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        section.interGroupSpacing = 1
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+    
+    @objc private func addProductButtonDidTapped() {
+        guard let productVC = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") else { return }
+        self.navigationController?.pushViewController(productVC, animated: true)
     }
     
-    private func createGridLayout() -> UICollectionViewLayout {
-        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: layoutSize)
-        let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .fractionalHeight(0.35))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
-                                                       subitem: item,
-                                                       count: 2)
-        let section = NSCollectionLayoutSection(group: group)
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-}
-
-// MARK: DataSource
-extension MarketCollectionViewController {
+    // MARK: DataSource
     private func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
             cell.configureCell(with: item)
@@ -127,10 +96,8 @@ extension MarketCollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: item)
         }
     }
-}
- 
-// MARK: Data & Snapshot
-extension MarketCollectionViewController {
+    
+    // MARK: Data & Snapshot
     private func applySnapshots() {
         var itemSnapshot = SnapShot()
         itemSnapshot.appendSections([.main])
@@ -139,7 +106,7 @@ extension MarketCollectionViewController {
     }
     
     private func receivePageData() {
-        let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
+        let subURL = SubURL().pageURL(number: 1, countOfItems: 100)
         
         LoadingIndicator.showLoading(on: view)
         sessionManager.receiveData(baseURL: subURL) { result in
@@ -152,7 +119,9 @@ extension MarketCollectionViewController {
                     LoadingIndicator.hideLoading(on: self.view)
                 }
             case .failure(_):
-                self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
+                }
             }
         }
     }
@@ -165,7 +134,9 @@ extension MarketCollectionViewController {
                 Item(product: $0 )
             }
         } catch {
-            self.showAlert(title: "데이터 변환 실패", message: "가져온 데이터를 읽을 수 없습니다.")
+            DispatchQueue.main.async {
+                self.showAlert(title: "데이터 변환 실패", message: "가져온 데이터를 읽을 수 없습니다.")
+            }
         }
     }
     
@@ -174,4 +145,38 @@ extension MarketCollectionViewController {
         failureAlert.addAction(UIAlertAction(title: "확인", style: .default))
         present(failureAlert, animated: true)
     }
+    
+    // MARK: Layout
+    private func createListLayout() -> UICollectionViewLayout {
+        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: layoutSize)
+        
+        let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(0.08))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
+                                                       subitem: item,
+                                                       count: 1)
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        section.interGroupSpacing = 1
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    private func createGridLayout() -> UICollectionViewLayout {
+        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: layoutSize)
+        let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(0.35))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
+                                                       subitem: item,
+                                                       count: 2)
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }
+

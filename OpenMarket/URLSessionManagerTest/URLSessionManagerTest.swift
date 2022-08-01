@@ -26,12 +26,12 @@ class URLSessionManagerTests: XCTestCase {
         let subURL = SubURL().pageURL(number: 1, countOfItems: 20)
         
         guard let mockData = NSDataAsset.init(name: "MockData")?.data,
-              let page = dataDecoder.decode(type: Page.self, data: mockData) else { return }
+              let page = try? dataDecoder.decode(type: Page.self, data: mockData) else { return }
         
         sut.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
-                let responsedData = self.dataDecoder.decode(type: Page.self, data: data)
+                let responsedData = try? self.dataDecoder.decode(type: Page.self, data: data)
                 XCTAssertEqual(responsedData?.pageNumber, page.pageNumber)
                 XCTAssertEqual(responsedData?.itemsPerPage, page.itemsPerPage)
             case .failure(_):
@@ -62,7 +62,7 @@ class URLSessionManagerTests: XCTestCase {
         sut.receiveData(baseURL: subURL) { result in
             switch result {
             case .success(let data):
-                let responsedData = self.dataDecoder.decode(type: Page.self, data: data)
+                let responsedData = try? self.dataDecoder.decode(type: Page.self, data: data)
                 XCTAssertEqual(responsedData?.totalCount, 325)
             case .failure(_):
                 XCTFail("서버 데이터 불일치 오류")

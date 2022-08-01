@@ -8,8 +8,8 @@
 import UIKit
 
 final class MarketGridCollectionViewCell: UICollectionViewCell {
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
+    private let imageView: SessionImageView = {
+        let imageView = SessionImageView()
         return imageView
     }()
     
@@ -23,8 +23,8 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .systemRed
+        label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 2
-        label.textAlignment = .center
         return label
     }()
     
@@ -46,8 +46,6 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
     }()
     
     func configureCell(with item: Item) {
-        let sessionManager = URLSessionManager(session: URLSession.shared)
-        
         self.nameLabel.text = item.productName
         
         if item.price == item.bargainPrice {
@@ -73,21 +71,16 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
             self.stockLabel.textColor = .systemOrange
         }
         
-        sessionManager.receiveData(baseURL: item.productImage) { result in
-            switch result {
-            case .success(let data):
-                guard let imageData = UIImage(data: data) else { return }
-                
-                DispatchQueue.main.async {
-                    self.imageView.image = imageData
-                }
-            case .failure(_):
-                print("서버 통신 실패")
-            }
+        if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: item.productImage)) {
+            imageView.image = cachedImage
+        } else {
+            imageView.configureImage(url: item.productImage)
         }
     }
     
     private func arrangeSubView() {
+        priceLabel.textAlignment = .center
+        
         verticalStackView.addArrangedSubview(imageView)
         verticalStackView.addArrangedSubview(nameLabel)
         verticalStackView.addArrangedSubview(priceLabel)
@@ -116,8 +109,8 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    override func prepareForReuse() {
+    override func prepareForReuse(){
+        super.prepareForReuse()
         stockLabel.textColor = .systemGray
         priceLabel.textColor = .systemRed
     }

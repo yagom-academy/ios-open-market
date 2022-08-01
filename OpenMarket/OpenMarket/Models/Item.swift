@@ -23,7 +23,7 @@ struct Item: Hashable {
     }
 }
 
-extension Int {
+extension Double {
     fileprivate func devidePrice() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal

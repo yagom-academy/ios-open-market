@@ -8,15 +8,8 @@
 import UIKit
 
 final class MarketListCollectionViewCell: UICollectionViewCell {
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
-    
-    private let accessaryImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "greaterthan")
-        imageView.tintColor = .systemGray
+    private let imageView: SessionImageView = {
+        let imageView = SessionImageView()
         return imageView
     }()
     
@@ -30,15 +23,23 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .systemRed
+        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 2
         return label
     }()
     
     private let stockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .right
         label.textColor = .systemGray
         return label
+    }()
+    
+    private let accessaryImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "greaterthan")
+        imageView.tintColor = .systemGray
+        return imageView
     }()
     
     private let horizontalStackView: UIStackView = {
@@ -71,7 +72,7 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
     
     private let entireStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.distribution = .fill
@@ -80,10 +81,8 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
     }()
     
     func configureCell(with item: Item) {
-        let sessionManager = URLSessionManager(session: URLSession.shared)
-        
         self.nameLabel.text = item.productName
-      
+        
         if item.price == item.bargainPrice {
             self.priceLabel.text = item.price
             self.priceLabel.textColor = .systemGray
@@ -107,21 +106,16 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
             self.stockLabel.textColor = .systemOrange
         }
         
-        sessionManager.receiveData(baseURL: item.productImage) { result in
-            switch result {
-            case .success(let data):
-                guard let imageData = UIImage(data: data) else { return }
-                
-                DispatchQueue.main.async {
-                    self.imageView.image = imageData
-                }
-            case .failure(_):
-                print("서버 통신 실패")
-            }
+        if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: item.productImage)) {
+            imageView.image = cachedImage
+        } else {
+            imageView.configureImage(url: item.productImage)
         }
     }
     
     private func arrangeSubView() {
+        stockLabel.textAlignment = .right
+        
         subHorizontalStackView.addArrangedSubview(stockLabel)
         subHorizontalStackView.addArrangedSubview(accessaryImageView)
         
@@ -137,12 +131,11 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(entireStackView)
         
         NSLayoutConstraint.activate([
-            entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             entireStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             entireStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             
-            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1),
             
             accessaryImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
@@ -159,14 +152,15 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    override func prepareForReuse() {
+    override func prepareForReuse(){
+        super.prepareForReuse()
         stockLabel.textColor = .systemGray
         priceLabel.textColor = .systemRed
     }
 }
 
 extension CALayer {
-    func addBottomBorder() {
+    fileprivate func addBottomBorder() {
         let border = CALayer()
         border.backgroundColor = UIColor.systemGray3.cgColor
         
@@ -175,4 +169,3 @@ extension CALayer {
         self.addSublayer(border)
     }
 }
-
