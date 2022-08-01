@@ -137,22 +137,7 @@ extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavi
 
 extension ProductsDetailViewController {
     @objc private func doneButtonDidTapped() {
-        
-        
-        if detailView.imageStackView.arrangedSubviews.count <= 1 {
-            presentAlertMessage(message: "이미지를 추가해주세요.")
-            return
-        } else if detailView.itemNameTextField.text?.count ?? 0 < 3 {
-            presentAlertMessage(message: "상품명을 세 글자 이상 작성해주세요.")
-            return
-        } else if detailView.itemPriceTextField.text?.isEmpty ?? true {
-            presentAlertMessage(message: "상품가격을 입력하세요.")
-            return
-        } else if detailView.descriptionTextView.text.isEmpty {
-            presentAlertMessage(message: "상품설명을 입력하세요.")
-            return
-        } else if detailView.descriptionTextView.text.count < 10 {
-            presentAlertMessage(message: "상품설명을 10자 이상 작성해주세요.")
+        if checkPostCondition() == false {
             return
         }
         

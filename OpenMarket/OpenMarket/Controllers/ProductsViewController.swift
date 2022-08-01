@@ -26,6 +26,7 @@ class ProductsViewController: UIViewController {
     // MARK: - Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         refresh()
     }
     
@@ -150,6 +151,65 @@ extension ProductsViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }
+    
+    private func getVisibleCells(_ collectionView: UICollectionView) -> [UICollectionViewCell] {
+        var cellArray: [UICollectionViewCell]
+        switch segmentControl?.selectedSegmentIndex {
+        case Titles.list.rawValue:
+            cellArray = collectionView.visibleCells.filter {
+                guard let indexPath = collectionView.indexPath(for: $0) else { return false }
+                return indexPath.row % 2 == 0
+            }
+        case Titles.grid.rawValue:
+            cellArray = collectionView.visibleCells
+        default:
+            cellArray = []
+        }
+        return cellArray
+    }
+    
+    private func setLayout(_ collectionView: UICollectionView, _ topCellIndexPath: IndexPath) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            if self.segmentControl?.selectedSegmentIndex == Titles.list.rawValue {
+                self.isFetchingEnd = false
+                collectionView.setCollectionViewLayout(self.createListLayout(), animated: false) { [weak self] bool in
+                    self?.isFetchingEnd = true
+                }
+                collectionView.visibleCells.forEach { cell in
+                    guard let cell = cell as? ItemCollectionViewCell else { return }
+                    cell.setAxis(segment: .list)
+                }
+                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
+            } else if self.segmentControl?.selectedSegmentIndex == Titles.grid.rawValue {
+                self.isFetchingEnd = false
+                collectionView.setCollectionViewLayout(self.createGridLayout(), animated: false) { [weak self] bool in
+                    self?.isFetchingEnd = true
+                }
+                collectionView.visibleCells.forEach { cell in
+                    guard let cell = cell as? ItemCollectionViewCell else { return }
+                    cell.setAxis(segment: .grid)
+                }
+                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
+            }
+        }
+    }
+    
+    private func getTopCell(_ collectionView: UICollectionView, _ cellArray: [UICollectionViewCell]) -> UICollectionViewCell? {
+        guard let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height,
+              let navigationBarHeight = navigationController?.navigationBar.frame.height else { return nil }
+        
+        let totalHeight = statusBarHeight + navigationBarHeight
+        let currentOffset = collectionView.contentOffset.y + totalHeight
+        
+        let topCell = cellArray.min {
+            let leftCellsDifference = abs($0.frame.minY - currentOffset)
+            let rightCellsDifference = abs($1.frame.minY - currentOffset)
+            
+            return leftCellsDifference < rightCellsDifference
+        }
+        return topCell
+    }
 }
 
 // MARK: - Layout Method
@@ -207,59 +267,13 @@ extension ProductsViewController {
     @objc private func changeLayout() {
         guard let collectionView = collectionView else { return }
         
-        var cellArray: [UICollectionViewCell]
-        switch segmentControl?.selectedSegmentIndex {
-        case Titles.list.rawValue:
-            cellArray = collectionView.visibleCells.filter {
-                guard let indexPath = collectionView.indexPath(for: $0) else { return false }
-                return indexPath.row % 2 == 0
-            }
-        case Titles.grid.rawValue:
-            cellArray = collectionView.visibleCells
-        default:
-            cellArray = []
-        }
-        
-        guard let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height,
-              let navigationBarHeight = navigationController?.navigationBar.frame.height else { return }
-        let totalHeight = statusBarHeight + navigationBarHeight
-        
-        let currentOffset = collectionView.contentOffset.y + totalHeight
-        
-        let topCell = cellArray.min {
-            let leftCellsDifference = abs($0.frame.minY - currentOffset)
-            let rightCellsDifference = abs($1.frame.minY - currentOffset)
-            
-            return leftCellsDifference < rightCellsDifference
-        }
+        let cellArray = getVisibleCells(collectionView)
+        let topCell = getTopCell(collectionView, cellArray)
         
         guard let topCell = topCell,
               let topCellIndexPath = collectionView.indexPath(for: topCell) else { return }
         
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self = self else { return }
-            if self.segmentControl?.selectedSegmentIndex == Titles.list.rawValue {
-                self.isFetchingEnd = false
-                collectionView.setCollectionViewLayout(self.createListLayout(), animated: false) { [weak self] bool in
-                    self?.isFetchingEnd = true
-                }
-                collectionView.visibleCells.forEach { cell in
-                    guard let cell = cell as? ItemCollectionViewCell else { return }
-                    cell.setAxis(segment: .list)
-                }
-                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
-            } else if self.segmentControl?.selectedSegmentIndex == Titles.grid.rawValue {
-                self.isFetchingEnd = false
-                collectionView.setCollectionViewLayout(self.createGridLayout(), animated: false) { [weak self] bool in
-                    self?.isFetchingEnd = true
-                }
-                collectionView.visibleCells.forEach { cell in
-                    guard let cell = cell as? ItemCollectionViewCell else { return }
-                    cell.setAxis(segment: .grid)
-                }
-                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
-            }
-        }
+        setLayout(collectionView, topCellIndexPath)
     }
 }
 

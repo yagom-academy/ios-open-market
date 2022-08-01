@@ -1,4 +1,4 @@
-import UIKit
+import UIKit.NSDataAsset
 
 struct ImageInfo {
     static let key: String = "images"
