@@ -278,6 +278,10 @@ extension ItemCollectionViewCell {
     func setImage(by image: UIImage) {
         self.itemImageView.image = image
     }
+    
+    func setId() -> Int? {
+        return product?.id
+    }
 }
 
 // MARK: - prepare For Reuse

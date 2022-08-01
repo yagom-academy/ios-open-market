@@ -20,12 +20,12 @@ struct Parameters {
     static let key: String = "params"
     var parameterDictionary: [String: Any] = [:]
     
-    init(name: String, descriptions: String, price: Int, currency: Currency, secret: String, discountedPrice: Int? = 0, stock: Int? = 0) {
+    init(name: String, descriptions: String, price: Int, currency: Corrency, secret: String, discountedPrice: Int? = 0, stock: Int? = 0) {
         
         self.parameterDictionary["name"] = name
         self.parameterDictionary["descriptions"] = descriptions
         self.parameterDictionary["price"] = price
-        self.parameterDictionary["currency"] = Currency.toString[currency.rawValue]
+        self.parameterDictionary["currency"] = Corrency.toString[currency.rawValue]
         self.parameterDictionary["discountedPrice"] = discountedPrice
         self.parameterDictionary["stock"] = stock
         self.parameterDictionary["secret"] = secret
@@ -59,6 +59,14 @@ struct ProductsDataManager: Decodable {
         guard let urlComponentURL = urlComponent?.url else { return }
         
         let request = URLRequest(url: urlComponentURL)
+        
+        sendRequest(request, completion)
+    }
+    
+    func getData<T: Decodable>(productId: Int, completion: @escaping (T) -> Void) {
+        guard let  urlComponent = URL(string: "\(url)/\(productId)") else { return }
+        
+        let request = URLRequest(url: urlComponent)
         
         sendRequest(request, completion)
     }

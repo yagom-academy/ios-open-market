@@ -2,8 +2,7 @@ import UIKit
 
 class ProductsDetailView: UIView {
 
-    // MARK: - Properties
-    
+    // MARK: - Properties    
     let itemImageView1: UIImageView = {
         let image = UIImage(systemName: "pencil")
         let imageView = UIImageView(image: image)
@@ -199,7 +198,6 @@ class ProductsDetailView: UIView {
     }
     
     func configureLayout() {
-        
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),

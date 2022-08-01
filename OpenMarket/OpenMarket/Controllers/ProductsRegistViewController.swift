@@ -152,7 +152,7 @@ extension ProductsRegistViewController {
               let productSale = Int(registView.itemSaleTextField.text ?? "0"),
               let productStock = Int(registView.itemStockTextField.text ?? "0"),
               let productDesciprtion = registView.descriptionTextView.text,
-              let productCurrency = Currency(rawValue: registView.currencySegmentControl.selectedSegmentIndex) else { return }
+              let productCurrency = Corrency(rawValue: registView.currencySegmentControl.selectedSegmentIndex) else { return }
         
         if imageViews.last is UIButton {
             imageViews.removeLast()

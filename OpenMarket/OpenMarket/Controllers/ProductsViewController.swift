@@ -1,5 +1,9 @@
 import UIKit
 
+protocol SendUpdateDelegate {
+    func sendUpdate() -> UserIdentifier
+}
+
 class ProductsViewController: UIViewController {
     
     // MARK: - Properties
@@ -12,6 +16,7 @@ class ProductsViewController: UIViewController {
     
     private var currentPage = 0
     private var isFetchingEnd = true
+    private var selectedId: Int?
     
     private let refreshControl = UIRefreshControl()
     private var segmentControl: UISegmentedControl?
@@ -23,6 +28,8 @@ class ProductsViewController: UIViewController {
         return indicator
     }()
     
+    var delegate: SendUpdateDelegate?
+    
     // MARK: - Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +39,6 @@ class ProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureHierarchy()
         configureDataSoure()
         configureSegmentControl()
@@ -114,8 +120,8 @@ extension ProductsViewController {
     }
     
     @objc func showDetailView() {
-        let detailViewController = ProductsRegistViewController()
-        self.navigationController?.pushViewController(detailViewController, animated: true)
+        let registViewController = ProductsRegistViewController()
+        self.navigationController?.pushViewController(registViewController, animated: true)
     }
     
     private func configureHierarchy() {
@@ -299,7 +305,10 @@ extension ProductsViewController {
 
 extension ProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+        let detailViewController = ProductsDetailViewController()
+        selectedId = dataSource?.itemIdentifier(for: indexPath)?.id
+        detailViewController.delegate = self
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -313,5 +322,20 @@ extension ProductsViewController: UICollectionViewDelegate {
                 activityIndicator.stopAnimating()
             }
         }
+    }
+}
+
+extension ProductsViewController: SendUpdateDelegate {
+    func sendUpdate() -> UserIdentifier {
+        return UserIdentifier(id: selectedId!, secret: UserInfo.secret.rawValue)
+    }
+}
+
+struct UserIdentifier {
+    var id: Int
+    var secret: String
+    init(id: Int, secret: String) {
+        self.id = id
+        self.secret = secret
     }
 }
