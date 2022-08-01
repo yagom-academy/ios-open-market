@@ -42,12 +42,13 @@ final class MainViewController: UIViewController {
         return segment
     }()
     
-    private let addedButton: UIButton = {
+    private lazy var addedButton: UIButton = {
         let button = UIButton()
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: CollectionViewNamespace.plus.name, withConfiguration: configuration)
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(moveProductRegistrationPage), for: .touchUpInside)
         return button
     }()
     
@@ -76,6 +77,11 @@ final class MainViewController: UIViewController {
     }
     
     // MARK: Method
+    
+    @objc private func moveProductRegistrationPage() {
+        let registrationViewController = RegistrationViewController()
+        navigationController?.pushViewController(registrationViewController, animated: false)
+    }
     
     private func setUI() {
         view.backgroundColor = .white
