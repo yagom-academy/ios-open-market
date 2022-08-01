@@ -140,8 +140,8 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         let resizedImage = compressImage(selectedImage)
             
         dataSource.insert(selectedImage, at: 0)
-        imageParams.append(ImageParam(imageName: "\(dataSource.count - 1)번사진.jpeg", imageData: resizedImage))
-        
+        imageParams.append(ImageParam(imageName: "\(dataSource.count - 1)번사진.\(resizedImage.fileExtension)", imageType: resizedImage.fileExtension, imageData: resizedImage))
+
         picker.dismiss(animated: true, completion: nil)
 
         productView.collectionView.reloadData()
@@ -169,5 +169,24 @@ extension AddProductViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         viewConstraint.isActive = false
+    }
+}
+
+//MARK: ImageDataType
+extension Data {
+    var fileExtension: String {
+        let array = [UInt8](self)
+        let ext: String
+        switch (array[0]) {
+        case 0xFF:
+            ext = "jpg"
+        case 0x89:
+            ext = "png"
+        case 0xd8:
+            ext = "jpeg"
+        default:
+            ext = "unknown"
+        }
+        return ext
     }
 }
