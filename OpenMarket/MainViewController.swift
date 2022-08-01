@@ -46,9 +46,9 @@ final class MainViewController: UIViewController {
         let button = UIButton()
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: CollectionViewNamespace.plus.name, withConfiguration: configuration)
+        button.addTarget(self, action: #selector(moveProductRegistrationPage), for: .touchUpInside)
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(moveProductRegistrationPage), for: .touchUpInside)
         return button
     }()
     
@@ -80,7 +80,7 @@ final class MainViewController: UIViewController {
     
     @objc private func moveProductRegistrationPage() {
         let registrationViewController = RegistrationViewController()
-        navigationController?.pushViewController(registrationViewController, animated: false)
+        navigationController?.pushViewController(registrationViewController, animated: true)
     }
     
     private func setUI() {
