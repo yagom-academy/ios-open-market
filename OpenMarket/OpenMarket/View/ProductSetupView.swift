@@ -56,12 +56,13 @@ final class ProductSetupView: UIView {
         return button
     }()
     
-    let productNameTextField: UITextField = {
+    lazy var productNameTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "상품명"
         textfield.setupLayer()
         textfield.addLeftPadding()
+        textfield.inputAccessoryView = accessoryView
         return textfield
     }()
     
@@ -76,12 +77,13 @@ final class ProductSetupView: UIView {
         return stackview
     }()
     
-    let productPriceTextField: UITextField = {
+    lazy var productPriceTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "상품가격"
         textfield.setupLayer()
         textfield.addLeftPadding()
+        textfield.inputAccessoryView = accessoryView
         return textfield
     }()
     
@@ -92,30 +94,46 @@ final class ProductSetupView: UIView {
         return segment
     }()
     
-    let productDiscountedPriceTextField: UITextField = {
+    lazy var productDiscountedPriceTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "할인금액"
         textfield.setupLayer()
         textfield.addLeftPadding()
+        textfield.inputAccessoryView = accessoryView
         return textfield
     }()
     
-    let productStockTextField: UITextField = {
+    lazy var productStockTextField: UITextField = {
         var textfield = UITextField()
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.placeholder = "재고수량"
         textfield.setupLayer()
         textfield.addLeftPadding()
+        textfield.inputAccessoryView = accessoryView
         return textfield
     }()
     
-    let descriptionTextView: UITextView = {
+    lazy var descriptionTextView: UITextView = {
         var textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false
-        textview.text = "asdfasdfasdf"
         textview.isScrollEnabled = false
+        textview.text = "여기에 내용을 입력해주세요."
+        textview.inputAccessoryView = accessoryView
         return textview
+    }()
+    
+    let accessoryView: UIView = {
+        return UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 50))
+    }()
+    
+    let confirmButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("닫기", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.backgroundColor = .systemGray6
+        return button
     }()
     
     private var rootViewController: UIViewController?
@@ -131,11 +149,12 @@ final class ProductSetupView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func addSubViews(_ rootViewController: UIViewController) {
         rootViewController.view.addSubview(mainScrollView)
         mainScrollView.addSubview(mainStackView)
         horizontalScrollView.addSubview(horizontalStackView)
+        accessoryView.addSubview(confirmButton)
     }
     
     private func setupConstraints(_ rootViewController: UIViewController) {
@@ -181,9 +200,17 @@ final class ProductSetupView: UIView {
             productDiscountedPriceTextField.heightAnchor.constraint(equalToConstant: 35),
             productStockTextField.heightAnchor.constraint(equalToConstant: 35)
         ])
+        guard let confirmButtonSuperview = confirmButton.superview else { return }
+        NSLayoutConstraint.activate([
+            confirmButton.leadingAnchor.constraint(equalTo: confirmButtonSuperview.leadingAnchor, constant: 350),
+            confirmButton.trailingAnchor.constraint(equalTo: confirmButtonSuperview.trailingAnchor),
+            confirmButton.bottomAnchor.constraint(equalTo: confirmButtonSuperview.bottomAnchor),
+            confirmButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
     }
+    
     private func keyboardTypeSetup() {
-        productNameTextField.keyboardType = .default
+//        productNameTextField.keyboardType = .default
         productPriceTextField.keyboardType = .numberPad
         productDiscountedPriceTextField.keyboardType = .numberPad
         productStockTextField.keyboardType = .numberPad

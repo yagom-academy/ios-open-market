@@ -39,6 +39,7 @@ final class ListCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.numberOfLines = 0
         label.text = "Mac mini"
+        label.setContentHuggingPriority(UILayoutPriority(251), for: .horizontal)
         return label
     }()
     
@@ -77,6 +78,7 @@ final class ListCell: UICollectionViewCell {
         label.textAlignment = .right
         label.textColor = .lightGray
         label.sizeToFit()
+        label.setContentCompressionResistancePriority(UILayoutPriority(800), for: .horizontal)
         return label
     }()
     // MARK: - Cell Initailize
@@ -109,7 +111,8 @@ final class ListCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             productImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             productImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2)
+            productImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.2),
+            productImageView.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),

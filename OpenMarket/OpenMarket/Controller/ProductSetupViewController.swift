@@ -13,21 +13,23 @@ final class ProductSetupViewController: UIViewController {
     private var productSetupView: ProductSetupView?
     private var imagePicker = UIImagePickerController()
     var productId: Int?
-    var viewControllerTitle: String? 
+    var viewControllerTitle: String?
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        navigationItem.title = self.viewControllerTitle
         productSetupView = ProductSetupView(self)
+        setupNavigationItem()
         setupKeyboard()
         setupPickerViewController()
+        adoptTextFieldDelegate()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard let productId = productId else {
             productSetupView?.horizontalStackView.addArrangedSubview(productSetupView?.addImageButton ?? UIButton())
-            return // 등록인 경우
+            return
         }
         manager.requestProductDetail(at: productId) { detail in
             DispatchQueue.main.async { [weak self] in
@@ -35,6 +37,7 @@ final class ProductSetupViewController: UIViewController {
             }
         }
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -42,14 +45,29 @@ final class ProductSetupViewController: UIViewController {
     }
     // MARK: - @objc method
     @objc private func keyboardWillAppear(_ sender: Notification) {
-        print("keyboard up")
+        guard let userInfo = sender.userInfo, let keyboarFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboarFrame.size.height, right: 0.0)
+        productSetupView?.mainScrollView.contentInset = contentInset
+        productSetupView?.mainScrollView.scrollIndicatorInsets = contentInset
     }
-    @objc private func keyboardWillDisappear(_ sender: Notification){
-        print("keyboard down")
+    
+    @objc private func keyboardWillDisappear(_ sender: Notification) {
+        let contentInset = UIEdgeInsets.zero
+        productSetupView?.mainScrollView.contentInset = contentInset
+        productSetupView?.mainScrollView.scrollIndicatorInsets = contentInset
     }
+    
+    @objc private func hideKeyboard(_ sender: Any) {
+        view.endEditing(true)
+    }
+    
     @objc private func cancelButtonDidTapped() {
         navigationController?.popViewController(animated: true)
     }
+    
     @objc private func doneButtonDidTapped() {
         guard let productRegistration = createProductRegistration(),
               let images = createImages()
@@ -73,6 +91,7 @@ final class ProductSetupViewController: UIViewController {
         }
         self.present(imagePicker, animated: true)
     }
+    
     @objc private func changeCurrencyKeyboard() {
         view.endEditing(true)
         if productSetupView?.currencySegmentControl.selectedSegmentIndex == 0 {
@@ -123,18 +142,31 @@ final class ProductSetupViewController: UIViewController {
         return images
     }
     
-    private func setupKeyboard() {
+    private func setupNavigationItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonDidTapped))
+        navigationItem.title = self.viewControllerTitle
+    }
+    
+    private func setupKeyboard() {
+        productSetupView?.confirmButton.addTarget(self, action: #selector(hideKeyboard(_:)), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(_:)), name: UIResponder.keyboardWillHideNotification , object: nil)
         productSetupView?.currencySegmentControl.addTarget(self, action: #selector(changeCurrencyKeyboard), for: .valueChanged)
     }
+    
     private func setupPickerViewController() {
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.allowsEditing = true
         self.imagePicker.delegate = self
         productSetupView?.addImageButton.addTarget(self, action: #selector(pickImage), for: .touchUpInside)
+    }
+    
+    private func adoptTextFieldDelegate() {
+        productSetupView?.productNameTextField.delegate = self
+        productSetupView?.productPriceTextField.delegate = self
+        productSetupView?.productStockTextField.delegate = self
+        productSetupView?.productDiscountedPriceTextField.delegate = self
     }
     
     private func updateSetup(with detail: ProductDetail) {
@@ -160,7 +192,6 @@ final class ProductSetupViewController: UIViewController {
         failureAlert.addAction(confirmAction)
         present(failureAlert, animated: true)
     }
-    
 }
 
 extension ProductSetupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -175,5 +206,12 @@ extension ProductSetupViewController: UIImagePickerControllerDelegate, UINavigat
         newImageView.image = newImage
         productSetupView?.horizontalStackView.addArrangedSubview(newImageView)
         picker.dismiss(animated: true)
+    }
+}
+
+extension ProductSetupViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
