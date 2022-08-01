@@ -51,18 +51,6 @@ final class MainViewController: UIViewController {
         return button
     }()
     
-    private lazy var topStackView: UIStackView = {
-        let stackView = UIStackView()
-        let leftCoordinate = (view.frame.width / 2) - (segmentedControl.frame.width / 2)
-        stackView.alignment = .fill
-        stackView.distribution = .equalCentering
-        stackView.layoutMargins = UIEdgeInsets(top: 15, left: leftCoordinate, bottom: 15, right: 15)
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     private lazy var collectionView: UICollectionView = {
         let layout = createListLayout()
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
@@ -71,20 +59,10 @@ final class MainViewController: UIViewController {
         return collectionView
     }()
     
-    private let wholeComponentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     // MARK: View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setUI()
         
         collectionView.prefetchDataSource = self
@@ -100,28 +78,23 @@ final class MainViewController: UIViewController {
     // MARK: Method
     
     private func setUI() {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(wholeComponentStackView)
+        view.backgroundColor = .white
+        
+        navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addedButton)
+        
+        view.addSubview(collectionView)
         view.addSubview(loadingView)
-        
-        setStackView()
-        setConstraint()
+    
+        setCollectionViewConstraint()
     }
     
-    private func setStackView() {
-        wholeComponentStackView.addArrangedSubview(topStackView)
-        wholeComponentStackView.addArrangedSubview(collectionView)
-        
-        topStackView.addArrangedSubview(segmentedControl)
-        topStackView.addArrangedSubview(addedButton)
-    }
-    
-    private func setConstraint() {
+    private func setCollectionViewConstraint() {
         NSLayoutConstraint.activate([
-            wholeComponentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            wholeComponentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            wholeComponentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
     }
     
