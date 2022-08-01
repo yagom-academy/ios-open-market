@@ -55,7 +55,67 @@ class RegistrationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private let productNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "상품명"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    private let productPriceTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "상품가격"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    private let discountedPriceTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "할인금액"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    private let stockTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "재고수량"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
 
+    private lazy var segmentedControl: UISegmentedControl = {
+        let segment = UISegmentedControl(items: [Currency.KRW.rawValue, Currency.USD.rawValue])
+        segment.selectedSegmentIndex = 0
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        return segment
+    }()
+    
+    private let descriptionTextView: UITextView = {
+       let textView = UITextView()
+        return textView
+    }()
+    
+    private let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let textStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -65,12 +125,25 @@ class RegistrationViewController: UIViewController {
         self.title = "상품등록"
         
         view.addSubview(imageScrollView)
+        view.addSubview(textStackView)
+        
         imageScrollView.addSubview(imageStackView)
         imageStackView.addArrangedSubview(imageAddButton)
-        setConstrant()
+        
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
+        
+        textStackView.addArrangedSubview(productNameTextField)
+        textStackView.addArrangedSubview(priceStackView)
+        textStackView.addArrangedSubview(discountedPriceTextField)
+        textStackView.addArrangedSubview(stockTextField)
+        textStackView.addArrangedSubview(descriptionTextView)
+        
+        priceStackView.addArrangedSubview(productPriceTextField)
+        priceStackView.addArrangedSubview(segmentedControl)
+        
+        setConstrant()
     }
     
     @objc private func addImage() {
@@ -81,23 +154,32 @@ class RegistrationViewController: UIViewController {
         NSLayoutConstraint.activate([
             imageScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            imageScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            imageScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            imageScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            imageScrollView.heightAnchor.constraint(equalToConstant: 100)
         ])
         
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
+            imageStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor),
-            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor),
             imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
             imageAddButton.heightAnchor.constraint(equalToConstant: 100),
             imageAddButton.widthAnchor.constraint(equalToConstant: 100)
         ])
+        
+        NSLayoutConstraint.activate([
+            textStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: 10),
+            textStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            textStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            textStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10)
+        ])
+        
+        imageScrollView.setContentHuggingPriority(.required, for: .vertical)
+        descriptionTextView.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
 }
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if imageCount == 4 {
             imageAddButton.isHidden = true
         }
