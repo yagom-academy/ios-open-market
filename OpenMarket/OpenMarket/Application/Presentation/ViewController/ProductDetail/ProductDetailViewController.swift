@@ -154,14 +154,19 @@ final class ProductDetailViewController: UIViewController {
     private func configureCollectionViewHierarchy() {
         productDetailImagesCollectionView = UICollectionView(frame: .zero,
                                                              collectionViewLayout: configureCollectionViewLayout())
-        productDetailImagesCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        
+        guard let productDetailImagesCollectionView = productDetailImagesCollectionView else {
+            return
+        }
+        
+        productDetailImagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        rootStackView.addArrangedSubview(productDetailImagesCollectionView!)
-        productDetailImagesCollectionView?.heightAnchor.constraint(equalToConstant: view.layer.bounds.height * 0.4).isActive = true
-
+        rootStackView.addArrangedSubview(productDetailImagesCollectionView)
         rootStackView.addArrangedSubview(productInfoLabelStackView)
         rootStackView.addArrangedSubview(productDescriptionTextView)
 
+        productDetailImagesCollectionView.heightAnchor.constraint(equalToConstant: view.layer.bounds.height * 0.35).isActive = true
+        
         productInfoLabelStackView.addArrangedSubview(productNameLabel)
         productInfoLabelStackView.addArrangedSubview(productPriceAndStockStackView)
 
@@ -219,12 +224,21 @@ final class ProductDetailViewController: UIViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ProductDetailsCollectionViewCell, UIImage> { [weak self] (cell, indexPath, item) in
             
+            guard let totalImageNumber = self?.productDetailViewModel?.numberOfImages else {
+                return
+            }
+            
             cell.configureUI(data: item,
                              currentImageNumber: indexPath.row + 1,
-                             totalImageNumber: (self?.productDetailViewModel?.numberOfImages!)!)
+                             totalImageNumber: totalImageNumber)
         }
         
-        productDetailImagesdataSource = UICollectionViewDiffableDataSource<Section, UIImage>(collectionView: productDetailImagesCollectionView!) {
+        guard let productDetailImagesCollectionView = productDetailImagesCollectionView else {
+            return
+        }
+
+        
+        productDetailImagesdataSource = UICollectionViewDiffableDataSource<Section, UIImage>(collectionView: productDetailImagesCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: UIImage) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
