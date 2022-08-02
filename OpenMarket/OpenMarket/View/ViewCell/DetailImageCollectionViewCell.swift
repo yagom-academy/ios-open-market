@@ -8,13 +8,13 @@
 import UIKit
 
 class DetailImageCollectionViewCell: UICollectionViewCell {
-    private let imageView: SessionImageView = {
+    let imageView: SessionImageView = {
         let image = SessionImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    private let imageNumberLabel: UILabel = {
+    let imageNumberLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +39,14 @@ class DetailImageCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         arrangeSubView()
     }
+    
+//    func configureCell(with item: DetailProduct) {
+//        if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: )) {
+//            imageView.image = cachedImage
+//        } else {
+//            imageView.configureImage(url: item.productImage, cell, indexPath, collectionView)
+//        }
+//    }
     
     private func arrangeSubView() {
         entireStackView.addArrangedSubview(imageView)

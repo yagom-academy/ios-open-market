@@ -36,7 +36,7 @@ class DetailInfoCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let discriptionView: UITextView = {
+    private let descriptionView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
         textView.font = .preferredFont(forTextStyle: .body)
@@ -47,7 +47,7 @@ class DetailInfoCollectionViewCell: UICollectionViewCell {
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.spacing = 4
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -68,7 +68,7 @@ class DetailInfoCollectionViewCell: UICollectionViewCell {
         
         verticalStackView.addArrangedSubview(horizontalStackView)
         verticalStackView.addArrangedSubview(priceLabel)
-        verticalStackView.addArrangedSubview(discriptionView)
+        verticalStackView.addArrangedSubview(descriptionView)
         
         contentView.addSubview(verticalStackView)
         
@@ -78,6 +78,13 @@ class DetailInfoCollectionViewCell: UICollectionViewCell {
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+    }
+    
+    func configureCell(with item: DetailProduct) {
+        nameLabel.text = item.productName
+        priceLabel.text = item.price
+        stockLabel.text = "남은수량 : \(item.stock)"
+        descriptionView.text = item.description
     }
     
     required init?(coder: NSCoder) {
