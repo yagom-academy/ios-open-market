@@ -96,12 +96,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func commonInit() {
-        setUpSubViews()
-        setUpStackViewConstraints()
-        self.setUpBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
+        setupSubViews()
+        setupStackViewConstraints()
+        self.setupBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
     }
     
-    private func setUpSubViews() {
+    private func setupSubViews() {
         self.contentView.addSubview(productImage)
         self.contentView.addSubview(stackView)
         self.contentView.addSubview(accessoryStackView)
@@ -109,7 +109,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         [stock, accessoryImageButton].forEach { accessoryStackView.addArrangedSubview($0) }
     }
     
-    private func setUpStackViewConstraints() {
+    private func setupStackViewConstraints() {
         NSLayoutConstraint.activate(
             [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
              productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),

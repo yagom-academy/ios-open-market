@@ -25,7 +25,7 @@ final class ProductRegistrationView: UIView, Requestable {
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        scrollView.setupBoder(cornerRadius: Design.borderCornerRadius,
                               borderWidth: Design.borderWidth,
                               borderColor: UIColor.systemGray3.cgColor)
         
@@ -80,7 +80,7 @@ final class ProductRegistrationView: UIView, Requestable {
     
     private let productDescriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textView.setupBoder(cornerRadius: Design.borderCornerRadius,
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +99,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         
@@ -114,7 +114,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -130,7 +130,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -148,7 +148,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .numberPad
@@ -215,10 +215,10 @@ final class ProductRegistrationView: UIView, Requestable {
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
-        setUpSubviews()
-        setUpSubViewsHeight()
-        setUpConstraints()
-        setUpUiToolbar()
+        setupSubviews()
+        setupSubViewsHeight()
+        setupConstraints()
+        setupUiToolbar()
         imagePrickerButton.addTarget(self,
                                      action: #selector(pickImages),
                                      for: .touchUpInside)
@@ -226,7 +226,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                     action: #selector(endEditing(_:))))
     }
     
-    private func setUpSubviews() {
+    private func setupSubviews() {
         [imageScrollView, productInformationStackView, productDescriptionTextView]
             .forEach { totalStackView.addArrangedSubview($0) }
         [productName, segmentedStackView, productDiscountedPrice, stock]
@@ -239,7 +239,7 @@ final class ProductRegistrationView: UIView, Requestable {
         
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate(
             [totalStackView.topAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -273,7 +273,7 @@ final class ProductRegistrationView: UIView, Requestable {
             imagePrickerButton.centerYAnchor.constraint(equalTo: pickerView.centerYAnchor)])
     }
     
-    private func setUpSubViewsHeight() {
+    private func setupSubViewsHeight() {
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
@@ -283,7 +283,7 @@ final class ProductRegistrationView: UIView, Requestable {
                             multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
     }
     
-    private func setUpUiToolbar() {
+    private func setupUiToolbar() {
         let keyboardToolbar = UIToolbar()
         let doneBarButton = UIBarButtonItem(title: Design.barButtonItemTitle,
                                             style: .plain,
@@ -326,12 +326,12 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         else { return }
         
-        let imageView = setUpPickerImageView(image: editedImage)
+        let imageView = setupPickerImageView(image: editedImage)
         imageStackView.insertArrangedSubview(imageView, at: .zero)
         self.pickerController.dismiss(animated: true, completion: nil)
     }
     
-    private func setUpPickerImageView(image: UIImage) -> UIImageView {
+    private func setupPickerImageView(image: UIImage) -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image

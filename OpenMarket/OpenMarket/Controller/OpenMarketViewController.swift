@@ -33,8 +33,8 @@ final class OpenMarketViewController: UIViewController, Requestable {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        self.setUpUI()
-        self.setUpRefreshControl()
+        self.setupUI()
+        self.setupRefreshControl()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,21 +53,21 @@ final class OpenMarketViewController: UIViewController, Requestable {
     
     //MARK: - View layout functions
     
-    private func setUpUI(){
-        self.setUpSubviews()
-        self.setUpNavigationController()
-        self.setUpSegmentedControl()
-        self.setUpListViewConstraints()
-        self.setUpGridViewConstraints()
+    private func setupUI(){
+        self.setupSubviews()
+        self.setupNavigationController()
+        self.setupSegmentedControl()
+        self.setupListViewConstraints()
+        self.setupGridViewConstraints()
     }
     
-    private func setUpSubviews() {
+    private func setupSubviews() {
         self.view.addSubview(self.segmentedControl)
         self.view.addSubview(self.gridCollectionView)
         self.view.addSubview(self.listCollectionView)
     }
     
-    private func setUpNavigationController() {
+    private func setupNavigationController() {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.topItem?.titleView = segmentedControl
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem
@@ -77,7 +77,7 @@ final class OpenMarketViewController: UIViewController, Requestable {
                           action: #selector(productRegistrationButtonDidTap))
     }
     
-    private func setUpSegmentedControl() {
+    private func setupSegmentedControl() {
         self.segmentedControl.addTarget(self,
                                         action: #selector(segmentButtonDidTap(sender:)),
                                         for: .valueChanged)
@@ -85,7 +85,7 @@ final class OpenMarketViewController: UIViewController, Requestable {
         
     }
     
-    private func setUpListViewConstraints() {
+    private func setupListViewConstraints() {
         NSLayoutConstraint.activate([
             self.listCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.listCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
@@ -94,7 +94,7 @@ final class OpenMarketViewController: UIViewController, Requestable {
         ])
     }
     
-    private func setUpGridViewConstraints() {
+    private func setupGridViewConstraints() {
         NSLayoutConstraint.activate([
             self.gridCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.gridCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
@@ -105,7 +105,7 @@ final class OpenMarketViewController: UIViewController, Requestable {
     
     // MARK: - functions
     
-    private func setUpRefreshControl() {
+    private func setupRefreshControl() {
         listCollectionView.refreshControl = UIRefreshControl()
         gridCollectionView.refreshControl = UIRefreshControl()
         listCollectionView.refreshControl?.addTarget(self,

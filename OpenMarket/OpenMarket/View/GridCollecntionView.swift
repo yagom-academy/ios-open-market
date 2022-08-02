@@ -21,18 +21,18 @@ final class GridCollecntionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.setUpDataSource()
+        self.setupDataSource()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.setUpDataSource()
+        self.setupDataSource()
     }
     
     // MARK: - functions
     
-    private func setUpDataSource() {
+    private func setupDataSource() {
         gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,

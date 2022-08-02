@@ -18,16 +18,16 @@ class ProductUpdateViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         view.addSubview(productUpdateView)
-        setUpConstraints()
-        setUpNavigation()
+        setupConstraints()
+        setupNavigation()
     }
     
-    func setUpNavigation() {
+    func setupNavigation() {
         navigationItem.title = "상품수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(updateProducts))
     }
     
-    func setUpConstraints() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             productUpdateView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 5),
             productUpdateView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -5),
@@ -36,7 +36,7 @@ class ProductUpdateViewController: UIViewController {
         ])
     }
     
-    private func setUpNavigationController() {
+    private func setupNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                              target: nil,
                                              action: #selector(updateProducts))

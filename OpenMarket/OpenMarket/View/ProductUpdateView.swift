@@ -22,7 +22,7 @@ final class ProductUpdateView: UIView, Requestable {
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        scrollView.setupBoder(cornerRadius: Design.borderCornerRadius,
                               borderWidth: Design.borderWidth,
                               borderColor: UIColor.systemGray3.cgColor)
         
@@ -60,7 +60,7 @@ final class ProductUpdateView: UIView, Requestable {
     
     private let productDescriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textView.setupBoder(cornerRadius: Design.borderCornerRadius,
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +76,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.autocorrectionType = .no
@@ -92,7 +92,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -108,7 +108,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -124,7 +124,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .numberPad
@@ -156,20 +156,20 @@ final class ProductUpdateView: UIView, Requestable {
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
-        setUpSubviews()
-        setUpSubViewsHeight()
-        setUpConstraints()
+        setupSubviews()
+        setupSubViewsHeight()
+        setupConstraints()
         productDescriptionTextView.delegate = self
         productName.delegate = self
         productPrice.delegate = self
         productDiscountedPrice.delegate = self
         stock.delegate = self
-        setUpUiToolbar()
+        setupUiToolbar()
         addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                     action: #selector(endEditing(_:))))
     }
     
-    private func setUpSubviews() {
+    private func setupSubviews() {
         [imageScrollView, productInformationStackView, productDescriptionTextView]
             .forEach { totalStackView.addArrangedSubview($0) }
         [productName, segmentedStackView, productDiscountedPrice, stock]
@@ -179,7 +179,7 @@ final class ProductUpdateView: UIView, Requestable {
         imageScrollView.addSubview(imageStackView)
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate(
             [totalStackView.topAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -202,7 +202,7 @@ final class ProductUpdateView: UIView, Requestable {
         ])
     }
     
-    private func setUpSubViewsHeight() {
+    private func setupSubViewsHeight() {
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
@@ -212,7 +212,7 @@ final class ProductUpdateView: UIView, Requestable {
                             multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
     }
     
-    private func setUpUiToolbar() {
+    private func setupUiToolbar() {
         let keyboardToolbar = UIToolbar()
         let doneBarButton = UIBarButtonItem(title: Design.barButtonItemTitle,
                                             style: .plain,
