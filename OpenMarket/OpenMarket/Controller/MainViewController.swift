@@ -6,15 +6,16 @@
 //
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     // MARK: - Instance Properties
-    private let manager = NetworkManager()
+    private let manager = NetworkManager.shared
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private var listDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var listLayout: UICollectionViewLayout? = nil
     private var gridLayout: UICollectionViewLayout? = nil
-    
+    private var productListManager = ProductListManager()
+    private var currentMaximumPage = 1
     enum Section {
         case main
     }
@@ -61,10 +62,12 @@ class MainViewController: UIViewController {
         activityIndicator.stopAnimating()
         return activityIndicator
     }()
-    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applyDataSource),
+                                               name: .addProductList, object: nil)
         initializeViewController()
         self.listLayout = createListLayout()
         self.gridLayout = createGridLayout()
@@ -73,6 +76,10 @@ class MainViewController: UIViewController {
         configureListDataSource()
         configureGridDataSource()
         configureHierarchy()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchData()
     }
     // MARK: - Main View Controller Method
@@ -93,6 +100,9 @@ class MainViewController: UIViewController {
     
     @objc private func addButtonDidTapped() {
         print("add button tapped")
+        let prodcutDetailVC = ProductSetupViewController()
+        prodcutDetailVC.viewControllerTitle = "상품 등록"
+        navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
     
     private func setupSegment() {
@@ -105,16 +115,26 @@ class MainViewController: UIViewController {
     }
     
     private func fetchData() {
-        manager.dataTask { [weak self] productList in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(productList)
-            self?.gridDataSource?.apply(snapshot, animatingDifferences: false)
-            self?.listDataSource?.apply(snapshot, animatingDifferences: false)
-            DispatchQueue.main.async {
-                self?.activitiIndicator.stopAnimating()
-                self?.collectionView.alpha = 1
-            }
+        manager.requestProductPage(at: 1) { [weak self] productList in
+            self?.productListManager.fetch(list: productList)
+        }
+    }
+    
+    private func loadData() {
+        manager.requestProductPage(at: currentMaximumPage) { [weak self] productList in
+            self?.productListManager.add(list: productList)
+        }
+    }
+    
+    @objc private func applyDataSource() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(productListManager.productList)
+        self.gridDataSource?.apply(snapshot, animatingDifferences: false)
+        self.listDataSource?.apply(snapshot, animatingDifferences: false)
+        DispatchQueue.main.async {
+            self.activitiIndicator.stopAnimating()
+            self.collectionView.alpha = 1
         }
     }
 }
@@ -163,7 +183,6 @@ extension MainViewController {
         }
         listDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
-            
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }
@@ -193,6 +212,11 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        let prodcutDetailVC = ProductSetupViewController()
+        prodcutDetailVC.productId = productListManager.productList[indexPath.row].id
+        prodcutDetailVC.viewControllerTitle = "상품 수정"
+        print("\(productListManager.productList[indexPath.row].id) - \(productListManager.productList[indexPath.row].name) is tapped")
+        navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
 }
 
