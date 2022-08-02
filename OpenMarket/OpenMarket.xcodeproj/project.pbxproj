@@ -134,6 +134,23 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		05F2975628990E0D00EB7F41 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				8F28527C2897D0E100F49886 /* RegistrationViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		05F2975728990E4500EB7F41 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8F0198122887D4E200C47CF0 /* CollectionViewCell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		42A30A18F909792EACE5EAB5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,8 +228,6 @@
 			children = (
 				05F7FA3F28802CBC00F79944 /* .swiftlint.yml */,
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
-				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
-				8F28527C2897D0E100F49886 /* RegistrationViewController.swift */,
 				05B5A7F8287D926B00865293 /* OpenMarketTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 				42A30A18F909792EACE5EAB5 /* Pods */,
@@ -232,6 +247,8 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				05F2975728990E4500EB7F41 /* View */,
+				05F2975628990E0D00EB7F41 /* ViewController */,
 				8F019816288A49EA00C47CF0 /* Extension */,
 				05DC9F6F2885705A0097B6E3 /* Network */,
 				8F4809B5287CFF2500A77BCD /* Model */,
@@ -240,7 +257,6 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				8F0198122887D4E200C47CF0 /* CollectionViewCell */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";

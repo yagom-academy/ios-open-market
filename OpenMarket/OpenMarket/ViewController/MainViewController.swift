@@ -72,9 +72,6 @@ final class MainViewController: UIViewController {
         
         dataSource = configureDataSource(id: CollectionViewNamespace.list.name)
         self.snapshot.appendSections([.main])
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
     }
     
