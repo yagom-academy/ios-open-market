@@ -167,7 +167,7 @@ class RegistrationViewController: UIViewController {
     
     @objc private func registerProduct() {
         
-        let params: [String: Any?] = [Params.productName: productNameTextField.text, Params.productDescription: descriptionTextView.text, Params.productPrice: productPriceTextField.text, Params.currency: choiceCurrency()?.name]
+        let params: [String: Any?] = [Params.productName: productNameTextField.text, Params.productDescription: descriptionTextView.text, Params.productPrice: productPriceTextField.text, Params.currency: choiceCurrency()?.name, Params.discountedPrice: discountedPriceTextField.text]
         
         NetworkManager().postProduct(params: params, images: images) { result in
             switch result {

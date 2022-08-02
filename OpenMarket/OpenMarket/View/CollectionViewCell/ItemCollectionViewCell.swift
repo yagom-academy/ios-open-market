@@ -46,13 +46,14 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
         priceLabel.text = "\(product.currency) \(product.price)"
-        if product.bargainPrice == Metric.bargainPrice {
+        if product.discountedPrice == Metric.discountedPrice {
             priceLabel.textColor = .systemGray
             bargainPriceLabel.isHidden = true
         } else {
+            bargainPriceLabel.isHidden = false
             priceLabel.textColor = .systemRed
             priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            bargainPriceLabel.text = "\(product.currency) \(product.price)"
+            bargainPriceLabel.text = "\(product.currency) \(product.bargainPrice)"
             bargainPriceLabel.textColor = .systemGray
         }
     }

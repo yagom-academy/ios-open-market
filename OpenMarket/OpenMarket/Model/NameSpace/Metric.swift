@@ -31,7 +31,7 @@ enum Metric {
     static let gridPositiveConstant: CGFloat = 10
     static let gridNegativeConstant: CGFloat = -10
     
-    static let bargainPrice: Double = 0.0
+    static let discountedPrice: Double = 0.0
     static let stock: Int = 0
     
     static let listItemWidth: CGFloat = 1.0
