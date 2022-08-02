@@ -12,7 +12,7 @@ final class MarketProductsViewModel {
     
     private var productEntity: ProductEntity?
     
-    weak var delegate: MarketProductsViewDelegate?
+    weak var delegate: MarketProductsViewControllerDelegate?
     
     var thumbnailImage: UIImage? {
         guard let product = productEntity else {
@@ -105,6 +105,6 @@ final class MarketProductsViewModel {
                     stock: product.stock))
         }
         
-        delegate?.didReceiveResponse(MarketProductsView.self, by: entityList)
+        delegate?.didReceiveResponse(MarketProductsViewController.self, by: entityList)
     }
 }
