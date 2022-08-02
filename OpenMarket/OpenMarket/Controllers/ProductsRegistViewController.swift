@@ -65,7 +65,6 @@ class ProductsRegistViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
-//        title = "상품등록"
     }
     
     private func configureImagePicker() {

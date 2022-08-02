@@ -121,6 +121,7 @@ extension ProductsViewController {
     
     @objc func showDetailView() {
         let registViewController = ProductsRegistViewController()
+        registViewController.title = "상품등록"
         self.navigationController?.pushViewController(registViewController, animated: true)
     }
     
