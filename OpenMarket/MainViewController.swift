@@ -70,7 +70,7 @@ final class MainViewController: UIViewController {
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewNamespace.list.name)
         collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewNamespace.grid.name)
         
-        dataSource = configureDataSource(id: CollectionViewNamespace.grid.name)
+        dataSource = configureDataSource(id: CollectionViewNamespace.list.name)
         self.snapshot.appendSections([.main])
     }
     
