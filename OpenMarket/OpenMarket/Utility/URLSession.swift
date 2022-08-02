@@ -19,7 +19,7 @@ final class NetworkManager {
     func requestProductPage(at pageNumber: Int, _ completion: @escaping ([Product]) -> Void ) {
         var urlComponents = URLComponents(string: URLData.host + URLData.apiPath + "?")
         let pageNo = URLQueryItem(name: "page_no", value: String(pageNumber))
-        let itemsPerPage = URLQueryItem(name: "items_per_page", value: "50")
+        let itemsPerPage = URLQueryItem(name: "items_per_page", value: "20")
         urlComponents?.queryItems?.append(pageNo)
         urlComponents?.queryItems?.append(itemsPerPage)
         guard let url = urlComponents?.url else {
