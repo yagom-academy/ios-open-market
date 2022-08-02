@@ -5,7 +5,7 @@
 //  Created by 데릭, 수꿍.
 //
 
-import Foundation
+import UIKit
 
 struct ProductDetail: Codable {
     let id: Int
@@ -38,6 +38,21 @@ struct ProductDetail: Codable {
         case vendors
         case createdAt = "created_at"
         case issuedAt = "issued_at"
+    }
+    
+    var productImages: [UIImage]? {
+        var array: [UIImage] = []
+        
+        for image in images {
+            if let url = URL(string: image.url),
+               let imageData = try? Data(contentsOf: url) {
+                guard let uiImage = UIImage(data: imageData) else {
+                    return nil
+                }
+                array.append(uiImage)
+            }
+        }
+        return array
     }
 }
 
