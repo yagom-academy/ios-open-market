@@ -151,7 +151,26 @@ struct ProductsDataManager: Decodable {
         task.resume()
     }
     
-    
+    func deleteData<T: Decodable>(identifier: String, productID: Int, secret: String, completion: @escaping (T) -> Void) {
+        guard let url = URL(string: "\(url)/\(productID)/\(secret)") else { return }
+        var postRequest = URLRequest(url: url)
+        
+        postRequest.httpMethod = "DELETE"
+        postRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
+        
+        let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
+            if let response = response {
+                print(response)
+            }
+            
+            if let data = data {
+                guard let parsedData = try? JSONDecoder().decode(T.self, from: data) else { return }
+                completion(parsedData)
+            }
+        }
+        task.resume()
+    }
     
     private func sendRequest<T: Decodable>(_ request: URLRequest, _ completion: @escaping (T) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
