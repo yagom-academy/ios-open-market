@@ -9,10 +9,6 @@ import UIKit
 final class MarketProductsViewController: UIViewController {
     // MARK: Properties
     
-    fileprivate enum Section {
-        case main
-    }
-    
     private let networkProvider = APIClient()
     private var marketProductsViewModel: MarketProductsViewModel?
     private let productListAPIManager = ProductListAPIManager()
