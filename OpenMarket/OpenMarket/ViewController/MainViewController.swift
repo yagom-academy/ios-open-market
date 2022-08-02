@@ -16,6 +16,8 @@ final class MainViewController: UIViewController {
 
     // MARK: Properties
     
+    private let networkManager = NetworkManager()
+    
     private lazy var loadingView: UIActivityIndicatorView = {
         let lodingview = UIActivityIndicatorView()
         lodingview.center = self.view.center
@@ -104,13 +106,10 @@ final class MainViewController: UIViewController {
     }
     
     private func getProductList(pageNumber: Int, itemPerPage: Int) {
-        let urlSession = URLSession(configuration: URLSessionConfiguration.default)
-        let networkManger = NetworkManager(session: urlSession)
-        
         let queryItems = OpenMarketRequest().createQuery(of: String(pageNumber), with: String(itemPerPage))
         let request = OpenMarketRequest().requestProductList(queryItems: queryItems)
         
-        networkManger.getProductInquiry(request: request) { result in
+        networkManager.getProductInquiry(request: request) { result in
             switch result {
             case .success(let data):
                 guard let productList = try? JSONDecoder().decode(MarketInformation.self, from: data) else { return }

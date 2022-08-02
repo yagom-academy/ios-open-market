@@ -11,7 +11,11 @@ final class NetworkManager {
     private let session: URLSessionProtocol
     private let identifier = NetworkNamespace.identifier.name
     
-    init(session: URLSessionProtocol = URLSession.shared) {
+    init() {
+        self.session = URLSession(configuration: URLSessionConfiguration.default)
+    }
+    
+    init(session: URLSessionProtocol) {
         self.session = session
     }
     
