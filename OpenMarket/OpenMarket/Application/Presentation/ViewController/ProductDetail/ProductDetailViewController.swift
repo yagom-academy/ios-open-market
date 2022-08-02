@@ -11,7 +11,7 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - Properties
     
     var productID: Int = 0
-    
+
     private var productDetailsAPIManager: ProductDetailsAPIManager?
     
     private var productDetailViewModel: ProductDetailsViewModel?
@@ -32,6 +32,11 @@ final class ProductDetailViewController: UIViewController {
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 10,
+                                               left: 10,
+                                               bottom: 10,
+                                               right: 10)
         
         return stackView
     }()
@@ -51,8 +56,6 @@ final class ProductDetailViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-    
-        label.text = "MacBook Pro"
         label.adjustsFontForContentSizeCategory = true
 
         return label
@@ -63,7 +66,7 @@ final class ProductDetailViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fill
-        stackView.spacing = 0
+        stackView.spacing = 5
         stackView.alignment = .fill
         
         return stackView
@@ -73,7 +76,7 @@ final class ProductDetailViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .systemGray
         label.adjustsFontForContentSizeCategory = true
 
@@ -84,7 +87,7 @@ final class ProductDetailViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
-        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.adjustsFontForContentSizeCategory = true
 
         return label
@@ -94,7 +97,7 @@ final class ProductDetailViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
-        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.adjustsFontForContentSizeCategory = true
 
         return label
@@ -105,8 +108,7 @@ final class ProductDetailViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.isEditable = false
-        textView.textColor = .lightGray
-        textView.font = UIFont.preferredFont(forTextStyle: .caption1)
+        textView.font = UIFont.preferredFont(forTextStyle: .callout)
         
         return textView
     }()
@@ -243,23 +245,22 @@ final class ProductDetailViewController: UIViewController {
     private func configureCollectionViewLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
+        
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalWidth(0.8))
+        
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
                                                        count: 1)
-        
         group.contentInsets = NSDirectionalEdgeInsets(top: 10,
                                                       leading: 10,
                                                       bottom: 10,
                                                       trailing: 10)
-        
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(0)
         
         let section = NSCollectionLayoutSection(group: group)
-        
         section.orthogonalScrollingBehavior = .groupPaging
         
         let layout = UICollectionViewCompositionalLayout(section: section)
