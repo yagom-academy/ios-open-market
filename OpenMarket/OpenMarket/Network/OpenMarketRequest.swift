@@ -47,7 +47,7 @@ struct OpenMarketRequest {
         return request
     }
     
-    func createPostBody(parms: [String: Any], image: UIImage) -> Data? {
+    func createPostBody(parms: [String: Any], images: [UIImage]) -> Data? {
         var postData = Data()
         let params = parms
         
@@ -59,14 +59,16 @@ struct OpenMarketRequest {
 
         postData.append(jsonData)
         postData.append(form: Multipart.lineFeed)
+        for image in images {
+            postData.append(form: "--\(Multipart.boundaryValue)" + Multipart.lineFeed)
+            postData.append(form: Multipart.imageContentDisposition + "\"\(arc4random()).jpg\"" + Multipart.lineFeed)
+            postData.append(form: ImageType.jpeg.name)
 
-        postData.append(form: "--\(Multipart.boundaryValue)" + Multipart.lineFeed)
-        postData.append(form: Multipart.imageContentDisposition + "\"unchain.jpg\"" + Multipart.lineFeed)
-        postData.append(form: ImageType.jpeg.name)
-
-        guard let imageData = OpenMarketRequest().createPostImage(image: image) else { return nil }
-        postData.append(imageData)
-        postData.append(form: Multipart.lineFeed)
+            guard let imageData = OpenMarketRequest().createPostImage(image: image) else { return nil }
+            postData.append(imageData)
+            postData.append(form: Multipart.lineFeed)
+        }
+        
         postData.append(form: "--\(Multipart.boundaryValue)--")
         
         return postData
@@ -79,7 +81,7 @@ struct OpenMarketRequest {
     private func createPostImage(image: UIImage) -> Data? {
         let image = image
         
-        guard let imageData = image.jpegData(compressionQuality: 1.0) else { return nil }
+        guard let imageData = image.compress() else { return nil }
         return imageData
     }
 }

@@ -45,7 +45,7 @@ final class NetworkManager {
         fetch(request: request, completion: completion)
     }
 
-    func postProduct(params: [String: Any?], image: UIImage) {
+    func postProduct(params: [String: Any?], images: [UIImage]) {
         let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
         let passwordKey = "secret"
         let passwordValue = "lP8VFiBqGI"
@@ -55,7 +55,7 @@ final class NetworkManager {
 
         guard var request = OpenMarketRequest().createPostRequest(identifier: identifier) else { return }
 
-        let postData = OpenMarketRequest().createPostBody(parms: newParms as [String: Any], image: image)
+        let postData = OpenMarketRequest().createPostBody(parms: newParms as [String: Any], images: images)
 
         request.httpBody = postData
 
