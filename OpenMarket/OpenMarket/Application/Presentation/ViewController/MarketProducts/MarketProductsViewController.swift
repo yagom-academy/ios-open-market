@@ -274,13 +274,14 @@ extension MarketProductsViewController: MarketProductsViewControllerDelegate {
 
 extension MarketProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let productID = shouldHideListView ? self.listDataSource?.itemIdentifier(for: indexPath)?.id : self.gridDataSource?.itemIdentifier(for: indexPath)?.id else {
+        guard let product = shouldHideListView ? self.listDataSource?.itemIdentifier(for: indexPath) : self.gridDataSource?.itemIdentifier(for: indexPath) else {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
         }
         
         let productDetailViewController = ProductDetailViewController()
-        productDetailViewController.productID = productID
+        productDetailViewController.productID = product.id
+        productDetailViewController.title = product.name
         self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
