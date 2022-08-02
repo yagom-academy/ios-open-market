@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductUpdateView: UIView, Requestable {
+final class ProductUpdateView: UIView {
     // MARK: - properties
     
     private let totalStackView: UIStackView = {
@@ -242,25 +242,6 @@ final class ProductUpdateView: UIView, Requestable {
         keyboardToolbar.tintColor = UIColor.systemGray
         
         productDescriptionTextView.inputAccessoryView = keyboardToolbar
-    }
-    
-    func update() {
-        guard let productName = productName.text,
-              let priceText = productPrice.text,
-              let priceValue = Double(priceText),
-              let stockText = stock.text,
-              let stock = Int(stockText)
-        else { return }
-        
-        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
-        let product = RegistrationProduct(name: productName,
-                                          descriptions: productDescriptionTextView.text,
-                                          price: priceValue,
-                                          currency: currency.rawValue,
-                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
-                                          stock: stock,
-                                          secret: "R49CfVhSdh")
-        patchProduct(productId: "123", product: product)
     }
     
     @objc func endEditing(){

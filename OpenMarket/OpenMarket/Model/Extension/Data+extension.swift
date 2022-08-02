@@ -2,7 +2,7 @@
 //  Data+extension.swift
 //  OpenMarket
 //
-//  Created by by groot, bard on 2022/07/31.
+//  Created by groot, bard on 2022/07/31.
 //
 
 import Foundation

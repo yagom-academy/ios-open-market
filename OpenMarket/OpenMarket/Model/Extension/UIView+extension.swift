@@ -2,7 +2,7 @@
 //  UIView+extension.swift
 //  OpenMarket
 //
-//  Created by NAMU on 2022/07/27.
+//  Created by groot, bard on 2022/07/27.
 //
 import UIKit.UIView
 

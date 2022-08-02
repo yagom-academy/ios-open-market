@@ -2,7 +2,7 @@
 //  OpenMarketRepository.swift
 //  OpenMarket
 //
-//  Created by 김동용 on 2022/07/27.
+//  Created by groot, bard on 2022/07/27.
 //
 
 import UIKit
@@ -11,9 +11,9 @@ struct OpenMarketRepository {
         if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: key)) {
             imageView.image = cachedImage
         } else {
-            let request = OpenMarketRequest(path: "", method: .get, baseURL: key)
+            var request = OpenMarketRequest(baseURL: key)
             let session = MyURLSession()
-            session.execute(with: request) { (result: Result<Data, Error>) in
+            session.execute(with: request.SetGetImageRequest()) { (result: Result<Data, Error>) in
                 switch result {
                 case .success(let success):
                     guard let image = UIImage(data: success) else { return }

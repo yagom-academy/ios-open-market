@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class OpenMarketViewController: UIViewController, Requestable {
+final class OpenMarketViewController: UIViewController {
     // MARK: - properties
     
     private var loadingView: UIView?
@@ -39,15 +39,14 @@ final class OpenMarketViewController: UIViewController, Requestable {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.getProduct(loadingView,
-                        gridCollectionView,
-                        listCollectionView)
+        
+        fetchData()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+    
         self.showSpinner(on: self.view)
     }
     
@@ -104,6 +103,34 @@ final class OpenMarketViewController: UIViewController, Requestable {
     }
     
     // MARK: - functions
+    
+    private func fetchData() {
+        var request = OpenMarketRequest()
+        
+        let myURLSession = MyURLSession()
+        myURLSession.dataTask(with: request.SetGetProductListsRequest()) {
+            (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                guard let decodedData = success.decodeImageData() else { return }
+                decodedData.pages
+                    .filter { ImageCacheManager.shared.object(forKey: NSString(string: $0.thumbnail)) == nil }
+                    .forEach { $0.pushThumbnailImageCache() }
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.gridCollectionView.setSnapshot(productsList: decodedData.pages)
+                    self?.listCollectionView.setSnapshot(productsList: decodedData.pages)
+                    
+                    guard let loadingView = self?.loadingView else { return }
+                    loadingView.isHidden = true
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+    }
     
     private func setupRefreshControl() {
         listCollectionView.refreshControl = UIRefreshControl()
@@ -187,9 +214,7 @@ final class OpenMarketViewController: UIViewController, Requestable {
     @objc private func refresh() {
         self.listCollectionView.deleteSnapshot()
         self.gridCollectionView.deleteSnapshot()
-        self.getProduct(loadingView,
-                        gridCollectionView,
-                        listCollectionView)
+        fetchData()
         self.listCollectionView.refreshControl?.endRefreshing()
         self.gridCollectionView.refreshControl?.endRefreshing()
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductRegistrationView: UIView, Requestable {
+final class ProductRegistrationView: UIView {
     // MARK: - properties
     
     private let pickerController = UIImagePickerController()
@@ -196,7 +196,23 @@ final class ProductRegistrationView: UIView, Requestable {
                                           discountedPrice: Double(productDiscountedPrice.text ?? "0"),
                                           stock: Int(stock.text ?? "0"),
                                           secret: "R49CfVhSdh")
-        postProduct(images: images, product: product)
+        guard let productData = try? JSONEncoder().encode(product) else { return }
+        
+        var request = OpenMarketRequest()
+        
+        let myURLSession = MyURLSession()
+        
+        myURLSession.dataTask(with: request.setPostRequest(images: images, productData: productData)) {
+            (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+        
     }
     
     private func commonInit() {
@@ -310,7 +326,7 @@ final class ProductRegistrationView: UIView, Requestable {
         guard let priceText = productPrice.text,
               let price = Double(priceText),
               let discountedPrice = Double(productDiscountedPrice.text ?? "0"),
-              price > discountedPrice
+              price >= discountedPrice
         else { return nil }
         
         return price - discountedPrice
@@ -323,6 +339,17 @@ final class ProductRegistrationView: UIView, Requestable {
         let alertAction = UIAlertAction(title: "확인", style: .default)
         postAlert.addAction(alertAction)
         self.window?.rootViewController?.present(postAlert, animated: true)
+    }
+    
+    private func convertImages(view: UIView) -> [Data] {
+        var images = [Data]()
+        let _ = view.subviews
+            .forEach { guard let imageView = $0 as? UIImageView,
+                             let image = imageView.image else { return }
+                images.append(image.resize(width: 300).pngData() ?? Data())
+            }
+        
+        return images
     }
     
     // MARK: - @objc functions
