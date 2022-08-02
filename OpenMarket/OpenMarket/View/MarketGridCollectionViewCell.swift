@@ -45,7 +45,7 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func configureCell(with item: Item) {
+    func configureCell(with item: Item, _ cell: UICollectionViewCell, _ indexPath: IndexPath, _ collectionView: UICollectionView) {
         self.nameLabel.text = item.productName
         
         if item.price == item.bargainPrice {
@@ -74,7 +74,7 @@ final class MarketGridCollectionViewCell: UICollectionViewCell {
         if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: item.productImage)) {
             imageView.image = cachedImage
         } else {
-            imageView.configureImage(url: item.productImage)
+            imageView.configureImage(url: item.productImage, cell, indexPath, collectionView)
         }
     }
     

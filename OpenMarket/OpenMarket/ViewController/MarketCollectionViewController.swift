@@ -79,7 +79,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     // MARK: DataSource
     private func makeListDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketListCollectionViewCell, Item>.init { cell, indexPath, item in
-            cell.configureCell(with: item)
+            cell.configureCell(with: item, cell, indexPath, self.collectionView)
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
@@ -89,7 +89,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     
     private func makeGridDataSource() -> DataSource {
         let registration = UICollectionView.CellRegistration<MarketGridCollectionViewCell, Item>.init { cell, indexPath, item in
-            cell.configureCell(with: item)
+            cell.configureCell(with: item, cell, indexPath, self.collectionView)
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
