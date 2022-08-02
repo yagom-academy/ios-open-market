@@ -256,6 +256,30 @@ final class ProductDetailViewController: UIViewController {
         }
     }
     
+    private func updateUI(_ data: ProductDetailsEntity) {
+        let viewModel = ProductDetailsViewModel(productDetailEntity: data)
+        productNameLabel.text = viewModel.productName
+        stockLabel.text = viewModel.stockText
+        originalPriceLabel.text = viewModel.originalPriceText
+        discountedPriceLabel.text = viewModel.discountedPriceText
+        productDescriptionTextView.text = viewModel.description
+        
+        viewModel.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
+        stockLabel.textColor = viewModel.isEmptyStock == true ? .systemYellow : .systemGray
+    }
+    
+    private func configureForOriginal() {
+        discountedPriceLabel.isHidden = true
+        originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: 0)
+        originalPriceLabel.textColor = .systemGray
+    }
+    
+    private func configureForBargain() {
+        discountedPriceLabel.isHidden = false
+        originalPriceLabel.attributedText = originalPriceLabel.text?.strikeThrough(value: NSUnderlineStyle.single.rawValue)
+        originalPriceLabel.textColor = .systemRed
+    }
+    
     private func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, UIImage>,
                                by data: [UIImage]) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, UIImage>()
