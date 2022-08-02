@@ -23,8 +23,6 @@ extension PATCHProtocol {
         request.addValue(User.identifier.rawValue,
                                    forHTTPHeaderField: RequestName.identifier.key)
         
-        print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
-
         client.requestData(with: request) { result in
             switch result {
             case .success(_):
