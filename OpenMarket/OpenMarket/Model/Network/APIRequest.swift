@@ -43,11 +43,6 @@ enum URLHost {
     }
 }
 
-enum HTTPBody: Hashable {
-    case json
-    case image
-}
-
 enum URLAdditionalPath {
     case healthChecker
     case product

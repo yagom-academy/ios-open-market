@@ -15,7 +15,26 @@ struct OpenMarketRequest: APIRequest {
     var baseURL: String = URLHost.openMarket.url
     var headers: [String : String]?
     var query: [String: String]?
+}
+
+enum HTTPHeaders {
+    var boundary: String {
+        "Boundary-\(UUID().uuidString)"
+    }
     
+    case json
+    case multipartFormData
+    
+    var name: [String: String] {
+        switch self {
+        case .json:
+            return ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
+                    "Content-Type": "application/json"]
+        case .multipartFormData:
+            return ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
+                    "Content-Type": "multipart/form-data; boundary=\(boundary)"]
+        }
+    }
 }
 
 extension OpenMarketRequest {
@@ -23,8 +42,7 @@ extension OpenMarketRequest {
         let boundary = "Boundary-\(UUID().uuidString)"
         self.body = createMultiPartFormBody(boundary: boundary, paramsData: productData, images: images)
         self.method = .post
-        self.headers = ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
-                        "Content-Type": "multipart/form-data; boundary=\(boundary)"]
+        self.headers = HTTPHeaders.multipartFormData.name
         
         return self
     }
@@ -33,8 +51,7 @@ extension OpenMarketRequest {
         self.body = productData
         self.path = (self.path ?? "") + "/\(productId)/"
         self.method = .patch
-        self.headers = ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
-                        "Content-Type": "application/json"]
+        self.headers = HTTPHeaders.json.name
         
         return self
     }

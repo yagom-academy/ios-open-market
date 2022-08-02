@@ -157,13 +157,6 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		37FBE2332893CEF500240A1E /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -251,7 +244,6 @@
 				37D96A6628866DC9002B1A8F /* Extension */,
 				D70EECFB2880F873003679E9 /* JSONModel */,
 				372396A3287D194A001EFC70 /* Network */,
-				37FBE2332893CEF500240A1E /* Protocol */,
 			);
 			path = Model;
 			sourceTree = "<group>";
