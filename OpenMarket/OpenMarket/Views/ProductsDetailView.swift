@@ -222,7 +222,7 @@ class ProductsDetailView: UIView {
     
     func setProductInfomation(data: Page) {
         guard let priceText = numberFormatter.string(for: data.price),
-              let saleText = numberFormatter.string(for: data.discountedPrice),
+              let saleText = numberFormatter.string(for: data.price - data.discountedPrice),
               let images = data.images else { return }
         
         images.forEach { image in
@@ -230,9 +230,14 @@ class ProductsDetailView: UIView {
         }
         currentPage.text = "\(1)/\(itemImageStackView.arrangedSubviews.count)"
         itemNameLabel.text = data.name
-        
-        itemPriceLabel.text = "\(priceText)"
-        itemSaleLabel.text = "\(saleText)"
+        if data.discountedPrice <= 0 {
+            itemPriceLabel.text = "\(data.currency) \(priceText)"
+        } else {
+            let salePrice = "\(data.currency) \(priceText)".strikeThrough()
+            itemPriceLabel.attributedText = salePrice
+            itemPriceLabel.textColor = .systemRed
+            itemSaleLabel.text = "\(data.currency) \(saleText)"
+        }
         itemStockLabel.text = "\(data.stock)"
         guard let description = data.description else { return }
         itemDescriptionTextView.text = "\(description)"
