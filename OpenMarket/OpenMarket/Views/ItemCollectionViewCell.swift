@@ -15,21 +15,19 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     private var product: Page? {
         didSet {
-            guard let product = product else { return }
+            guard let product = product,
+                  let formattedPriceString = numberFormatter.string(for: product.price),
+                  let formattedSaleString = numberFormatter.string(for: product.price - product.discountedPrice) else { return }
             
             itemNameLabel.text = product.name
             
-            guard let formattedPriceString = numberFormatter.string(for: product.price) else { return }
-            guard let formattedSaleString = numberFormatter.string(for: product.price - product.discountedPrice) else { return }
-            if product.discountedPrice == product.price || product.discountedPrice == 0 {
+            if product.discountedPrice <= 0 {
                 itemPriceLabel.text = "\(product.currency) \(formattedPriceString)"
             } else {
-                let salePrice = "\(product.currency) \(formattedSaleString)".strikeThrough()
+                let salePrice = "\(product.currency) \(formattedPriceString)".strikeThrough()
                 itemPriceLabel.attributedText = salePrice
                 itemPriceLabel.textColor = .systemRed
-                self.priceStackView.addArrangedSubview(itemSaleLabel)
-                
-                guard let formattedSaleString = numberFormatter.string(for: product.price - product.discountedPrice) else { return }
+                priceStackView.addArrangedSubview(itemSaleLabel)
                 itemSaleLabel.text = "\(product.currency) \(formattedSaleString)"
             }
             
@@ -289,7 +287,12 @@ extension ItemCollectionViewCell {
 extension ItemCollectionViewCell {
     override func prepareForReuse() {
         itemImageView.image = nil
+        itemNameLabel.text = ""
+        itemPriceLabel.attributedText = nil
+        itemPriceLabel.textColor = .systemGray
+        itemSaleLabel.text = ""
         itemSaleLabel.textColor = .systemGray
+        itemStockLabel.text = ""
         itemStockLabel.textColor = .systemGray
     }
 }
