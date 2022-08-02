@@ -5,8 +5,13 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     // MARK: - Properties
     
     private var itemImageViewLayoutConstraint: NSLayoutConstraint?
-    private var multiplieToConstant: CGFloat?
     private var stackViewTraillingContraint: NSLayoutConstraint?
+    
+    private let numberFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter
+    }()
     
     private var product: Page? {
         didSet {
@@ -14,14 +19,18 @@ class ItemCollectionViewCell: UICollectionViewListCell {
             
             itemNameLabel.text = product.name
             
-            if product.discountedPrice == product.price {
-                itemPriceLabel.text = "\(product.currency) \(product.price)"
+            guard let formattedPriceString = numberFormatter.string(for: product.price) else { return }
+            guard let formattedSaleString = numberFormatter.string(for: product.price - product.discountedPrice) else { return }
+            if product.discountedPrice == product.price || product.discountedPrice == 0 {
+                itemPriceLabel.text = "\(product.currency) \(formattedPriceString)"
             } else {
-                let salePrice = "\(product.currency) \(product.price)".strikeThrough()
+                let salePrice = "\(product.currency) \(formattedSaleString)".strikeThrough()
                 itemPriceLabel.attributedText = salePrice
                 itemPriceLabel.textColor = .systemRed
                 self.priceStackView.addArrangedSubview(itemSaleLabel)
-                itemSaleLabel.text = "\(product.currency) \(product.discountedPrice)"
+                
+                guard let formattedSaleString = numberFormatter.string(for: product.price - product.discountedPrice) else { return }
+                itemSaleLabel.text = "\(product.currency) \(formattedSaleString)"
             }
             
             if product.stock == 0 {
@@ -44,17 +53,16 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .title3)
         label.text = ""
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
     
-    private let itemSecondNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .title3)
-        label.text = ""
-        label.textAlignment = .center
-        return label
+    private let itemNameAndStockStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
     }()
     
     private let priceStackView: UIStackView = {
@@ -62,13 +70,14 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 5
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.alignment = .leading
+        stackView.distribution = .fill
         return stackView
     }()
     
     private let itemPriceLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(.required, for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
         label.text = ""
         label.textColor = .systemGray
@@ -77,6 +86,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     private let itemSaleLabel: UILabel = {
         let label = UILabel()
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
         label.text = ""
         label.textColor = .systemGray
@@ -86,9 +96,9 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     private let itemNameAndPriceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 2
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
+        stackView.spacing = 8
+        stackView.alignment = .fill
+        stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -97,7 +107,8 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         label.text = ""
         label.textColor = .systemGray
         label.textAlignment = .right
@@ -111,7 +122,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
-        stackView.layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        stackView.layoutMargins = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
         stackView.isLayoutMarginsRelativeArrangement = false
         return stackView
     }()
@@ -145,18 +156,21 @@ extension ItemCollectionViewCell {
         addSubview(productStackView)
         addSubview(separatorView)
         
+        itemNameAndStockStackView.addArrangedSubview(itemNameLabel)
+        itemNameAndStockStackView.addArrangedSubview(itemStockLabel)
+        
         priceStackView.addArrangedSubview(itemPriceLabel)
         
-        itemNameAndPriceStackView.addArrangedSubview(itemNameLabel)
+        itemNameAndPriceStackView.addArrangedSubview(itemNameAndStockStackView)
         itemNameAndPriceStackView.addArrangedSubview(priceStackView)
         
         productStackView.addArrangedSubview(itemImageView)
         productStackView.addArrangedSubview(itemNameAndPriceStackView)
-        productStackView.addArrangedSubview(itemStockLabel)
     }
     
     private func configureLayoutContraints() {
         itemImageView.widthAnchor.constraint(equalTo: self.itemImageView.heightAnchor).isActive = true
+        itemImageViewLayoutConstraint = itemImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5)
         
         stackViewTraillingContraint = productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         stackViewTraillingContraint?.isActive = true
@@ -181,13 +195,26 @@ extension ItemCollectionViewCell {
         self.layer.borderWidth = 0
         self.layer.borderColor = nil
         
+        self.productStackView.removeArrangedSubview(itemStockLabel)
+        self.itemNameAndStockStackView.addArrangedSubview(itemStockLabel)
+        
+        self.stackViewTraillingContraint?.constant = -8
+        
         self.productStackView.spacing = 10
         self.productStackView.axis = .horizontal
-        self.stackViewTraillingContraint?.constant = -8
         self.productStackView.isLayoutMarginsRelativeArrangement = false
         
+        self.itemNameAndStockStackView.spacing = 8
+        self.itemNameAndPriceStackView.spacing = 8
+        self.itemNameAndPriceStackView.alignment = .fill
+        
+        self.priceStackView.spacing = 10
         self.priceStackView.axis = .horizontal
-        self.itemNameAndPriceStackView.alignment = .leading
+        self.priceStackView.alignment = .leading
+        
+        self.itemNameLabel.textAlignment = .left
+        self.itemSaleLabel.textAlignment = .left
+        self.itemPriceLabel.textAlignment = .left
         
         self.itemImageViewLayoutConstraint?.isActive = false
         self.accessories = [ .disclosureIndicator() ]
@@ -199,16 +226,34 @@ extension ItemCollectionViewCell {
         self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.systemGray3.cgColor
         
-        self.productStackView.spacing = 0
-        self.productStackView.axis = .vertical
+        self.itemNameAndStockStackView.removeArrangedSubview(itemStockLabel)
+        self.productStackView.addArrangedSubview(itemStockLabel)
+        
         self.stackViewTraillingContraint?.constant = 0
+        
+        self.productStackView.spacing = 8
+        self.productStackView.axis = .vertical
         self.productStackView.isLayoutMarginsRelativeArrangement = true
         
-        self.priceStackView.axis = .vertical
+        self.itemNameAndStockStackView.spacing = 5
+        self.itemNameAndPriceStackView.spacing = 5
         self.itemNameAndPriceStackView.alignment = .fill
+        
+        self.priceStackView.spacing = 4
+        self.priceStackView.axis = .vertical
+        self.priceStackView.alignment = .center
+        
+        self.itemNameLabel.textAlignment = .center
+        self.itemSaleLabel.textAlignment = .center
+        self.itemPriceLabel.textAlignment = .center
         
         self.itemImageViewLayoutConstraint?.isActive = true
         self.accessories = [ .delete() ]
+    }
+    
+    private func getNameLabelText() -> String {
+        guard let name = itemNameLabel.text else { return "" }
+        return name
     }
 }
 

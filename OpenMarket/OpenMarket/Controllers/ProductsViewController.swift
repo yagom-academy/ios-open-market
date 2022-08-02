@@ -8,7 +8,6 @@ class ProductsViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
     
-    private let productsDataManager = ProductsDataManager()
     private var productImages: [UIImage] = []
     
     private var currentPage = 0
@@ -25,6 +24,11 @@ class ProductsViewController: UIViewController {
     }()
     
     // MARK: - Life Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refresh()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +52,7 @@ class ProductsViewController: UIViewController {
 extension ProductsViewController {
     private func startFetching(completion: @escaping () -> ()) {
         isFetchingEnd = false
-        productsDataManager.getData(pageNumber: currentPage + 1, itemsPerPage: 20) { [self] (products: Products) in
+        ProductsDataManager.shared.getData(pageNumber: currentPage + 1, itemsPerPage: 20) { [self] (products: Products) in
             products.pages.forEach {
                 guard let imageUrl = URL(string: $0.thumbnail),
                       let imageData = try? Data(contentsOf: imageUrl),
@@ -100,13 +104,18 @@ extension ProductsViewController {
     private func configureRefreshControl() {
         refreshControl.backgroundColor = .systemGray5
         refreshControl.attributedTitle = NSAttributedString(string: "새로고침")
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         collectionView?.refreshControl = refreshControl
     }
     
     private func configureNavigationBarRightButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(showDetailView))
+    }
+    
+    @objc func showDetailView() {
+        let detailViewController = ProductsDetailViewController()
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     private func configureHierarchy() {
@@ -120,15 +129,17 @@ extension ProductsViewController {
     }
     
     private func configureDataSoure() {
-        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [self] (cell, indexPath, identifier) in
+        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [weak self] (cell, indexPath, identifier) in
+            guard let self = self else { return }
+            
             cell.setProduct(by: identifier)
             
             guard let segmentControl = self.segmentControl,
                   let currentSeguement = Titles(rawValue: segmentControl.selectedSegmentIndex) else { return }
             cell.setAxis(segment: currentSeguement)
             
-            if productImages.count > indexPath.row {
-                cell.setImage(by: productImages[indexPath.row])
+            if self.productImages.count > indexPath.row {
+                cell.setImage(by: self.productImages[indexPath.row])
             }
             
             cell.backgroundColor = .systemBackground
@@ -139,6 +150,65 @@ extension ProductsViewController {
         { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
+    }
+    
+    private func getVisibleCells(_ collectionView: UICollectionView) -> [UICollectionViewCell] {
+        var cellArray: [UICollectionViewCell]
+        switch segmentControl?.selectedSegmentIndex {
+        case Titles.list.rawValue:
+            cellArray = collectionView.visibleCells.filter {
+                guard let indexPath = collectionView.indexPath(for: $0) else { return false }
+                return indexPath.row % 2 == 0
+            }
+        case Titles.grid.rawValue:
+            cellArray = collectionView.visibleCells
+        default:
+            cellArray = []
+        }
+        return cellArray
+    }
+    
+    private func setLayout(_ collectionView: UICollectionView, _ topCellIndexPath: IndexPath) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            if self.segmentControl?.selectedSegmentIndex == Titles.list.rawValue {
+                self.isFetchingEnd = false
+                collectionView.setCollectionViewLayout(self.createListLayout(), animated: false) { [weak self] bool in
+                    self?.isFetchingEnd = true
+                }
+                collectionView.visibleCells.forEach { cell in
+                    guard let cell = cell as? ItemCollectionViewCell else { return }
+                    cell.setAxis(segment: .list)
+                }
+                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
+            } else if self.segmentControl?.selectedSegmentIndex == Titles.grid.rawValue {
+                self.isFetchingEnd = false
+                collectionView.setCollectionViewLayout(self.createGridLayout(), animated: false) { [weak self] bool in
+                    self?.isFetchingEnd = true
+                }
+                collectionView.visibleCells.forEach { cell in
+                    guard let cell = cell as? ItemCollectionViewCell else { return }
+                    cell.setAxis(segment: .grid)
+                }
+                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
+            }
+        }
+    }
+    
+    private func getTopCell(_ collectionView: UICollectionView, _ cellArray: [UICollectionViewCell]) -> UICollectionViewCell? {
+        guard let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height,
+              let navigationBarHeight = navigationController?.navigationBar.frame.height else { return nil }
+        
+        let totalHeight = statusBarHeight + navigationBarHeight
+        let currentOffset = collectionView.contentOffset.y + totalHeight
+        
+        let topCell = cellArray.min {
+            let leftCellsDifference = abs($0.frame.minY - currentOffset)
+            let rightCellsDifference = abs($1.frame.minY - currentOffset)
+            
+            return leftCellsDifference < rightCellsDifference
+        }
+        return topCell
     }
 }
 
@@ -195,40 +265,31 @@ extension ProductsViewController {
 
 extension ProductsViewController {
     @objc private func changeLayout() {
-        if segmentControl?.selectedSegmentIndex == Titles.list.rawValue {
-            isFetchingEnd = false
-            collectionView?.setCollectionViewLayout(createListLayout(), animated: true) { [self] bool in
-                isFetchingEnd = true
-            }
-            collectionView?.visibleCells.forEach { cell in
-                guard let cell = cell as? ItemCollectionViewCell else { return }
-                cell.setAxis(segment: .list)
-            }
-        } else if segmentControl?.selectedSegmentIndex == Titles.grid.rawValue {
-            isFetchingEnd = false
-            collectionView?.setCollectionViewLayout(createGridLayout(), animated: true) { [self] bool in
-                isFetchingEnd = true
-            }
-            collectionView?.visibleCells.forEach { cell in
-                guard let cell = cell as? ItemCollectionViewCell else { return }
-                cell.setAxis(segment: .grid)
-            }
-        }
+        guard let collectionView = collectionView else { return }
+        
+        let cellArray = getVisibleCells(collectionView)
+        let topCell = getTopCell(collectionView, cellArray)
+        
+        guard let topCell = topCell,
+              let topCellIndexPath = collectionView.indexPath(for: topCell) else { return }
+        
+        setLayout(collectionView, topCellIndexPath)
     }
 }
 
 // MARK: - RefreshControl Method
 
 extension ProductsViewController {
-    @objc private func refresh(_ sender: AnyObject) {
+    @objc private func refresh() {
         snapshot.deleteAllItems()
         productImages.removeAll()
         
         currentPage = 0
         
         if isFetchingEnd {
-            startFetching() { [self] in
-                refreshControl.endRefreshing()
+            startFetching() { [weak self] in
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
             }
         }
     }
