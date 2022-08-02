@@ -26,7 +26,7 @@ struct Parameters {
         self.parameterDictionary["descriptions"] = descriptions
         self.parameterDictionary["price"] = price
         self.parameterDictionary["currency"] = Corrency.toString[currency.rawValue]
-        self.parameterDictionary["discountedPrice"] = discountedPrice
+        self.parameterDictionary["discounted_price"] = discountedPrice
         self.parameterDictionary["stock"] = stock
         self.parameterDictionary["secret"] = secret
     }
