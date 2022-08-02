@@ -44,6 +44,7 @@ final class ListCollectionCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -65,7 +66,8 @@ final class ListCollectionCell: UICollectionViewListCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .gray
         label.numberOfLines = 0
-
+        label.adjustsFontForContentSizeCategory = true
+        
         return label
     }()
     
@@ -75,7 +77,8 @@ final class ListCollectionCell: UICollectionViewListCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .gray
         label.numberOfLines = 0
-
+        label.adjustsFontForContentSizeCategory = true
+        
         return label
     }()
     
@@ -85,6 +88,7 @@ final class ListCollectionCell: UICollectionViewListCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .gray
         label.textAlignment = .right
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
