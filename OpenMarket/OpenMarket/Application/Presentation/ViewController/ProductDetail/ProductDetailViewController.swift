@@ -7,8 +7,6 @@
 
 import UIKit
 
-class ProductDetailViewController: UIViewController {
-    private var productDetailsAPIManager: ProductDetailsAPIManager?
 final class ProductDetailViewController: UIViewController {
     // MARK: - Properties
     
@@ -19,6 +17,100 @@ final class ProductDetailViewController: UIViewController {
     private var productDetailViewModel: ProductDetailsViewModel?
     private var productDetailImagesdataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
     private var productDetailImagesCollectionView: UICollectionView?
+    
+    private let rootScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return scrollView
+    }()
+    
+    private let rootStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 10
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.axis = .vertical
+        
+        return stackView
+    }()
+    
+    private let productInfoLabelStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 0
+        stackView.alignment = .firstBaseline
+        
+        return stackView
+    }()
+    
+    private let productNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+    
+        label.text = "MacBook Pro"
+        label.adjustsFontForContentSizeCategory = true
+
+        return label
+    }()
+    
+    private let productPriceAndStockStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = 0
+        stackView.alignment = .fill
+        
+        return stackView
+    }()
+    
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.textColor = .systemGray
+        label.adjustsFontForContentSizeCategory = true
+
+        return label
+    }()
+    
+    private let originalPriceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.adjustsFontForContentSizeCategory = true
+
+        return label
+    }()
+    
+    private let discountedPriceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.adjustsFontForContentSizeCategory = true
+
+        return label
+    }()
+    
+    private let productDescriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.isScrollEnabled = false
+        textView.isEditable = false
+        textView.textColor = .lightGray
+        textView.font = UIFont.preferredFont(forTextStyle: .caption1)
+        
+        return textView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -58,6 +150,7 @@ final class ProductDetailViewController: UIViewController {
             rootStackView.widthAnchor.constraint(equalTo: rootScrollView.widthAnchor),
         ])
     }
+    
     private func configureCollectionViewHierarchy() {
         productDetailImagesCollectionView = UICollectionView(frame: .zero,
                                                              collectionViewLayout: configureCollectionViewLayout())
@@ -65,11 +158,19 @@ final class ProductDetailViewController: UIViewController {
 
         rootStackView.addArrangedSubview(productDetailImagesCollectionView!)
         productDetailImagesCollectionView?.heightAnchor.constraint(equalToConstant: view.layer.bounds.height * 0.4).isActive = true
+
+        rootStackView.addArrangedSubview(productInfoLabelStackView)
+        rootStackView.addArrangedSubview(productDescriptionTextView)
+
+        productInfoLabelStackView.addArrangedSubview(productNameLabel)
+        productInfoLabelStackView.addArrangedSubview(productPriceAndStockStackView)
+
+        productPriceAndStockStackView.addArrangedSubview(stockLabel)
+        productPriceAndStockStackView.addArrangedSubview(originalPriceLabel)
+        productPriceAndStockStackView.addArrangedSubview(discountedPriceLabel)
     }
     
     private func fetchProductDetails(by productID: Int) {
-        productDetailsAPIManager = ProductDetailsAPIManager(productID: productID.description
-        )
         productDetailsAPIManager = ProductDetailsAPIManager(productID: productID.description)
         
         productDetailsAPIManager?.requestAndDecodeProduct(dataType: ProductDetail.self) { [weak self] result in
