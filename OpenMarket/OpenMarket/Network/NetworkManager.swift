@@ -46,7 +46,7 @@ final class NetworkManager {
         fetch(request: request, completion: completion)
     }
 
-    func postProduct(params: [String: Any?], images: [UIImage]) {
+    func postProduct(params: [String: Any?], images: [UIImage], completion: @escaping (Result<Data, Error>) -> Void) {
         let passwordKey = NetworkNamespace.passwordKey.name
         let passwordValue = NetworkNamespace.passwordValue.name
         var newParms = params
@@ -62,9 +62,9 @@ final class NetworkManager {
         fetch(request: request) { result in
             switch result {
             case .success(let data):
-                print(data)
+                return completion(.success(data))
             case .failure(let error):
-                print(error)
+                return completion(.failure(error))
             }
         }
     }

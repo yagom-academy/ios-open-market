@@ -169,7 +169,18 @@ class RegistrationViewController: UIViewController {
         
         let params: [String: Any?] = [Params.productName: productNameTextField.text, Params.productDescription: descriptionTextView.text, Params.productPrice: productPriceTextField.text, Params.currency: choiceCurrency()?.name]
         
-        NetworkManager().postProduct(params: params, images: images)
+        NetworkManager().postProduct(params: params, images: images) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.showCustomAlert(title: "🥳", message: "상품등록이 정상적으로 완료되었습니다!")
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                self.showCustomAlert(title: "🤔", message: error.localizedDescription)
+                }
+            }
+        }
         resetRegistrationPage()
     }
     
@@ -256,16 +267,14 @@ class RegistrationViewController: UIViewController {
            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
        }
     
-    private func showOverImageCount() {
-           let title = "⚠️"
-           let message = "5장만 넣을 수 있습니다."
+    func showCustomAlert(title: String, message: String) {
            let okTitle = "확인"
 
-           let limitedImageMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
+           let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
            let okButton = UIAlertAction(title: okTitle, style: .default)
-           limitedImageMessage.addAction(okButton)
+        alertController.addAction(okButton)
            
-           present(limitedImageMessage, animated: true)
+           present(alertController, animated: true)
        }
    }
 
@@ -290,7 +299,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
             imageCount += 1
         } else {
             imagePickerController.dismiss(animated: true)
-            showOverImageCount()
+            showCustomAlert(title: "⚠️", message: "이미지는 최대 5장까지 등록할 수 있습니다")
             return
         }
         
