@@ -15,6 +15,7 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
+        label.adjustsFontSizeToFitWidth = true
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
