@@ -21,7 +21,7 @@ class ProductDetailViewController: UIViewController {
     private func fetchProductDetails(by productID: Int) {
         productDetailsAPIManager = ProductDetailsAPIManager(productID: productID.description
         )
-        productDetailsAPIManager?.retrieveProduct(dataType: ProductDetail.self) { result in
+        productDetailsAPIManager?.requestAndDecodeProduct(dataType: ProductDetail.self) { result in
             switch result {
             case .success(let data):
                 print(data)

@@ -332,7 +332,7 @@ final class ProductEnrollmentViewController: UIViewController {
         
         let productInfo = EnrollProductEntity(parameter: parameter, images: productImages)
         
-        productEnrollmentAPIManager?.enrollData(postEntity: productInfo) { [weak self] result in
+        productEnrollmentAPIManager?.requestProductEnrollment(postEntity: productInfo) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):
