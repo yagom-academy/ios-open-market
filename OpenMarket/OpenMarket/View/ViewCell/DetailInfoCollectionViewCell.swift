@@ -80,7 +80,7 @@ class DetailInfoCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(with item: DetailProduct) {
+    func configureCell(with item: DetailProductItem) {
         nameLabel.text = item.productName
         if item.price == item.bargainPrice {
             self.priceLabel.text = item.price

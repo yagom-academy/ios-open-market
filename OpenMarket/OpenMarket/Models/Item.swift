@@ -23,7 +23,7 @@ struct Item: Hashable {
     }
 }
 
-struct DetailProduct: Hashable {
+struct DetailProductItem: Hashable {
     let productName: String
     let price: String
     let bargainPrice: String

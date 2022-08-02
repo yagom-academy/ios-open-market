@@ -14,7 +14,7 @@ enum ParsingError: Error {
 }
 
 struct DataDecoder {
-    func decode<T: Codable>(type: T.Type, data: Data) throws -> T {
+    func decode<T: Decodable>(type: T.Type, data: Data) throws -> T {
         let jsonDecoder = JSONDecoder()
         
         do {

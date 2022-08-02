@@ -13,8 +13,8 @@
 		205D32CB287D6491004CF76F /* DataDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D32CA287D6491004CF76F /* DataDecoder.swift */; };
 		2072734F2899067C001AC4DA /* DetailImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2072734E2899067C001AC4DA /* DetailImageCollectionViewCell.swift */; };
 		20727351289911A6001AC4DA /* ProductDetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20727350289911A6001AC4DA /* ProductDetailCollectionViewController.swift */; };
+		2072735328996E8E001AC4DA /* DetailProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2072735228996E8E001AC4DA /* DetailProduct.swift */; };
 		20AAF95D287C0D2600E48A96 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AAF95C287C0D2600E48A96 /* Currency.swift */; };
-		20AAF95F287C0DD500E48A96 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AAF95E287C0DD500E48A96 /* Page.swift */; };
 		20ABC74F2881498600E43871 /* MarketCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20ABC74E2881498600E43871 /* MarketCollectionViewController.swift */; };
 		20B8CD3B289144E000D4424D /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8CD3A289144E000D4424D /* AddProductViewController.swift */; };
 		20BD32E828859A5000746181 /* MarketListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BD32E728859A5000746181 /* MarketListCollectionViewCell.swift */; };
@@ -56,8 +56,8 @@
 		205D32CA287D6491004CF76F /* DataDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDecoder.swift; sourceTree = "<group>"; };
 		2072734E2899067C001AC4DA /* DetailImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		20727350289911A6001AC4DA /* ProductDetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailCollectionViewController.swift; sourceTree = "<group>"; };
+		2072735228996E8E001AC4DA /* DetailProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProduct.swift; sourceTree = "<group>"; };
 		20AAF95C287C0D2600E48A96 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
-		20AAF95E287C0DD500E48A96 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		20ABC74E2881498600E43871 /* MarketCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewController.swift; sourceTree = "<group>"; };
 		20B8CD3A289144E000D4424D /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		20BD32E728859A5000746181 /* MarketListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketListCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 			children = (
 				20AAF95C287C0D2600E48A96 /* Currency.swift */,
 				7EA083A3287C049D00BB1740 /* Product.swift */,
-				20AAF95E287C0DD500E48A96 /* Page.swift */,
+				2072735228996E8E001AC4DA /* DetailProduct.swift */,
 				7E516CF0288146A40010E67F /* Item.swift */,
 				204E5D57289288F800FEB07D /* Param.swift */,
 			);
@@ -353,13 +353,13 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				20727351289911A6001AC4DA /* ProductDetailCollectionViewController.swift in Sources */,
 				20AAF95D287C0D2600E48A96 /* Currency.swift in Sources */,
+				2072735328996E8E001AC4DA /* DetailProduct.swift in Sources */,
 				20182EBB2897DDF800642C9F /* ParamManager.swift in Sources */,
 				7EA85D3928980903009F0F20 /* ImageCacheManager.swift in Sources */,
 				7EA083AA287D15BC00BB1740 /* Protocol.swift in Sources */,
 				20DA01D228802638008C3F45 /* MockURLSession.swift in Sources */,
 				7E52E1AE2887A4070094429B /* LoadingIndicator.swift in Sources */,
 				204E5D58289288F800FEB07D /* Param.swift in Sources */,
-				20AAF95F287C0DD500E48A96 /* Page.swift in Sources */,
 				7E516C8C287D9EC60010E67F /* Extension.swift in Sources */,
 				7E516CF1288146A40010E67F /* Item.swift in Sources */,
 				7EA85D3D28990BAD009F0F20 /* DetailInfoCollectionViewCell.swift in Sources */,

@@ -15,8 +15,8 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     }
     
     // MARK: Typealias
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, DetailProduct>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<Section, DetailProduct>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, DetailProductItem>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<Section, DetailProductItem>
     
     // MARK: Properties
     lazy var dataSource = makeDataSource()
@@ -29,11 +29,11 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     
     // MARK: DataSource
     private func makeDataSource() -> DataSource {
-        let infoRegistration = UICollectionView.CellRegistration<DetailInfoCollectionViewCell, DetailProduct>.init { cell, indexPath, item in
+        let infoRegistration = UICollectionView.CellRegistration<DetailInfoCollectionViewCell, DetailProductItem>.init { cell, indexPath, item in
             cell.configureCell(with: item)
         }
         
-        let imageRegistration = UICollectionView.CellRegistration<DetailImageCollectionViewCell, DetailProduct>.init { cell, indexPath, item in
+        let imageRegistration = UICollectionView.CellRegistration<DetailImageCollectionViewCell, DetailProductItem>.init { cell, indexPath, item in
             cell.imageView.configureImage(url: item.images[indexPath.row], cell, indexPath, self.collectionView)
             cell.imageNumberLabel.text = "\(indexPath.row+1)/\(item.images.count)"
         }
@@ -86,13 +86,13 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
     
-    let sample = [ DetailProduct(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.",
+    let sample = [ DetailProductItem(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.",
                                  images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"]),
                    
                    
-                   DetailProduct(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.", images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"])]
+                   DetailProductItem(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.", images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"])]
     
-    let sample2 =  DetailProduct(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.", images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"])
+    let sample2 =  DetailProductItem(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.", images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"])
     
     // MARK: Data & Snapshot
     private func applySnapshots() {
