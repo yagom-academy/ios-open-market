@@ -184,8 +184,9 @@ extension ProductsRegistViewController {
             
         } else if title == DetailViewTitle.update.rawValue {
             ProductsDataManager.shared.patchData(identifier: UserInfo.identifier.rawValue, productID: registView.productInfo?.id ?? 0, paramter: parameter) { (data: Page) in
-                print(data)
-                self.navigationController?.popToRootViewController(animated: false)
+                DispatchQueue.main.async {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
             }
         }
     }

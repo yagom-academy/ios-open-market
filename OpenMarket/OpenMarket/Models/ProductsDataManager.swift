@@ -120,8 +120,8 @@ struct ProductsDataManager: Decodable {
             }
             
             if let data = data {
-                guard let parsedData = try? JSONDecoder().decode(Page.self, from: data) else { return }
-                print(parsedData)
+                guard let parsedData = try? JSONDecoder().decode(T.self, from: data) else { return }
+                completion(parsedData)
             }
         }
         task.resume()
