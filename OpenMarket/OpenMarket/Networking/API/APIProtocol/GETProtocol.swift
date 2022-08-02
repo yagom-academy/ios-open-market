@@ -2,7 +2,7 @@
 //  GETProtocol.swift
 //  OpenMarket
 //
-//  Created by 전민수 on 2022/08/02.
+//  Created by 데릭, 수꿍.
 //
 
 import Foundation
