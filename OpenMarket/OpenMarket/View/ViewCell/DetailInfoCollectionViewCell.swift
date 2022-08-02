@@ -75,14 +75,28 @@ class DetailInfoCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
     
     func configureCell(with item: DetailProduct) {
         nameLabel.text = item.productName
-        priceLabel.text = item.price
+        if item.price == item.bargainPrice {
+            self.priceLabel.text = item.price
+            self.priceLabel.textColor = .systemGray
+        } else {
+            let price = item.price + "\n" + item.bargainPrice
+            let attributeString = NSMutableAttributedString(string: price)
+            
+            attributeString.addAttribute(.strikethroughStyle,
+                                         value: NSUnderlineStyle.single.rawValue,
+                                         range: NSMakeRange(0, item.price.count))
+            attributeString.addAttribute(.foregroundColor,
+                                         value: UIColor.systemGray,
+                                         range: NSMakeRange(item.price.count + 1, item.bargainPrice.count))
+            self.priceLabel.attributedText = attributeString
+        }
         stockLabel.text = "남은수량 : \(item.stock)"
         descriptionView.text = item.description
     }

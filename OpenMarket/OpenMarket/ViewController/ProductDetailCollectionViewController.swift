@@ -61,8 +61,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
             case .image:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.7))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.45))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
                 section.interGroupSpacing = 10
@@ -73,7 +72,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
                                                         heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: layoutSize)
                 let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                       heightDimension: .fractionalHeight(1.0))
+                                                       heightDimension: .fractionalHeight(0.55))
                 item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
                                                                subitem: item,
@@ -128,13 +127,3 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     }
 }
 
-struct DetailProduct: Hashable {
-    let productName: String
-    let price: String
-    let bargainPrice: String
-    let stock: String
-    let description: String
-    let images: [String]
-    
-    private let identifier = UUID()
-}

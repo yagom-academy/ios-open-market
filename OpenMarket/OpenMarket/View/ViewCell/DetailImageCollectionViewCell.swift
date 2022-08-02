@@ -58,7 +58,8 @@ class DetailImageCollectionViewCell: UICollectionViewCell {
             entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             entireStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            entireStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            entireStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9)
         ])
     }
 }

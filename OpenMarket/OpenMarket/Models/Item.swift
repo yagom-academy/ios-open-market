@@ -23,6 +23,17 @@ struct Item: Hashable {
     }
 }
 
+struct DetailProduct: Hashable {
+    let productName: String
+    let price: String
+    let bargainPrice: String
+    let stock: String
+    let description: String
+    let images: [String]
+    
+    private let identifier = UUID()
+}
+
 extension Double {
     fileprivate func devidePrice() -> String {
         let formatter = NumberFormatter()
