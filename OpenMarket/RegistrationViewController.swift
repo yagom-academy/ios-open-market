@@ -255,15 +255,24 @@ class RegistrationViewController: UIViewController {
        private func removeRegisterForKeyboardNotification() {
            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
        }
-}
+    
+    private func showOverImageCount() {
+           let title = "⚠️"
+           let message = "5장만 넣을 수 있습니다."
+           let okTitle = "확인"
+
+           let limitedImageMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
+           let okButton = UIAlertAction(title: okTitle, style: .default)
+           limitedImageMessage.addAction(okButton)
+           
+           present(limitedImageMessage, animated: true)
+       }
+   }
 
 // MARK: Extension
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if imageCount == Registraion.maxImageCount {
-            imageAddButton.isHidden = true
-        }
         
         var selectedImage: UIImage?
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
@@ -280,7 +289,9 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
             imageStackView.insertArrangedSubview(imageView, at: Registraion.firstIndex)
             imageCount += 1
         } else {
-            print("5장만 넣을 수 있습니다.")
+            imagePickerController.dismiss(animated: true)
+            showOverImageCount()
+            return
         }
         
         guard let addedImage = selectedImage else { return }
