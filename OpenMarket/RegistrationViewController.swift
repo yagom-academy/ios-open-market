@@ -8,7 +8,9 @@
 import UIKit
 
 class RegistrationViewController: UIViewController {
-
+    
+    // MARK: Properties
+    
     private let imagePickerController = UIImagePickerController()
     private var imageCount = 0
     private var images = [UIImage]()
@@ -70,6 +72,7 @@ class RegistrationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -77,6 +80,7 @@ class RegistrationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -84,6 +88,7 @@ class RegistrationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .decimalPad
         return textField
     }()
 
@@ -119,6 +124,8 @@ class RegistrationViewController: UIViewController {
         return stackView
     }()
     
+    // MARK: View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -147,9 +154,14 @@ class RegistrationViewController: UIViewController {
         priceStackView.addArrangedSubview(segmentedControl)
         
         setConstrant()
+        setViewGesture()
+        regiterForkeyboardNotification()
     }
     
+    // MARK: Method
+    
     @objc private func goBackMainViewController() {
+        removeRegisterForKeyboardNotification()
         navigationController?.popViewController(animated: true)
     }
     
@@ -210,7 +222,42 @@ class RegistrationViewController: UIViewController {
         imageScrollView.setContentHuggingPriority(.required, for: .vertical)
         descriptionTextView.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
+    
+    private func setViewGesture() {
+           let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
+           view.addGestureRecognizer(tapGesture)
+       }
+       
+       @objc private func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
+           self.view.endEditing(true)
+           descriptionTextView.contentInset.bottom = 0
+       }
+       
+       private func regiterForkeyboardNotification() {
+           NotificationCenter.default.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+       }
+       
+       @objc private func keyBoardShow(notification: NSNotification) {
+           guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
+               return
+           }
+           
+           guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+               return
+           }
+           
+           let keyboardRectangle = keyboardFrame.cgRectValue
+           let keyboardHeight = keyboardRectangle.height
+           
+           descriptionTextView.contentInset.bottom += keyboardHeight
+       }
+       
+       private func removeRegisterForKeyboardNotification() {
+           NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+       }
 }
+
+// MARK: Extension
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
