@@ -6,6 +6,8 @@ class ProductsDetailViewController: UIViewController {
     
     var delegate: SendUpdateDelegate?
     
+    var productInfo: Page?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view = detailView
@@ -15,7 +17,9 @@ class ProductsDetailViewController: UIViewController {
         guard let delegate = delegate else { return }
         ProductsDataManager.shared.getData(productId: delegate.sendUpdate().id) { [weak self] (data: Page) in
             guard let self = self else { return }
+            self.productInfo = data
             DispatchQueue.main.async {
+                self.title = self.productInfo?.name
                 self.detailView.setProductInfomation(data: data)
             }
         }
@@ -31,13 +35,9 @@ extension ProductsDetailViewController {
         let alert = UIAlertController()
         let updateAction = UIAlertAction(title: "수정", style: .default) { action in
             let registViewController = ProductsRegistViewController()
-            registViewController.title = "상품수정"
-            registViewController.registView.itemNameTextField.text = self.detailView.itemNameLabel.text
-            registViewController.registView.itemPriceTextField.text = self.detailView.itemPriceLabel.text
-            registViewController.registView.itemSaleTextField.text = self.detailView.itemSaleLabel.text
-            registViewController.registView.itemStockTextField.text = self.detailView.itemStockLabel.text
-            registViewController.registView.descriptionTextView.text = self.detailView.itemDescriptionTextView.text
-            registViewController.registView.imageStackView.arrangedSubviews.last?.removeFromSuperview()
+            registViewController.title = DetailViewTitle.update.rawValue
+            registViewController.registView.setProductInfomation(productInfo: self.productInfo)
+            
             self.navigationController?.pushViewController(registViewController, animated: true)
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in

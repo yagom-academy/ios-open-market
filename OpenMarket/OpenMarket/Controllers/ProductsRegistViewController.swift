@@ -140,29 +140,13 @@ extension ProductsRegistViewController: UIImagePickerControllerDelegate & UINavi
 
 extension ProductsRegistViewController {
     @objc private func doneButtonDidTapped() {
-        if checkPostCondition() == false {
-            return
-        }
-        
-        var imageViews = registView.imageStackView.arrangedSubviews
         
         guard let productName = registView.itemNameTextField.text,
-              let productPrice = Int(registView.itemPriceTextField.text ?? "0"),
-              let productSale = Int(registView.itemSaleTextField.text ?? "0"),
+              let productPrice = Double(registView.itemPriceTextField.text ?? "0"),
+              let productSale = Double(registView.itemSaleTextField.text ?? "0"),
               let productStock = Int(registView.itemStockTextField.text ?? "0"),
               let productDesciprtion = registView.descriptionTextView.text,
-              let productCurrency = Corrency(rawValue: registView.currencySegmentControl.selectedSegmentIndex) else { return }
-        
-        if imageViews.last is UIButton {
-            imageViews.removeLast()
-        }
-        
-        var images: [UIImage] = []
-        imageViews.forEach {
-            guard let imageView = $0 as? UIImageView,
-                  let image = imageView.image else { return }
-            images.append(image)
-        }
+              let productCurrency = Currency(rawValue: registView.currencySegmentControl.selectedSegmentIndex) else { return }
         
         let parameter = Parameters(name: productName,
                                    descriptions: productDesciprtion,
@@ -172,12 +156,36 @@ extension ProductsRegistViewController {
                                    discountedPrice: productSale,
                                    stock: productStock)
         
-        ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue,
-                                            paramter: parameter,
-                                            images: images)
-        { (data: PostResponse) in
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
+        if title == DetailViewTitle.regist.rawValue {
+            if checkPostCondition() == false {
+                return
+            }
+            
+            var imageViews = registView.imageStackView.arrangedSubviews
+            if imageViews.last is UIButton { imageViews.removeLast() }
+            
+            var images: [UIImage] = []
+            imageViews.forEach {
+                guard let imageView = $0 as? UIImageView,
+                      let image = imageView.image else { return }
+                images.append(image)
+            }
+            
+          
+            
+            ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue,
+                                                paramter: parameter,
+                                                images: images)
+            { (data: PostResponse) in
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            
+        } else if title == DetailViewTitle.update.rawValue {
+            ProductsDataManager.shared.patchData(identifier: UserInfo.identifier.rawValue, productID: registView.productInfo?.id ?? 0, paramter: parameter) { (data: Page) in
+                print(data)
+                self.navigationController?.popToRootViewController(animated: false)
             }
         }
     }

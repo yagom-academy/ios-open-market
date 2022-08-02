@@ -3,6 +3,8 @@ import UIKit
 class ProductRegistView: UIView {
 
     // MARK: - Properties
+
+    var productInfo: Page?
     
     let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -236,5 +238,35 @@ extension ProductRegistView {
         NSLayoutConstraint.activate([
             addImageButton.heightAnchor.constraint(equalTo: addImageButton.widthAnchor)
         ])
+    }
+}
+
+// MARK: - Setter Functions
+
+extension ProductRegistView {
+    func makeimageView(url: String) {
+        guard let url = URL(string: url),
+              let data = try? Data(contentsOf: url),
+              let image = UIImage(data: data) else { return }
+        let imageView = UIImageView(image: image)
+        imageStackView.addArrangedSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor).isActive = true
+    }
+    
+    func setProductInfomation(productInfo: Page?) {
+        self.productInfo = productInfo
+        
+        guard let productInfo = productInfo else { return }
+        
+        imageStackView.arrangedSubviews.last?.removeFromSuperview()
+        productInfo.images?.forEach { makeimageView(url: $0.url) }
+        itemNameTextField.text = productInfo.name
+        itemPriceTextField.text = String(productInfo.price)
+        itemSaleTextField.text = String(productInfo.discountedPrice)
+        itemStockTextField.text = String(productInfo.stock)
+//        currencySegmentControl.selectedSegmentIndex =
+        descriptionTextView.text = productInfo.description
+        descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
     }
 }

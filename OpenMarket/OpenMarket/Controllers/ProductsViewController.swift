@@ -116,12 +116,12 @@ extension ProductsViewController {
     }
     
     private func configureNavigationBarRightButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(showDetailView))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(showRegistView))
     }
     
-    @objc func showDetailView() {
+    @objc func showRegistView() {
         let registViewController = ProductsRegistViewController()
-        registViewController.title = "상품등록"
+        registViewController.title = DetailViewTitle.regist.rawValue
         self.navigationController?.pushViewController(registViewController, animated: true)
     }
     
@@ -328,15 +328,6 @@ extension ProductsViewController: UICollectionViewDelegate {
 
 extension ProductsViewController: SendUpdateDelegate {
     func sendUpdate() -> UserIdentifier {
-        return UserIdentifier(id: selectedId!, secret: UserInfo.secret.rawValue)
-    }
-}
-
-struct UserIdentifier {
-    var id: Int
-    var secret: String
-    init(id: Int, secret: String) {
-        self.id = id
-        self.secret = secret
+        return UserIdentifier(id: selectedId ?? 0, secret: UserInfo.secret.rawValue)
     }
 }
