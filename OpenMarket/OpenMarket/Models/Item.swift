@@ -31,7 +31,14 @@ struct DetailProductItem: Hashable {
     let description: String
     let images: [String]
     
-    private let identifier = UUID()
+    init(detailProduct: DetailProduct) {
+        self.productName = detailProduct.name
+        self.price = detailProduct.currency.rawValue + " " + detailProduct.price.devidePrice()
+        self.bargainPrice = detailProduct.currency.rawValue + " " + detailProduct.bargainPrice.devidePrice()
+        self.stock = String(detailProduct.stock)
+        self.description = detailProduct.description
+        self.images = detailProduct.images.map { $0.url }
+    }
 }
 
 extension Double {

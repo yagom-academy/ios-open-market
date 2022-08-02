@@ -20,11 +20,12 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     
     // MARK: Properties
     lazy var dataSource = makeDataSource()
+    var items: DetailProductItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = createLayout()
-        applySnapshots()
+        receiveDetailData()
     }
     
     // MARK: DataSource
@@ -37,7 +38,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
             cell.imageView.configureImage(url: item.images[indexPath.row], cell, indexPath, self.collectionView)
             cell.imageNumberLabel.text = "\(indexPath.row+1)/\(item.images.count)"
         }
-    
+        
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
             guard let section = Section(rawValue: indexPath.section) else { fatalError("Unknown section") }
             switch section {
@@ -86,44 +87,56 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
     
-    let sample = [ DetailProductItem(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.",
-                                 images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"]),
-                   
-                   
-                   DetailProductItem(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.", images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"])]
-    
-    let sample2 =  DetailProductItem(productName: "맥북", price: "2000", bargainPrice: "1000", stock: "10", description: "맥북입니다.", images: ["https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/6/thumb/f9aa6e0d787711ecabfa3f1efeb4842b.jpg", "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/22/thumb/2a78eba479b211ec9173f346cbe040c0.png"])
-    
     // MARK: Data & Snapshot
+    private func receiveDetailData() {
+        let sessionManager = URLSessionManager(session: URLSession.shared)
+        let subURL = SubURL().productURL(productNumber: 522)
+        
+        LoadingIndicator.showLoading(on: view)
+        sessionManager.receiveData(baseURL: subURL) { result in
+            switch result {
+            case .success(let data):
+                self.decodeResult(data)
+                
+                DispatchQueue.main.async {
+                    self.applySnapshots()
+                    LoadingIndicator.hideLoading(on: self.view)
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "서버 통신 실패", message: "데이터를 받아오지 못했습니다.")
+                }
+            }
+        }
+    }
+    
     private func applySnapshots() {
         var itemSnapshot = SnapShot()
-        itemSnapshot.appendSections([.image, .info])
-     
-//        itemSnapshot.appendItems([sample])
+        guard let detailProduct = items else { return }
+        let detailImages = Array(repeating: detailProduct, count: detailProduct.images.count)
         
-        itemSnapshot.appendItems(sample, toSection: .image)
-        itemSnapshot.appendItems([sample2], toSection: .info)
+        itemSnapshot.appendSections([.image, .info])
+        itemSnapshot.appendItems(detailImages , toSection: .image)
+        itemSnapshot.appendItems([detailProduct], toSection: .info)
         
         dataSource.apply(itemSnapshot, animatingDifferences: false)
-
-//        var imageSnapshot = NSDiffableDataSourceSectionSnapshot<DetailProduct>()
-//        imageSnapshot.append([sample])
-//        dataSource.apply(imageSnapshot, to: .image, animatingDifferences: false)
-//
-//        var infoSnapshot = NSDiffableDataSourceSectionSnapshot<DetailProduct>()
-//        infoSnapshot.append([sample])
-//        dataSource.apply(infoSnapshot, to: .info, animatingDifferences: false)
-        
-        
-//        let recentItems = [sample]
-//        var recentsSnapshot = NSDiffableDataSourceSectionSnapshot<DetailProduct>()
-//        recentsSnapshot.append(recentItems)
-//        dataSource.apply(recentsSnapshot, to: .image, animatingDifferences: false)
-//
-//        let infoItems = [sample]
-//        var infoSnapshot = NSDiffableDataSourceSectionSnapshot<DetailProduct>()
-//        infoSnapshot.append(infoItems)
-//        dataSource.apply(infoSnapshot, to: .info, animatingDifferences: false)
+    }
+    
+    private func decodeResult(_ data: Data) {
+        do {
+            let detailProduct = try DataDecoder().decode(type: DetailProduct.self, data: data)
+            self.items = DetailProductItem(detailProduct: detailProduct)
+        } catch {
+            DispatchQueue.main.async {
+                self.showAlert(title: "데이터 변환 실패", message: "가져온 데이터를 읽을 수 없습니다.")
+            }
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let failureAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        failureAlert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(failureAlert, animated: true)
     }
 }
 

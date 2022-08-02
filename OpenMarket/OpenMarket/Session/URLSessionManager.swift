@@ -18,7 +18,7 @@ struct SubURL {
     }
     
     func productURL(productNumber: Int) -> String {
-        return "https://market-training.yagom-academy.kr//api/products/\(productNumber)"
+        return "https://market-training.yagom-academy.kr/api/products/\(productNumber)"
     }
 }
 
