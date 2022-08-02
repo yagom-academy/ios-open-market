@@ -199,25 +199,29 @@ final class ProductRegistrationView: UIView, Requestable {
         postProduct(images: images, product: product)
     }
     
-    private func showInvalidInputAlert() {
-        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다", message: "필수사항을 입력해주세요", preferredStyle: .alert)
-        
-        let alertAction = UIAlertAction(title: "확인", style: .default)
-        postAlert.addAction(alertAction)
-        self.window?.rootViewController?.present(postAlert, animated: true)
+    private func commonInit() {
+        setupView()
+        setupDelegate()
+        setupContent()
     }
     
-    private func commonInit() {
-        pickerController.delegate = self
-        productDescriptionTextView.delegate = self
-        productName.delegate = self
-        productPrice.delegate = self
+    private func setupView() {
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
         setupSubviews()
         setupSubViewsHeight()
         setupConstraints()
+    }
+    
+    private func setupDelegate() {
+        pickerController.delegate = self
+        productDescriptionTextView.delegate = self
+        productName.delegate = self
+        productPrice.delegate = self
+    }
+    
+    private func setupContent() {
         setupUiToolbar()
         imagePrickerButton.addTarget(self,
                                      action: #selector(pickImages),
@@ -251,22 +255,19 @@ final class ProductRegistrationView: UIView, Requestable {
                 .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
         
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
-                                                constant: Design.imageScrollViewTopAnchorConstant),
-            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
-                                                   constant: Design.imageScrollViewBottomAnchorConstant),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
-                                                    constant: Design.imageScrollViewLeadingAnchorConstant),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
-                                                     constant: Design.imageScrollViewTrailingAnchorConstant)
+            imageStackView.topAnchor
+                .constraint(equalTo: imageScrollView.topAnchor,
+                            constant: Design.imageScrollViewTopAnchorConstant),
+            imageStackView.bottomAnchor
+                .constraint(equalTo: imageScrollView.bottomAnchor,
+                            constant: Design.imageScrollViewBottomAnchorConstant),
+            imageStackView.leadingAnchor
+                .constraint(equalTo: imageScrollView.leadingAnchor,
+                            constant: Design.imageScrollViewLeadingAnchorConstant),
+            imageStackView.trailingAnchor
+                .constraint(equalTo: imageScrollView.trailingAnchor,
+                            constant: Design.imageScrollViewTrailingAnchorConstant)
         ])
-        
-        NSLayoutConstraint.activate([
-            pickerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor,
-                                               constant: Design.imageScrollViewHeightAnchorConstant),
-            
-            pickerView.widthAnchor.constraint(equalTo: pickerView.heightAnchor,
-                                              multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
         
         NSLayoutConstraint.activate([
             imagePrickerButton.centerXAnchor.constraint(equalTo: pickerView.centerXAnchor),
@@ -274,6 +275,13 @@ final class ProductRegistrationView: UIView, Requestable {
     }
     
     private func setupSubViewsHeight() {
+        NSLayoutConstraint.activate([
+            pickerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor,
+                                               constant: Design.imageScrollViewHeightAnchorConstant),
+            
+            pickerView.widthAnchor.constraint(equalTo: pickerView.heightAnchor,
+                                              multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
+        
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
@@ -302,10 +310,19 @@ final class ProductRegistrationView: UIView, Requestable {
         guard let priceText = productPrice.text,
               let price = Double(priceText),
               let discountedPrice = Double(productDiscountedPrice.text ?? "0"),
-                price > discountedPrice
+              price > discountedPrice
         else { return nil }
         
         return price - discountedPrice
+    }
+    
+    private func showInvalidInputAlert() {
+        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다",
+                                          message: "필수사항을 입력해주세요", preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "확인", style: .default)
+        postAlert.addAction(alertAction)
+        self.window?.rootViewController?.present(postAlert, animated: true)
     }
     
     // MARK: - @objc functions

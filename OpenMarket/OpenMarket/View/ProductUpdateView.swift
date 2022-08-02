@@ -64,6 +64,9 @@ final class ProductUpdateView: UIView, Requestable {
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = Design.productDescriptionPlaceholder
+        textView.textColor = .systemGray3
         
         return textView
     }()
@@ -153,17 +156,27 @@ final class ProductUpdateView: UIView, Requestable {
     }
     
     private func commonInit() {
+        setupView()
+        setupDelegate()
+        setupContent()
+    }
+    
+    private func setupView() {
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
         setupSubviews()
         setupSubViewsHeight()
         setupConstraints()
+    }
+    
+    private func setupDelegate() {
         productDescriptionTextView.delegate = self
         productName.delegate = self
         productPrice.delegate = self
-        productDiscountedPrice.delegate = self
-        stock.delegate = self
+    }
+    
+    private func setupContent() {
         setupUiToolbar()
         addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                     action: #selector(endEditing(_:))))
@@ -191,14 +204,18 @@ final class ProductUpdateView: UIView, Requestable {
                 .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
         
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
-                                                constant: Design.imageScrollViewTopAnchorConstant),
-            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
-                                                   constant: Design.imageScrollViewBottomAnchorConstant),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
-                                                    constant: Design.imageScrollViewLeadingAnchorConstant),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
-                                                     constant: Design.imageScrollViewTrailingAnchorConstant)
+            imageStackView.topAnchor
+                .constraint(equalTo: imageScrollView.topAnchor,
+                            constant: Design.imageScrollViewTopAnchorConstant),
+            imageStackView.bottomAnchor
+                .constraint(equalTo: imageScrollView.bottomAnchor,
+                            constant: Design.imageScrollViewBottomAnchorConstant),
+            imageStackView.leadingAnchor
+                .constraint(equalTo: imageScrollView.leadingAnchor,
+                            constant: Design.imageScrollViewLeadingAnchorConstant),
+            imageStackView.trailingAnchor
+                .constraint(equalTo: imageScrollView.trailingAnchor,
+                            constant: Design.imageScrollViewTrailingAnchorConstant)
         ])
     }
     
@@ -253,13 +270,34 @@ final class ProductUpdateView: UIView, Requestable {
 
 // MARK: - extensions
 
-extension ProductUpdateView: UITextViewDelegate, UITextFieldDelegate {
+extension ProductUpdateView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         frame.origin.y = -productDescriptionTextView.frame.height * 1.2
+        if textView.text == Design.productDescriptionPlaceholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
+        if textView.text.count == 0 {
+            textView.text = Design.productDescriptionPlaceholder
+            textView.textColor = .lightGray
+        }
+    }
+}
+
+extension ProductUpdateView: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let textFieldText = textField.text else { return }
+        if textFieldText.count > 100 {
+            textField.deleteBackward()
+        }
+        
+        if productPrice.text!.components(separatedBy: ".").count > 2 {
+            productPrice.deleteBackward()
+        }
     }
 }
 
@@ -270,11 +308,11 @@ private enum Design {
     static let borderCornerRadius = 10.0
     static let borderWidth = 1.5
     static let viewFrameWidth = 4.0
-    static let plusButtonName = "plus"
-    static let productNamePlaceholder = "상품명"
-    static let productPricePlaceholder = "상품가격"
-    static let productDiscountedPricePlaceholder = "할인금액"
-    static let stockPlaceholder = "재고수량"
+    static let productNamePlaceholder = "상품명 (3자 이상, 100자 이하)"
+    static let productPricePlaceholder = "상품가격 (필수입력)"
+    static let productDiscountedPricePlaceholder = "할인금액 (미입력 시 정상가)"
+    static let stockPlaceholder = "재고수량 (미입력 시 품절)"
+    static let productDescriptionPlaceholder = "상품 설명 (10자 이상, 1000자 이하)"
     static let imageScrollViewTopAnchorConstant = 8.0
     static let imageScrollViewBottomAnchorConstant = -8.0
     static let imageScrollViewLeadingAnchorConstant = 8.0
