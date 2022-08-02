@@ -67,10 +67,10 @@ final class MainViewController: UIViewController {
         setUI()
         
         collectionView.prefetchDataSource = self
-        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "list")
-        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "grid")
+        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewNamespace.list.name)
+        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewNamespace.grid.name)
         
-        dataSource = configureDataSource(id: "list")
+        dataSource = configureDataSource(id: CollectionViewNamespace.grid.name)
         self.snapshot.appendSections([.main])
     }
     
@@ -135,14 +135,14 @@ final class MainViewController: UIViewController {
     private func configureDataSource(id: String) -> DiffableDataSource? {
         dataSource = DiffableDataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
             switch id {
-            case "list":
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as? ListCollectionViewCell else {
+            case CollectionViewNamespace.list.name:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewNamespace.list.name, for: indexPath) as? ListCollectionViewCell else {
                     fatalError("")
                 }
                 cell.configureCell(product: product)
                 return cell
             default:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "grid", for: indexPath) as? GridCollectionViewCell else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewNamespace.grid.name, for: indexPath) as? GridCollectionViewCell else {
                     fatalError("")
                 }
                 cell.configureCell(product: product)
@@ -156,12 +156,12 @@ final class MainViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-            dataSource = configureDataSource(id: "list")
+            dataSource = configureDataSource(id: CollectionViewNamespace.list.name)
             dataSource?.apply(snapshot, animatingDifferences: false)
             return
         default:
             collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
-            dataSource = configureDataSource(id: "grid")
+            dataSource = configureDataSource(id: CollectionViewNamespace.grid.name)
             dataSource?.apply(snapshot, animatingDifferences: false)
             return
         }
@@ -196,8 +196,9 @@ final class MainViewController: UIViewController {
     }
     
     func showNetworkError(message: String) {
+        let title = "확인"
         let networkErrorMessage = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "확인", style: .default)
+        let okButton = UIAlertAction(title: title, style: .default)
         networkErrorMessage.addAction(okButton)
         
         present(networkErrorMessage, animated: true)
@@ -210,13 +211,13 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         guard let last = indexPaths.last else { return }
-        let currentPage = (last.row / 20) + 1
+        let currentPage = (last.row / Metric.itemCount) + 1
 
         if currentPage == productPageNumber {
             self.loadingView.startAnimating()
             
             productPageNumber += 1
-            getProductList(pageNumber: productPageNumber, itemPerPage: 20)
+            getProductList(pageNumber: productPageNumber, itemPerPage: Metric.itemCount)
         }
     }
 }

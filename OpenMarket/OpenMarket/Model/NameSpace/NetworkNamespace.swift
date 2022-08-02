@@ -11,6 +11,9 @@ enum NetworkNamespace: String {
     case patch
     case del
     case url
+    case identifier
+    case passwordKey
+    case passwordValue
     
     var name: String {
         switch self {
@@ -24,6 +27,12 @@ enum NetworkNamespace: String {
             return "DELETE"
         case .url:
             return "https://market-training.yagom-academy.kr/api/products"
+        case .identifier:
+            return "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
+        case .passwordKey:
+            return "secret"
+        case .passwordValue:
+            return "lP8VFiBqGI"
         }
     }
 }

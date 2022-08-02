@@ -59,10 +59,10 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     private func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
         if product.stock == Metric.stock {
-            productStockQuntity.text = "품절"
+            productStockQuntity.text = CollectionViewNamespace.soldout.name
             productStockQuntity.textColor = .systemOrange
         } else {
-            productStockQuntity.text = "잔여수량 : \(product.stock)"
+            productStockQuntity.text = "\(CollectionViewNamespace.remainingQuantity.name) \(product.stock)"
             productStockQuntity.textColor = .systemGray
         }
     }

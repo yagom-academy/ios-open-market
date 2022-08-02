@@ -9,6 +9,7 @@ import UIKit
 
 final class NetworkManager {
     private let session: URLSessionProtocol
+    private let identifier = NetworkNamespace.identifier.name
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -46,9 +47,8 @@ final class NetworkManager {
     }
 
     func postProduct(params: [String: Any?], images: [UIImage]) {
-        let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
-        let passwordKey = "secret"
-        let passwordValue = "lP8VFiBqGI"
+        let passwordKey = NetworkNamespace.passwordKey.name
+        let passwordValue = NetworkNamespace.passwordValue.name
         var newParms = params
         
         newParms[passwordKey] = passwordValue
@@ -71,7 +71,6 @@ final class NetworkManager {
     
     func postSecret(productId: String, password: String) {
         let components = URLComponents(string: NetworkNamespace.url.name)
-        let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
 
         guard var url = components?.url else { return }
 
@@ -100,8 +99,6 @@ final class NetworkManager {
     }
 
     func patchProduct(productId: String) {
-        let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
-        
         guard var request = OpenMarketRequest().requestProductDetail(of: productId) else { return }
         
         request.httpMethod = NetworkNamespace.patch.name
@@ -125,7 +122,6 @@ final class NetworkManager {
     func deleteProduct(productId: String, productSecretId: Data) {
         guard let secret = String(data: productSecretId, encoding: .utf8) else { return }
         let components = URLComponents(string: NetworkNamespace.url.name)
-        let identifier = "d1fb22fc-0335-11ed-9676-3bb3eb48793a"
         
         guard var url = components?.url else { return }
         
