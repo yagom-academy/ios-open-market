@@ -157,7 +157,23 @@ class RegistrationViewController: UIViewController {
         
         let params: [String: Any?] = ["name": productNameTextField.text, "descriptions": descriptionTextView.text, "price": productPriceTextField.text, "currency": choiceCurrency()?.name]
         
-        NetworkManager().postProduct(params: params, image: images[0])
+        NetworkManager().postProduct(params: params, images: images)
+        resetRegistrationPage()
+    }
+    
+    private func resetRegistrationPage() {
+        images = []
+        imageCount = 0
+        imageStackView.subviews.forEach { view in
+            view.removeFromSuperview()
+        }
+        imageStackView.addArrangedSubview(imageAddButton)
+        productNameTextField.text = ""
+        productPriceTextField.text = ""
+        discountedPriceTextField.text = ""
+        stockTextField.text = ""
+        descriptionTextView.text = ""
+        segmentedControl.selectedSegmentIndex = 0
     }
     
     private func choiceCurrency() -> Currency? {
@@ -208,13 +224,10 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             selectedImage = originalImage
         }
-        
-        // let imageData = selectedImage?.compress() ?? Data()
-        let image = selectedImage
-        
+                
         if imageCount < 5 {
             let imageView = UIImageView()
-            imageView.image = image
+            imageView.image = selectedImage
             imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
             imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
             imageStackView.insertArrangedSubview(imageView, at: 0)
@@ -223,7 +236,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
             print("5장만 넣을 수 있습니다.")
         }
         
-        guard let addedImage = image else { return }
+        guard let addedImage = selectedImage else { return }
         images.append(addedImage)
         
         imagePickerController.dismiss(animated: true)
