@@ -12,12 +12,12 @@ class RegistrationViewController: UIViewController {
     // MARK: Properties
     
     private let imagePickerController = UIImagePickerController()
-    private var imageCount = 0
+    private var imageCount = Registraion.initailNumber
     private var images = [UIImage]()
 
     private lazy var doneButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Done", for: .normal)
+        button.setTitle(Registraion.done, for: .normal)
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.addTarget(self, action: #selector(registerProduct), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,7 @@ class RegistrationViewController: UIViewController {
 
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle(Registraion.cancel, for: .normal)
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.addTarget(self, action: #selector(goBackMainViewController), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,7 @@ class RegistrationViewController: UIViewController {
     
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.contentInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        scrollView.contentInset = UIEdgeInsets(top: Registraion.scrollViewInset, left: Registraion.scrollViewInset, bottom: Registraion.scrollViewInset, right: Registraion.scrollViewInset)
         scrollView.showsHorizontalScrollIndicator = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -46,7 +46,7 @@ class RegistrationViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = 5
+        stackView.spacing = Registraion.stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -63,14 +63,14 @@ class RegistrationViewController: UIViewController {
     
     private let productNameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품명"
+        textField.placeholder = Registraion.productName
         textField.borderStyle = .roundedRect
         return textField
     }()
     
     private let productPriceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품가격"
+        textField.placeholder = Registraion.productPrice
         textField.borderStyle = .roundedRect
         textField.keyboardType = .decimalPad
         return textField
@@ -78,7 +78,7 @@ class RegistrationViewController: UIViewController {
     
     private let discountedPriceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "할인금액"
+        textField.placeholder = Registraion.discountedPrice
         textField.borderStyle = .roundedRect
         textField.keyboardType = .decimalPad
         return textField
@@ -86,7 +86,7 @@ class RegistrationViewController: UIViewController {
     
     private let stockTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "재고수량"
+        textField.placeholder = Registraion.stock
         textField.borderStyle = .roundedRect
         textField.keyboardType = .decimalPad
         return textField
@@ -94,7 +94,7 @@ class RegistrationViewController: UIViewController {
 
     private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: [Currency.KRW.name, Currency.USD.name])
-        segment.selectedSegmentIndex = 0
+        segment.selectedSegmentIndex = Registraion.initailNumber
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
@@ -109,7 +109,7 @@ class RegistrationViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = 5
+        stackView.spacing = Registraion.stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -119,7 +119,7 @@ class RegistrationViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = 5
+        stackView.spacing = Registraion.stackViewSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -132,7 +132,7 @@ class RegistrationViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
-        self.title = "상품등록"
+        self.title = Registraion.registraionProduct
         
         view.addSubview(imageScrollView)
         view.addSubview(textStackView)
@@ -167,7 +167,7 @@ class RegistrationViewController: UIViewController {
     
     @objc private func registerProduct() {
         
-        let params: [String: Any?] = ["name": productNameTextField.text, "descriptions": descriptionTextView.text, "price": productPriceTextField.text, "currency": choiceCurrency()?.name]
+        let params: [String: Any?] = [Params.productName: productNameTextField.text, Params.productDescription: descriptionTextView.text, Params.productPrice: productPriceTextField.text, Params.currency: choiceCurrency()?.name]
         
         NetworkManager().postProduct(params: params, images: images)
         resetRegistrationPage()
@@ -175,17 +175,17 @@ class RegistrationViewController: UIViewController {
     
     private func resetRegistrationPage() {
         images = []
-        imageCount = 0
+        imageCount = Registraion.initailNumber
         imageStackView.subviews.forEach { view in
             view.removeFromSuperview()
         }
         imageStackView.addArrangedSubview(imageAddButton)
-        productNameTextField.text = ""
-        productPriceTextField.text = ""
-        discountedPriceTextField.text = ""
-        stockTextField.text = ""
-        descriptionTextView.text = ""
-        segmentedControl.selectedSegmentIndex = 0
+        productNameTextField.text = Registraion.textClear
+        productPriceTextField.text = Registraion.textClear
+        discountedPriceTextField.text = Registraion.textClear
+        stockTextField.text = Registraion.textClear
+        descriptionTextView.text = Registraion.textClear
+        segmentedControl.selectedSegmentIndex = Registraion.initailNumber
     }
     
     private func choiceCurrency() -> Currency? {
@@ -201,22 +201,22 @@ class RegistrationViewController: UIViewController {
             imageScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageScrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             imageScrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            imageScrollView.heightAnchor.constraint(equalToConstant: 100)
+            imageScrollView.heightAnchor.constraint(equalToConstant: Registraion.imageSize)
         ])
         
         NSLayoutConstraint.activate([
             imageStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor),
             imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
-            imageAddButton.heightAnchor.constraint(equalToConstant: 100),
-            imageAddButton.widthAnchor.constraint(equalToConstant: 100)
+            imageAddButton.heightAnchor.constraint(equalToConstant: Registraion.imageSize),
+            imageAddButton.widthAnchor.constraint(equalToConstant: Registraion.imageSize)
         ])
         
         NSLayoutConstraint.activate([
-            textStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: 10),
-            textStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            textStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            textStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10)
+            textStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor, constant: Registraion.textStackViewPositiveSize),
+            textStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Registraion.textStackViewNagativeSize),
+            textStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Registraion.textStackViewNagativeSize),
+            textStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Registraion.textStackViewPositiveSize)
         ])
         
         imageScrollView.setContentHuggingPriority(.required, for: .vertical)
@@ -230,7 +230,7 @@ class RegistrationViewController: UIViewController {
        
        @objc private func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
            self.view.endEditing(true)
-           descriptionTextView.contentInset.bottom = 0
+           descriptionTextView.contentInset.bottom = Registraion.descriptionTextViewInset
        }
        
        private func regiterForkeyboardNotification() {
@@ -261,7 +261,7 @@ class RegistrationViewController: UIViewController {
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if imageCount == 4 {
+        if imageCount == Registraion.maxImageCount {
             imageAddButton.isHidden = true
         }
         
@@ -272,12 +272,12 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
             selectedImage = originalImage
         }
                 
-        if imageCount < 5 {
+        if imageCount <= Registraion.maxImageCount {
             let imageView = UIImageView()
             imageView.image = selectedImage
-            imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            imageStackView.insertArrangedSubview(imageView, at: 0)
+            imageView.heightAnchor.constraint(equalToConstant: Registraion.imageSize).isActive = true
+            imageView.widthAnchor.constraint(equalToConstant: Registraion.imageSize).isActive = true
+            imageStackView.insertArrangedSubview(imageView, at: Registraion.firstIndex)
             imageCount += 1
         } else {
             print("5장만 넣을 수 있습니다.")

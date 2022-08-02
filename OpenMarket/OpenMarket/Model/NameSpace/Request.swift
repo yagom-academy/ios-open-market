@@ -39,3 +39,10 @@ enum ImageType {
         }
     }
 }
+
+enum Params {
+    static let productName = "name"
+    static let productDescription = "descriptions"
+    static let productPrice = "price"
+    static let currency = "currency"
+}
