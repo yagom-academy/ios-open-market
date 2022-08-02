@@ -50,6 +50,13 @@ final class ProductDetailsCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        productImageView.image = nil
+        productStockLabel.text = nil
+    }
+    
     private func configureStackView() {
         contentView.addSubview(rootStackView)
         rootStackView.addArrangedSubview(productImageView)
