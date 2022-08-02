@@ -2,35 +2,21 @@ import UIKit
 
 class ProductsDetailViewController: UIViewController {
 
-    let detailView = ProductsDetailView()
+    private let detailView = ProductsDetailView()
     
     var delegate: SendUpdateDelegate?
-    
-    var userIdentifier = UserIdentifier(id: 212, secret: "sld")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view = detailView
         detailView.itemImageScrollView.delegate = self
-        detailView.currentPage.text = "\(1)/\(detailView.itemImageStackView.arrangedSubviews.count)"
         addNavigationBarButton()
         
-        ProductsDataManager.shared.getData(productId: delegate!.sendUpdate().id) { [weak self] (data: Page) in
+        guard let delegate = delegate else { return }
+        ProductsDataManager.shared.getData(productId: delegate.sendUpdate().id) { [weak self] (data: Page) in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                let numberFormatter = NumberFormatter()
-                numberFormatter.numberStyle = .decimal
-                
-                self.detailView.itemNameLabel.text = data.name
-                let priceText = numberFormatter.string(for: data.price)
-                self.detailView.itemPriceLabel.text = "\(priceText!)"
-                let saleText = numberFormatter.string(for: data.discountedPrice)
-                self.detailView.itemSaleLabel.text = "\(saleText!)"
-                self.detailView.itemStockLabel.text = "\(data.stock)"
-                self.detailView.itemDescriptionTextView.text = "\(data.description!)"
-                let url = URL(string: data.images![0].url)
-                let data = try! Data(contentsOf: url!)
-                self.detailView.itemImageView1.image = UIImage(data: data)
+                self.detailView.setProductInfomation(data: data)
             }
         }
     }

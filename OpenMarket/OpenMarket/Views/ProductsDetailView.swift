@@ -2,27 +2,7 @@ import UIKit
 
 class ProductsDetailView: UIView {
 
-    // MARK: - Properties    
-    let itemImageView1: UIImageView = {
-        let image = UIImage(systemName: "pencil")
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    let itemImageView2: UIImageView = {
-        let image = UIImage(systemName: "pencil")
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    let itemImageView3: UIImageView = {
-        let image = UIImage(systemName: "pencil")
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    // MARK: - Properties
     
     let itemImageStackView: UIStackView = {
         let stackView = UIStackView()
@@ -158,6 +138,12 @@ class ProductsDetailView: UIView {
         return scrollView
     }()
     
+    private let numberFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter
+    }()
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -186,9 +172,6 @@ class ProductsDetailView: UIView {
         mainStackView.addArrangedSubview(itemDescriptionTextView)
         
         itemImageScrollView.addSubview(itemImageStackView)
-        itemImageStackView.addArrangedSubview(itemImageView1)
-        itemImageStackView.addArrangedSubview(itemImageView2)
-        itemImageStackView.addArrangedSubview(itemImageView3)
         
         itemNameAndStockStackView.addArrangedSubview(itemNameLabel)
         itemNameAndStockStackView.addArrangedSubview(itemStockLabel)
@@ -224,12 +207,34 @@ class ProductsDetailView: UIView {
             itemImageStackView.trailingAnchor.constraint(equalTo: itemImageScrollView.trailingAnchor),
             itemImageStackView.heightAnchor.constraint(equalTo: itemImageScrollView.heightAnchor)
         ])
-        
-        NSLayoutConstraint.activate([
-            itemImageView1.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor),
-            itemImageView2.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor),
-            itemImageView3.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor)
-        ])
     }
     
+    func makeimageView(url: String) {
+        guard let url = URL(string: url),
+              let data = try? Data(contentsOf: url),
+              let image = UIImage(data: data) else { return }
+        let imageView = UIImageView(image: image)
+        itemImageStackView.addArrangedSubview(imageView)
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor).isActive = true
+    }
+    
+    func setProductInfomation(data: Page) {
+        guard let priceText = numberFormatter.string(for: data.price),
+              let saleText = numberFormatter.string(for: data.discountedPrice),
+              let images = data.images else { return }
+        
+        images.forEach { image in
+            makeimageView(url: image.url)
+        }
+        currentPage.text = "\(1)/\(itemImageStackView.arrangedSubviews.count)"
+        itemNameLabel.text = data.name
+        
+        itemPriceLabel.text = "\(priceText)"
+        itemSaleLabel.text = "\(saleText)"
+        itemStockLabel.text = "\(data.stock)"
+        guard let description = data.description else { return }
+        itemDescriptionTextView.text = "\(description)"
+    }
 }
