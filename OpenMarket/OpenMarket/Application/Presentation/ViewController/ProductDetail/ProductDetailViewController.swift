@@ -2,7 +2,7 @@
 //  ProductDetailViewController.swift
 //  OpenMarket
 //
-//  Created by Derrick kim on 2022/07/27.
+//  Created by 데릭, 수꿍.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  ListCollectionCell.swift
 //  OpenMarket
 //
-//  Created by 데릭, 케이, 수꿍. 
+//  Created by 데릭, 수꿍.
 //
 
 import UIKit
