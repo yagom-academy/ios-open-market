@@ -41,7 +41,22 @@ extension ProductsDetailViewController {
             self.navigationController?.pushViewController(registViewController, animated: true)
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
-            print(action)
+            
+            ProductsDataManager.shared.getProductSecret(identifier: UserInfo.identifier.rawValue, secret: UserInfo.secret.rawValue, productId: self.productInfo!.id) { data in
+                print(data)
+            }
+            
+//            let alerttttt = UIAlertController(title: "", message: "qqq", preferredStyle: .alert)
+//            let actionnnn = UIAlertAction(title: "확인", style: .default) { action in
+//                print(alerttttt.textFields?.first?.text)
+//            }
+//            alerttttt.addTextField { textField in
+//                textField.placeholder = "비밀번호를 입력해주세요."
+//            }
+//            alerttttt.addAction(actionnnn)
+//
+//            self.present(alerttttt, animated: true)
+            
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { action in
             print(action)

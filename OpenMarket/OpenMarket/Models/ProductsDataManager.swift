@@ -31,6 +31,10 @@ struct Parameters {
         self.parameterDictionary["secret"] = secret
     }
     
+    init(secret: String) {
+        self.parameterDictionary["secret"] = secret
+    }
+    
     func returnParamatersToJsonData() -> Data? {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: parameterDictionary, options: [])
@@ -105,6 +109,26 @@ struct ProductsDataManager: Decodable {
         task.resume()
     }
     
+    func getProductSecret(identifier: String, secret: String, productId: Int, completion: @escaping (String) -> Void) {
+        guard let url = URL(string: url + "/" + String(productId) + "/secret") else { return }
+        var postRequest = URLRequest(url: url)
+        
+        postRequest.httpMethod = "POST"
+        postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
+        
+        postRequest.httpBody = Parameters(secret: secret).returnParamatersToJsonData()
+        
+        let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
+            
+            if let data = data {
+                guard let parsedData = String(data: data, encoding: .utf8) else { return }
+                completion(parsedData)
+            }
+        }
+        task.resume()
+    }
+    
     func patchData<T: Decodable>(identifier: String, productID: Int, paramter: Parameters, completion: @escaping (T) -> Void) {
         guard let url = URL(string: url + "/\(productID)") else { return }
         var postRequest = URLRequest(url: url)
@@ -126,6 +150,8 @@ struct ProductsDataManager: Decodable {
         }
         task.resume()
     }
+    
+    
     
     private func sendRequest<T: Decodable>(_ request: URLRequest, _ completion: @escaping (T) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
