@@ -2,19 +2,19 @@
 //  MockTests.swift
 //  MockTests
 //
-//  Created by 데릭, 케이, 수꿍.
+//  Created by 데릭, 수꿍.
 //
 
 import XCTest
 @testable import OpenMarket
 
 class MockTests: XCTestCase {
-    var sut: NetworkProvider!
+    var sut: APIClient!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        sut = NetworkProvider(session: URLSession.shared)
+        sut = APIClient(session: URLSession.shared)
     }
     
     override func tearDownWithError() throws {
@@ -41,7 +41,7 @@ class MockTests: XCTestCase {
         
         var result: ProductList?
         let mockURLSession = MockURLSession(response: mockResponse)
-        sut = NetworkProvider(session: mockURLSession)
+        sut = APIClient(session: mockURLSession)
         
         // when
         sut.requestAndDecode(url: url, dataType: ProductList.self) { response in
@@ -71,7 +71,7 @@ class MockTests: XCTestCase {
         }()
         
         let mockURLSession = MockURLSession(response: mockResponse!)
-        sut = NetworkProvider(session: mockURLSession)
+        sut = APIClient(session: mockURLSession)
         
         // when
         sut.requestAndDecode(url: url, dataType: ProductList.self) { response in

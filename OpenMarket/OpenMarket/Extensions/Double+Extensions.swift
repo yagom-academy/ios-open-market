@@ -1,13 +1,13 @@
 //
-//  Int+Extensions.swift
+//  Double+Extensions.swift
 //  OpenMarket
 //
-//  Created by 데릭, 케이, 수꿍. 
+//  Created by 데릭, 수꿍.
 //
 
 import Foundation
 
-extension Int {
+extension Double {
     func numberFormatter() -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

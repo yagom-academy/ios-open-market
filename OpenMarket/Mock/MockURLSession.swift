@@ -2,7 +2,7 @@
 //  MockURLSession.swift
 //  OpenMarket
 //
-//  Created by 데릭, 케이, 수꿍. 
+//  Created by 데릭, 수꿍.
 //
 
 import Foundation
@@ -18,6 +18,14 @@ class MockURLSession: URLSessionProtocol {
     
     func dataTask(with url: URL,
                   completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
+        return MockURLSessionDataTask {
+            completion(self.response.data,
+                       self.response.urlResponse,
+                       self.response.error)
+        }
+    }
+    
+    func dataTask(with url: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
         return MockURLSessionDataTask {
             completion(self.response.data,
                        self.response.urlResponse,

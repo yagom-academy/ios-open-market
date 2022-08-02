@@ -2,7 +2,7 @@
 //  ListCollectionCell.swift
 //  OpenMarket
 //
-//  Created by 데릭, 케이, 수꿍. 
+//  Created by 데릭, 수꿍.
 //
 
 import UIKit
@@ -164,7 +164,7 @@ final class ListCollectionCell: UICollectionViewListCell {
         discountedPriceLabel.text = viewModel?.discountedPriceText
         stockLabel.text = viewModel?.stockText
         
-        viewModel?.isDiscountedItem == true ? self.configureForOriginal() : self.configureForBargain()
+        viewModel?.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
         stockLabel.textColor = viewModel?.isEmptyStock == true ? .systemYellow : .systemGray
     }
 }

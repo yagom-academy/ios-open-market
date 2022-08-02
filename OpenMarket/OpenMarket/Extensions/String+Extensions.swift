@@ -2,7 +2,7 @@
 //  String+Extensions.swift
 //  OpenMarket
 //
-//  Created by 데릭, 케이, 수꿍. 
+//  Created by 데릭, 수꿍.
 //
 
 import Foundation
@@ -13,5 +13,13 @@ extension String {
         attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: value, range: NSMakeRange(0, attributeString.length))
         
         return attributeString
+    }
+    
+    func convertToInt() -> Int {
+        guard let convertedString = Int(self) else {
+            return 0
+        }
+        
+        return convertedString
     }
 }
