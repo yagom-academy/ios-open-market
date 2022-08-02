@@ -115,6 +115,7 @@ final class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        configureNavigationItems()
         configureRootScrollView()
         configureRootStackView()
         configureCollectionViewHierarchy()
@@ -122,6 +123,51 @@ final class ProductDetailViewController: UIViewController {
         configureDataSource()
         
         fetchProductDetails(by: productID)
+    }
+    
+    private func configureNavigationItems() {
+        let leftButtonImage = UIImage(systemName: "chevron.backward")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftButtonImage,
+                                                                style: .done,
+                                                                target: self,
+                                                                action: #selector(didTappedBackButton))
+        
+        let rightButtonImage = UIImage(systemName: "square.and.arrow.up")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightButtonImage,
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(didTappedEditButton))
+    }
+    
+    @objc private func didTappedBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func didTappedEditButton() {
+        let actionSheet = UIAlertController(title: nil,
+                                            message: nil,
+                                            preferredStyle: .actionSheet)
+        
+        let editAction = UIAlertAction(title: "수정",
+                                       style: .default) { _ in
+        }
+        
+        let deleteAction = UIAlertAction(title: "삭제",
+                                         style: .destructive) { _ in
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소",
+                                         style: .cancel,
+                                         handler: nil)
+        
+        actionSheet.addAction(editAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        actionSheet.modalPresentationStyle = .overFullScreen
+        self.present(actionSheet,
+                     animated: true,
+                     completion: nil)
     }
     
     private func configureRootScrollView() {
