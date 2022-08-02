@@ -136,11 +136,8 @@ final class ProductSetupView: UIView {
         return button
     }()
     
-    private var rootViewController: UIViewController?
-    
     init(_ rootViewController: UIViewController) {
         super.init(frame: .null)
-        self.rootViewController = rootViewController
         addSubViews(rootViewController)
         setupConstraints(rootViewController)
         keyboardTypeSetup()
