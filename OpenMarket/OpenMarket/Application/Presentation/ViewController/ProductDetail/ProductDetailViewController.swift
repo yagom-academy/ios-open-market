@@ -233,7 +233,7 @@ final class ProductDetailViewController: UIViewController {
         }
     }
     
-    private func updateUI(data: [UIImage]) {
+    private func updateUI(_ data: [UIImage]) {
         DispatchQueue.main.async { [weak self] in
             if let unwrappedDataSource = self?.productDetailImagesdataSource {
                 
@@ -261,7 +261,11 @@ extension ProductDetailViewController: UICollectionViewDelegate {
 }
 
 extension ProductDetailViewController: ProductDetailsViewDelegate {
-    func didReceiveResponse(_ viewController: ProductDetailViewController.Type, by data: [UIImage]) {
-        updateUI(data: data)
+    func productDetailsViewController(_ viewController: ProductDetailViewController.Type, didRecieve productInfo: ProductDetailsEntity) {
+        updateUI(productInfo)
+    }
+    
+    func productDetailsViewController(_ viewController: ProductDetailViewController.Type, didRecieve images: [UIImage]) {
+        updateUI(images)
     }
 }

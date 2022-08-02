@@ -22,14 +22,26 @@ final class ProductDetailsViewModel {
         }
         return nil
     }
-    
+
     func format(productDetail: ProductDetail) {
-        self.productDetail = productDetail
+        self.productDetails = productDetail
         
         guard let productImages = productDetail.productImages else {
             return
         }
         
         delegate?.didReceiveResponse(ProductDetailViewController.self, by: productImages)
+        let productInfo = ProductDetailsEntity(id: productDetail.id,
+                                                         venderID: productDetail.venderID,
+                                                         name: productDetail.name,
+                                                         description: productDetail.description,
+                                                         currency: productDetail.currency,
+                                                         price: productDetail.price,
+                                                         bargainPrice: productDetail.bargainPrice,
+                                                         stock: productDetail.stock,
+                                                         images: productImages)
+        
+        delegate?.productDetailsViewController(ProductDetailViewController.self, didRecieve: productImages)
+        delegate?.productDetailsViewController(ProductDetailViewController.self, didRecieve: productInfo)
     }
 }

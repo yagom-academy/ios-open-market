@@ -8,6 +8,8 @@
 import UIKit
 
 protocol ProductDetailsViewDelegate: AnyObject {
-    func didReceiveResponse(_ viewController: ProductDetailViewController.Type,
-                            by data: [UIImage])
+    func productDetailsViewController(_ viewController: ProductDetailViewController.Type,
+                            didRecieve images: [UIImage])
+    func productDetailsViewController(_ viewController: ProductDetailViewController.Type,
+                            didRecieve productInfo: ProductDetailsEntity)
 }
