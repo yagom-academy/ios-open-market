@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductSecretRetrievalAPIManager: APIProtocol {
+struct ProductSecretRetrievalAPIManager: POSTProtocol {
     var configuration: APIConfiguration
     var urlComponent: URLComponents
     
@@ -22,7 +22,6 @@ struct ProductSecretRetrievalAPIManager: APIProtocol {
             return nil
         }
         
-        configuration = APIConfiguration(method: .post,
-                                         url: url)
+        configuration = APIConfiguration(url: url)
     }
 }

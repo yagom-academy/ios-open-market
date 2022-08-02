@@ -1,28 +1,27 @@
 //
-//  ProductDeleteAPIManager.swift
+//  ProductEnrollmentAPIManager.swift
 //  OpenMarket
 //
-//  Created by Derrick kim on 2022/07/27.
+//  Created by 전민수 on 2022/07/27.
 //
 
 import Foundation
 
-struct ProductDeleteAPIManager: APIProtocol {
+struct ProductEnrollmentAPIManager: POSTProtocol {
     var configuration: APIConfiguration
     var urlComponent: URLComponents
     
-    init?(productID: Int, productSecret: String) {
+    init?() {
         urlComponent = URLComponentsBuilder()
             .setScheme("https")
             .setHost("market-training.yagom-academy.kr")
-            .setPath("/api/products/\(productID)/\(productSecret)")
+            .setPath("/api/products")
             .build()
         
         guard let url = urlComponent.url else {
             return nil
         }
         
-        configuration = APIConfiguration(method: .delete,
-                                         url: url)
+        configuration = APIConfiguration(url: url)
     }
 }

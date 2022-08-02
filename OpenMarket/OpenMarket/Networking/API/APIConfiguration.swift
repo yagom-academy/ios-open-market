@@ -10,15 +10,12 @@ import Foundation
 typealias Parameters = [String: String]
 
 struct APIConfiguration {
-    let method: HTTPMethod
     let url: URL
     let parameters: Parameters?
     
-    init(method: HTTPMethod,
-         url: URL,
+    init(url: URL,
          parameters: Parameters? = nil) {
         
-        self.method = method
         self.url = url
         self.parameters = parameters
     }

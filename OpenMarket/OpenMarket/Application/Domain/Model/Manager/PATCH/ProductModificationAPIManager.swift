@@ -1,28 +1,27 @@
 //
-//  ProductEnrollmentAPIManager.swift
+//  ProductModificationAPIManager.swift
 //  OpenMarket
 //
-//  Created by 전민수 on 2022/07/27.
+//  Created by Derrick kim on 2022/07/27.
 //
 
 import Foundation
 
-struct ProductEnrollmentAPIManager: APIProtocol {
+struct ProductModificationAPIManager: PATCHProtocol {
     var configuration: APIConfiguration
     var urlComponent: URLComponents
     
-    init?() {
+    init?(productID: Int) {
         urlComponent = URLComponentsBuilder()
             .setScheme("https")
             .setHost("market-training.yagom-academy.kr")
-            .setPath("/api/products")
+            .setPath("/api/products/\(productID)")
             .build()
         
         guard let url = urlComponent.url else {
             return nil
         }
         
-        configuration = APIConfiguration(method: .post,
-                                         url: url)
+        configuration = APIConfiguration(url: url)
     }
 }
