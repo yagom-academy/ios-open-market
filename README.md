@@ -4,9 +4,9 @@
 ## 목차
 * [프로젝트 저장소](#-💾-프로젝트-저장소)
 * [팀원](#-👥-팀원)
-* [실행화면](#-📺-실행-화면)
+* [실행화면](#📺-실행-화면)
 * [개발환경 및 라이브러리](#🛠-개발환경-및-라이브러리)
-* [타임라인](#-🕖-타임라인:-시간-순으로-프로젝트의-주요-진행-척도를-표시)
+* [타임라인](#🕖-타임라인:-시간-순으로-프로젝트의-주요-진행-척도를-표시)
     * [week1](#Week-1)
     * [week2](#Week-2)
 * [프로젝트 내용](#✏️-프로젝트-내용)
@@ -16,7 +16,7 @@
 * [참고한 페이지](#참고한-페이지)
 
 ## 💾 프로젝트 저장소
->**프로젝트 기간** : 2022-07-11 ~ 2022-07-22<br>
+>**프로젝트 기간** : 2022-07-11 ~ 2022-08-05<br>
 **소개** : 네트워크 통신을 통해 상품 API를 가져와 물건을 매매하는 앱입니다. <br>
 **리뷰어** : [**라이언**](https://github.com/ryan-son)
 
@@ -44,64 +44,66 @@
 
 ### Week 1
 - **2022-07-11 (월)** 
-  - URLSession에 대해서 파악하기 위해 공부
+  - 오픈마켓 I STEP1: URLSession에 대해서 파악하기 위해 공부
  
 - **2022-07-12 (화)**
-  - STEP1 PR
+  - 오픈마켓 I STEP1: STEP1 PR
 
 - **2022-07-13 (수)**
-  - URLSession에 대해 다시 공부하고 collectionView공부
+  - 오픈마켓 I STEP1: URLSession에 대해 다시 공부하고 CollectionView 공부
 
 - **2022-07-14 (목)**
-  - 1차 리뷰 수정
+  - 오픈마켓 I STEP1: 리팩토링
   
 - **2022-07-15 (금)**
-  - Readme.md 작성 및 1차 리뷰 수정
-
+  - 오픈마켓 I STEP1: Readme.md 작성 및 리팩토링
 
 ### Week 2
 - **2022-07-18 (월)** 
-  - URLSession에 대해서 파악하기 위해 공부
+  - 오픈마켓 I STEP2: 리팩토링
  
 - **2022-07-19 (화)**
-  - STEP1 리팩토링 및 머지
+  - 오픈마켓 I STEP1: CollectionView 공부
 
 - **2022-07-20 (수)**
-  - STEP2 List Collection View, Segmented Control 구현
+  - 오픈마켓 I STEP2: List Collection View, Segmented Control 구현
 
 - **2022-07-21 (목)**
-  - STEP2 오토레이아웃 및 Grid 구현
+  - 오픈마켓 I STEP2: 오토레이아웃 및 Grid 구현
   
 - **2022-07-22 (금)**
-  - Readme.md 작성 및 STEP2 PR 
+  - 오픈마켓 I STEP2: Readme.md 작성 및 STEP2 PR 
+
+
+
+### Week 3
+- **2022-07-25 (월)** 
+  - 오픈마켓 II STEP1: multipart/form-data 구조 공부 및 예제 코드 작성
+ 
+- **2022-07-26 (화)**
+  - 오픈마켓 I STEP1: 리팩토링
+
+- **2022-07-27 (수)**
+  - 오픈마켓 I STEP2: 리팩토링
+
+- **2022-07-28 (목)**
+  - 오픈마켓 II STEP1: http메서드 공부및 POST 메서드 구현
+  
+- **2022-07-29 (금)**
+  - 오픈마켓 II STEP1: POST 메서드 구현 및 레이아웃 구현
 
 ---
 
 ## ✏️ 프로젝트 내용
 
 ### 💻 핵심 기능 경험
-- [x] 파싱한 JSON 데이터와 매핑할 모델 설계
-- [x] URL Session을 활용한 서버와의 통신
-- [x] CodingKeys 프로토콜의 활용
-- [x] 네트워크 상황과 무관한 네트워킹 데이터 타입의 단위 테스트(Unit Test)
-
-
-### ⚙️ 코드 소개
-
-#### Extension
-- String 타입 확장을 통해 취소선을 그리는 메서드를 구현했습니다.
-
-#### CollectionViewCell
-- ListCollectionViewCell, GridCollectionViewCell를 구현한 클래스입니다.
-
-#### MarketInformation
-- 서버 매핑 모델을 구현한 타입입니다.
-
-#### MainViewController
-- UI Components, Segmented Control, API 처리를 구현한 뷰 컨트롤러입니다.
-
+- [x] multipart/form-data의 구조 파악
+- [x] URLSession을 활용한 multipart/form-data 요청 전송
+- [x] 사용자 친화적인 UI/UX 구현 (적절한 입력 컴포넌트 사용, 알맞은 키보드 타입 지정)
+- [x] UIImagePickerController를 활용한 카메라 및 사진첩 접근
 
 ---
+
 ### 🏀 TroubleShooting
 
 #### 1. Application Test VS Library Test
@@ -114,7 +116,7 @@
 
 |Application Test 걸린시간|Library Test 걸린시간|
 |--|--|
-|<img src = https://i.imgur.com/onFx9QR.png width = 400 height = 300> |<img src = https://i.imgur.com/OZAEbUi.png width = 700 height = 300>|
+|<img src = https://i.imgur.com/onFx9QR.png width = 300 height = 100> |<img src = https://i.imgur.com/OZAEbUi.png width = 700 height = 100>|
 
 #### 2. URLSession Unit Test
 
@@ -132,8 +134,51 @@
 
 | 네트워크 맵핑모델 | 서버 정보 | 트러블 결과 |
 |:--:|:--:|:--:|
-|<img src = https://i.imgur.com/x9fe0O9.png width = 400 height = 200> |<img src = https://i.imgur.com/3BQxRVi.png width = 500 height = 200>|<img src = https://i.imgur.com/MoPV79O.png width = 500 height = 300>|
+|<img src = https://i.imgur.com/x9fe0O9.png width = 180 height = 60> |<img src = https://i.imgur.com/3BQxRVi.png width = 500 height = 200>|<img src = https://i.imgur.com/MoPV79O.png width = 800 height = 200>|
 
+#### 4. 리스트 형식의 collectionview에서 이미지의 크기가 작아지던 현상
+- 처음 UICollectionView의 List형식레이아웃을 잡을 대 아래와 같이 apperance를 설정해 줬다.
+```swift
+let config = UICollectionLayoutListConfiguration(appearance: .plain)
+//처음설정
+imageStackView.widthAnchor.constraint(lessThanOrEqualToConstant: 80),
+imageStackView.heightAnchor.constraint(lessThanOrEqualToConstant: 80)
+//변경해본설정
+imageStackView.widthAnchor.constraint(equalToConstant: 80),
+imageStackView.heightAnchor.constraint(equalToConstant: 80)
+```
+- 그랬더니 처음엔 아래의 사진과 같이 사진이 작게 표현되는 셀들이 있었고 이 원인이 lessThanOrEqual이라고 했기 때문에 작아저 버리는거라고 생각해서 equalToConstant로 변경을 했더니 아래와 같이 Autolayout에서 충돌이 일어나는 것을 확인 할 수 있었다.
+
+| 충돌 원인 |
+|:--:|
+|<img src = https://i.imgur.com/LwSy5Os.png width = 600 height = 150>|
+| 충돌 화면 |
+|<img src = https://i.imgur.com/rfAzEsn.png width = 250 height = 500>|
+
+
+- 우리가 확인한 충돌 원인은 `UICollectionLayoutListConfiguration(appearance: .plain)`이 내부적으로 높이를 44로 설정해주고 있다는 것이었다. 그래서 우리가 설정해준 heightAncor = 80 과는 충돌을 일으켰고 두 값중에 어떤 값이 맞는지 판단하지 못한 컴파일러가 두 값을 무작위로 내보내고 있다고 판단했다.
+- 처음으로 생각했던 해결 방법은 이미지의 크기에 Priority를 높여서 셀의 크기가 아닌 이미지의 크기를 반영하도록 하게 하는 방법 이었는데 이 방법을 사용하니 이미지를 제외한 다른 레이블들은 밀려나버리는 현상이 발생하여 대안을 찾게 되었다
+- 최종적으로 우리가 선택한 방법은 내부적으로 알 수 없는 값이 지정되어있는 `UICollectionViewCompositionalLayout.list`가 아닌 `UICollectionViewCompositionalLayout(section: )`으로 변경해서 직접 collectionView의 item,group,section의 사이즈를 지정해 주는 방법 이었다.
+
+
+#### 5.snapshot apply 시점 오류
+
+- 기존 `snapshot`의 `apply` 적용은 데이터를 받아오는 시점(`getProductList`호출 시)에만 진행되었다.
+그랬더니 `getProductList` 메서드로 데이터를 가져오는 시간 동안에는 `segmentedControl`로 layout 변경이 가능했지만,
+모든 데이터를 받아온 후로는 layout을 변경해 주면 아래와 같이 layout 자체가 날아가는 현상이 발생했다.
+
+| 오류화면 |
+|:--:|
+|<img src = https://i.imgur.com/tt55i4h.png width = 250 height = 300>|
+
+
+- debug 창을 통해 layout이 깨지는 시점과 `getProductList` 메서드의 escaping closer 종료 시점과 동일하다는 것을 알 수 있었다.
+이를 통해 모든 데이터가 받아 온 후에도 `apply` 적용을 해주면 되겠다는 아이디어를 얻을 수 있었고,
+`segmentedControl`에서 바꿀 때에도 `apply` 적용을 해주었더니 layout 깨짐 현상을 해결 할 수 있었다.
+
+| 기존의 코드 | 해결한 코드 |
+| -- | -- |
+|![](https://i.imgur.com/orryKJl.png)|![](https://i.imgur.com/ZK8yfsf.png)|
 
 ---
 
