@@ -25,7 +25,7 @@ class DetailImageCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
