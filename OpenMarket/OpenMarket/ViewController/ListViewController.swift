@@ -41,10 +41,10 @@ final class ListViewController: UIViewController {
         self.activityIndicator.stopAnimating()
     }
     
-    @objc func refreshTable() {
+    @objc func refreshTable(refresh: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.productCollectionView.reloadData()
-            self.productCollectionView.refreshControl?.endRefreshing()
+            self.fetchData()
+            refresh.endRefreshing()
         }
     }
     
