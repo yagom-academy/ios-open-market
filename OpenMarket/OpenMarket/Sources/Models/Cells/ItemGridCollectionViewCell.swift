@@ -120,4 +120,15 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
+        nameLabel.text = nil
+        priceLabel.text = nil
+        priceLabel.textColor = .systemGray
+        stockLabel.text = nil
+        stockLabel.textColor = .systemGray
+    }
 }

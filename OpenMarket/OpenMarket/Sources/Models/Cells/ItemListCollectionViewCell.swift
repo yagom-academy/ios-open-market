@@ -7,18 +7,14 @@
 
 import UIKit
 
-class ItemListCollectionViewCell: UICollectionViewCell {
-    private var item: ItemListPage.Item?
-    
-    let productImageView: UIImageView = {
+class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
-        
         return imageView
     }()
     
     let accessaryImageView: UIImageView = {
         let imageView = UIImageView()
-        
         imageView.image = UIImage(systemName: "greaterthan")
         imageView.tintColor = .systemGray
         return imageView
@@ -26,21 +22,27 @@ class ItemListCollectionViewCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        
         label.font = .boldSystemFont(ofSize: 18)
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        
-        label.textColor = .systemGray
+        label.textColor = .systemGray6
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
-   let stockLabel: UILabel = {
+    let bargainPriceLabel: UILabel = {
         let label = UILabel()
-       
+        label.textColor = .systemGray3
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let stockLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .right
         label.textColor = .systemGray
         return label
@@ -48,7 +50,6 @@ class ItemListCollectionViewCell: UICollectionViewCell {
     
     private let firstHorizontalStackView: UIStackView = {
         let stackView = UIStackView()
-        
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
         stackView.spacing = 8
@@ -58,7 +59,6 @@ class ItemListCollectionViewCell: UICollectionViewCell {
     
     private let secondHorizontalStackView: UIStackView = {
         let stackView = UIStackView()
-        
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
         stackView.spacing = 2
@@ -66,23 +66,40 @@ class ItemListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let thirdVerticalStackView: UIStackView = {
+    private let fourthVerticalStackView: UIStackView = {
         let stackView = UIStackView()
-        
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = 2
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private let entireStackView: UIStackView = {
         let stackView = UIStackView()
-        
         stackView.alignment = .center
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = 8
         stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let verticalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.spacing = 2
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let thirdHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -94,62 +111,80 @@ class ItemListCollectionViewCell: UICollectionViewCell {
         secondHorizontalStackView.addArrangedSubview(nameLabel)
         secondHorizontalStackView.addArrangedSubview(firstHorizontalStackView)
         
-        thirdVerticalStackView.addArrangedSubview(secondHorizontalStackView)
-        thirdVerticalStackView.addArrangedSubview(priceLabel)
+        thirdHorizontalStackView.addArrangedSubview(priceLabel)
+        thirdHorizontalStackView.addArrangedSubview(bargainPriceLabel)
         
-        entireStackView.addArrangedSubview(productImageView)
-        entireStackView.addArrangedSubview(thirdVerticalStackView)
+        fourthVerticalStackView.addArrangedSubview(secondHorizontalStackView)
+        fourthVerticalStackView.addArrangedSubview(thirdHorizontalStackView)
+        
+        entireStackView.addArrangedSubview(imageView)
+        entireStackView.addArrangedSubview(fourthVerticalStackView)
         
         contentView.addSubview(entireStackView)
-        
+    }
+    
+    private func setupUIComponentsLayout() {
+        setupEntireStackViewLayout()
+        setupImageViewLayout()
+        setupAccessaryImageViewLayout()
+    }
+    
+    private func setupEntireStackViewLayout() {
         NSLayoutConstraint.activate([
-            entireStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            entireStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            entireStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            entireStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            
-            productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8),
-            productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor, multiplier: 0.8),
-            
-            accessaryImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.1)
+            entireStackView.topAnchor.constraint(
+                equalTo: contentView.topAnchor
+            ),
+            entireStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor
+            ),
+            entireStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -10
+            ),
+            entireStackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 5
+            )
         ])
+    }
+    
+    private func setupImageViewLayout() {
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(
+                equalTo: contentView.heightAnchor,
+                multiplier: 0.8
+            ),
+            imageView.widthAnchor.constraint(
+                equalTo: imageView.heightAnchor
+            )
+        ])
+    }
+    
+    private func setupAccessaryImageViewLayout() {
+        accessaryImageView.widthAnchor.constraint(
+            equalTo: contentView.heightAnchor,
+            multiplier: 0.1
+        ).isActive = true
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         arrangeSubView()
+        setupUIComponentsLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func receiveData(_ item: ItemListPage.Item) {
-        configureCell(with: item)
-    }
-
-    func configureCell(with item: ItemListPage.Item) {
-        productImageView.image = UIImage(systemName: "photo")
+    override func prepareForReuse() {
+        super.prepareForReuse()
         
-        nameLabel.text = item.name
-        priceLabel.text = "\(item.price)"
-        stockLabel.text = "잔여수량 : \(item.stock)"
-
-        guard let imageURL = URL(string: item.thumbnail) else {
-            return
-        }
-
-        NetworkManager.fetchImage(from: imageURL) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let image):
-                    self.productImageView.image = image
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
+        imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
+        nameLabel.text = nil
+        priceLabel.attributedText = nil
+        priceLabel.text = nil
+        stockLabel.text = nil
     }
 }
 
