@@ -17,13 +17,13 @@ class AddProductViewController: UIViewController {
     @IBOutlet weak var productPrice: UITextField!
     @IBOutlet weak var discountPrice: UITextField!
     @IBOutlet weak var inventoryQuantity: UITextField!
-    @IBOutlet weak var descriptionTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
     
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
     private let imagePicker = UIImagePickerController()
     var imageArray: UIImage?
-    var segmentMemonyType: String = ""
+    private var segmentMemonyType: String = CurrencyType.krw
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +41,9 @@ class AddProductViewController: UIViewController {
     @IBAction func selectMoneyType(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            segmentMemonyType = "KRW"
+            segmentMemonyType = CurrencyType.krw
         case 1:
-            segmentMemonyType = "USD"
+            segmentMemonyType = CurrencyType.usd
         default:
             break
         }
@@ -53,7 +53,7 @@ class AddProductViewController: UIViewController {
         guard let productName = productName.text,
               let productPrice = Int(productPrice.text!),
               let inventoryQuantity = Int(inventoryQuantity.text!),
-              let descriptionTextField = descriptionTextField.text else {
+              let descriptionTextField = descriptionTextView.text else {
             return
         }
 
@@ -61,10 +61,11 @@ class AddProductViewController: UIViewController {
                     name: productName,
                     price: productPrice,
                     stock: inventoryQuantity,
-                    currency: "KRW",
+                    currency: segmentMemonyType,
                     discountPrice: Int(discountPrice.text ?? "0") ?? 0,
                     secret: VendorInfo.secret,
                     descriptions: descriptionTextField)
+        self.presentingViewController?.dismiss(animated: true)
     }
     
     @objc private func pickImage() {

@@ -180,7 +180,7 @@
                                                                     <segment title="USD"/>
                                                                 </segments>
                                                                 <connections>
-                                                                    <action selector="selectMemoyType:" destination="xbI-fK-CDy" eventType="valueChanged" id="xKh-l8-l4J"/>
+                                                                    <action selector="selectMoneyType:" destination="xbI-fK-CDy" eventType="valueChanged" id="rlJ-aJ-6Lo"/>
                                                                 </connections>
                                                             </segmentedControl>
                                                         </subviews>
@@ -198,14 +198,16 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kmi-zV-Vuk">
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sOM-t5-MwZ">
                                                         <rect key="frame" x="0.0" y="176" width="394" height="500"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="500" id="7wU-al-MDn"/>
+                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="500" id="H91-JS-GTy"/>
                                                         </constraints>
+                                                        <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    </textView>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
@@ -245,7 +247,7 @@
                     <navigationItem key="navigationItem" id="xMN-7X-QKA"/>
                     <connections>
                         <outlet property="addImageButton" destination="PHr-Xx-RdO" id="pWY-LR-w4U"/>
-                        <outlet property="descriptionTextField" destination="kmi-zV-Vuk" id="665-31-i2t"/>
+                        <outlet property="descriptionTextView" destination="sOM-t5-MwZ" id="X5B-nd-AE8"/>
                         <outlet property="discountPrice" destination="dJt-2f-Gxt" id="ZmQ-45-q2G"/>
                         <outlet property="inventoryQuantity" destination="F0O-5H-RLc" id="QP8-ls-Gbx"/>
                         <outlet property="pickerImageStackView" destination="r3K-Ct-fG3" id="YQV-O7-VRv"/>
@@ -495,6 +497,9 @@
         </designable>
     </designables>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

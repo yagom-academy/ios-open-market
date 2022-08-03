@@ -43,4 +43,8 @@ enum HTTPMethod {
     static let delete = "DELETE"
 }
 
+enum CurrencyType {
+    static let krw = "KRW"
+    static let usd = "USD"
+}
 
