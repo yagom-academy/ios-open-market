@@ -18,6 +18,7 @@ final class MainViewController: UIViewController {
     private var currentMaximumPage = 1
     private var refresher: UIRefreshControl!
     private var isFirstLoad: Bool = true
+    private var isFirstLoad2: Bool = true
     enum Section {
         case main
     }
@@ -30,14 +31,20 @@ final class MainViewController: UIViewController {
                 guard let gridLayout = gridLayout else {
                     return
                 }
+                guard let listSnapShot = listDataSource?.snapshot() else {
+                    return
+                }
+                gridDataSource?.apply(listSnapShot)
                 collectionView.dataSource = gridDataSource
-                collectionView.scrollToItem(at: collectionView.indexPathsForVisibleItems[0], at: .bottom, animated: true)
                 collectionView.setCollectionViewLayout(gridLayout, animated: true)
             } else {
-                
                 guard let listLayout = listLayout else {
                     return
                 }
+                guard let gridSnapShot = gridDataSource?.snapshot() else {
+                    return
+                }
+                listDataSource?.apply(gridSnapShot)
                 collectionView.dataSource = listDataSource
                 collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
                     self.collectionView.reloadData()
@@ -145,18 +152,15 @@ final class MainViewController: UIViewController {
         }
         if shouldHideListLayout {
             self.gridDataSource?.apply(snapshot, animatingDifferences: false)
-            
         } else {
             self.listDataSource?.apply(snapshot, animatingDifferences: false)
-            if isFirstLoad {
-                self.gridDataSource?.apply(snapshot, animatingDifferences: false)
-            }
         }
         DispatchQueue.main.async {
             self.activitiIndicator.stopAnimating()
             self.collectionView.alpha = 1
         }
     }
+
 }
 // MARK: - Modern Collection Create Layout
 extension MainViewController {

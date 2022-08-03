@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		451486DA289A4B040053AF77 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451486D9289A4B040053AF77 /* ProductDetailViewController.swift */; };
 		453EAC4D287C048300EFCBB9 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC4C287C048300EFCBB9 /* Product.swift */; };
 		453EAC4F287C050100EFCBB9 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC4E287C050100EFCBB9 /* Currency.swift */; };
 		453EAC58287C341400EFCBB9 /* DataFetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453EAC57287C341400EFCBB9 /* DataFetchTests.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		451486D9289A4B040053AF77 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		453EAC4C287C048300EFCBB9 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		453EAC4E287C050100EFCBB9 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		453EAC55287C341400EFCBB9 /* DataFetchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataFetchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +150,7 @@
 			children = (
 				45B7A50C287FF60500FCB69F /* MainViewController.swift */,
 				AFBC2FD62892668800E81A2F /* ProductSetupViewController.swift */,
+				451486D9289A4B040053AF77 /* ProductDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				AFBC2FD72892668800E81A2F /* ProductSetupViewController.swift in Sources */,
 				45A402492892B5A300B45A80 /* PickerImageView.swift in Sources */,
 				45B7A50D287FF60500FCB69F /* MainViewController.swift in Sources */,
+				451486DA289A4B040053AF77 /* ProductDetailViewController.swift in Sources */,
 				453EAC67287C7C6300EFCBB9 /* URLCommand.swift in Sources */,
 				453EAC4D287C048300EFCBB9 /* Product.swift in Sources */,
 			);
