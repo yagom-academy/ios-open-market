@@ -23,6 +23,7 @@ final class ListViewController: UIViewController {
     private let jsonParser = JSONParser()
     private let URLSemaphore = DispatchSemaphore(value: 0)
     private var productData: ProductListResponse?
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ final class ListViewController: UIViewController {
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
         self.fetchUICollectionViewConfiguration()
+        self.initRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,6 +39,18 @@ final class ListViewController: UIViewController {
         self.activityIndicator.startAnimating()
         self.fetchData()
         self.activityIndicator.stopAnimating()
+    }
+    
+    @objc func refreshTable() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.productCollectionView.reloadData()
+            self.productCollectionView.refreshControl?.endRefreshing()
+        }
+    }
+    
+    private func initRefresh() {
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        productCollectionView.refreshControl = refreshControl
     }
     
     private func fetchUICollectionViewConfiguration() {
