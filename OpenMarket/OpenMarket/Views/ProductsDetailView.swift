@@ -4,7 +4,7 @@ class ProductsDetailView: UIView {
 
     // MARK: - Properties
     
-    var imageCollectionView: UICollectionView?
+    private var imageCollectionView: UICollectionView?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
     

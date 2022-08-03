@@ -277,7 +277,7 @@ extension ItemCollectionViewCell {
         self.itemImageView.image = image
     }
     
-    func setId() -> Int? {
+    private func setId() -> Int? {
         return product?.id
     }
 }

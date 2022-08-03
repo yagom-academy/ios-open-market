@@ -1,12 +1,12 @@
 import UIKit
 
 class ProductsDetailViewController: UIViewController {
-
+    
     private let detailView = ProductsDetailView()
     
     var delegate: SendUpdateDelegate?
     
-    var productInfo: Page?
+    private var productInfo: Page?
     
     override func viewDidLoad() {
         super.viewDidLoad()
