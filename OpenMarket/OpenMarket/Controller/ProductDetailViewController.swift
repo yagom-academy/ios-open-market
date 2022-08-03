@@ -40,13 +40,14 @@ final class ProductDetailViewController: UIViewController {
         rightBarButtonActionSheet.addAction(UIAlertAction(title: "취소", style: .cancel))
         present(rightBarButtonActionSheet, animated: true)
     }
-    
+    // MARK: - ProductSetupVC - Private method
     private func presentSetupViewController() {
         let setupViewController = ProductSetupViewController()
         setupViewController.productId = self.productId
         setupViewController.viewControllerTitle = self.viewControllerTitle
         navigationController?.pushViewController(setupViewController, animated: true)
     }
+    
     private func deleteCheck() {
         let deleteCheckAlert = UIAlertController(title: "삭제", message: "비밀번호를 입력하십시오", preferredStyle: .alert)
         deleteCheckAlert.addTextField()
@@ -78,6 +79,7 @@ final class ProductDetailViewController: UIViewController {
         deleteCheckAlert.addAction(UIAlertAction(title: "취소", style: .destructive))
         present(deleteCheckAlert, animated: true)
     }
+    
     private func showAlert(title: String, message: String, _ completion: (() -> Void)? = nil) {
         let failureAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in

@@ -8,7 +8,7 @@
 import Foundation
 
 class ProductListManager {
-    var productList: [Product] {
+    private var productList: [Product] {
         didSet {
             NotificationCenter.default.post(name: .addProductList, object: nil)
         }
@@ -20,6 +20,10 @@ class ProductListManager {
     
     func add(list: [Product]) {
         productList += list
+    }
+    
+    func getCurrentList() -> [Product] {
+        return productList
     }
     
     init() {
