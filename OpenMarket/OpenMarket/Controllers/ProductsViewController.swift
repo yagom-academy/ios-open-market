@@ -1,9 +1,5 @@
 import UIKit
 
-protocol SendUpdateDelegate {
-    func sendUpdate() -> UserIdentifier
-}
-
 class ProductsViewController: UIViewController {
     
     // MARK: - Properties
@@ -53,7 +49,7 @@ class ProductsViewController: UIViewController {
     }
 }
 
-// MARK: - Fetching Method
+// MARK: - Fetching Functions
 
 extension ProductsViewController {
     private func startFetching(completion: @escaping () -> ()) {
@@ -119,7 +115,7 @@ extension ProductsViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(showRegistView))
     }
     
-    @objc func showRegistView() {
+    @objc private func showRegistView() {
         let registViewController = ProductsRegistViewController()
         registViewController.title = DetailViewTitle.regist.rawValue
         self.navigationController?.pushViewController(registViewController, animated: true)

@@ -231,18 +231,14 @@ extension ProductsRegistViewController: UITextFieldDelegate {
         }
     }
     
-    func isEmptySaleAndStockTextField(_ textField: UITextField) -> Bool {
-        guard let detailView = view as? ProductRegistView else { return false }
-        
-        return textField == detailView.itemNameTextField
-        && detailView.itemSaleTextField.text?.isEmpty ?? false
-        && detailView.itemStockTextField.text?.isEmpty ?? false
+    private func isEmptySaleAndStockTextField(_ textField: UITextField) -> Bool {
+        return textField == registView.itemNameTextField
+        && registView.itemSaleTextField.text?.isEmpty ?? false
+        && registView.itemStockTextField.text?.isEmpty ?? false
     }
     
-    func defaultTextField(_ textField: UITextField) -> Bool {
-        guard let detailView = view as? ProductRegistView else { return false }
-        
-        return (textField == detailView.itemStockTextField || textField == detailView.itemSaleTextField)
+    private func defaultTextField(_ textField: UITextField) -> Bool {
+        return (textField == registView.itemStockTextField || textField == registView.itemSaleTextField)
         && textField.text == "0"
     }
 }

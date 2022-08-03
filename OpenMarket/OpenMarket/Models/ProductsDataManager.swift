@@ -1,35 +1,5 @@
 import UIKit.NSDataAsset
 
-struct Parameters {
-    static let key: String = "params"
-    var parameterDictionary: [String: Any] = [:]
-    
-    init(name: String, descriptions: String, price: Double, currency: Currency, secret: String, discountedPrice: Double? = 0, stock: Int? = 0) {
-        
-        self.parameterDictionary["name"] = name
-        self.parameterDictionary["descriptions"] = descriptions
-        self.parameterDictionary["price"] = price
-        self.parameterDictionary["currency"] = Currency.toString[currency.rawValue]
-        self.parameterDictionary["discounted_price"] = discountedPrice
-        self.parameterDictionary["stock"] = stock
-        self.parameterDictionary["secret"] = secret
-    }
-    
-    init(secret: String) {
-        self.parameterDictionary["secret"] = secret
-    }
-    
-    func returnParamatersToJsonData() -> Data? {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: parameterDictionary, options: [])
-            return jsonData
-        } catch {
-            print(error)
-            return nil
-        }
-    }
-}
-
 struct ProductsDataManager: Decodable {
     static let shared = ProductsDataManager()
     private init() {}
@@ -45,7 +15,6 @@ struct ProductsDataManager: Decodable {
         ]
         
         guard let urlComponentURL = urlComponent?.url else { return }
-        
         let request = URLRequest(url: urlComponentURL)
         
         sendRequest(request, completion)
@@ -53,7 +22,6 @@ struct ProductsDataManager: Decodable {
     
     func getData<T: Decodable>(productId: Int, completion: @escaping (T) -> Void) {
         guard let  urlComponent = URL(string: "\(url)/\(productId)") else { return }
-        
         let request = URLRequest(url: urlComponent)
         
         sendRequest(request, completion)
@@ -77,11 +45,9 @@ struct ProductsDataManager: Decodable {
         }
         
         let dataBody = createDataBody(withParameters: paramter, images: convertedImages, boundary: boundary)
-        
         postRequest.httpBody = dataBody
         
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
-            
             if let data = data {
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
@@ -102,9 +68,8 @@ struct ProductsDataManager: Decodable {
         postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
         
         postRequest.httpBody = Parameters(secret: secret).returnParamatersToJsonData()
-        
+
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
-            
             if let data = data {
                 guard let parsedData = String(data: data, encoding: .utf8) else { return }
                 completion(parsedData)
@@ -198,51 +163,37 @@ struct ProductsDataManager: Decodable {
             return nil
         }
     }
-}
-
-// MARK: - generateBoundary
-
-func generateBoundary() -> String {
-    return "Boundary-\(UUID().uuidString)"
-}
-
-// MARK: - createDataBody
-
-func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, boundary: String) -> Data {
     
-    let lineBreak = "\r\n"
-    var body = Data()
-    
-    body.append("--\(boundary + lineBreak)")
-    body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
-    body.append(params.returnParamatersToJsonData())
-    body.append("\(lineBreak)")
-    
-    if let images = images {
-        for image in images {
-            body.append("--\(boundary + lineBreak)")
-            body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
-            body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
-            body.append(image.getReducedImageData(to: 300))
-            body.append(lineBreak)
-        }
+    // MARK: - generateBoundary
+
+    private func generateBoundary() -> String {
+        return "Boundary-\(UUID().uuidString)"
     }
-    
-    body.append("--\(boundary)--\(lineBreak)")
-    
-    return body
-}
 
-extension Data {
-    mutating func append(_ string: String) {
-        if let data = string.data(using: .utf8) {
-            self.append(data)
+    // MARK: - createDataBody
+
+    private func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, boundary: String) -> Data {
+        
+        let lineBreak = "\r\n"
+        var body = Data()
+        
+        body.append("--\(boundary + lineBreak)")
+        body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
+        body.append(params.returnParamatersToJsonData())
+        body.append("\(lineBreak)")
+        
+        if let images = images {
+            for image in images {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
+                body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
+                body.append(image.getReducedImageData(to: 300))
+                body.append(lineBreak)
+            }
         }
-    }
-    
-    mutating func append(_ data: Data?) {
-        if let data = data {
-            self.append(data)
-        }
+        
+        body.append("--\(boundary)--\(lineBreak)")
+        
+        return body
     }
 }

@@ -8,19 +8,19 @@ class ProductsDetailView: UIView {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
     
-    let currentPage: UILabel = {
+    private let currentPage: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
     
-    let itemNameLabel: UILabel = {
+    private let itemNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
     
-    let itemStockLabel: UILabel = {
+    private let itemStockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .right
@@ -28,7 +28,7 @@ class ProductsDetailView: UIView {
         return label
     }()
     
-    let itemNameAndStockStackView: UIStackView = {
+    private let itemNameAndStockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -36,19 +36,19 @@ class ProductsDetailView: UIView {
         return stackView
     }()
     
-    let itemPriceLabel: UILabel = {
+    private let itemPriceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
-    let itemSaleLabel: UILabel = {
+    private let itemSaleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
-    let itemPriceAndSaleStackView: UIStackView = {
+    private let itemPriceAndSaleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .trailing
@@ -56,14 +56,14 @@ class ProductsDetailView: UIView {
         return stackView
     }()
     
-    let itemDescriptionTextView: UITextView = {
+    private let itemDescriptionTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
         textView.isEditable = false
         return textView
     }()
     
-    let mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
@@ -73,7 +73,7 @@ class ProductsDetailView: UIView {
         return stackView
     }()
     
-    let mainScrollView: UIScrollView = {
+    private let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -100,10 +100,12 @@ class ProductsDetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Functions
-    
-    func createLayout() -> UICollectionViewLayout {
+}
+
+// MARK: - Functions
+
+extension ProductsDetailView {
+    private func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -120,7 +122,7 @@ class ProductsDetailView: UIView {
         section.visibleItemsInvalidationHandler = { [weak self] (visibleItems, offset, env) in
             guard let self = self,
                   let imageCollectionView = self.imageCollectionView else { return }
-
+            
             let currentPageNumber = Int(offset.x / imageCollectionView.frame.size.width) + 1
             let totalPage = self.snapshot.numberOfItems
             self.currentPage.text = "\(currentPageNumber)/\(totalPage)"
@@ -130,7 +132,7 @@ class ProductsDetailView: UIView {
         return layout
     }
     
-    func congifureCollectionView() {
+    private func congifureCollectionView() {
         imageCollectionView = UICollectionView(frame: bounds, collectionViewLayout: createLayout())
         imageCollectionView?.decelerationRate = .fast
         imageCollectionView?.alwaysBounceVertical = false
@@ -156,7 +158,7 @@ class ProductsDetailView: UIView {
         }
     }
     
-    private func applySnapshot(using imagesUrl: [Images]) {
+    private func applySnapshot(using imagesUrl: [Image]) {
         self.snapshot.appendSections([.main])
         var images: [UIImage] = []
         imagesUrl.forEach {
@@ -170,11 +172,11 @@ class ProductsDetailView: UIView {
         dataSource?.apply(snapshot)
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         addSubview(mainScrollView)
         
         mainScrollView.addSubview(mainStackView)
-
+        
         guard let imageCollectionView = imageCollectionView else { return }
         mainStackView.addArrangedSubview(imageCollectionView)
         mainStackView.addArrangedSubview(currentPage)
@@ -189,7 +191,7 @@ class ProductsDetailView: UIView {
         itemPriceAndSaleStackView.addArrangedSubview(itemSaleLabel)
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
@@ -210,7 +212,11 @@ class ProductsDetailView: UIView {
             imageCollectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
         ])
     }
-    
+}
+
+// MARK: - Setter Functions
+
+extension ProductsDetailView {
     func setProductInfomation(data: Page) {
         guard let priceText = numberFormatter.string(for: data.price),
               let saleText = numberFormatter.string(for: data.price - data.discountedPrice),

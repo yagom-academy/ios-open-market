@@ -12,7 +12,7 @@ class ProductRegistView: UIView {
         return scrollView
     }()
     
-    let itemImageScrollView: UIScrollView = {
+    private let itemImageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -63,7 +63,7 @@ class ProductRegistView: UIView {
         return segmentControl
     }()
     
-    let currencyStackView: UIStackView = {
+    private let currencyStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 8
         stackView.axis = .horizontal
@@ -108,7 +108,7 @@ class ProductRegistView: UIView {
         return button
     }()
     
-    let textFieldStackView: UIStackView = {
+    private let textFieldStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
@@ -136,7 +136,7 @@ class ProductRegistView: UIView {
         return label
     }()
     
-    let mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -159,37 +159,17 @@ class ProductRegistView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func addToScrollView(of image: UIImage, viewController: ProductsRegistViewController) {
-        let newImageView = UIImageView(image: image)
-        newImageView.translatesAutoresizingMaskIntoConstraints = false
-        newImageView.widthAnchor.constraint(equalTo: newImageView.heightAnchor).isActive = true
-        newImageView.isUserInteractionEnabled = true
-        
-        imageStackView.insertArrangedSubview(newImageView, at: imageStackView.arrangedSubviews.count - 1)
-    }
-    
-    func configureDelegate(viewController: UITextFieldDelegate & UITextViewDelegate) {
-        itemNameTextField.delegate = viewController
-        itemPriceTextField.delegate = viewController
-        itemSaleTextField.delegate = viewController
-        itemStockTextField.delegate = viewController
-        
-        mainScrollView.keyboardDismissMode = .interactive
-        
-        descriptionTextView.delegate = viewController
-    }
-    
-    func configureDescriptionPlaceholder() {
-        descriptionTextViewPlaceHolder.font = descriptionTextView.font
-        descriptionTextView.addSubview(descriptionTextViewPlaceHolder)
-        descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
-    }
 }
 
 // MARK: - UIView Functions
 
 extension ProductRegistView {
+    private func configureDescriptionPlaceholder() {
+        descriptionTextViewPlaceHolder.font = descriptionTextView.font
+        descriptionTextView.addSubview(descriptionTextViewPlaceHolder)
+        descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
+    }
+    
     private func addViews() {
         addSubview(mainScrollView)
         
@@ -249,7 +229,27 @@ extension ProductRegistView {
 // MARK: - Setter Functions
 
 extension ProductRegistView {
-    func makeimageView(url: String) {
+    func configureDelegate(viewController: UITextFieldDelegate & UITextViewDelegate) {
+        itemNameTextField.delegate = viewController
+        itemPriceTextField.delegate = viewController
+        itemSaleTextField.delegate = viewController
+        itemStockTextField.delegate = viewController
+        
+        mainScrollView.keyboardDismissMode = .interactive
+        
+        descriptionTextView.delegate = viewController
+    }
+    
+    func addToScrollView(of image: UIImage, viewController: ProductsRegistViewController) {
+        let newImageView = UIImageView(image: image)
+        newImageView.translatesAutoresizingMaskIntoConstraints = false
+        newImageView.widthAnchor.constraint(equalTo: newImageView.heightAnchor).isActive = true
+        newImageView.isUserInteractionEnabled = true
+        
+        imageStackView.insertArrangedSubview(newImageView, at: imageStackView.arrangedSubviews.count - 1)
+    }
+    
+    private func makeimageView(url: String) {
         guard let url = URL(string: url),
               let data = try? Data(contentsOf: url),
               let image = UIImage(data: data) else { return }
@@ -276,5 +276,9 @@ extension ProductRegistView {
         
         guard let segmentIndex = Currency.toIndex(using: productInfo.currency) else { return }
         currencySegmentControl.selectedSegmentIndex = segmentIndex
+    }
+    
+    func addTargetToImageButton(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) {
+        addImageButton.addTarget(target, action: action, for: controlEvents)
     }
 }

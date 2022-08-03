@@ -3,10 +3,9 @@ import UIKit
 class ProductsDetailViewController: UIViewController {
     
     private let detailView = ProductsDetailView()
+    private var productInfo: Page?
     
     var delegate: SendUpdateDelegate?
-    
-    private var productInfo: Page?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +71,7 @@ extension ProductsDetailViewController {
         self.navigationController?.pushViewController(registViewController, animated: true)
     }
     
-    @objc func actionButtonDidTapped() {
+    @objc private func actionButtonDidTapped() {
         let alert = UIAlertController()
         let updateAction = UIAlertAction(title: "수정", style: .default) { action in
             self.updateProduct()

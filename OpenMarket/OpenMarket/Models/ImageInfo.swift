@@ -4,8 +4,8 @@ struct ImageInfo {
     static let key: String = "images"
     
     let filename: String
-    let data: Data
     let mimeType: String
+    private let data: Data
     
     init?(withImage image: UIImage) {
         self.mimeType = "image/jpeg"
