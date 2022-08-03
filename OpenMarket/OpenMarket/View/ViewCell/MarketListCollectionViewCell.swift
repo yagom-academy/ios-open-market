@@ -33,6 +33,7 @@ final class MarketListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .systemGray
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     

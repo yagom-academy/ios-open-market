@@ -19,18 +19,21 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     typealias SnapShot = NSDiffableDataSourceSnapshot<Section, DetailProductItem>
     
     // MARK: Properties
-    lazy var dataSource = makeDataSource()
-    var detailProduct: DetailProduct?
-    var detailProductItem: DetailProductItem?
-    var images: [String] = []
-    var productNumber: Int?
+    private lazy var dataSource = makeDataSource()
+    private var detailProduct: DetailProduct?
+    private var detailProductItem: DetailProductItem?
+    private var images: [String] = []
+    private var productNumber: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = createLayout()
         receiveDetailData()
-        let editProductBarButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(editProductButtonDidTapped))
-        navigationItem.rightBarButtonItem = editProductBarButton
+        configureUI()
+    }
+    
+    @objc private func backBarButtonDidTapped() {
+            navigationController?.popViewController(animated: true)
     }
     
     @objc private func editProductButtonDidTapped() {
@@ -50,12 +53,25 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         present(editAlert, animated: true)
     }
     
+    private func configureUI() {
+        let editProductBarButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(editProductButtonDidTapped))
+        let backBarButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(backBarButtonDidTapped))
+        navigationItem.rightBarButtonItem = editProductBarButton
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = backBarButton
+    }
+    
     private func convertToEditView() {
         guard let productVC = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? AddProductViewController else { return }
         
         guard let detailProduct = detailProduct else { return }
         productVC.changeToEditMode(data: detailProduct, images: images)
         navigationController?.pushViewController(productVC, animated: true)
+    }
+    
+    func receiveProductInfo(number: Int, name: String) {
+        navigationItem.title = name
+        productNumber = number
     }
     
     // MARK: DataSource
@@ -78,43 +94,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
                 return collectionView.dequeueConfiguredReusableCell(using: infoRegistration, for: indexPath, item: item)
             }
         }
-    }
-    
-    // MARK: Layout
-    private func createLayout() -> UICollectionViewLayout {
-        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            
-            guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
-            
-            let section: NSCollectionLayoutSection
-            
-            switch sectionKind {
-            case .image:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.45))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                section = NSCollectionLayoutSection(group: group)
-                section.interGroupSpacing = 10
-                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-            case .info:
-                let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                        heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: layoutSize)
-                let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                       heightDimension: .fractionalHeight(0.55))
-                item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
-                                                               subitem: item,
-                                                               count: 1)
-                section = NSCollectionLayoutSection(group: group)
-            }
-            
-            return section
-        }
-        
-        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
     
     // MARK: Data & Snapshot
@@ -174,6 +153,43 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         let failureAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         failureAlert.addAction(UIAlertAction(title: "확인", style: .default))
         present(failureAlert, animated: true)
+    }
+    
+    // MARK: Layout
+    private func createLayout() -> UICollectionViewLayout {
+        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
+            
+            let section: NSCollectionLayoutSection
+            
+            switch sectionKind {
+            case .image:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.45))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 10
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            case .info:
+                let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                        heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: layoutSize)
+                let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .fractionalHeight(0.55))
+                item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
+                                                               subitem: item,
+                                                               count: 1)
+                section = NSCollectionLayoutSection(group: group)
+            }
+            
+            return section
+        }
+        
+        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
 }
 

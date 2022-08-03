@@ -18,7 +18,7 @@ final class MarketCollectionViewController: UICollectionViewController {
     typealias SnapShot = NSDiffableDataSourceSnapshot<Section, Item>
     
     // MARK: Properties
-    lazy var dataSource = makeListDataSource()
+    private lazy var dataSource = makeListDataSource()
     private var items: [Item] = []
     private let sessionManager = URLSessionManager(session: URLSession.shared)
     
@@ -183,7 +183,7 @@ final class MarketCollectionViewController: UICollectionViewController {
 extension MarketCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let detailVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailCollectionViewController") as? ProductDetailCollectionViewController else { return }
-        detailVC.productNumber = items[indexPath.row].productID
+        detailVC.receiveProductInfo(number: items[indexPath.row].productID, name: items[indexPath.row].productName)
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
