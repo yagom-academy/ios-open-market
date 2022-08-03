@@ -27,6 +27,12 @@ private extension CellConfigurable {
     func configureCell(with item: ItemListPage.Item) {
         imageView.image = UIImage(systemName: "photo")
         nameLabel.text = item.name
+        priceLabel.text = item.price.priceFormat(currency: item.currency.rawValue)
+        priceLabel.textColor = .systemGray3
+        bargainPriceLabel.text = item.bargainPrice.priceFormat(currency: item.currency.rawValue)
+        
+        bargainPriceLabel.isHidden = true
+        
         stockLabel.textColor = item.stock == 0 ? .systemOrange : .systemGray3
         stockLabel.text = item.stock == 0 ? "품절" : "잔여수량: \(item.stock)"
         
