@@ -73,18 +73,18 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     private func commonInit() {
-        setUpSubViews()
-        setUpStackViewConstraints()
-        self.setUpBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
+        setupSubViews()
+        setupStackViewConstraints()
+        self.setupBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
     }
     
-    private func setUpSubViews() {
+    private func setupSubViews() {
         self.contentView.addSubview(productImage)
         self.contentView.addSubview(stackView)
         [productName, price, stock].forEach { stackView.addArrangedSubview($0) }
     }
     
-    private func setUpStackViewConstraints() {
+    private func setupStackViewConstraints() {
         NSLayoutConstraint.activate(
             [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
              productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductRegistrationView: UIView, Requestable {
+final class ProductRegistrationView: UIView {
     // MARK: - properties
     
     private let pickerController = UIImagePickerController()
@@ -25,7 +25,7 @@ final class ProductRegistrationView: UIView, Requestable {
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        scrollView.setupBoder(cornerRadius: Design.borderCornerRadius,
                               borderWidth: Design.borderWidth,
                               borderColor: UIColor.systemGray3.cgColor)
         
@@ -80,7 +80,7 @@ final class ProductRegistrationView: UIView, Requestable {
     
     private let productDescriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textView.setupBoder(cornerRadius: Design.borderCornerRadius,
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +99,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         
@@ -114,7 +114,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -130,7 +130,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -148,7 +148,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .numberPad
@@ -196,29 +196,49 @@ final class ProductRegistrationView: UIView, Requestable {
                                           discountedPrice: Double(productDiscountedPrice.text ?? "0"),
                                           stock: Int(stock.text ?? "0"),
                                           secret: "R49CfVhSdh")
-        postProduct(images: images, product: product)
-    }
-    
-    private func showInvalidInputAlert() {
-        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다", message: "필수사항을 입력해주세요", preferredStyle: .alert)
+        guard let productData = try? JSONEncoder().encode(product) else { return }
         
-        let alertAction = UIAlertAction(title: "확인", style: .default)
-        postAlert.addAction(alertAction)
-        self.window?.rootViewController?.present(postAlert, animated: true)
+        var request = OpenMarketRequest()
+        
+        let myURLSession = MyURLSession()
+        
+        myURLSession.dataTask(with: request.setPostRequest(images: images, productData: productData)) {
+            (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+        
     }
     
     private func commonInit() {
+        setupView()
+        setupDelegate()
+        setupContent()
+    }
+    
+    private func setupView() {
+        backgroundColor = .systemBackground
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubview(totalStackView)
+        setupSubviews()
+        setupSubViewsHeight()
+        setupConstraints()
+    }
+    
+    private func setupDelegate() {
         pickerController.delegate = self
         productDescriptionTextView.delegate = self
         productName.delegate = self
         productPrice.delegate = self
-        backgroundColor = .systemBackground
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubview(totalStackView)
-        setUpSubviews()
-        setUpSubViewsHeight()
-        setUpConstraints()
-        setUpUiToolbar()
+    }
+    
+    private func setupContent() {
+        setupUiToolbar()
         imagePrickerButton.addTarget(self,
                                      action: #selector(pickImages),
                                      for: .touchUpInside)
@@ -226,7 +246,7 @@ final class ProductRegistrationView: UIView, Requestable {
                                                     action: #selector(endEditing(_:))))
     }
     
-    private func setUpSubviews() {
+    private func setupSubviews() {
         [imageScrollView, productInformationStackView, productDescriptionTextView]
             .forEach { totalStackView.addArrangedSubview($0) }
         [productName, segmentedStackView, productDiscountedPrice, stock]
@@ -239,7 +259,7 @@ final class ProductRegistrationView: UIView, Requestable {
         
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate(
             [totalStackView.topAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -251,16 +271,26 @@ final class ProductRegistrationView: UIView, Requestable {
                 .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
         
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
-                                                constant: Design.imageScrollViewTopAnchorConstant),
-            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
-                                                   constant: Design.imageScrollViewBottomAnchorConstant),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
-                                                    constant: Design.imageScrollViewLeadingAnchorConstant),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
-                                                     constant: Design.imageScrollViewTrailingAnchorConstant)
+            imageStackView.topAnchor
+                .constraint(equalTo: imageScrollView.topAnchor,
+                            constant: Design.imageScrollViewTopAnchorConstant),
+            imageStackView.bottomAnchor
+                .constraint(equalTo: imageScrollView.bottomAnchor,
+                            constant: Design.imageScrollViewBottomAnchorConstant),
+            imageStackView.leadingAnchor
+                .constraint(equalTo: imageScrollView.leadingAnchor,
+                            constant: Design.imageScrollViewLeadingAnchorConstant),
+            imageStackView.trailingAnchor
+                .constraint(equalTo: imageScrollView.trailingAnchor,
+                            constant: Design.imageScrollViewTrailingAnchorConstant)
         ])
         
+        NSLayoutConstraint.activate([
+            imagePrickerButton.centerXAnchor.constraint(equalTo: pickerView.centerXAnchor),
+            imagePrickerButton.centerYAnchor.constraint(equalTo: pickerView.centerYAnchor)])
+    }
+    
+    private func setupSubViewsHeight() {
         NSLayoutConstraint.activate([
             pickerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor,
                                                constant: Design.imageScrollViewHeightAnchorConstant),
@@ -268,12 +298,6 @@ final class ProductRegistrationView: UIView, Requestable {
             pickerView.widthAnchor.constraint(equalTo: pickerView.heightAnchor,
                                               multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
         
-        NSLayoutConstraint.activate([
-            imagePrickerButton.centerXAnchor.constraint(equalTo: pickerView.centerXAnchor),
-            imagePrickerButton.centerYAnchor.constraint(equalTo: pickerView.centerYAnchor)])
-    }
-    
-    private func setUpSubViewsHeight() {
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
@@ -283,7 +307,7 @@ final class ProductRegistrationView: UIView, Requestable {
                             multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
     }
     
-    private func setUpUiToolbar() {
+    private func setupUiToolbar() {
         let keyboardToolbar = UIToolbar()
         let doneBarButton = UIBarButtonItem(title: Design.barButtonItemTitle,
                                             style: .plain,
@@ -302,10 +326,30 @@ final class ProductRegistrationView: UIView, Requestable {
         guard let priceText = productPrice.text,
               let price = Double(priceText),
               let discountedPrice = Double(productDiscountedPrice.text ?? "0"),
-                price > discountedPrice
+              price >= discountedPrice
         else { return nil }
         
         return price - discountedPrice
+    }
+    
+    private func showInvalidInputAlert() {
+        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다",
+                                          message: "필수사항을 입력해주세요", preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "확인", style: .default)
+        postAlert.addAction(alertAction)
+        self.window?.rootViewController?.present(postAlert, animated: true)
+    }
+    
+    private func convertImages(view: UIView) -> [Data] {
+        var images = [Data]()
+        let _ = view.subviews
+            .forEach { guard let imageView = $0 as? UIImageView,
+                             let image = imageView.image else { return }
+                images.append(image.resize(width: 300).pngData() ?? Data())
+            }
+        
+        return images
     }
     
     // MARK: - @objc functions
@@ -326,12 +370,12 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         guard let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         else { return }
         
-        let imageView = setUpPickerImageView(image: editedImage)
+        let imageView = setupPickerImageView(image: editedImage)
         imageStackView.insertArrangedSubview(imageView, at: .zero)
         self.pickerController.dismiss(animated: true, completion: nil)
     }
     
-    private func setUpPickerImageView(image: UIImage) -> UIImageView {
+    private func setupPickerImageView(image: UIImage) -> UIImageView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image

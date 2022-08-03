@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductUpdateView: UIView, Requestable {
+final class ProductUpdateView: UIView {
     // MARK: - properties
     
     private let totalStackView: UIStackView = {
@@ -22,7 +22,7 @@ final class ProductUpdateView: UIView, Requestable {
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        scrollView.setupBoder(cornerRadius: Design.borderCornerRadius,
                               borderWidth: Design.borderWidth,
                               borderColor: UIColor.systemGray3.cgColor)
         
@@ -60,10 +60,13 @@ final class ProductUpdateView: UIView, Requestable {
     
     private let productDescriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textView.setupBoder(cornerRadius: Design.borderCornerRadius,
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = Design.productDescriptionPlaceholder
+        textView.textColor = .systemGray3
         
         return textView
     }()
@@ -76,7 +79,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.autocorrectionType = .no
@@ -92,7 +95,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -108,7 +111,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
@@ -124,7 +127,7 @@ final class ProductUpdateView: UIView, Requestable {
                                                   width: Design.viewFrameWidth,
                                                   height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.setUpBoder(cornerRadius: Design.borderCornerRadius,
+        textField.setupBoder(cornerRadius: Design.borderCornerRadius,
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .numberPad
@@ -153,23 +156,33 @@ final class ProductUpdateView: UIView, Requestable {
     }
     
     private func commonInit() {
+        setupView()
+        setupDelegate()
+        setupContent()
+    }
+    
+    private func setupView() {
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(totalStackView)
-        setUpSubviews()
-        setUpSubViewsHeight()
-        setUpConstraints()
+        setupSubviews()
+        setupSubViewsHeight()
+        setupConstraints()
+    }
+    
+    private func setupDelegate() {
         productDescriptionTextView.delegate = self
         productName.delegate = self
         productPrice.delegate = self
-        productDiscountedPrice.delegate = self
-        stock.delegate = self
-        setUpUiToolbar()
+    }
+    
+    private func setupContent() {
+        setupUiToolbar()
         addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                     action: #selector(endEditing(_:))))
     }
     
-    private func setUpSubviews() {
+    private func setupSubviews() {
         [imageScrollView, productInformationStackView, productDescriptionTextView]
             .forEach { totalStackView.addArrangedSubview($0) }
         [productName, segmentedStackView, productDiscountedPrice, stock]
@@ -179,7 +192,7 @@ final class ProductUpdateView: UIView, Requestable {
         imageScrollView.addSubview(imageStackView)
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate(
             [totalStackView.topAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -191,18 +204,22 @@ final class ProductUpdateView: UIView, Requestable {
                 .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
         
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
-                                                constant: Design.imageScrollViewTopAnchorConstant),
-            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
-                                                   constant: Design.imageScrollViewBottomAnchorConstant),
-            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
-                                                    constant: Design.imageScrollViewLeadingAnchorConstant),
-            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
-                                                     constant: Design.imageScrollViewTrailingAnchorConstant)
+            imageStackView.topAnchor
+                .constraint(equalTo: imageScrollView.topAnchor,
+                            constant: Design.imageScrollViewTopAnchorConstant),
+            imageStackView.bottomAnchor
+                .constraint(equalTo: imageScrollView.bottomAnchor,
+                            constant: Design.imageScrollViewBottomAnchorConstant),
+            imageStackView.leadingAnchor
+                .constraint(equalTo: imageScrollView.leadingAnchor,
+                            constant: Design.imageScrollViewLeadingAnchorConstant),
+            imageStackView.trailingAnchor
+                .constraint(equalTo: imageScrollView.trailingAnchor,
+                            constant: Design.imageScrollViewTrailingAnchorConstant)
         ])
     }
     
-    private func setUpSubViewsHeight() {
+    private func setupSubViewsHeight() {
         NSLayoutConstraint.activate(
             [productDescriptionTextView.heightAnchor
                 .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
@@ -212,7 +229,7 @@ final class ProductUpdateView: UIView, Requestable {
                             multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
     }
     
-    private func setUpUiToolbar() {
+    private func setupUiToolbar() {
         let keyboardToolbar = UIToolbar()
         let doneBarButton = UIBarButtonItem(title: Design.barButtonItemTitle,
                                             style: .plain,
@@ -227,25 +244,6 @@ final class ProductUpdateView: UIView, Requestable {
         productDescriptionTextView.inputAccessoryView = keyboardToolbar
     }
     
-    func update() {
-        guard let productName = productName.text,
-              let priceText = productPrice.text,
-              let priceValue = Double(priceText),
-              let stockText = stock.text,
-              let stock = Int(stockText)
-        else { return }
-        
-        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
-        let product = RegistrationProduct(name: productName,
-                                          descriptions: productDescriptionTextView.text,
-                                          price: priceValue,
-                                          currency: currency.rawValue,
-                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
-                                          stock: stock,
-                                          secret: "R49CfVhSdh")
-        patchProduct(productId: "123", product: product)
-    }
-    
     @objc func endEditing(){
         resignFirstResponder()
     }
@@ -253,13 +251,34 @@ final class ProductUpdateView: UIView, Requestable {
 
 // MARK: - extensions
 
-extension ProductUpdateView: UITextViewDelegate, UITextFieldDelegate {
+extension ProductUpdateView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         frame.origin.y = -productDescriptionTextView.frame.height * 1.2
+        if textView.text == Design.productDescriptionPlaceholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
+        if textView.text.count == 0 {
+            textView.text = Design.productDescriptionPlaceholder
+            textView.textColor = .lightGray
+        }
+    }
+}
+
+extension ProductUpdateView: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let textFieldText = textField.text else { return }
+        if textFieldText.count > 100 {
+            textField.deleteBackward()
+        }
+        
+        if productPrice.text!.components(separatedBy: ".").count > 2 {
+            productPrice.deleteBackward()
+        }
     }
 }
 
@@ -270,11 +289,11 @@ private enum Design {
     static let borderCornerRadius = 10.0
     static let borderWidth = 1.5
     static let viewFrameWidth = 4.0
-    static let plusButtonName = "plus"
-    static let productNamePlaceholder = "상품명"
-    static let productPricePlaceholder = "상품가격"
-    static let productDiscountedPricePlaceholder = "할인금액"
-    static let stockPlaceholder = "재고수량"
+    static let productNamePlaceholder = "상품명 (3자 이상, 100자 이하)"
+    static let productPricePlaceholder = "상품가격 (필수입력)"
+    static let productDiscountedPricePlaceholder = "할인금액 (미입력 시 정상가)"
+    static let stockPlaceholder = "재고수량 (미입력 시 품절)"
+    static let productDescriptionPlaceholder = "상품 설명 (10자 이상, 1000자 이하)"
     static let imageScrollViewTopAnchorConstant = 8.0
     static let imageScrollViewBottomAnchorConstant = -8.0
     static let imageScrollViewLeadingAnchorConstant = 8.0

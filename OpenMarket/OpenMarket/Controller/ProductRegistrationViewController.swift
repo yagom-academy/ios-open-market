@@ -19,16 +19,16 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
         self.view.backgroundColor = .white
         productRegistrationView.delegate = self
         view.addSubview(productRegistrationView)
-        setUpConstraints()
-        setUpNavigation()
+        setupConstraints()
+        setupNavigation()
     }
     
-    func setUpNavigation() {
+    func setupNavigation() {
         navigationItem.title = "상품등록"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(registerProducts))
     }
     
-    func setUpConstraints() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             productRegistrationView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 5),
             productRegistrationView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -5),
@@ -37,7 +37,7 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
         ])
     }
     
-    private func setUpNavigationController() {
+    private func setupNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                              target: nil,
                                              action: #selector(registerProducts))
@@ -48,7 +48,7 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
     // MARK: - @objc functions
     
     @objc private func registerProducts() {
-        productRegistrationView.register()
+        self.productRegistrationView.register()
         navigationController?.popViewController(animated: true)
     }
 }
