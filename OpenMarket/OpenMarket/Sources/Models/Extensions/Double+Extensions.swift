@@ -8,7 +8,7 @@
 import Foundation
 
 extension Double {
-    func priceFormat(currency : String?) -> String? {
+    func priceFormat(currency: String?) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 4

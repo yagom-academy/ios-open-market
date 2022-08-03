@@ -25,7 +25,7 @@ extension CellConfigurable {
 
 private extension CellConfigurable {
     func configureCell(with item: ItemListPage.Item) {
-        imageView.image = UIImage(systemName: "photo")
+        imageView.setImageURL(item.thumbnail)
         nameLabel.text = item.name
         priceLabel.text = item.price.priceFormat(currency: item.currency.rawValue)
         priceLabel.textColor = .systemGray3
@@ -40,20 +40,5 @@ private extension CellConfigurable {
         }
         stockLabel.textColor = item.stock == 0 ? .systemOrange : .systemGray3
         stockLabel.text = item.stock == 0 ? "품절" : "잔여수량: \(item.stock)"
-        
-        guard let imageURL = URL(string: item.thumbnail) else {
-            return
-        }
-        
-        NetworkManager.fetchImage(from: imageURL) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let image):
-                    self.imageView.image = image
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
     }
 }
