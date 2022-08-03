@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		180457C0288FD5DC00BB3A74 /* ProductsRegistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180457BF288FD5DC00BB3A74 /* ProductsRegistViewController.swift */; };
+		18566F05289A60B10060C171 /* ImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18566F04289A60B10060C171 /* ImageInfo.swift */; };
 		1859965E287EC02600B04E60 /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1859965D287EC02600B04E60 /* ItemCollectionViewCell.swift */; };
 		18599660287EC18D00B04E60 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1859965F287EC18D00B04E60 /* Section.swift */; };
 		18661B0E28927FEE0052AA8E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18661B0D28927FEE0052AA8E /* Currency.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		180457BF288FD5DC00BB3A74 /* ProductsRegistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsRegistViewController.swift; sourceTree = "<group>"; };
+		18566F04289A60B10060C171 /* ImageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfo.swift; sourceTree = "<group>"; };
 		1859965D287EC02600B04E60 /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		1859965F287EC18D00B04E60 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		18661B0D28927FEE0052AA8E /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				186782DF2893A864008BE987 /* UserInfo.swift */,
 				B4FAAA4828993537009C6A20 /* DetailViewTitle.swift */,
 				B4FAAA4C28993F8C009C6A20 /* UserIdentifier.swift */,
+				18566F04289A60B10060C171 /* ImageInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				186DBE4B2886B50800B45C40 /* UISegmentControl+Extension.swift in Sources */,
+				18566F05289A60B10060C171 /* ImageInfo.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */,
 				B4816965287BF4D2004359E3 /* Products.swift in Sources */,
 				18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */,

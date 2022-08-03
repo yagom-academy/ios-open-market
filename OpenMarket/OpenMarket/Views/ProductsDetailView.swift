@@ -11,14 +11,12 @@ class ProductsDetailView: UIView {
     let currentPage: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = "1/5"
         return label
     }()
     
     let itemNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .headline)
-        label.text = "상품 이름"
         return label
     }()
     
@@ -27,7 +25,6 @@ class ProductsDetailView: UIView {
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .right
         label.textColor = .systemGray
-        label.text = "상품 재고"
         return label
     }()
     
@@ -42,14 +39,12 @@ class ProductsDetailView: UIView {
     let itemPriceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.text = "상품 가격"
         return label
     }()
     
     let itemSaleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.text = "상품 할인금액"
         return label
     }()
     
@@ -65,48 +60,6 @@ class ProductsDetailView: UIView {
         let textView = UITextView()
         textView.isScrollEnabled = false
         textView.isEditable = false
-        textView.text = """
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        테스트
-                        """
         return textView
     }()
     

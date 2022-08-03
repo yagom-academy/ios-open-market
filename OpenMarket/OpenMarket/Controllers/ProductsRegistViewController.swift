@@ -2,8 +2,8 @@ import UIKit
 
 class ProductsRegistViewController: UIViewController {
     
-    let imagePicker = UIImagePickerController()
-    var selectedImageView: UIImageView?
+    private lazy var imagePicker = UIImagePickerController()
+    private var selectedImageView: UIImageView?
     
     var registView = ProductRegistView()
     
@@ -56,27 +56,6 @@ extension ProductsRegistViewController {
             object: nil)
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        
-        let contentInset = UIEdgeInsets(
-            top: 0.0,
-            left: 0.0,
-            bottom: keyboardFrame.size.height,
-            right: 0.0)
-        registView.mainScrollView.contentInset = contentInset
-        registView.mainScrollView.scrollIndicatorInsets = contentInset
-    }
-    
-    @objc private func keyboardWillHide() {
-        let contentInset = UIEdgeInsets.zero
-        registView.mainScrollView.contentInset = contentInset
-        registView.mainScrollView.scrollIndicatorInsets = contentInset
-    }
-    
     private func configureNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -111,7 +90,7 @@ extension ProductsRegistViewController {
         } else if registView.itemNameTextField.text?.count ?? 0 < 3 {
             presentAlertMessage(message: "상품명을 세 글자 이상 작성해주세요.")
             return false
-        } else if registView.itemPriceTextField.text?.isEmpty ?? true {
+        } else if registView.itemPriceTextField.text?.isEmpty == true {
             presentAlertMessage(message: "상품가격을 입력하세요.")
             return false
         } else if registView.descriptionTextView.text.isEmpty {
@@ -130,8 +109,8 @@ extension ProductsRegistViewController {
 extension ProductsRegistViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        if let selectedImageView = selectedImageView {
-            selectedImageView.image = selectedImage
+        if let selectedImage = selectedImageView?.image {
+            selectedImageView?.image = selectedImage
             self.selectedImageView = nil
         } else {
             registView.addToScrollView(of: selectedImage, viewController: self)
@@ -184,9 +163,11 @@ extension ProductsRegistViewController {
                 images.append(image)
             }
             
-            ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue,
-                                                paramter: parameter,
-                                                images: images) { (data: PostResponse) in
+            ProductsDataManager.shared.postData(
+                identifier: UserInfo.identifier.rawValue,
+                paramter: parameter,
+                images: images
+            ) { (data: PostResponse) in
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
                 }
@@ -212,6 +193,27 @@ extension ProductsRegistViewController {
     @objc private func changeImageButtonTapped(_ sender: UITapGestureRecognizer) {
         selectedImageView = sender.view as? UIImageView
         present(imagePicker, animated: true)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let contentInset = UIEdgeInsets(
+            top: 0.0,
+            left: 0.0,
+            bottom: keyboardFrame.size.height,
+            right: 0.0)
+        registView.mainScrollView.contentInset = contentInset
+        registView.mainScrollView.scrollIndicatorInsets = contentInset
+    }
+    
+    @objc private func keyboardWillHide() {
+        let contentInset = UIEdgeInsets.zero
+        registView.mainScrollView.contentInset = contentInset
+        registView.mainScrollView.scrollIndicatorInsets = contentInset
     }
 }
 

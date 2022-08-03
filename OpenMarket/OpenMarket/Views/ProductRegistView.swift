@@ -32,6 +32,7 @@ class ProductRegistView: UIView {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.autocorrectionType = .no
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -45,6 +46,7 @@ class ProductRegistView: UIView {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.keyboardType = .numberPad
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -74,6 +76,7 @@ class ProductRegistView: UIView {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.keyboardType = .numberPad
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -87,6 +90,7 @@ class ProductRegistView: UIView {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.keyboardType = .numberPad
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -149,6 +153,7 @@ class ProductRegistView: UIView {
         addViews()
         configureLayoutContraints()
         configureDescriptionPlaceholder()
+        backgroundColor = .systemBackground
     }
     
     required init?(coder: NSCoder) {
