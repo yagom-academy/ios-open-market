@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let addProductList = Notification.Name("addProductList")
+    static let refresh = Notification.Name("refresh")
 }

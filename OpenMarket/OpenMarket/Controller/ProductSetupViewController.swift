@@ -79,6 +79,7 @@ final class ProductSetupViewController: UIViewController {
             DispatchQueue.main.async {
                 self.showAlert(title: "알림", message: "게시 완료!!") {
                     self.navigationController?.popViewController(animated: true)
+                    NotificationCenter.default.post(name: .refresh, object: nil)
                 }
             }
         }

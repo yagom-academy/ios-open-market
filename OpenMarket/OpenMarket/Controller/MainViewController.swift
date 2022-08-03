@@ -16,6 +16,7 @@ final class MainViewController: UIViewController {
     private var gridLayout: UICollectionViewLayout? = nil
     private var productListManager = ProductListManager()
     private var currentMaximumPage = 1
+    private var refresher: UIRefreshControl!
     enum Section {
         case main
     }
@@ -68,6 +69,10 @@ final class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(applyDataSource),
                                                name: .addProductList, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(loadData),
+                                               name: .refresh, object: nil)
+        
         initializeViewController()
         self.listLayout = createListLayout()
         self.gridLayout = createGridLayout()
@@ -76,6 +81,7 @@ final class MainViewController: UIViewController {
         configureListDataSource()
         configureGridDataSource()
         configureHierarchy()
+        setupRefreshController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,6 +213,28 @@ extension MainViewController {
         collectionView.dataSource = listDataSource
         collectionView.delegate = self
     }
+    
+    private func setupRefreshController() {
+        self.refresher = UIRefreshControl()
+        self.collectionView.alwaysBounceVertical = true
+        self.refresher.tintColor = UIColor.red
+        self.refresher.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        self.collectionView.refreshControl = refresher
+    }
+    
+    @objc private func loadData() {
+        self.collectionView.refreshControl?.beginRefreshing()
+        currentMaximumPage = 1
+        fetchData()
+        stopRefresher()
+    }
+    
+    private func stopRefresher() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
+            self.refresher.endRefreshing()
+        }
+    }
+    
 }
 // MARK: - Modern Collection View Delegate
 extension MainViewController: UICollectionViewDelegate {
