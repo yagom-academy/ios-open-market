@@ -11,11 +11,12 @@ struct NetworkManager {
     
     // MARK: - Static Actions
     
-    static func performRequestToAPI(from hostAPI: String, with request: String,
-                                    completion: @escaping (Result<Data, NetworkingError>) -> Void) {
-        let url = hostAPI + request
+    static func performRequestToAPI(
+        from url: URL?,
+        completion: @escaping (Result<Data, NetworkingError>) -> Void
+    ) {
         
-        guard let url = URL(string: url) else {
+        guard let url = url else {
             return
         }
         
@@ -57,8 +58,11 @@ struct NetworkManager {
         }
     }
     
-    static func fetchImage(from url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+    static func fetchImage(
+        from url: URL,
+        completion: @escaping (Result<UIImage, Error>) -> Void
+    ) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
             }

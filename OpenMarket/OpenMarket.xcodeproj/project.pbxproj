@@ -12,10 +12,12 @@
 		428A986528900DD80066F73E /* ItemListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428A986428900DD80066F73E /* ItemListCollectionViewCell.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
-		C70FB0FF25BEF61C00C9924E /* ItemListPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ItemListPageViewController.swift */; };
+		C70FB0FF25BEF61C00C9924E /* ListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ListCollectionViewController.swift */; };
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		FDB99C23289A5C36001B10BE /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB99C22289A5C36001B10BE /* Section.swift */; };
+		FDB99C26289A5CD7001B10BE /* CollectionViewControllerConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB99C25289A5CD7001B10BE /* CollectionViewControllerConfigurable.swift */; };
 		FDE9CB692880024800A78B24 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE9CB682880024800A78B24 /* NetworkManager.swift */; };
 		FDE9CB9A2881546300A78B24 /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE9CB992881546300A78B24 /* DataManagerTests.swift */; };
 		FDE9CBA6288158F200A78B24 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE9CBA5288158F200A78B24 /* NetworkingError.swift */; };
@@ -38,11 +40,13 @@
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C70FB0FE25BEF61C00C9924E /* ItemListPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListPageViewController.swift; sourceTree = "<group>"; };
+		C70FB0FE25BEF61C00C9924E /* ListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewController.swift; sourceTree = "<group>"; };
 		C70FB10125BEF61C00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDB99C22289A5C36001B10BE /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		FDB99C25289A5CD7001B10BE /* CollectionViewControllerConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewControllerConfigurable.swift; sourceTree = "<group>"; };
 		FDE9CB682880024800A78B24 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FDE9CB972881546300A78B24 /* DataManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE9CB992881546300A78B24 /* DataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
@@ -70,10 +74,12 @@
 		4252740A287D6FFF00A63D7F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FDB99C24289A5CB0001B10BE /* Protocols */,
 				428A986428900DD80066F73E /* ItemListCollectionViewCell.swift */,
 				4252740B287D700C00A63D7F /* ItemListPage.swift */,
 				FDE9CB682880024800A78B24 /* NetworkManager.swift */,
 				4259A5EB2886924A0059B0BA /* HostAPI.swift */,
+				FDB99C22289A5C36001B10BE /* Section.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -98,7 +104,7 @@
 		425274342881101B00A63D7F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				C70FB0FE25BEF61C00C9924E /* ItemListPageViewController.swift */,
+				C70FB0FE25BEF61C00C9924E /* ListCollectionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -142,6 +148,14 @@
 				425274352881103B00A63D7F /* Sources */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		FDB99C24289A5CB0001B10BE /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				FDB99C25289A5CD7001B10BE /* CollectionViewControllerConfigurable.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		FDE9CB982881546300A78B24 /* DataManagerTests */ = {
@@ -260,10 +274,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C70FB0FF25BEF61C00C9924E /* ItemListPageViewController.swift in Sources */,
+				FDB99C23289A5C36001B10BE /* Section.swift in Sources */,
+				C70FB0FF25BEF61C00C9924E /* ListCollectionViewController.swift in Sources */,
 				FDE9CBA6288158F200A78B24 /* NetworkingError.swift in Sources */,
 				428A986528900DD80066F73E /* ItemListCollectionViewCell.swift in Sources */,
 				4259A5EC2886924A0059B0BA /* HostAPI.swift in Sources */,
+				FDB99C26289A5CD7001B10BE /* CollectionViewControllerConfigurable.swift in Sources */,
 				FDE9CB692880024800A78B24 /* NetworkManager.swift in Sources */,
 				4252740C287D700C00A63D7F /* ItemListPage.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
@@ -360,7 +376,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -415,7 +431,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -432,7 +448,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -440,7 +456,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -451,7 +467,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -459,7 +475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
