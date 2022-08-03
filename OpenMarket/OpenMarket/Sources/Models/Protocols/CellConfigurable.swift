@@ -33,13 +33,18 @@ private extension CellConfigurable {
         
         bargainPriceLabel.isHidden = true
         
+        if item.discountedPrice > 0 {
+            bargainPriceLabel.isHidden = false
+            priceLabel.textColor = .systemRed
+            priceLabel.applyStrikethrough()
+        }
         stockLabel.textColor = item.stock == 0 ? .systemOrange : .systemGray3
         stockLabel.text = item.stock == 0 ? "품절" : "잔여수량: \(item.stock)"
         
         guard let imageURL = URL(string: item.thumbnail) else {
             return
         }
-
+        
         NetworkManager.fetchImage(from: imageURL) { result in
             DispatchQueue.main.async {
                 switch result {
