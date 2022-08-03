@@ -24,28 +24,38 @@ final class MainViewController: UIViewController {
     private var shouldHideListLayout: Bool? {
         didSet {
             guard let shouldHideListLayout = shouldHideListLayout else { return }
-            print("DID TAPPED SEGMENT CONTROLLER")
+            guard let gridLayout = gridLayout, let listLayout = listLayout else { return }
+            guard let gridSnapShot = gridDataSource?.snapshot(),
+                  let listSnapShot = listDataSource?.snapshot() else { return }
             if shouldHideListLayout {
-                guard let gridLayout = gridLayout else {
-                    return
+                if gridSnapShot.numberOfItems > listSnapShot.numberOfItems { //이전 뷰에서 refresh 를 하고 넘어왔을 경우
+                    collectionView.dataSource = gridDataSource
+                    collectionView.setCollectionViewLayout(gridLayout, animated: true) { _ in
+                        self.loadData() // 새로고침 시켜준다
+                    }
+                } else {
+                    gridDataSource?.apply(listSnapShot)
+                    collectionView.dataSource = gridDataSource
+                    collectionView.setCollectionViewLayout(gridLayout, animated: true) { _ in
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadData()
+                        }
+                    }
                 }
-                guard let listSnapShot = listDataSource?.snapshot() else {
-                    return
-                }
-                gridDataSource?.apply(listSnapShot)
-                collectionView.dataSource = gridDataSource
-                collectionView.setCollectionViewLayout(gridLayout, animated: true)
             } else {
-                guard let listLayout = listLayout else {
-                    return
-                }
-                guard let gridSnapShot = gridDataSource?.snapshot() else {
-                    return
-                }
-                listDataSource?.apply(gridSnapShot)
-                collectionView.dataSource = listDataSource
-                collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
-                    self.collectionView.reloadData()
+                if gridSnapShot.numberOfItems < listSnapShot.numberOfItems { //이전 뷰에서 refresh 를 하고 넘어왔을 경우
+                    collectionView.dataSource = listDataSource
+                    collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
+                        self.loadData() // 새로고침 시켜준다
+                    }
+                } else {
+                    listDataSource?.apply(gridSnapShot)
+                    collectionView.dataSource = listDataSource
+                    collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadData()
+                        }
+                    }
                 }
             }
         }
