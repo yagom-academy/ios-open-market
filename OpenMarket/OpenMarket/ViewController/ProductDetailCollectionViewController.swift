@@ -49,7 +49,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         [editAction, deleteAction, cancelAction].forEach {
             editAlert.addAction($0)
         }
-        
         present(editAlert, animated: true)
     }
     
@@ -58,9 +57,8 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         checkAlert.addTextField()
         
         let confirmAction = UIAlertAction(title: "확인", style: .default) { [self] _ in
-            guard let inputSecret = checkAlert.textFields?.first?.text else { return }
-            
             let sessionManager = URLSessionManager(session: URLSession.shared)
+            guard let inputSecret = checkAlert.textFields?.first?.text else { return }
             guard let productNumber = productNumber else { return }
             
             sessionManager.inquireSecretKey(vendorSecret: inputSecret, productNumber: productNumber) { result in
@@ -81,7 +79,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
                 }
             }
         }
-        
         checkAlert.addAction(confirmAction)
         present(checkAlert, animated: true)
     }
@@ -97,7 +94,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     
     private func convertToEditView() {
         guard let productVC = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? AddProductViewController else { return }
-        
         guard let detailProduct = detailProduct else { return }
         productVC.changeToEditMode(data: detailProduct, images: images)
         navigationController?.pushViewController(productVC, animated: true)
@@ -162,7 +158,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         images.forEach {
             detailImages.append(DetailProductItem(detailItem: detailProduct, image: $0))
         }
-        
         itemSnapshot.appendSections([.image, .info])
         itemSnapshot.appendItems(detailImages , toSection: .image)
         itemSnapshot.appendItems([detailProduct], toSection: .info)
@@ -194,7 +189,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     // MARK: Layout
     private func createLayout() -> UICollectionViewLayout {
         let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            
             guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
             let section: NSCollectionLayoutSection
             
@@ -204,25 +198,21 @@ class ProductDetailCollectionViewController: UICollectionViewController {
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.45))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
                 section = NSCollectionLayoutSection(group: group)
-                section.interGroupSpacing = 10
-                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+                section.orthogonalScrollingBehavior = .groupPagingCentered
+                
             case .info:
-                let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                        heightDimension: .fractionalHeight(1.0))
+                let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: layoutSize)
-                let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                       heightDimension: .fractionalHeight(0.55))
+                let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.55))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize, subitem: item, count: 1)
+                
                 item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupsize,
-                                                               subitem: item,
-                                                               count: 1)
                 section = NSCollectionLayoutSection(group: group)
             }
             return section
         }
-        
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
 }
