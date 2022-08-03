@@ -168,14 +168,14 @@ final class AddProductView: UIView {
         return param
     }
     
-    func configure(data: Param) {
-        productNameTextfield.text = data.productName
-        priceTextfield.text = data.price
-        discountedPriceTextfield.text = data.discountedPrice
-        stockTextfield.text = data.stock
+    func configure(data: DetailProduct) {
+        productNameTextfield.text = data.name
+        priceTextfield.text = String(data.price)
+        discountedPriceTextfield.text = String(data.discountedPrice)
+        stockTextfield.text = String(data.stock)
         descriptionTextView.text = data.description
         
-        if data.currency == Currency.krw.rawValue {
+        if data.currency.rawValue == Currency.krw.rawValue {
             segmentedControl.selectedSegmentIndex = 0
         } else {
             segmentedControl.selectedSegmentIndex = 1

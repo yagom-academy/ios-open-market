@@ -14,6 +14,7 @@ class AddProductViewController: UIViewController {
     private let imagePicker = UIImagePickerController()
     private var imageParams: [ImageParam] = []
     private lazy var viewConstraint = productView.entireStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -260)
+    var viewModeTitle = "상품등록"
     
     override func loadView() {
         super.loadView()
@@ -27,21 +28,22 @@ class AddProductViewController: UIViewController {
         configureImagePicker()
     }
     
-    func changeToEditMode(data: Param, images: [ImageParam]) {
+    func changeToEditMode(data: DetailProduct, images: [String]) {
         productView.configure(data: data)
         images.forEach {
-            guard let image = UIImage(data: $0.imageData ) else { return }
-            dataSource.append(image)
+            guard let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: $0)) else { return }
+            dataSource.append(cachedImage)
         }
         productView.collectionView.reloadData()
-        navigationItem.title = "상품수정"
+        viewModeTitle = "상품수정"
     }
     
     //MARK: configure
     private func configureUI() {
         let cancelBarButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonDidTapped))
         let doneBarButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(updateButtonDidTapped))
-        navigationItem.title = "상품등록"
+        
+        navigationItem.title = viewModeTitle
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.rightBarButtonItem = doneBarButton
         navigationItem.setHidesBackButton(true, animated: false)
@@ -125,7 +127,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         var selectedImage = UIImage()
         
-        guard imageParams.count != 5 else {
+        guard dataSource.count != 6 else {
             picker.dismiss(animated: true, completion: nil)
             showAlert(title: "사진 등록 불가능", message: "사진은 최대 5장까지 가능합니다.")
             return

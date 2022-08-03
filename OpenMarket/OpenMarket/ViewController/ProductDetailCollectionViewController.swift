@@ -20,7 +20,8 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     
     // MARK: Properties
     lazy var dataSource = makeDataSource()
-    var items: DetailProductItem?
+    var detailProduct: DetailProduct?
+    var detailProductItem: DetailProductItem?
     var images: [String] = []
     var productNumber: Int?
     
@@ -28,6 +29,33 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         collectionView.collectionViewLayout = createLayout()
         receiveDetailData()
+        let editProductBarButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(editProductButtonDidTapped))
+        navigationItem.rightBarButtonItem = editProductBarButton
+    }
+    
+    @objc private func editProductButtonDidTapped() {
+        let editAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: "수정", style: .default) { _ in
+            self.convertToEditView()
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {_ in 
+            
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        [editAction, deleteAction, cancelAction].forEach {
+            editAlert.addAction($0)
+        }
+        
+        present(editAlert, animated: true)
+    }
+    
+    private func convertToEditView() {
+        guard let productVC = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? AddProductViewController else { return }
+        
+        guard let detailProduct = detailProduct else { return }
+        productVC.changeToEditMode(data: detailProduct, images: images)
+        navigationController?.pushViewController(productVC, animated: true)
     }
     
     // MARK: DataSource
@@ -115,7 +143,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     
     private func applySnapshots() {
         var itemSnapshot = SnapShot()
-        guard let detailProduct = items else { return }
+        guard let detailProduct = detailProductItem else { return }
         var detailImages: [DetailProductItem] = []
         
         images.forEach {
@@ -131,8 +159,9 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     
     private func decodeResult(_ data: Data) {
         do {
-            let detailProduct = try DataDecoder().decode(type: DetailProduct.self, data: data)
-            self.items = DetailProductItem(detailProduct: detailProduct)
+            self.detailProduct = try DataDecoder().decode(type: DetailProduct.self, data: data)
+            guard let detailProduct = detailProduct else {  return }
+            self.detailProductItem = DetailProductItem(detailProduct: detailProduct)
             self.images = detailProduct.images.map { $0.url }
         } catch {
             DispatchQueue.main.async {
