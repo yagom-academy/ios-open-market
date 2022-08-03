@@ -304,6 +304,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         selectedId = dataSource?.itemIdentifier(for: indexPath)?.id
         detailViewController.delegate = self
         self.navigationController?.pushViewController(detailViewController, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
