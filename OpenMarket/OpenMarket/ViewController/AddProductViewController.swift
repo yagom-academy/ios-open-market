@@ -9,20 +9,19 @@ import UIKit
 
 class AddProductViewController: UIViewController {
     
-    @IBOutlet weak var addImageButton: UIButton!
-    @IBOutlet weak var pickerImageStackView: UIStackView!
-    @IBOutlet weak var pikerImageView: UIView!
+    @IBOutlet private weak var addImageButton: UIButton!
+    @IBOutlet private weak var pickerImageStackView: UIStackView!
+    @IBOutlet private weak var pikerImageView: UIView!
     
-    @IBOutlet weak var productName: UITextField!
-    @IBOutlet weak var productPrice: UITextField!
-    @IBOutlet weak var discountPrice: UITextField!
-    @IBOutlet weak var inventoryQuantity: UITextField!
-    @IBOutlet weak var descriptionTextView: UITextView!
-    
-    @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet private weak var productName: UITextField!
+    @IBOutlet private weak var productPrice: UITextField!
+    @IBOutlet private weak var discountPrice: UITextField!
+    @IBOutlet private weak var inventoryQuantity: UITextField!
+    @IBOutlet private weak var descriptionTextView: UITextView!
+    @IBOutlet private weak var segmentControl: UISegmentedControl!
     
     private let imagePicker = UIImagePickerController()
-    var imageArray: [UIImage] = []
+    private var imageArray: [UIImage] = []
     private var segmentMemonyType: String = CurrencyType.krw
     
     override func viewDidLoad() {
@@ -90,23 +89,29 @@ class AddProductViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: pikerImageView.frame.height)
         ])
         
-        let imageSize = image.logImageSizeInKB(scale: image.scale)
-        
-        if imageSize >= 300 {
-            imageArray.append(resizeImage(image: image, height: pikerImageView.frame.height))
-        } else {
-            imageArray.append(image)
-        }
-         
-        
-        if imageArray.count == 5 {
-            pikerImageView.isHidden = true
-        }
-        
+        checkImageSize(image)
+        checkImageCount()
         return imageView
     }
     
-    func postRequest(image: [UIImage], name: String, price: Int, stock: Int, currency: String, discountPrice: Int, secret: String, descriptions: String) {
+    private func checkImageSize(_ image: UIImage) {
+        let imageSize = image.logImageSizeInKB(scale: image.scale)
+        
+        if imageSize >= 300 {
+            let resizeImage = resizeImage(image: image, height: pikerImageView.frame.height)
+            imageArray.append(resizeImage)
+        } else {
+            imageArray.append(image)
+        }
+    }
+    
+    private func checkImageCount() {
+        if imageArray.count == 5 {
+            pikerImageView.isHidden = true
+        }
+    }
+    
+    private func postRequest(image: [UIImage], name: String, price: Int, stock: Int, currency: String, discountPrice: Int, secret: String, descriptions: String) {
         let parmtersValue = ["name": name,
                              "price": price,
                              "stock": stock,
@@ -135,9 +140,7 @@ class AddProductViewController: UIViewController {
         let imageBody = createImageBody(images: image, boundary: boundary)
         
         request.httpBody = body + imageBody
-        
-        print(String(decoding: request.httpBody!, as: UTF8.self))
-        
+                
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print("data",String(describing: error))
@@ -148,7 +151,7 @@ class AddProductViewController: UIViewController {
         task.resume()
     }
     
-    func createBody(paramaeters: [String: Any], boundary: String) -> Data {
+    private func createBody(paramaeters: [String: Any], boundary: String) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
@@ -161,7 +164,7 @@ class AddProductViewController: UIViewController {
         return body
     }
     
-    func createImageBody(images: [UIImage]?, boundary: String) -> Data {
+    private func createImageBody(images: [UIImage]?, boundary: String) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
@@ -182,12 +185,15 @@ class AddProductViewController: UIViewController {
         return body
     }
     
-    func resizeImage(image: UIImage, height: CGFloat) -> UIImage {
+    private func resizeImage(image: UIImage, height: CGFloat) -> UIImage {
         let scale = height / image.size.height
         let width = image.size.width * scale
+        
         UIGraphicsBeginImageContext(CGSize(width: width, height: height))
         image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+        
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
         UIGraphicsEndImageContext()
         return newImage!
     }
@@ -203,18 +209,5 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         let imageView = fetchPickerImageView(image: editedImage)
         pickerImageStackView.insertArrangedSubview(imageView, at: .zero)
         dismiss(animated: true, completion: nil)
-    }
-}
-
-extension UIImage {
-    func logImageSizeInKB(scale: CGFloat) -> Int {
-        let data = self.jpegData(compressionQuality: scale)!
-        let formatter = ByteCountFormatter()
-        formatter.allowedUnits = ByteCountFormatter.Units.useKB
-        formatter.countStyle = ByteCountFormatter.CountStyle.file
-        let imageSize = formatter.string(fromByteCount: Int64(data.count))
-        print("ImageSize(KB): \(imageSize)")
-        
-        return Int(Int64(data.count) / 1024)
     }
 }
