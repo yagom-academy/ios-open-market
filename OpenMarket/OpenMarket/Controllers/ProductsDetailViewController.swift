@@ -21,6 +21,7 @@ class ProductsDetailViewController: UIViewController {
             DispatchQueue.main.async {
                 self.title = self.productInfo?.name
                 self.detailView.setProductInfomation(data: data)
+                self.detailView.applySnapshot(using: data.images!)
             }
         }
     }

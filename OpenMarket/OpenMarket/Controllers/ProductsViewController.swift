@@ -136,10 +136,10 @@ extension ProductsViewController {
     }
     
     private func configureDataSoure() {
-        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [weak self] (cell, indexPath, identifier) in
+        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [weak self] (cell, indexPath, item) in
             guard let self = self else { return }
             
-            cell.setProduct(by: identifier)
+            cell.setProduct(by: item)
             
             guard let segmentControl = self.segmentControl,
                   let currentSeguement = Titles(rawValue: segmentControl.selectedSegmentIndex) else { return }

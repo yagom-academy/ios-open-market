@@ -4,6 +4,10 @@ class ProductsDetailView: UIView {
 
     // MARK: - Properties
     
+    var imageCollectionView: UICollectionView?
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
+    private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
+    
     let itemImageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -150,8 +154,10 @@ class ProductsDetailView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         
+        congifureCollectionView()
         addSubviews()
         configureLayout()
+        configureDataSoure()
     }
     
     required init?(coder: NSCoder) {
@@ -160,12 +166,73 @@ class ProductsDetailView: UIView {
     
     // MARK: - Functions
     
+    func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitem: item,
+                                                       count: 1)
+        group.interItemSpacing = .fixed(10)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 10
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    func congifureCollectionView() {
+        imageCollectionView = UICollectionView(frame: bounds, collectionViewLayout: createLayout())
+        imageCollectionView?.isPagingEnabled = true
+        imageCollectionView?.alwaysBounceVertical = false
+    }
+    
+    private func configureDataSoure() {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, UIImage> { (cell, indexPath, item) in
+            let imageView = UIImageView(image: item)
+            cell.contentView.addSubview(imageView)
+            
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.heightAnchor.constraint(equalTo: cell.contentView.heightAnchor).isActive = true
+            imageView.widthAnchor.constraint(equalTo: cell.contentView.widthAnchor).isActive = true
+            
+            cell.backgroundColor = .systemRed
+        }
+        
+        guard let imageCollectionView = imageCollectionView else { return }
+        dataSource = UICollectionViewDiffableDataSource<Section, UIImage>(collectionView: imageCollectionView)
+        { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        }
+    }
+    
+    func applySnapshot(using imagesUrl: [Images]) {
+        self.snapshot.appendSections([.main])
+        var images: [UIImage] = []
+        imagesUrl.forEach {
+            guard let imageUrl = URL(string: $0.url),
+                  let imageData = try? Data(contentsOf: imageUrl),
+                  let image = UIImage(data: imageData) else { return }
+            images.append(image)
+        }
+        
+        self.snapshot.appendItems(images)
+        dataSource?.apply(snapshot)
+    }
+    
     func addSubviews() {
         addSubview(mainScrollView)
         
         mainScrollView.addSubview(mainStackView)
-        
+                
         mainStackView.addArrangedSubview(itemImageScrollView)
+        mainStackView.addArrangedSubview(imageCollectionView!)
         mainStackView.addArrangedSubview(currentPage)
         mainStackView.addArrangedSubview(itemNameAndStockStackView)
         mainStackView.addArrangedSubview(itemPriceAndSaleStackView)
@@ -195,6 +262,11 @@ class ProductsDetailView: UIView {
             mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
             mainStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            imageCollectionView!.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
+        ])
+        
         
         NSLayoutConstraint.activate([
             itemImageScrollView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
