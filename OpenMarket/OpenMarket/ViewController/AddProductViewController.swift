@@ -22,7 +22,7 @@ class AddProductViewController: UIViewController {
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
     private let imagePicker = UIImagePickerController()
-    var imageArray: UIImage?
+    var imageArray: [UIImage] = []
     private var segmentMemonyType: String = CurrencyType.krw
     
     override func viewDidLoad() {
@@ -57,7 +57,7 @@ class AddProductViewController: UIViewController {
             return
         }
 
-        postRequest(image: imageArray!,
+        postRequest(image: imageArray,
                     name: productName,
                     price: productPrice,
                     stock: inventoryQuantity,
@@ -65,6 +65,7 @@ class AddProductViewController: UIViewController {
                     discountPrice: Int(discountPrice.text ?? "0") ?? 0,
                     secret: VendorInfo.secret,
                     descriptions: descriptionTextField)
+        
         self.presentingViewController?.dismiss(animated: true)
     }
     
@@ -80,6 +81,7 @@ class AddProductViewController: UIViewController {
     
     private func fetchPickerImageView(image: UIImage) -> UIImageView {
         let imageView = UIImageView()
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
         
@@ -87,17 +89,17 @@ class AddProductViewController: UIViewController {
             imageView.widthAnchor.constraint(equalToConstant: pikerImageView.frame.width),
             imageView.heightAnchor.constraint(equalToConstant: pikerImageView.frame.height)
         ])
-        imageArray = image
+        
+        imageArray.append(image)
+
+        if imageArray.count == 5 {
+            pikerImageView.isHidden = true
+        }
         
         return imageView
     }
     
-    func postRequest(image: UIImage, name: String, price: Int, stock: Int, currency: String, discountPrice: Int, secret: String, descriptions: String) {
-        let imageData = image
-        let dummyImaage = ImageFile(key: "images",
-                                    src: (imageData.jpegData(compressionQuality: 0.1)!),
-                                    type: "file")
-        
+    func postRequest(image: [UIImage], name: String, price: Int, stock: Int, currency: String, discountPrice: Int, secret: String, descriptions: String) {
         let parmtersValue = ["name": name,
                              "price": price,
                              "stock": stock,
@@ -122,8 +124,11 @@ class AddProductViewController: UIViewController {
         
         request.httpMethod = HTTPMethod.post
 
-        let body = createBody(paramaeters: ["params": jsonParams], boundary: boundary, images: dummyImaage)
-        request.httpBody = body
+        let body = createBody(paramaeters: ["params": jsonParams], boundary: boundary)
+        let imageBody = createImageBody(images: image, boundary: boundary)
+        
+        request.httpBody = body + imageBody
+        
         print(String(decoding: request.httpBody!, as: UTF8.self))
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -136,7 +141,7 @@ class AddProductViewController: UIViewController {
         task.resume()
     }
     
-    func createBody(paramaeters: [String: Any], boundary: String, images: ImageFile) -> Data {
+    func createBody(paramaeters: [String: Any], boundary: String) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
 
@@ -146,11 +151,26 @@ class AddProductViewController: UIViewController {
             body.append("\r\n".data(using: .utf8)!)
             body.append("\(String(data: value as! Data, encoding: .utf8) ?? "")\r\n".data(using: .utf8)!)
         }
- 
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"\(images.key)\"; filename=\"\(arc4random())\".jpeg\r\n\r\n".data(using: .utf8)!)
-        body.append(images.src)
-        body.append("\r\n".data(using: .utf8)!)
+        return body
+    }
+    
+    func createImageBody(images: [UIImage]?, boundary: String) -> Data {
+        var body = Data()
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        if let images = images {
+            for image in images {
+                let imageData = image
+                let imageFile = ImageFile(key: "images",
+                                          src: (imageData.jpegData(compressionQuality: 0.1)!),
+                                          type: "file")
+                
+                body.append(boundaryPrefix.data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"\(imageFile.key)\"; filename=\"\(arc4random())\".jpeg\r\n\r\n".data(using: .utf8)!)
+                body.append(imageFile.src)
+                body.append("\r\n".data(using: .utf8)!)
+            }
+        }
         body.append("--\(boundary)--".data(using: .utf8)!)
         return body
     }
