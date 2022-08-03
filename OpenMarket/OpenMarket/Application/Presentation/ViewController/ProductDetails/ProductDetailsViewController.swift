@@ -11,6 +11,7 @@ final class ProductDetailsViewController: UIViewController {
     // MARK: - Properties
     
     var productID: Int = 0
+    var productVendorID: Int = 0
     
     private var productDetailsAPIManager: ProductDetailsAPIManager?
     
@@ -145,12 +146,48 @@ final class ProductDetailsViewController: UIViewController {
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(didTappedEditButton))
+        self.checkVendorID(from: productVendorID.description)
     }
     
     @objc private func didTappedBackButton() {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc private func didTappedEditButton() {
+        let actionSheet = UIAlertController(title: nil,
+                                            message: nil,
+                                            preferredStyle: .actionSheet)
+        
+        let editAction = UIAlertAction(title: "수정",
+                                       style: .default) { [weak self]_ in
+            
+            let productModificationViewController = ProductModificationViewController()
+            productModificationViewController.productInfo = self?.productInfo
+            productModificationViewController.delegate = self
+            
+            let rootViewController = UINavigationController(rootViewController: productModificationViewController)
+            rootViewController.modalPresentationStyle = .overFullScreen
+            
+            self?.present(rootViewController, animated: true)
+        }
+        
+        let deleteAction = UIAlertAction(title: "삭제",
+                                         style: .destructive) { _ in
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소",
+                                         style: .cancel,
+                                         handler: nil)
+        
+        actionSheet.addAction(editAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        actionSheet.modalPresentationStyle = .overFullScreen
+        self.present(actionSheet,
+                     animated: true,
+                     completion: nil)
+    }
     
     private func configureRootScrollView() {
         view.addSubview(rootScrollView)
@@ -213,6 +250,12 @@ final class ProductDetailsViewController: UIViewController {
             case .failure(_):
                 break
             }
+        }
+    }
+    
+    private func checkVendorID(from vendorID: String) {
+        if vendorID != User.venderID.rawValue {
+            self.navigationItem.rightBarButtonItem = nil
         }
     }
     
