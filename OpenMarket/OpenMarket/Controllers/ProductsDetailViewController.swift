@@ -46,8 +46,10 @@ extension ProductsDetailViewController {
     private func deleteProduct() {
         let alert = UIAlertController(title: "암호", message: "암호를 입력하세요.", preferredStyle: .alert)
         let action = UIAlertAction(title: "확인", style: .default) { action in
-            ProductsDataManager.shared.getProductSecret(identifier: UserInfo.identifier.rawValue, secret: (alert.textFields?.first?.text)!, productId: self.productInfo!.id) { data in
-                ProductsDataManager.shared.deleteData(identifier: UserInfo.identifier.rawValue, productID: self.productInfo!.id, secret: data) { (data: Page) in
+            guard let inputedSecret = alert.textFields?.first?.text,
+                  let productInfo = self.productInfo else { return }
+            ProductsDataManager.shared.getProductSecret(identifier: UserInfo.identifier.rawValue, secret: inputedSecret, productId: productInfo.id) { data in
+                ProductsDataManager.shared.deleteData(identifier: UserInfo.identifier.rawValue, productID: productInfo.id, secret: data) { (data: Page) in
                     DispatchQueue.main.async {
                         self.navigationController?.popToRootViewController(animated: true)
                     }
