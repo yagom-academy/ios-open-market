@@ -33,7 +33,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     }
     
     @objc private func backBarButtonDidTapped() {
-            navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func editProductButtonDidTapped() {
@@ -56,7 +56,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     private func deleteAfterCheckSecret() {
         let checkAlert = UIAlertController(title: "비밀번호 확인", message: "비밀번호를 입력해주세요.", preferredStyle: .alert)
         checkAlert.addTextField()
-    
+        
         let confirmAction = UIAlertAction(title: "확인", style: .default) { [self] _ in
             guard let inputSecret = checkAlert.textFields?.first?.text else { return }
             

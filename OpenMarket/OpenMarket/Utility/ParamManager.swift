@@ -8,7 +8,7 @@
 import Foundation
 
 struct ParamManager {
-    func combineParam(param: Param, imageParams: [ImageParam]) -> [[String : Any]]{
+    func combineParamForPost(param: Param, imageParams: [ImageParam]) -> [[String : Any]]{
         let dataElement: [[String : Any]] = [
             [
                 "key": "params",
@@ -30,6 +30,12 @@ struct ParamManager {
                 "images": imageParams
             ]
         ]
+        
+        return dataElement
+    }
+    
+    func combineParamForPatch(param: Param) -> String {
+        let dataElement = "{\n\"secret\": \"\(VendorInfo.secret)\",\n\"name\": \"\(param.productName)\"\n,\n\"price\": \(param.price)\n,\n\"discounted_price\": \(param.discountedPrice)\n,\n\"stock\": \(param.stock)\n,\n\"currency\": \"\(param.currency)\"\n,\n\"descriptions\": \"\(param.description)\"\n}"
         
         return dataElement
     }

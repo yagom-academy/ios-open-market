@@ -105,11 +105,10 @@ final class URLSessionManager {
         dataTask(request: request, completionHandler: completionHandler)
     }
     
-    func patchData(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
-        let parameters = "{\n    \"secret\": \"\(VendorInfo.secret)\",\n    \"discounted_price\": 10000\n}"
-        guard let postData = parameters.data(using: .utf8) else { return }
+    func patchData(productNumber: Int, dataElement: String, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+        guard let postData = dataElement.data(using: .utf8) else { return }
 
-        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3946") else { return }
+        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/\(productNumber)") else { return }
         var request = URLRequest(url: url)
         
         request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
