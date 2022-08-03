@@ -32,7 +32,7 @@ class RegistrationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentInset = UIEdgeInsets(top: Registraion.scrollViewInset, left: Registraion.scrollViewInset, bottom: Registraion.scrollViewInset, right: Registraion.scrollViewInset)
@@ -60,14 +60,14 @@ class RegistrationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private let productNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Registraion.productName
         textField.borderStyle = .roundedRect
         return textField
     }()
-    
+
     private let productPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Registraion.productPrice
@@ -75,7 +75,7 @@ class RegistrationViewController: UIViewController {
         textField.keyboardType = .decimalPad
         return textField
     }()
-    
+
     private let discountedPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Registraion.discountedPrice
@@ -83,7 +83,7 @@ class RegistrationViewController: UIViewController {
         textField.keyboardType = .decimalPad
         return textField
     }()
-    
+
     private let stockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Registraion.stock
@@ -98,12 +98,12 @@ class RegistrationViewController: UIViewController {
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
-    
+
     private let descriptionTextView: UITextView = {
-       let textView = UITextView()
+        let textView = UITextView()
         return textView
     }()
-    
+
     private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -113,7 +113,7 @@ class RegistrationViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     private let textStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -125,11 +125,11 @@ class RegistrationViewController: UIViewController {
     }()
     
     // MARK: View Life Cycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cancelButton)
         self.title = Registraion.registraionProduct
@@ -159,12 +159,12 @@ class RegistrationViewController: UIViewController {
     }
     
     // MARK: Method
-    
+
     @objc private func goBackMainViewController() {
         removeRegisterForKeyboardNotification()
         navigationController?.popViewController(animated: true)
     }
-    
+
     @objc private func registerProduct() {
         
         let params: [String: Any?] = [Params.productName: productNameTextField.text, Params.productDescription: descriptionTextView.text, Params.productPrice: productPriceTextField.text, Params.currency: choiceCurrency()?.name, Params.discountedPrice: discountedPriceTextField.text]
@@ -177,13 +177,13 @@ class RegistrationViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                self.showCustomAlert(title: "🤔", message: error.localizedDescription)
+                    self.showCustomAlert(title: "🤔", message: error.localizedDescription)
                 }
             }
         }
         resetRegistrationPage()
     }
-    
+
     private func resetRegistrationPage() {
         images = []
         imageCount = Registraion.initailNumber
@@ -198,15 +198,15 @@ class RegistrationViewController: UIViewController {
         descriptionTextView.text = Registraion.textClear
         segmentedControl.selectedSegmentIndex = Registraion.initailNumber
     }
-    
+
     private func choiceCurrency() -> Currency? {
         return Currency.init(rawValue: segmentedControl.selectedSegmentIndex)
     }
-    
+
     @objc private func addImage() {
         present(imagePickerController, animated: true)
     }
-    
+
     private func setConstrant() {
         NSLayoutConstraint.activate([
             imageScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -233,50 +233,50 @@ class RegistrationViewController: UIViewController {
         imageScrollView.setContentHuggingPriority(.required, for: .vertical)
         descriptionTextView.setContentHuggingPriority(.defaultLow, for: .vertical)
     }
-    
-    private func setViewGesture() {
-           let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
-           view.addGestureRecognizer(tapGesture)
-       }
-       
-       @objc private func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
-           self.view.endEditing(true)
-           descriptionTextView.contentInset.bottom = Registraion.descriptionTextViewInset
-       }
-       
-       private func regiterForkeyboardNotification() {
-           NotificationCenter.default.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-       }
-       
-       @objc private func keyBoardShow(notification: NSNotification) {
-           guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
-               return
-           }
-           
-           guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
-               return
-           }
-           
-           let keyboardRectangle = keyboardFrame.cgRectValue
-           let keyboardHeight = keyboardRectangle.height
-           
-           descriptionTextView.contentInset.bottom += keyboardHeight
-       }
-       
-       private func removeRegisterForKeyboardNotification() {
-           NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-       }
-    
-    func showCustomAlert(title: String, message: String) {
-           let okTitle = "확인"
 
-           let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-           let okButton = UIAlertAction(title: okTitle, style: .default)
+    private func setViewGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
+        self.view.endEditing(true)
+        descriptionTextView.contentInset.bottom = Registraion.descriptionTextViewInset
+    }
+
+    private func regiterForkeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+
+    @objc private func keyBoardShow(notification: NSNotification) {
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
+            return
+        }
+        
+        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return
+        }
+        
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        descriptionTextView.contentInset.bottom = keyboardHeight
+    }
+
+    private func removeRegisterForKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+
+    func showCustomAlert(title: String, message: String) {
+        let okTitle = "확인"
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: okTitle, style: .default)
         alertController.addAction(okButton)
-           
-           present(alertController, animated: true)
-       }
-   }
+        
+        present(alertController, animated: true)
+    }
+}
 
 // MARK: Extension
 
@@ -289,7 +289,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             selectedImage = originalImage
         }
-                
+        
         if imageCount <= Registraion.maxImageCount {
             let imageView = UIImageView()
             imageView.image = selectedImage
