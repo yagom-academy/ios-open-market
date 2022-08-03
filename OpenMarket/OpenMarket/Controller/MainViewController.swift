@@ -130,7 +130,7 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func loadData() {
+    private func addData() {
         manager.requestProductPage(at: currentMaximumPage) { [weak self] productList in
             self?.productListManager.add(list: productList)
         }
@@ -246,6 +246,18 @@ extension MainViewController {
     private func stopRefresher() {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
             self.refresher.endRefreshing()
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if collectionView.contentOffset.y > collectionView.contentSize.height - collectionView.bounds.size.height {
+            print("앙 바닥에 닿았당")
+            DispatchQueue.main.async { [weak self] in
+                print("다음 페이지")
+                self?.currentMaximumPage += 1
+                self?.addData()
+                self?.collectionView.reloadData()
+            }
         }
     }
     
