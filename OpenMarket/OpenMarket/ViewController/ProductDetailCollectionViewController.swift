@@ -42,7 +42,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
             self.convertToEditView()
         }
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) {_ in 
-            
+            self.deleteAfterCheckSecret()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
@@ -52,6 +52,40 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         
         present(editAlert, animated: true)
     }
+    
+    private func deleteAfterCheckSecret() {
+        let checkAlert = UIAlertController(title: "비밀번호 확인", message: "비밀번호를 입력해주세요.", preferredStyle: .alert)
+        checkAlert.addTextField()
+    
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { [self] _ in
+            guard let inputSecret = checkAlert.textFields?.first?.text else { return }
+            
+            let sessionManager = URLSessionManager(session: URLSession.shared)
+            guard let productNumber = productNumber else { return }
+            
+            sessionManager.inquireSecretKey(vendorSecret: inputSecret, productNumber: productNumber) { result in
+                switch result {
+                case .success(let data):
+                    sessionManager.deleteData(secretKey: data, productNumber: productNumber) { result in
+                        switch result {
+                        case .success(_):
+                            DispatchQueue.main.async {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        case .failure(_):
+                            self.showAlert(title: "서버 통신 실패", message: "데이터를 삭제하지 못했습니다.")
+                        }
+                    }
+                case .failure(_):
+                    self.showAlert(title: "실패", message: "비밀번호가 일치하지 않습니다.")
+                }
+            }
+        }
+        
+        checkAlert.addAction(confirmAction)
+        present(checkAlert, animated: true)
+    }
+    
     
     private func configureUI() {
         let editProductBarButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(editProductButtonDidTapped))
@@ -152,7 +186,9 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     private func showAlert(title: String, message: String) {
         let failureAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         failureAlert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(failureAlert, animated: true)
+        DispatchQueue.main.async {
+            self.present(failureAlert, animated: true)
+        }
     }
     
     // MARK: Layout
@@ -160,7 +196,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
             guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
-            
             let section: NSCollectionLayoutSection
             
             switch sectionKind {
@@ -185,7 +220,6 @@ class ProductDetailCollectionViewController: UICollectionViewController {
                                                                count: 1)
                 section = NSCollectionLayoutSection(group: group)
             }
-            
             return section
         }
         

@@ -119,11 +119,11 @@ final class URLSessionManager {
         dataTask(request: request, completionHandler: completionHandler)
     }
     
-    func inquireSecretKey(completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
-        let parameters = "{\"secret\": \"\(VendorInfo.secret)\"}"
+    func inquireSecretKey(vendorSecret: String, productNumber: Int, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+        let parameters = "{\"secret\": \"\(vendorSecret)\"}"
         guard let postData = parameters.data(using: .utf8) else { return }
         
-        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3943/secret") else { return }
+        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/\(productNumber)/secret") else { return }
         var request = URLRequest(url: url)
         
         request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
@@ -134,9 +134,9 @@ final class URLSessionManager {
         dataTask(request: request, completionHandler: completionHandler)
     }
     
-    func deleteData(secretKey: Data, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
+    func deleteData(secretKey: Data, productNumber: Int, completionHandler: @escaping (Result<Data, DataTaskError>) -> Void) {
         guard let secretKey = String(data: secretKey, encoding: .utf8) else { return }
-        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/3943/" + secretKey) else { return }
+        guard let url = URL(string: "https://market-training.yagom-academy.kr/api/products/\(productNumber)/" + secretKey) else { return }
         var request = URLRequest(url: url)
         
         request.addValue("\(VendorInfo.identifier)", forHTTPHeaderField: "identifier")
