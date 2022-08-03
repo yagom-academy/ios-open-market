@@ -56,7 +56,7 @@ class AddProductViewController: UIViewController {
               let descriptionTextField = descriptionTextView.text else {
             return
         }
-
+        
         postRequest(image: imageArray,
                     name: productName,
                     price: productPrice,
@@ -90,8 +90,15 @@ class AddProductViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: pikerImageView.frame.height)
         ])
         
-        imageArray.append(image)
-
+        let imageSize = image.logImageSizeInKB(scale: image.scale)
+        
+        if imageSize >= 300 {
+            imageArray.append(resizeImage(image: image, height: pikerImageView.frame.height))
+        } else {
+            imageArray.append(image)
+        }
+         
+        
         if imageArray.count == 5 {
             pikerImageView.isHidden = true
         }
@@ -123,14 +130,14 @@ class AddProductViewController: UIViewController {
         request.addValue("multipart/form-data;boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         request.httpMethod = HTTPMethod.post
-
+        
         let body = createBody(paramaeters: ["params": jsonParams], boundary: boundary)
         let imageBody = createImageBody(images: image, boundary: boundary)
         
         request.httpBody = body + imageBody
         
         print(String(decoding: request.httpBody!, as: UTF8.self))
-
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print("data",String(describing: error))
@@ -144,7 +151,7 @@ class AddProductViewController: UIViewController {
     func createBody(paramaeters: [String: Any], boundary: String) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
-
+        
         for (key, value) in paramaeters {
             body.append(boundaryPrefix.data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n".data(using: .utf8)!)
@@ -174,6 +181,16 @@ class AddProductViewController: UIViewController {
         body.append("--\(boundary)--".data(using: .utf8)!)
         return body
     }
+    
+    func resizeImage(image: UIImage, height: CGFloat) -> UIImage {
+        let scale = height / image.size.height
+        let width = image.size.width * scale
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
 }
 
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -186,5 +203,18 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         let imageView = fetchPickerImageView(image: editedImage)
         pickerImageStackView.insertArrangedSubview(imageView, at: .zero)
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension UIImage {
+    func logImageSizeInKB(scale: CGFloat) -> Int {
+        let data = self.jpegData(compressionQuality: scale)!
+        let formatter = ByteCountFormatter()
+        formatter.allowedUnits = ByteCountFormatter.Units.useKB
+        formatter.countStyle = ByteCountFormatter.CountStyle.file
+        let imageSize = formatter.string(fromByteCount: Int64(data.count))
+        print("ImageSize(KB): \(imageSize)")
+        
+        return Int(Int64(data.count) / 1024)
     }
 }
