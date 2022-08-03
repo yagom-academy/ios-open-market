@@ -25,10 +25,10 @@ extension PATCHProtocol {
         
         client.requestData(with: request) { result in
             switch result {
-            case .success(_):
-                return
-            case .failure(_):
-                return
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }

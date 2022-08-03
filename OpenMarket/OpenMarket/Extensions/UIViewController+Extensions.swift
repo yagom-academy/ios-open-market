@@ -14,7 +14,8 @@ extension UIViewController {
                                                 preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: AlertSetting.confirmAction.title,
                                           style: .default) { [weak self] _ in
-            if AlertMessage(rawValue: message) == .enrollmentSuccess {
+            if AlertMessage(rawValue: message) == .enrollmentSuccess
+                || AlertMessage(rawValue: message) == .modificationSuccess  {
                 self?.dismiss(animated: true)
             }
         }
