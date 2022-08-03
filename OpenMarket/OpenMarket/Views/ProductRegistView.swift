@@ -267,11 +267,14 @@ extension ProductRegistView {
         imageStackView.arrangedSubviews.last?.removeFromSuperview()
         productInfo.images?.forEach { makeimageView(url: $0.url) }
         itemNameTextField.text = productInfo.name
-        itemPriceTextField.text = String(productInfo.price)
-        itemSaleTextField.text = String(productInfo.discountedPrice)
+        itemPriceTextField.text = String(Int(productInfo.price))
+        itemSaleTextField.text = String(Int(productInfo.discountedPrice))
         itemStockTextField.text = String(productInfo.stock)
-//        currencySegmentControl.selectedSegmentIndex =
+        
         descriptionTextView.text = productInfo.description
         descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
+        
+        guard let segmentIndex = Currency.toIndex(using: productInfo.currency) else { return }
+        currencySegmentControl.selectedSegmentIndex = segmentIndex
     }
 }
