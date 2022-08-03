@@ -1,5 +1,5 @@
 //
-//  MarketProductsViewModel.swift
+//  ProductListViewModel.swift
 //  OpenMarket
 //
 //  Created by 데릭, 수꿍.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class MarketProductsViewModel {
+final class ProductListViewModel {
     // MARK: Properties
     
     private var productEntity: ProductEntity?
     
-    weak var delegate: MarketProductsViewControllerDelegate?
+    weak var delegate: ProductListDelegate?
     
     var thumbnailImage: UIImage? {
         guard let product = productEntity else {
@@ -97,6 +97,7 @@ final class MarketProductsViewModel {
             entityList.productEntity.append(
                 ProductEntity(
                     id: product.id,
+                    vendorID: product.vendorID,
                     thumbnailImage: thumbnailImage,
                     name: product.name,
                     currency: product.currency.rawValue,
@@ -105,6 +106,6 @@ final class MarketProductsViewModel {
                     stock: product.stock))
         }
         
-        delegate?.didReceiveResponse(MarketProductsViewController.self, by: entityList)
+        delegate?.productListViewController(ProductListViewController.self, didRecieve: entityList)
     }
 }

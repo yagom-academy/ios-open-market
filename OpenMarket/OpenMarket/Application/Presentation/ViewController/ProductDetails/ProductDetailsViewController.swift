@@ -1,5 +1,5 @@
 //
-//  ProductDetailViewController.swift
+//  ProductDetailsViewController.swift
 //  OpenMarket
 //
 //  Created by 데릭, 수꿍.
@@ -7,12 +7,15 @@
 
 import UIKit
 
-final class ProductDetailViewController: UIViewController {
+final class ProductDetailsViewController: UIViewController {
     // MARK: - Properties
     
     var productID: Int = 0
-
+    
     private var productDetailsAPIManager: ProductDetailsAPIManager?
+    
+    private weak var delegate: ProductModificationDelegate?
+    private var productInfo: ProductDetailsEntity?
     
     private var productDetailViewModel: ProductDetailsViewModel?
     private var productDetailImagesdataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
@@ -57,7 +60,7 @@ final class ProductDetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.adjustsFontForContentSizeCategory = true
-
+        
         return label
     }()
     
@@ -79,7 +82,7 @@ final class ProductDetailViewController: UIViewController {
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .systemGray
         label.adjustsFontForContentSizeCategory = true
-
+        
         return label
     }()
     
@@ -89,7 +92,7 @@ final class ProductDetailViewController: UIViewController {
         label.textAlignment = .right
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.adjustsFontForContentSizeCategory = true
-
+        
         return label
     }()
     
@@ -99,7 +102,7 @@ final class ProductDetailViewController: UIViewController {
         label.textAlignment = .right
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.adjustsFontForContentSizeCategory = true
-
+        
         return label
     }()
     
@@ -123,7 +126,10 @@ final class ProductDetailViewController: UIViewController {
         configureCollectionViewHierarchy()
         configureViewModel()
         configureDataSource()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchProductDetails(by: productID)
     }
     
@@ -145,32 +151,6 @@ final class ProductDetailViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc private func didTappedEditButton() {
-        let actionSheet = UIAlertController(title: nil,
-                                            message: nil,
-                                            preferredStyle: .actionSheet)
-        
-        let editAction = UIAlertAction(title: "수정",
-                                       style: .default) { _ in
-        }
-        
-        let deleteAction = UIAlertAction(title: "삭제",
-                                         style: .destructive) { _ in
-        }
-        
-        let cancelAction = UIAlertAction(title: "취소",
-                                         style: .cancel,
-                                         handler: nil)
-        
-        actionSheet.addAction(editAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(cancelAction)
-        
-        actionSheet.modalPresentationStyle = .overFullScreen
-        self.present(actionSheet,
-                     animated: true,
-                     completion: nil)
-    }
     
     private func configureRootScrollView() {
         view.addSubview(rootScrollView)
@@ -208,16 +188,16 @@ final class ProductDetailViewController: UIViewController {
         }
         
         productDetailImagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         rootStackView.addArrangedSubview(productDetailImagesCollectionView)
         rootStackView.addArrangedSubview(productInfoLabelStackView)
         rootStackView.addArrangedSubview(productDescriptionTextView)
-
+        
         productDetailImagesCollectionView.heightAnchor.constraint(equalToConstant: view.layer.bounds.height * 0.35).isActive = true
         
         productInfoLabelStackView.addArrangedSubview(productNameLabel)
         productInfoLabelStackView.addArrangedSubview(productPriceAndStockStackView)
-
+        
         productPriceAndStockStackView.addArrangedSubview(stockLabel)
         productPriceAndStockStackView.addArrangedSubview(originalPriceLabel)
         productPriceAndStockStackView.addArrangedSubview(discountedPriceLabel)
@@ -283,7 +263,7 @@ final class ProductDetailViewController: UIViewController {
         guard let productDetailImagesCollectionView = productDetailImagesCollectionView else {
             return
         }
-
+        
         
         productDetailImagesdataSource = UICollectionViewDiffableDataSource<Section, UIImage>(collectionView: productDetailImagesCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: UIImage) -> UICollectionViewCell? in
@@ -339,18 +319,19 @@ final class ProductDetailViewController: UIViewController {
     }
 }
 
-extension ProductDetailViewController: UICollectionViewDelegate {
+extension ProductDetailsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
 
-extension ProductDetailViewController: ProductDetailsViewDelegate {
-    func productDetailsViewController(_ viewController: ProductDetailViewController.Type, didRecieve productInfo: ProductDetailsEntity) {
+extension ProductDetailsViewController: ProductDetailsViewDelegate {
+    func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve productInfo: ProductDetailsEntity) {
         updateUI(productInfo)
+        self.productInfo = productInfo
     }
     
-    func productDetailsViewController(_ viewController: ProductDetailViewController.Type, didRecieve images: [UIImage]) {
+    func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve images: [UIImage]) {
         updateUI(images)
     }
 }

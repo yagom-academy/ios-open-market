@@ -9,7 +9,7 @@ import UIKit
 
 struct ProductDetailsEntity: Hashable {
     let id: Int
-    let venderID: Int
+    let vendorID: Int
     let name: String
     let description: String
     let currency: Currency
@@ -18,3 +18,4 @@ struct ProductDetailsEntity: Hashable {
     let stock: Int
     let images: [UIImage]
 }
+

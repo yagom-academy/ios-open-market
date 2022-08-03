@@ -1,16 +1,16 @@
 //
-//  OpenMarket - MarketProductsViewController.swift
+//  OpenMarket - ProductListViewController.swift
 //  Created by 데릭, 수꿍.
 //  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
-final class MarketProductsViewController: UIViewController {
+final class ProductListViewController: UIViewController {
     // MARK: Properties
     
     private let networkProvider = APIClient()
-    private var marketProductsViewModel: MarketProductsViewModel?
+    private var marketProductsViewModel: ProductListViewModel?
     private let productListAPIManager = ProductListAPIManager()
     
     private var listCollectionView: UICollectionView?
@@ -59,7 +59,7 @@ final class MarketProductsViewController: UIViewController {
         configureListDataSource()
         configureGridDataSource()
         
-        marketProductsViewModel = MarketProductsViewModel()
+        marketProductsViewModel = ProductListViewModel()
         connectDelegate()
         
         gridCollectionView?.isHidden = true
@@ -263,24 +263,25 @@ final class MarketProductsViewController: UIViewController {
 
 // MARK: - MarketProductsViewDelegate
 
-extension MarketProductsViewController: MarketProductsViewControllerDelegate {
-    func didReceiveResponse(_ view: MarketProductsViewController.Type,
-                            by data: ProductListEntity) {
-        updateUI(by: data)
+extension ProductListViewController: ProductListDelegate {
+    func productListViewController(_ view: ProductListViewController.Type,
+                            didRecieve productListInfo: ProductListEntity) {
+        updateUI(by: productListInfo)
     }
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension MarketProductsViewController: UICollectionViewDelegate {
+extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = shouldHideListView ? self.listDataSource?.itemIdentifier(for: indexPath) : self.gridDataSource?.itemIdentifier(for: indexPath) else {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
         }
         
-        let productDetailViewController = ProductDetailViewController()
+        let productDetailViewController = ProductDetailsViewController()
         productDetailViewController.productID = product.id
+        productDetailViewController.productVendorID = product.vendorID
         productDetailViewController.title = product.name
         self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }

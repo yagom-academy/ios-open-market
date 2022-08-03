@@ -18,7 +18,7 @@ enum Currency: String, Codable {
 
 struct Product: Codable {
     let id: Int
-    let venderID: Int
+    let vendorID: Int
     let name: String
     let thumbnail: String
     let currency: Currency
@@ -31,7 +31,7 @@ struct Product: Codable {
     
     enum CodingKeys: String, CodingKey {
         case id
-        case venderID = "vendor_id"
+        case vendorID = "vendor_id"
         case name
         case thumbnail
         case currency

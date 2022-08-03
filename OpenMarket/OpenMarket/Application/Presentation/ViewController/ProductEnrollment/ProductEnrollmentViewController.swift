@@ -164,8 +164,8 @@ final class ProductEnrollmentViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.text = "제품 상세 설명"
-        textView.textColor = .lightGray
         textView.font = UIFont.preferredFont(forTextStyle: .caption1)
+        textView.textColor = .lightGray
         
         return textView
     }()
@@ -205,7 +205,7 @@ final class ProductEnrollmentViewController: UIViewController {
     }
     
     private func configureNavigationItems() {
-        self.title = "상품 등록"
+        self.title = "상품등록"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                                 target: self,
                                                                 action: #selector(didTappedCancelButton))
@@ -277,7 +277,7 @@ final class ProductEnrollmentViewController: UIViewController {
         ])
     }
     
-    func registerNotificationForKeyboard() {
+    private func registerNotificationForKeyboard() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -316,6 +316,7 @@ final class ProductEnrollmentViewController: UIViewController {
               let discountedPrice = discountedPriceTextField.text?.convertToInt(),
               let productStock = productStockTextField.text?.convertToInt(),
               originalPrice > 0,
+              productDescriptionText != "제품 상세 설명",
               productImages.count > 0 else {
             
             self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)

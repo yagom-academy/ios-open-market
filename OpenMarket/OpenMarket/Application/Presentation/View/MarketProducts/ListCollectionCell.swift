@@ -93,7 +93,7 @@ final class ListCollectionCell: UICollectionViewListCell {
         return label
     }()
     
-    private var viewModel: MarketProductsViewModel?
+    private var viewModel: ProductListViewModel?
 
     // MARK: - Cell Life Cycle
     
@@ -161,7 +161,7 @@ final class ListCollectionCell: UICollectionViewListCell {
     }
     
     func updateUI(_ data: ProductEntity) {
-        viewModel =  MarketProductsViewModel(data)
+        viewModel =  ProductListViewModel(data)
         productImageView.image = viewModel?.thumbnailImage
         productNameLabel.text = viewModel?.name
         originalPriceLabel.text = viewModel?.originalPriceText

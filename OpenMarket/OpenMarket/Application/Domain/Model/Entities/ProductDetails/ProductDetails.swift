@@ -9,7 +9,7 @@ import UIKit
 
 struct ProductDetail: Codable {
     let id: Int
-    let venderID: Int
+    let vendorID: Int
     let name: String
     let description: String
     let thumbnail: String
@@ -25,7 +25,7 @@ struct ProductDetail: Codable {
     
     enum CodingKeys: String, CodingKey {
         case id
-        case venderID = "vendor_id"
+        case vendorID = "vendor_id"
         case name
         case description
         case thumbnail
