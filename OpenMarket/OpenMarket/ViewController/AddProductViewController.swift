@@ -29,7 +29,7 @@ class AddProductViewController: UIViewController {
         fetchImagePicker()
     }
     
-    @IBAction private func back(_ sender: UIButton) {
+    @IBAction private func moveToMainViewClick(_ sender: UIButton) {
         self.presentingViewController?.dismiss(animated: true)
     }
     
@@ -37,7 +37,7 @@ class AddProductViewController: UIViewController {
         pickImage()
     }
     
-    @IBAction func selectMoneyType(_ sender: UISegmentedControl) {
+    @IBAction func selectConcurrencyType(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             segmentMemonyType = CurrencyType.krw
@@ -136,10 +136,10 @@ class AddProductViewController: UIViewController {
         
         request.httpMethod = HTTPMethod.post
         
-        let body = createBody(paramaeters: ["params": jsonParams], boundary: boundary)
+        let jsonbody = createJsonBody(paramaeters: ["params": jsonParams], boundary: boundary)
         let imageBody = createImageBody(images: image, boundary: boundary)
         
-        request.httpBody = body + imageBody
+        request.httpBody = jsonbody + imageBody
                 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -151,7 +151,7 @@ class AddProductViewController: UIViewController {
         task.resume()
     }
     
-    private func createBody(paramaeters: [String: Any], boundary: String) -> Data {
+    private func createJsonBody(paramaeters: [String: Any], boundary: String) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
