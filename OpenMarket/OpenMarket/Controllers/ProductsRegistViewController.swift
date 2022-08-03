@@ -11,14 +11,28 @@ class ProductsRegistViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = registView
-        registView.backgroundColor = .systemBackground
+        view.addSubview(registView)
+        configureConstraint()
         configureNavigationBar()
         configureImagePicker()
         registView.configureDelegate(viewController: self)
         addNavigationBarButton()
         addTargetAction()
         makeNotification()
+    }
+}
+
+// MARK: - Functions
+
+extension ProductsRegistViewController {
+    private func configureConstraint() {
+        registView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            registView.topAnchor.constraint(equalTo: view.topAnchor),
+            registView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            registView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            registView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
     
     private func presentAlertMessage(message: String) {

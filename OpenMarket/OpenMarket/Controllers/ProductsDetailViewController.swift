@@ -10,7 +10,8 @@ class ProductsDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = detailView
+        view.addSubview(detailView)
+        configureConstraint()
         addNavigationBarButton()
         
         guard let delegate = delegate else { return }
@@ -23,13 +24,25 @@ class ProductsDetailViewController: UIViewController {
             }
         }
     }
+}
+
+// MARK: - Functions
+
+extension ProductsDetailViewController {
+    private func configureConstraint() {
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            detailView.topAnchor.constraint(equalTo: view.topAnchor),
+            detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            detailView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
     
     private func addNavigationBarButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonDidTapped))
     }
-}
-
-extension ProductsDetailViewController {
+    
     private func deleteProduct() {
         let alert = UIAlertController(title: "암호", message: "암호를 입력하세요.", preferredStyle: .alert)
         let action = UIAlertAction(title: "확인", style: .default) { action in
