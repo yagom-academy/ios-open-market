@@ -266,10 +266,11 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let prodcutDetailVC = ProductSetupViewController()
-        prodcutDetailVC.productId = productListManager.productList[indexPath.row].id
-        prodcutDetailVC.viewControllerTitle = "상품 수정"
-        print("\(productListManager.productList[indexPath.row].id) - \(productListManager.productList[indexPath.row].name) is tapped")
+        let prodcutDetailVC = ProductDetailViewController()
+        let seletedProduct = productListManager.productList[indexPath.row]
+        prodcutDetailVC.productId = seletedProduct.id
+        prodcutDetailVC.viewControllerTitle = seletedProduct.name
+        print("\(seletedProduct.id) - \(seletedProduct.name) is tapped")
         navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
 }
