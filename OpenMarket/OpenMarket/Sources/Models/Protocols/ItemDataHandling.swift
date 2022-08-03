@@ -8,12 +8,17 @@
 import UIKit
 
 protocol ItemDataHandling: AnyObject {
+    
+    // MARK: - Properties
+    
     var collectionView: UICollectionView { get set }
     var dataSource: UICollectionViewDiffableDataSource<Section, ItemListPage.Item> { get set }
     var itemListPage: ItemListPage? { get set }
     
     typealias SnapShot = NSDiffableDataSourceSnapshot<Section, ItemListPage.Item>
 }
+
+// MARK: - Actions
 
 extension ItemDataHandling {
     func getProductList(from url: URL?) {

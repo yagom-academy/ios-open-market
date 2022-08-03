@@ -5,8 +5,6 @@
 //  Created by minsson, yeton on 2022/07/15.
 //
 
-// MARK: - Enum
-
 enum NetworkingError: Error {
     case decodingJSONFailure
     case invalidURL

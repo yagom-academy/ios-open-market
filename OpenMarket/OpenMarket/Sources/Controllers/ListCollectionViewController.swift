@@ -7,6 +7,9 @@
 import UIKit
 
 final class ListCollectionViewController: UIViewController, ItemDataHandling {
+    
+    // MARK: - Properties
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
@@ -21,6 +24,8 @@ final class ListCollectionViewController: UIViewController, ItemDataHandling {
     
     var itemListPage: ItemListPage?
     
+    // MARK: - Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +35,8 @@ final class ListCollectionViewController: UIViewController, ItemDataHandling {
         getProductList(from: APIURLComponents.openMarketURLComponents?.url)
     }
 }
+
+// MARK: - Private Actions
 
 private extension ListCollectionViewController {
     func setUpCollectionViewLayout() {

@@ -8,6 +8,9 @@
 import UIKit
 
 class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
+    
+    // MARK: - UI Properties
+    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -104,7 +107,32 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
         return stackView
     }()
     
-    private func arrangeSubView() {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        arrangeSubView()
+        setupUIComponentsLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
+        nameLabel.text = nil
+        stockLabel.text = nil
+        priceLabel.text = nil
+        priceLabel.attributedText = nil
+    }
+    
+}
+
+// MARK: - Private Actions
+private extension ItemListCollectionViewCell {
+    func arrangeSubView() {
         firstHorizontalStackView.addArrangedSubview(stockLabel)
         firstHorizontalStackView.addArrangedSubview(accessaryImageView)
         
@@ -123,13 +151,13 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
         contentView.addSubview(entireStackView)
     }
     
-    private func setupUIComponentsLayout() {
+    func setupUIComponentsLayout() {
         setupEntireStackViewLayout()
         setupImageViewLayout()
         setupAccessaryImageViewLayout()
     }
     
-    private func setupEntireStackViewLayout() {
+    func setupEntireStackViewLayout() {
         NSLayoutConstraint.activate([
             entireStackView.topAnchor.constraint(
                 equalTo: contentView.topAnchor
@@ -148,7 +176,7 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
         ])
     }
     
-    private func setupImageViewLayout() {
+    func setupImageViewLayout() {
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(
                 equalTo: contentView.heightAnchor,
@@ -160,31 +188,11 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
         ])
     }
     
-    private func setupAccessaryImageViewLayout() {
+    func setupAccessaryImageViewLayout() {
         accessaryImageView.widthAnchor.constraint(
             equalTo: contentView.heightAnchor,
             multiplier: 0.1
         ).isActive = true
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        arrangeSubView()
-        setupUIComponentsLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
-        nameLabel.text = nil
-        priceLabel.attributedText = nil
-        priceLabel.text = nil
-        stockLabel.text = nil
     }
 }
 

@@ -2,12 +2,15 @@
 //  ItemGridCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by 이예은 on 2022/08/03.
+//  Created by minsson, yeton on 2022/08/03.
 //
 
 import UIKit
 
 class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
+    
+    // MARK: - UI Properties
+    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,61 +58,6 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
         return stackView
     }()
     
-    private func arrangeSubView() {
-        verticalStackView.addArrangedSubview(imageView)
-        verticalStackView.addArrangedSubview(nameLabel)
-        verticalStackView.addArrangedSubview(priceLabel)
-        verticalStackView.addArrangedSubview(bargainPriceLabel)
-        verticalStackView.addArrangedSubview(stockLabel)
-        
-        contentView.addSubview(verticalStackView)
-    }
-    
-    private func setupLayerAttributes() {
-        self.layer.cornerRadius = 5
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.systemGray3.cgColor
-    }
-    
-    private func setupUIComponentsLayout() {
-        setupVerticalStackViewLayout()
-        setupImageViewLayout()
-    }
-    
-    private func setupVerticalStackViewLayout() {
-        NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(
-                equalTo: contentView.topAnchor,
-                constant: 8
-            ),
-            verticalStackView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor,
-                constant: -8
-            ),
-            verticalStackView.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor,
-                constant: -10
-            ),
-            verticalStackView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor,
-                constant: 10
-            )
-        ])
-    }
-    
-    private func setupImageViewLayout() {
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(
-                equalTo: contentView.heightAnchor,
-                multiplier: 0.5
-            ),
-            imageView.widthAnchor.constraint(
-                equalTo: imageView.heightAnchor,
-                multiplier: 0.9
-            )
-        ])
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         arrangeSubView()
@@ -130,5 +78,64 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
         priceLabel.textColor = .systemGray
         stockLabel.text = nil
         stockLabel.textColor = .systemGray
+    }
+}
+
+// MARK: - Private Actions
+
+private extension ItemGridCollectionViewCell {
+    func arrangeSubView() {
+        verticalStackView.addArrangedSubview(imageView)
+        verticalStackView.addArrangedSubview(nameLabel)
+        verticalStackView.addArrangedSubview(priceLabel)
+        verticalStackView.addArrangedSubview(bargainPriceLabel)
+        verticalStackView.addArrangedSubview(stockLabel)
+        
+        contentView.addSubview(verticalStackView)
+    }
+    
+    func setupLayerAttributes() {
+        self.layer.cornerRadius = 5
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.systemGray3.cgColor
+    }
+    
+    func setupUIComponentsLayout() {
+        setupVerticalStackViewLayout()
+        setupImageViewLayout()
+    }
+    
+    func setupVerticalStackViewLayout() {
+        NSLayoutConstraint.activate([
+            verticalStackView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: 8
+            ),
+            verticalStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -8
+            ),
+            verticalStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -10
+            ),
+            verticalStackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 10
+            )
+        ])
+    }
+    
+    func setupImageViewLayout() {
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(
+                equalTo: contentView.heightAnchor,
+                multiplier: 0.5
+            ),
+            imageView.widthAnchor.constraint(
+                equalTo: imageView.heightAnchor,
+                multiplier: 0.9
+            )
+        ])
     }
 }

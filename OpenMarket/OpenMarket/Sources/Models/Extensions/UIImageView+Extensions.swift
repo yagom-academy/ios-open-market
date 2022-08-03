@@ -8,6 +8,9 @@
 import UIKit
 
 extension UIImageView {
+    
+    // MARK: - Actions
+    
     func setImageURL(_ url: String) {
         DispatchQueue.global(qos: .background).async {
             let cachedKey = NSString(string: url)

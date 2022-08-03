@@ -8,10 +8,20 @@
 import UIKit
 
 final class ContainerViewController: UIViewController {
+    
+    // MARK: - Private Enums
+    
     private enum DisplayingViewType: Int {
         case list = 0
         case grid = 1
     }
+    
+    private enum QueryValues {
+        static let pageNumber = 1
+        static let itemsPerPage = 50
+    }
+    
+    // MARK: - Properties
     
     private let segmentedControl: UISegmentedControl = {
         let selectionItems = [
@@ -35,20 +45,26 @@ final class ContainerViewController: UIViewController {
         return gridCollectionViewController
     }()
     
+    // MARK: - Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         APIURLComponents.configureQueryItem(
-            pageNumber: 1,
-            itemsPerPage: 50
+            pageNumber: QueryValues.pageNumber,
+            itemsPerPage: QueryValues.itemsPerPage
         )
         
         addSubViewToViewController()
         setupUIComponentsLayout()
         segmentedControlDidTap()
     }
-    
-    private func addSubViewToViewController() { // setUpComponents()?
+}
+
+// MARK: - Private Properties
+
+private extension ContainerViewController {
+    func addSubViewToViewController() {
         view.addSubview(listCollectionViewController.view)
         view.addSubview(gridCollectionViewController.view)
         view.addSubview(segmentedControl)
@@ -63,7 +79,7 @@ final class ContainerViewController: UIViewController {
         listCollectionViewController.view.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func segmentedControlDidTap() {
+    func segmentedControlDidTap() {
         segmentedControl.addTarget(
             self,
             action: #selector(switchLayout),
@@ -84,13 +100,13 @@ final class ContainerViewController: UIViewController {
         }
     }
     
-    private func setupUIComponentsLayout() {
+    func setupUIComponentsLayout() {
         setupSegmentedControlLayout()
         setupGridCollectionViewLayout()
         setupListCollectionViewLayout()
     }
     
-    private func setupGridCollectionViewLayout() {
+    func setupGridCollectionViewLayout() {
         NSLayoutConstraint.activate([
             gridCollectionViewController.view.topAnchor.constraint(
                 equalTo: segmentedControl.bottomAnchor,
@@ -111,7 +127,7 @@ final class ContainerViewController: UIViewController {
         ])
     }
     
-    private func setupSegmentedControlLayout() {
+    func setupSegmentedControlLayout() {
         NSLayoutConstraint.activate([
             segmentedControl.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor,
@@ -128,7 +144,7 @@ final class ContainerViewController: UIViewController {
         ])
     }
     
-    private func setupListCollectionViewLayout() {
+    func setupListCollectionViewLayout() {
         NSLayoutConstraint.activate([
             listCollectionViewController.view.topAnchor.constraint(
                 equalTo: segmentedControl.bottomAnchor,

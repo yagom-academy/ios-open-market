@@ -8,6 +8,9 @@
 import UIKit
 
 protocol CellConfigurable {
+    
+    // MARK: - Requirements
+    
     var imageView: UIImageView { get }
     var nameLabel: UILabel { get }
     var priceLabel: UILabel { get }
@@ -17,11 +20,15 @@ protocol CellConfigurable {
     func receiveData(_ item: ItemListPage.Item)
 }
 
+// MARK: - Actions
+
 extension CellConfigurable {
     func receiveData(_ item: ItemListPage.Item) {
         configureCell(with: item)
     }
 }
+
+// MARK: - Private Actions
 
 private extension CellConfigurable {
     func configureCell(with item: ItemListPage.Item) {

@@ -8,6 +8,9 @@
 import Foundation
 
 extension Double {
+    
+    // MARK: - Actions
+    
     func priceFormat(currency: String?) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

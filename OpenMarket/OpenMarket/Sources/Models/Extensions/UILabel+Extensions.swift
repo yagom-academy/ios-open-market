@@ -8,6 +8,9 @@
 import UIKit
 
 extension UILabel {
+    
+    // MARK: - Actions
+    
     func applyStrikethrough() {
         guard let text = self.text else {
             return
@@ -21,5 +24,4 @@ extension UILabel {
         )
         attributedText = attributeString
     }
-
 }

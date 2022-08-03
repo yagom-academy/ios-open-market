@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  NetworkManager.swift
 //  OpenMarket
 //
 //  Created by minsson, yeton on 2022/07/14.
