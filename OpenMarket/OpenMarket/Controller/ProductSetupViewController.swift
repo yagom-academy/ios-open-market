@@ -9,7 +9,6 @@ import UIKit
 
 final class ProductSetupViewController: UIViewController {
     // MARK: - Properties
-    private let manager = NetworkManager.shared
     private var productSetupView: ProductSetupView?
     private var imagePicker = UIImagePickerController()
     var productId: Int?
@@ -31,13 +30,12 @@ final class ProductSetupViewController: UIViewController {
             productSetupView?.horizontalStackView.addArrangedSubview(productSetupView?.addImageButton ?? UIButton())
             return
         }
-        manager.requestProductDetail(at: productId) { detail in
+        NetworkManager.shared.requestProductDetail(at: productId) { detail in
             DispatchQueue.main.async { [weak self] in
                 self?.updateSetup(with: detail)
             }
         }
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -69,19 +67,10 @@ final class ProductSetupViewController: UIViewController {
     }
     
     @objc private func doneButtonDidTapped() {
-        guard let productRegistration = createProductRegistration(),
-              let images = createImages()
-        else {
-            return
-        }
-        manager.requestProductRegistration(with: productRegistration, images: images) { detail in
-            print("SUCCESS POST - \(detail.id), \(detail.name)")
-            DispatchQueue.main.async {
-                self.showAlert(title: "알림", message: "게시 완료!!") {
-                    self.navigationController?.popViewController(animated: true)
-                    NotificationCenter.default.post(name: .refresh, object: nil)
-                }
-            }
+        if let _ = productId {
+            productUpdate()
+        } else {
+            productRegist()
         }
     }
     
@@ -111,12 +100,15 @@ final class ProductSetupViewController: UIViewController {
               let discountedPrice = Double(productSetupView.productDiscountedPriceTextField.text ?? ""),
               let stock = Int(productSetupView.productStockTextField.text ?? "")
         else {
-            showAlert(title: "알림", message: "텍스트필드에 값을 넣어주세요")
+            showAlert(title: "알림", message: "텍스트필드에 제대로 된 값을 넣어주세요")
+            return nil
+        }
+        guard let descriptions = productSetupView.descriptionTextView.text != "" ? productSetupView.descriptionTextView.text : " " else {
             return nil
         }
         let currency = productSetupView.currencySegmentControl.selectedSegmentIndex == 0 ? Currency.krw : Currency.usd
         let productRegistration = ProductRegistration(name: productName,
-                                                      descriptions: productSetupView.descriptionTextView.text,
+                                                      descriptions: descriptions,
                                                       price: price,
                                                       currency: currency,
                                                       discountedPrice: discountedPrice,
@@ -124,6 +116,65 @@ final class ProductSetupViewController: UIViewController {
                                                       secret: URLData.secret
         )
         return productRegistration
+    }
+    
+    private func createProductModification() -> ModificationData? {
+        guard let productSetupView = productSetupView,
+              let productId = self.productId,
+              let productName = productSetupView.productNameTextField.text,
+              let price = Double(productSetupView.productPriceTextField.text ?? ""),
+              let discountedPrice = Double(productSetupView.productDiscountedPriceTextField.text ?? ""),
+              let stock = Int(productSetupView.productStockTextField.text ?? "")
+        else {
+            showAlert(title: "알림", message: "텍스트필드에 값을 넣어주세요")
+            return nil
+        }
+        guard let descriptions = productSetupView.descriptionTextView.text != "" ? productSetupView.descriptionTextView.text : " " else {
+            return nil
+        }
+        let currency = productSetupView.currencySegmentControl.selectedSegmentIndex == 0 ? Currency.krw : Currency.usd
+        let modification = ModificationData(id: productId,
+                                            name: productName,
+                                            descriptions: descriptions,
+                                            price: price,
+                                            currency: currency,
+                                            discountedPrice: discountedPrice,
+                                            stock: stock
+        )
+        return modification
+    }
+    
+    private func productRegist() {
+        guard let productRegistration = createProductRegistration(),
+              let images = createImages()
+        else {
+            return
+        }
+        NetworkManager.shared.requestProductRegistration(with: productRegistration, images: images) { detail in
+            DispatchQueue.main.async {
+                self.showAlert(title: "알림", message: "게시 완료!!") {
+                    self.navigationController?.popViewController(animated: true)
+                    NotificationCenter.default.post(name: .refresh, object: nil)
+                }
+            }
+        }
+    }
+    
+    private func productUpdate() {
+        guard let id = self.productId,
+              let modificationData = createProductModification() else {
+            return
+        }
+        let rowData = NetworkManager.shared.translateToRowData(modificationData)
+        
+        NetworkManager.shared.requestProductModification(id: id, rowData: rowData) { detail in
+            DispatchQueue.main.async {
+                self.showAlert(title: "알림", message: "수정 완료!!") {
+                    self.navigationController?.popViewController(animated: true)
+                    NotificationCenter.default.post(name: .refresh, object: nil)
+                }
+            }
+        }
     }
     
     private func createImages() -> [UIImage]? {
