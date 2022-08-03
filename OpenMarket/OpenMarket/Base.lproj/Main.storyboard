@@ -98,7 +98,7 @@
                                     <navigationItem title="상품등록" id="YBU-JN-nK9">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" style="done" id="NHg-bS-xyq">
                                             <connections>
-                                                <action selector="back:" destination="xbI-fK-CDy" id="k5G-El-0MD"/>
+                                                <action selector="moveToMainViewClick:" destination="xbI-fK-CDy" id="ZtK-XP-uMG"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Done" id="dFE-zQ-oWx">
@@ -180,6 +180,7 @@
                                                                     <segment title="USD"/>
                                                                 </segments>
                                                                 <connections>
+                                                                    <action selector="selectConcurrencyType:" destination="xbI-fK-CDy" eventType="touchUpInside" id="6Uj-mb-twM"/>
                                                                     <action selector="selectMoneyType:" destination="xbI-fK-CDy" eventType="valueChanged" id="rlJ-aJ-6Lo"/>
                                                                 </connections>
                                                             </segmentedControl>
