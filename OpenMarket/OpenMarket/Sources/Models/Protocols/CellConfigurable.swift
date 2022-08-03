@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CollectionViewCellConfigurable {
+protocol CellConfigurable {
     var imageView: UIImageView { get }
     var nameLabel: UILabel { get }
     var priceLabel: UILabel { get }
@@ -17,13 +17,13 @@ protocol CollectionViewCellConfigurable {
     func receiveData(_ item: ItemListPage.Item)
 }
 
-extension CollectionViewCellConfigurable {
+extension CellConfigurable {
     func receiveData(_ item: ItemListPage.Item) {
         configureCell(with: item)
     }
 }
 
-private extension CollectionViewCellConfigurable {
+private extension CellConfigurable {
     func configureCell(with item: ItemListPage.Item) {
         imageView.image = UIImage(systemName: "photo")
         nameLabel.text = item.name

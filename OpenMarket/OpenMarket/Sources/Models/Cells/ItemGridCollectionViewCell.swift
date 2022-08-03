@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemGridCollectionViewCell: UICollectionViewCell, CollectionViewCellConfigurable {
+class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false

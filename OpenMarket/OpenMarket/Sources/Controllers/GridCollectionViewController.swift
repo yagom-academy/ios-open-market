@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GridCollectionViewController: UIViewController, CollectionViewControllerConfigurable {
+final class GridCollectionViewController: UIViewController, ItemDataHandling {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,

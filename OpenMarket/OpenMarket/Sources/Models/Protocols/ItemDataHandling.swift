@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CollectionViewControllerConfigurable: AnyObject {
+protocol ItemDataHandling: AnyObject {
     var collectionView: UICollectionView { get set }
     var dataSource: UICollectionViewDiffableDataSource<Section, ItemListPage.Item> { get set }
     var itemListPage: ItemListPage? { get set }
@@ -15,7 +15,7 @@ protocol CollectionViewControllerConfigurable: AnyObject {
     typealias SnapShot = NSDiffableDataSourceSnapshot<Section, ItemListPage.Item>
 }
 
-extension CollectionViewControllerConfigurable {
+extension ItemDataHandling {
     func getProductList(from url: URL?) {
         NetworkManager.performRequestToAPI(
             from: url

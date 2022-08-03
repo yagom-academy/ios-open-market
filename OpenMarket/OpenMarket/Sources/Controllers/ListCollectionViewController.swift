@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class ListCollectionViewController: UIViewController, CollectionViewControllerConfigurable {
+final class ListCollectionViewController: UIViewController, ItemDataHandling {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
