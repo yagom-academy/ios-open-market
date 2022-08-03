@@ -11,7 +11,6 @@ class ProductsDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = detailView
-        detailView.itemImageScrollView.delegate = self
         addNavigationBarButton()
         
         guard let delegate = delegate else { return }
@@ -21,7 +20,6 @@ class ProductsDetailViewController: UIViewController {
             DispatchQueue.main.async {
                 self.title = self.productInfo?.name
                 self.detailView.setProductInfomation(data: data)
-                self.detailView.applySnapshot(using: data.images!)
             }
         }
     }
@@ -72,13 +70,5 @@ extension ProductsDetailViewController {
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
-    }
-}
-
-extension ProductsDetailViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentPage = Int(scrollView.contentOffset.x/scrollView.frame.size.width) + 1
-        let totalPage = detailView.itemImageStackView.arrangedSubviews.count
-        detailView.currentPage.text = "\(currentPage)/\(totalPage)"
     }
 }

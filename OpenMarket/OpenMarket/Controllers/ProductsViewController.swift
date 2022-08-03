@@ -313,7 +313,6 @@ extension ProductsViewController: UICollectionViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - scrollView.frame.height
         

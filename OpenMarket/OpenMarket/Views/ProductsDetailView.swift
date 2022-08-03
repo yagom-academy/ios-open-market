@@ -8,22 +8,6 @@ class ProductsDetailView: UIView {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
     
-    let itemImageStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        return stackView
-    }()
-    
-    let itemImageScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.isPagingEnabled = true
-        return scrollView
-    }()
-    
     let currentPage: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -176,12 +160,18 @@ class ProductsDetailView: UIView {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
                                                        count: 1)
-        group.interItemSpacing = .fixed(10)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.visibleItemsInvalidationHandler = { [weak self] (visibleItems, offset, env) in
+            guard let self = self,
+                  let imageCollectionView = self.imageCollectionView else { return }
+
+            let currentPageNumber = Int(offset.x / imageCollectionView.frame.size.width) + 1
+            let totalPage = self.snapshot.numberOfItems
+            self.currentPage.text = "\(currentPageNumber)/\(totalPage)"
+        }
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -189,20 +179,21 @@ class ProductsDetailView: UIView {
     
     func congifureCollectionView() {
         imageCollectionView = UICollectionView(frame: bounds, collectionViewLayout: createLayout())
-        imageCollectionView?.isPagingEnabled = true
+        imageCollectionView?.decelerationRate = .fast
         imageCollectionView?.alwaysBounceVertical = false
     }
     
     private func configureDataSoure() {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, UIImage> { (cell, indexPath, item) in
             let imageView = UIImageView(image: item)
+            
+            cell.contentView.subviews.forEach { $0.removeFromSuperview() }
             cell.contentView.addSubview(imageView)
             
             imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.contentMode = .scaleAspectFit
             imageView.heightAnchor.constraint(equalTo: cell.contentView.heightAnchor).isActive = true
             imageView.widthAnchor.constraint(equalTo: cell.contentView.widthAnchor).isActive = true
-            
-            cell.backgroundColor = .systemRed
         }
         
         guard let imageCollectionView = imageCollectionView else { return }
@@ -212,7 +203,7 @@ class ProductsDetailView: UIView {
         }
     }
     
-    func applySnapshot(using imagesUrl: [Images]) {
+    private func applySnapshot(using imagesUrl: [Images]) {
         self.snapshot.appendSections([.main])
         var images: [UIImage] = []
         imagesUrl.forEach {
@@ -230,15 +221,13 @@ class ProductsDetailView: UIView {
         addSubview(mainScrollView)
         
         mainScrollView.addSubview(mainStackView)
-                
-        mainStackView.addArrangedSubview(itemImageScrollView)
-        mainStackView.addArrangedSubview(imageCollectionView!)
+
+        guard let imageCollectionView = imageCollectionView else { return }
+        mainStackView.addArrangedSubview(imageCollectionView)
         mainStackView.addArrangedSubview(currentPage)
         mainStackView.addArrangedSubview(itemNameAndStockStackView)
         mainStackView.addArrangedSubview(itemPriceAndSaleStackView)
         mainStackView.addArrangedSubview(itemDescriptionTextView)
-        
-        itemImageScrollView.addSubview(itemImageStackView)
         
         itemNameAndStockStackView.addArrangedSubview(itemNameLabel)
         itemNameAndStockStackView.addArrangedSubview(itemStockLabel)
@@ -263,33 +252,10 @@ class ProductsDetailView: UIView {
             mainStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor)
         ])
         
+        guard let imageCollectionView = imageCollectionView else { return }
         NSLayoutConstraint.activate([
-            imageCollectionView!.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
+            imageCollectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
         ])
-        
-        
-        NSLayoutConstraint.activate([
-            itemImageScrollView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
-        ])
-        
-        NSLayoutConstraint.activate([
-            itemImageStackView.topAnchor.constraint(equalTo: itemImageScrollView.topAnchor),
-            itemImageStackView.bottomAnchor.constraint(equalTo: itemImageScrollView.bottomAnchor),
-            itemImageStackView.leadingAnchor.constraint(equalTo: itemImageScrollView.leadingAnchor),
-            itemImageStackView.trailingAnchor.constraint(equalTo: itemImageScrollView.trailingAnchor),
-            itemImageStackView.heightAnchor.constraint(equalTo: itemImageScrollView.heightAnchor)
-        ])
-    }
-    
-    func makeimageView(url: String) {
-        guard let url = URL(string: url),
-              let data = try? Data(contentsOf: url),
-              let image = UIImage(data: data) else { return }
-        let imageView = UIImageView(image: image)
-        itemImageStackView.addArrangedSubview(imageView)
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.widthAnchor.constraint(equalTo: itemImageScrollView.widthAnchor).isActive = true
     }
     
     func setProductInfomation(data: Page) {
@@ -297,10 +263,9 @@ class ProductsDetailView: UIView {
               let saleText = numberFormatter.string(for: data.price - data.discountedPrice),
               let images = data.images else { return }
         
-        images.forEach { image in
-            makeimageView(url: image.url)
-        }
-        currentPage.text = "\(1)/\(itemImageStackView.arrangedSubviews.count)"
+        applySnapshot(using: images)
+        
+        currentPage.text = "\(1)/\(images.count)"
         itemNameLabel.text = data.name
         if data.discountedPrice <= 0 {
             itemPriceLabel.text = "\(data.currency) \(priceText)"
