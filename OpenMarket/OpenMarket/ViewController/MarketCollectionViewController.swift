@@ -180,3 +180,10 @@ final class MarketCollectionViewController: UICollectionViewController {
     }
 }
 
+extension MarketCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let detailVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailCollectionViewController") as? ProductDetailCollectionViewController else { return }
+        detailVC.productNumber = items[indexPath.row].productID
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+}

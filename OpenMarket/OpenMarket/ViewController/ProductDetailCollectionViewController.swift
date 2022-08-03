@@ -22,6 +22,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     lazy var dataSource = makeDataSource()
     var items: DetailProductItem?
     var images: [String] = []
+    var productNumber: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +92,8 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     // MARK: Data & Snapshot
     private func receiveDetailData() {
         let sessionManager = URLSessionManager(session: URLSession.shared)
-        let subURL = SubURL().productURL(productNumber: 4185)
+        guard let productNumber = productNumber else { return }
+        let subURL = SubURL().productURL(productNumber: productNumber)
         
         LoadingIndicator.showLoading(on: view)
         sessionManager.receiveData(baseURL: subURL) { result in

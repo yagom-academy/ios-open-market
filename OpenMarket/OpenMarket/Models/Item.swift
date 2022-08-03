@@ -8,6 +8,7 @@
 import UIKit
 
 struct Item: Hashable {
+    let productID: Int
     let productImage: String
     let productName: String
     let price: String
@@ -15,6 +16,7 @@ struct Item: Hashable {
     let stock: String
     
     init(product: Product) {
+        self.productID = product.id
         self.productName = product.name
         self.price = product.currency.rawValue + " " + product.price.devidePrice()
         self.bargainPrice = product.currency.rawValue + " " + product.bargainPrice.devidePrice()
