@@ -378,3 +378,10 @@ extension ProductDetailsViewController: ProductDetailsViewDelegate {
         updateUI(images)
     }
 }
+
+extension ProductDetailsViewController: ProductModificationDelegate {
+    func productModificationViewController(_ viewController: ProductModificationViewController.Type, didRecieve productName: String) {
+        self.title = productName
+        fetchProductDetails(by: productID)
+    }
+}
