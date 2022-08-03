@@ -55,12 +55,19 @@ final class ProductDetailViewController: UIViewController {
                 return
             }
             if inputKey == URLData.secret {
-                //삭제 로직 여기에 추가
-                // 삭제 실패시 오류 띄우기
-                // - 코드 
-                //삭제 정상처리시
-                self.showAlert(title: "삭제 성공!", message: "메인메뉴로"){
-                    self.navigationController?.popViewController(animated: true)
+                guard let productId = self.productId else {
+                    return
+                }
+                NetworkManager.shared.requestProductDeleteKey(id: productId) { key in
+                    NetworkManager.shared.requestProductDelete(id: productId, key: key) { detail in
+                        print(detail)
+                        DispatchQueue.main.async {
+                            self.showAlert(title: "삭제 성공!", message: "메인메뉴로"){
+                                self.navigationController?.popViewController(animated: true)
+                                NotificationCenter.default.post(name: .refresh, object: nil)
+                            }
+                        }
+                    }
                 }
             } else {
                 self.showAlert(title: "비번틀림", message: "다시입력하세요") {
