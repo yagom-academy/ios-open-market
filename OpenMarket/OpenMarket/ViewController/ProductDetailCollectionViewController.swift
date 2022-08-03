@@ -21,6 +21,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     // MARK: Properties
     lazy var dataSource = makeDataSource()
     var items: DetailProductItem?
+    var images: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +36,8 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         }
         
         let imageRegistration = UICollectionView.CellRegistration<DetailImageCollectionViewCell, DetailProductItem>.init { cell, indexPath, item in
-            cell.imageView.configureImage(url: item.images[indexPath.row], cell, indexPath, self.collectionView)
-            cell.imageNumberLabel.text = "\(indexPath.row+1)/\(item.images.count)"
+            cell.imageView.configureImage(url: item.thumbnailURL, cell, indexPath, self.collectionView)
+            cell.imageNumberLabel.text = "\(indexPath.row+1)/\(self.images.count)"
         }
         
         return DataSource(collectionView: collectionView) { collectionView, indexPath, item -> UICollectionViewCell? in
@@ -90,7 +91,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     // MARK: Data & Snapshot
     private func receiveDetailData() {
         let sessionManager = URLSessionManager(session: URLSession.shared)
-        let subURL = SubURL().productURL(productNumber: 522)
+        let subURL = SubURL().productURL(productNumber: 4185)
         
         LoadingIndicator.showLoading(on: view)
         sessionManager.receiveData(baseURL: subURL) { result in
@@ -113,7 +114,11 @@ class ProductDetailCollectionViewController: UICollectionViewController {
     private func applySnapshots() {
         var itemSnapshot = SnapShot()
         guard let detailProduct = items else { return }
-        let detailImages = Array(repeating: detailProduct, count: detailProduct.images.count)
+        var detailImages: [DetailProductItem] = []
+        
+        images.forEach {
+            detailImages.append(DetailProductItem(detailItem: detailProduct, image: $0))
+        }
         
         itemSnapshot.appendSections([.image, .info])
         itemSnapshot.appendItems(detailImages , toSection: .image)
@@ -126,6 +131,7 @@ class ProductDetailCollectionViewController: UICollectionViewController {
         do {
             let detailProduct = try DataDecoder().decode(type: DetailProduct.self, data: data)
             self.items = DetailProductItem(detailProduct: detailProduct)
+            self.images = detailProduct.images.map { $0.url }
         } catch {
             DispatchQueue.main.async {
                 self.showAlert(title: "데이터 변환 실패", message: "가져온 데이터를 읽을 수 없습니다.")

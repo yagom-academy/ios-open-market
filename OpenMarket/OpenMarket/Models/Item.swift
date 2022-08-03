@@ -29,7 +29,7 @@ struct DetailProductItem: Hashable {
     let bargainPrice: String
     let stock: String
     let description: String
-    let images: [String]
+    let thumbnailURL: String
     
     init(detailProduct: DetailProduct) {
         self.productName = detailProduct.name
@@ -37,7 +37,16 @@ struct DetailProductItem: Hashable {
         self.bargainPrice = detailProduct.currency.rawValue + " " + detailProduct.bargainPrice.devidePrice()
         self.stock = String(detailProduct.stock)
         self.description = detailProduct.description
-        self.images = detailProduct.images.map { $0.url }
+        self.thumbnailURL = detailProduct.thumbnail 
+    }
+
+    init(detailItem: DetailProductItem, image: String) {
+        self.productName = detailItem.productName
+        self.price = detailItem.price
+        self.bargainPrice = detailItem.bargainPrice
+        self.stock = detailItem.stock
+        self.description = detailItem.description
+        self.thumbnailURL = image
     }
 }
 
