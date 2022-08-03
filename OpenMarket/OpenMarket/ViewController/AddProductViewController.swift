@@ -11,7 +11,7 @@ class AddProductViewController: UIViewController {
     // MARK: Properties
     private let productView = AddProductView()
     private var dataSource: [UIImage] = []
-    private let imagePicker = UIImagePickerController()
+    private var imagePicker: UIImagePickerController?
     private var imageParams: [ImageParam] = []
     private lazy var viewConstraint = productView.entireStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -260)
     var viewModeTitle = "상품등록"
@@ -25,7 +25,6 @@ class AddProductViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureDelegate()
-        configureImagePicker()
     }
     
     func changeToEditMode(data: DetailProduct, images: [String]) {
@@ -48,8 +47,11 @@ class AddProductViewController: UIViewController {
         navigationItem.rightBarButtonItem = doneBarButton
         navigationItem.setHidesBackButton(true, animated: false)
         
-        guard let addImage = UIImage(systemName: "plus") else { return }
-        dataSource.append(addImage)
+        if dataSource.isEmpty {
+            guard let addImage = UIImage(systemName: "plus") else { return }
+            dataSource.append(addImage)
+            configureImagePicker()
+        }
     }
     
     private func configureDelegate() {
@@ -59,9 +61,10 @@ class AddProductViewController: UIViewController {
     }
     
     private func configureImagePicker() {
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-        imagePicker.delegate = self
+        imagePicker = UIImagePickerController()
+        imagePicker?.sourceType = .photoLibrary
+        imagePicker?.allowsEditing = true
+        imagePicker?.delegate = self
     }
 
     //MARK: buttonAction
@@ -111,7 +114,8 @@ extension AddProductViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == dataSource.count - 1 {
-            self.present(self.imagePicker, animated: true)
+            guard let imagePickerCheck = imagePicker else { return }
+            self.present(imagePickerCheck, animated: true)
         }
     }
     
