@@ -14,7 +14,7 @@ class ProductListManager {
         }
     }
     
-    func fetch(list: [Product]) {
+    func update(list: [Product]) {
         productList = list
     }
     

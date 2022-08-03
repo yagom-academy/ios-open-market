@@ -17,6 +17,7 @@ final class MainViewController: UIViewController {
     private var productListManager = ProductListManager()
     private var currentMaximumPage = 1
     private var refresher: UIRefreshControl!
+    private var isFirstLoad: Bool = true
     enum Section {
         case main
     }
@@ -30,6 +31,7 @@ final class MainViewController: UIViewController {
                     return
                 }
                 collectionView.dataSource = gridDataSource
+                collectionView.scrollToItem(at: collectionView.indexPathsForVisibleItems[0], at: .bottom, animated: true)
                 collectionView.setCollectionViewLayout(gridLayout, animated: true)
             } else {
                 
@@ -37,7 +39,9 @@ final class MainViewController: UIViewController {
                     return
                 }
                 collectionView.dataSource = listDataSource
-                collectionView.setCollectionViewLayout(listLayout, animated: true)
+                collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
@@ -82,11 +86,11 @@ final class MainViewController: UIViewController {
         configureGridDataSource()
         configureHierarchy()
         setupRefreshController()
+        fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchData()
     }
     // MARK: - Main View Controller Method
     private func initializeViewController() {
@@ -122,7 +126,7 @@ final class MainViewController: UIViewController {
     
     private func fetchData() {
         manager.requestProductPage(at: 1) { [weak self] productList in
-            self?.productListManager.fetch(list: productList)
+            self?.productListManager.update(list: productList)
         }
     }
     
@@ -136,8 +140,18 @@ final class MainViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.main])
         snapshot.appendItems(productListManager.productList)
-        self.gridDataSource?.apply(snapshot, animatingDifferences: false)
-        self.listDataSource?.apply(snapshot, animatingDifferences: false)
+        guard let shouldHideListLayout = shouldHideListLayout else {
+            return
+        }
+        if shouldHideListLayout {
+            self.gridDataSource?.apply(snapshot, animatingDifferences: false)
+            
+        } else {
+            self.listDataSource?.apply(snapshot, animatingDifferences: false)
+            if isFirstLoad {
+                self.gridDataSource?.apply(snapshot, animatingDifferences: false)
+            }
+        }
         DispatchQueue.main.async {
             self.activitiIndicator.stopAnimating()
             self.collectionView.alpha = 1
