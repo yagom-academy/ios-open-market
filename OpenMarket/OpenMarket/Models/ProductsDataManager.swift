@@ -11,8 +11,23 @@ struct ImageInfo {
         self.mimeType = "image/jpeg"
         self.filename = "image\(arc4random()).jpeg"
         
-        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
+        guard let data = image.jpegData(compressionQuality: 1.0) else { return nil }
         self.data = data
+    }
+    
+    func getReducedImageData(to kb: Int) -> Data? {
+        var compressionQuality = 1.0
+        let targetFileSize = kb * 1024
+        let image = UIImage(data: self.data)
+        guard var compressedData = image?.jpegData(compressionQuality: compressionQuality) else { return nil }
+        
+        while compressedData.count > targetFileSize && compressionQuality >= 0 {
+            compressionQuality -= 0.05
+            guard let newCompresserData = image?.jpegData(compressionQuality: compressionQuality) else { return nil }
+            compressedData = newCompresserData
+        }
+        
+        return compressedData
     }
 }
 
@@ -239,7 +254,7 @@ func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, bou
             body.append("--\(boundary + lineBreak)")
             body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
             body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
-            body.append(image.data)
+            body.append(image.getReducedImageData(to: 300))
             body.append(lineBreak)
         }
     }

@@ -12,7 +12,7 @@ class ProductsRegistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = registView
-        view.backgroundColor = .systemBackground
+        registView.backgroundColor = .systemBackground
         configureNavigationBar()
         configureImagePicker()
         registView.configureDelegate(viewController: self)
@@ -117,7 +117,6 @@ extension ProductsRegistViewController: UIImagePickerControllerDelegate & UINavi
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         if let selectedImageView = selectedImageView {
-            
             selectedImageView.image = selectedImage
             self.selectedImageView = nil
         } else {
@@ -171,12 +170,9 @@ extension ProductsRegistViewController {
                 images.append(image)
             }
             
-          
-            
             ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue,
                                                 paramter: parameter,
-                                                images: images)
-            { (data: PostResponse) in
+                                                images: images) { (data: PostResponse) in
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
                 }
