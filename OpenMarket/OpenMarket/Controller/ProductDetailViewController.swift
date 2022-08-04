@@ -9,18 +9,43 @@ import Foundation
 import UIKit
 
 final class ProductDetailViewController: UIViewController {
+    var productDeatilView: ProductDetailView?
     var productId: Int?
     var viewControllerTitle: String?
-    
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
         setupNavigationItem()
+        productDeatilView = ProductDetailView(self)
+        guard let productId = productId else {
+            return
+        }
+        NetworkManager.shared.requestProductDetail(at: productId) { detail in
+            DispatchQueue.main.async { [weak self] in
+                self?.updateSetup(with: detail)
+            }
+        }
     }
-    
+    // MARK: - VC Method
     private func setupNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(setupBarButtonTap))
         navigationItem.title = self.viewControllerTitle
+    }
+    
+    private func updateSetup(with detail: ProductDetail) {
+        detail.images.forEach { image in
+            let imageView = ProductImageView(width: Int(self.view.frame.width), height: Int(self.view.frame.width*0.7))
+            imageView.setImageUrl(image.url)
+            imageView.contentMode = .scaleAspectFit
+            productDeatilView?.horizontalStackView.addArrangedSubview(imageView)
+        }
+        productDeatilView?.productNameLabel.text = detail.name
+        // 할인 가격에 따라 ishidden 처리
+        productDeatilView?.stockLabel.text = String(detail.stock)
+        productDeatilView?.priceLabel.text = String(detail.price)
+        productDeatilView?.bargainPriceLabel.text = String(detail.bargainPrice)
+        productDeatilView?.descriptionTextView.text = detail.description
     }
     
     // MARK: - @objc method

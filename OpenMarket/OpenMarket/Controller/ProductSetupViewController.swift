@@ -223,7 +223,7 @@ final class ProductSetupViewController: UIViewController {
     
     private func updateSetup(with detail: ProductDetail) {
         detail.images.forEach { image in
-            let imageView = PickerImageView(frame: CGRect())
+            let imageView = ProductImageView(sideLength: 100)
             imageView.setImageUrl(image.url)
             productSetupView?.horizontalStackView.addArrangedSubview(imageView)
         }
@@ -254,7 +254,7 @@ extension ProductSetupViewController: UIImagePickerControllerDelegate, UINavigat
         } else if let possibleImge = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             newImage = possibleImge
         }
-        let newImageView = PickerImageView(frame: CGRect())
+        let newImageView = ProductImageView(sideLength: 100)
         newImageView.image = newImage
         productSetupView?.horizontalStackView.addArrangedSubview(newImageView)
         picker.dismiss(animated: true)
