@@ -14,6 +14,8 @@ final class ProductDetailsViewController: UIViewController {
     var productVendorID: Int = 0
     
     private var productDetailsAPIManager: ProductDetailsAPIManager?
+    private var productSecretRetrievalAPIManager: ProductSecretRetrievalAPIManager?
+    private var productDeleteAPIManager: ProductDeleteAPIManager?
     
     private weak var delegate: ProductModificationDelegate?
     private var productInfo: ProductDetailsEntity?
@@ -154,7 +156,7 @@ final class ProductDetailsViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc private func didTappedEditButton() {
+    private func presentActionSheet() {
         let actionSheet = UIAlertController(title: nil,
                                             message: nil,
                                             preferredStyle: .actionSheet)
@@ -166,10 +168,7 @@ final class ProductDetailsViewController: UIViewController {
             productModificationViewController.productInfo = self?.productInfo
             productModificationViewController.delegate = self
             
-            let rootViewController = UINavigationController(rootViewController: productModificationViewController)
-            rootViewController.modalPresentationStyle = .overFullScreen
-            
-            self?.present(rootViewController, animated: true)
+            self?.present(viewController: productModificationViewController)
         }
         
         let deleteAction = UIAlertAction(title: AlertSetting.deleteAction.title,
@@ -189,6 +188,40 @@ final class ProductDetailsViewController: UIViewController {
         present(actionSheet,
                      animated: true,
                      completion: nil)
+    }
+    
+    @objc private func didTappedEditButton() {
+        presentActionSheet()
+    }
+    
+    private func checkUserSecret(from alertController: UIAlertController) {
+        guard User.secret.rawValue == alertController.textFields?.first?.text else {
+            presentConfirmAlert(message: AlertMessage.deleteFailure.rawValue)
+            return
+        }
+        
+        presentConfirmAlert(message: AlertMessage.deleteSuccess.rawValue)
+        fetchProductSecret(by: productID)
+    }
+    
+    private func presentPasswordCheckAlert() {
+        let alertController = UIAlertController(title: nil,
+                                                message: AlertMessage.inputPassword.rawValue,
+                                                preferredStyle: .alert)
+        
+        alertController.addTextField()
+        
+        let confirmAction = UIAlertAction(title: AlertSetting.confirmAction.title,
+                                          style: .default) { [weak self] _ in
+            self?.checkUserSecret(from: alertController)
+        }
+        
+        let cancleAction = UIAlertAction(title: AlertSetting.cancelAction.title,
+                                         style: .cancel)
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancleAction)
+        present(alertController, animated: true)
     }
     
     private func configureRootScrollView() {
@@ -248,11 +281,30 @@ final class ProductDetailsViewController: UIViewController {
         productDetailsAPIManager?.requestAndDecodeProduct(dataType: ProductDetails.self) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.productDetailViewModel?.format(productDetail: data)
-            case .failure(_):
-                break
+                self?.productDetailViewModel?.format(productDetails: data)
+            case .failure(let error):
+                self?.presentConfirmAlert(message: error.errorDescription)
             }
         }
+    }
+    
+    private func fetchProductSecret(by productID: Int) {
+        productSecretRetrievalAPIManager = ProductSecretRetrievalAPIManager(productID: productID)
+        
+        productSecretRetrievalAPIManager?.requestAndDecodeProductSecret(completion: { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.productDetailViewModel?.fetch(productSecret: data)
+            case .failure(let error):
+                self?.presentConfirmAlert(message: error.errorDescription)
+            }
+        })
+    }
+    
+    private func requestAndDelete(with productID: Int, _ productSecret: String) {
+        productDeleteAPIManager = ProductDeleteAPIManager(productID: productID,
+                                                          productSecret: productSecret)
+        productDeleteAPIManager?.deleteProduct()
     }
     
     private func checkVendorID(from vendorID: String) {
@@ -319,11 +371,9 @@ final class ProductDetailsViewController: UIViewController {
     }
     
     private func updateUI(_ data: [UIImage]) {
-        DispatchQueue.main.async { [weak self] in
-            if let unwrappedDataSource = self?.productDetailImagesdataSource {
-                
-                self?.applySnapShot(to: unwrappedDataSource, by: data)
-            }
+        if let unwrappedDataSource = productDetailImagesdataSource {
+            
+            applySnapShot(to: unwrappedDataSource, by: data)
         }
     }
     
@@ -371,12 +421,22 @@ extension ProductDetailsViewController: UICollectionViewDelegate {
 
 extension ProductDetailsViewController: ProductDetailsViewDelegate {
     func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve productInfo: ProductDetailsEntity) {
-        updateUI(productInfo)
+        DispatchQueue.main.async { [weak self] in
+            self?.updateUI(productInfo)
+        }
+        
         self.productInfo = productInfo
     }
     
     func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve images: [UIImage]) {
-        updateUI(images)
+        DispatchQueue.main.async { [weak self] in
+            self?.updateUI(images)
+        }
+    }
+    
+    func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve productSecret: String) {
+        requestAndDelete(with: productID,
+                         productSecret)
     }
 }
 

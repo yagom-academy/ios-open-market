@@ -214,13 +214,7 @@ final class ProductListViewController: UIViewController {
                 self?.marketProductsViewModel?.format(data: productList)
                 
             case .failure(let error):
-                guard let message = error.errorDescription else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self?.presentConfirmAlert(message: message)
-                }
+                self?.presentConfirmAlert(message: error.errorDescription)
             }
         }
     }
@@ -237,12 +231,12 @@ final class ProductListViewController: UIViewController {
     }
     
     private func updateUI(by data: ProductListEntity) {
-        DispatchQueue.main.async { [weak self] in
-            if let listDataSource = self?.listDataSource,
-               let gridDataSource = self?.gridDataSource {
-                self?.applySnapShot(to: listDataSource, by: data)
-                self?.applySnapShot(to: gridDataSource, by: data)
-            }
+        if let listDataSource = listDataSource,
+           let gridDataSource = gridDataSource {
+            applySnapShot(to: listDataSource,
+                          by: data)
+            applySnapShot(to: gridDataSource,
+                          by: data)
         }
     }
     
@@ -253,10 +247,8 @@ final class ProductListViewController: UIViewController {
     }
     
     @objc private func addButtonTapped(_ sender: UIBarButtonItem) {
-        let productEnrollmentViewController = UINavigationController(rootViewController: ProductEnrollmentViewController())
-        productEnrollmentViewController.modalPresentationStyle = .fullScreen
-        
-        self.present(productEnrollmentViewController, animated: true)
+        let productEnrollmentViewController = ProductEnrollmentViewController()
+        self.present(viewController: productEnrollmentViewController)
     }
 }
 
@@ -265,7 +257,9 @@ final class ProductListViewController: UIViewController {
 extension ProductListViewController: ProductListDelegate {
     func productListViewController(_ view: ProductListViewController.Type,
                             didRecieve productListInfo: ProductListEntity) {
-        updateUI(by: productListInfo)
+        DispatchQueue.main.async { [weak self] in
+            self?.updateUI(by: productListInfo)
+        }
     }
 }
 

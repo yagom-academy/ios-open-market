@@ -12,16 +12,31 @@ extension UIViewController {
         let alertController = UIAlertController(title: AlertSetting.controller.title,
                                                 message: message,
                                                 preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: AlertSetting.confirmAction.title,
-                                          style: .default) { [weak self] _ in
-            if AlertMessage(rawValue: message) == .enrollmentSuccess
-                || AlertMessage(rawValue: message) == .modificationSuccess  {
-                self?.dismiss(animated: true)
-            }
-        }
         
-        alertController.addAction(confirmAction)
-        self.present(alertController,
-                     animated: false)
+        DispatchQueue.main.async {
+            let confirmAction = UIAlertAction(title: AlertSetting.confirmAction.title,
+                                              style: .default) { [weak self] _ in
+                
+                switch AlertMessage(rawValue: message) {
+                case .enrollmentSuccess, .modificationSuccess:
+                    self?.dismiss(animated: true)
+                case .deleteSuccess:
+                    self?.navigationController?.popViewController(animated: true)
+                default:
+                    break
+                }
+            }
+            
+            alertController.addAction(confirmAction)
+            self.present(alertController,
+                         animated: false)
+        }
+    }
+    
+    func present(viewController: UIViewController) {
+        let rootViewController = UINavigationController(rootViewController: viewController)
+        rootViewController.modalPresentationStyle = .fullScreen
+        
+        self.present(rootViewController, animated: true)
     }
 }
