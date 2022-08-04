@@ -80,9 +80,8 @@ final class NetworkManager {
 
         url.appendPathComponent(productId)
         url.appendPathComponent(Request.secret)
-
-        var request = URLRequest(url: url, timeoutInterval: Double.infinity)
-
+        
+        var request = URLRequest(url: url, timeoutInterval: 60)
         request.httpMethod = NetworkNamespace.post.name
         request.addValue(identifier, forHTTPHeaderField: Request.identifier)
         request.addValue(Multipart.jsonContentType, forHTTPHeaderField: Multipart.contentType)
