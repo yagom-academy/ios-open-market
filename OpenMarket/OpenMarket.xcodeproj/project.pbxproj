@@ -301,16 +301,6 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		20BFDA642890E909000AA075 /* MarketProductsViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				903A2C2D289A17BA00CEBC00 /* Delegate */,
-				20E2F69C288BC0E700E150AC /* ProductListViewModel.swift */,
-				20B2F3AB2897AE1A00BC75CF /* ProductDetailsViewModel.swift */,
-			);
-			path = MarketProductsViewModel;
-			sourceTree = "<group>";
-		};
 		20BFDA652890EAB1000AA075 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,7 +351,9 @@
 		20E2F69B288BC0BC00E150AC /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				20BFDA642890E909000AA075 /* MarketProductsViewModel */,
+				903A2C2D289A17BA00CEBC00 /* Delegate */,
+				20E2F69C288BC0E700E150AC /* ProductListViewModel.swift */,
+				20B2F3AB2897AE1A00BC75CF /* ProductDetailsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -380,13 +372,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		6A67623528892A7D00696BCE /* MarketProducts */ = {
+		6A67623528892A7D00696BCE /* ProductList */ = {
 			isa = PBXGroup;
 			children = (
 				204406B428878AF4006FFA79 /* ListCollectionCell.swift */,
 				9093F34528864B7F008014D2 /* GridCollectionCell.swift */,
 			);
-			path = MarketProducts;
+			path = ProductList;
 			sourceTree = "<group>";
 		};
 		6A8F188D2887D80F0095928F /* Extensions */ = {
@@ -475,8 +467,8 @@
 			isa = PBXGroup;
 			children = (
 				90DC9D1B2897EBB8007F815B /* Section.swift */,
+				6A67623528892A7D00696BCE /* ProductList */,
 				90DC9D1D2897EBFA007F815B /* ProductDetails */,
-				6A67623528892A7D00696BCE /* MarketProducts */,
 			);
 			path = View;
 			sourceTree = "<group>";
