@@ -59,7 +59,7 @@ struct ProductsDataManager: Decodable {
         task.resume()
     }
     
-    func getProductSecret(identifier: String, secret: String, productId: Int, completion: @escaping (String) -> Void) {
+    func getProductSecret(identifier: String, secret: String, productId: Int, completion: @escaping (Result<String, IdentifierError>) -> Void) {
         guard let url = URL(string: url + "/" + String(productId) + "/secret") else { return }
         var postRequest = URLRequest(url: url)
         
@@ -71,14 +71,17 @@ struct ProductsDataManager: Decodable {
 
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
             if let data = data {
-                guard let parsedData = String(data: data, encoding: .utf8) else { return }
-                completion(parsedData)
+                if let parsedData = String(data: data, encoding: .utf8) {
+                    completion(.success(parsedData))
+                } else {
+                    completion(.failure(.NotYourProduct))
+                }
             }
         }
         task.resume()
     }
     
-    func patchData<T: Decodable>(identifier: String, productID: Int, paramter: Parameters, completion: @escaping (T) -> Void) {
+    func patchData<T: Decodable>(identifier: String, productID: Int, paramter: Parameters, completion: @escaping (Result<T, IdentifierError>) -> Void) {
         guard let url = URL(string: url + "/\(productID)") else { return }
         var postRequest = URLRequest(url: url)
         
@@ -93,15 +96,23 @@ struct ProductsDataManager: Decodable {
             }
             
             if let data = data {
-                guard let parsedData = try? JSONDecoder().decode(T.self, from: data) else { return }
-                completion(parsedData)
+                do {
+                    let parsedData = try JSONDecoder().decode(T.self, from: data)
+                    completion(.success(parsedData))
+                } catch {
+                    completion(.failure(.NotYourProduct))
+                }
             }
         }
         task.resume()
     }
     
-    func deleteData<T: Decodable>(identifier: String, productID: Int, secret: String, completion: @escaping (T) -> Void) {
-        guard let url = URL(string: "\(url)/\(productID)/\(secret)") else { return }
+    func deleteData<T: Decodable>(identifier: String, productID: Int, secret: String, completion: @escaping (Result<T, IdentifierError>) -> Void) {
+        guard let url = URL(string: "\(url)/\(productID)/\(secret)") else {
+            completion(.failure(.NotYourProduct))
+            return
+        }
+        
         var postRequest = URLRequest(url: url)
         
         postRequest.httpMethod = "DELETE"
@@ -114,8 +125,12 @@ struct ProductsDataManager: Decodable {
             }
             
             if let data = data {
-                guard let parsedData = try? JSONDecoder().decode(T.self, from: data) else { return }
-                completion(parsedData)
+                do {
+                    let parsedData = try JSONDecoder().decode(T.self, from: data)
+                    completion(.success(parsedData))
+                } catch {
+                    completion(.failure(.NotYourProduct))
+                }
             }
         }
         task.resume()
@@ -129,6 +144,7 @@ struct ProductsDataManager: Decodable {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(decodedData)
             } catch {
+                print(error)
             }
         }
         task.resume()

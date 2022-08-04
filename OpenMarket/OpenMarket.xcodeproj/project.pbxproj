@@ -27,6 +27,7 @@
 		B4000D15289A7D7F00AF2E93 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D14289A7D7F00AF2E93 /* Page.swift */; };
 		B4000D19289A7FC300AF2E93 /* SendUpdateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D18289A7FC300AF2E93 /* SendUpdateDelegate.swift */; };
 		B45131F9288FA17C00834B99 /* ProductRegistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45131F8288FA17C00834B99 /* ProductRegistView.swift */; };
+		B45F1C7C289BCDA4006E5F72 /* IdentifierError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45F1C7B289BCDA4006E5F72 /* IdentifierError.swift */; };
 		B4816965287BF4D2004359E3 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		B4816990287C0E2C004359E3 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = B481698D287C0CFC004359E3 /* products.json */; };
 		B492143F2897EE71006E7BAD /* ProductsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B492143E2897EE71006E7BAD /* ProductsDetailView.swift */; };
@@ -72,6 +73,7 @@
 		B4000D14289A7D7F00AF2E93 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		B4000D18289A7FC300AF2E93 /* SendUpdateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendUpdateDelegate.swift; sourceTree = "<group>"; };
 		B45131F8288FA17C00834B99 /* ProductRegistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistView.swift; sourceTree = "<group>"; };
+		B45F1C7B289BCDA4006E5F72 /* IdentifierError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierError.swift; sourceTree = "<group>"; };
 		B4816964287BF4D2004359E3 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		B481698D287C0CFC004359E3 /* products.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		B492143E2897EE71006E7BAD /* ProductsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDetailView.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 		B4000D17289A7E7400AF2E93 /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				B45F1C7B289BCDA4006E5F72 /* IdentifierError.swift */,
 				B4AC53AD287C4C5E007EDBF4 /* URLSessionError.swift */,
 			);
 			path = Error;
@@ -350,6 +353,7 @@
 				B4FAAA4928993537009C6A20 /* DetailViewTitle.swift in Sources */,
 				B4FAAA4D28993F8C009C6A20 /* UserIdentifier.swift in Sources */,
 				1859965E287EC02600B04E60 /* ItemCollectionViewCell.swift in Sources */,
+				B45F1C7C289BCDA4006E5F72 /* IdentifierError.swift in Sources */,
 				B45131F9288FA17C00834B99 /* ProductRegistView.swift in Sources */,
 				B4000D15289A7D7F00AF2E93 /* Page.swift in Sources */,
 				B4E496E6287EA62B00CD04C5 /* Titles.swift in Sources */,
@@ -549,13 +553,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W9647FYSN7;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finnn.OpenMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -568,13 +573,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W9647FYSN7;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.yagom.OpenMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finnn.OpenMarket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

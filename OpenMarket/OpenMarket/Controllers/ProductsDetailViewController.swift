@@ -39,7 +39,13 @@ extension ProductsDetailViewController {
     }
     
     private func addNavigationBarButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonDidTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(actionButtonDidTapped)
+        )
+    }
+    
     private func deleteProduct(_ secret: String) {
         guard let productInfo = self.productInfo else { return }
         
@@ -91,7 +97,19 @@ extension ProductsDetailViewController {
         }
         alert.addAction(action)
         
-        self.present(alert, animated: true)
+        self.present(alert, animated: true) {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTappedOutside(_:)))
+            alert.view.superview?.isUserInteractionEnabled = true
+            alert.view.superview?.addGestureRecognizer(tap)
+        }
+    }
+    
+    private func presentAlertMessage(message: String) {
+        let alert = UIAlertController(title: "에러!", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(action)
+        present(alert, animated: true)
     }
     
     private func updateProduct() {
@@ -101,14 +119,22 @@ extension ProductsDetailViewController {
         
         self.navigationController?.pushViewController(registViewController, animated: true)
     }
+}
+
+// MARK: - @objc Functions
+
+extension ProductsDetailViewController {
+    @objc private func didTappedOutside(_ sender: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     @objc private func actionButtonDidTapped() {
         let alert = UIAlertController()
-        let updateAction = UIAlertAction(title: "수정", style: .default) { action in
+        let updateAction = UIAlertAction(title: "수정", style: .default) { _ in
             self.updateProduct()
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { action in
-            self.deleteProduct()
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.deleteProcess()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(updateAction)

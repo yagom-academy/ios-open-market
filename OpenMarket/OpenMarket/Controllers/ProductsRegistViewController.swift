@@ -174,9 +174,20 @@ extension ProductsRegistViewController {
             }
             
         } else if title == DetailViewTitle.update.rawValue {
-            ProductsDataManager.shared.patchData(identifier: UserInfo.identifier.rawValue, productID: registView.productInfo?.id ?? 0, paramter: parameter) { (data: Page) in
-                DispatchQueue.main.async {
-                    self.navigationController?.popToRootViewController(animated: true)
+            ProductsDataManager.shared.patchData(
+                identifier: UserInfo.identifier.rawValue,
+                productID: registView.productInfo?.id ?? 0,
+                paramter: parameter
+            ) { (result: Result<Page, IdentifierError>) in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self.presentAlertMessage(message: "\(error)")
+                    }
                 }
             }
         }
