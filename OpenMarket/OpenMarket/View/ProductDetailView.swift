@@ -9,13 +9,13 @@ import UIKit
 
 final class ProductDetailView: UIView {
     // MARK: - UI Components Frame
-    let mainScrollView: UIScrollView = {
+    private let mainScrollView: UIScrollView = {
         var scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    lazy var mainStackView: UIStackView = {
+    private lazy var mainStackView: UIStackView = {
         var stackview = UIStackView(arrangedSubviews: [horizontalScrollView,
                                                        pagingLabel,
                                                        upperStackView,
@@ -26,6 +26,8 @@ final class ProductDetailView: UIView {
         stackview.distribution = .fill
         stackview.alignment = .fill
         stackview.spacing = 10
+        stackview.layoutMargins = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+        stackview.isLayoutMarginsRelativeArrangement = true
         return stackview
     }()
     
@@ -49,10 +51,12 @@ final class ProductDetailView: UIView {
     let pagingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "2/5"
+        label.textAlignment = .center
         return label
     }()
     
-    let upperStackView: UIStackView = {
+    private let upperStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -66,6 +70,7 @@ final class ProductDetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
@@ -76,7 +81,7 @@ final class ProductDetailView: UIView {
         return label
     }()
     
-    let lowerStackView: UIStackView = {
+    private let lowerStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -85,20 +90,19 @@ final class ProductDetailView: UIView {
         return stackView
     }()
     
-    let priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
         return label
     }()
     
-    let bargainPriceLabel: UILabel = {
+    private let bargainPriceLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
         return label
     }()
-    
     
     lazy var descriptionTextView: UITextView = {
         var textview = UITextView()
@@ -107,7 +111,6 @@ final class ProductDetailView: UIView {
         textview.text = "여기에 내용을 입력해주세요."
         return textview
     }()
-    
     
     // MARK: - View Initializer
     init(_ rootViewController: UIViewController) {
@@ -160,12 +163,25 @@ final class ProductDetailView: UIView {
             horizontalStackView.leadingAnchor.constraint(equalTo: horizontalScrollView.contentLayoutGuide.leadingAnchor),
             horizontalStackView.trailingAnchor.constraint(equalTo: horizontalScrollView.contentLayoutGuide.trailingAnchor)
         ])
-//        NSLayoutConstraint.activate([
-//            horizontalScrollView.topAnchor.constraint(equalTo: mainStackView.topAnchor),
-//            horizontalScrollView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
-//            horizontalScrollView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor)
-//        ])
-        
-        
+        NSLayoutConstraint.activate([
+            upperStackView.leadingAnchor.constraint(equalTo: mainStackView.layoutMarginsGuide.leadingAnchor),
+            upperStackView.trailingAnchor.constraint(equalTo: mainStackView.layoutMarginsGuide.trailingAnchor),
+            lowerStackView.leadingAnchor.constraint(equalTo: mainStackView.layoutMarginsGuide.leadingAnchor),
+            lowerStackView.trailingAnchor.constraint(equalTo: mainStackView.layoutMarginsGuide.trailingAnchor)
+        ])
+    }
+    
+    func setupPriceLabel(currency: String, price: Double, bargainPrice: Double) {
+        if price == bargainPrice {
+            let price = price.adoptDecimalStyle()
+            self.bargainPriceLabel.isHidden = true
+            self.priceLabel.text = "\(currency) " + price
+        } else {
+            let price = price.adoptDecimalStyle()
+            let bargainPrice = bargainPrice.adoptDecimalStyle()
+            self.priceLabel.strikethrough(from: "\(currency) " + price)
+            self.bargainPriceLabel.text = " \(currency) " + bargainPrice
+            self.priceLabel.textColor = .red
+        }
     }
 }

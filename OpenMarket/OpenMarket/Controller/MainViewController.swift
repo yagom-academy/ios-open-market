@@ -28,10 +28,10 @@ final class MainViewController: UIViewController {
             guard let gridSnapShot = gridDataSource?.snapshot(),
                   let listSnapShot = listDataSource?.snapshot() else { return }
             if shouldHideListLayout {
-                if gridSnapShot.numberOfItems > listSnapShot.numberOfItems { //이전 뷰에서 refresh 를 하고 넘어왔을 경우
+                if gridSnapShot.numberOfItems > listSnapShot.numberOfItems {
                     collectionView.dataSource = gridDataSource
                     collectionView.setCollectionViewLayout(gridLayout, animated: true) { _ in
-                        self.loadData() // 새로고침 시켜준다
+                        self.loadData()
                     }
                 } else {
                     gridDataSource?.apply(listSnapShot)
@@ -43,10 +43,10 @@ final class MainViewController: UIViewController {
                     }
                 }
             } else {
-                if gridSnapShot.numberOfItems < listSnapShot.numberOfItems { //이전 뷰에서 refresh 를 하고 넘어왔을 경우
+                if gridSnapShot.numberOfItems < listSnapShot.numberOfItems {
                     collectionView.dataSource = listDataSource
                     collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
-                        self.loadData() // 새로고침 시켜준다
+                        self.loadData()
                     }
                 } else {
                     listDataSource?.apply(gridSnapShot)

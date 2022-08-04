@@ -9,15 +9,20 @@ import Foundation
 import UIKit
 
 final class ProductDetailViewController: UIViewController {
-    var productDeatilView: ProductDetailView?
+    var productDetailView: ProductDetailView?
     var productId: Int?
     var viewControllerTitle: String?
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .lightGray
+        self.view.backgroundColor = .systemBackground
         setupNavigationItem()
-        productDeatilView = ProductDetailView(self)
+        productDetailView = ProductDetailView(self)
+        productDetailView?.horizontalScrollView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         guard let productId = productId else {
             return
         }
@@ -34,18 +39,19 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func updateSetup(with detail: ProductDetail) {
+        guard let productDetailView = productDetailView else { return }
         detail.images.forEach { image in
-            let imageView = ProductImageView(width: Int(self.view.frame.width), height: Int(self.view.frame.width*0.7))
+            let imageView = ProductImageView(width: Int(self.view.frame.width) - 20, height: Int(self.view.frame.width*0.7))
             imageView.setImageUrl(image.url)
             imageView.contentMode = .scaleAspectFit
-            productDeatilView?.horizontalStackView.addArrangedSubview(imageView)
+            productDetailView.horizontalStackView.addArrangedSubview(imageView)
         }
-        productDeatilView?.productNameLabel.text = detail.name
-        // 할인 가격에 따라 ishidden 처리
-        productDeatilView?.stockLabel.text = String(detail.stock)
-        productDeatilView?.priceLabel.text = String(detail.price)
-        productDeatilView?.bargainPriceLabel.text = String(detail.bargainPrice)
-        productDeatilView?.descriptionTextView.text = detail.description
+        productDetailView.productNameLabel.text = detail.name
+        productDetailView.stockLabel.text = "남은수량 : \(detail.stock)"
+        productDetailView.descriptionTextView.text = detail.description
+        productDetailView.setupPriceLabel(currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice)
+        let totalPage = detail.images.count
+        productDetailView.pagingLabel.text = "\(1)/\(totalPage)"
     }
     
     // MARK: - @objc method
@@ -113,6 +119,16 @@ final class ProductDetailViewController: UIViewController {
         }
         failureAlert.addAction(confirmAction)
         present(failureAlert, animated: true)
+    }
+}
+
+extension ProductDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            guard let productDetailView = productDetailView else { return }
+            let imageWidth = self.view.frame.width - 20
+            let totalPage = productDetailView.horizontalStackView.bounds.width / imageWidth
+            let currentPage = round(productDetailView.horizontalScrollView.contentOffset.x / imageWidth)
+            productDetailView.pagingLabel.text = "\(Int(currentPage) + 1)/\(Int(totalPage))"
     }
 }
 
