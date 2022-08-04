@@ -109,8 +109,8 @@ extension ProductsRegistViewController {
 extension ProductsRegistViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        if let selectedImage = selectedImageView?.image {
-            selectedImageView?.image = selectedImage
+        if let selectedImageView = selectedImageView {
+            selectedImageView.image = selectedImage
             self.selectedImageView = nil
         } else {
             registView.addToScrollView(of: selectedImage, viewController: self)
@@ -192,7 +192,34 @@ extension ProductsRegistViewController {
     
     @objc private func changeImageButtonTapped(_ sender: UITapGestureRecognizer) {
         selectedImageView = sender.view as? UIImageView
-        present(imagePicker, animated: true)
+        showChangeImageOrDeleteAlert()
+    }
+    
+    func showChangeImageOrDeleteAlert() {
+        let alert = UIAlertController()
+        let changeImageAction = UIAlertAction(title: "교체", style: .default) { [weak self] action in
+            guard let self = self else { return }
+            
+            print("이미지 교체 버튼 눌림")
+            self.present(self.imagePicker, animated: true)
+        }
+        let deleteImageAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] action in
+            guard let self = self,
+                  let selectedImageView = self.selectedImageView else { return }
+            
+            print("이미지 삭제 버튼 눌림")
+            self.registView.imageStackView.arrangedSubviews.forEach { subview in
+                guard subview == selectedImageView else { return }
+                subview.removeFromSuperview()
+            }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(changeImageAction)
+        alert.addAction(deleteImageAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
