@@ -273,6 +273,11 @@ Utilities
     - Int 자료형을 확장시켜 필요 메서드 관리
         * numberFormatter - 10진수로 변환하고 String 타입으로 변환 후 반환
 
+**상품수정 UI 구현**
+
+- Alert TextView
+- UICollectionView Horizontal
+
 **상품 수정/삭제 Navigation Item**
 - User의 vendorID와 상품 등록자의 vendorID가 같은지 유효성 체크를 한 후 같으면 Edition Navigation Item을 노출 시킵니다.
     
@@ -280,15 +285,14 @@ Utilities
 - Delegate Design Pattern을 활용
     - POST,PATCH, DELETE 호출 후 화면 전환 시 서버 데이터 리셋을 위해 사용
     
-**상품수정 화면의 상품 이미지**
+**상품상세 화면의 상품 이미지**
 - UICollectionView를 활용하여 화면에 꽉차는 비율의 이미지를 좌우 스크롤할 수 있음
 
 **상품삭제시 User Secret입력**
 - Alert TextField를 활용하여 User Secret입력 받을 수 있도록 설정
 - User Secret 유효성 체크 후 Secret Post를 활용하여 Product Secret Response 
 - Product Secret을 받은 후 DELETE로 상품 삭제 
-    
-    
+        
 ## 🚀 TroubleShooting
     
 ### STEP 1
