@@ -187,8 +187,8 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     }
     
     private func compressImage(_ image: UIImage) -> Data {
-        guard var imageDataSize = image.jpegData(compressionQuality: 1.0)?.count else { return Data() }
-        var imageData = Data()
+        guard var imageData = image.jpegData(compressionQuality: 1.0) else { return Data() }
+        var imageDataSize = imageData.count
         var scale = 0.9
         
         while imageDataSize >= 300 * 1024 {
@@ -196,6 +196,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
             imageDataSize = imageData.count
             scale -= 0.1
         }
+       
         return imageData
     }
 }
