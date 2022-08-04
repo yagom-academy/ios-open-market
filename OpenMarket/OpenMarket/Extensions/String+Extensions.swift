@@ -25,4 +25,12 @@ extension String {
         
         return convertedString
     }
+    
+    func convertToOptionalInt() -> Int? {
+        guard let convertedString = Int(self) else {
+            return nil
+        }
+        
+        return convertedString
+    }
 }
