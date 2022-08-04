@@ -71,7 +71,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     func configureCell(product: SaleInformation) {
         guard let url = URL(string: product.thumbnail) else { return }
         
-        NetworkManager().fetch(request: URLRequest(url: url)) { [weak self] result in
+        NetworkManager().networkPerform(for: URLRequest(url: url)) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let images = UIImage(data: data) else { return }

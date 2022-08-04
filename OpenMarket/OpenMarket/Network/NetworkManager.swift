@@ -18,8 +18,8 @@ final class NetworkManager {
     init(session: URLSessionProtocol) {
         self.session = session
     }
-    
-    func fetch(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+
+    func networkPerform(for request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
@@ -47,7 +47,7 @@ final class NetworkManager {
         var request = request ?? URLRequest(url: url)
         request.httpMethod = NetworkNamespace.get.name
         
-        fetch(request: request, completion: completion)
+        networkPerform(for: request, completion: completion)
     }
 
     func postProduct(params: [String: Any?], images: [UIImage], completion: @escaping (Result<Data, Error>) -> Void) {
@@ -63,7 +63,7 @@ final class NetworkManager {
 
         request.httpBody = postData
 
-        fetch(request: request) { result in
+        networkPerform(for: request) { result in
             switch result {
             case .success(let data):
                 return completion(.success(data))
@@ -91,7 +91,7 @@ final class NetworkManager {
         let postData = parameters.data(using: .utf8)
 
         request.httpBody = postData
-            fetch(request: request) { result in
+        networkPerform(for: request) { result in
                 switch result {
                 case .success(let data):
                     self.deleteProduct(productId: productId, productSecretId: data)
@@ -113,7 +113,7 @@ final class NetworkManager {
         guard let jsonData = OpenMarketRequest.createJson(params: params) else { return }
         request.httpBody = jsonData
         
-        fetch(request: request) { result in
+        networkPerform(for: request) { result in
             switch result {
             case .success(let data):
                 print(data)
@@ -137,7 +137,7 @@ final class NetworkManager {
         request.httpMethod = NetworkNamespace.del.name
         request.addValue(identifier, forHTTPHeaderField: Request.identifier)
         
-        fetch(request: request) { result in
+        networkPerform(for: request) { result in
             switch result {
             case .success(let data):
                 print(data)
