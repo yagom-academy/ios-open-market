@@ -325,19 +325,14 @@
                                                                 </label>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="1XF-Qj-DDz" secondAttribute="bottom" id="HJi-Js-P2g"/>
-                                                                <constraint firstItem="1XF-Qj-DDz" firstAttribute="top" secondItem="cWJ-Dd-tAK" secondAttribute="top" id="TGy-Pw-6zq"/>
+                                                                <constraint firstAttribute="trailing" secondItem="FZy-wF-F30" secondAttribute="trailing" id="NEA-FT-hI2"/>
+                                                                <constraint firstItem="FZy-wF-F30" firstAttribute="leading" secondItem="1XF-Qj-DDz" secondAttribute="trailing" id="VNi-Y4-U9I"/>
+                                                                <constraint firstItem="1XF-Qj-DDz" firstAttribute="top" secondItem="cWJ-Dd-tAK" secondAttribute="top" id="aLi-43-gK8"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="t8q-Ig-Fu0" firstAttribute="top" secondItem="Gp7-OK-F19" secondAttribute="top" id="5xk-eW-Lza"/>
-                                                        <constraint firstAttribute="trailing" secondItem="cWJ-Dd-tAK" secondAttribute="trailing" id="6wY-k6-2Nn"/>
-                                                        <constraint firstAttribute="bottom" secondItem="cWJ-Dd-tAK" secondAttribute="bottom" id="91C-qs-uo4"/>
-                                                        <constraint firstItem="cWJ-Dd-tAK" firstAttribute="top" secondItem="t8q-Ig-Fu0" secondAttribute="bottom" id="ULb-wl-Y1g"/>
                                                         <constraint firstAttribute="trailing" secondItem="t8q-Ig-Fu0" secondAttribute="trailing" id="im0-19-NG0"/>
-                                                        <constraint firstItem="t8q-Ig-Fu0" firstAttribute="leading" secondItem="Gp7-OK-F19" secondAttribute="leading" id="mww-uI-Sqe"/>
-                                                        <constraint firstItem="cWJ-Dd-tAK" firstAttribute="leading" secondItem="Gp7-OK-F19" secondAttribute="leading" id="ziW-dm-uZg"/>
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8i8-xY-6CF" customClass="PaddingLabel" customModule="OpenMarket" customModuleProvider="target">
@@ -357,11 +352,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="8i8-xY-6CF" secondAttribute="bottom" id="Dv1-c2-6Fy"/>
                                                 <constraint firstItem="c4q-LB-SD3" firstAttribute="top" secondItem="vcC-Tf-uDe" secondAttribute="top" constant="10" id="JRS-cb-68I"/>
                                                 <constraint firstItem="Gp7-OK-F19" firstAttribute="top" secondItem="vcC-Tf-uDe" secondAttribute="top" id="XrO-59-Ltv"/>
-                                                <constraint firstItem="8i8-xY-6CF" firstAttribute="leading" secondItem="Gp7-OK-F19" secondAttribute="trailing" id="Y2W-t5-V6U"/>
                                                 <constraint firstItem="8i8-xY-6CF" firstAttribute="top" secondItem="vcC-Tf-uDe" secondAttribute="top" id="aIO-ev-mFP"/>
                                                 <constraint firstItem="c4q-LB-SD3" firstAttribute="width" secondItem="vcC-Tf-uDe" secondAttribute="width" multiplier="0.3" id="bBH-R8-mxN"/>
                                                 <constraint firstItem="c4q-LB-SD3" firstAttribute="leading" secondItem="vcC-Tf-uDe" secondAttribute="leading" constant="10" id="mvr-r8-XFS"/>
                                                 <constraint firstAttribute="trailing" secondItem="8i8-xY-6CF" secondAttribute="trailing" id="p9M-n8-S3H"/>
+                                                <constraint firstItem="8i8-xY-6CF" firstAttribute="leading" secondItem="Gp7-OK-F19" secondAttribute="trailing" id="pWk-9M-hmm"/>
                                                 <constraint firstItem="Gp7-OK-F19" firstAttribute="leading" secondItem="c4q-LB-SD3" secondAttribute="trailing" constant="10" id="tvw-YX-GXr"/>
                                                 <constraint firstAttribute="bottom" secondItem="c4q-LB-SD3" secondAttribute="bottom" constant="10" id="z2g-SD-SAr"/>
                                             </constraints>

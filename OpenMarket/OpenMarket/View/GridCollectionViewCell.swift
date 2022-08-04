@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var productImage: UIImageView!
     @IBOutlet private weak var productName: UILabel!
     @IBOutlet private weak var productDiscountPrice: UILabel!

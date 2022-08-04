@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewListCell {
+final class ListCollectionViewCell: UICollectionViewListCell {
     @IBOutlet private weak var productImage: UIImageView!
     @IBOutlet private weak var productName: UILabel!
     @IBOutlet private weak var productPrice: UILabel!
@@ -36,11 +36,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
 extension ListCollectionViewCell {
     func fetchData(data: ProductListResponse?, index: Int) {
         self.settingNumberFormaatter()
-//        guard let result = data,
-//              let imageURL: URL = URL(string: result.pages[index].thumbnail),
-//              let imageData: Data = try? Data(contentsOf: imageURL) else {
-//            return
-//        }
+        
         guard let result = data else {
             return
         }

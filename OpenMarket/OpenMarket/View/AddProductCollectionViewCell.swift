@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddProductCollectionViewCell: UICollectionViewCell {
+final class AddProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var profileImageView: UIImageView!
     
     static let reuseIdentifier = "AddProductCollectionViewCell"
