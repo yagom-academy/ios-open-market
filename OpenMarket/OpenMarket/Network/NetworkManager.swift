@@ -73,7 +73,7 @@ final class NetworkManager {
         }
     }
     
-    func postSecret(productId: String, password: String) {
+    func postSecret(productId: String, password: String, completion: @escaping (Result<Data, Error>) -> Void) {
         let components = URLComponents(string: NetworkNamespace.url.name)
 
         guard var url = components?.url else { return }
@@ -81,7 +81,7 @@ final class NetworkManager {
         url.appendPathComponent(productId)
         url.appendPathComponent(Request.secret)
         
-        var request = URLRequest(url: url, timeoutInterval: 60)
+        var request = URLRequest(url: url)
         request.httpMethod = NetworkNamespace.post.name
         request.addValue(identifier, forHTTPHeaderField: Request.identifier)
         request.addValue(Multipart.jsonContentType, forHTTPHeaderField: Multipart.contentType)
@@ -95,13 +95,13 @@ final class NetworkManager {
                 case .success(let data):
                     self.deleteProduct(productId: productId, productSecretId: data)
                 case .failure(let error):
-                    print(error)
+                    return completion(.failure(error))
                 }
             }
         
     }
 
-    func patchProduct(productId: String) {
+    func patchProduct(productId: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard var request = OpenMarketRequest.requestProductDetail(of: productId) else { return }
         
         request.httpMethod = NetworkNamespace.patch.name
@@ -115,9 +115,9 @@ final class NetworkManager {
         networkPerform(for: request) { result in
             switch result {
             case .success(let data):
-                print(data)
+                return completion(.success(data))
             case .failure(let error):
-                print(error)
+                return completion(.failure(error))
             }
         }
     }
@@ -136,13 +136,6 @@ final class NetworkManager {
         request.httpMethod = NetworkNamespace.del.name
         request.addValue(identifier, forHTTPHeaderField: Request.identifier)
         
-        networkPerform(for: request) { result in
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        networkPerform(for: request) { _ in }
     }
 }

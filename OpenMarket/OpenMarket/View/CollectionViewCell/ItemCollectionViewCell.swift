@@ -68,7 +68,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
         }
     }
     
-    func configureCell(product: SaleInformation) {
+    func configureCell(product: SaleInformation, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: product.thumbnail) else { return }
         
         NetworkManager().networkPerform(for: URLRequest(url: url)) { [weak self] result in
@@ -80,7 +80,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
                     self?.productThumbnailImageView.image = images
                 }
             case .failure(let error):
-                MainViewController().showNetworkError(message: error.localizedDescription)
+                completion(.failure(error))
             }
         }
         

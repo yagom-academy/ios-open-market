@@ -22,7 +22,7 @@ final class GridCollectionViewCell: ItemCollectionViewCell {
         self.layer.borderColor = UIColor.systemGray3.cgColor
     }
     required init?(coder: NSCoder) {
-        fatalError("not implemented")
+        super.init(coder: coder)
     }
     
     // MARK: Properties

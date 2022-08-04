@@ -8,12 +8,12 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    enum Section {
+    private enum Section {
         case main
     }
     
-    typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>
-
+    private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>
+    
     // MARK: Properties
     
     private let networkManager = NetworkManager()
@@ -63,7 +63,7 @@ final class MainViewController: UIViewController {
     }()
     
     // MARK: View Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -92,7 +92,7 @@ final class MainViewController: UIViewController {
         
         view.addSubview(collectionView)
         view.addSubview(loadingView)
-    
+        
         setCollectionViewConstraint()
     }
     
@@ -133,15 +133,33 @@ final class MainViewController: UIViewController {
             switch id {
             case CollectionViewNamespace.list.name:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewNamespace.list.name, for: indexPath) as? ListCollectionViewCell else {
-                    fatalError("")
+                    return ListCollectionViewCell()
                 }
-                cell.configureCell(product: product)
+                cell.configureCell(product: product) { result in
+                    switch result {
+                    case .success(_):
+                        return
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            self.showNetworkError(message: error.localizedDescription)
+                        }
+                    }
+                }
                 return cell
             default:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewNamespace.grid.name, for: indexPath) as? GridCollectionViewCell else {
-                    fatalError("")
+                    return GridCollectionViewCell()
                 }
-                cell.configureCell(product: product)
+                cell.configureCell(product: product) { result in
+                    switch result {
+                    case .success(_):
+                        return
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            self.showNetworkError(message: error.localizedDescription)
+                        }
+                    }
+                }
                 return cell
             }
         }
@@ -208,7 +226,7 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         guard let last = indexPaths.last else { return }
         let currentPage = (last.row / Metric.itemCount) + 1
-
+        
         if currentPage == productPageNumber {
             self.loadingView.startAnimating()
             
