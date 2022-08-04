@@ -57,9 +57,9 @@ final class NetworkManager {
         
         newParms[passwordKey] = passwordValue
 
-        guard var request = OpenMarketRequest().createPostRequest(identifier: identifier) else { return }
+        guard var request = OpenMarketRequest.createPostRequest(identifier: identifier) else { return }
 
-        let postData = OpenMarketRequest().createPostBody(parms: newParms as [String: Any], images: images)
+        let postData = OpenMarketRequest.createPostBody(parms: newParms as [String: Any], images: images)
 
         request.httpBody = postData
 
@@ -103,14 +103,14 @@ final class NetworkManager {
     }
 
     func patchProduct(productId: String) {
-        guard var request = OpenMarketRequest().requestProductDetail(of: productId) else { return }
+        guard var request = OpenMarketRequest.requestProductDetail(of: productId) else { return }
         
         request.httpMethod = NetworkNamespace.patch.name
         request.addValue(identifier, forHTTPHeaderField: Request.identifier)
         
         let params: [String: Any] = ["name": "아야나", "descriptions": "테스트중임", "price": 222, "currency": Currency.KRW.rawValue, "secret": "lP8VFiBqGI"]
         
-        guard let jsonData = OpenMarketRequest().createJson(params: params) else { return }
+        guard let jsonData = OpenMarketRequest.createJson(params: params) else { return }
         request.httpBody = jsonData
         
         fetch(request: request) { result in

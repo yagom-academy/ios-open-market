@@ -106,8 +106,8 @@ final class MainViewController: UIViewController {
     }
     
     private func getProductList(pageNumber: Int, itemPerPage: Int) {
-        let queryItems = OpenMarketRequest().createQuery(of: String(pageNumber), with: String(itemPerPage))
-        let request = OpenMarketRequest().requestProductList(queryItems: queryItems)
+        let queryItems = OpenMarketRequest.createQuery(of: String(pageNumber), with: String(itemPerPage))
+        let request = OpenMarketRequest.requestProductList(queryItems: queryItems)
         
         networkManager.getProductInquiry(request: request) { result in
             switch result {

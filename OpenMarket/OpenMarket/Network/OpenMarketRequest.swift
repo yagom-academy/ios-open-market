@@ -8,15 +8,15 @@
 import UIKit
 
 struct OpenMarketRequest {
-    private let address = NetworkNamespace.url.name
+    static let address = NetworkNamespace.url.name
     
-    func createQuery(of pageNo: String = String(Metric.firstPage), with itemsPerPage: String = String(Metric.itemCount)) -> [URLQueryItem] {
+    static func createQuery(of pageNo: String = String(Metric.firstPage), with itemsPerPage: String = String(Metric.itemCount)) -> [URLQueryItem] {
         let pageNo = URLQueryItem(name: ModelNameSpace.pageNo.name, value: pageNo)
         let itemsPerPage = URLQueryItem(name: ModelNameSpace.itemsPerPage.name, value: itemsPerPage)
         return [pageNo, itemsPerPage]
     }
     
-    func requestProductList(queryItems: [URLQueryItem]) -> URLRequest? {
+    static func requestProductList(queryItems: [URLQueryItem]) -> URLRequest? {
         var components = URLComponents(string: address)
         components?.queryItems = queryItems
         
@@ -26,7 +26,7 @@ struct OpenMarketRequest {
         return URLRequest(url: url)
     }
     
-    func requestProductDetail(of productId: String) -> URLRequest? {
+    static func requestProductDetail(of productId: String) -> URLRequest? {
         let components = URLComponents(string: address)
         
         guard var url = components?.url else {
@@ -37,7 +37,7 @@ struct OpenMarketRequest {
         return URLRequest(url: url)
     }
     
-    func createPostRequest(identifier: String) -> URLRequest? {
+    static func createPostRequest(identifier: String) -> URLRequest? {
         guard let url = URL(string: NetworkNamespace.url.name) else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = NetworkNamespace.post.name
@@ -47,11 +47,11 @@ struct OpenMarketRequest {
         return request
     }
     
-    func createPostBody(parms: [String: Any], images: [UIImage]) -> Data? {
+    static func createPostBody(parms: [String: Any], images: [UIImage]) -> Data? {
         var postData = Data()
         let params = parms
         
-        guard let jsonData = OpenMarketRequest().createJson(params: params) else { return nil }
+        guard let jsonData = createJson(params: params) else { return nil }
 
         postData.append(form: "--\(Multipart.boundaryValue)\r\n")
         postData.append(form: Multipart.paramContentDisposition)
@@ -74,7 +74,7 @@ struct OpenMarketRequest {
         return postData
     }
     
-    func createJson(params: [String: Any]) -> Data? {
+    static func createJson(params: [String: Any]) -> Data? {
         return try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
     }
     
