@@ -161,7 +161,6 @@ class RegistrationViewController: UIViewController {
     // MARK: Method
 
     @objc private func goBackMainViewController() {
-        removeRegisterForKeyboardNotification()
         navigationController?.popViewController(animated: true)
     }
 
@@ -268,10 +267,6 @@ class RegistrationViewController: UIViewController {
         let keyboardHeight = keyboardRectangle.height
         
         descriptionTextView.contentInset.bottom = keyboardHeight
-    }
-
-    private func removeRegisterForKeyboardNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
     }
 }
 
