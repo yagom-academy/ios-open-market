@@ -36,9 +36,12 @@ class ListCollectionViewCell: UICollectionViewListCell {
 extension ListCollectionViewCell {
     func fetchData(data: ProductListResponse?, index: Int) {
         self.settingNumberFormaatter()
-        guard let result = data,
-              let imageURL: URL = URL(string: result.pages[index].thumbnail),
-              let imageData: Data = try? Data(contentsOf: imageURL) else {
+//        guard let result = data,
+//              let imageURL: URL = URL(string: result.pages[index].thumbnail),
+//              let imageData: Data = try? Data(contentsOf: imageURL) else {
+//            return
+//        }
+        guard let result = data else {
             return
         }
         
@@ -47,7 +50,8 @@ extension ListCollectionViewCell {
         guard let priceNumberFormatter = numberFormatter.string(from: result.pages[index].price as NSNumber) else { return }
         guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[index].discountedPrice as NSNumber) else { return }
         
-        self.productImage.image = UIImage(data: imageData)
+        //self.productImage.image = UIImage(data: imageData)
+        self.productImage.setImageURL(result.pages[index].thumbnail)
         self.productName.text = result.pages[index].name
         self.productPrice.attributedText = .none
         self.productDiscountPrice.attributedText = .none

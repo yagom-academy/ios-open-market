@@ -59,7 +59,7 @@ final class ListViewController: UIViewController {
     }
     
     private func fetchData() {
-        jsonParser.dataTask(by: (URLCollection.hostURL + URLCollection.productList(pageNumber: 1, itemsPerPage: 10).string), completion: { (response) in
+        jsonParser.dataTask(by: (URLCollection.hostURL + URLCollection.productList(pageNumber: 1, itemsPerPage: 100).string), completion: { (response) in
             switch response {
             case .success(let data):
                 self.productData = data
