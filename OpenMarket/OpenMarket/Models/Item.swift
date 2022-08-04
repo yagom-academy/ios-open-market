@@ -38,7 +38,11 @@ struct DetailProductItem: Hashable {
         self.price = detailProduct.currency.rawValue + " " + detailProduct.price.devidePrice()
         self.bargainPrice = detailProduct.currency.rawValue + " " + detailProduct.bargainPrice.devidePrice()
         self.stock = String(detailProduct.stock)
-        self.description = detailProduct.description
+        if let description = detailProduct.description {
+            self.description = description
+        } else {
+            self.description = ""
+        }
         self.thumbnailURL = detailProduct.thumbnail 
     }
 

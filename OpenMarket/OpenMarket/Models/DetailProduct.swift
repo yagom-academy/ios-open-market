@@ -19,7 +19,7 @@ struct DetailProduct: Decodable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-    let description: String
+    let description: String?
     let vendors: Vendor
     let images: [ProductImage]
     
