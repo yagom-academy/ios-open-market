@@ -40,19 +40,50 @@ extension ProductsDetailViewController {
     
     private func addNavigationBarButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonDidTapped))
+    private func deleteProduct(_ secret: String) {
+        guard let productInfo = self.productInfo else { return }
+        
+        ProductsDataManager.shared.deleteData(
+            identifier: UserInfo.identifier.rawValue,
+            productID: productInfo.id,
+            secret: secret
+        ) { (data: Result<Page, IdentifierError>) in
+            switch data {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.presentAlertMessage(message: "\(error)")
+                }
+            }
+        }
     }
     
-    private func deleteProduct() {
+    private func getProductSecret(_ secret: String, completion: @escaping (String) -> Void) {
+        guard let productInfo = self.productInfo else { return }
+        
+        ProductsDataManager.shared.getProductSecret(
+            identifier: UserInfo.identifier.rawValue,
+            secret: secret,
+            productId: productInfo.id
+        ) { (data: Result<String, IdentifierError>) in
+            switch data {
+            case .success(let productSecret):
+                completion(productSecret)
+            case .failure(let error):
+                self.presentAlertMessage(message: "\(error)")
+            }
+        }
+    }
+    
+    private func deleteProcess() {
         let alert = UIAlertController(title: "암호", message: "암호를 입력하세요.", preferredStyle: .alert)
         let action = UIAlertAction(title: "확인", style: .default) { action in
-            guard let inputedSecret = alert.textFields?.first?.text,
-                  let productInfo = self.productInfo else { return }
-            ProductsDataManager.shared.getProductSecret(identifier: UserInfo.identifier.rawValue, secret: inputedSecret, productId: productInfo.id) { data in
-                ProductsDataManager.shared.deleteData(identifier: UserInfo.identifier.rawValue, productID: productInfo.id, secret: data) { (data: Page) in
-                    DispatchQueue.main.async {
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
-                }
+            guard let secret = alert.textFields?.first?.text else { return }
+            self.getProductSecret(secret) { productSecret in
+                self.deleteProduct(productSecret)
             }
         }
         alert.addTextField { textField in
