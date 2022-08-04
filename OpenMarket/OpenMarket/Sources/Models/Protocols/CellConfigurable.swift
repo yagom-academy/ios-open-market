@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CellConfigurable {
+protocol CellConfigurable: AnyObject {
     
     // MARK: - Requirements
     
@@ -16,6 +16,7 @@ protocol CellConfigurable {
     var priceLabel: UILabel { get }
     var bargainPriceLabel: UILabel { get }
     var stockLabel: UILabel { get }
+    var imageRequest: URLSessionTask? { get set }
     
     func receiveData(_ item: ItemListPage.Item)
 }
@@ -32,7 +33,8 @@ extension CellConfigurable {
 
 private extension CellConfigurable {
     func configureCell(with item: ItemListPage.Item) {
-        imageView.setImageURL(item.thumbnail)
+        imageRequest = imageView.setImageURL(item.thumbnail)
+    
         nameLabel.text = item.name
         priceLabel.text = item.price.priceFormat(currency: item.currency.rawValue)
         priceLabel.textColor = .systemGray3

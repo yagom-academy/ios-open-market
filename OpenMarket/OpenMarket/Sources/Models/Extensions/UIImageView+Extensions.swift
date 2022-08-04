@@ -11,42 +11,41 @@ extension UIImageView {
     
     // MARK: - Actions
     
-    func setImageURL(_ url: String) {
-        DispatchQueue.global(qos: .background).async {
-            let cachedKey = NSString(string: url)
-            let session = URLSession.shared
+    func setImageURL(_ url: String) -> URLSessionTask? {
+        let cachedKey = NSString(string: url)
+        let session = URLSession.shared
+        
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
+            self.image = cachedImage
             
-            if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
-                DispatchQueue.main.async {
-                    self.image = cachedImage
-                }
-                return
-            }
-            
-            guard let url = URL(string: url) else {
-                return
-            }
-            
-            session.dataTask(with: url) { data, result, error in
+            return nil
+        }
+        
+        guard let url = URL(string: url) else {
+            return nil
+        }
+
+        let dataTask = session.dataTask(with: url) { data, result, error in
+            DispatchQueue.main.async { [weak self] in
                 guard error == nil else {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.image = UIImage()
-                    }
+                    self?.image = UIImage()
+                    
                     return
                 }
                 
-                DispatchQueue.main.async { [weak self] in
-                    if let data = data,
-                       let image = UIImage(data: data) {
-                        
-                        ImageCacheManager.shared.setObject(
-                            image,
-                            forKey: cachedKey
-                        )
-                        self?.image = image
-                    }
+                if let data = data,
+                   let image = UIImage(data: data) {
+                    ImageCacheManager.shared.setObject(
+                        image,
+                        forKey: cachedKey
+                    )
+                    self?.image = image
                 }
-            }.resume()
+            }
         }
+        dataTask.resume()
+        
+        return dataTask
     }
 }
+

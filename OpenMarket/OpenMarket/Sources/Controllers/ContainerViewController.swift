@@ -18,7 +18,7 @@ final class ContainerViewController: UIViewController {
     
     private enum QueryValues {
         static let pageNumber = 1
-        static let itemsPerPage = 50
+        static let itemsPerPage = 100
     }
     
     // MARK: - Properties

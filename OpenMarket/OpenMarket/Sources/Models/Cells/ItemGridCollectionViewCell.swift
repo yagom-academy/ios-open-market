@@ -9,6 +9,10 @@ import UIKit
 
 class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
+    // MARK: - Properties
+    
+    var imageRequest: URLSessionTask?
+    
     // MARK: - UI Properties
     
     let imageView: UIImageView = {
@@ -71,6 +75,8 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        imageRequest?.cancel()
         
         imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
         nameLabel.text = nil

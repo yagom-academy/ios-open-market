@@ -9,6 +9,10 @@ import UIKit
 
 class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
+    // MARK: - Properties
+    
+    var imageRequest: URLSessionTask?
+    
     // MARK: - UI Properties
     
     let imageView: UIImageView = {
@@ -121,13 +125,16 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        if let imageRequest = imageRequest {
+            imageRequest.cancel()
+        }
+
         imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
         nameLabel.text = nil
         stockLabel.text = nil
         priceLabel.text = nil
         priceLabel.attributedText = nil
     }
-    
 }
 
 // MARK: - Private Actions
