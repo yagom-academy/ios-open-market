@@ -5,8 +5,6 @@
 //  Created by 데릭, 수꿍.
 //
 
-import Foundation
-
 enum AlertMessage: String {
     case enrollmentSuccess = "상품 등록하였습니다."
     case enrollmentFailure = "상품 등록 실패하였습니다."

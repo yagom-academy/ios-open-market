@@ -27,12 +27,8 @@ extension GETProtocol {
                 } catch {
                     completion(.failure(.failedToDecode))
                 }
-                
-                return
             case .failure(_):
                 completion(.failure(.emptyData))
-                
-                return
             }
         }
     }

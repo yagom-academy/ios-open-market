@@ -50,10 +50,11 @@ extension URLComponents {
                                               value: value))
         }
         
-        if self.queryItems == nil {
-            self.queryItems = newQueryItems
-        } else {
-            self.queryItems?.append(contentsOf: newQueryItems)
+        guard queryItems != nil else {
+            queryItems = newQueryItems
+            return
         }
+        
+        queryItems?.append(contentsOf: newQueryItems)
     }
 }

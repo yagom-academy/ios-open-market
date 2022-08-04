@@ -24,6 +24,11 @@ final class ProductModificationViewController: UIViewController {
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 10,
+                                               left: 10,
+                                               bottom: 10,
+                                               right: 10)
         
         return stackView
     }()
@@ -74,7 +79,7 @@ final class ProductModificationViewController: UIViewController {
         textField.backgroundColor = .systemBackground
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.systemGray2.cgColor
-        textField.placeholder = "상품명"
+        textField.placeholder = ProductStatus.productName.rawValue
         textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return textField
@@ -97,7 +102,7 @@ final class ProductModificationViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.systemGray2.cgColor
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "상품가격"
+        textField.placeholder = ProductStatus.productPrice.rawValue
         textField.keyboardType = .numberPad
         textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
@@ -121,7 +126,7 @@ final class ProductModificationViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.systemGray2.cgColor
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "할인금액"
+        textField.placeholder = ProductStatus.discountedPrice.rawValue
         textField.keyboardType = .numberPad
         textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
@@ -134,7 +139,7 @@ final class ProductModificationViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.systemGray2.cgColor
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "재고수량"
+        textField.placeholder = ProductStatus.numberOfStocks.rawValue
         textField.keyboardType = .numberPad
         textField.font = UIFont.preferredFont(forTextStyle: .caption1)
         
@@ -146,7 +151,7 @@ final class ProductModificationViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.font = UIFont.preferredFont(forTextStyle: .caption1)
-
+        
         return textView
     }()
     
@@ -157,16 +162,14 @@ final class ProductModificationViewController: UIViewController {
     weak var delegate: ProductModificationDelegate?
     
     // MARK: - View Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        configureDefaultUI()
         
-        updateUI(by: productInfo!)
-        productModificationAPIManager = ProductModificationAPIManager(productID: productInfo!.id)
+        configureDefaultUI()
     }
-
+    
     // MARK: - UI
     
     private func configureDefaultUI() {
@@ -177,23 +180,26 @@ final class ProductModificationViewController: UIViewController {
         configureTextFieldStackView()
         configureImageAndPickerScrollView()
         registerNotificationForKeyboard()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.updateUI(by: self?.productInfo)
+        }
     }
     
     private func connectDelegate() {
-        self.productNameTextField.delegate = self
-        self.originalPriceTextField.delegate = self
-        self.discountedPriceTextField.delegate = self
-        self.productStockTextField.delegate = self
-        
-        self.productDescriptionTextView.delegate = self
+        productNameTextField.delegate = self
+        originalPriceTextField.delegate = self
+        discountedPriceTextField.delegate = self
+        productStockTextField.delegate = self
+        productDescriptionTextView.delegate = self
     }
     
     private func configureNavigationItems() {
-        self.navigationController?.navigationItem.title = "상품수정"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+        title = CurrentPage.productModification.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                                 target: self,
                                                                 action: #selector(didTappedCancelButton))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                                  target: self,
                                                                  action: #selector(didTappedDoneButton))
     }
@@ -265,14 +271,16 @@ final class ProductModificationViewController: UIViewController {
             object: nil)
     }
     
-    private func configureNewImageView(_ image: UIImage) {
-        let imageView = configureProfileImageView(with: image)
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        ])
-        
-        imageStackView.addArrangedSubview(imageView)
+    private func configureNewImageView(_ images: [UIImage]) {
+        images.forEach { image in
+            let imageView = configureProfileImageView(with: image)
+            
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+            ])
+            
+            imageStackView.addArrangedSubview(imageView)
+        }
     }
     
     private func configureProfileImageView(with image: UIImage) -> UIImageView {
@@ -288,50 +296,54 @@ final class ProductModificationViewController: UIViewController {
         let modifyEntity = ModifiedProductEntity(name: productNameTextField.text,
                                                  descriptions: productDescriptionTextView.text,
                                                  thumbnail_id: nil,
-                                                 price: Int(originalPriceTextField.text!),
+                                                 price: originalPriceTextField.text?.convertToOptionalInt(),
                                                  currency: currency,
-                                                 discounted_price: Int(discountedPriceTextField.text!),
-                                                 stock: productStockTextField.text?.convertToInt(),
+                                                 discounted_price: discountedPriceTextField.text?.convertToOptionalInt(),
+                                                 stock: productStockTextField.text?.convertToOptionalInt(),
                                                  secret: User.secret.rawValue)
         
-        productModificationAPIManager?.modifyData(modifiedProductEntity: modifyEntity, completion: { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    do {
-                        let decodedData = try JSONDecoder().decode(ProductDetail.self,
-                                                                   from: data)
-                        
-                        self?.presentConfirmAlert(message: AlertMessage.modificationSuccess.rawValue)
-                        self?.delegate?.productModificationViewController(ProductModificationViewController.self, didRecieve: decodedData.name)
-                    } catch {
-                        
-                    }
-                case .failure(_):
-                    self?.presentConfirmAlert(message: AlertMessage.modificationFailure.rawValue)
+        productModificationAPIManager?.modifyData(modifiedProductEntity: modifyEntity) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let decodedData = try? JSONDecoder().decode(ProductDetails.self,
+                                                                  from: data) else {
+                    return
                 }
+                
+                self?.presentConfirmAlert(message: AlertMessage.modificationSuccess.rawValue)
+                self?.delegate?.productModificationViewController(
+                    ProductModificationViewController.self,
+                    didRecieve: decodedData.name)
+                
+            case .failure(let error):
+                self?.presentConfirmAlert(message: error.errorDescription)
             }
-        })
+        }
     }
     
-    func updateUI(by data: ProductDetailsEntity) {
+    private func checkNumberOfText(in textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = .lightGray
+            textView.text = ProductStatus.productDescription.rawValue
+        } else {
+            textView.textColor = .black
+        }
+    }
+    
+    func updateUI(by data: ProductDetailsEntity?) {
+        guard let data = data else {
+            return
+        }
+        
+        productModificationAPIManager = ProductModificationAPIManager(productID: data.id)
         productNameTextField.text = data.name
         originalPriceTextField.text = data.price.description
         discountedPriceTextField.text = data.bargainPrice.description
         productStockTextField.text = data.stock.description
         productDescriptionTextView.text = data.description
         currencySegmentedControl.selectedSegmentIndex = data.currency == .krw ? 0 : 1
-        
-        for image in data.images {
-            configureNewImageView(image)
-        }
-        
-        if productDescriptionTextView.text.isEmpty {
-            productDescriptionTextView.textColor = .lightGray
-            productDescriptionTextView.text = "제픔 상세 설명"
-        } else {
-            productDescriptionTextView.textColor = .black
-        }
+        configureNewImageView(data.images)
+        checkNumberOfText(in: productDescriptionTextView)
     }
     
     // MARK: - Action
@@ -341,7 +353,7 @@ final class ProductModificationViewController: UIViewController {
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
         }
-
+        
         let contentInset = UIEdgeInsets(
             top: 0.0,
             left: 0.0,
@@ -381,51 +393,70 @@ extension ProductModificationViewController: UITextFieldDelegate {
     private func limitTextFieldLength(_ textField: UITextField) -> Bool {
         switch textField {
         case let textField where textField == productNameTextField:
-            if textField.text!.count >= 40 {
-                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
-                return false
+            guard let name = textField.text,
+                  name.count >= 40 else {
+                return true
             }
+            
+            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            return false
         case let textField where textField == originalPriceTextField:
-            if textField.text!.count >= 10 {
-                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
-                return false
+            guard let originalPrice = textField.text,
+                  originalPrice.count >= 10 else {
+                return true
             }
+            
+            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            return false
         case let textField where textField == discountedPriceTextField:
-            if textField.text!.count >= 10 {
-                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
-                return false
+            guard let discountedPrice = textField.text,
+                  discountedPrice.count >= 10 else {
+                return true
             }
+            
+            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            return false
         case let textField where textField == productStockTextField:
-            if textField.text!.count >= 10 {
-                self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
-                return false
+            guard let stock = textField.text,
+                  stock.count >= 10 else {
+                return true
             }
+            
+            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            return false
         default:
             return true
         }
-        return true
+    }
+    
+    private func checkNumberOfNameText(_ productNameText: String) {
+        switch productNameText.count {
+        case 0:
+            presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+        case 1..<3:
+            presentConfirmAlert(message: AlertMessage.additionalCharacters.rawValue)
+        default:
+            break
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         switch textField {
         case productNameTextField:
-            guard let productNameText = productNameTextField.text?.replacingOccurrences(of: " ", with: "") else {
+            guard let productNameText =
+                    productNameTextField.text?.replacingOccurrences(of: " ",
+                                                                    with: "") else {
                 return
             }
             
-            if productNameText.count == 0 {
-                self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
-            } else if productNameText.count < 3 {
-                self.presentConfirmAlert(message: AlertMessage.additionalCharacters.rawValue)
-            }
+            checkNumberOfNameText(productNameText)
         case originalPriceTextField:
-            guard let originalPricetext = originalPriceTextField.text else {
+            guard let originalPricetext = originalPriceTextField.text,
+                  originalPricetext.count == 0 else {
                 return
             }
             
-            if originalPricetext.count == 0 {
-                self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
-            }
+            self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
         default:
             break
         }
@@ -436,7 +467,7 @@ extension ProductModificationViewController: UITextFieldDelegate {
 
 extension ProductModificationViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if textView.text.count >= 1000 {
+        guard textView.text.count < 1000 else {
             self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
             return false
         }
@@ -445,17 +476,20 @@ extension ProductModificationViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "제품 상세 설명" {
-            textView.text = nil
-            textView.textColor = .black
+        guard textView.text == ProductStatus.productDescription.rawValue else {
+            return
         }
+        
+        textView.text = nil
+        textView.textColor = .black
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = "제품 상세 설명"
-            textView.textColor = .lightGray
+        guard textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return
         }
+        
+        textView.text = ProductStatus.productDescription.rawValue
+        textView.textColor = .lightGray
     }
-    
 }

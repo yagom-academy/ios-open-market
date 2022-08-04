@@ -19,9 +19,9 @@ extension PATCHProtocol {
         request.httpBody = modifiedProductEntity.returnValue()
         request.httpMethod = HTTPMethod.patch.rawValue
         request.setValue(MIMEType.applicationJSON.value,
-                                   forHTTPHeaderField: MIMEType.contentType.value)
+                         forHTTPHeaderField: MIMEType.contentType.value)
         request.addValue(User.identifier.rawValue,
-                                   forHTTPHeaderField: RequestName.identifier.key)
+                         forHTTPHeaderField: RequestName.identifier.key)
         
         client.requestData(with: request) { result in
             switch result {

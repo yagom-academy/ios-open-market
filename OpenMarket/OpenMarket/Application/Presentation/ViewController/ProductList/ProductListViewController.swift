@@ -55,7 +55,6 @@ final class ProductListViewController: UIViewController {
     private func configureUI() {
         configureListCollectionView()
         configureGridCollectionView()
-        
         configureListDataSource()
         configureGridDataSource()
         
@@ -83,7 +82,7 @@ final class ProductListViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -101,7 +100,7 @@ final class ProductListViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -197,15 +196,15 @@ final class ProductListViewController: UIViewController {
     }
     
     private func setUpNavigationItems() {
-        self.navigationItem.titleView = self.segmentedControl
-        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "+",
+        navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "+",
                                                                   style: .plain,
                                                                   target: self,
                                                                   action: #selector(addButtonTapped(_:)))
-        self.segmentedControl.addTarget(self,
+        segmentedControl.addTarget(self,
                                         action: #selector(didSegmentedControlTapped(_:)),
                                         for: .valueChanged)
-        self.segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = 0
     }
     
     private func fetchData() {
@@ -274,8 +273,11 @@ extension ProductListViewController: ProductListDelegate {
 
 extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let product = shouldHideListView ? self.listDataSource?.itemIdentifier(for: indexPath) : self.gridDataSource?.itemIdentifier(for: indexPath) else {
-            collectionView.deselectItem(at: indexPath, animated: true)
+        guard let product = shouldHideListView
+                ? listDataSource?.itemIdentifier(for: indexPath)
+                : gridDataSource?.itemIdentifier(for: indexPath) else {
+            collectionView.deselectItem(at: indexPath,
+                                        animated: true)
             return
         }
         
@@ -283,6 +285,8 @@ extension ProductListViewController: UICollectionViewDelegate {
         productDetailViewController.productID = product.id
         productDetailViewController.productVendorID = product.vendorID
         productDetailViewController.title = product.name
-        self.navigationController?.pushViewController(productDetailViewController, animated: true)
+        
+        navigationController?.pushViewController(productDetailViewController,
+                                                 animated: true)
     }
 }

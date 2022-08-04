@@ -9,7 +9,7 @@ import UIKit
 
 struct EnrollProductEntity {
     let parameter: PostParameter
-    let images: [ProductImage]?
+    let images: [ProductImage]
 }
 
 struct PostParameter {
@@ -38,7 +38,7 @@ struct PostParameter {
         self.secret = secret
     }
     
-    func returnValue() -> Data? {
+    func returnValue() -> Data {
         var dicValue = [String : String]()
         dicValue["name"] = "\(name)"
         dicValue["price"] = "\(price)"
@@ -59,7 +59,7 @@ struct PostParameter {
                                                   options: [])
             return data
         } catch {
-            return nil
+            return Data()
         }
     }
 }

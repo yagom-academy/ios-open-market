@@ -12,6 +12,8 @@
 		2008B1FD2890276700C25E1D /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2008B1FC2890276700C25E1D /* APIProtocol.swift */; };
 		2028AD82288D1B8F00FAFC7D /* ProductURLQueryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2028AD81288D1B8F00FAFC7D /* ProductURLQueryItem.swift */; };
 		204406B528878AF4006FFA79 /* ListCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204406B428878AF4006FFA79 /* ListCollectionCell.swift */; };
+		20596FE1289BB6EA006B0AD6 /* ProductStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20596FE0289BB6EA006B0AD6 /* ProductStatus.swift */; };
+		20596FE3289BBA12006B0AD6 /* CurrentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20596FE2289BBA12006B0AD6 /* CurrentPage.swift */; };
 		2073F2A2288D065200E41C36 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2073F2A1288D065200E41C36 /* HTTPMethod.swift */; };
 		207D45A0287DBD0300CF18D5 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207D459F287DBD0300CF18D5 /* MockURLSession.swift */; };
 		207D45A2287DBD2600CF18D5 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207D45A1287DBD2600CF18D5 /* MockURLSessionDataTask.swift */; };
@@ -88,6 +90,8 @@
 		2008B1FC2890276700C25E1D /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		2028AD81288D1B8F00FAFC7D /* ProductURLQueryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductURLQueryItem.swift; sourceTree = "<group>"; };
 		204406B428878AF4006FFA79 /* ListCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionCell.swift; sourceTree = "<group>"; };
+		20596FE0289BB6EA006B0AD6 /* ProductStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductStatus.swift; sourceTree = "<group>"; };
+		20596FE2289BBA12006B0AD6 /* CurrentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPage.swift; sourceTree = "<group>"; };
 		2073F2A1288D065200E41C36 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		207D459F287DBD0300CF18D5 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		207D45A1287DBD2600CF18D5 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
@@ -203,10 +207,10 @@
 		207D45C2287E633E00CF18D5 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				903A2C2A289A11B100CEBC00 /* ProductModification */,
-				9042078D289125CC00910330 /* ProductDetails */,
-				904207822891086400910330 /* ProductEnrollment */,
 				20E2F67228891A5600E150AC /* ProductList */,
+				904207822891086400910330 /* ProductEnrollment */,
+				9042078D289125CC00910330 /* ProductDetails */,
+				903A2C2A289A11B100CEBC00 /* ProductModification */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -366,6 +370,8 @@
 			isa = PBXGroup;
 			children = (
 				20E2F6752889225900E150AC /* AlertSetting.swift */,
+				20596FE0289BB6EA006B0AD6 /* ProductStatus.swift */,
+				20596FE2289BBA12006B0AD6 /* CurrentPage.swift */,
 				900B329E2894123600CC8DEA /* AlertMessage.swift */,
 				20E2F67328891C9900E150AC /* SegmentedControlItem.swift */,
 				90420781289107A300910330 /* Manager */,
@@ -679,6 +685,8 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				2008B1FA289013C800C25E1D /* APIConfiguration.swift in Sources */,
 				2073F2A2288D065200E41C36 /* HTTPMethod.swift in Sources */,
+				20596FE1289BB6EA006B0AD6 /* ProductStatus.swift in Sources */,
+				20596FE3289BBA12006B0AD6 /* CurrentPage.swift in Sources */,
 				90CBE852288CD8BB00378952 /* ProductListDelegate.swift in Sources */,
 				20BFDA5A2890E36D000AA075 /* ProductEnrollmentAPIManager.swift in Sources */,
 				6A8F18912887D8560095928F /* Double+Extensions.swift in Sources */,

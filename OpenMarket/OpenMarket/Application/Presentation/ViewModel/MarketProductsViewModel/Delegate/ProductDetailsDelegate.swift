@@ -2,7 +2,7 @@
 //  ProductDetailsDelegate.swift
 //  OpenMarket
 //
-//  Created by 전민수 on 2022/08/01.
+//  Created by 데릭, 수꿍.
 //
 
 import UIKit
@@ -12,4 +12,6 @@ protocol ProductDetailsViewDelegate: AnyObject {
                             didRecieve images: [UIImage])
     func productDetailsViewController(_ viewController: ProductDetailsViewController.Type,
                             didRecieve productInfo: ProductDetailsEntity)
+    func productDetailsViewController(_ viewController: ProductDetailsViewController.Type,
+                            didRecieve productSecret: String)
 }

@@ -20,6 +20,62 @@
                ReferencedContainer = "container:OpenMarket.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "20A3C55D287C5259008B2585"
+               BuildableName = "MockTests.xctest"
+               BlueprintName = "MockTests"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6AB7C463287D1072002FA082"
+               BuildableName = "URLSessionWithoutConnection.xctest"
+               BlueprintName = "URLSessionWithoutConnection"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6AB7C470287D1144002FA082"
+               BuildableName = "URLSessionTests.xctest"
+               BlueprintName = "URLSessionTests"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "207D45B0287DDD9D00CF18D5"
+               BuildableName = "URLDataTests.xctest"
+               BlueprintName = "URLDataTests"
+               ReferencedContainer = "container:OpenMarket.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,46 +84,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "20A3C55D287C5259008B2585"
-               BuildableName = "MockTests.xctest"
-               BlueprintName = "MockTests"
-               ReferencedContainer = "container:OpenMarket.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6AB7C463287D1072002FA082"
-               BuildableName = "URLSessionWithoutConnection.xctest"
-               BlueprintName = "URLSessionWithoutConnection"
-               ReferencedContainer = "container:OpenMarket.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6AB7C470287D1144002FA082"
-               BuildableName = "URLSessionTests.xctest"
-               BlueprintName = "URLSessionTests"
-               ReferencedContainer = "container:OpenMarket.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "207D45B0287DDD9D00CF18D5"
-               BuildableName = "URLDataTests.xctest"
-               BlueprintName = "URLDataTests"
-               ReferencedContainer = "container:OpenMarket.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

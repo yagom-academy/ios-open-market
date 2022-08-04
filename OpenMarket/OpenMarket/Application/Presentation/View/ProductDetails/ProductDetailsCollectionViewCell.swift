@@ -62,7 +62,8 @@ final class ProductDetailsCollectionViewCell: UICollectionViewCell {
         rootStackView.addArrangedSubview(productImageView)
         rootStackView.addArrangedSubview(productStockLabel)
         
-        productImageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        productImageView.setContentCompressionResistancePriority(.defaultLow,
+                                                                 for: .vertical)
         
         NSLayoutConstraint.activate([
             rootStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -71,8 +72,10 @@ final class ProductDetailsCollectionViewCell: UICollectionViewCell {
             rootStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             rootStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-            productImageView.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: 0.9),
-            productStockLabel.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: 0.1),
+            productImageView.heightAnchor.constraint(equalTo: rootStackView.heightAnchor,
+                                                     multiplier: 0.9),
+            productStockLabel.heightAnchor.constraint(equalTo: rootStackView.heightAnchor,
+                                                      multiplier: 0.1),
         ])
     }
     

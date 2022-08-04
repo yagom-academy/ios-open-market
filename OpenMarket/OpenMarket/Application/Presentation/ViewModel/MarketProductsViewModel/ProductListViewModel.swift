@@ -39,19 +39,21 @@ final class ProductListViewModel {
     }
     
     var originalPriceText: String? {
-        guard let product = productEntity else {
+        guard let product = productEntity,
+        let originalPriceText = product.originalPrice.numberFormatter() else {
             return nil
         }
         
-        return product.currency + " " + (product.originalPrice.numberFormatter())
+        return product.currency + " " + originalPriceText
     }
     
     var discountedPriceText: String? {
-        guard let product = productEntity else {
+        guard let product = productEntity,
+              let discountedPriceText = product.discountedPrice.numberFormatter() else {
             return nil
         }
         
-        return product.currency + " " + (product.discountedPrice.numberFormatter())
+        return product.currency + " " + discountedPriceText
     }
     
     var stockText: String? {
@@ -59,7 +61,9 @@ final class ProductListViewModel {
             return nil
         }
         
-        return isEmptyStock == true ? "품절" : "잔여수량 : \(product.stock)"
+        return isEmptyStock == true
+            ? ProductStatus.emptyStock.rawValue
+            : ProductStatus.leftOver.rawValue + " : \(product.stock)"
     }
     
     var isDiscountedItem: Bool? {
@@ -106,6 +110,7 @@ final class ProductListViewModel {
                     stock: product.stock))
         }
         
-        delegate?.productListViewController(ProductListViewController.self, didRecieve: entityList)
+        delegate?.productListViewController(ProductListViewController.self,
+                                            didRecieve: entityList)
     }
 }

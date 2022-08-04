@@ -156,7 +156,7 @@ final class GridCollectionCell: UICollectionViewCell {
         discountedPriceLabel.text = viewModel?.discountedPriceText
         stockLabel.text = viewModel?.stockText
         
-        viewModel?.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
+        viewModel?.isDiscountedItem == true ? configureForBargain() : configureForOriginal()
         stockLabel.textColor = viewModel?.isEmptyStock == true ? .systemYellow : .systemGray
     }
 }

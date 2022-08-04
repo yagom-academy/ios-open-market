@@ -131,6 +131,7 @@ final class ProductDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         fetchProductDetails(by: productID)
     }
     
@@ -146,11 +147,11 @@ final class ProductDetailsViewController: UIViewController {
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(didTappedEditButton))
-        self.checkVendorID(from: productVendorID.description)
+        checkVendorID(from: productVendorID.description)
     }
     
     @objc private func didTappedBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func didTappedEditButton() {
@@ -158,7 +159,7 @@ final class ProductDetailsViewController: UIViewController {
                                             message: nil,
                                             preferredStyle: .actionSheet)
         
-        let editAction = UIAlertAction(title: "수정",
+        let editAction = UIAlertAction(title: AlertSetting.modifyAction.title,
                                        style: .default) { [weak self]_ in
             
             let productModificationViewController = ProductModificationViewController()
@@ -171,11 +172,12 @@ final class ProductDetailsViewController: UIViewController {
             self?.present(rootViewController, animated: true)
         }
         
-        let deleteAction = UIAlertAction(title: "삭제",
-                                         style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: AlertSetting.deleteAction.title,
+                                         style: .destructive) { [weak self] _ in
+            self?.presentPasswordCheckAlert()
         }
         
-        let cancelAction = UIAlertAction(title: "취소",
+        let cancelAction = UIAlertAction(title: AlertSetting.cancelAction.title,
                                          style: .cancel,
                                          handler: nil)
         
@@ -184,7 +186,7 @@ final class ProductDetailsViewController: UIViewController {
         actionSheet.addAction(cancelAction)
         
         actionSheet.modalPresentationStyle = .overFullScreen
-        self.present(actionSheet,
+        present(actionSheet,
                      animated: true,
                      completion: nil)
     }
@@ -212,7 +214,7 @@ final class ProductDetailsViewController: UIViewController {
             rootStackView.trailingAnchor.constraint(equalTo: rootScrollView.trailingAnchor),
             rootStackView.bottomAnchor.constraint(equalTo: rootScrollView.bottomAnchor),
             
-            rootStackView.widthAnchor.constraint(equalTo: rootScrollView.widthAnchor),
+            rootStackView.widthAnchor.constraint(equalTo: rootScrollView.widthAnchor)
         ])
     }
     
@@ -241,9 +243,9 @@ final class ProductDetailsViewController: UIViewController {
     }
     
     private func fetchProductDetails(by productID: Int) {
-        productDetailsAPIManager = ProductDetailsAPIManager(productID: productID.description)
+        productDetailsAPIManager = ProductDetailsAPIManager(productID: productID)
         
-        productDetailsAPIManager?.requestAndDecodeProduct(dataType: ProductDetail.self) { [weak self] result in
+        productDetailsAPIManager?.requestAndDecodeProduct(dataType: ProductDetails.self) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.productDetailViewModel?.format(productDetail: data)
@@ -254,8 +256,8 @@ final class ProductDetailsViewController: UIViewController {
     }
     
     private func checkVendorID(from vendorID: String) {
-        if vendorID != User.venderID.rawValue {
-            self.navigationItem.rightBarButtonItem = nil
+        if vendorID != User.vendorID.rawValue {
+            navigationItem.rightBarButtonItem = nil
         }
     }
     
@@ -307,7 +309,6 @@ final class ProductDetailsViewController: UIViewController {
             return
         }
         
-        
         productDetailImagesdataSource = UICollectionViewDiffableDataSource<Section, UIImage>(collectionView: productDetailImagesCollectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: UIImage) -> UICollectionViewCell? in
             
@@ -334,7 +335,7 @@ final class ProductDetailsViewController: UIViewController {
         discountedPriceLabel.text = viewModel.discountedPriceText
         productDescriptionTextView.text = viewModel.description
         
-        viewModel.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
+        viewModel.isDiscountedItem == true ? configureForBargain() : configureForOriginal()
         stockLabel.textColor = viewModel.isEmptyStock == true ? .systemYellow : .systemGray
     }
     
@@ -381,7 +382,7 @@ extension ProductDetailsViewController: ProductDetailsViewDelegate {
 
 extension ProductDetailsViewController: ProductModificationDelegate {
     func productModificationViewController(_ viewController: ProductModificationViewController.Type, didRecieve productName: String) {
-        self.title = productName
+        title = productName
         fetchProductDetails(by: productID)
     }
 }

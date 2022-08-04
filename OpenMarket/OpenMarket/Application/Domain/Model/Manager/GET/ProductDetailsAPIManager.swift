@@ -11,7 +11,7 @@ struct ProductDetailsAPIManager: GETProtocol {
     var configuration: APIConfiguration
     var urlComponents: URLComponents
     
-    init?(productID: String) {
+    init?(productID: Int) {
         urlComponents = URLComponentsBuilder()
             .setScheme("https")
             .setHost("market-training.yagom-academy.kr")

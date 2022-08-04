@@ -18,35 +18,25 @@ struct APIClient {
     func requestData(with url: URL,
                      completion: @escaping (Result<Data,APIError>) -> Void) {
         session.dataTask(with: url) { data, response, error in
-            
-            if error != nil {
-                DispatchQueue.main.async {
-                    completion(.failure(.unknownErrorOccured))
-                }
-                
+            guard error == nil else {
+                completion(.failure(.unknownErrorOccured))
                 return
             }
             
             guard let response = response as? HTTPURLResponse,
                   (200..<300).contains(response.statusCode) else {
-                DispatchQueue.main.async {
-                    completion(.failure(.invalidURL))
-                }
+                completion(.failure(.invalidURL))
                 
                 return
             }
             
             guard let verifiedData = data else {
-                DispatchQueue.main.async {
-                    completion(.failure(.emptyData))
-                }
+                completion(.failure(.emptyData))
                 
                 return
             }
             
-            DispatchQueue.main.async {
-                completion(.success(verifiedData))
-            }
+            completion(.success(verifiedData))
         }.resume()
         
     }
@@ -54,34 +44,25 @@ struct APIClient {
     func requestData(with urlRequest: URLRequest,
                      completion: @escaping (Result<Data,APIError>) -> Void) {
         session.dataTask(with: urlRequest) { data, response, error in
-            if error != nil {
-                DispatchQueue.main.async {
-                    completion(.failure(.unknownErrorOccured))
-                }
-                
+            guard error == nil else {
+                completion(.failure(.unknownErrorOccured))
                 return
             }
             
             guard let response = response as? HTTPURLResponse,
                   (200..<300).contains(response.statusCode) else {
-                DispatchQueue.main.async {
-                    completion(.failure(.invalidURL))
-                }
+                completion(.failure(.invalidURL))
                 
                 return
             }
             
             guard let verifiedData = data else {
-                DispatchQueue.main.async {
-                    completion(.failure(.emptyData))
-                }
+                completion(.failure(.emptyData))
                 
                 return
             }
             
-            DispatchQueue.main.async {
-                completion(.success(verifiedData))
-            }
+            completion(.success(verifiedData))
         }.resume()
     }
 }

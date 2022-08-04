@@ -38,25 +38,33 @@ extension POSTProtocol {
     }
     
     func requestAndDecodeProductSecret(using client: APIClient = APIClient.shared,
-                        completion: @escaping (Result<Data,APIError>) -> Void) {
+                        completion: @escaping (Result<String,APIError>) -> Void) {
         
         var request = URLRequest(url: configuration.url)
         
         do {
             let param = ["secret" : User.secret.rawValue]
-            let dataBody = try JSONSerialization.data(withJSONObject: param, options: .init())
+            let dataBody = try JSONSerialization.data(withJSONObject: param,
+                                                      options: .init())
             
             request.httpBody = dataBody
             request.httpMethod = HTTPMethod.post.rawValue
-            request.setValue(MIMEType.applicationJSON.value, forHTTPHeaderField: MIMEType.contentType.value)
-            request.addValue(User.identifier.rawValue, forHTTPHeaderField: RequestName.identifier.key)
+            request.setValue(MIMEType.applicationJSON.value,
+                             forHTTPHeaderField: MIMEType.contentType.value)
+            request.addValue(User.identifier.rawValue,
+                             forHTTPHeaderField: RequestName.identifier.key)
             
             client.requestData(with: request) { result in
                 switch result {
-                case .success(_):
-                    return
-                case .failure(_):
-                    return
+                case .success(let data):
+                    guard let secret = String(data: data,
+                                              encoding: .utf8) else {
+                        return
+                    }
+                    
+                    completion(.success(secret))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
             }
         } catch {
@@ -65,26 +73,24 @@ extension POSTProtocol {
     }
     
     private func createDataBody(withParameters params: PostParameter,
-                                media: [ProductImage]?,
+                                media: [ProductImage],
                                 boundary: String) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
         
         body.append("--\(boundary + lineBreak)")
         body.append("Content-Disposition: form-data; name=\"\(RequestName.params.key)\"\(lineBreak + lineBreak)")
-        body.append(params.returnValue()!)
+        body.append(params.returnValue())
         body.append(lineBreak)
         
-        if let media = media {
-            for photo in media {
-                body.append("--\(boundary + lineBreak)")
-                body.append("Content-Disposition: form-data; name=\"\(RequestName.images.key)\"; filename=\"\(photo.fileName)\"\(lineBreak)")
-                body.append("Content-Type: \(photo.mimeType.value + lineBreak + lineBreak)")
-                body.append(photo.data)
-                body.append(lineBreak)
-            }
+        for photo in media {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"\(RequestName.images.key)\"; filename=\"\(photo.fileName)\"\(lineBreak)")
+            body.append("Content-Type: \(photo.mimeType.value + lineBreak + lineBreak)")
+            body.append(photo.data)
+            body.append(lineBreak)
         }
-        
+
         body.append("--\(boundary)--\(lineBreak)")
         
         return body

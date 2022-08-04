@@ -14,7 +14,7 @@ enum APIError: Error, LocalizedError {
     case emptyData
     case unknownErrorOccured
     
-    var errorDescription: String? {
+    var errorDescription: String {
         switch self {
         case .invalidURL:
             return "URL is not valid."

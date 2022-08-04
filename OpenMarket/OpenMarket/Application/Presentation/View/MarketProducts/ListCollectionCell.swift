@@ -168,7 +168,7 @@ final class ListCollectionCell: UICollectionViewListCell {
         discountedPriceLabel.text = viewModel?.discountedPriceText
         stockLabel.text = viewModel?.stockText
         
-        viewModel?.isDiscountedItem == true ? self.configureForBargain() : self.configureForOriginal()
+        viewModel?.isDiscountedItem == true ? configureForBargain() : configureForOriginal()
         stockLabel.textColor = viewModel?.isEmptyStock == true ? .systemYellow : .systemGray
     }
 }
@@ -182,6 +182,6 @@ private extension CALayer {
                               width: frame.width,
                               height: 0.5)
         
-        self.addSublayer(border)
+        addSublayer(border)
     }
 }
