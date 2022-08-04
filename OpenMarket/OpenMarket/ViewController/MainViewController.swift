@@ -122,7 +122,7 @@ final class MainViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkError(message: error.localizedDescription)
+                    self.showCustomAlert(title: nil, message: error.localizedDescription)
                 }
             }
         }
@@ -141,7 +141,7 @@ final class MainViewController: UIViewController {
                         return
                     case .failure(let error):
                         DispatchQueue.main.async {
-                            self.showNetworkError(message: error.localizedDescription)
+                            self.showCustomAlert(title: nil, message: error.localizedDescription)
                         }
                     }
                 }
@@ -156,7 +156,7 @@ final class MainViewController: UIViewController {
                         return
                     case .failure(let error):
                         DispatchQueue.main.async {
-                            self.showNetworkError(message: error.localizedDescription)
+                            self.showCustomAlert(title: nil, message: error.localizedDescription)
                         }
                     }
                 }
@@ -207,15 +207,6 @@ final class MainViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
-    }
-    
-    func showNetworkError(message: String) {
-        let title = "확인"
-        let networkErrorMessage = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: title, style: .default)
-        networkErrorMessage.addAction(okButton)
-        
-        present(networkErrorMessage, animated: true)
     }
 }
 

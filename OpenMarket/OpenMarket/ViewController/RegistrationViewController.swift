@@ -273,16 +273,6 @@ class RegistrationViewController: UIViewController {
     private func removeRegisterForKeyboardNotification() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
     }
-
-    func showCustomAlert(title: String, message: String) {
-        let okTitle = "확인"
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: okTitle, style: .default)
-        alertController.addAction(okButton)
-        
-        present(alertController, animated: true)
-    }
 }
 
 // MARK: Extension

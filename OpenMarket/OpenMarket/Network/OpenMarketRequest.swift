@@ -61,7 +61,7 @@ struct OpenMarketRequest {
         postData.append(form: Multipart.lineFeed)
         for image in images {
             postData.append(form: "--\(Multipart.boundaryValue)" + Multipart.lineFeed)
-            postData.append(form: Multipart.imageContentDisposition + "\"\(arc4random()).jpg\"" + Multipart.lineFeed)
+            postData.append(form: Multipart.imageContentDisposition + "\"\(images.description.hashValue).jpg\"" + Multipart.lineFeed)
             postData.append(form: ImageType.jpeg.name)
 
             guard let imageData = OpenMarketRequest().createPostImage(image: image) else { return nil }
