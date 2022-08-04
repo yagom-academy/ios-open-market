@@ -9,6 +9,8 @@ import Foundation
 
 struct ParamManager {
     func combineParamForPost(param: Param, imageParams: [ImageParam]) -> [[String : Any]]{
+        let description = param.description.replacingOccurrences(of: "\n", with: "\\n")
+         
         let dataElement: [[String : Any]] = [
             [
                 "key": "params",
@@ -20,7 +22,7 @@ struct ParamManager {
                             "stock": \(param.stock),
                             "currency": "\(param.currency)",
                             "secret": "\(param.secret)",
-                            "descriptions": "\(param.description)"
+                            "descriptions": "\(description)"
                         }
                         """,
                 "type": "text"
