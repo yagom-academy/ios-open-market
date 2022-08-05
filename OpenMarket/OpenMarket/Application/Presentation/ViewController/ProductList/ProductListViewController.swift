@@ -47,7 +47,9 @@ final class ProductListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        LoadingIndicator.showLoading()
         fetchData()
+        setUpCollectionViewFor(hiding: true)
     }
     
     // MARK: - UI
@@ -200,11 +202,19 @@ final class ProductListViewController: UIViewController {
         navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "+",
                                                                   style: .plain,
                                                                   target: self,
-                                                                  action: #selector(addButtonTapped(_:)))
+                                                             action: #selector(addButtonTapped(_:)))
         segmentedControl.addTarget(self,
-                                        action: #selector(didSegmentedControlTapped(_:)),
-                                        for: .valueChanged)
+                                   action: #selector(didSegmentedControlTapped(_:)),
+                                   for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
+    }
+    
+    private func setUpCollectionViewFor(hiding: Bool) {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            listCollectionView?.isHidden = hiding
+        } else {
+            gridCollectionView?.isHidden = hiding
+        }
     }
     
     private func fetchData() {
@@ -213,6 +223,10 @@ final class ProductListViewController: UIViewController {
             case .success(let productList):
                 self?.marketProductsViewModel?.format(data: productList)
                 
+                DispatchQueue.main.async {
+                    self?.setUpCollectionViewFor(hiding: false)
+                    LoadingIndicator.hideLoading()
+                }
             case .failure(let error):
                 self?.presentConfirmAlert(message: error.errorDescription)
             }

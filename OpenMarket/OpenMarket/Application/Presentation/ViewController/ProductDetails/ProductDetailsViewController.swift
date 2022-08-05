@@ -134,6 +134,7 @@ final class ProductDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        LoadingIndicator.showLoading()
         fetchProductDetails(by: productID)
     }
     
@@ -421,6 +422,9 @@ extension ProductDetailsViewController: UICollectionViewDelegate {
 
 extension ProductDetailsViewController: ProductDetailsViewDelegate {
     func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve productInfo: ProductDetailsEntity) {
+        
+        LoadingIndicator.hideLoading()
+        
         DispatchQueue.main.async { [weak self] in
             self?.updateUI(productInfo)
         }
@@ -430,6 +434,7 @@ extension ProductDetailsViewController: ProductDetailsViewDelegate {
     
     func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve images: [UIImage]) {
         DispatchQueue.main.async { [weak self] in
+            LoadingIndicator.hideLoading()
             self?.updateUI(images)
         }
     }
