@@ -35,16 +35,14 @@ final class GridCollectionViewCell: UICollectionViewCell {
 extension GridCollectionViewCell {
     func fetchData(data: ProductListResponse?, index: Int) {
         self.settingNumberFormaatter()
-        guard let result = data,
-              let imageURL: URL = URL(string: result.pages[index].thumbnail),
-              let imageData: Data = try? Data(contentsOf: imageURL) else {
+        guard let result = data else {
             return
         }
         
         let productStock = result.pages[index].stock
         guard let priceNumberFormatter = numberFormatter.string(from: result.pages[index].price as NSNumber) else { return }
         guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[index].discountedPrice as NSNumber) else { return }
-
+        
         self.productStock.text = "잔여수량 : \(productStock)"
         self.productStock.textColor = .systemGray
         self.productPrice.text = "\(result.pages[index].currency): \(priceNumberFormatter)"
@@ -64,7 +62,7 @@ extension GridCollectionViewCell {
             self.productPrice.textColor = .systemGray
         }
         
-        self.productImage.image = UIImage(data: imageData)
+        self.productImage.setImageURL(result.pages[index].thumbnail)
         self.productName.text = result.pages[index].name
 
         self.layer.borderWidth = 2
