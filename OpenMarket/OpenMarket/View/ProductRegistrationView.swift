@@ -178,6 +178,42 @@ final class ProductRegistrationView: UIView {
         commonInit()
     }
     
+//    func register() {
+//        guard let productName = productName.text,
+//              productName.count > 2,
+//              productDescriptionTextView.text.count > 9,
+//              let price = makePriceText()
+//        else { return showInvalidInputAlert() }
+//        
+//        let images = convertImages(view: imageStackView)
+//        guard !images.isEmpty else { return showInvalidInputAlert() }
+//        
+//        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
+//        let product = RegistrationProduct(name: productName,
+//                                          descriptions: productDescriptionTextView.text,
+//                                          price: price,
+//                                          currency: currency.rawValue,
+//                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
+//                                          stock: Int(stock.text ?? "0"),
+//                                          secret: "R49CfVhSdh")
+//        guard let productData = try? JSONEncoder().encode(product) else { return }
+//        
+//        var request = OpenMarketRequest()
+//        
+//        let myURLSession = MyURLSession()
+//        
+//        myURLSession.dataTask(with: request.setPostRequest(images: images, productData: productData)) {
+//            (result: Result<Data, Error>) in
+//            switch result {
+//            case .success(let success):
+//                print(success)
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//                break
+//            }
+//        }
+//    }
+    
     func register() {
         guard let productName = productName.text,
               productName.count > 2,
@@ -197,12 +233,17 @@ final class ProductRegistrationView: UIView {
                                           stock: Int(stock.text ?? "0"),
                                           secret: "R49CfVhSdh")
         guard let productData = try? JSONEncoder().encode(product) else { return }
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = OpenMarketPostRequest(images: images)
+//        request.body = productData
+        request.headers = HTTPHeaders.multipartFormData(boundary: boundary).name
+        request.body = request.createMultiPartFormBody(boundary: boundary, paramsData: productData, images: images)
         
-        var request = OpenMarketRequest()
+        //guard let safeData = request.body else { return }
         
         let myURLSession = MyURLSession()
         
-        myURLSession.dataTask(with: request.setPostRequest(images: images, productData: productData)) {
+        myURLSession.dataTask(with: request) {
             (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
@@ -212,7 +253,6 @@ final class ProductRegistrationView: UIView {
                 break
             }
         }
-        
     }
     
     private func commonInit() {

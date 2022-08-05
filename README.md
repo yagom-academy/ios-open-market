@@ -1,7 +1,7 @@
 # 오픈 마켓 README.md
 
 ## 프로젝트 저장소
-> 프로젝트 기간: 2022-07-11 ~ 2022-07-29</br>
+> 프로젝트 기간: 2022-07-11 ~ 2022-08-05</br>
 > 팀원: [바드](https://github.com/bar-d), [그루트](https://github.com/Groot-94)</br>
 리뷰어: [@Charlie](https://github.com/kcharliek)</br>
 그라운드롤: [GroundRule - Wiki](https://github.com/bar-d/ios-open-market/wiki/Ground-Rules)
@@ -16,9 +16,10 @@
 - [참고문서](#참고문서)
 - [핵심경험](#핵심경험)
 - [기능설명](#기능설명)
-- [TroubleShooting - Wiki](https://github.com/bar-d/ios-open-market/wiki/TroubleShooting)
-- [1️⃣ Step1 - Wiki](https://github.com/bar-d/ios-open-market/wiki/Step1)
-- [2️⃣ Step2 - Wiki](https://github.com/bar-d/ios-open-market/wiki/Step2)
+- [TroubleShooting](#TroubleShooting_Wiki)
+- [1️⃣ Step1](#1️⃣-Step1_Wiki)
+- [2️⃣ Step2](#2️⃣-Step2_Wiki)
+- [3️⃣ Step3](#3️⃣-Step3_Wiki)
 ## 개발자 소개
 |바드|그루트|
 |:---:|:---:|
@@ -29,6 +30,7 @@
 ## 프로젝트 소개
 -  URL Session을 활용한 서버와의 통신을 통해 전달받은 JSON 데이터와 매핑할 모델을 활용
 -  Modern CollectionView를 이용해 List, Grid 방식으로 마켓의 물품을 표시하도록 구현
+
 ## UML
 ### [ClassDiagram]
 ![](https://i.imgur.com/oAYPB70.jpg)
@@ -36,58 +38,58 @@
 ## 폴더 구조
 ```
 ├── OpenMarket
-│   ├── Controller
-│   │   ├── OpenMarketViewController.swift
-│   │   └── ProductRegistrationViewController.swift
-│   ├── Model
-│   │   ├── Data
-│   │   │   ├── ImageCacheManager.swift
-│   │   │   ├── OpenMarketRepository.swift
-│   │   │   └── OpenMarketRequest.swift
-│   │   ├── Enum
-│   │   │   ├── Currency.swift
-│   │   │   ├── NameSpace.swift
-│   │   │   └── Section.swift
-│   │   ├── Error
-│   │   │   ├── CodableError.swift
-│   │   │   ├── DataError.swift
-│   │   │   └── NetworkError.swift
-│   │   ├── Extension
-│   │   │   ├── Int+extension.swift
-│   │   │   └── UIView+extension.swift
-│   │   ├── JSONModel
-│   │   │   ├── ProductDetail.swift
-│   │   │   ├── ProductImage.swift
-│   │   │   ├── ProductsDetailList.swift
-│   │   │   ├── ProductsList.swift
-│   │   │   ├── RegisterationProduct.swift
-│   │   │   └── SecretProducts.swift
-│   │   └── Network
-│   │       ├── APIRequest.swift
-│   │       ├── MyURLSession.swift
-│   │       └── SessionProtocol.swift
-│   ├── Resources
-│   │   ├── AppDelegate.swift
-│   │   ├── Assets.xcassets
-│   │   │   ├── Contents.json
-│   │   │   └── MockData.dataset
-│   │   │       ├── Contents.json
-│   │   │       └── MockData.json
-│   │   ├── Info.plist
-│   │   └── SceneDelegate.swift
-│   ├── TestDouble
-│   │   └── MockSession.swift
-│   └── View
-│       ├── Base.lproj
-│       │   └── LaunchScreen.storyboard
-│       ├── GridCollecntionView.swift
-│       ├── GridCollectionViewCell.swift
-│       ├── ListCollectionView.swift
-│       ├── ListCollectionViewCell.swift
-│       └── ProductRegistrationView.swift
-└── OpenMarketTests
-    ├── ParsingTests.swift
-    └── RequestTests.swift
+│   ├── OpenMarket
+│   │   ├── Controller
+│   │   │   ├── OpenMarketViewController.swift
+│   │   │   ├── ProductRegistrationViewController.swift
+│   │   │   └── ProductUpdateViewController.swift
+│   │   ├── Model
+│   │   │   ├── Data
+│   │   │   │   ├── ImageCacheManager.swift
+│   │   │   │   ├── OpenMarketRepository.swift
+│   │   │   │   └── OpenMarketRequest.swift
+│   │   │   ├── Enum
+│   │   │   │   ├── Currency.swift
+│   │   │   │   ├── NameSpace.swift
+│   │   │   │   └── Section.swift
+│   │   │   ├── Error
+│   │   │   │   ├── CodableError.swift
+│   │   │   │   ├── DataError.swift
+│   │   │   │   └── NetworkError.swift
+│   │   │   ├── Extension
+│   │   │   │   ├── Data+extension.swift
+│   │   │   │   ├── Double+extension.swift
+│   │   │   │   └── UIView+extension.swift
+│   │   │   ├── JSONModel
+│   │   │   │   ├── ProductDetail.swift
+│   │   │   │   ├── ProductImage.swift
+│   │   │   │   ├── ProductsDetailList.swift
+│   │   │   │   ├── ProductsList.swift
+│   │   │   │   ├── RegisterationProduct.swift
+│   │   │   │   └── SecretProducts.swift
+│   │   │   └── Network
+│   │   │       ├── APIRequest.swift
+│   │   │       ├── MyURLSession.swift
+│   │   │       └── SessionProtocol.swift
+│   │   ├── Resources
+│   │   │   ├── AppDelegate.swift
+│   │   │   ├── Info.plist
+│   │   │   └── SceneDelegate.swift
+│   │   ├── TestDouble
+│   │   │   └── MockSession.swift
+│   │   └── View
+│   │       ├── Base.lproj
+│   │       │   └── LaunchScreen.storyboard
+│   │       ├── GridCollecntionView.swift
+│   │       ├── GridCollectionViewCell.swift
+│   │       ├── ListCollectionView.swift
+│   │       ├── ListCollectionViewCell.swift
+│   │       ├── ProductRegistrationView.swift
+│   │       └── ProductUpdateView.swift
+│   └── OpenMarketTests
+│       ├── ParsingTests.swift
+│       └── RequestTests.swift
+└── README.md
 ```
 
 
@@ -101,6 +103,8 @@
 | <img src = "https://i.imgur.com/1TMvjwp.gif" width="300" height="600">| <img src = "https://i.imgur.com/VRFrIcf.gif" width="300" height="600"> |
 |새 상품 등록|상품 설명 키보드 내 키보드 내리는 버튼 구현|
 | <img src = "https://i.imgur.com/kBW2zhO.gif" width="300" height="600">| <img src = "https://i.imgur.com/HDMGd5o.gif" width="300" height="600"> |
+|사진 등록 스크롤뷰 구현|등록 형식을 못맞췄을 때|
+| <img src = "https://i.imgur.com/GJhqacZ.gif" width="300" height="600">| <img src = "https://i.imgur.com/UqO0PZa.gif" width="300" height="600"> |
 
 ## 키워드
 - JSON Decoder
@@ -121,6 +125,8 @@
 - UITextView
 - UITextViewDelegate
 - Keyboard
+- UIAlertControl
+- multipart-form/data
 ## 참고문서
 - [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
     - [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
@@ -141,7 +147,7 @@
 - [x] UIRefreshControl을 활용하여 화면의 데이터를 변경하는 새로고침 하는 기능을 구현하는 경험을 할 수 있었다.
 - [x] 데이터 비동기 처리를 통한 앱 성능 최적화 경험을 할 수 있었다.
 - [x] multipart/form-data의 구조를 사용해서 POST 하여 데이터를 서버로 올리는 경험을 할 수 있었다. 
-- [x] TextField, TextView의 입력하는 방식으로 키보드를 사용하는 경험을 할 수 있었다.
+- [x] TextField, TextView로 키보드를 사용하는 경험을 할 수 있었다.
 ## 기능설명
 ### Network
 - **`네트워크 통신을 하는데 필요한 타입들 구현`**
@@ -187,3 +193,7 @@
 ### UIImagePickerController
 - **`사진첩에서 이미지를 가져오는 기능을 구현`**
 
+## [TroubleShooting_Wiki](https://github.com/bar-d/ios-open-market/wiki/TroubleShooting)
+## [1️⃣ Step1_Wiki](https://github.com/bar-d/ios-open-market/wiki/Step1)
+## [2️⃣ Step2_Wiki](https://github.com/bar-d/ios-open-market/wiki/Step2)
+## [3️⃣ Step3_Wiki](https://github.com/bar-d/ios-open-market/wiki/Step3)

@@ -103,13 +103,12 @@ final class OpenMarketViewController: UIViewController {
     }
     
     // MARK: - functions
-    
-    private func fetchData() {
-        var request = OpenMarketRequest()
+
+    func fetchData() {
+        let request = OpenMarketGetRequest()
         
         let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: request.SetGetProductListsRequest()) {
-            (result: Result<Data, Error>) in
+        myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
                 guard let decodedData = success.decodeImageData() else { return }
@@ -124,7 +123,6 @@ final class OpenMarketViewController: UIViewController {
                     guard let loadingView = self?.loadingView else { return }
                     loadingView.isHidden = true
                 }
-                
             case .failure(let error):
                 print(error.localizedDescription)
                 break
