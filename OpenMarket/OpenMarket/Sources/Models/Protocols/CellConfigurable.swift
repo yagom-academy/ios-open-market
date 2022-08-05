@@ -40,9 +40,9 @@ private extension CellConfigurable {
         priceLabel.textColor = Color.priceLabel
         bargainPriceLabel.text = item.bargainPrice.applyFormat(currency: item.currency)
         
-        bargainPriceLabel.isHidden = true
-        
-        if item.discountedPrice > 0 {
+        if item.discountedPrice == 0 {
+            bargainPriceLabel.isHidden = true
+        } else {
             bargainPriceLabel.isHidden = false
             priceLabel.textColor = Color.priceLabelDiscounted
             priceLabel.applyStrikethrough()
