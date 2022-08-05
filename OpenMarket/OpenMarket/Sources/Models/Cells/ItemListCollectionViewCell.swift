@@ -15,9 +15,60 @@ final class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     // MARK: - UI Properties
     
+    private let entireHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
+    }()
+    
+    private let informationLabelsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let firstRowHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 2
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    private let stockAndAccessoryStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let stockLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textAlignment = .right
+        label.textColor = Color.stockLabel
+        return label
     }()
     
     let accessaryImageView: UIImageView = {
@@ -27,10 +78,13 @@ final class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
         return imageView
     }()
     
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
-        return label
+    private let secondRowHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     let priceLabel: UILabel = {
@@ -47,69 +101,7 @@ final class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
         return label
     }()
     
-    let stockLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .right
-        label.textColor = Color.stockLabel
-        return label
-    }()
-    
-    private let firstHorizontalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let secondHorizontalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 2
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let fourthVerticalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let entireStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.alignment = .center
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let verticalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.alignment = .center
-        stackView.axis = .vertical
-        stackView.spacing = 2
-        stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let thirdHorizontalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    // MARK: - Life Cycles
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -140,22 +132,22 @@ final class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
 // MARK: - Private Actions
 private extension ItemListCollectionViewCell {
     func arrangeSubView() {
-        firstHorizontalStackView.addArrangedSubview(stockLabel)
-        firstHorizontalStackView.addArrangedSubview(accessaryImageView)
+        stockAndAccessoryStackView.addArrangedSubview(stockLabel)
+        stockAndAccessoryStackView.addArrangedSubview(accessaryImageView)
         
-        secondHorizontalStackView.addArrangedSubview(nameLabel)
-        secondHorizontalStackView.addArrangedSubview(firstHorizontalStackView)
+        firstRowHorizontalStackView.addArrangedSubview(nameLabel)
+        firstRowHorizontalStackView.addArrangedSubview(stockAndAccessoryStackView)
         
-        thirdHorizontalStackView.addArrangedSubview(priceLabel)
-        thirdHorizontalStackView.addArrangedSubview(bargainPriceLabel)
+        secondRowHorizontalStackView.addArrangedSubview(priceLabel)
+        secondRowHorizontalStackView.addArrangedSubview(bargainPriceLabel)
         
-        fourthVerticalStackView.addArrangedSubview(secondHorizontalStackView)
-        fourthVerticalStackView.addArrangedSubview(thirdHorizontalStackView)
+        informationLabelsStackView.addArrangedSubview(firstRowHorizontalStackView)
+        informationLabelsStackView.addArrangedSubview(secondRowHorizontalStackView)
         
-        entireStackView.addArrangedSubview(imageView)
-        entireStackView.addArrangedSubview(fourthVerticalStackView)
+        entireHorizontalStackView.addArrangedSubview(imageView)
+        entireHorizontalStackView.addArrangedSubview(informationLabelsStackView)
         
-        contentView.addSubview(entireStackView)
+        contentView.addSubview(entireHorizontalStackView)
     }
     
     func setupUIComponentsLayout() {
@@ -166,17 +158,17 @@ private extension ItemListCollectionViewCell {
     
     func setupEntireStackViewLayout() {
         NSLayoutConstraint.activate([
-            entireStackView.topAnchor.constraint(
+            entireHorizontalStackView.topAnchor.constraint(
                 equalTo: contentView.topAnchor
             ),
-            entireStackView.bottomAnchor.constraint(
+            entireHorizontalStackView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor
             ),
-            entireStackView.trailingAnchor.constraint(
+            entireHorizontalStackView.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
                 constant: -10
             ),
-            entireStackView.leadingAnchor.constraint(
+            entireHorizontalStackView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor,
                 constant: 5
             )
@@ -202,4 +194,3 @@ private extension ItemListCollectionViewCell {
         ).isActive = true
     }
 }
-
