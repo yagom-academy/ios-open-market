@@ -9,7 +9,9 @@ import UIKit
 
 enum Color {
     static let accessaryImageView: UIColor = .systemGray
-    static let priceLabel: UIColor = .systemGray6
-    static let bargainPriceLabel: UIColor = .systemGray3
+    static let priceLabel: UIColor = .systemGray
+    static let priceLabelDiscounted: UIColor = .systemRed
+    static let bargainPriceLabel: UIColor = .systemGray
     static let stockLabel: UIColor = .systemGray
+    static let stockLabelSoldOut: UIColor = .systemOrange
 }

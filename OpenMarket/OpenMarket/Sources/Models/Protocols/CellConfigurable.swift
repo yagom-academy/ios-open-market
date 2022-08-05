@@ -37,17 +37,23 @@ private extension CellConfigurable {
     
         nameLabel.text = item.name
         priceLabel.text = item.price.applyFormat(currency: item.currency)
-        priceLabel.textColor = .systemGray3
+        priceLabel.textColor = Color.priceLabel
         bargainPriceLabel.text = item.bargainPrice.applyFormat(currency: item.currency)
         
         bargainPriceLabel.isHidden = true
         
         if item.discountedPrice > 0 {
             bargainPriceLabel.isHidden = false
-            priceLabel.textColor = .systemRed
+            priceLabel.textColor = Color.priceLabelDiscounted
             priceLabel.applyStrikethrough()
         }
-        stockLabel.textColor = item.stock == 0 ? .systemOrange : .systemGray3
-        stockLabel.text = item.stock == 0 ? "품절" : "잔여수량: \(item.stock)"
+        
+        if item.stock == 0 {
+            stockLabel.textColor = Color.stockLabelSoldOut
+            stockLabel.text = "품절"
+        } else {
+            stockLabel.textColor = Color.stockLabel
+            stockLabel.text = "잔여수량: \(item.stock)"
+        }
     }
 }
