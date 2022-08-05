@@ -107,6 +107,23 @@ private extension ContainerViewController {
         setupListCollectionViewLayout()
     }
     
+    func setupSegmentedControlLayout() {
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 30
+            ),
+            segmentedControl.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 30
+            ),
+            segmentedControl.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -30
+            )
+        ])
+    }
+    
     func setupGridCollectionViewLayout() {
         NSLayoutConstraint.activate([
             gridCollectionViewController.view.topAnchor.constraint(
@@ -127,24 +144,7 @@ private extension ContainerViewController {
             )
         ])
     }
-    
-    func setupSegmentedControlLayout() {
-        NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor,
-                constant: 30
-            ),
-            segmentedControl.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 30
-            ),
-            segmentedControl.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -30
-            )
-        ])
-    }
-    
+
     func setupListCollectionViewLayout() {
         NSLayoutConstraint.activate([
             listCollectionViewController.view.topAnchor.constraint(
