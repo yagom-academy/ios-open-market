@@ -25,7 +25,6 @@ extension ItemDataHandling {
         NetworkManager.performRequestToAPI(
             from: url
         ) { (result: Result<Data, NetworkingError>) in
-            
             switch result {
             case .success(let data):
                 self.itemListPage = NetworkManager.parse(
@@ -33,10 +32,14 @@ extension ItemDataHandling {
                     into: ItemListPage.self
                 )
                 
+                guard let itemListPage = self.itemListPage else {
+                    return
+                }
+                
                 DispatchQueue.main.async { [self] in
                     var itemSnapshot = SnapShot()
                     itemSnapshot.appendSections([.main])
-                    itemSnapshot.appendItems(itemListPage!.items)
+                    itemSnapshot.appendItems(itemListPage.items)
                     
                     dataSource.apply(
                         itemSnapshot,
