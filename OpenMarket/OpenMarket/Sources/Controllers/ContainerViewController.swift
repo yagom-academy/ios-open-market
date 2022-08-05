@@ -30,6 +30,7 @@ final class ContainerViewController: UIViewController {
         ]
         
         let segmentedControl = UISegmentedControl(items: selectionItems as [Any])
+        segmentedControl.selectedSegmentIndex = DisplayingViewType.grid.rawValue
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
