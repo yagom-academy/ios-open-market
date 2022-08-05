@@ -94,7 +94,6 @@
 			children = (
 				FDB99C29289AAE91001B10BE /* Enums */,
 				42DEC535289A92760090D35F /* Extensions */,
-				42DEC532289A6AB80090D35F /* Cells */,
 				FDB99C24289A5CB0001B10BE /* Protocols */,
 				4252740B287D700C00A63D7F /* ItemListPage.swift */,
 				42DEC53C289A9C3A0090D35F /* ImageCacheManager.swift */,
@@ -115,6 +114,7 @@
 		4252743328810FFF00A63D7F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				42DEC532289A6AB80090D35F /* Cells */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 			);
 			path = Views;
