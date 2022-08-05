@@ -81,11 +81,7 @@ final class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
         imageRequest?.cancel()
         
         imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
-        nameLabel.text = nil
-        priceLabel.text = nil
-        priceLabel.textColor = Color.priceLabel
-        stockLabel.text = nil
-        stockLabel.textColor = Color.stockLabel
+        priceLabel.attributedText = nil
     }
 }
 
