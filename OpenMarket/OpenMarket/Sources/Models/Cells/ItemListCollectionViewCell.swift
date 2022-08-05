@@ -23,7 +23,7 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
     let accessaryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "greaterthan")
-        imageView.tintColor = .systemGray
+        imageView.tintColor = Color.accessaryImageView
         return imageView
     }()
     
@@ -35,14 +35,14 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray6
+        label.textColor = Color.priceLabel
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
     let bargainPriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray3
+        label.textColor = Color.bargainPriceLabel
         label.textAlignment = .left
         return label
     }()
@@ -51,7 +51,7 @@ class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .right
-        label.textColor = .systemGray
+        label.textColor = Color.stockLabel
         return label
     }()
     

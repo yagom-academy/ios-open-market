@@ -31,7 +31,7 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     let priceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .systemGray
+        label.textColor = Color.priceLabel
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -39,7 +39,7 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     let bargainPriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray3
+        label.textColor = Color.bargainPriceLabel
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,7 +47,7 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     let stockLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray
+        label.textColor = Color.stockLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -81,9 +81,9 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
         imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
         nameLabel.text = nil
         priceLabel.text = nil
-        priceLabel.textColor = .systemGray
+        priceLabel.textColor = Color.priceLabel
         stockLabel.text = nil
-        stockLabel.textColor = .systemGray
+        stockLabel.textColor = Color.stockLabel
     }
 }
 
