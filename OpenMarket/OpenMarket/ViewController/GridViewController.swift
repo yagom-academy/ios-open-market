@@ -14,18 +14,37 @@ final class GridViewController: UIViewController {
     private let jsonParser = JSONParser()
     private let URLSemaphore = DispatchSemaphore(value: 0)
     private var productData: ProductListResponse?
-    
+    private let refreshControl = UIRefreshControl()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         productCollectionView.delegate = self
         productCollectionView.dataSource = self
         settingNumberFormaatter()
         self.fetchData()
+        self.initRefresh()
     }
     
     private func settingNumberFormaatter() {
         numberFormatter.roundingMode = .floor
         numberFormatter.numberStyle = .decimal
+    }
+    
+    @objc func refreshTable(refresh: UIRefreshControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.fetchData()
+            refresh.endRefreshing()
+        }
+    }
+    
+    private func initRefresh() {
+        refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        productCollectionView.refreshControl = refreshControl
+    }
+    
+    private func fetchUICollectionViewConfiguration() {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        productCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
     }
     
     private func fetchData() {

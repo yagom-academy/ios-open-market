@@ -46,7 +46,6 @@ extension ListCollectionViewCell {
         guard let priceNumberFormatter = numberFormatter.string(from: result.pages[index].price as NSNumber) else { return }
         guard let dicountedPriceNumberFormatter = numberFormatter.string(from: result.pages[index].discountedPrice as NSNumber) else { return }
         
-        //self.productImage.image = UIImage(data: imageData)
         self.productImage.setImageURL(result.pages[index].thumbnail)
         self.productName.text = result.pages[index].name
         self.productPrice.attributedText = .none
