@@ -110,7 +110,7 @@ SegmentControll의 Font 색상을 정의하는 Extension입니다.
     
 ## 🚀 STEP 1
 
-### 🚀 TroubleShooting1
+### 🚀 TroubleShooting
 
 #### 다른 API의 통신이 가능한 코드
 다른 API를 이용하는 경우가 만약 생긴다면 getData 기능을 갖는 새로운 함수를 만들어야 되기 때문에 더 유리한 코드를 만들기 위해 수정을 해야겠다고 생각했습니다.
@@ -162,7 +162,7 @@ flowLayout을 추가하여 CollectionView의 각 높이를 조절하였습니다
 |**Segment변경**|**Grid 하단 스크롤**|**Grid 새로고침**|
 |![](https://i.imgur.com/bpMr2XW.gif)|![](https://i.imgur.com/eCPsHGm.gif)|![](https://i.imgur.com/5ONbvQH.gif)|
 
-### 🚀 TroubleShooting2
+### 🚀 TroubleShooting
 
 #### 세그먼트 컨트롤 변경시 LIST와 GRID를 보여주는 방법
 
@@ -187,7 +187,7 @@ flowLayout을 추가하여 CollectionView의 각 높이를 조절하였습니다
 |**Post**|**입력내용 확인**|
 |![](https://i.imgur.com/6DpOnqV.gif)|![](https://i.imgur.com/9dN0UaJ.gif)|
 
-### 🚀 TroubleShooting3
+### 🚀 TroubleShooting
 
 #### 이미지가 추가되는 순서
 > 이미지를 추가할 때, 이미지를 추가하는 버튼과 같은 `StackView`에 들어가 있어 정상적인 순서로 보여지지 않았습니다. 해당 `StackView`의 `arrangedSubviews`를 불러와 확인해 본 결과 다행히 스택에 들어가 있는 순서대로 인덱스가 할당되는 것을 확인했습니다. `arrangedSubviews`가 리턴해준 배열의 인덱스를 활용해서 리팩토링 한 결과, 이미지의 순서를 정상적으로 보여지게 할 수 있었습니다.
@@ -209,7 +209,7 @@ let jsonData = try JSONSerialization.data(withJSONObject: parameterDictionary, o
 |:---:|:---:|:---:|
 |![](https://i.imgur.com/hst1u1I.gif)|![](https://i.imgur.com/8j8CgFS.gif)|![](https://i.imgur.com/RKp7Pdr.gif)|
 
-### 🚀 TroubleShooting4
+### 🚀 TroubleShooting
 
 #### 이미지가 추가되는 순서
 > 이미지를 추가할 때, 이미지를 추가하는 버튼과 같은 `StackView`에 들어가 있어 정상적인 순서로 보여지지 않았습니다. 해당 `StackView`의 `arrangedSubviews`를 불러와 확인해 본 결과 다행히 스택에 들어가 있는 순서대로 인덱스가 할당되는 것을 확인했습니다. `arrangedSubviews`가 리턴해준 배열의 인덱스를 활용해서 리팩토링 한 결과, 이미지의 순서를 정상적으로 보여지게 할 수 있었습니다.
