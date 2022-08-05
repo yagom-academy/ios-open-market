@@ -161,18 +161,17 @@
 #### 상품등록,수정 View
 <img src=https://i.imgur.com/ble3ylj.jpg width=70%>
 
-
 #### 상품 상세정보 View
 <img src=https://i.imgur.com/nEVmuaZ.jpg width=70%>
 
-| List/ Grid|새로고침/ 데이터받아오기| 상품등록 |
+| List/ Grid|새로고침| 상품등록 |
 |:---:|:---:|:---:|
-|<img src=https://i.imgur.com/tolrmaA.gif width=60%>|<img src=https://i.imgur.com/o2aQ7EB.gif width=60%>|<img src=https://i.imgur.com/yiM8nLm.gif width=380>
-|위 세그먼트 컨트롤을 통해 layout을 변경|위로 당기면 새로고침, 최하단에서 밑으로 스크롤시 다음 데이터를 받아오도록 구현|HTTP POST 메서드를 적용
+|<img src=https://user-images.githubusercontent.com/95671495/183015514-d80e1ad3-6a95-4ebf-a8aa-de9cb54cbdd5.gif width=60%>|<img src=https://user-images.githubusercontent.com/95671495/183015201-33ed2ee9-fe46-45f4-a5fb-e5c913510bae.gif width=60%>|<img src=https://i.imgur.com/yiM8nLm.gif width=220>
+|위 세그먼트 컨트롤을 통해 layout을 변경|새로고침 구현|HTTP POST 메서드를 적용
 
 |상품수정|상품삭제| 상품의 이미지 최대 5장까지 추가 |
 |:---:|:---:|:---:|
-|<img src=https://i.imgur.com/3Ydem8y.gif width=160>|<img src=https://i.imgur.com/GzlhscO.gif width=160>|<img src=https://i.imgur.com/akdwW0Q.gif width=160>|
+|<img src=https://i.imgur.com/3Ydem8y.gif width=220>|<img src=https://i.imgur.com/GzlhscO.gif width=220>|<img src=https://i.imgur.com/akdwW0Q.gif width=220>|
 |HTTP PETCH 메서드를 적용| HTTP DELETE 메서드를 적용| 업로드 이미지를 5장으로 제한|
 
 ### 기능 설명
