@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
+final class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     // MARK: - Properties
     

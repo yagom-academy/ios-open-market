@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
+final class ItemListCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     // MARK: - Properties
     
