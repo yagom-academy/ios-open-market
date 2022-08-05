@@ -41,4 +41,4 @@ Grid 형태의 CollectionView 에서 2열형태 및 Cell 간격을 띄워주는 
 ---
 ### STEP 2 Reviews And Updates
     
-[STEP2PR]()
+[STEP2PR](https://github.com/yagom-academy/ios-open-market/pull/189)
