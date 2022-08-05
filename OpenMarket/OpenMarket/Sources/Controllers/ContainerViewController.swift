@@ -103,8 +103,8 @@ private extension ContainerViewController {
     
     func setupUIComponentsLayout() {
         setupSegmentedControlLayout()
-        setupGridCollectionViewLayout()
         setupListCollectionViewLayout()
+        setupGridCollectionViewLayout()
     }
     
     func setupSegmentedControlLayout() {
@@ -120,27 +120,6 @@ private extension ContainerViewController {
             segmentedControl.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -30
-            )
-        ])
-    }
-    
-    func setupGridCollectionViewLayout() {
-        NSLayoutConstraint.activate([
-            gridCollectionViewController.view.topAnchor.constraint(
-                equalTo: segmentedControl.bottomAnchor,
-                constant: 5
-            ),
-            gridCollectionViewController.view.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -5
-            ),
-            gridCollectionViewController.view.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 5
-            ),
-            gridCollectionViewController.view.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -5
             )
         ])
     }
@@ -160,6 +139,27 @@ private extension ContainerViewController {
                 constant: 5
             ),
             listCollectionViewController.view.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -5
+            )
+        ])
+    }
+    
+    func setupGridCollectionViewLayout() {
+        NSLayoutConstraint.activate([
+            gridCollectionViewController.view.topAnchor.constraint(
+                equalTo: segmentedControl.bottomAnchor,
+                constant: 5
+            ),
+            gridCollectionViewController.view.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -5
+            ),
+            gridCollectionViewController.view.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 5
+            ),
+            gridCollectionViewController.view.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -5
             )
