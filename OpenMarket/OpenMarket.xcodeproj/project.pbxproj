@@ -92,9 +92,6 @@
 		4252740A287D6FFF00A63D7F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				FDB99C29289AAE91001B10BE /* Enums */,
-				42DEC535289A92760090D35F /* Extensions */,
-				FDB99C24289A5CB0001B10BE /* Protocols */,
 				4252740B287D700C00A63D7F /* ItemListPage.swift */,
 				42DEC53C289A9C3A0090D35F /* ImageCacheManager.swift */,
 				FDE9CB682880024800A78B24 /* NetworkManager.swift */,
@@ -135,6 +132,7 @@
 			children = (
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				FD72EEAA289D87590051522E /* Common */,
 				4252740A287D6FFF00A63D7F /* Models */,
 				4252743328810FFF00A63D7F /* Views */,
 				425274342881101B00A63D7F /* Controllers */,
@@ -188,6 +186,16 @@
 				425274352881103B00A63D7F /* Sources */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		FD72EEAA289D87590051522E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				FDB99C24289A5CB0001B10BE /* Protocols */,
+				42DEC535289A92760090D35F /* Extensions */,
+				FDB99C29289AAE91001B10BE /* Enums */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		FDB99C24289A5CB0001B10BE /* Protocols */ = {
