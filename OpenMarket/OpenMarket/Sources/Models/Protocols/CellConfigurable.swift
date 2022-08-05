@@ -36,9 +36,9 @@ private extension CellConfigurable {
         imageRequest = imageView.setImageURL(item.thumbnail)
     
         nameLabel.text = item.name
-        priceLabel.text = item.price.priceFormat(currency: item.currency.rawValue)
+        priceLabel.text = item.price.applyFormat(currency: item.currency)
         priceLabel.textColor = .systemGray3
-        bargainPriceLabel.text = item.bargainPrice.priceFormat(currency: item.currency.rawValue)
+        bargainPriceLabel.text = item.bargainPrice.applyFormat(currency: item.currency)
         
         bargainPriceLabel.isHidden = true
         

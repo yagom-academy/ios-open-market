@@ -5,7 +5,7 @@
 //  Created by minsson, yeton on 2022/08/05.
 //
 
-import Foundation
+import UIKit
 
 enum Color {
     static let accessaryImageView: UIColor = .systemGray
