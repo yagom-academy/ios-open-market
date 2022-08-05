@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit.UIImage
-import UIKit
 
 enum HTTPMethod {
     case get
@@ -29,40 +28,6 @@ enum HTTPMethod {
     }
 }
 
-enum URLHost {
-    case openMarket
-    
-    var url: String {
-        switch self {
-        case .openMarket:
-            return "https://market-training.yagom-academy.kr"
-        }
-    }
-}
-
-enum URLAdditionalPath {
-    case healthChecker
-    case product
-    
-    var value: String {
-        switch self {
-        case .healthChecker:
-            return "/healthChecker"
-        case .product:
-            return "/api/products"
-        }
-    }
-    
-    var mockFileName: String {
-        switch self {
-        case .healthChecker:
-            return ""
-        case .product:
-            return "MockData"
-        }
-    }
-}
-
 protocol APIRequest {
     var baseURL: String { get }
     var path: String? { get }
@@ -70,106 +35,6 @@ protocol APIRequest {
     var headers: [String: String]? { get }
     var query: [String: String]? { get }
     var body: Data? { get }
-}
-
-// MARK: - GetAPIRequest
-
-protocol GetAPIRequest: APIRequest {
-    
-}
-
-extension GetAPIRequest {
-    var method: HTTPMethod {
-        .get
-    }
-    
-    var baseURL: String {
-        return URLHost.openMarket.url
-    }
-    
-    var path: String? {
-        URLAdditionalPath.product.value
-    }
-    
-    var query: [String : String]? {
-        [Product.page.text:  "\(Product.page.number)",
-         Product.itemPerPage.text: "\(Product.itemPerPage.number)"]
-    }
-}
-
-struct OpenMarketGetRequest: GetAPIRequest {
-    var headers: [String : String]?
-    
-    var body: Data?
-    
-}
-
-// MARK: - PostAPIRequest
-
-protocol PostAPIRequest: APIRequest {
-    var images: [Data] { get }
-}
-
-extension PostAPIRequest {
-    var method: HTTPMethod {
-        .post
-    }
-    
-    var baseURL: String {
-        URLHost.openMarket.url
-    }
-    
-    var path: String? {
-        URLAdditionalPath.product.value
-    }
-}
-
-struct OpenMarketPostRequest: PostAPIRequest {
-    var headers: [String : String]?
-    
-    var images: [Data]
-    
-    var query: [String : String]?
-    
-    var body: Data?
-}
-
-// MARK: - PatchAPIRequest
-
-protocol PatchAPIRequest: APIRequest {
-    var productID: String { get }
-}
-
-extension PatchAPIRequest {
-    var method: HTTPMethod {
-        .patch
-    }
-}
-
-struct OpenMarketPatchRequest: PatchAPIRequest {
-    var productID: String
-    
-    var baseURL: String
-    
-    var path: String?
-    
-    var headers: [String : String]?
-    
-    var query: [String : String]?
-    
-    var body: Data?   
-}
-
-// MARK: - DeleteAPIRequest
-
-protocol DeleteAPIRequest: APIRequest {
-    
-}
-
-extension DeleteAPIRequest {
-    var method: HTTPMethod {
-        .delete
-    }
 }
 
 extension APIRequest {

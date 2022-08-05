@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let rootViewController = OpenMarketViewController()
+        let rootViewController = ProductListViewController()
         let navigationController = UINavigationController(rootViewController: rootViewController)
         
         window = UIWindow(windowScene: windowScene)

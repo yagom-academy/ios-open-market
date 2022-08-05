@@ -1,12 +1,12 @@
 //
-//  OpenMarket - OpenMarketViewController.swift
+//  OpenMarket - ProductListViewController.swift
 //  Created by groot, bard. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-final class OpenMarketViewController: UIViewController {
+final class ProductListViewController: UIViewController {
     // MARK: - properties
     
     private var loadingView: UIView?
