@@ -2,7 +2,7 @@
 //  UIImage.swift
 //  OpenMarket
 //
-//  Created by NAMU on 2022/08/05.
+//  Created by groot, bard on 2022/08/05.
 //
 
 import UIKit.UIImage
