@@ -38,6 +38,7 @@ struct ProductDetail: Codable, Hashable {
 extension ProductDetail {
     func makePriceText() -> NSMutableAttributedString {
         let price = "\(self.currency.rawValue) \(self.price.formatNumber())"
+        
         let bargainPrice = "\n\(self.currency.rawValue) \(self.bargainPrice.formatNumber())"
         
         if self.bargainPrice == self.price {
@@ -50,13 +51,16 @@ extension ProductDetail {
     }
     
     func pushThumbnailImageCache() {
-        var request = OpenMarketRequest(method: .get, baseURL: self.thumbnail)
+        let request = ImageGetRequest(baseURL: self.thumbnail)
+        
         let session = MyURLSession()
-        session.execute(with: request.SetGetImageRequest()) { (result: Result<Data, Error>) in
+        session.execute(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let image = UIImage(data: success) else { return }      
-                ImageCacheManager.shared.setObject(image, forKey: NSString(string: self.thumbnail))
+                guard let image = UIImage(data: success) else { return }
+                
+                ImageCacheManager.shared.setObject(image,
+                                                   forKey: NSString(string: self.thumbnail))
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
@@ -67,25 +71,29 @@ extension ProductDetail {
         if self.stock == 0 {
             let stockText = PriceText.soldOut.text
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
+            
             let attributes: [NSAttributedString.Key: Any] =
             [
                 .font: UIFont.preferredFont(forTextStyle: .footnote),
                 .foregroundColor: UIColor.systemOrange
             ]
             
-            muttableAttributedString.addAttributes(attributes, range: NSMakeRange(0, stockText.count))
+            muttableAttributedString.addAttributes(attributes,
+                                                   range: NSMakeRange(0, stockText.count))
             
             return muttableAttributedString
         } else {
             let stockText = "\(PriceText.stock.text)\(stock)"
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
+            
             let attributes: [NSAttributedString.Key: Any] =
             [
                 .font: UIFont.preferredFont(forTextStyle: .footnote),
                 .foregroundColor: UIColor.systemGray
             ]
             
-            muttableAttributedString.addAttributes(attributes, range: NSMakeRange(0, stockText.count))
+            muttableAttributedString.addAttributes(attributes,
+                                                   range: NSMakeRange(0, stockText.count))
             
             return muttableAttributedString
         }
@@ -100,7 +108,10 @@ private extension NSMutableAttributedString {
             .strikethroughStyle: NSUnderlineStyle.single.rawValue,
             .foregroundColor: UIColor.systemRed
         ]
-        self.append(NSAttributedString(string: string, attributes: attributes))
+        
+        self.append(NSAttributedString(string: string,
+                                       attributes: attributes))
+        
         return self
     }
     
@@ -110,7 +121,10 @@ private extension NSMutableAttributedString {
             .font: UIFont.preferredFont(forTextStyle: .footnote),
             .foregroundColor: UIColor.systemGray
         ]
-        self.append(NSAttributedString(string: string, attributes: attributes))
+        
+        self.append(NSAttributedString(string: string,
+                                       attributes: attributes))
+        
         return self
     }
 }

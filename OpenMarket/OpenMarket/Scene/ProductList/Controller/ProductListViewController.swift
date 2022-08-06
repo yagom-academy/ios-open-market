@@ -1,15 +1,18 @@
 //
-//  OpenMarket - OpenMarketViewController.swift
+//  OpenMarket - ProductListViewController.swift
 //  Created by groot, bard. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-final class OpenMarketViewController: UIViewController {
+final class ProductListViewController: UIViewController {
     // MARK: - properties
     
     private var loadingView: UIView?
+    private lazy var gridCollectionView = GridCollecntionView(frame: .null,
+                                                              collectionViewLayout: createGridLayout())
+    
     private lazy var listCollectionView: ListCollectionView = {
         let layout  = createListLayout()
         let listCollectionView = ListCollectionView(frame: .zero,
@@ -17,9 +20,6 @@ final class OpenMarketViewController: UIViewController {
         
         return listCollectionView
     }()
-    
-    private lazy var gridCollectionView = GridCollecntionView(frame: .null,
-                                                              collectionViewLayout: createGridLayout())
     
     private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["List", "Grid"])
@@ -32,44 +32,41 @@ final class OpenMarketViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        self.setupUI()
-        self.setupRefreshControl()
+        view.backgroundColor = .systemBackground
+        setupUI()
+        setupRefreshControl()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         fetchData()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
-        self.showSpinner(on: self.view)
+        showSpinner(on: view)
     }
     
     //MARK: - View layout functions
     
     private func setupUI(){
-        self.setupSubviews()
-        self.setupNavigationController()
-        self.setupSegmentedControl()
-        self.setupListViewConstraints()
-        self.setupGridViewConstraints()
+        setupSubviews()
+        setupNavigationController()
+        setupSegmentedControl()
+        setupViewConstraints()
     }
     
     private func setupSubviews() {
-        self.view.addSubview(self.segmentedControl)
-        self.view.addSubview(self.gridCollectionView)
-        self.view.addSubview(self.listCollectionView)
+        view.addSubview(segmentedControl)
+        view.addSubview(gridCollectionView)
+        view.addSubview(listCollectionView)
     }
     
     private func setupNavigationController() {
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.topItem?.titleView = segmentedControl
-        self.navigationController?.navigationBar.topItem?.rightBarButtonItem
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.topItem?.titleView = segmentedControl
+        navigationController?.navigationBar.topItem?.rightBarButtonItem
         = UIBarButtonItem(image: UIImage(systemName: Design.plusButton),
                           style: .plain,
                           target: self,
@@ -77,50 +74,58 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func setupSegmentedControl() {
-        self.segmentedControl.addTarget(self,
+        segmentedControl.addTarget(self,
                                         action: #selector(segmentButtonDidTap(sender:)),
                                         for: .valueChanged)
-        self.segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = 0
         
     }
     
-    private func setupListViewConstraints() {
+    private func setupViewConstraints() {
+        NSLayoutConstraint.activate(
+            [
+                listCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                listCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            ])
+        
         NSLayoutConstraint.activate([
-            self.listCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.listCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.listCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-        ])
-    }
-    
-    private func setupGridViewConstraints() {
-        NSLayoutConstraint.activate([
-            self.gridCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.gridCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.gridCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         ])
     }
     
     // MARK: - functions
-
-    func fetchData() {
-        let request = OpenMarketGetRequest()
+    
+    private func fetchData() {
+        let request = ProductGetRequest()
         
         let myURLSession = MyURLSession()
         myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let decodedData = success.decodeImageData() else { return }
+                guard let decodedData = success.decodeData() else { return }
+                
                 decodedData.pages
-                    .filter { ImageCacheManager.shared.object(forKey: NSString(string: $0.thumbnail)) == nil }
-                    .forEach { $0.pushThumbnailImageCache() }
+                    .filter
+                {
+                    ImageCacheManager.shared.object(forKey: NSString(string: $0.thumbnail)) == nil
+                }
+                
+                .forEach
+                {
+                    $0.pushThumbnailImageCache()
+                }
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.gridCollectionView.setSnapshot(productsList: decodedData.pages)
                     self?.listCollectionView.setSnapshot(productsList: decodedData.pages)
                     
                     guard let loadingView = self?.loadingView else { return }
+                    
                     loadingView.isHidden = true
                 }
             case .failure(let error):
@@ -134,10 +139,10 @@ final class OpenMarketViewController: UIViewController {
         listCollectionView.refreshControl = UIRefreshControl()
         gridCollectionView.refreshControl = UIRefreshControl()
         listCollectionView.refreshControl?.addTarget(self,
-                                                     action: #selector(self.refresh),
+                                                     action: #selector(refresh),
                                                      for: .valueChanged)
         gridCollectionView.refreshControl?.addTarget(self,
-                                                     action: #selector(self.refresh),
+                                                     action: #selector(refresh),
                                                      for: .valueChanged)
     }
     
@@ -155,7 +160,9 @@ final class OpenMarketViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = Design.contentEdgeInsets
         section.interGroupSpacing = Design.listInterGroupSpacing
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
+        
         return layout
     }
     
@@ -171,6 +178,7 @@ final class OpenMarketViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = CGFloat(Design.gridInterGroupSpacing)
         section.contentInsets = Design.contentEdgeInsets
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -180,6 +188,7 @@ final class OpenMarketViewController: UIViewController {
         let spinnerView = UIView.init(frame: view.bounds)
         spinnerView.backgroundColor = .systemGray
         spinnerView.alpha = Design.spinnerViewAlpha
+        
         let activityIndicatorView = UIActivityIndicatorView.init(style: .large)
         activityIndicatorView.startAnimating()
         activityIndicatorView.center = spinnerView.center
@@ -194,6 +203,7 @@ final class OpenMarketViewController: UIViewController {
     
     @objc private func segmentButtonDidTap(sender: UISegmentedControl) {
         guard let section = Section.init(rawValue: sender.selectedSegmentIndex) else { return }
+        
         switch section {
         case .list:
             listCollectionView.isHidden = false
@@ -205,25 +215,28 @@ final class OpenMarketViewController: UIViewController {
     }
     
     @objc private func productRegistrationButtonDidTap() {
-        self.navigationController?.pushViewController(ProductRegistrationViewController(),
+        navigationController?.pushViewController(ProductRegistrationViewController(),
                                                       animated: true)
     }
     
     @objc private func refresh() {
-        self.listCollectionView.deleteSnapshot()
-        self.gridCollectionView.deleteSnapshot()
+        listCollectionView.deleteSnapshot()
+        gridCollectionView.deleteSnapshot()
+        
         fetchData()
-        self.listCollectionView.refreshControl?.endRefreshing()
-        self.gridCollectionView.refreshControl?.endRefreshing()
+        
+        listCollectionView.refreshControl?.endRefreshing()
+        gridCollectionView.refreshControl?.endRefreshing()
     }
 }
 
 extension Data {
-    func decodeImageData() -> ProductsDetailList? {
+    func decodeData() -> ProductsDetailList? {
         let jsonDecoder = JSONDecoder()
         var data: ProductsDetailList?
         
         data = try? jsonDecoder.decode(ProductsDetailList.self, from: self)
+        
         return data
     }
 }

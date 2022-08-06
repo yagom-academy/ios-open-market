@@ -33,8 +33,8 @@ final class ProductUpdateView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.alignment = .trailing
         stackView.spacing = Design.stackViewSpacing
+        stackView.alignment = .trailing
         
         return stackView
     }()
@@ -43,8 +43,8 @@ final class ProductUpdateView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
         stackView.spacing = Design.stackViewSpacing
+        stackView.distribution = .fillEqually
         
         return stackView
     }()
@@ -60,10 +60,10 @@ final class ProductUpdateView: UIView {
     
     private let productDescriptionTextView: UITextView = {
         let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.setupBoder(cornerRadius: Design.borderCornerRadius,
                             borderWidth: Design.borderWidth,
                             borderColor: UIColor.systemGray3.cgColor)
-        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.text = Design.productDescriptionPlaceholder
         textView.textColor = .systemGray3
@@ -71,7 +71,7 @@ final class ProductUpdateView: UIView {
         return textView
     }()
     
-    private let productName: UITextField = {
+    private let productNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.productNamePlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -87,7 +87,7 @@ final class ProductUpdateView: UIView {
         return textField
     }()
     
-    private let productPrice: UITextField = {
+    private let productPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.productPricePlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -103,7 +103,7 @@ final class ProductUpdateView: UIView {
         return textField
     }()
     
-    private let productDiscountedPrice: UITextField = {
+    private let productDiscountedPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.productDiscountedPricePlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -119,7 +119,7 @@ final class ProductUpdateView: UIView {
         return textField
     }()
     
-    private let stock: UITextField = {
+    private let stockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.stockPlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -162,8 +162,8 @@ final class ProductUpdateView: UIView {
     }
     
     private func setupView() {
-        backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .systemBackground
         addSubview(totalStackView)
         setupSubviews()
         setupSubViewsHeight()
@@ -172,8 +172,8 @@ final class ProductUpdateView: UIView {
     
     private func setupDelegate() {
         productDescriptionTextView.delegate = self
-        productName.delegate = self
-        productPrice.delegate = self
+        productNameTextField.delegate = self
+        productPriceTextField.delegate = self
     }
     
     private func setupContent() {
@@ -183,50 +183,54 @@ final class ProductUpdateView: UIView {
     }
     
     private func setupSubviews() {
-        [imageScrollView, productInformationStackView, productDescriptionTextView]
-            .forEach { totalStackView.addArrangedSubview($0) }
-        [productName, segmentedStackView, productDiscountedPrice, stock]
-            .forEach { productInformationStackView.addArrangedSubview($0) }
-        [productPrice, currencySegmentedControl]
-            .forEach { segmentedStackView.addArrangedSubview($0) }
+        [imageScrollView, productInformationStackView, productDescriptionTextView].forEach
+        {
+            totalStackView.addArrangedSubview($0)
+        }
+        
+        [productNameTextField, segmentedStackView, productDiscountedPriceTextField, stockTextField].forEach
+        {
+            productInformationStackView.addArrangedSubview($0)
+        }
+        
+        [productPriceTextField, currencySegmentedControl].forEach
+        {
+            segmentedStackView.addArrangedSubview($0)
+        }
+        
         imageScrollView.addSubview(imageStackView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate(
-            [totalStackView.topAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-             totalStackView.leadingAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-             totalStackView.trailingAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-             totalStackView.bottomAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
+            [
+                totalStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                totalStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+                totalStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                totalStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            ])
         
-        NSLayoutConstraint.activate([
-            imageStackView.topAnchor
-                .constraint(equalTo: imageScrollView.topAnchor,
-                            constant: Design.imageScrollViewTopAnchorConstant),
-            imageStackView.bottomAnchor
-                .constraint(equalTo: imageScrollView.bottomAnchor,
-                            constant: Design.imageScrollViewBottomAnchorConstant),
-            imageStackView.leadingAnchor
-                .constraint(equalTo: imageScrollView.leadingAnchor,
-                            constant: Design.imageScrollViewLeadingAnchorConstant),
-            imageStackView.trailingAnchor
-                .constraint(equalTo: imageScrollView.trailingAnchor,
-                            constant: Design.imageScrollViewTrailingAnchorConstant)
-        ])
+        NSLayoutConstraint.activate(
+            [
+                imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
+                                                    constant: Design.imageScrollViewTopAnchorConstant),
+                imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
+                                                       constant: Design.imageScrollViewBottomAnchorConstant),
+                imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
+                                                        constant: Design.imageScrollViewLeadingAnchorConstant),
+                imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
+                                                         constant: Design.imageScrollViewTrailingAnchorConstant)
+            ])
     }
     
     private func setupSubViewsHeight() {
         NSLayoutConstraint.activate(
-            [productDescriptionTextView.heightAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
-                            multiplier: Design.safeAreaLayoutGuideHeightAnchorMultiplier),
-             productInformationStackView.heightAnchor
-                .constraint(equalTo: productDescriptionTextView.heightAnchor,
-                            multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
+            [
+                productDescriptionTextView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
+                                                                   multiplier: Design.safeAreaLayoutGuideHeightAnchorMultiplier),
+                productInformationStackView.heightAnchor.constraint(equalTo: productDescriptionTextView.heightAnchor,
+                                                                    multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)
+            ])
     }
     
     private func setupUiToolbar() {
@@ -254,6 +258,7 @@ final class ProductUpdateView: UIView {
 extension ProductUpdateView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         frame.origin.y = -productDescriptionTextView.frame.height * 1.2
+        
         if textView.text == Design.productDescriptionPlaceholder {
             textView.text = nil
             textView.textColor = .black
@@ -262,6 +267,7 @@ extension ProductUpdateView: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
+        
         if textView.text.count == 0 {
             textView.text = Design.productDescriptionPlaceholder
             textView.textColor = .lightGray
@@ -272,12 +278,13 @@ extension ProductUpdateView: UITextViewDelegate {
 extension ProductUpdateView: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         guard let textFieldText = textField.text else { return }
+        
         if textFieldText.count > 100 {
             textField.deleteBackward()
         }
         
-        if productPrice.text!.components(separatedBy: ".").count > 2 {
-            productPrice.deleteBackward()
+        if productPriceTextField.text!.components(separatedBy: ".").count > 2 {
+            productPriceTextField.deleteBackward()
         }
     }
 }

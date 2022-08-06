@@ -1,5 +1,5 @@
 //
-//  ListCollectionView.swift
+//  GridCollecntionView.swift
 //  OpenMarket
 //
 //  Created by groot, bard on 2022/07/19.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class ListCollectionView: UICollectionView {
+final class GridCollecntionView: UICollectionView {
     // MARK: - properties
     
-    private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
-    private let listViewCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductDetail> {
-        (cell, indexPath, item) in
-        cell.setViewItems(item)
+    private var gridViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
+    private let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductDetail> {
+        (cell, indexPath, product) in
+        cell.setViewItems(product)
     }
     
     // MARK: - initializers
@@ -33,15 +33,15 @@ final class ListCollectionView: UICollectionView {
     // MARK: - functions
     
     private func setupDataSource() {
-        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
+        gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
              identifier: ProductDetail) -> UICollectionViewCell? in
             
-            guard let listViewCellRegistration = self?.listViewCellRegistration
+            guard let gridViewCellRegistration = self?.gridViewCellRegistration
             else { return UICollectionViewCell() }
             
-            return collectionView.dequeueConfiguredReusableCell(using: listViewCellRegistration,
+            return collectionView.dequeueConfiguredReusableCell(using: gridViewCellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
         }
@@ -49,23 +49,16 @@ final class ListCollectionView: UICollectionView {
     
     func setSnapshot(productsList: [ProductDetail]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
-        snapshot.appendSections([.list])
+        snapshot.appendSections([.grid])
         snapshot.appendItems(productsList)
         
-        listViewDataSource?.apply(snapshot, animatingDifferences: false)
+        gridViewDataSource?.apply(snapshot, animatingDifferences: false)
     }
     
     func deleteSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
         snapshot.deleteAllItems()
         
-        listViewDataSource?.apply(snapshot, animatingDifferences: false)
-    }
-    
-    // MARK: - image size
-    
-    private enum ImageSize {
-        static let width = 70
-        static let height = 70
+        gridViewDataSource?.apply(snapshot, animatingDifferences: false)
     }
 }

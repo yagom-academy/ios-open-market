@@ -11,7 +11,8 @@ import Foundation
 final class MockSession: SessionProtocol {
     func dataTask(with request: APIRequest,
                               completionHandler: @escaping (Result<Data, Error>) -> Void) {
-        guard let mockData = NSDataAsset(name: URLAdditionalPath.product.mockFileName)?.data else {
+        guard let mockData = NSDataAsset(name: URLAdditionalPath.product.mockFileName)?.data
+        else {
             completionHandler(.failure(CodableError.decode))
             return
         }

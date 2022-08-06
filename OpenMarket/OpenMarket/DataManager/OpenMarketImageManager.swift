@@ -1,28 +1,31 @@
 //
-//  OpenMarketRepository.swift
+//  OpenMarketImageManager.swift
 //  OpenMarket
 //
 //  Created by groot, bard on 2022/07/27.
 //
 
-import UIKit
-struct OpenMarketRepository {
-    static func makeImage(key: String, imageView: UIImageView) {
+import UIKit.UIImage
+
+struct OpenMarketImageManager {
+    static func setupImage(key: String, completion: @escaping (UIImage) -> Void) {
         if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: key)) {
-            imageView.image = cachedImage
+            completion(cachedImage)
         } else {
-            var request = OpenMarketRequest(baseURL: key)
+            let request = ImageGetRequest(baseURL: key)
+            
             let session = MyURLSession()
-            session.execute(with: request.SetGetImageRequest()) { (result: Result<Data, Error>) in
+            session.execute(with: request) { (result: Result<Data, Error>) in
                 switch result {
                 case .success(let success):
                     guard let image = UIImage(data: success) else { return }
+                    
                     if ImageCacheManager.shared.object(forKey: NSString(string: key)) == nil {
-                        ImageCacheManager.shared.setObject(image, forKey: NSString(string: key))
+                        ImageCacheManager.shared.setObject(image,
+                                                           forKey: NSString(string: key))
                     }
-                    DispatchQueue.main.async {
-                        imageView.image = image
-                    }
+                    
+                   completion(image)
                 case .failure(let failure):
                     print(failure.localizedDescription)
                 }

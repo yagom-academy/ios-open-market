@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductRegistrationViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class ProductRegistrationViewController: UIViewController {
     // MARK: - properties
 
     private let productRegistrationView = ProductRegistrationView()
@@ -16,39 +16,35 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
         productRegistrationView.delegate = self
+        view.backgroundColor = .white
         view.addSubview(productRegistrationView)
         setupConstraints()
-        setupNavigation()
+        setupNavigationController()
     }
     
-    func setupNavigation() {
-        navigationItem.title = "상품등록"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(registerProducts))
-    }
-    
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            productRegistrationView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 5),
-            productRegistrationView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -5),
-            productRegistrationView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 5),
-            productRegistrationView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -5)
-        ])
+    private func setupConstraints() {
+        NSLayoutConstraint.activate(
+            [
+                productRegistrationView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
+                productRegistrationView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5),
+                productRegistrationView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+                productRegistrationView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5)
+            ])
     }
     
     private func setupNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                              target: nil,
                                              action: #selector(registerProducts))
-        self.navigationItem.title = "상품등록"
-        self.navigationItem.setRightBarButton(rightBarButton, animated: true)
+        navigationItem.title = Design.navigationTitle
+        navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
     // MARK: - @objc functions
     
     @objc private func registerProducts() {
-        self.productRegistrationView.register()
+        productRegistrationView.register()
         navigationController?.popViewController(animated: true)
     }
 }
@@ -56,9 +52,14 @@ class ProductRegistrationViewController: UIViewController, UIImagePickerControll
 extension ProductRegistrationViewController: ImagePickerDelegate {
     func pickImages(pikerController: UIImagePickerController) {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else { return }
+        
         pikerController.sourceType = .photoLibrary
         pikerController.allowsEditing = true
         
         present(pikerController, animated: true, completion: nil)
     }
+}
+
+private enum Design {
+    static let navigationTitle = "상품등록"
 }

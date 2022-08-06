@@ -36,16 +36,16 @@ final class ProductRegistrationView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.alignment = .trailing
         stackView.spacing = Design.stackViewSpacing
+        stackView.alignment = .trailing
         
         return stackView
     }()
     
     private let pickerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .lightGray
         
         return view
     }()
@@ -53,8 +53,10 @@ final class ProductRegistrationView: UIView {
     private let imagePrickerButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        
         let image = UIImage(systemName: Design.plusButtonName)
-        button.setImage(image, for: .normal)
+        button.setImage(image,
+                        for: .normal)
         
         return button
     }()
@@ -63,35 +65,13 @@ final class ProductRegistrationView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        stackView.spacing = Design.stackViewSpacing
         stackView.distribution = .fillEqually
-        stackView.spacing = Design.stackViewSpacing
         
         return stackView
     }()
     
-    private let segmentedStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = Design.stackViewSpacing
-        
-        return stackView
-    }()
-    
-    private let productDescriptionTextView: UITextView = {
-        let textView = UITextView()
-        textView.setupBoder(cornerRadius: Design.borderCornerRadius,
-                            borderWidth: Design.borderWidth,
-                            borderColor: UIColor.systemGray3.cgColor)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.text = Design.productDescriptionPlaceholder
-        textView.textColor = .systemGray3
-        
-        return textView
-    }()
-    
-    private let productName: UITextField = {
+    private let productNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.productNamePlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -106,7 +86,16 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let productPrice: UITextField = {
+    private let segmentedStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = Design.stackViewSpacing
+        
+        return stackView
+    }()
+    
+    private let productPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.productPricePlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -122,7 +111,19 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let productDiscountedPrice: UITextField = {
+    private let currencySegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
+                                                          Currency.usd.rawValue])
+        segmentedControl.selectedSegmentIndex = .zero
+        segmentedControl.setContentHuggingPriority(.init(rawValue: 1000.0),
+                                                   for: .horizontal)
+        segmentedControl.setContentCompressionResistancePriority(.init(rawValue: 1000.0),
+                                                                 for: .horizontal)
+        
+        return segmentedControl
+    }()
+    
+    private let productDiscountedPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.productDiscountedPricePlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -134,13 +135,15 @@ final class ProductRegistrationView: UIView {
                              borderWidth: Design.borderWidth,
                              borderColor: UIColor.systemGray3.cgColor)
         textField.keyboardType = .decimalPad
-        textField.setContentHuggingPriority(.init(rawValue: 1000.0), for: .horizontal)
-        textField.setContentCompressionResistancePriority(.init(rawValue: 1000.0), for: .horizontal)
+        textField.setContentHuggingPriority(.init(rawValue: 1000.0),
+                                            for: .horizontal)
+        textField.setContentCompressionResistancePriority(.init(rawValue: 1000.0),
+                                                          for: .horizontal)
         
         return textField
     }()
     
-    private let stock: UITextField = {
+    private let productStockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.stockPlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -156,14 +159,17 @@ final class ProductRegistrationView: UIView {
         return textField
     }()
     
-    private let currencySegmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
-                                                          Currency.usd.rawValue])
-        segmentedControl.selectedSegmentIndex = .zero
-        segmentedControl.setContentHuggingPriority(.init(rawValue: 1000.0), for: .horizontal)
-        segmentedControl.setContentCompressionResistancePriority(.init(rawValue: 1000.0), for: .horizontal)
+    private let productDescriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.setupBoder(cornerRadius: Design.borderCornerRadius,
+                            borderWidth: Design.borderWidth,
+                            borderColor: UIColor.systemGray3.cgColor)
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = Design.productDescriptionPlaceholder
+        textView.textColor = .systemGray3
         
-        return segmentedControl
+        return textView
     }()
     
     // MARK: - functions
@@ -177,51 +183,23 @@ final class ProductRegistrationView: UIView {
         super.init(coder: coder)
         commonInit()
     }
-    
-//    func register() {
-//        guard let productName = productName.text,
-//              productName.count > 2,
-//              productDescriptionTextView.text.count > 9,
-//              let price = makePriceText()
-//        else { return showInvalidInputAlert() }
-//        
-//        let images = convertImages(view: imageStackView)
-//        guard !images.isEmpty else { return showInvalidInputAlert() }
-//        
-//        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
-//        let product = RegistrationProduct(name: productName,
-//                                          descriptions: productDescriptionTextView.text,
-//                                          price: price,
-//                                          currency: currency.rawValue,
-//                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
-//                                          stock: Int(stock.text ?? "0"),
-//                                          secret: "R49CfVhSdh")
-//        guard let productData = try? JSONEncoder().encode(product) else { return }
-//        
-//        var request = OpenMarketRequest()
-//        
-//        let myURLSession = MyURLSession()
-//        
-//        myURLSession.dataTask(with: request.setPostRequest(images: images, productData: productData)) {
-//            (result: Result<Data, Error>) in
-//            switch result {
-//            case .success(let success):
-//                print(success)
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//                break
-//            }
-//        }
-//    }
-    
+        
     func register() {
-        guard let productName = productName.text,
+        guard let productName = productNameTextField.text,
               productName.count > 2,
               productDescriptionTextView.text.count > 9,
               let price = makePriceText()
         else { return showInvalidInputAlert() }
         
-        let images = convertImages(view: imageStackView)
+        var images = [Image]()
+        let imagesData = convertImages(view: imageStackView)
+        imagesData.forEach
+        {
+            images.append(Image(name: $0.description,
+                                data: $0,
+                                type: "png"))
+        }
+     
         guard !images.isEmpty else { return showInvalidInputAlert() }
         
         let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
@@ -229,22 +207,31 @@ final class ProductRegistrationView: UIView {
                                           descriptions: productDescriptionTextView.text,
                                           price: price,
                                           currency: currency.rawValue,
-                                          discountedPrice: Double(productDiscountedPrice.text ?? "0"),
-                                          stock: Int(stock.text ?? "0"),
+                                          discountedPrice: Double(productDiscountedPriceTextField.text ?? "0"),
+                                          stock: Int(productStockTextField.text ?? "0"),
                                           secret: "R49CfVhSdh")
-        guard let productData = try? JSONEncoder().encode(product) else { return }
-        let boundary = "Boundary-\(UUID().uuidString)"
-        var request = OpenMarketPostRequest(images: images)
-//        request.body = productData
-        request.headers = HTTPHeaders.multipartFormData(boundary: boundary).name
-        request.body = request.createMultiPartFormBody(boundary: boundary, paramsData: productData, images: images)
         
-        //guard let safeData = request.body else { return }
+        guard let productData = try? JSONEncoder().encode(product) else { return }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = ProductPostRequest()
+
+        request.additionHeaders =
+        [
+            HTTPHeaders.multipartFormData(boundary: boundary).key: HTTPHeaders.multipartFormData(boundary: boundary).value
+        ]
+        
+        let multiPartFormData =  MultiPartForm(
+            jsonParameterName: "params",
+            imageParameterName: "images",
+            boundary: boundary,
+            jsonData: productData,
+            images: images)
+        
+        request.body = .multiPartForm(multiPartFormData)
         
         let myURLSession = MyURLSession()
-        
-        myURLSession.dataTask(with: request) {
-            (result: Result<Data, Error>) in
+        myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
                 print(success)
@@ -262,9 +249,8 @@ final class ProductRegistrationView: UIView {
     }
     
     private func setupView() {
-        backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
-        addSubview(totalStackView)
+        backgroundColor = .systemBackground
         setupSubviews()
         setupSubViewsHeight()
         setupConstraints()
@@ -273,8 +259,8 @@ final class ProductRegistrationView: UIView {
     private func setupDelegate() {
         pickerController.delegate = self
         productDescriptionTextView.delegate = self
-        productName.delegate = self
-        productPrice.delegate = self
+        productNameTextField.delegate = self
+        productPriceTextField.delegate = self
     }
     
     private func setupContent() {
@@ -287,64 +273,71 @@ final class ProductRegistrationView: UIView {
     }
     
     private func setupSubviews() {
-        [imageScrollView, productInformationStackView, productDescriptionTextView]
-            .forEach { totalStackView.addArrangedSubview($0) }
-        [productName, segmentedStackView, productDiscountedPrice, stock]
-            .forEach { productInformationStackView.addArrangedSubview($0) }
-        [productPrice, currencySegmentedControl]
-            .forEach { segmentedStackView.addArrangedSubview($0) }
+        [imageScrollView, productInformationStackView, productDescriptionTextView].forEach
+        {
+            totalStackView.addArrangedSubview($0)
+        }
+        
+        [productNameTextField, segmentedStackView, productDiscountedPriceTextField, productStockTextField].forEach
+        {
+            productInformationStackView.addArrangedSubview($0)
+        }
+        
+        [productPriceTextField, currencySegmentedControl].forEach
+        {
+            segmentedStackView.addArrangedSubview($0)
+        }
+        
+        addSubview(totalStackView)
         imageScrollView.addSubview(imageStackView)
         imageStackView.addArrangedSubview(pickerView)
         pickerView.addSubview(imagePrickerButton)
-        
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate(
-            [totalStackView.topAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-             totalStackView.leadingAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-             totalStackView.trailingAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-             totalStackView.bottomAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)])
+            [
+                totalStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                totalStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+                totalStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                totalStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            ])
         
-        NSLayoutConstraint.activate([
-            imageStackView.topAnchor
-                .constraint(equalTo: imageScrollView.topAnchor,
-                            constant: Design.imageScrollViewTopAnchorConstant),
-            imageStackView.bottomAnchor
-                .constraint(equalTo: imageScrollView.bottomAnchor,
-                            constant: Design.imageScrollViewBottomAnchorConstant),
-            imageStackView.leadingAnchor
-                .constraint(equalTo: imageScrollView.leadingAnchor,
-                            constant: Design.imageScrollViewLeadingAnchorConstant),
-            imageStackView.trailingAnchor
-                .constraint(equalTo: imageScrollView.trailingAnchor,
-                            constant: Design.imageScrollViewTrailingAnchorConstant)
-        ])
+        NSLayoutConstraint.activate(
+            [
+                imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
+                                                    constant: Design.imageScrollViewTopAnchorConstant),
+                imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
+                                                       constant: Design.imageScrollViewBottomAnchorConstant),
+                imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
+                                                        constant: Design.imageScrollViewLeadingAnchorConstant),
+                imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
+                                                         constant: Design.imageScrollViewTrailingAnchorConstant)
+            ])
         
-        NSLayoutConstraint.activate([
-            imagePrickerButton.centerXAnchor.constraint(equalTo: pickerView.centerXAnchor),
-            imagePrickerButton.centerYAnchor.constraint(equalTo: pickerView.centerYAnchor)])
+        NSLayoutConstraint.activate(
+            [
+                imagePrickerButton.centerXAnchor.constraint(equalTo: pickerView.centerXAnchor),
+                imagePrickerButton.centerYAnchor.constraint(equalTo: pickerView.centerYAnchor)
+            ])
     }
     
     private func setupSubViewsHeight() {
-        NSLayoutConstraint.activate([
-            pickerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor,
-                                               constant: Design.imageScrollViewHeightAnchorConstant),
-            
-            pickerView.widthAnchor.constraint(equalTo: pickerView.heightAnchor,
-                                              multiplier: Design.imageScrollViewHeightAnchorMultiplier)])
+        NSLayoutConstraint.activate(
+            [
+                pickerView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor,
+                                                   constant: Design.imageScrollViewHeightAnchorConstant),
+                pickerView.widthAnchor.constraint(equalTo: pickerView.heightAnchor,
+                                                  multiplier: Design.imageScrollViewHeightAnchorMultiplier)
+            ])
         
         NSLayoutConstraint.activate(
-            [productDescriptionTextView.heightAnchor
-                .constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
-                            multiplier: Design.safeAreaLayoutGuideHeightAnchorMultiplier),
-             productInformationStackView.heightAnchor
-                .constraint(equalTo: productDescriptionTextView.heightAnchor,
-                            multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)])
+            [
+                productDescriptionTextView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
+                                                                   multiplier: Design.safeAreaLayoutGuideHeightAnchorMultiplier),
+                productInformationStackView.heightAnchor.constraint(equalTo: productDescriptionTextView.heightAnchor,
+                                                                    multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)
+            ])
     }
     
     private func setupUiToolbar() {
@@ -363,9 +356,9 @@ final class ProductRegistrationView: UIView {
     }
     
     private func makePriceText() -> Double? {
-        guard let priceText = productPrice.text,
+        guard let priceText = productPriceTextField.text,
               let price = Double(priceText),
-              let discountedPrice = Double(productDiscountedPrice.text ?? "0"),
+              let discountedPrice = Double(productDiscountedPriceTextField.text ?? "0"),
               price >= discountedPrice
         else { return nil }
         
@@ -374,20 +367,27 @@ final class ProductRegistrationView: UIView {
     
     private func showInvalidInputAlert() {
         let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다",
-                                          message: "필수사항을 입력해주세요", preferredStyle: .alert)
+                                          message: "필수사항을 입력해주세요",
+                                          preferredStyle: .alert)
         
-        let alertAction = UIAlertAction(title: "확인", style: .default)
+        let alertAction = UIAlertAction(title: "확인",
+                                        style: .default)
         postAlert.addAction(alertAction)
-        self.window?.rootViewController?.present(postAlert, animated: true)
+        
+        window?.rootViewController?.present(postAlert,
+                                            animated: true)
     }
     
     private func convertImages(view: UIView) -> [Data] {
         var images = [Data]()
-        let _ = view.subviews
-            .forEach { guard let imageView = $0 as? UIImageView,
-                             let image = imageView.image else { return }
-                images.append(image.resize(width: 300).pngData() ?? Data())
-            }
+        
+        view.subviews.forEach
+        {
+            guard let imageView = $0 as? UIImageView,
+                  let image = imageView.image else { return }
+            
+            images.append(image.resize(width: 300).pngData() ?? Data())
+        }
         
         return images
     }
@@ -395,8 +395,8 @@ final class ProductRegistrationView: UIView {
     // MARK: - @objc functions
     
     @objc private func pickImages() {
-        guard
-            imageStackView.subviews.count < Design.imageStackViewSubviewsCount else { return }
+        guard imageStackView.subviews.count < Design.imageStackViewSubviewsCount else { return }
+        
         delegate?.pickImages(pikerController: pickerController)
     }
 }
@@ -411,8 +411,10 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         else { return }
         
         let imageView = setupPickerImageView(image: editedImage)
-        imageStackView.insertArrangedSubview(imageView, at: .zero)
-        self.pickerController.dismiss(animated: true, completion: nil)
+        imageStackView.insertArrangedSubview(imageView,
+                                             at: .zero)
+        pickerController.dismiss(animated: true,
+                                 completion: nil)
     }
     
     private func setupPickerImageView(image: UIImage) -> UIImageView {
@@ -420,15 +422,16 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
         
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: pickerView.frame.width),
-            imageView.heightAnchor.constraint(equalToConstant: pickerView.frame.height)
-        ])
+        NSLayoutConstraint.activate(
+            [
+                imageView.widthAnchor.constraint(equalToConstant: pickerView.frame.width),
+                imageView.heightAnchor.constraint(equalToConstant: pickerView.frame.height)
+            ])
         
         return imageView
     }
     
-    @objc func endEditing(){
+    @objc private func endEditing(){
         resignFirstResponder()
     }
 }
@@ -436,6 +439,7 @@ extension ProductRegistrationView: UIImagePickerControllerDelegate,
 extension ProductRegistrationView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         frame.origin.y = -productDescriptionTextView.frame.height * 1.2
+        
         if textView.text == Design.productDescriptionPlaceholder {
             textView.text = nil
             textView.textColor = .black
@@ -444,6 +448,7 @@ extension ProductRegistrationView: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
+        
         if textView.text.count == 0 {
             textView.text = Design.productDescriptionPlaceholder
             textView.textColor = .lightGray
@@ -454,12 +459,13 @@ extension ProductRegistrationView: UITextViewDelegate {
 extension ProductRegistrationView: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         guard let textFieldText = textField.text else { return }
+        
         if textFieldText.count > 100 {
             textField.deleteBackward()
         }
         
-        if productPrice.text!.components(separatedBy: ".").count > 2 {
-            productPrice.deleteBackward()
+        if productPriceTextField.text!.components(separatedBy: ".").count > 2 {
+            productPriceTextField.deleteBackward()
         }
     }
 }
