@@ -12,25 +12,28 @@ final class ListCollectionView: UICollectionView {
     
     private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
     private let listViewCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductDetail> {
-        (cell, indexPath, item) in
-        cell.setViewItems(item)
+        (cell, indexPath, product) in
+        cell.setViewItems(product)
     }
     
     // MARK: - initializers
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.setupDataSource()
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.setupDataSource()
+        commonInit()
     }
     
     // MARK: - functions
+    
+    private func commonInit() {
+        translatesAutoresizingMaskIntoConstraints = false
+        setupDataSource()
+    }
     
     private func setupDataSource() {
         listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]

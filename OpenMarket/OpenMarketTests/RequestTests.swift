@@ -51,7 +51,7 @@ final class RequestTests: XCTestCase {
         mockSession.dataTask(with: sut!) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let decoededData = success.decodeImageData() else { return }
+                guard let decoededData = success.decodeData() else { return }
                 resultName = decoededData.pages[0].name
             case .failure(_):
                 break
@@ -77,7 +77,7 @@ final class RequestTests: XCTestCase {
         myURLSession.dataTask(with: sut!) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let decoededData = success.decodeImageData() else { return }
+                guard let decoededData = success.decodeData() else { return }
                 resultName = decoededData.pages[0].name
             case .failure(_):
                 break

@@ -22,7 +22,11 @@ struct ProductPostRequest: APIRequest {
     
     var headers: [String: String]? {
         var headers = [HTTPHeaders.identifier.key: HTTPHeaders.identifier.value]
-        additionHeaders?.forEach { headers.updateValue($0.value, forKey: $0.key) }
+        
+        additionHeaders?.forEach
+        {
+            headers.updateValue($0.value, forKey: $0.key)
+        }
         
         return headers
     }

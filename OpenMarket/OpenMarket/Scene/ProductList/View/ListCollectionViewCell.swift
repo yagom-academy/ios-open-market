@@ -10,34 +10,34 @@ import UIKit
 final class ListCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
     
-    private let productImage: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         imageView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
         return imageView
     }()
     
-    private let productName: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         return label
     }()
     
-    private let price: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        label.numberOfLines = 2
         
         return label
     }()
     
-    private let stock: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -54,7 +54,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    private let stackView: UIStackView = {
+    private let nameAndPriceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -89,53 +89,65 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - functions
     override func prepareForReuse() {
-        productImage.image = nil
-        productName.text = nil
-        price.attributedText = nil
-        stock.attributedText = nil
+        productImageView.image = nil
+        productNameLabel.text = nil
+        priceLabel.attributedText = nil
+        stockLabel.attributedText = nil
     }
     
     private func commonInit() {
         setupSubViews()
         setupStackViewConstraints()
-        self.setupBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
+        setupBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
     }
     
     private func setupSubViews() {
-        self.contentView.addSubview(productImage)
-        self.contentView.addSubview(stackView)
-        self.contentView.addSubview(accessoryStackView)
-        [productName, price].forEach { stackView.addArrangedSubview($0) }
-        [stock, accessoryImageButton].forEach { accessoryStackView.addArrangedSubview($0) }
+        contentView.addSubview(productImageView)
+        contentView.addSubview(nameAndPriceStackView)
+        contentView.addSubview(accessoryStackView)
+        
+        [productNameLabel, priceLabel].forEach
+        {
+            nameAndPriceStackView.addArrangedSubview($0)
+        }
+        
+        [stockLabel, accessoryImageButton].forEach
+        {
+            accessoryStackView.addArrangedSubview($0)
+        }
     }
     
     private func setupStackViewConstraints() {
         NSLayoutConstraint.activate(
-            [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-             productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-             productImage.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-             productImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor)])
+            [
+                productImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor)
+            ])
         
         NSLayoutConstraint.activate(
-            [stackView.leadingAnchor.constraint(equalTo: self.productImage.trailingAnchor, constant: 10),
-             stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-             stackView.topAnchor.constraint(equalTo: self.contentView.topAnchor)])
+            [
+                nameAndPriceStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
+                nameAndPriceStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                nameAndPriceStackView.topAnchor.constraint(equalTo: contentView.topAnchor)
+            ])
         
         NSLayoutConstraint.activate(
-            [accessoryStackView.leadingAnchor.constraint(equalTo: self.stackView.trailingAnchor),
-             accessoryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-             accessoryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-             accessoryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            [
+                accessoryStackView.leadingAnchor.constraint(equalTo: nameAndPriceStackView.trailingAnchor),
+                accessoryStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+                accessoryStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                accessoryStackView.topAnchor.constraint(equalTo: contentView.topAnchor)
             ])
     }
     
     func setViewItems(_ item: ProductDetail) {
-        DispatchQueue.main.async {
-            OpenMarketRepository.makeImage(key: item.thumbnail, imageView: self.productImage)
-        }
+        OpenMarketRepository.makeImage(key: item.thumbnail,
+                                       imageView: productImageView)
         
-        productName.text = item.name
-        price.attributedText = item.makePriceText()
-        stock.attributedText = item.makeStockText()
+        productNameLabel.text = item.name
+        priceLabel.attributedText = item.makePriceText()
+        stockLabel.attributedText = item.makeStockText()
     }
 }

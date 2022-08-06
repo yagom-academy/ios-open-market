@@ -10,38 +10,15 @@ import UIKit
 final class GridCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
     
-    private let productImage: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
     
-    private let productName: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
-    private let price: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
-    private let stock: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
-    private let stackView: UIStackView = {
+    private let productInformationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -50,6 +27,29 @@ final class GridCollectionViewCell: UICollectionViewCell {
         stackView.spacing = 5
         
         return stackView
+    }()
+    
+    private let productNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .title3)
+        
+        return label
+    }()
+    
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 2
+        
+        return label
+    }()
+    
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
     }()
     
     // MARK: - initializers
@@ -66,41 +66,50 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     // MARK: - functions
     override func prepareForReuse() {
-        productImage.image = nil
-        productName.text = nil
-        price.attributedText = nil
-        stock.attributedText = nil
+        productImageView.image = nil
+        productNameLabel.text = nil
+        priceLabel.attributedText = nil
+        stockLabel.attributedText = nil
     }
     
     private func commonInit() {
         setupSubViews()
         setupStackViewConstraints()
-        self.setupBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
+        setupBoder(cornerRadius: 10, borderWidth: 1.5, borderColor: UIColor.systemGray3.cgColor)
     }
     
     private func setupSubViews() {
-        self.contentView.addSubview(productImage)
-        self.contentView.addSubview(stackView)
-        [productName, price, stock].forEach { stackView.addArrangedSubview($0) }
+        contentView.addSubview(productImageView)
+        contentView.addSubview(productInformationStackView)
+        
+        [productNameLabel, priceLabel, stockLabel].forEach
+        {
+            productInformationStackView.addArrangedSubview($0)
+        }
     }
     
     private func setupStackViewConstraints() {
         NSLayoutConstraint.activate(
-            [productImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-             productImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-             productImage.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-             productImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.5)])
+            [
+                productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+                productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5)
+            ])
         
         NSLayoutConstraint.activate(
-            [stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-             stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-             stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)])
+            [
+                productInformationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                productInformationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                productInformationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+            ])
     }
     
-    func setViewItems(_ item: ProductDetail) {
-        OpenMarketRepository.makeImage(key: item.thumbnail, imageView: productImage)
-        productName.text = item.name
-        price.attributedText = item.makePriceText()
-        stock.attributedText = item.makeStockText()
+    func setViewItems(_ product: ProductDetail) {
+        OpenMarketRepository.makeImage(key: product.thumbnail, imageView: productImageView)
+        
+        productNameLabel.text = product.name
+        priceLabel.attributedText = product.makePriceText()
+        stockLabel.attributedText = product.makeStockText()
     }
 }

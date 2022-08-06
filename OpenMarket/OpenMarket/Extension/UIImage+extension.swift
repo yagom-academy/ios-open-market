@@ -11,8 +11,8 @@ extension UIImage {
     func resize(width: CGFloat) -> UIImage {
         let scale = width / self.size.width
         let newHeight = self.size.height * scale
-        
         let size = CGSize(width: width, height: newHeight)
+        
         let render = UIGraphicsImageRenderer(size: size)
         var renderImage = render.image { context in
             self.draw(in: CGRect(origin: .zero, size: size))
@@ -24,6 +24,7 @@ extension UIImage {
         if imageSize > 300 {
             renderImage = resize(width: width - 5)
         }
+        
         return renderImage
     }
 }

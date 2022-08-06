@@ -35,18 +35,25 @@ enum HTTPBody {
 
 protocol APIRequest {
     var baseURL: String { get }
+    
     var path: String? { get }
+    
     var method: HTTPMethod { get }
+    
     var headers: [String: String]? { get }
+    
     var query: [String: String]? { get }
+    
     var body: HTTPBody? { get }
 }
 
 extension APIRequest {
     var url: URL? {
         var component = URLComponents(string: self.baseURL + (self.path ?? ""))
-        component?.queryItems = query?.reduce([URLQueryItem]()) {
-            $0 + [URLQueryItem(name: $1.key, value: $1.value)]
+        component?.queryItems = query?.reduce([URLQueryItem]())
+        {
+            $0 + [URLQueryItem(name: $1.key,
+                               value: $1.value)]
         }
         
         return component?.url
@@ -54,10 +61,17 @@ extension APIRequest {
     
     var urlRequest: URLRequest? {
         guard let url = url else { return nil }
+        
         var request = URLRequest(url: url)
         request.httpMethod = method.name
         request.httpBody = createHTTPBody()
-        self.headers?.forEach { request.addValue($0.value, forHTTPHeaderField: $0.key) }
+        
+        self.headers?.forEach
+        {
+            request.addValue($0.value,
+                           forHTTPHeaderField: $0.key)
+            
+        }
         
         return request
     }
@@ -103,7 +117,8 @@ extension APIRequest {
                                                        boundary: form.boundary,
                                                        json: form.jsonData))
         
-        form.images.forEach {
+        form.images.forEach
+        {
             requestBody.append(createMultipartFormImageData(parameterName: form.imageParameterName,
                                                             boundary: form.boundary,
                                                             image: $0))

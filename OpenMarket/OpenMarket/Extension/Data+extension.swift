@@ -10,6 +10,7 @@ import Foundation
 extension Data {
     mutating func append(_ text: String) {
         guard let data = text.data(using: .utf8) else { return }
+        
         self.append(data)
     }
 }

@@ -9,39 +9,36 @@ import UIKit
 
 class ProductUpdateViewController: UIViewController {
     // MARK: - properties
-
+    
     private let productUpdateView = ProductUpdateView()
     
     // MARK: - functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         view.addSubview(productUpdateView)
         setupConstraints()
-        setupNavigation()
-    }
-    
-    func setupNavigation() {
-        navigationItem.title = "상품수정"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(updateProducts))
+        setupNavigationController()
     }
     
     func setupConstraints() {
-        NSLayoutConstraint.activate([
-            productUpdateView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 5),
-            productUpdateView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -5),
-            productUpdateView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 5),
-            productUpdateView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -5)
-        ])
+        NSLayoutConstraint.activate(
+            [
+                productUpdateView.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
+                productUpdateView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5),
+                productUpdateView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+                productUpdateView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5)
+            ])
     }
     
     private func setupNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                              target: nil,
                                              action: #selector(updateProducts))
-        self.navigationItem.title = "상품수정"
-        self.navigationItem.setRightBarButton(rightBarButton, animated: true)
+        self.navigationItem.title = Design.navigationItemTitle
+        self.navigationItem.setRightBarButton(rightBarButton,
+                                              animated: true)
     }
     
     // MARK: - @objc functions
@@ -49,4 +46,8 @@ class ProductUpdateViewController: UIViewController {
     @objc private func updateProducts() {
         navigationController?.popViewController(animated: true)
     }
+}
+
+private enum Design {
+    static let navigationItemTitle = "상품수정"
 }

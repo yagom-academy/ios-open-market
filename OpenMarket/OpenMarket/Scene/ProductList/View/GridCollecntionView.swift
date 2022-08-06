@@ -12,8 +12,8 @@ final class GridCollecntionView: UICollectionView {
     
     private var gridViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
     private let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductDetail> {
-        (cell, indexPath, item) in
-        cell.setViewItems(item)
+        (cell, indexPath, product) in
+        cell.setViewItems(product)
     }
     
     // MARK: - initializers

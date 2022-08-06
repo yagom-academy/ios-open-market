@@ -19,17 +19,20 @@ final class MyURLSession: SessionProtocol {
             completionHandler(.failure(NetworkError.request))
             return
         }
+        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 completionHandler(.failure(NetworkError.request))
                 return
             }
+            
             guard let response = response as? HTTPURLResponse,
                   200 <= response.statusCode, response.statusCode < 300
             else {
                 completionHandler(.failure(NetworkError.response))
                 return
             }
+            
             guard let safeData = data else {
                 completionHandler(.failure(NetworkError.invalidData))
                 return
