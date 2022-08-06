@@ -16,8 +16,8 @@ struct GetData: APIRequest {
     var baseURL: String {
         URLHost.openMarket.url + URLAdditionalPath.product.value
     }
-    var headers: [String : String]?
-    var query: [String : String]? = [Product.page.text: "1", Product.itemPerPage.text: "1"]
+    var headers: [String: String]?
+    var query: [String: String]? = [Product.page.text: "1", Product.itemPerPage.text: "1"]
 }
 
 struct TestRequest: APIRequest {
@@ -26,7 +26,7 @@ struct TestRequest: APIRequest {
     var path: String?
     var method: HTTPMethod
     var baseURL: String
-    var headers: [String : String]?
+    var headers: [String: String]?
     var query: [String: String]?
 }
 

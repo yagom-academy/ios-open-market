@@ -8,15 +8,23 @@
 import Foundation
 
 struct ProductGetRequest: APIRequest {
-    var baseURL: String = URLHost.openMarket.url
+    var baseURL: String {
+        URLHost.openMarket.url
+    }
     
-    var path: String? = URLAdditionalPath.product.value
+    var path: String? {
+        URLAdditionalPath.product.value + (productID ?? "")
+    }
     
-    var method: HTTPMethod = .get
+    var method: HTTPMethod {
+        .get
+    }
  
-    var headers: [String : String]?
+    var headers: [String: String]?
     
-    var query: [String : String]?
+    var query: [String: String]?
     
     var body: Data?
+    
+    var productID: String?
 }

@@ -8,15 +8,24 @@
 import Foundation
 
 struct ProductPatchRequest: APIRequest {
-    var baseURL: String
+    var baseURL: String = URLHost.openMarket.url
     
-    var path: String?
+    var path: String? {
+        URLAdditionalPath.product.value + productID
+    }
     
-    var method: HTTPMethod
+    var method: HTTPMethod = .patch
     
-    var headers: [String : String]?
+    var headers: [String: String]? {
+        [
+            HTTPHeaders.identifier.key: HTTPHeaders.identifier.value,
+            HTTPHeaders.json.key: HTTPHeaders.json.value
+        ]
+    }
     
-    var query: [String : String]?
+    var query: [String: String]?
     
     var body: Data?
+    
+    var productID: String
 }

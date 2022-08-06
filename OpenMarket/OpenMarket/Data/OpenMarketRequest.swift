@@ -13,50 +13,34 @@ struct OpenMarketRequest: APIRequest {
     var path: String? = URLAdditionalPath.product.value
     var method: HTTPMethod = .get
     var baseURL: String = URLHost.openMarket.url
-    var headers: [String : String]?
+    var headers: [String: String]?
     var query: [String: String]?
 }
 
 enum HTTPHeaders {
     case json
     case multipartFormData(boundary: String)
-    
-    var name: [String: String] {
+    case identifier
+        
+    var key: String {
         switch self {
         case .json:
-            return ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
-                    "Content-Type": "application/json"]
+            return "Content-Type"
+        case .multipartFormData:
+            return "Content-Type"
+        case .identifier:
+            return "identifier"
+        }
+    }
+    
+    var value: String {
+        switch self {
+        case .json:
+            return "application/json"
         case .multipartFormData(let boundary):
-            return ["identifier": "eef3d2e5-0335-11ed-9676-e35db3a6c61a",
-                    "Content-Type": "multipart/form-data; boundary=\(boundary)"]
+            return "multipart/form-data; boundary=\(boundary)"
+        case .identifier:
+            return "eef3d2e5-0335-11ed-9676-e35db3a6c61a"
         }
     }
 }
-
-extension OpenMarketRequest {
-    mutating func setPatchRequest(productId: String, productData: Data) -> APIRequest {
-        self.body = productData
-        self.path = (self.path ?? "") + "/\(productId)/"
-        self.method = .patch
-        self.headers = HTTPHeaders.json.name
-        
-        return self
-    }
-    
-    mutating func SetGetProductListsRequest() -> APIRequest {
-        self.query =
-        [
-            Product.page.text:  "\(Product.page.number)",
-            Product.itemPerPage.text: "\(Product.itemPerPage.number)"
-        ]
-    
-        return self
-    }
-    
-    mutating func SetGetImageRequest() -> APIRequest {
-        self.path = nil
-    
-        return self
-    }
-}
-

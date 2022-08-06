@@ -8,15 +8,27 @@
 import Foundation
 
 struct ProductDeleteRequest: APIRequest {
-    var baseURL: String
+    var baseURL: String {
+        URLHost.openMarket.url
+    }
     
-    var path: String?
+    var path: String? {
+        URLAdditionalPath.product.value + "/\(productID)" + "/\(productSeceret)"
+    }
     
-    var method: HTTPMethod
+    var method: HTTPMethod {
+        .delete
+    }
     
-    var headers: [String : String]?
+    var headers: [String: String]? {
+        [HTTPHeaders.identifier.key: HTTPHeaders.identifier.value]
+    }
     
-    var query: [String : String]?
+    var query: [String: String]?
     
     var body: Data?
+    
+    var productID: String
+    
+    var productSeceret: String
 }

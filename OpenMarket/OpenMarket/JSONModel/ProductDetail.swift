@@ -50,9 +50,9 @@ extension ProductDetail {
     }
     
     func pushThumbnailImageCache() {
-        var request = OpenMarketRequest(method: .get, baseURL: self.thumbnail)
+        let request = ImageGetRequest(baseURL: self.thumbnail)
         let session = MyURLSession()
-        session.execute(with: request.SetGetImageRequest()) { (result: Result<Data, Error>) in
+        session.execute(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
                 guard let image = UIImage(data: success) else { return }      

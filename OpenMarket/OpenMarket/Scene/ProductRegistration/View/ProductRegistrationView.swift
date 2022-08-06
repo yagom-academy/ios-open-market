@@ -234,12 +234,16 @@ final class ProductRegistrationView: UIView {
                                           secret: "R49CfVhSdh")
         guard let productData = try? JSONEncoder().encode(product) else { return }
         let boundary = "Boundary-\(UUID().uuidString)"
-        var request = OpenMarketPostRequest(images: images)
-//        request.body = productData
-        request.headers = HTTPHeaders.multipartFormData(boundary: boundary).name
-        request.body = request.createMultiPartFormBody(boundary: boundary, paramsData: productData, images: images)
+        var request = ProductPostRequest()
+
+        request.additionHeaders =
+        [
+            HTTPHeaders.multipartFormData(boundary: boundary).key: HTTPHeaders.multipartFormData(boundary: boundary).value
+        ]
         
-        //guard let safeData = request.body else { return }
+        request.body = request.createMultiPartFormBody(boundary: boundary,
+                                                       paramsData: productData,
+                                                       images: images)
         
         let myURLSession = MyURLSession()
         

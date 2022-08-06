@@ -105,7 +105,7 @@ final class ProductListViewController: UIViewController {
     // MARK: - functions
 
     func fetchData() {
-        let request = OpenMarketGetRequest()
+        let request = ProductGetRequest()
         
         let myURLSession = MyURLSession()
         myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in

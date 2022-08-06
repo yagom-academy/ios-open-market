@@ -8,15 +8,30 @@
 import Foundation
 
 struct ProductPostRequest: APIRequest {
-    var baseURL: String
+    var baseURL: String {
+        URLHost.openMarket.url
+    }
     
-    var path: String?
+    var path: String? {
+        URLAdditionalPath.product.value + (productID ?? "")
+    }
     
-    var method: HTTPMethod
+    var method: HTTPMethod  {
+        .post
+    }
     
-    var headers: [String : String]?
+    var headers: [String: String]? {
+        var headers = [HTTPHeaders.identifier.key: HTTPHeaders.identifier.value]
+        additionHeaders?.forEach { headers.updateValue($0.value, forKey: $0.key) }
+        
+        return headers
+    }
     
-    var query: [String : String]?
+    var query: [String: String]?
     
     var body: Data?
+    
+    var productID: String?
+ 
+    var additionHeaders: [String: String]?
 }
