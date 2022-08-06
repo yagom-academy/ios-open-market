@@ -66,6 +66,8 @@ final class ProductListViewController: UIViewController {
         gridCollectionView?.isHidden = true
         
         setUpNavigationItems()
+        configureRefreshControl()
+    
         fetchData()
     }
     
@@ -212,8 +214,10 @@ final class ProductListViewController: UIViewController {
     private func setUpCollectionViewFor(hiding: Bool) {
         if segmentedControl.selectedSegmentIndex == 0 {
             listCollectionView?.isHidden = hiding
+            listCollectionView?.refreshControl?.stop()
         } else {
             gridCollectionView?.isHidden = hiding
+            gridCollectionView?.refreshControl?.stop()
         }
     }
     
@@ -242,6 +246,17 @@ final class ProductListViewController: UIViewController {
         dataSource.apply(snapShot,
                          animatingDifferences: true,
                          completion: nil)
+    
+    private func configureRefreshControl() {
+        listCollectionView?.refreshControl = UIRefreshControl()
+        listCollectionView?.refreshControl?.addTarget(self,
+                                                      action:#selector(listHandleRefreshControl),
+                                                      for: .valueChanged)
+        
+        gridCollectionView?.refreshControl = UIRefreshControl()
+        gridCollectionView?.refreshControl?.addTarget(self,
+                                                      action:#selector(gridHandleRefreshControl),
+                                                      for: .valueChanged)
     }
     
     private func updateUI(by data: ProductListEntity) {
@@ -254,7 +269,24 @@ final class ProductListViewController: UIViewController {
         }
     }
     
+    private func resetData() {
+        pageNumber = 1
+        
+        listSnapshot = makeSnapshot()
+        gridSnapshot = makeSnapshot()
+        
+        fetchData()
+    }
+    
     // MARK: - Action
+    
+    @objc private func listHandleRefreshControl() {
+        resetData()
+    }
+    
+    @objc private func gridHandleRefreshControl() {
+        resetData()
+    }
     
     @objc private func didSegmentedControlTapped(_ segment: UISegmentedControl) {
         self.shouldHideListView = segment.selectedSegmentIndex != 0
