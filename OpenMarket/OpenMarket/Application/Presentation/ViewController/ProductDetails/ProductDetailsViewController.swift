@@ -171,12 +171,16 @@ final class ProductDetailsViewController: UIViewController {
             productModificationViewController.productInfo = self?.productInfo
             productModificationViewController.delegate = self
             
-            self?.present(viewController: productModificationViewController)
+            DispatchQueue.main.async {
+                self?.present(viewController: productModificationViewController)
+            }
         }
         
         let deleteAction = UIAlertAction(title: AlertSetting.deleteAction.title,
                                          style: .destructive) { [weak self] _ in
-            self?.presentPasswordCheckAlert()
+            DispatchQueue.main.async {
+                self?.presentPasswordCheckAlert()
+            }
         }
         
         let cancelAction = UIAlertAction(title: AlertSetting.cancelAction.title,
@@ -194,16 +198,24 @@ final class ProductDetailsViewController: UIViewController {
     }
     
     @objc private func didTappedEditButton() {
-        presentActionSheet()
+        DispatchQueue.main.async { [weak self] in
+            self?.presentActionSheet()
+        }
     }
     
     private func checkUserSecret(from alertController: UIAlertController) {
         guard User.secret.rawValue == alertController.textFields?.first?.text else {
-            presentConfirmAlert(message: AlertMessage.deleteFailure.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.deleteFailure.rawValue)
+            }
+            
             return
         }
         
-        presentConfirmAlert(message: AlertMessage.deleteSuccess.rawValue)
+        DispatchQueue.main.async { [weak self] in
+            self?.presentConfirmAlert(message: AlertMessage.deleteSuccess.rawValue)
+        }
+        
         fetchProductSecret(by: productID)
     }
     
@@ -286,7 +298,9 @@ final class ProductDetailsViewController: UIViewController {
             case .success(let data):
                 self?.productDetailViewModel?.format(productDetails: data)
             case .failure(let error):
-                self?.presentConfirmAlert(message: error.errorDescription)
+                DispatchQueue.main.async {
+                    self?.presentConfirmAlert(message: error.errorDescription)
+                }
             }
         }
     }
@@ -299,7 +313,9 @@ final class ProductDetailsViewController: UIViewController {
             case .success(let data):
                 self?.productDetailViewModel?.fetch(productSecret: data)
             case .failure(let error):
-                self?.presentConfirmAlert(message: error.errorDescription)
+                DispatchQueue.main.async {
+                    self?.presentConfirmAlert(message: error.errorDescription)
+                }
             }
         })
     }
@@ -448,7 +464,9 @@ extension ProductDetailsViewController: ProductDetailsViewDelegate {
 
 extension ProductDetailsViewController: ProductModificationDelegate {
     func productModificationViewController(_ viewController: ProductModificationViewController.Type, didRecieve productName: String) {
-        title = productName
+        DispatchQueue.main.async { [weak self] in
+            self?.title = productName
+        }
         fetchProductDetails(by: productID)
     }
 }

@@ -324,7 +324,9 @@ final class ProductEnrollmentViewController: UIViewController {
               productDescriptionText.trimmingCharacters(in: .whitespaces).count != 0,
               productImages.count > 0 else {
             
-            presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            }
             return
         }
         
@@ -341,9 +343,14 @@ final class ProductEnrollmentViewController: UIViewController {
         productEnrollmentAPIManager?.requestProductEnrollment(postEntity: productInfo) { [weak self] result in
             switch result {
             case .success(_):
-                self?.presentConfirmAlert(message: AlertMessage.enrollmentSuccess.rawValue)
+                DispatchQueue.main.async { [weak self] in
+                    self?.presentConfirmAlert(message: AlertMessage.enrollmentSuccess.rawValue)
+                }
+                
             case .failure(let error):
-                self?.presentConfirmAlert(message: error.errorDescription)
+                DispatchQueue.main.async { [weak self] in
+                    self?.presentConfirmAlert(message: error.errorDescription)
+                }
             }
         }
     }
@@ -382,12 +389,21 @@ final class ProductEnrollmentViewController: UIViewController {
     
     @objc private func didTappedImagePickerButton(_ sender: UIButton) {
         guard productImages.count < 5 else {
-            presentConfirmAlert(message: AlertMessage.exceedImages.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedImages.rawValue)
+            }
+            
             return
         }
         
-        present(productImagePicker,
-                animated: true)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            self.present(self.productImagePicker,
+                         animated: true)
+        }
     }
 }
 
@@ -434,7 +450,10 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         case let textField where textField == originalPriceTextField:
             guard let originalPrice = textField.text,
@@ -442,7 +461,10 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         case let textField where textField == discountedPriceTextField:
             guard let discountedPrice = textField.text,
@@ -450,7 +472,10 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         case let textField where textField == productStockTextField:
             guard let stock = textField.text,
@@ -458,7 +483,10 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         default:
             return true
@@ -468,9 +496,13 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
     private func checkNumberOfNameText(_ productNameText: String) {
         switch productNameText.count {
         case 0:
-            presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            }
         case 1..<3:
-            presentConfirmAlert(message: AlertMessage.additionalCharacters.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.additionalCharacters.rawValue)
+            }
         default:
             break
         }
@@ -492,7 +524,9 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
                 return
             }
             
-            presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            }
         default:
             break
         }
@@ -504,7 +538,10 @@ extension ProductEnrollmentViewController: UITextFieldDelegate {
 extension ProductEnrollmentViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard textView.text.count < 1000 else {
-            presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         }
         

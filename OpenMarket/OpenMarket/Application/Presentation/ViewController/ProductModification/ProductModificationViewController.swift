@@ -197,11 +197,11 @@ final class ProductModificationViewController: UIViewController {
     private func configureNavigationItems() {
         title = CurrentPage.productModification.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                                target: self,
-                                                                action: #selector(didTappedCancelButton))
+                                                           target: self,
+                                                           action: #selector(didTappedCancelButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
-                                                                 target: self,
-                                                                 action: #selector(didTappedDoneButton))
+                                                            target: self,
+                                                            action: #selector(didTappedDoneButton))
     }
     
     private func configureRootScrollView() {
@@ -310,13 +310,17 @@ final class ProductModificationViewController: UIViewController {
                     return
                 }
                 
-                self?.presentConfirmAlert(message: AlertMessage.modificationSuccess.rawValue)
+                DispatchQueue.main.async {
+                    self?.presentConfirmAlert(message: AlertMessage.modificationSuccess.rawValue)
+                }
+                
                 self?.delegate?.productModificationViewController(
                     ProductModificationViewController.self,
                     didRecieve: decodedData.name)
-                
             case .failure(let error):
-                self?.presentConfirmAlert(message: error.errorDescription)
+                DispatchQueue.main.async {
+                    self?.presentConfirmAlert(message: error.errorDescription)
+                }
             }
         }
     }
@@ -398,7 +402,10 @@ extension ProductModificationViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         case let textField where textField == originalPriceTextField:
             guard let originalPrice = textField.text,
@@ -406,7 +413,10 @@ extension ProductModificationViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         case let textField where textField == discountedPriceTextField:
             guard let discountedPrice = textField.text,
@@ -414,7 +424,10 @@ extension ProductModificationViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         case let textField where textField == productStockTextField:
             guard let stock = textField.text,
@@ -422,7 +435,10 @@ extension ProductModificationViewController: UITextFieldDelegate {
                 return true
             }
             
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         default:
             return true
@@ -432,9 +448,13 @@ extension ProductModificationViewController: UITextFieldDelegate {
     private func checkNumberOfNameText(_ productNameText: String) {
         switch productNameText.count {
         case 0:
-            presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            }
         case 1..<3:
-            presentConfirmAlert(message: AlertMessage.additionalCharacters.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.additionalCharacters.rawValue)
+            }
         default:
             break
         }
@@ -456,7 +476,9 @@ extension ProductModificationViewController: UITextFieldDelegate {
                 return
             }
             
-            self.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
+            }
         default:
             break
         }
@@ -468,7 +490,10 @@ extension ProductModificationViewController: UITextFieldDelegate {
 extension ProductModificationViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard textView.text.count < 1000 else {
-            self.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            DispatchQueue.main.async { [weak self] in
+                self?.presentConfirmAlert(message: AlertMessage.exceedValue.rawValue)
+            }
+            
             return false
         }
         

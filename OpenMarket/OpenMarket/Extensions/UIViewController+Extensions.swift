@@ -13,30 +13,35 @@ extension UIViewController {
                                                 message: message,
                                                 preferredStyle: .alert)
         
-        DispatchQueue.main.async {
-            let confirmAction = UIAlertAction(title: AlertSetting.confirmAction.title,
-                                              style: .default) { [weak self] _ in
-                
-                switch AlertMessage(rawValue: message) {
-                case .enrollmentSuccess, .modificationSuccess:
-                    self?.dismiss(animated: true)
-                case .deleteSuccess:
-                    self?.navigationController?.popViewController(animated: true)
-                default:
-                    break
-                }
-            }
+        let confirmAction = UIAlertAction(title: AlertSetting.confirmAction.title,
+                                          style: .default) { [weak self] _ in
             
-            alertController.addAction(confirmAction)
-            self.present(alertController,
-                         animated: false)
+            switch AlertMessage(rawValue: message) {
+            case .enrollmentSuccess, .modificationSuccess:
+                DispatchQueue.main.async {
+                    self?.dismiss(animated: true)
+                }
+            case .deleteSuccess:
+                DispatchQueue.main.async {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            default:
+                break
+            }
         }
+        
+        alertController.addAction(confirmAction)
+        
+        present(alertController,
+                animated: false)
     }
     
     func present(viewController: UIViewController) {
         let rootViewController = UINavigationController(rootViewController: viewController)
         rootViewController.modalPresentationStyle = .fullScreen
         
-        self.present(rootViewController, animated: true)
+        present(rootViewController, animated: true)
     }
 }
+
+

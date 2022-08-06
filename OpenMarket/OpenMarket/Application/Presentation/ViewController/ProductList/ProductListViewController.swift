@@ -238,13 +238,10 @@ final class ProductListViewController: UIViewController {
             switch result {
             case .success(let productList):
                 self?.marketProductsViewModel?.format(data: productList)
-                
-                DispatchQueue.main.async {
-                    self?.setUpCollectionViewFor(hiding: false)
-                    LoadingIndicator.hideLoading()
-                }
             case .failure(let error):
-                self?.presentConfirmAlert(message: error.errorDescription)
+                DispatchQueue.main.async { [weak self] in
+                    self?.presentConfirmAlert(message: error.errorDescription)
+                }
             }
         }
     }
@@ -310,7 +307,10 @@ final class ProductListViewController: UIViewController {
     
     @objc private func addButtonTapped(_ sender: UIBarButtonItem) {
         let productEnrollmentViewController = ProductEnrollmentViewController()
-        self.present(viewController: productEnrollmentViewController)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.present(viewController: productEnrollmentViewController)
+        }
     }
 }
 
@@ -320,6 +320,8 @@ extension ProductListViewController: ProductListDelegate {
     func productListViewController(_ view: ProductListViewController.Type,
                                    didRecieve productListInfo: ProductListEntity) {
         DispatchQueue.main.async { [weak self] in
+            self?.setUpCollectionViewFor(hiding: false)
+            LoadingIndicator.hideLoading()
             self?.updateUI(by: productListInfo)
         }
     }
