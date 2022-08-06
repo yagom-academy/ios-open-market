@@ -7,13 +7,23 @@
 
 import UIKit
 
-class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
+final class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
     
     // MARK: - Properties
     
     var imageRequest: URLSessionTask?
     
     // MARK: - UI Properties
+    
+    private let entireVerticalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -28,39 +38,31 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
         return label
     }()
     
+    let bargainPriceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Color.bargainPriceLabel
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let priceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .systemGray
+        label.textColor = Color.priceLabel
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    let bargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .systemGray3
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+
     let stockLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray
+        label.textColor = Color.stockLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let verticalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.alignment = .center
-        stackView.spacing = 5
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    // MARK: - Life Cycles
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,11 +81,7 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
         imageRequest?.cancel()
         
         imageView.image = UIImage(systemName: "photo.on.rectangle.angled")
-        nameLabel.text = nil
-        priceLabel.text = nil
-        priceLabel.textColor = .systemGray
-        stockLabel.text = nil
-        stockLabel.textColor = .systemGray
+        priceLabel.attributedText = nil
     }
 }
 
@@ -91,13 +89,13 @@ class ItemGridCollectionViewCell: UICollectionViewCell, CellConfigurable {
 
 private extension ItemGridCollectionViewCell {
     func arrangeSubView() {
-        verticalStackView.addArrangedSubview(imageView)
-        verticalStackView.addArrangedSubview(nameLabel)
-        verticalStackView.addArrangedSubview(priceLabel)
-        verticalStackView.addArrangedSubview(bargainPriceLabel)
-        verticalStackView.addArrangedSubview(stockLabel)
+        entireVerticalStackView.addArrangedSubview(imageView)
+        entireVerticalStackView.addArrangedSubview(nameLabel)
+        entireVerticalStackView.addArrangedSubview(priceLabel)
+        entireVerticalStackView.addArrangedSubview(bargainPriceLabel)
+        entireVerticalStackView.addArrangedSubview(stockLabel)
         
-        contentView.addSubview(verticalStackView)
+        contentView.addSubview(entireVerticalStackView)
     }
     
     func setupLayerAttributes() {
@@ -113,19 +111,19 @@ private extension ItemGridCollectionViewCell {
     
     func setupVerticalStackViewLayout() {
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(
+            entireVerticalStackView.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
                 constant: 8
             ),
-            verticalStackView.bottomAnchor.constraint(
+            entireVerticalStackView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor,
                 constant: -8
             ),
-            verticalStackView.trailingAnchor.constraint(
+            entireVerticalStackView.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
                 constant: -10
             ),
-            verticalStackView.leadingAnchor.constraint(
+            entireVerticalStackView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor,
                 constant: 10
             )

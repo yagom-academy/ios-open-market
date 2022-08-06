@@ -96,7 +96,6 @@ private extension ListCollectionViewController {
         return UICollectionViewDiffableDataSource<Section, ItemListPage.Item> (
             collectionView: collectionView
         ) { collectionView, indexPath, item -> UICollectionViewCell? in
-            
             let cell = collectionView.dequeueConfiguredReusableCell(
                 using: registration,
                 for: indexPath,

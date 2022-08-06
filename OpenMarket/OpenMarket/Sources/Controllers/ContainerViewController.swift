@@ -30,6 +30,7 @@ final class ContainerViewController: UIViewController {
         ]
         
         let segmentedControl = UISegmentedControl(items: selectionItems as [Any])
+        segmentedControl.selectedSegmentIndex = DisplayingViewType.grid.rawValue
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
@@ -102,29 +103,8 @@ private extension ContainerViewController {
     
     func setupUIComponentsLayout() {
         setupSegmentedControlLayout()
-        setupGridCollectionViewLayout()
         setupListCollectionViewLayout()
-    }
-    
-    func setupGridCollectionViewLayout() {
-        NSLayoutConstraint.activate([
-            gridCollectionViewController.view.topAnchor.constraint(
-                equalTo: segmentedControl.bottomAnchor,
-                constant: 5
-            ),
-            gridCollectionViewController.view.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -5
-            ),
-            gridCollectionViewController.view.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 5
-            ),
-            gridCollectionViewController.view.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -5
-            )
-        ])
+        setupGridCollectionViewLayout()
     }
     
     func setupSegmentedControlLayout() {
@@ -143,7 +123,7 @@ private extension ContainerViewController {
             )
         ])
     }
-    
+
     func setupListCollectionViewLayout() {
         NSLayoutConstraint.activate([
             listCollectionViewController.view.topAnchor.constraint(
@@ -159,6 +139,27 @@ private extension ContainerViewController {
                 constant: 5
             ),
             listCollectionViewController.view.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -5
+            )
+        ])
+    }
+    
+    func setupGridCollectionViewLayout() {
+        NSLayoutConstraint.activate([
+            gridCollectionViewController.view.topAnchor.constraint(
+                equalTo: segmentedControl.bottomAnchor,
+                constant: 5
+            ),
+            gridCollectionViewController.view.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -5
+            ),
+            gridCollectionViewController.view.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: 5
+            ),
+            gridCollectionViewController.view.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -5
             )

@@ -11,17 +11,16 @@ extension Double {
     
     // MARK: - Actions
     
-    func priceFormat(currency: String?) -> String? {
+    func applyFormat(currency: ItemListPage.Item.Currency) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 4
         numberFormatter.roundingMode = .up
         
-        guard let price = numberFormatter.string(from: self as NSNumber),
-              let currency = currency else {
+        guard let price = numberFormatter.string(from: self as NSNumber) else {
                   return nil
               }
         
-        return currency + " " + price
+        return currency.rawValue + " " + price
     }
 }
