@@ -86,9 +86,15 @@
         - Alert, 화면전환 시 중복적으로 사용된 DispatchQueue 수정
         - 매직 리터럴 삭제를 위한 타입 생성
         - 불필요한 개행 및 코드 들여쓰기 제거
+    - STEP2 PR
     
 - 2022.08.05
-    
+    - loading indicator 구현
+    - 컬렉션뷰 새로고침 indicator 구현
+        - 스크롤이 끝났을때마다 data 추가 fetch
+    - ImagePicker View 삭제 기능 구현
+    - NSCache를 통한 이미지 캐시 기능 구현
+    - 화면 전환을 통한 UI 업데이트가 메인 쓰레드에서 작동하도록 비동기 처리
     
 ## 💡 키워드
 
