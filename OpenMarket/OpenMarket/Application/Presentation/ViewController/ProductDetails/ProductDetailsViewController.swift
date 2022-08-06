@@ -423,9 +423,8 @@ extension ProductDetailsViewController: UICollectionViewDelegate {
 extension ProductDetailsViewController: ProductDetailsViewDelegate {
     func productDetailsViewController(_ viewController: ProductDetailsViewController.Type, didRecieve productInfo: ProductDetailsEntity) {
         
-        LoadingIndicator.hideLoading()
-        
         DispatchQueue.main.async { [weak self] in
+            LoadingIndicator.hideLoading()
             self?.updateUI(productInfo)
         }
         

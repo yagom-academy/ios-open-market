@@ -47,9 +47,7 @@ final class ProductListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        LoadingIndicator.showLoading()
-        fetchData()
-        setUpCollectionViewFor(hiding: true)
+        delayUIForFetchingData()
     }
     
     // MARK: - UI
@@ -67,8 +65,12 @@ final class ProductListViewController: UIViewController {
         
         setUpNavigationItems()
         configureRefreshControl()
+    }
     
+    private func delayUIForFetchingData() {
+        LoadingIndicator.showLoading()
         fetchData()
+        setUpCollectionViewFor(hiding: true)
     }
     
     private func configureListCollectionView() {
