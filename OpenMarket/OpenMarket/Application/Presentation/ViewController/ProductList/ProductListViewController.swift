@@ -8,16 +8,23 @@ import UIKit
 
 final class ProductListViewController: UIViewController {
     // MARK: Properties
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, ProductEntity>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ProductEntity>
     
     private let networkProvider = APIClient()
     private var marketProductsViewModel: ProductListViewModel?
-    private let productListAPIManager = ProductListAPIManager()
+    private var productListAPIManager: ProductListAPIManager?
     
     private var listCollectionView: UICollectionView?
-    private var listDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
+    private var listDataSource: DataSource?
     
     private var gridCollectionView: UICollectionView?
-    private var gridDataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>?
+    private var gridDataSource: DataSource?
+    
+    private var listSnapshot = Snapshot()
+    private var gridSnapshot = Snapshot()
+    
+    private var pageNumber: Int = 1
     
     private let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
@@ -155,6 +162,8 @@ final class ProductListViewController: UIViewController {
         marketProductsViewModel?.delegate = self
         listCollectionView?.delegate = self
         gridCollectionView?.delegate = self
+        listSnapshot = makeSnapshot()
+        gridSnapshot = makeSnapshot()
     }
     
     private func configureListLayout() -> UICollectionViewLayout {
@@ -204,8 +213,8 @@ final class ProductListViewController: UIViewController {
     private func setUpNavigationItems() {
         navigationItem.titleView = segmentedControl
         navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "+",
-                                                                  style: .plain,
-                                                                  target: self,
+                                                             style: .plain,
+                                                             target: self,
                                                              action: #selector(addButtonTapped(_:)))
         segmentedControl.addTarget(self,
                                    action: #selector(didSegmentedControlTapped(_:)),
@@ -224,6 +233,7 @@ final class ProductListViewController: UIViewController {
     }
     
     private func fetchData() {
+        productListAPIManager = ProductListAPIManager(pageNumber: pageNumber)
         productListAPIManager?.requestAndDecodeProduct(dataType: ProductList.self) { [weak self] result in
             switch result {
             case .success(let productList):
@@ -239,15 +249,23 @@ final class ProductListViewController: UIViewController {
         }
     }
     
-    private func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, ProductEntity>,
-                               by data: ProductListEntity) {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, ProductEntity>()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(data.productEntity)
+    private func applySnapshot(by data: ProductListEntity) {
+        listSnapshot.appendItems(data.productEntity)
+        listDataSource?.apply(listSnapshot,
+                              animatingDifferences: false)
         
-        dataSource.apply(snapShot,
-                         animatingDifferences: true,
-                         completion: nil)
+        gridSnapshot.appendItems(data.productEntity)
+        gridDataSource?.apply(gridSnapshot,
+                              animatingDifferences: false)
+    }
+    
+    private func makeSnapshot() -> Snapshot {
+        var snapshot = Snapshot()
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        
+        return snapshot
+    }
     
     private func configureRefreshControl() {
         listCollectionView?.refreshControl = UIRefreshControl()
@@ -262,12 +280,8 @@ final class ProductListViewController: UIViewController {
     }
     
     private func updateUI(by data: ProductListEntity) {
-        if let listDataSource = listDataSource,
-           let gridDataSource = gridDataSource {
-            applySnapShot(to: listDataSource,
-                          by: data)
-            applySnapShot(to: gridDataSource,
-                          by: data)
+        DispatchQueue.main.async { [weak self] in
+            self?.applySnapshot(by: data)
         }
     }
     
@@ -304,7 +318,7 @@ final class ProductListViewController: UIViewController {
 
 extension ProductListViewController: ProductListDelegate {
     func productListViewController(_ view: ProductListViewController.Type,
-                            didRecieve productListInfo: ProductListEntity) {
+                                   didRecieve productListInfo: ProductListEntity) {
         DispatchQueue.main.async { [weak self] in
             self?.updateUI(by: productListInfo)
         }
@@ -330,5 +344,28 @@ extension ProductListViewController: UICollectionViewDelegate {
         
         navigationController?.pushViewController(productDetailViewController,
                                                  animated: true)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard let listCollectionView = listCollectionView,
+              let gridCollectionView = gridCollectionView else {
+            return
+        }
+        
+        let _ = segmentedControl.selectedSegmentIndex == 0
+        ? reloadDataDidScrollDown(listCollectionView)
+        : reloadDataDidScrollDown(gridCollectionView)
+    }
+    
+    private func reloadDataDidScrollDown(_ collectionView: UICollectionView) {
+        let trigger = collectionView.contentSize.height - collectionView.bounds.size.height
+        
+        if collectionView.contentOffset.y > trigger {
+            DispatchQueue.main.async { [weak self] in
+                self?.pageNumber += 1
+                self?.fetchData()
+                collectionView.reloadData()
+            }
+        }
     }
 }

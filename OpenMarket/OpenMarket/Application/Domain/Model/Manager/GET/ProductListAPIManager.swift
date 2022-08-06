@@ -11,13 +11,13 @@ struct ProductListAPIManager: GETProtocol {
     var configuration: APIConfiguration
     var urlComponents: URLComponents
     
-    init?() {
+    init?(pageNumber: Int) {
         urlComponents = URLComponentsBuilder()
             .setScheme("https")
             .setHost("market-training.yagom-academy.kr")
             .setPath("/api/products")
-            .addQuery(items: [ProductURLQueryItem.page_no.value: "1",
-                              ProductURLQueryItem.items_per_page.value: "30"])
+            .addQuery(items: [ProductURLQueryItem.page_no.value: "\(pageNumber)",
+                              ProductURLQueryItem.items_per_page.value: "\(20)"])
             .build()
         
         guard let url = urlComponents.url else {

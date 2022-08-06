@@ -9,6 +9,8 @@ import UIKit
 
 final class ProductDetailsViewController: UIViewController {
     // MARK: - Properties
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, UIImage>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>
     
     var productID: Int = 0
     var productVendorID: Int = 0
@@ -21,7 +23,7 @@ final class ProductDetailsViewController: UIViewController {
     private var productInfo: ProductDetailsEntity?
     
     private var productDetailViewModel: ProductDetailsViewModel?
-    private var productDetailImagesdataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
+    private var productDetailImagesdataSource: DataSource?
     private var productDetailImagesCollectionView: UICollectionView?
     
     private let rootScrollView: UIScrollView = {
@@ -187,8 +189,8 @@ final class ProductDetailsViewController: UIViewController {
         
         actionSheet.modalPresentationStyle = .overFullScreen
         present(actionSheet,
-                     animated: true,
-                     completion: nil)
+                animated: true,
+                completion: nil)
     }
     
     @objc private func didTappedEditButton() {
@@ -404,7 +406,7 @@ final class ProductDetailsViewController: UIViewController {
     
     private func applySnapShot(to dataSource: UICollectionViewDiffableDataSource<Section, UIImage>,
                                by data: [UIImage]) {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, UIImage>()
+        var snapShot = Snapshot()
         snapShot.appendSections([.main])
         snapShot.appendItems(data)
         
