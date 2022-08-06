@@ -164,8 +164,9 @@
 		3734391F289CF15A004D4D38 /* ProductUpdate */ = {
 			isa = PBXGroup;
 			children = (
-				37343914289CF147004D4D38 /* ProductUpdateViewController.swift */,
-				3734391A289CF147004D4D38 /* ProductUpdateView.swift */,
+				D77A6ABB289E8088005AB9B2 /* Model */,
+				D77A6ABD289E80A8005AB9B2 /* View */,
+				D77A6ABC289E809B005AB9B2 /* Controller */,
 			);
 			path = ProductUpdate;
 			sourceTree = "<group>";
@@ -173,9 +174,9 @@
 		37343920289CF1ED004D4D38 /* ProductRegistration */ = {
 			isa = PBXGroup;
 			children = (
-				37343921289CF1ED004D4D38 /* Controller */,
 				37343923289CF1ED004D4D38 /* Model */,
 				37343924289CF1ED004D4D38 /* View */,
+				37343921289CF1ED004D4D38 /* Controller */,
 			);
 			path = ProductRegistration;
 			sourceTree = "<group>";
@@ -226,14 +227,12 @@
 		37FBE2E1289CEB3900240A1E /* OpenMarketRequest */ = {
 			isa = PBXGroup;
 			children = (
-				37D96A6C28866EDF002B1A8F /* HTTPHeaders.swift */,
 				D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */,
 				37FBE2ED289CEC9800240A1E /* ProductDeleteRequest.swift */,
 				37FBE2E7289CEBDE00240A1E /* ProductGetRequest.swift */,
 				37FBE2EB289CEC7100240A1E /* ProductPatchRequest.swift */,
 				37FBE2E9289CEC1900240A1E /* ProductPostRequest.swift */,
-				37FBE2E5289CEB9900240A1E /* URLAdditionalPath.swift */,
-				37FBE2E3289CEB8400240A1E /* URLHost.swift */,
+				D77A6ABA289E7EFE005AB9B2 /* RequestConfiguration */,
 			);
 			path = OpenMarketRequest;
 			sourceTree = "<group>";
@@ -279,7 +278,6 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
-				D70EECFF2880FAC9003679E9 /* Resources */,
 				37D96A6B28866ECA002B1A8F /* DataManager */,
 				3734390E289CEFB3004D4D38 /* Enum */,
 				372396A6287D2FB0001EFC70 /* Error */,
@@ -287,6 +285,7 @@
 				D70EECFB2880F873003679E9 /* JSONModel */,
 				372396A3287D194A001EFC70 /* Network */,
 				37FBE2E1289CEB3900240A1E /* OpenMarketRequest */,
+				D70EECFF2880FAC9003679E9 /* Resources */,
 				37FBE2EF289CED8A00240A1E /* Scene */,
 				D71BB6F9287D8FBC006035C6 /* TestDouble */,
 			);
@@ -369,6 +368,41 @@
 				37D96A742886C49D002B1A8F /* NameSpace.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		D77A6ABA289E7EFE005AB9B2 /* RequestConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				37D96A6C28866EDF002B1A8F /* HTTPHeaders.swift */,
+				37FBE2E5289CEB9900240A1E /* URLAdditionalPath.swift */,
+				37FBE2E3289CEB8400240A1E /* URLHost.swift */,
+			);
+			path = RequestConfiguration;
+			sourceTree = "<group>";
+		};
+		D77A6ABB289E8088005AB9B2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D77A6ABC289E809B005AB9B2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				37343914289CF147004D4D38 /* ProductUpdateViewController.swift */,
+			);
+			name = Controller;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D77A6ABD289E80A8005AB9B2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3734391A289CF147004D4D38 /* ProductUpdateView.swift */,
+			);
+			name = View;
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
