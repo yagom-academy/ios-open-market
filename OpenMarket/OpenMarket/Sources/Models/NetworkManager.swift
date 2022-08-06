@@ -1,5 +1,5 @@
 //
-//  DataManager.swift
+//  NetworkManager.swift
 //  OpenMarket
 //
 //  Created by minsson, yeton on 2022/07/14.
@@ -11,11 +11,12 @@ struct NetworkManager {
     
     // MARK: - Static Actions
     
-    static func performRequestToAPI(from hostAPI: String, with request: String,
-                                    completion: @escaping (Result<Data, NetworkingError>) -> Void) {
-        let url = hostAPI + request
+    static func performRequestToAPI(
+        from url: URL?,
+        completion: @escaping (Result<Data, NetworkingError>) -> Void
+    ) {
         
-        guard let url = URL(string: url) else {
+        guard let url = url else {
             return
         }
         

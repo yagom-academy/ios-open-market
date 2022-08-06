@@ -30,7 +30,7 @@ struct ItemListPage: Decodable {
     
     // MARK: - Nested Struct
     
-    struct Item: Decodable {
+    struct Item: Decodable, Hashable {
         
         // MARK: - Properties
         
@@ -38,7 +38,8 @@ struct ItemListPage: Decodable {
         let name: String
         let thumbnail: String
         let currency: Currency
-        let price, bargainPrice, discountedPrice, stock: Int
+        let price, bargainPrice, discountedPrice: Double
+        let stock: Int
         let createdAt, issuedAt: String
 
         // MARK: - Enums
