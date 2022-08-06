@@ -1,5 +1,5 @@
 //
-//  OpenMarketRepository.swift
+//  OpenMarketImageManager.swift
 //  OpenMarket
 //
 //  Created by groot, bard on 2022/07/27.
@@ -7,10 +7,10 @@
 
 import UIKit.UIImage
 
-struct OpenMarketRepository {
-    static func makeImage(key: String, imageView: UIImageView) {
+struct OpenMarketImageManager {
+    static func setupImage(key: String, completion: @escaping (UIImage) -> Void) {
         if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: key)) {
-            imageView.image = cachedImage
+            completion(cachedImage)
         } else {
             let request = ImageGetRequest(baseURL: key)
             
@@ -25,10 +25,7 @@ struct OpenMarketRepository {
                                                            forKey: NSString(string: key))
                     }
                     
-                    DispatchQueue.main.async {
-                        imageView.image = image
-                    }
-                    
+                   completion(image)
                 case .failure(let failure):
                     print(failure.localizedDescription)
                 }

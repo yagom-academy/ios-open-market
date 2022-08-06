@@ -106,7 +106,11 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func setViewItems(_ product: ProductDetail) {
-        OpenMarketRepository.makeImage(key: product.thumbnail, imageView: productImageView)
+        OpenMarketImageManager.setupImage(key: product.thumbnail) { image in
+            DispatchQueue.main.async { [weak self] in
+                self?.productImageView.image = image
+            }
+        }
         
         productNameLabel.text = product.name
         priceLabel.attributedText = product.makePriceText()

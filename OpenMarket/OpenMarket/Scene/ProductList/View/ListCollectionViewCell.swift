@@ -142,12 +142,15 @@ final class ListCollectionViewCell: UICollectionViewCell {
             ])
     }
     
-    func setViewItems(_ item: ProductDetail) {
-        OpenMarketRepository.makeImage(key: item.thumbnail,
-                                       imageView: productImageView)
+    func setViewItems(_ product: ProductDetail) {
+        OpenMarketImageManager.setupImage(key: product.thumbnail) { image in
+            DispatchQueue.main.async { [weak self] in
+                self?.productImageView.image = image
+            }
+        }
         
-        productNameLabel.text = item.name
-        priceLabel.attributedText = item.makePriceText()
-        stockLabel.attributedText = item.makeStockText()
+        productNameLabel.text = product.name
+        priceLabel.attributedText = product.makePriceText()
+        stockLabel.attributedText = product.makeStockText()
     }
 }
