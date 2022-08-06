@@ -76,7 +76,7 @@ final class ProductListViewController: UIViewController {
     
     private func delayUIForFetchingData() {
         LoadingIndicator.showLoading()
-        fetchData()
+        resetData()
         setUpCollectionViewFor(hiding: true)
     }
     
@@ -162,8 +162,6 @@ final class ProductListViewController: UIViewController {
         marketProductsViewModel?.delegate = self
         listCollectionView?.delegate = self
         gridCollectionView?.delegate = self
-        listSnapshot = makeSnapshot()
-        gridSnapshot = makeSnapshot()
     }
     
     private func configureListLayout() -> UICollectionViewLayout {
@@ -277,9 +275,7 @@ final class ProductListViewController: UIViewController {
     }
     
     private func updateUI(by data: ProductListEntity) {
-        DispatchQueue.main.async { [weak self] in
-            self?.applySnapshot(by: data)
-        }
+        applySnapshot(by: data)
     }
     
     private func resetData() {
