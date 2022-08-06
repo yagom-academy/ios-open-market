@@ -176,7 +176,6 @@ final class ProductEnrollmentViewController: UIViewController {
     }()
     
     private let productEnrollmentAPIManager = ProductEnrollmentAPIManager()
-    private var productImages: [ProductImage] = []
     
     // MARK: - View Life Cycle
     
@@ -294,24 +293,65 @@ final class ProductEnrollmentViewController: UIViewController {
             object: nil)
     }
     
-    private func configureNewImageView(_ image: UIImage) {
+    private func configureUIView(by image: UIImage) {
+        let view = UIView()
         let imageView = configureProfileImageView(with: image)
+        let button = configureDeleteButton()
+        
+        view.addSubview(imageView)
+        view.addSubview(button)
+        view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.topAnchor,
+                                           constant: 10),
+            imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                              constant: -10),
+            imageView.leftAnchor.constraint(equalTo: view.leftAnchor,
+                                            constant: 10),
+            imageView.rightAnchor.constraint(equalTo: view.rightAnchor,
+                                             constant: -10),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         
-        imageStackView.addArrangedSubview(imageView)
+        NSLayoutConstraint.activate([
+            button.topAnchor.constraint(equalTo: view.topAnchor),
+            button.heightAnchor.constraint(equalToConstant: 20),
+            button.widthAnchor.constraint(equalToConstant: 20),
+            button.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ])
+        
+        imageStackView.addArrangedSubview(view)
     }
     
     private func configureProfileImageView(with image: UIImage) -> UIImageView {
         let imageView = UIImageView()
         imageView.image = image
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }
     
-    private func register() {
+    private func configureDeleteButton() -> UIButton {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "x.circle.fill"),
+                        for: .normal)
+        button.imageView?.tintColor = .systemBlue
+        button.backgroundColor = .clear
+        button.layer.cornerRadius = 10
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(didTappedDeleteButton),
+                         for: .touchDown)
+        
+        return button
+    }
+    
+    @objc func didTappedDeleteButton(_ sender: UIButton) {
+        sender.superview?.removeFromSuperview()
+    }
+    
+    private func makePostParameters() -> PostParameter? {
         let currency = currencySegmentedControl.selectedSegmentIndex == 0 ? Currency.krw : Currency.usd
         
         guard let productNameText = productNameTextField.text,
@@ -322,12 +362,12 @@ final class ProductEnrollmentViewController: UIViewController {
               originalPrice > 0,
               productDescriptionText != ProductStatus.productDescription.rawValue,
               productDescriptionText.trimmingCharacters(in: .whitespaces).count != 0,
-              productImages.count > 0 else {
+              imageStackView.subviews.count > 0 else {
             
             DispatchQueue.main.async { [weak self] in
                 self?.presentConfirmAlert(message: AlertMessage.emptyValue.rawValue)
             }
-            return
+            return nil
         }
         
         let parameter = PostParameter(name: productNameText,
@@ -337,6 +377,31 @@ final class ProductEnrollmentViewController: UIViewController {
                                       discounted_price: discountedPrice,
                                       stock: productStock,
                                       secret: User.secret.rawValue)
+        
+        return parameter
+    }
+    
+    private func makeProductImages() -> [ProductImage]? {
+        var productImagesArray: [ProductImage] = []
+        
+        for i in 0..<imageStackView.subviews.count {
+            guard let imageView = imageStackView.subviews[i].subviews[0] as? UIImageView,
+                  let image = imageView.image,
+                  let productImage = ProductImage(withImage: image) else {
+                return nil
+            }
+
+            productImagesArray.append(productImage)
+        }
+        
+        return productImagesArray
+    }
+    
+    private func register() {
+        guard let parameter = makePostParameters(),
+              let productImages = makeProductImages() else {
+            return
+        }
         
         let productInfo = EnrollProductEntity(parameter: parameter, images: productImages)
         
@@ -388,7 +453,7 @@ final class ProductEnrollmentViewController: UIViewController {
     }
     
     @objc private func didTappedImagePickerButton(_ sender: UIButton) {
-        guard productImages.count < 5 else {
+        guard imageStackView.subviews.count < 5 else {
             DispatchQueue.main.async { [weak self] in
                 self?.presentConfirmAlert(message: AlertMessage.exceedImages.rawValue)
             }
@@ -419,13 +484,8 @@ extension ProductEnrollmentViewController: UIImagePickerControllerDelegate, UINa
         } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             newImage = possibleImage
         }
-        
-        guard let productImage = ProductImage(withImage: newImage) else {
-            return
-        }
-        
-        productImages.append(productImage)
-        configureNewImageView(newImage)
+
+        configureUIView(by: newImage)
         picker.dismiss(animated: true,
                        completion: nil)
     }
