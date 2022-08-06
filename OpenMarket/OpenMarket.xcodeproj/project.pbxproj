@@ -227,13 +227,13 @@
 		37FBE2E1289CEB3900240A1E /* OpenMarketRequest */ = {
 			isa = PBXGroup;
 			children = (
+				D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */,
 				37FBE2ED289CEC9800240A1E /* ProductDeleteRequest.swift */,
 				37FBE2E7289CEBDE00240A1E /* ProductGetRequest.swift */,
 				37FBE2EB289CEC7100240A1E /* ProductPatchRequest.swift */,
 				37FBE2E9289CEC1900240A1E /* ProductPostRequest.swift */,
 				37FBE2E5289CEB9900240A1E /* URLAdditionalPath.swift */,
 				37FBE2E3289CEB8400240A1E /* URLHost.swift */,
-				D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */,
 			);
 			path = OpenMarketRequest;
 			sourceTree = "<group>";

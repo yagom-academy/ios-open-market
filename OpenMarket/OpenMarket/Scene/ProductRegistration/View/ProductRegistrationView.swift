@@ -221,7 +221,12 @@ final class ProductRegistrationView: UIView {
               let price = makePriceText()
         else { return showInvalidInputAlert() }
         
-        let images = convertImages(view: imageStackView)
+        let imagesData = convertImages(view: imageStackView)
+        var images = [Image]()
+        imagesData.forEach {
+            images.append(Image(name: $0.description, data: $0, type: "png"))
+        }
+     
         guard !images.isEmpty else { return showInvalidInputAlert() }
         
         let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
@@ -241,9 +246,14 @@ final class ProductRegistrationView: UIView {
             HTTPHeaders.multipartFormData(boundary: boundary).key: HTTPHeaders.multipartFormData(boundary: boundary).value
         ]
         
-        request.body = request.createMultiPartFormBody(boundary: boundary,
-                                                       paramsData: productData,
-                                                       images: images)
+        let multiPartFormData =  MultiPartForm(
+            jsonParameterName: "params",
+            imageParameterName: "images",
+            boundary: boundary,
+            jsonData: productData,
+            images: images)
+        
+        request.body = .multiPartForm(multiPartFormData)
         
         let myURLSession = MyURLSession()
         

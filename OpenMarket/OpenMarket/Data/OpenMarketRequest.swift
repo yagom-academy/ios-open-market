@@ -5,18 +5,6 @@
 //  Created by groot, bard on 2022/07/19.
 //
 
-import Foundation
-import UIKit
-
-struct OpenMarketRequest: APIRequest {
-    var body: Data?
-    var path: String? = URLAdditionalPath.product.value
-    var method: HTTPMethod = .get
-    var baseURL: String = URLHost.openMarket.url
-    var headers: [String: String]?
-    var query: [String: String]?
-}
-
 enum HTTPHeaders {
     case json
     case multipartFormData(boundary: String)

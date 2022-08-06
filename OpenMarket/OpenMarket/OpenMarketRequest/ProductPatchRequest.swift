@@ -25,7 +25,7 @@ struct ProductPatchRequest: APIRequest {
     
     var query: [String: String]?
     
-    var body: Data?
+    var body: HTTPBody?
     
     var productID: String
 }

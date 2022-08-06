@@ -20,5 +20,5 @@ struct ImageGetRequest: APIRequest {
     
     var query: [String: String]?
     
-    var body: Data?
+    var body: HTTPBody?
 }
