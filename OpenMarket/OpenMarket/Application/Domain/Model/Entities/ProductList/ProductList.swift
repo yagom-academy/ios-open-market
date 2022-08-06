@@ -42,13 +42,4 @@ struct Product: Codable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
-    
-    var thumbnailImage: UIImage? {
-        if let url = URL(string: thumbnail),
-           let imageData = try? Data(contentsOf: url) {
-            let image = UIImage(data: imageData)
-            return image
-        }
-        return nil
-    }
 }

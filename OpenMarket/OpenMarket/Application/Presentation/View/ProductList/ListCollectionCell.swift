@@ -161,8 +161,13 @@ final class ListCollectionCell: UICollectionViewListCell {
     }
     
     func updateUI(_ data: ProductEntity) {
-        viewModel =  ProductListViewModel(data)
-        productImageView.image = viewModel?.thumbnailImage
+        viewModel = ProductListViewModel(data)
+        
+        guard let thumbnail = viewModel?.thumbnail else {
+            return
+        }
+        
+        productImageView.setImageUrl(thumbnail)
         productNameLabel.text = viewModel?.name
         originalPriceLabel.text = viewModel?.originalPriceText
         discountedPriceLabel.text = viewModel?.discountedPriceText

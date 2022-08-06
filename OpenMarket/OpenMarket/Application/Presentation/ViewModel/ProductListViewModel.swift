@@ -14,12 +14,12 @@ final class ProductListViewModel {
     
     weak var delegate: ProductListDelegate?
     
-    var thumbnailImage: UIImage? {
+    var thumbnail: String? {
         guard let product = productEntity else {
             return nil
         }
         
-        return product.thumbnailImage
+        return product.thumbnail
     }
     
     var name: String? {
@@ -94,15 +94,11 @@ final class ProductListViewModel {
         var entityList = ProductListEntity(productEntity: [])
        
         for product in data.pages {
-            guard let thumbnailImage = product.thumbnailImage else {
-                break
-            }
-            
             entityList.productEntity.append(
                 ProductEntity(
                     id: product.id,
                     vendorID: product.vendorID,
-                    thumbnailImage: thumbnailImage,
+                    thumbnail: product.thumbnail,
                     name: product.name,
                     currency: product.currency.rawValue,
                     originalPrice: product.price,

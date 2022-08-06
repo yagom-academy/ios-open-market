@@ -150,7 +150,12 @@ final class GridCollectionCell: UICollectionViewCell {
     
     func updateUI(_ data: ProductEntity) {
         viewModel =  ProductListViewModel(data)
-        productImageView.image = viewModel?.thumbnailImage
+        
+        guard let thumbnail = viewModel?.thumbnail else {
+            return
+        }
+        
+        productImageView.setImageUrl(thumbnail)
         productNameLabel.text = viewModel?.name
         originalPriceLabel.text = viewModel?.originalPriceText
         discountedPriceLabel.text = viewModel?.discountedPriceText

@@ -283,7 +283,7 @@ final class ProductListViewController: UIViewController {
         
         listSnapshot = makeSnapshot()
         gridSnapshot = makeSnapshot()
-        
+    
         fetchData()
     }
     
