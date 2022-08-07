@@ -23,40 +23,7 @@ final class MainViewController: UIViewController {
     
     private var shouldHideListLayout: Bool = false {
         didSet {
-            guard let gridLayout = gridLayout, let listLayout = listLayout else { return }
-            guard let gridSnapShot = gridDataSource?.snapshot(),
-                  let listSnapShot = listDataSource?.snapshot() else { return }
-            if shouldHideListLayout {
-                if gridSnapShot.numberOfItems > listSnapShot.numberOfItems {
-                    collectionView.dataSource = gridDataSource
-                    collectionView.setCollectionViewLayout(gridLayout, animated: true) { _ in
-                        self.loadData()
-                    }
-                } else {
-                    gridDataSource?.apply(listSnapShot)
-                    collectionView.dataSource = gridDataSource
-                    collectionView.setCollectionViewLayout(gridLayout, animated: true) { _ in
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                        }
-                    }
-                }
-            } else {
-                if gridSnapShot.numberOfItems < listSnapShot.numberOfItems {
-                    collectionView.dataSource = listDataSource
-                    collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
-                        self.loadData()
-                    }
-                } else {
-                    listDataSource?.apply(gridSnapShot)
-                    collectionView.dataSource = listDataSource
-                    collectionView.setCollectionViewLayout(listLayout, animated: true) { _ in
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                        }
-                    }
-                }
-            }
+            adoptAppropriateDataSource()
         }
     }
     // MARK: - UI Properties
@@ -132,6 +99,35 @@ final class MainViewController: UIViewController {
         }
     }
     // MARK: - MainVC - Private method
+    
+    private func adoptAppropriateDataSource() {
+        guard let gridLayout = gridLayout, let listLayout = listLayout else { return }
+        guard let gridSnapShot = gridDataSource?.snapshot(),
+              let listSnapShot = listDataSource?.snapshot() else { return }
+        if shouldHideListLayout {
+            distinguishSnapshot(gridSnapShot, listSnapShot, gridLayout, gridDataSource)
+        } else {
+            distinguishSnapshot(listSnapShot, gridSnapShot, listLayout, listDataSource)
+        }
+    }
+    
+    private func distinguishSnapshot(_ firstSnapShot: NSDiffableDataSourceSnapshot<MainViewController.Section, Product>, _ secondSnapShot: NSDiffableDataSourceSnapshot<MainViewController.Section, Product>, _ layout: UICollectionViewLayout, _ dataSource: UICollectionViewDiffableDataSource<Section, Product>? ) {
+        if firstSnapShot.numberOfItems > secondSnapShot.numberOfItems {
+            collectionView.dataSource = dataSource
+            collectionView.setCollectionViewLayout(layout, animated: true) { _ in
+                self.loadData()
+            }
+        } else {
+            dataSource?.apply(secondSnapShot)
+            collectionView.dataSource = dataSource
+            collectionView.setCollectionViewLayout(layout, animated: true) { _ in
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+    
     private func initializeViewController() {
         DispatchQueue.main.async {
             self.collectionView.alpha = 0
