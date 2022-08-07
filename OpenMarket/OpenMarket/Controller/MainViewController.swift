@@ -16,7 +16,7 @@ final class MainViewController: UIViewController {
     private var gridLayout: UICollectionViewLayout? = nil
     private var productListManager = ProductListManager()
     private var currentMaximumPage = 1
-    private var refresher: UIRefreshControl!
+    private var refresher: UIRefreshControl?
     enum Section {
         case main
     }
@@ -255,8 +255,8 @@ extension MainViewController {
     private func setupRefreshController() {
         self.refresher = UIRefreshControl()
         self.collectionView.alwaysBounceVertical = true
-        self.refresher.tintColor = UIColor.red
-        self.refresher.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        self.refresher?.tintColor = UIColor.red
+        self.refresher?.addTarget(self, action: #selector(loadData), for: .valueChanged)
         self.collectionView.refreshControl = refresher
     }
     
@@ -264,7 +264,7 @@ extension MainViewController {
     
     private func stopRefresher() {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
-            self.refresher.endRefreshing()
+            self.refresher?.endRefreshing()
         }
     }
     
