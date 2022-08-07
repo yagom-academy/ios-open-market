@@ -21,9 +21,8 @@ final class MainViewController: UIViewController {
         case main
     }
     
-    private var shouldHideListLayout: Bool? {
+    private var shouldHideListLayout: Bool = false {
         didSet {
-            guard let shouldHideListLayout = shouldHideListLayout else { return }
             guard let gridLayout = gridLayout, let listLayout = listLayout else { return }
             guard let gridSnapShot = gridDataSource?.snapshot(),
                   let listSnapShot = listDataSource?.snapshot() else { return }
@@ -122,9 +121,6 @@ final class MainViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(productListManager.getCurrentList())
         snapshot.reloadItems(productListManager.getCurrentList())
-        guard let shouldHideListLayout = shouldHideListLayout else {
-            return
-        }
         if shouldHideListLayout {
             self.gridDataSource?.apply(snapshot, animatingDifferences: false)
         } else {
@@ -154,7 +150,6 @@ final class MainViewController: UIViewController {
     }
     
     private func setupSegment() {
-        didChangeValue(segment: self.segmentController)
         self.segmentController.addTarget(self,
                                          action: #selector(didChangeValue(segment:)),
                                          for: .valueChanged)
