@@ -47,11 +47,10 @@ final class ProductDetailViewController: UIViewController {
             productDetailView.horizontalStackView.addArrangedSubview(imageView)
         }
         productDetailView.productNameLabel.text = detail.name
-        productDetailView.stockLabel.text = "남은수량 : \(detail.stock)"
+        productDetailView.stockLabel.text = detail.stockLabelText
         productDetailView.descriptionTextView.text = detail.description
         productDetailView.setupPriceLabel(currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice)
-        let totalPage = detail.images.count
-        productDetailView.pagingLabel.text = "\(1)/\(totalPage)"
+        productDetailView.pagingLabel.text = detail.imagesTotalCountText
     }
     
     // MARK: - @objc method
