@@ -74,7 +74,7 @@ final class MainViewController: UIViewController {
     // MARK: - @objc method
     @objc private func addButtonDidTapped() {
         let prodcutDetailVC = ProductSetupViewController()
-        prodcutDetailVC.viewControllerTitle = "상품 등록"
+        prodcutDetailVC.viewControllerInfo.viewControllerTitle = "상품 등록"
         navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
     
@@ -279,8 +279,8 @@ extension MainViewController: UICollectionViewDelegate {
     private func pushDetailViewController(_ indexPath: IndexPath) {
         let prodcutDetailVC = ProductDetailViewController()
         let seletedProduct = productListManager.getCurrentList()[indexPath.row]
-        prodcutDetailVC.productId = seletedProduct.id
-        prodcutDetailVC.viewControllerTitle = seletedProduct.name
+        prodcutDetailVC.viewControllerInfo.productId = seletedProduct.id
+        prodcutDetailVC.viewControllerInfo.viewControllerTitle = seletedProduct.name
         navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
 }

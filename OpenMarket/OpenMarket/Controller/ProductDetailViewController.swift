@@ -10,8 +10,7 @@ import UIKit
 
 final class ProductDetailViewController: UIViewController {
     var productDetailView: ProductDetailView?
-    var productId: Int?
-    var viewControllerTitle: String?
+    var viewControllerInfo = ViewControllerInfo()
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +22,7 @@ final class ProductDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let productId = productId else {
+        guard let productId = viewControllerInfo.productId else {
             return
         }
         NetworkManager.shared.requestProductDetail(at: productId) { detail in
@@ -35,7 +34,7 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - VC Method
     private func setupNavigationItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(setupBarButtonTap))
-        navigationItem.title = self.viewControllerTitle
+        navigationItem.title = viewControllerInfo.viewControllerTitle
     }
     
     private func updateSetup(with detail: ProductDetail) {
@@ -67,8 +66,8 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - ProductSetupVC - Private method
     private func presentSetupViewController() {
         let setupViewController = ProductSetupViewController()
-        setupViewController.productId = self.productId
-        setupViewController.viewControllerTitle = self.viewControllerTitle
+        setupViewController.viewControllerInfo.productId = viewControllerInfo.productId
+        setupViewController.viewControllerInfo.viewControllerTitle = viewControllerInfo.viewControllerTitle
         navigationController?.pushViewController(setupViewController, animated: true)
     }
     
@@ -80,7 +79,7 @@ final class ProductDetailViewController: UIViewController {
                 return
             }
             if inputKey == URLData.secret {
-                guard let productId = self.productId else {
+                guard let productId = self.viewControllerInfo.productId else {
                     return
                 }
                 NetworkManager.shared.requestProductDeleteKey(id: productId) { key in

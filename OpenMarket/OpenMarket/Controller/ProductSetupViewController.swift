@@ -11,8 +11,7 @@ final class ProductSetupViewController: UIViewController {
     // MARK: - Properties
     private var productSetupView: ProductSetupView?
     private var imagePicker = UIImagePickerController()
-    var productId: Int?
-    var viewControllerTitle: String?
+    var viewControllerInfo = ViewControllerInfo()
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +25,7 @@ final class ProductSetupViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let productId = productId else {
+        guard let productId = viewControllerInfo.productId else {
             productSetupView?.horizontalStackView.addArrangedSubview(productSetupView?.addImageButton ?? UIButton())
             return
         }
@@ -68,7 +67,7 @@ final class ProductSetupViewController: UIViewController {
     }
     
     @objc private func doneButtonDidTapped() {
-        if let _ = productId {
+        if let _ = viewControllerInfo.productId {
             productUpdate()
         } else {
             productRegist()
@@ -121,7 +120,7 @@ final class ProductSetupViewController: UIViewController {
     
     private func createProductModification() -> ModificationData? {
         guard let productSetupView = productSetupView,
-              let productId = self.productId,
+              let productId = viewControllerInfo.productId,
               let productName = productSetupView.productNameTextField.text,
               let price = Double(productSetupView.productPriceTextField.text ?? ""),
               let discountedPrice = Double(productSetupView.productDiscountedPriceTextField.text ?? ""),
@@ -162,7 +161,7 @@ final class ProductSetupViewController: UIViewController {
     }
     
     private func productUpdate() {
-        guard let id = self.productId,
+        guard let id = viewControllerInfo.productId,
               let modificationData = createProductModification() else {
             return
         }
@@ -198,7 +197,7 @@ final class ProductSetupViewController: UIViewController {
     private func setupNavigationItem() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonDidTapped))
-        navigationItem.title = self.viewControllerTitle
+        navigationItem.title = viewControllerInfo.viewControllerTitle
     }
     
     private func setupKeyboard() {
