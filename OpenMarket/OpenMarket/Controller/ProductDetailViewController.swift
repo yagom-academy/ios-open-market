@@ -59,11 +59,9 @@ final class ProductDetailViewController: UIViewController {
         let rightBarButtonActionSheet = UIAlertController(title: nil, message: nil , preferredStyle: .actionSheet)
         
         let updateAction = UIAlertAction(title: "수정", style: .default) { [weak self]_ in
-            print("Tapped update action")
             self?.presentSetupViewController()
         }
         let removeAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self]  _ in
-            print("Tapped remove action")
             self?.deleteCheck()
         }
         rightBarButtonActionSheet.addAction(updateAction)
@@ -92,7 +90,6 @@ final class ProductDetailViewController: UIViewController {
                 }
                 NetworkManager.shared.requestProductDeleteKey(id: productId) { key in
                     NetworkManager.shared.requestProductDelete(id: productId, key: key) { detail in
-                        print(detail)
                         DispatchQueue.main.async {
                             self.showAlert(title: "삭제 성공!", message: "메인메뉴로"){
                                 self.navigationController?.popViewController(animated: true)

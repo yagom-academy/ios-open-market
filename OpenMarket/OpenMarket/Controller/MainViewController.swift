@@ -108,7 +108,6 @@ final class MainViewController: UIViewController {
     }
     // MARK: - @objc method
     @objc private func addButtonDidTapped() {
-        print("add button tapped")
         let prodcutDetailVC = ProductSetupViewController()
         prodcutDetailVC.viewControllerTitle = "상품 등록"
         navigationController?.pushViewController(prodcutDetailVC, animated: true)
@@ -271,9 +270,7 @@ extension MainViewController {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if collectionView.contentOffset.y > collectionView.contentSize.height - collectionView.bounds.size.height {
-            print("앙 바닥에 닿았당")
             DispatchQueue.main.async { [weak self] in
-                print("다음 페이지")
                 self?.currentMaximumPage += 1
                 self?.addData()
                 self?.collectionView.reloadData()
@@ -290,7 +287,6 @@ extension MainViewController: UICollectionViewDelegate {
         let seletedProduct = productListManager.getCurrentList()[indexPath.row]
         prodcutDetailVC.productId = seletedProduct.id
         prodcutDetailVC.viewControllerTitle = seletedProduct.name
-        print("\(seletedProduct.id) - \(seletedProduct.name) is tapped")
         navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
 }
