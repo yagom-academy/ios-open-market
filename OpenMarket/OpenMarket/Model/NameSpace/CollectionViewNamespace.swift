@@ -9,6 +9,8 @@ enum CollectionViewNamespace {
     case list
     case grid
     case plus
+    case soldout
+    case remainingQuantity
     
     var name: String {
         switch self {
@@ -18,6 +20,10 @@ enum CollectionViewNamespace {
             return "GRID"
         case .plus:
             return  "plus"
+        case .soldout:
+            return "품절"
+        case .remainingQuantity:
+            return "잔여수량 :"
         }
     }
 }

@@ -8,13 +8,15 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    enum Section {
+    private enum Section {
         case main
     }
     
-    typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>
-
+    private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, SaleInformation>
+    
     // MARK: Properties
+    
+    private let networkManager = NetworkManager()
     
     private lazy var loadingView: UIActivityIndicatorView = {
         let lodingview = UIActivityIndicatorView()
@@ -42,25 +44,14 @@ final class MainViewController: UIViewController {
         return segment
     }()
     
-    private let addedButton: UIButton = {
+    private lazy var addedButton: UIButton = {
         let button = UIButton()
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: CollectionViewNamespace.plus.name, withConfiguration: configuration)
+        button.addTarget(self, action: #selector(moveProductRegistrationPage), for: .touchUpInside)
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
-    }()
-    
-    private lazy var topStackView: UIStackView = {
-        let stackView = UIStackView()
-        let leftCoordinate = (view.frame.width / 2) - (segmentedControl.frame.width / 2)
-        stackView.alignment = .fill
-        stackView.distribution = .equalCentering
-        stackView.layoutMargins = UIEdgeInsets(top: 15, left: leftCoordinate, bottom: 15, right: 15)
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
     }()
     
     private lazy var collectionView: UICollectionView = {
@@ -71,68 +62,54 @@ final class MainViewController: UIViewController {
         return collectionView
     }()
     
-    private let wholeComponentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     // MARK: View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setUI()
         
         collectionView.prefetchDataSource = self
-        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "list")
-        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "grid")
+        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewNamespace.list.name)
+        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewNamespace.grid.name)
         
-        dataSource = configureDataSource(id: "list")
+        dataSource = configureDataSource(id: CollectionViewNamespace.list.name)
         self.snapshot.appendSections([.main])
-        
         getProductList(pageNumber: Metric.firstPage, itemPerPage: Metric.itemCount)
     }
     
     // MARK: Method
     
+    @objc private func moveProductRegistrationPage() {
+        let registrationViewController = RegistrationViewController()
+        navigationController?.pushViewController(registrationViewController, animated: true)
+    }
+    
     private func setUI() {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(wholeComponentStackView)
+        view.backgroundColor = .white
+        
+        navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addedButton)
+        
+        view.addSubview(collectionView)
         view.addSubview(loadingView)
         
-        setStackView()
-        setConstraint()
+        setCollectionViewConstraint()
     }
     
-    private func setStackView() {
-        wholeComponentStackView.addArrangedSubview(topStackView)
-        wholeComponentStackView.addArrangedSubview(collectionView)
-        
-        topStackView.addArrangedSubview(segmentedControl)
-        topStackView.addArrangedSubview(addedButton)
-    }
-    
-    private func setConstraint() {
+    private func setCollectionViewConstraint() {
         NSLayoutConstraint.activate([
-            wholeComponentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            wholeComponentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            wholeComponentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            wholeComponentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
     }
     
     private func getProductList(pageNumber: Int, itemPerPage: Int) {
-        let urlSession = URLSession(configuration: URLSessionConfiguration.default)
-        let networkManger = NetworkManager(session: urlSession)
+        let queryItems = OpenMarketRequest.createQuery(of: String(pageNumber), with: String(itemPerPage))
+        let request = OpenMarketRequest.requestProductList(queryItems: queryItems)
         
-        let queryItems = OpenMarketRequest().createQuery(of: String(pageNumber), with: String(itemPerPage))
-        let request = OpenMarketRequest().requestProductList(queryItems: queryItems)
-        
-        networkManger.getProductInquiry(request: request) { result in
+        networkManager.getProductInquiry(request: request) { result in
             switch result {
             case .success(let data):
                 guard let productList = try? JSONDecoder().decode(MarketInformation.self, from: data) else { return }
@@ -145,27 +122,44 @@ final class MainViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.showNetworkError(message: error.localizedDescription)
+                    self.showCustomAlert(title: nil, message: error.localizedDescription)
                 }
             }
         }
     }
     
     private func configureDataSource(id: String) -> DiffableDataSource? {
-        dataSource = DiffableDataSource(collectionView: collectionView)
-        { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
+        dataSource = DiffableDataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: SaleInformation) -> UICollectionViewCell? in
             switch id {
-            case "list":
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as? ListCollectionViewCell else {
-                    fatalError("")
+            case CollectionViewNamespace.list.name:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewNamespace.list.name, for: indexPath) as? ListCollectionViewCell else {
+                    return ListCollectionViewCell()
                 }
-                cell.configureCell(product: product)
+                cell.configureCell(product: product) { result in
+                    switch result {
+                    case .success(_):
+                        return
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            self.showCustomAlert(title: nil, message: error.localizedDescription)
+                        }
+                    }
+                }
                 return cell
             default:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "grid", for: indexPath) as? GridCollectionViewCell else {
-                    fatalError("")
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewNamespace.grid.name, for: indexPath) as? GridCollectionViewCell else {
+                    return GridCollectionViewCell()
                 }
-                cell.configureCell(product: product)
+                cell.configureCell(product: product) { result in
+                    switch result {
+                    case .success(_):
+                        return
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            self.showCustomAlert(title: nil, message: error.localizedDescription)
+                        }
+                    }
+                }
                 return cell
             }
         }
@@ -176,12 +170,12 @@ final class MainViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-            dataSource = configureDataSource(id: "list")
+            dataSource = configureDataSource(id: CollectionViewNamespace.list.name)
             dataSource?.apply(snapshot, animatingDifferences: false)
             return
         default:
             collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
-            dataSource = configureDataSource(id: "grid")
+            dataSource = configureDataSource(id: CollectionViewNamespace.grid.name)
             dataSource?.apply(snapshot, animatingDifferences: false)
             return
         }
@@ -214,14 +208,6 @@ final class MainViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-    
-    func showNetworkError(message: String) {
-        let networkErrorMessage = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "확인", style: .default)
-        networkErrorMessage.addAction(okButton)
-        
-        present(networkErrorMessage, animated: true)
-    }
 }
 
 // MARK: Extension
@@ -230,13 +216,13 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         guard let last = indexPaths.last else { return }
-        let currentPage = (last.row / 20) + 1
-
+        let currentPage = (last.row / Metric.itemCount) + 1
+        
         if currentPage == productPageNumber {
             self.loadingView.startAnimating()
             
             productPageNumber += 1
-            getProductList(pageNumber: productPageNumber, itemPerPage: 20)
+            getProductList(pageNumber: productPageNumber, itemPerPage: Metric.itemCount)
         }
     }
 }

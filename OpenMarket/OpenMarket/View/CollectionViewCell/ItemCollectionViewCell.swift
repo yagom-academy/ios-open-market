@@ -46,31 +46,32 @@ class ItemCollectionViewCell: UICollectionViewListCell {
     
     private func showPrice(priceLabel: UILabel, bargainPriceLabel: UILabel, product: SaleInformation) {
         priceLabel.text = "\(product.currency) \(product.price)"
-        if product.bargainPrice == Metric.bargainPrice {
+        if product.discountedPrice == Metric.discountedPrice {
             priceLabel.textColor = .systemGray
             bargainPriceLabel.isHidden = true
         } else {
+            bargainPriceLabel.isHidden = false
             priceLabel.textColor = .systemRed
             priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            bargainPriceLabel.text = "\(product.currency) \(product.price)"
+            bargainPriceLabel.text = "\(product.currency) \(product.bargainPrice)"
             bargainPriceLabel.textColor = .systemGray
         }
     }
     
     private func showSoldOut(productStockQuntity: UILabel, product: SaleInformation) {
         if product.stock == Metric.stock {
-            productStockQuntity.text = "품절"
+            productStockQuntity.text = CollectionViewNamespace.soldout.name
             productStockQuntity.textColor = .systemOrange
         } else {
-            productStockQuntity.text = "잔여수량 : \(product.stock)"
+            productStockQuntity.text = "\(CollectionViewNamespace.remainingQuantity.name) \(product.stock)"
             productStockQuntity.textColor = .systemGray
         }
     }
     
-    func configureCell(product: SaleInformation) {
+    func configureCell(product: SaleInformation, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: product.thumbnail) else { return }
         
-        NetworkManager().fetch(request: URLRequest(url: url)) { [weak self] result in
+        NetworkManager().networkPerform(for: URLRequest(url: url)) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let images = UIImage(data: data) else { return }
@@ -79,7 +80,7 @@ class ItemCollectionViewCell: UICollectionViewListCell {
                     self?.productThumbnailImageView.image = images
                 }
             case .failure(let error):
-                MainViewController().showNetworkError(message: error.localizedDescription)
+                completion(.failure(error))
             }
         }
         

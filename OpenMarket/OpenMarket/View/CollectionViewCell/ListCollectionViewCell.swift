@@ -23,7 +23,7 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("not implemented")
+        super.init(coder: coder)
     }
     
     override func prepareForReuse() {
@@ -102,12 +102,12 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
     
     private func setListConstraints() {
         NSLayoutConstraint.activate([
-            productThumbnailImageView.widthAnchor.constraint(equalToConstant: 80),
-            productThumbnailImageView.heightAnchor.constraint(equalToConstant: 80),
+            productThumbnailImageView.widthAnchor.constraint(equalToConstant: Metric.imageSize),
+            productThumbnailImageView.heightAnchor.constraint(equalToConstant: Metric.imageSize),
             totalListStackView.topAnchor.constraint(equalTo: productThumbnailImageView.topAnchor),
             totalListStackView.bottomAnchor.constraint(equalTo: productThumbnailImageView.bottomAnchor),
-            totalListStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            totalListStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
+            totalListStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Metric.stackViewSpacing),
+            totalListStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metric.listNegativeConstant)
         ])
     }
 }
@@ -115,9 +115,10 @@ final class ListCollectionViewCell: ItemCollectionViewCell {
 extension CALayer {
     func addBottomBorder() {
         let border = CALayer()
+        let borderFrameSize = CGRect(x: 8, y: frame.height + 5, width: frame.width, height: 1)
+
         border.backgroundColor = UIColor.systemGray3.cgColor
-        border.frame = CGRect(x: 8, y: frame.height + 5, width: frame.width, height: 1)
-        
+        border.frame = borderFrameSize
         self.addSublayer(border)
     }
 }
