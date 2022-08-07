@@ -94,6 +94,7 @@ final class MainViewController: UIViewController {
         }
         DispatchQueue.main.async {
             self.activitiIndicator.stopAnimating()
+            self.collectionView.reloadData()
             self.collectionView.alpha = 1
         }
     }
@@ -263,7 +264,6 @@ extension MainViewController {
             DispatchQueue.main.async { [weak self] in
                 self?.productListManager.currentMaximumPage += 1
                 self?.fetchMoreData()
-                self?.collectionView.reloadData()
             }
         }
     }
