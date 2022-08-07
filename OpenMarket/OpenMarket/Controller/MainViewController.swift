@@ -273,6 +273,10 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        pushDetailViewController(indexPath)
+    }
+    
+    private func pushDetailViewController(_ indexPath: IndexPath) {
         let prodcutDetailVC = ProductDetailViewController()
         let seletedProduct = productListManager.getCurrentList()[indexPath.row]
         prodcutDetailVC.productId = seletedProduct.id
