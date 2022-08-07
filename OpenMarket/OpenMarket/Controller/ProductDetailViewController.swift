@@ -46,11 +46,7 @@ final class ProductDetailViewController: UIViewController {
             imageView.contentMode = .scaleAspectFit
             productDetailView.horizontalStackView.addArrangedSubview(imageView)
         }
-        productDetailView.productNameLabel.text = detail.name
-        productDetailView.stockLabel.text = detail.stockLabelText
-        productDetailView.descriptionTextView.text = detail.description
-        productDetailView.setupPriceLabel(currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice)
-        productDetailView.pagingLabel.text = detail.imagesTotalCountText
+        productDetailView.update(with: detail)
     }
     
     // MARK: - @objc method

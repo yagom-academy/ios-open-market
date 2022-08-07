@@ -184,4 +184,12 @@ final class ProductDetailView: UIView {
             self.priceLabel.textColor = .red
         }
     }
+    
+    func update(with detail: ProductDetail) {
+        productNameLabel.text = detail.name
+        stockLabel.text = detail.stockLabelText
+        descriptionTextView.text = detail.description
+        setupPriceLabel(currency: detail.currency, price: detail.price, bargainPrice: detail.bargainPrice)
+        pagingLabel.text = detail.imagesTotalCountText
+    }
 }
