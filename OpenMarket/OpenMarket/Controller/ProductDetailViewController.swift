@@ -82,16 +82,7 @@ final class ProductDetailViewController: UIViewController {
                 guard let productId = self.viewControllerInfo.productId else {
                     return
                 }
-                NetworkManager.shared.requestProductDeleteKey(id: productId) { key in
-                    NetworkManager.shared.requestProductDelete(id: productId, key: key) { detail in
-                        DispatchQueue.main.async {
-                            self.showAlert(title: "삭제 성공!", message: "메인메뉴로"){
-                                self.navigationController?.popViewController(animated: true)
-                                NotificationCenter.default.post(name: .refresh, object: nil)
-                            }
-                        }
-                    }
-                }
+                self.performDeleteMethod(with: productId)
             } else {
                 self.showAlert(title: "비번틀림", message: "다시입력하세요") {
                     self.deleteCheck()
@@ -100,6 +91,23 @@ final class ProductDetailViewController: UIViewController {
         }))
         deleteCheckAlert.addAction(UIAlertAction(title: "취소", style: .destructive))
         present(deleteCheckAlert, animated: true)
+    }
+    
+    private func performDeleteMethod(with productId: Int) {
+        NetworkManager.shared.requestProductDeleteKey(id: productId) { key in
+            NetworkManager.shared.requestProductDelete(id: productId, key: key) { detail in
+                DispatchQueue.main.async {
+                    self.performSuccessBehavior()
+                }
+            }
+        }
+    }
+    
+    private func performSuccessBehavior() {
+        self.showAlert(title: "삭제 성공!", message: "메인메뉴로"){
+            self.navigationController?.popViewController(animated: true)
+            NotificationCenter.default.post(name: .refresh, object: nil)
+        }
     }
     
     private func showAlert(title: String, message: String, _ completion: (() -> Void)? = nil) {

@@ -25,6 +25,7 @@
 		45A402492892B5A300B45A80 /* ProductImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A402482892B5A300B45A80 /* ProductImageView.swift */; };
 		45B7A50D287FF60500FCB69F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B7A50C287FF60500FCB69F /* MainViewController.swift */; };
 		AF0C4022289FBA120068E938 /* ViewControllerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0C4021289FBA120068E938 /* ViewControllerInfo.swift */; };
+		AF0C4024289FBE050068E938 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0C4023289FBE050068E938 /* UICollectionView+Extensions.swift */; };
 		AF2257722889391B00C5CE97 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257712889391B00C5CE97 /* Double+Extensions.swift */; };
 		AF2257742889392300C5CE97 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257732889392300C5CE97 /* UILabel+Extensions.swift */; };
 		AF2257762889393700C5CE97 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */; };
@@ -69,6 +70,7 @@
 		45A402482892B5A300B45A80 /* ProductImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageView.swift; sourceTree = "<group>"; };
 		45B7A50C287FF60500FCB69F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		AF0C4021289FBA120068E938 /* ViewControllerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerInfo.swift; sourceTree = "<group>"; };
+		AF0C4023289FBE050068E938 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257712889391B00C5CE97 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257732889392300C5CE97 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				AF2257752889393700C5CE97 /* UIImageView+Extensions.swift */,
 				45A402462892746000B45A80 /* UITextField+Extension.swift */,
 				AFEB049E289936960057B8DF /* NotificationName+Extensions.swift */,
+				AF0C4023289FBE050068E938 /* UICollectionView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF0C4024289FBE050068E938 /* UICollectionView+Extensions.swift in Sources */,
 				AFEB049D289933E10057B8DF /* ProductListManager.swift in Sources */,
 				AF0C4022289FBA120068E938 /* ViewControllerInfo.swift in Sources */,
 				AFEB049F289936960057B8DF /* NotificationName+Extensions.swift in Sources */,

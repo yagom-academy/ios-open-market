@@ -251,8 +251,6 @@ extension MainViewController {
         self.collectionView.refreshControl = refresher
     }
     
-    
-    
     private func stopRefresher() {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
             self.refresher?.endRefreshing()
@@ -260,7 +258,7 @@ extension MainViewController {
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if collectionView.contentOffset.y > collectionView.contentSize.height - collectionView.bounds.size.height {
+        if collectionView.isBouncingBottom {
             DispatchQueue.main.async { [weak self] in
                 self?.productListManager.currentMaximumPage += 1
                 self?.fetchMoreData()
