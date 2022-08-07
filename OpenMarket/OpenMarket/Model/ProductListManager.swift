@@ -8,6 +8,7 @@
 import Foundation
 
 class ProductListManager {
+    var currentMaximumPage: Int = 1
     private var productList: [Product] {
         didSet {
             NotificationCenter.default.post(name: .addProductList, object: nil)

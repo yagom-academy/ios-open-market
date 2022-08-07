@@ -15,7 +15,6 @@ final class MainViewController: UIViewController {
     private var listLayout: UICollectionViewLayout? = nil
     private var gridLayout: UICollectionViewLayout? = nil
     private var productListManager = ProductListManager()
-    private var currentMaximumPage = 1
     private var refresher: UIRefreshControl?
     enum Section {
         case main
@@ -157,8 +156,8 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func addData() {
-        manager.requestProductPage(at: currentMaximumPage) { [weak self] productList in
+    private func fetchMoreData() {
+        manager.requestProductPage(at: productListManager.currentMaximumPage) { [weak self] productList in
             self?.productListManager.add(list: productList)
         }
     }
@@ -207,7 +206,7 @@ extension MainViewController {
         DispatchQueue.main.async {
             self.collectionView.refreshControl?.beginRefreshing()
         }
-        currentMaximumPage = 1
+        productListManager.currentMaximumPage = 1
         fetchData()
         stopRefresher()
     }
@@ -262,8 +261,8 @@ extension MainViewController {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if collectionView.contentOffset.y > collectionView.contentSize.height - collectionView.bounds.size.height {
             DispatchQueue.main.async { [weak self] in
-                self?.currentMaximumPage += 1
-                self?.addData()
+                self?.productListManager.currentMaximumPage += 1
+                self?.fetchMoreData()
                 self?.collectionView.reloadData()
             }
         }
