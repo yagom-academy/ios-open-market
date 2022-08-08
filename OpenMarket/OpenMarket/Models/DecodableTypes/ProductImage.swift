@@ -1,4 +1,4 @@
-struct Image: Decodable, Hashable {
+struct ProductImage: Decodable, Hashable {
     let id: Int
     let url: String
     let thumbnailUrl: String

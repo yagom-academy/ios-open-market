@@ -9,7 +9,7 @@ struct PostResponse: Decodable {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let images: [Image]
+    let images: [ProductImage]
     let vendors: Vendor
     let createdAt: String
     let issuedAt: String

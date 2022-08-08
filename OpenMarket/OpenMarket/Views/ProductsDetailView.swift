@@ -158,7 +158,7 @@ extension ProductsDetailView {
         }
     }
     
-    private func applySnapshot(using imagesUrl: [Image]) {
+    private func applySnapshot(using imagesUrl: [ProductImage]) {
         self.snapshot.appendSections([.main])
         var images: [UIImage] = []
         imagesUrl.forEach {

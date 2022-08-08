@@ -1,3 +1,3 @@
 enum IdentifierError: Error {
-    case NotYourProduct
+    case notYourProduct
 }

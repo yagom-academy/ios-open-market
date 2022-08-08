@@ -9,7 +9,7 @@ struct Page: Decodable, Hashable {
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let images: [Image]?
+    let images: [ProductImage]?
     let createdAt: String
     let issuedAt: String
     

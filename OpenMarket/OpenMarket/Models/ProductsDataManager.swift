@@ -74,7 +74,7 @@ struct ProductsDataManager: Decodable {
                 if let parsedData = String(data: data, encoding: .utf8) {
                     completion(.success(parsedData))
                 } else {
-                    completion(.failure(.NotYourProduct))
+                    completion(.failure(.notYourProduct))
                 }
             }
         }
@@ -100,7 +100,7 @@ struct ProductsDataManager: Decodable {
                     let parsedData = try JSONDecoder().decode(T.self, from: data)
                     completion(.success(parsedData))
                 } catch {
-                    completion(.failure(.NotYourProduct))
+                    completion(.failure(.notYourProduct))
                 }
             }
         }
@@ -109,7 +109,7 @@ struct ProductsDataManager: Decodable {
     
     func deleteData<T: Decodable>(identifier: String, productID: Int, secret: String, completion: @escaping (Result<T, IdentifierError>) -> Void) {
         guard let url = URL(string: "\(url)/\(productID)/\(secret)") else {
-            completion(.failure(.NotYourProduct))
+            completion(.failure(.notYourProduct))
             return
         }
         
@@ -120,8 +120,9 @@ struct ProductsDataManager: Decodable {
         postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
         
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
-            if let response = response {
-                print(response)
+            guard response != nil else {
+                completion(.failure(.notYourProduct))
+                return
             }
             
             if let data = data {
@@ -129,7 +130,7 @@ struct ProductsDataManager: Decodable {
                     let parsedData = try JSONDecoder().decode(T.self, from: data)
                     completion(.success(parsedData))
                 } catch {
-                    completion(.failure(.NotYourProduct))
+                    completion(.failure(.notYourProduct))
                 }
             }
         }
