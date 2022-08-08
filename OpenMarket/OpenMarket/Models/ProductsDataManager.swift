@@ -193,24 +193,26 @@ struct ProductsDataManager: Decodable {
         
         let lineBreak = "\r\n"
         var body = Data()
-        
-        body.append("--\(boundary + lineBreak)")
-        body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
-        body.append(params.returnParamatersToJsonData())
-        body.append("\(lineBreak)")
-        
-        if let images = images {
-            for image in images {
-                body.append("--\(boundary + lineBreak)")
-                body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
-                body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
-                body.append(image.getReducedImageData(to: 300))
-                body.append(lineBreak)
+        do {
+            try body.append("--\(boundary + lineBreak)")
+            try body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
+            try body.append(params.returnParamatersToJsonData())
+            try body.append("\(lineBreak)")
+            
+            if let images = images {
+                for image in images {
+                    try body.append("--\(boundary + lineBreak)")
+                    try body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
+                    try body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
+                    try body.append(image.getReducedImageData(to: 300))
+                    try body.append(lineBreak)
+                }
             }
+            
+            try body.append("--\(boundary)--\(lineBreak)")
+        } catch {
+            print(error)
         }
-        
-        body.append("--\(boundary)--\(lineBreak)")
-        
         return body
     }
 }

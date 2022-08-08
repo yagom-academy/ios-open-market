@@ -19,9 +19,11 @@
 		18761AEC287BF84800057C43 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4816964287BF4D2004359E3 /* Products.swift */; };
 		18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */; };
 		188157AF287D437C0082E042 /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = B481698D287C0CFC004359E3 /* products.json */; };
+		1887D1E528A109E300A5CE6E /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1887D1E428A109E300A5CE6E /* AlertMessage.swift */; };
+		1887D1E728A11A2500A5CE6E /* AppendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1887D1E628A11A2500A5CE6E /* AppendError.swift */; };
 		B4000D0A289A7BC000AF2E93 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D09289A7BC000AF2E93 /* Parameters.swift */; };
 		B4000D0C289A7BF500AF2E93 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D0B289A7BF500AF2E93 /* Data+Extension.swift */; };
-		B4000D0F289A7CF600AF2E93 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D0E289A7CF600AF2E93 /* Image.swift */; };
+		B4000D0F289A7CF600AF2E93 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D0E289A7CF600AF2E93 /* ProductImage.swift */; };
 		B4000D11289A7D0700AF2E93 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D10289A7D0700AF2E93 /* Vendor.swift */; };
 		B4000D13289A7D1600AF2E93 /* PostResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D12289A7D1600AF2E93 /* PostResponse.swift */; };
 		B4000D15289A7D7F00AF2E93 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4000D14289A7D7F00AF2E93 /* Page.swift */; };
@@ -65,9 +67,11 @@
 		18761AE0287BF67500057C43 /* JsonParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18761AE2287BF67500057C43 /* JsonParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParsingTests.swift; sourceTree = "<group>"; };
 		18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsDataManager.swift; sourceTree = "<group>"; };
+		1887D1E428A109E300A5CE6E /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
+		1887D1E628A11A2500A5CE6E /* AppendError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppendError.swift; sourceTree = "<group>"; };
 		B4000D09289A7BC000AF2E93 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		B4000D0B289A7BF500AF2E93 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
-		B4000D0E289A7CF600AF2E93 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		B4000D0E289A7CF600AF2E93 /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		B4000D10289A7D0700AF2E93 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		B4000D12289A7D1600AF2E93 /* PostResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResponse.swift; sourceTree = "<group>"; };
 		B4000D14289A7D7F00AF2E93 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 				18761AF2287C0B3A00057C43 /* ProductsDataManager.swift */,
 				B4000D18289A7FC300AF2E93 /* SendUpdateDelegate.swift */,
 				B4FAAA4C28993F8C009C6A20 /* UserIdentifier.swift */,
+				1887D1E428A109E300A5CE6E /* AlertMessage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -156,7 +161,7 @@
 		B4000D0D289A7CDC00AF2E93 /* DecodableTypes */ = {
 			isa = PBXGroup;
 			children = (
-				B4000D0E289A7CF600AF2E93 /* Image.swift */,
+				B4000D0E289A7CF600AF2E93 /* ProductImage.swift */,
 				B4000D14289A7D7F00AF2E93 /* Page.swift */,
 				B4000D12289A7D1600AF2E93 /* PostResponse.swift */,
 				B4816964287BF4D2004359E3 /* Products.swift */,
@@ -182,6 +187,7 @@
 			children = (
 				B45F1C7B289BCDA4006E5F72 /* IdentifierError.swift */,
 				B4AC53AD287C4C5E007EDBF4 /* URLSessionError.swift */,
+				1887D1E628A11A2500A5CE6E /* AppendError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -342,7 +348,7 @@
 			files = (
 				186DBE4B2886B50800B45C40 /* UISegmentControl+Extension.swift in Sources */,
 				18566F05289A60B10060C171 /* ImageInfo.swift in Sources */,
-				B4000D0F289A7CF600AF2E93 /* Image.swift in Sources */,
+				B4000D0F289A7CF600AF2E93 /* ProductImage.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */,
 				B4816965287BF4D2004359E3 /* Products.swift in Sources */,
 				18761AF3287C0B3A00057C43 /* ProductsDataManager.swift in Sources */,
@@ -352,11 +358,13 @@
 				B4000D0A289A7BC000AF2E93 /* Parameters.swift in Sources */,
 				B4FAAA4928993537009C6A20 /* DetailViewTitle.swift in Sources */,
 				B4FAAA4D28993F8C009C6A20 /* UserIdentifier.swift in Sources */,
+				1887D1E728A11A2500A5CE6E /* AppendError.swift in Sources */,
 				1859965E287EC02600B04E60 /* ItemCollectionViewCell.swift in Sources */,
 				B45F1C7C289BCDA4006E5F72 /* IdentifierError.swift in Sources */,
 				B45131F9288FA17C00834B99 /* ProductRegistView.swift in Sources */,
 				B4000D15289A7D7F00AF2E93 /* Page.swift in Sources */,
 				B4E496E6287EA62B00CD04C5 /* Titles.swift in Sources */,
+				1887D1E528A109E300A5CE6E /* AlertMessage.swift in Sources */,
 				18599660287EC18D00B04E60 /* Section.swift in Sources */,
 				B4AC53AE287C4C5E007EDBF4 /* URLSessionError.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
