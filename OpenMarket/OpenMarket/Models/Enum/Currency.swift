@@ -1,19 +1,26 @@
-enum Currency: Int, Decodable, CaseIterable {
-    case krw
-    case usd
+enum Currency: String, Decodable, CaseIterable {
+    case krw = "KRW"
+    case usd = "USD"
     
-    static var toString: [String] {
-        Currency.allCases.map { String(describing: $0).uppercased() }
-    }
-    
-    static func toIndex(using string: String) -> Int? {
-        switch string.uppercased() {
-        case "KRW":
-            return 0
-        case "USD":
-            return 1
+    init?(index: Int) {
+        switch index {
+        case 0:
+            self = .krw
+        case 1:
+            self = .usd
         default:
             return nil
+        }
+    }
+    
+    
+    
+    func toIndex() -> Int {
+        switch self {
+        case .krw:
+            return 0
+        case .usd:
+            return 1
         }
     }
 }

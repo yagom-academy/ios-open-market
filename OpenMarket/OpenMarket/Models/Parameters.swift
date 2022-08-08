@@ -8,7 +8,7 @@ struct Parameters {
         self.parameterDictionary["name"] = name
         self.parameterDictionary["descriptions"] = descriptions
         self.parameterDictionary["price"] = price
-        self.parameterDictionary["currency"] = Currency.toString[currency.rawValue]
+        self.parameterDictionary["currency"] = currency.rawValue
         self.parameterDictionary["discounted_price"] = discountedPrice
         self.parameterDictionary["stock"] = stock
         self.parameterDictionary["secret"] = secret

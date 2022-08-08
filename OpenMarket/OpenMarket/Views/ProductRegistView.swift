@@ -274,7 +274,7 @@ extension ProductRegistView {
         descriptionTextView.text = productInfo.description
         descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
         
-        guard let segmentIndex = Currency.toIndex(using: productInfo.currency) else { return }
+        guard let segmentIndex = Currency(rawValue: productInfo.currency)?.toIndex() else { return }
         currencySegmentControl.selectedSegmentIndex = segmentIndex
     }
     

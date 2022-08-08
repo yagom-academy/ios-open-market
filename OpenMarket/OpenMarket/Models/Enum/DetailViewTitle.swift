@@ -1,4 +1,4 @@
-enum DetailViewTitle: String {
-    case regist = "상품등록"
-    case update = "상품수정"
+enum DetailViewTitle {
+    static let regist = "상품등록"
+    static let update = "상품수정"
 }
