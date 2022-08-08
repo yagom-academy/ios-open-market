@@ -93,7 +93,7 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func requestProductDelete(id: Int, key: String) {
+    func requestProductDelete(id: Int, key: String, _ completion: @escaping (ProductDetail) -> Void) {
         guard let url = URL(string: URLData.host + URLData.apiPath + "/\(id)/\(key)") else {
             return
         }
@@ -102,7 +102,7 @@ final class NetworkManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(URLData.identifier, forHTTPHeaderField: "identifier")
         let dataTask = createDataTask(request: request, type: ProductDetail.self) { detail in
-            print("COMPL")
+            completion(detail)
         }
         dataTask.resume()
     }

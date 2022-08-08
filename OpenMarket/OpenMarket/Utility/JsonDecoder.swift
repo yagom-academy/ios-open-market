@@ -18,16 +18,15 @@ func decode<T: Decodable>(from data: Data, to type: T.Type) -> T? {
     } catch {
         switch error {
         case DecodingError.typeMismatch(let type, let context):
-            let descriptionList = context.debugDescription.split(separator: " ")
-            print("타입이 \(type) 가 아닙니다. \(descriptionList[descriptionList.count - 2]) 타입을 사용 해주세요.")
+            fatalError("\(type.self) ERROR - \(context.debugDescription)")
         case DecodingError.dataCorrupted(let context):
-            print(context.debugDescription)
+            fatalError(context.debugDescription)
         case DecodingError.valueNotFound(_ , let context):
-            print(context.debugDescription)
+            fatalError(context.debugDescription)
         case DecodingError.keyNotFound(_ , let context):
-            print(context.debugDescription)
+            fatalError(context.debugDescription)
         default:
-            print(error)
+            fatalError(error.localizedDescription)
         }
         return nil
     }

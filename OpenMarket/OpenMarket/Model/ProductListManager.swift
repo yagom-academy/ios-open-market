@@ -8,18 +8,23 @@
 import Foundation
 
 class ProductListManager {
-    var productList: [Product] {
+    var currentMaximumPage: Int = 1
+    private var productList: [Product] {
         didSet {
             NotificationCenter.default.post(name: .addProductList, object: nil)
         }
     }
     
-    func fetch(list: [Product]) {
+    func update(list: [Product]) {
         productList = list
     }
     
     func add(list: [Product]) {
         productList += list
+    }
+    
+    func getCurrentList() -> [Product] {
+        return productList
     }
     
     init() {

@@ -15,29 +15,14 @@ final class MainViewController: UIViewController {
     private var listLayout: UICollectionViewLayout? = nil
     private var gridLayout: UICollectionViewLayout? = nil
     private var productListManager = ProductListManager()
-    private var currentMaximumPage = 1
+    private var refresher: UIRefreshControl?
     enum Section {
         case main
     }
     
-    private var shouldHideListLayout: Bool? {
+    private var shouldHideListLayout: Bool = false {
         didSet {
-            guard let shouldHideListLayout = shouldHideListLayout else { return }
-            print("DID TAPPED SEGMENT CONTROLLER")
-            if shouldHideListLayout {
-                guard let gridLayout = gridLayout else {
-                    return
-                }
-                collectionView.dataSource = gridDataSource
-                collectionView.setCollectionViewLayout(gridLayout, animated: true)
-            } else {
-                
-                guard let listLayout = listLayout else {
-                    return
-                }
-                collectionView.dataSource = listDataSource
-                collectionView.setCollectionViewLayout(listLayout, animated: true)
-            }
+            adoptAppropriateDataSource()
         }
     }
     // MARK: - UI Properties
@@ -68,6 +53,9 @@ final class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(applyDataSource),
                                                name: .addProductList, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(loadData),
+                                               name: .refresh, object: nil)
         initializeViewController()
         self.listLayout = createListLayout()
         self.gridLayout = createGridLayout()
@@ -76,13 +64,70 @@ final class MainViewController: UIViewController {
         configureListDataSource()
         configureGridDataSource()
         configureHierarchy()
+        setupRefreshController()
+        fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchData()
     }
-    // MARK: - Main View Controller Method
+    // MARK: - @objc method
+    @objc private func addButtonDidTapped() {
+        let prodcutDetailVC = ProductSetupViewController()
+        prodcutDetailVC.viewControllerInfo.viewControllerTitle = "상품 등록"
+        navigationController?.pushViewController(prodcutDetailVC, animated: true)
+    }
+    
+    @objc private func didChangeValue(segment: UISegmentedControl) {
+        self.shouldHideListLayout = segment.selectedSegmentIndex != 0
+    }
+    
+    @objc private func applyDataSource() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(productListManager.getCurrentList())
+        snapshot.reloadItems(productListManager.getCurrentList())
+        if shouldHideListLayout {
+            self.gridDataSource?.apply(snapshot, animatingDifferences: false)
+        } else {
+            self.listDataSource?.apply(snapshot, animatingDifferences: false)
+        }
+        DispatchQueue.main.async {
+            self.activitiIndicator.stopAnimating()
+            self.collectionView.reloadData()
+            self.collectionView.alpha = 1
+        }
+    }
+    // MARK: - MainVC - Private method
+    
+    private func adoptAppropriateDataSource() {
+        guard let gridLayout = gridLayout, let listLayout = listLayout else { return }
+        guard let gridSnapShot = gridDataSource?.snapshot(),
+              let listSnapShot = listDataSource?.snapshot() else { return }
+        if shouldHideListLayout {
+            distinguishSnapshot(gridSnapShot, listSnapShot, gridLayout, gridDataSource)
+        } else {
+            distinguishSnapshot(listSnapShot, gridSnapShot, listLayout, listDataSource)
+        }
+    }
+    
+    private func distinguishSnapshot(_ firstSnapShot: NSDiffableDataSourceSnapshot<MainViewController.Section, Product>, _ secondSnapShot: NSDiffableDataSourceSnapshot<MainViewController.Section, Product>, _ layout: UICollectionViewLayout, _ dataSource: UICollectionViewDiffableDataSource<Section, Product>? ) {
+        if firstSnapShot.numberOfItems > secondSnapShot.numberOfItems {
+            collectionView.dataSource = dataSource
+            collectionView.setCollectionViewLayout(layout, animated: true) { _ in
+                self.loadData()
+            }
+        } else {
+            dataSource?.apply(secondSnapShot)
+            collectionView.dataSource = dataSource
+            collectionView.setCollectionViewLayout(layout, animated: true) { _ in
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+    
     private func initializeViewController() {
         DispatchQueue.main.async {
             self.collectionView.alpha = 0
@@ -95,46 +140,26 @@ final class MainViewController: UIViewController {
         self.view.addSubview(collectionView)
         self.view.addSubview(activitiIndicator)
         self.navigationItem.titleView = segmentController
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
-    }
-    
-    @objc private func addButtonDidTapped() {
-        print("add button tapped")
-        let prodcutDetailVC = ProductSetupViewController()
-        prodcutDetailVC.viewControllerTitle = "상품 등록"
-        navigationController?.pushViewController(prodcutDetailVC, animated: true)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                                 target: self,
+                                                                 action: #selector(addButtonDidTapped))
     }
     
     private func setupSegment() {
-        didChangeValue(segment: self.segmentController)
-        self.segmentController.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
-    }
-    
-    @objc private func didChangeValue(segment: UISegmentedControl) {
-        self.shouldHideListLayout = segment.selectedSegmentIndex != 0
+        self.segmentController.addTarget(self,
+                                         action: #selector(didChangeValue(segment:)),
+                                         for: .valueChanged)
     }
     
     private func fetchData() {
         manager.requestProductPage(at: 1) { [weak self] productList in
-            self?.productListManager.fetch(list: productList)
+            self?.productListManager.update(list: productList)
         }
     }
     
-    private func loadData() {
-        manager.requestProductPage(at: currentMaximumPage) { [weak self] productList in
+    private func fetchMoreData() {
+        manager.requestProductPage(at: productListManager.currentMaximumPage) { [weak self] productList in
             self?.productListManager.add(list: productList)
-        }
-    }
-    
-    @objc private func applyDataSource() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(productListManager.productList)
-        self.gridDataSource?.apply(snapshot, animatingDifferences: false)
-        self.listDataSource?.apply(snapshot, animatingDifferences: false)
-        DispatchQueue.main.async {
-            self.activitiIndicator.stopAnimating()
-            self.collectionView.alpha = 1
         }
     }
 }
@@ -177,6 +202,16 @@ extension MainViewController {
 }
 // MARK: - Modern Collection VIew Configure Datasource
 extension MainViewController {
+    // MARK: - @objc method
+    @objc private func loadData() {
+        DispatchQueue.main.async {
+            self.collectionView.refreshControl?.beginRefreshing()
+        }
+        productListManager.currentMaximumPage = 1
+        fetchData()
+        stopRefresher()
+    }
+    // MARK: - ProductSetupVC - Private method
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCell, Product> { (cell, indexPath, product) in
             cell.setup(with: product)
@@ -207,15 +242,43 @@ extension MainViewController {
         collectionView.dataSource = listDataSource
         collectionView.delegate = self
     }
+    
+    private func setupRefreshController() {
+        self.refresher = UIRefreshControl()
+        self.collectionView.alwaysBounceVertical = true
+        self.refresher?.tintColor = UIColor.red
+        self.refresher?.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        self.collectionView.refreshControl = refresher
+    }
+    
+    private func stopRefresher() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
+            self.refresher?.endRefreshing()
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if collectionView.isBouncingBottom {
+            DispatchQueue.main.async { [weak self] in
+                self?.productListManager.currentMaximumPage += 1
+                self?.fetchMoreData()
+            }
+        }
+    }
+    
 }
 // MARK: - Modern Collection View Delegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let prodcutDetailVC = ProductSetupViewController()
-        prodcutDetailVC.productId = productListManager.productList[indexPath.row].id
-        prodcutDetailVC.viewControllerTitle = "상품 수정"
-        print("\(productListManager.productList[indexPath.row].id) - \(productListManager.productList[indexPath.row].name) is tapped")
+        pushDetailViewController(indexPath)
+    }
+    
+    private func pushDetailViewController(_ indexPath: IndexPath) {
+        let prodcutDetailVC = ProductDetailViewController()
+        let seletedProduct = productListManager.getCurrentList()[indexPath.row]
+        prodcutDetailVC.viewControllerInfo.productId = seletedProduct.id
+        prodcutDetailVC.viewControllerInfo.viewControllerTitle = seletedProduct.name
         navigationController?.pushViewController(prodcutDetailVC, animated: true)
     }
 }

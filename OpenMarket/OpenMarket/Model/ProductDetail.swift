@@ -40,6 +40,14 @@ struct ProductDetail: Codable {
         case images
         case vendors
     }
+    
+    var stockLabelText: String {
+        return "남은수량 : \(self.stock)"
+    }
+    
+    var imagesTotalCountText: String {
+        return "\(1)/\(self.images.count)"
+    }
 }
 
 // MARK: - Image

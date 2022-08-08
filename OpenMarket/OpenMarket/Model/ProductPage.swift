@@ -28,10 +28,4 @@ struct ProductPage: Codable {
         case hasNext = "has_next"
         case hasPrev = "has_prev"
     }
-    
-    func printPage() {
-        pages.forEach {
-            print("\($0.name)의 가격은 \($0.price)[\($0.currency)]입니다.")
-        }
-    }
 }

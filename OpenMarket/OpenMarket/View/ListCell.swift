@@ -29,7 +29,7 @@ final class ListCell: UICollectionViewCell {
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .horizontal
         stackview.alignment = .fill
-        stackview.distribution = .equalSpacing
+        stackview.distribution = .fill
         return stackview
     }()
     
