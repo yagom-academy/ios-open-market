@@ -1,6 +1,6 @@
 import UIKit
 
-class ProductsDetailViewController: UIViewController {
+class ProductsDetailViewController: UIViewController, AlertMessage {   
     
     private let detailView = ProductsDetailView()
     private var productInfo: Page?
@@ -12,7 +12,14 @@ class ProductsDetailViewController: UIViewController {
         view.addSubview(detailView)
         configureConstraint()
         addNavigationBarButton()
-        
+        getProductInfomation()
+    }
+}
+
+// MARK: - Functions
+
+extension ProductsDetailViewController {
+    private func getProductInfomation() {
         guard let delegate = delegate else { return }
         ProductsDataManager.shared.getData(productId: delegate.sendUpdate().id) { [weak self] (data: Page) in
             guard let self = self else { return }
@@ -23,11 +30,6 @@ class ProductsDetailViewController: UIViewController {
             }
         }
     }
-}
-
-// MARK: - Functions
-
-extension ProductsDetailViewController {
     private func configureConstraint() {
         detailView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -61,7 +63,7 @@ extension ProductsDetailViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.presentAlertMessage(message: "\(error)")
+                    self.presentAlertMessage(controller: self, message: "\(error)")
                 }
             }
         }
@@ -79,7 +81,7 @@ extension ProductsDetailViewController {
             case .success(let productSecret):
                 completion(productSecret)
             case .failure(let error):
-                self.presentAlertMessage(message: "\(error)")
+                self.presentAlertMessage(controller: self, message: "\(error)")
             }
         }
     }
@@ -104,17 +106,9 @@ extension ProductsDetailViewController {
         }
     }
     
-    private func presentAlertMessage(message: String) {
-        let alert = UIAlertController(title: "에러!", message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
-        
-        alert.addAction(action)
-        present(alert, animated: true)
-    }
-    
     private func updateProduct() {
         let registViewController = ProductsRegistViewController()
-        registViewController.title = DetailViewTitle.update.rawValue
+        registViewController.title = DetailViewTitle.update
         registViewController.registView.setProductInfomation(productInfo: self.productInfo)
         
         self.navigationController?.pushViewController(registViewController, animated: true)

@@ -1,6 +1,6 @@
 import UIKit
 
-class ProductsRegistViewController: UIViewController {
+class ProductsRegistViewController: UIViewController, AlertMessage {
     
     private lazy var imagePicker = UIImagePickerController()
     private var selectedImageView: UIImageView?
@@ -33,14 +33,6 @@ extension ProductsRegistViewController {
             registView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             registView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-    }
-    
-    private func presentAlertMessage(message: String) {
-        let alert = UIAlertController(title: "에러!", message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
-        
-        alert.addAction(action)
-        present(alert, animated: true)
     }
     
     private func makeNotification() {
@@ -84,20 +76,20 @@ extension ProductsRegistViewController {
     }
     
     private func checkPostCondition() -> Bool {
-        if registView.imageStackView.arrangedSubviews.count <= 1 {
-            presentAlertMessage(message: "이미지를 추가해주세요.")
+        if registView.imageStackView.arrangedSubviews[0] is UIButton {
+            presentAlertMessage(controller: self, message: "이미지를 추가해주세요.")
             return false
         } else if registView.itemNameTextField.text?.count ?? 0 < 3 {
-            presentAlertMessage(message: "상품명을 세 글자 이상 작성해주세요.")
+            presentAlertMessage(controller: self, message: "상품명을 세 글자 이상 작성해주세요.")
             return false
         } else if registView.itemPriceTextField.text?.isEmpty == true {
-            presentAlertMessage(message: "상품가격을 입력하세요.")
+            presentAlertMessage(controller: self, message: "상품가격을 입력하세요.")
             return false
         } else if registView.descriptionTextView.text.isEmpty {
-            presentAlertMessage(message: "상품설명을 입력하세요.")
+            presentAlertMessage(controller: self, message: "상품설명을 입력하세요.")
             return false
         } else if registView.descriptionTextView.text.count < 10 {
-            presentAlertMessage(message: "상품설명을 10자 이상 작성해주세요.")
+            presentAlertMessage(controller: self, message: "상품설명을 10자 이상 작성해주세요.")
             return false
         }
         return true
@@ -133,12 +125,14 @@ extension ProductsRegistViewController: UIImagePickerControllerDelegate & UINavi
 extension ProductsRegistViewController {
     @objc private func doneButtonDidTapped() {
         
+        guard checkPostCondition() else { return }
+        
         guard let productName = registView.itemNameTextField.text,
               let productPrice = Double(registView.itemPriceTextField.text ?? "0"),
               let productSale = Double(registView.itemSaleTextField.text ?? "0"),
               let productStock = Int(registView.itemStockTextField.text ?? "0"),
               let productDesciprtion = registView.descriptionTextView.text,
-              let productCurrency = Currency(rawValue: registView.currencySegmentControl.selectedSegmentIndex) else { return }
+              let productCurrency = Currency(index: registView.currencySegmentControl.selectedSegmentIndex) else { return }
         
         let parameter = Parameters(name: productName,
                                    descriptions: productDesciprtion,
@@ -148,11 +142,7 @@ extension ProductsRegistViewController {
                                    discountedPrice: productSale,
                                    stock: productStock)
         
-        if title == DetailViewTitle.regist.rawValue {
-            if checkPostCondition() == false {
-                return
-            }
-            
+        if title == DetailViewTitle.regist {
             var imageViews = registView.imageStackView.arrangedSubviews
             if imageViews.last is UIButton { imageViews.removeLast() }
             
@@ -173,7 +163,7 @@ extension ProductsRegistViewController {
                 }
             }
             
-        } else if title == DetailViewTitle.update.rawValue {
+        } else if title == DetailViewTitle.update {
             ProductsDataManager.shared.patchData(
                 identifier: UserInfo.identifier.rawValue,
                 productID: registView.productInfo?.id ?? 0,
@@ -186,7 +176,7 @@ extension ProductsRegistViewController {
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        self.presentAlertMessage(message: "\(error)")
+                        self.presentAlertMessage(controller: self, message: "\(error)")
                     }
                 }
             }
@@ -289,7 +279,7 @@ extension ProductsRegistViewController: UITextViewDelegate {
             return true
         }
         if textView.text.count >= 1000 {
-            presentAlertMessage(message: "상품설명은 1000자 이하로 입력해주세요.")
+            presentAlertMessage(controller: self, message: "상품설명은 1000자 이하로 입력해주세요.")
             return false
         }
         return true
