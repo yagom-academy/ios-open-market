@@ -1,8 +1,8 @@
 //
 //  OpenMarket - ProductListViewController.swift
-//  Created by groot, bard. 
+//  Created by groot, bard.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
@@ -35,6 +35,8 @@ final class ProductListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupUI()
         setupRefreshControl()
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -264,4 +266,13 @@ private enum Design {
                                                            leading: 5.0,
                                                            bottom: 5.0,
                                                            trailing: 5.0)
+}
+
+extension ProductListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let productDetailViewController = ProductDetailViewController()
+        
+        navigationController?.pushViewController(productDetailViewController,
+                                                      animated: true)
+    }
 }

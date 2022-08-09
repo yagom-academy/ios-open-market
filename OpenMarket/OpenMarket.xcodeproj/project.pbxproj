@@ -51,6 +51,9 @@
 		D7C4C7172890D322007CF8F1 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4C7162890D322007CF8F1 /* ListCollectionViewCell.swift */; };
 		D7C4C7192890FAB3007CF8F1 /* OpenMarketImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4C7182890FAB3007CF8F1 /* OpenMarketImageManager.swift */; };
 		D7D4648028858AC30040A0A7 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D4647F28858AC30040A0A7 /* GridCollectionViewCell.swift */; };
+		D7D94ED128A2836400B3F81B /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED028A2836400B3F81B /* ProductDetailViewController.swift */; };
+		D7D94ED328A2836E00B3F81B /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED228A2836E00B3F81B /* ProductDetailView.swift */; };
+		D7D94ED528A283D900B3F81B /* ImagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED428A283D900B3F81B /* ImagesCollectionView.swift */; };
 		D7EBDB28289E3F7B0039FEBE /* ImageGetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +115,9 @@
 		D7C4C7162890D322007CF8F1 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		D7C4C7182890FAB3007CF8F1 /* OpenMarketImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketImageManager.swift; sourceTree = "<group>"; };
 		D7D4647F28858AC30040A0A7 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
+		D7D94ED028A2836400B3F81B /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		D7D94ED228A2836E00B3F81B /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		D7D94ED428A283D900B3F81B /* ImagesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionView.swift; sourceTree = "<group>"; };
 		D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGetRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -243,6 +249,7 @@
 				37FBE2F1289CEDFE00240A1E /* ProductList */,
 				37343920289CF1ED004D4D38 /* ProductRegistration */,
 				3734391F289CF15A004D4D38 /* ProductUpdate */,
+				D7D94ECC28A2831F00B3F81B /* ProductDetail */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -405,6 +412,40 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D7D94ECC28A2831F00B3F81B /* ProductDetail */ = {
+			isa = PBXGroup;
+			children = (
+				D7D94ECD28A2833400B3F81B /* Model */,
+				D7D94ECE28A2833E00B3F81B /* View */,
+				D7D94ECF28A2834500B3F81B /* Controller */,
+			);
+			path = ProductDetail;
+			sourceTree = "<group>";
+		};
+		D7D94ECD28A2833400B3F81B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		D7D94ECE28A2833E00B3F81B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D7D94ED228A2836E00B3F81B /* ProductDetailView.swift */,
+				D7D94ED428A283D900B3F81B /* ImagesCollectionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D7D94ECF28A2834500B3F81B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D7D94ED028A2836400B3F81B /* ProductDetailViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -523,10 +564,12 @@
 				D7AE3E44288C0E5B00565F3D /* ImageCacheManager.swift in Sources */,
 				3734391B289CF147004D4D38 /* ProductUpdateViewController.swift in Sources */,
 				3723969B287D0C85001EFC70 /* Currency.swift in Sources */,
+				D7D94ED328A2836E00B3F81B /* ProductDetailView.swift in Sources */,
 				37239699287D054E001EFC70 /* ProductsDetailList.swift in Sources */,
 				37FBE23B2896816E00240A1E /* Data+extension.swift in Sources */,
 				373B48012880F4940068F781 /* MyURLSession.swift in Sources */,
 				D7C4C7192890FAB3007CF8F1 /* OpenMarketImageManager.swift in Sources */,
+				D7D94ED128A2836400B3F81B /* ProductDetailViewController.swift in Sources */,
 				37FBE2EC289CEC7100240A1E /* ProductPatchRequest.swift in Sources */,
 				3734391E289CF147004D4D38 /* ProductUpdateView.swift in Sources */,
 				372396A5287D195C001EFC70 /* APIRequest.swift in Sources */,
@@ -536,6 +579,7 @@
 				372396A8287D2FD9001EFC70 /* NetworkError.swift in Sources */,
 				37D96A6D28866EDF002B1A8F /* HTTPHeaders.swift in Sources */,
 				D7C4C7172890D322007CF8F1 /* ListCollectionViewCell.swift in Sources */,
+				D7D94ED528A283D900B3F81B /* ImagesCollectionView.swift in Sources */,
 				37FBE2EA289CEC1900240A1E /* ProductPostRequest.swift in Sources */,
 				D7EBDB28289E3F7B0039FEBE /* ImageGetRequest.swift in Sources */,
 				37D96A712886949E002B1A8F /* GridCollecntionView.swift in Sources */,
