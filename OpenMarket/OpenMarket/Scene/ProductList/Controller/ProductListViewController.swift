@@ -111,7 +111,7 @@ final class ProductListViewController: UIViewController {
         myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let decodedData = success.decodeData() else { return }
+                guard let decodedData = success.decodeData(type: ProductsList.self) else { return }
                 
                 decodedData.pages
                     .filter
@@ -232,17 +232,6 @@ final class ProductListViewController: UIViewController {
         
         listCollectionView.refreshControl?.endRefreshing()
         gridCollectionView.refreshControl?.endRefreshing()
-    }
-}
-
-extension Data {
-    func decodeData() -> ProductsDetailList? {
-        let jsonDecoder = JSONDecoder()
-        var data: ProductsDetailList?
-        
-        data = try? jsonDecoder.decode(ProductsDetailList.self, from: self)
-        
-        return data
     }
 }
 

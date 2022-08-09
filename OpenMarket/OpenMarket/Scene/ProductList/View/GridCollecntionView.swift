@@ -10,8 +10,8 @@ import UIKit
 final class GridCollecntionView: UICollectionView {
     // MARK: - properties
     
-    private var gridViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
-    private let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductDetail> {
+    private var gridViewDataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>? = nil
+    private let gridViewCellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, ProductInformation> {
         (cell, indexPath, product) in
         cell.setViewItems(product)
     }
@@ -33,10 +33,10 @@ final class GridCollecntionView: UICollectionView {
     // MARK: - functions
     
     private func setupDataSource() {
-        gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
+        gridViewDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
-             identifier: ProductDetail) -> UICollectionViewCell? in
+             identifier: ProductInformation) -> UICollectionViewCell? in
             
             guard let gridViewCellRegistration = self?.gridViewCellRegistration
             else { return UICollectionViewCell() }
@@ -47,8 +47,8 @@ final class GridCollecntionView: UICollectionView {
         }
     }
     
-    func setSnapshot(productsList: [ProductDetail]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+    func setSnapshot(productsList: [ProductInformation]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections([.grid])
         snapshot.appendItems(productsList)
         
@@ -56,7 +56,7 @@ final class GridCollecntionView: UICollectionView {
     }
     
     func deleteSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.deleteAllItems()
         
         gridViewDataSource?.apply(snapshot, animatingDifferences: false)
