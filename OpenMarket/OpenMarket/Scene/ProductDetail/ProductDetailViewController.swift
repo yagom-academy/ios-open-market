@@ -17,6 +17,7 @@ final class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        setupNavigationController()
         fetchData()
     }
     
@@ -57,6 +58,30 @@ final class ProductDetailViewController: UIViewController {
                 break
             }
         }
+    }
+    
+    private func setupNavigationController() {
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self,
+                                             action: #selector(rightBarButtonDidTap))
+        navigationItem.setRightBarButton(rightBarButton, animated: true)
+    }
+    
+    @objc private func rightBarButtonDidTap() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let updateAlertAction = UIAlertAction(title: "수정", style: .default) { _ in
+            print("수정")
+        }
+        let deleteAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            print("삭제")
+        }
+        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alertController.addAction(updateAlertAction)
+        alertController.addAction(deleteAlertAction)
+        alertController.addAction(cancelAlertAction)
+        
+        present(alertController, animated: true)
     }
 }
 
