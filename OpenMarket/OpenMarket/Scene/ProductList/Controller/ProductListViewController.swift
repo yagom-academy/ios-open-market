@@ -9,7 +9,9 @@ import UIKit
 final class ProductListViewController: UIViewController {
     // MARK: - properties
     
+    private var datableDelgate: Datable?
     private var loadingView: UIView?
+    private var productsIDList = [String]()
     private lazy var gridCollectionView = GridCollecntionView(frame: .null,
                                                               collectionViewLayout: createGridLayout())
     
@@ -120,6 +122,7 @@ final class ProductListViewController: UIViewController {
                 .forEach
                 {
                     $0.pushThumbnailImageCache()
+                    self.productsIDList.append($0.id.description)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
@@ -243,6 +246,17 @@ extension Data {
     }
 }
 
+extension ProductListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let productDetailViewController = ProductDetailViewController()
+        
+        datableDelgate = productDetailViewController
+        datableDelgate?.setupProduct(id: productsIDList[indexPath.row])
+        
+        navigationController?.pushViewController(productDetailViewController,
+                                                      animated: true)
+    }
+}
 
 // MARK: - Design
 
@@ -266,13 +280,4 @@ private enum Design {
                                                            leading: 5.0,
                                                            bottom: 5.0,
                                                            trailing: 5.0)
-}
-
-extension ProductListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let productDetailViewController = ProductDetailViewController()
-        
-        navigationController?.pushViewController(productDetailViewController,
-                                                      animated: true)
-    }
 }

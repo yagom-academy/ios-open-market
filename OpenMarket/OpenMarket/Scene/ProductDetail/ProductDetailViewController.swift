@@ -8,8 +8,16 @@
 import UIKit
 
 final class ProductDetailViewController: UIViewController {
+    private var productID: String?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemBackground
+        navigationItem.title = productID
+    }
+}
+
+extension ProductDetailViewController: Datable {
+    func setupProduct(id: String) {
+        productID = id
     }
 }
