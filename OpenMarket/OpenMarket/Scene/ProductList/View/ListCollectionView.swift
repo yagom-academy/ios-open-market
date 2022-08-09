@@ -10,8 +10,8 @@ import UIKit
 final class ListCollectionView: UICollectionView {
     // MARK: - properties
     
-    private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductDetail>? = nil
-    private let listViewCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductDetail> {
+    private var listViewDataSource: UICollectionViewDiffableDataSource<Section, ProductInformation>? = nil
+    private let listViewCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, ProductInformation> {
         (cell, indexPath, product) in
         cell.setViewItems(product)
     }
@@ -36,10 +36,10 @@ final class ListCollectionView: UICollectionView {
     }
     
     private func setupDataSource() {
-        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductDetail>(collectionView: self) { [weak self]
+        listViewDataSource = UICollectionViewDiffableDataSource<Section, ProductInformation>(collectionView: self) { [weak self]
             (collectionView: UICollectionView,
              indexPath: IndexPath,
-             identifier: ProductDetail) -> UICollectionViewCell? in
+             identifier: ProductInformation) -> UICollectionViewCell? in
             
             guard let listViewCellRegistration = self?.listViewCellRegistration
             else { return UICollectionViewCell() }
@@ -50,8 +50,8 @@ final class ListCollectionView: UICollectionView {
         }
     }
     
-    func setSnapshot(productsList: [ProductDetail]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+    func setSnapshot(productsList: [ProductInformation]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.appendSections([.list])
         snapshot.appendItems(productsList)
         
@@ -59,7 +59,7 @@ final class ListCollectionView: UICollectionView {
     }
     
     func deleteSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductDetail>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductInformation>()
         snapshot.deleteAllItems()
         
         listViewDataSource?.apply(snapshot, animatingDifferences: false)

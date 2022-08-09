@@ -1,15 +1,17 @@
 //
 //  OpenMarket - ProductListViewController.swift
-//  Created by groot, bard. 
+//  Created by groot, bard.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
 final class ProductListViewController: UIViewController {
     // MARK: - properties
     
+    private var datableDelgate: Datable?
     private var loadingView: UIView?
+    private var productsIDList = [String]()
     private lazy var gridCollectionView = GridCollecntionView(frame: .null,
                                                               collectionViewLayout: createGridLayout())
     
@@ -35,6 +37,8 @@ final class ProductListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupUI()
         setupRefreshControl()
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -107,7 +111,7 @@ final class ProductListViewController: UIViewController {
         myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let decodedData = success.decodeData() else { return }
+                guard let decodedData = success.decodeData(type: ProductsList.self) else { return }
                 
                 decodedData.pages
                     .filter
@@ -118,6 +122,7 @@ final class ProductListViewController: UIViewController {
                 .forEach
                 {
                     $0.pushThumbnailImageCache()
+                    self.productsIDList.append($0.id.description)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
@@ -230,17 +235,17 @@ final class ProductListViewController: UIViewController {
     }
 }
 
-extension Data {
-    func decodeData() -> ProductsDetailList? {
-        let jsonDecoder = JSONDecoder()
-        var data: ProductsDetailList?
+extension ProductListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let productDetailViewController = ProductDetailViewController()
         
-        data = try? jsonDecoder.decode(ProductsDetailList.self, from: self)
+        datableDelgate = productDetailViewController
+        datableDelgate?.setupProduct(id: productsIDList[indexPath.row])
         
-        return data
+        navigationController?.pushViewController(productDetailViewController,
+                                                      animated: true)
     }
 }
-
 
 // MARK: - Design
 
