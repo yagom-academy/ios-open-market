@@ -69,7 +69,7 @@ extension ProductInformation {
     
     func makeStockText() -> NSMutableAttributedString {
         if self.stock == 0 {
-            let stockText = PriceText.soldOut.text
+            let stockText = PriceText.soldOut.listText
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
             
             let attributes: [NSAttributedString.Key: Any] =
@@ -83,7 +83,7 @@ extension ProductInformation {
             
             return muttableAttributedString
         } else {
-            let stockText = "\(PriceText.stock.text)\(stock)"
+            let stockText = "\(PriceText.stock.listText)\(stock)"
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
             
             let attributes: [NSAttributedString.Key: Any] =
