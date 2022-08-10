@@ -12,7 +12,8 @@ final class ProductDetailViewController: UIViewController {
     
     private var productID: String?
     private var images = [UIImage]()
-    private var productImageCollectionView: UICollectionView!
+    private lazy var productImageCollectionView = UICollectionView(frame: .zero,
+                                                                   collectionViewLayout: setupLayout())
     private let productDetailView = ProductDetailView()
     
     private let totalStackView: UIStackView = {
@@ -101,6 +102,15 @@ final class ProductDetailViewController: UIViewController {
             ])
     }
     
+    private func setupLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width - 16,
+                                 height: view.safeAreaLayoutGuide.layoutFrame.height/2)
+        layout.scrollDirection = .horizontal
+        
+        return layout
+    }
+    
     private func setupProductImageCollectionView() {
         let layout = UICollectionViewFlowLayout()
         
@@ -111,14 +121,14 @@ final class ProductDetailViewController: UIViewController {
         productImageCollectionView = UICollectionView(frame: .zero,
                                                       collectionViewLayout: layout)
         
-        productImageCollectionView?.register(ProductImageCell.self,
+        productImageCollectionView.register(ProductImageCell.self,
                                              forCellWithReuseIdentifier: ProductImageCell.identifier)
         
-        productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        productImageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         productImageCollectionView.showsHorizontalScrollIndicator = false
         productImageCollectionView.isPagingEnabled = false
         productImageCollectionView.decelerationRate = .fast
-        productImageCollectionView?.dataSource = self
+        productImageCollectionView.dataSource = self
         productImageCollectionView.delegate = self
     }
     
