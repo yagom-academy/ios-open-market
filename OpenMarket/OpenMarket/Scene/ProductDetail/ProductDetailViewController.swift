@@ -11,6 +11,7 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - properties
     
     private var productID: String?
+    private var images = [UIImage]()
     private var productImageCollectionView: UICollectionView!
     private let productDetailView = ProductDetailView()
     
@@ -51,6 +52,16 @@ final class ProductDetailViewController: UIViewController {
             switch result {
             case .success(let success):
                 guard let decodedData = success.decodeData(type: ProductDetail.self) else { return }
+                
+                decodedData.images.forEach
+                {
+                    OpenMarketImageManager.setupImage(key: $0.thumbnail) { image in
+                        self.images.append(image)
+                        DispatchQueue.main.async {
+                            self.productImageCollectionView.reloadData()
+                        }
+                    }
+                }
                 
                 DispatchQueue.main.async {
                     self.navigationItem.title = decodedData.name
@@ -138,13 +149,15 @@ final class ProductDetailViewController: UIViewController {
 
 extension ProductDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.identifier,
                                                             for: indexPath) as? ProductImageCell
         else { return UICollectionViewCell() }
+        
+        cell.imageView.image = images[indexPath.row]
         
         return cell
     }

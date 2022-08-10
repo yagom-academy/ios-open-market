@@ -14,6 +14,7 @@ final class ProductImageCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
@@ -22,9 +23,22 @@ final class ProductImageCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.addSubview(imageView)
+        setupConfiguration()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupConfiguration()
+    }
+    
+    private func setupConfiguration() {
+        NSLayoutConstraint.activate(
+            [
+                imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            ])
     }
 }
