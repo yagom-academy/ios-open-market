@@ -20,6 +20,14 @@ final class ProductDetailView: UIView {
         return stackView
     }()
     
+    private let pageCountLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .preferredFont(forTextStyle: .footnote)
+        
+        return label
+    }()
+    
     private let leftStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,7 +101,7 @@ final class ProductDetailView: UIView {
     
     private func setUpSubViews() {
         self.addSubview(totalStackView)
-        [leftStackView, descriptionScrollView].forEach
+        [pageCountLabel, leftStackView, descriptionScrollView].forEach
         {
             totalStackView.addArrangedSubview($0)
         }
@@ -142,5 +150,9 @@ final class ProductDetailView: UIView {
         stockLabel.attributedText = product.makeStockText()
         priceLabel.attributedText = product.makePriceText()
         descriptionLabel.text = product.description
+    }
+    
+    func setupPageCountLabel(text: String) {
+        pageCountLabel.text = text
     }
 }

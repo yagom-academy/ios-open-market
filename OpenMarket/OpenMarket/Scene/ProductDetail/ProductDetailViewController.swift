@@ -115,6 +115,7 @@ final class ProductDetailViewController: UIViewController {
                                              forCellWithReuseIdentifier: ProductImageCell.identifier)
         
         productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        productImageCollectionView.showsHorizontalScrollIndicator = false
         productImageCollectionView.isPagingEnabled = false
         productImageCollectionView.decelerationRate = .fast
         productImageCollectionView?.dataSource = self
@@ -186,5 +187,9 @@ extension ProductDetailViewController: UICollectionViewDelegate {
         }
         
         targetContentOffset.pointee = CGPoint(x: CGFloat(index) * cellWidthIncludingSpacing, y: 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        productDetailView.setupPageCountLabel(text: "\(indexPath.row + 1)/\(images.count)")
     }
 }
