@@ -34,16 +34,23 @@ class ProductUpdateViewController: UIViewController {
     
     private func setupNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                             target: nil,
+                                             target: self,
                                              action: #selector(updateProducts))
         self.navigationItem.title = Design.navigationItemTitle
         self.navigationItem.setRightBarButton(rightBarButton,
                                               animated: true)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                                target: self,
+                                                                action: #selector(cancelProducts))
     }
     
     // MARK: - @objc functions
     
     @objc private func updateProducts() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func cancelProducts() {
         navigationController?.popViewController(animated: true)
     }
 }

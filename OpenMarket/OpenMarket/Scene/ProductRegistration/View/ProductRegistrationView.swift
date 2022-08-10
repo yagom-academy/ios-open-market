@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProductRegistrationView: UIView {
+class ProductRegistrationView: UIView {
     // MARK: - properties
     
     private let pickerController = UIImagePickerController()

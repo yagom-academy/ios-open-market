@@ -302,6 +302,7 @@
 			children = (
 				37D96A6B28866ECA002B1A8F /* DataManager */,
 				3734390E289CEFB3004D4D38 /* Enum */,
+				37301DC928A2858900B4951B /* Protocol */,
 				372396A6287D2FB0001EFC70 /* Error */,
 				37D96A6628866DC9002B1A8F /* Extension */,
 				D70EECFB2880F873003679E9 /* JSONModel */,
@@ -362,7 +363,6 @@
 		D71BB6DC287D06BA006035C6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				37301DC928A2858900B4951B /* Protocol */,
 				D7649C8B2886936F00E3F30A /* Enum */,
 			);
 			path = Model;

@@ -9,7 +9,7 @@ import UIKit
 final class ProductListViewController: UIViewController {
     // MARK: - properties
     
-    private var datableDelgate: Datable?
+    private var datableDelgate: DataSendable?
     private var loadingView: UIView?
     private var productsIDList = [String]()
     private lazy var gridCollectionView = GridCollecntionView(frame: .null,
@@ -240,7 +240,8 @@ extension ProductListViewController: UICollectionViewDelegate {
         let productDetailViewController = ProductDetailViewController()
         
         datableDelgate = productDetailViewController
-        datableDelgate?.setupProduct(id: productsIDList[indexPath.row])
+//        datableDelgate?.setupProduct(id: productsIDList[indexPath.row])
+        datableDelgate?.setupData(productsIDList[indexPath.row])
         
         navigationController?.pushViewController(productDetailViewController,
                                                       animated: true)

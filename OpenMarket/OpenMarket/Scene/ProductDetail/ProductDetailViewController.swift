@@ -139,7 +139,9 @@ final class ProductDetailViewController: UIViewController {
         
         let updateAlertAction = UIAlertAction(title: "수정",
                                               style: .default) { _ in
-            print("수정")
+            let productUpdateViewController = ProductUpdateViewController()
+            self.navigationController?.pushViewController(productUpdateViewController,
+                                                          animated: true)
         }
         let deleteAlertAction = UIAlertAction(title: "삭제",
                                               style: .destructive) { _ in
@@ -174,9 +176,9 @@ extension ProductDetailViewController: UICollectionViewDataSource {
     }
 }
 
-extension ProductDetailViewController: Datable {
-    func setupProduct(id: String) {
-        productID = id
+extension ProductDetailViewController: DataSendable {
+    func setupData<T>(_ data: T) {
+        productID = data as? String
     }
 }
 
