@@ -66,7 +66,6 @@ final class ProductUpdateView: UIView {
                             borderColor: UIColor.systemGray3.cgColor)
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.text = Design.productDescriptionPlaceholder
-        textView.textColor = .systemGray3
         
         return textView
     }()
@@ -251,6 +250,36 @@ final class ProductUpdateView: UIView {
     @objc func endEditing(){
         resignFirstResponder()
     }
+    
+    func setupViewItems(product: ProductDetail) {
+        product.images.forEach {
+            OpenMarketImageManager.setupImage(key: $0.thumbnail) { image in
+                DispatchQueue.main.async { [weak self] in
+                    self?.imageStackView.addArrangedSubview(self?.setupPickerImageView(image: image) ?? UIImageView())
+                }
+            }
+        }
+        
+        productNameTextField.text = product.name
+        productPriceTextField.text = product.price.description
+        productDiscountedPriceTextField.text = product.discountedPrice.description
+        stockTextField.text = product.stock.description
+        productDescriptionTextView.text = product.description
+    }
+    
+    private func setupPickerImageView(image: UIImage) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = image
+        
+        NSLayoutConstraint.activate(
+            [
+                imageView.widthAnchor.constraint(equalToConstant: imageScrollView.frame.height),
+                imageView.heightAnchor.constraint(equalToConstant: imageScrollView.frame.height)
+            ])
+        
+        return imageView
+    }
 }
 
 // MARK: - extensions
@@ -267,11 +296,6 @@ extension ProductUpdateView: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
-        
-        if textView.text.count == 0 {
-            textView.text = Design.productDescriptionPlaceholder
-            textView.textColor = .lightGray
-        }
     }
 }
 

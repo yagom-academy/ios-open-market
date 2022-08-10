@@ -55,6 +55,18 @@ class ProductUpdateViewController: UIViewController {
     }
 }
 
+// MARK: - extensions
+
+extension ProductUpdateViewController: DataSendable {
+    func setupData<T>(_ data: T) {
+        guard let product = data as? ProductDetail else { return }
+        
+        productUpdateView.setupViewItems(product: product)
+    }
+}
+
+// MARK: - Design
+
 private enum Design {
     static let navigationItemTitle = "상품수정"
 }

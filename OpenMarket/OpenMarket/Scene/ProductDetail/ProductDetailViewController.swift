@@ -10,6 +10,8 @@ import UIKit
 final class ProductDetailViewController: UIViewController {
     // MARK: - properties
     
+    private var dataSendableDelegate: DataSendable?
+    private var productDetail: ProductDetail?
     private var productID: String?
     private var images = [UIImage]()
     private lazy var productImageCollectionView = UICollectionView(frame: .zero,
@@ -69,6 +71,8 @@ final class ProductDetailViewController: UIViewController {
                     self.productDetailView.setupViewItems(decodedData)
                 }
                 
+                self.productDetail = decodedData
+                
             case .failure(let error):
                 print(error.localizedDescription)
                 break
@@ -122,7 +126,7 @@ final class ProductDetailViewController: UIViewController {
                                                       collectionViewLayout: layout)
         
         productImageCollectionView.register(ProductImageCell.self,
-                                             forCellWithReuseIdentifier: ProductImageCell.identifier)
+                                            forCellWithReuseIdentifier: ProductImageCell.identifier)
         
         productImageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         productImageCollectionView.showsHorizontalScrollIndicator = false
@@ -139,9 +143,7 @@ final class ProductDetailViewController: UIViewController {
         
         let updateAlertAction = UIAlertAction(title: "수정",
                                               style: .default) { _ in
-            let productUpdateViewController = ProductUpdateViewController()
-            self.navigationController?.pushViewController(productUpdateViewController,
-                                                          animated: true)
+            self.updateAlertActionDidTap()
         }
         let deleteAlertAction = UIAlertAction(title: "삭제",
                                               style: .destructive) { _ in
@@ -155,6 +157,15 @@ final class ProductDetailViewController: UIViewController {
         alertController.addAction(cancelAlertAction)
         
         present(alertController, animated: true)
+    }
+    
+    private func updateAlertActionDidTap() {
+        let productUpdateViewController = ProductUpdateViewController()
+        
+        dataSendableDelegate = productUpdateViewController
+        dataSendableDelegate?.setupData(productDetail)
+        self.navigationController?.pushViewController(productUpdateViewController,
+                                                      animated: true)
     }
 }
 
