@@ -11,8 +11,18 @@ final class ProductDetailViewController: UIViewController {
     // MARK: - properties
     
     private var productID: String?
-    
     private var productImageCollectionView: UICollectionView!
+    private let productDetailView = ProductDetailView()
+    
+    private let totalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        stackView.axis  = .vertical
+        stackView.spacing = 8
+        
+        return stackView
+    }()
     
     // MARK: - life cycle
     
@@ -72,17 +82,21 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func setupSubviews() {
-        view.addSubview(productImageCollectionView)
+        view.addSubview(totalStackView)
+        [productImageCollectionView, productDetailView].forEach
+        {
+            totalStackView.addArrangedSubview($0)
+        }
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate(
             [
-            productImageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            productImageCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            productImageCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            productImageCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5)
-        ])
+                totalStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                totalStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+                totalStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+                totalStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            ])
     }
     
     private func setupProductImageCollectionView() {
@@ -139,7 +153,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.identifier,
                                                             for: indexPath) as? ProductImageCell
-        else { return UICollectionViewCell()}
+        else { return UICollectionViewCell() }
         
         return cell
     }
