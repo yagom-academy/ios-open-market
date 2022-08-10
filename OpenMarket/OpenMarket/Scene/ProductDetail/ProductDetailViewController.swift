@@ -76,8 +76,8 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        productImageCollectionView.backgroundColor = .red
-        NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate(
+            [
             productImageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             productImageCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             productImageCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
@@ -89,25 +89,20 @@ final class ProductDetailViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         
         layout.itemSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width,
-                                 height: view.safeAreaLayoutGuide.layoutFrame.height/2)
+                                 height: view.safeAreaLayoutGuide.layoutFrame.height/2.5)
         layout.scrollDirection = .horizontal
         
         productImageCollectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: layout)
-        productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
-        
-        let insetX = (productImageCollectionView.bounds.width - productImageCollectionView.frame.width) / 2.0
-        let insetY = (productImageCollectionView.bounds.height - productImageCollectionView.frame.height/3) / 2.0
-        
-        productImageCollectionView.contentInset = UIEdgeInsets(top: insetY,
-                                                               left: insetX,
-                                                               bottom: insetY,
-                                                               right: insetX)
         
         productImageCollectionView?.register(ProductImageCell.self,
-                                forCellWithReuseIdentifier: ProductImageCell.identifier)
-        productImageCollectionView.isPagingEnabled = true
+                                             forCellWithReuseIdentifier: ProductImageCell.identifier)
+        
+        productImageCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        productImageCollectionView.isPagingEnabled = false
+        productImageCollectionView.decelerationRate = .fast
         productImageCollectionView?.dataSource = self
+        productImageCollectionView.delegate = self
     }
     
     @objc private func rightBarButtonDidTap() {
@@ -146,12 +141,6 @@ extension ProductDetailViewController: UICollectionViewDataSource {
                                                             for: indexPath) as? ProductImageCell
         else { return UICollectionViewCell()}
         
-        if indexPath.row % 2 == 0 {
-            cell.backgroundColor = .blue
-        } else {
-            cell.backgroundColor = .brown
-        }
-        
         return cell
     }
 }
@@ -160,4 +149,24 @@ extension ProductDetailViewController: Datable {
     func setupProduct(id: String) {
         productID = id
     }
+}
+
+extension ProductDetailViewController: UICollectionViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+            guard let layout = self.productImageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        
+            let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+            let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
+            let index: Int
+            
+            if velocity.x > 0 {
+                index = Int(ceil(estimatedIndex))
+            } else if velocity.x < 0 {
+                index = Int(floor(estimatedIndex))
+            } else {
+                index = Int(round(estimatedIndex))
+            }
+            
+            targetContentOffset.pointee = CGPoint(x: CGFloat(index) * cellWidthIncludingSpacing, y: 0)
+        }
 }
