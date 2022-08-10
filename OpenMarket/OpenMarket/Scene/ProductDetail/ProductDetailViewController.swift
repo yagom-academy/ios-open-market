@@ -52,20 +52,9 @@ final class ProductDetailViewController: UIViewController {
             case .success(let success):
                 guard let decodedData = success.decodeData(type: ProductDetail.self) else { return }
                 
-                decodedData.images
-                    .filter
-                {
-                    ImageCacheManager.shared.object(forKey: NSString(string: $0.thumbnail)) == nil
-                    
-                }
-                
-                .forEach
-                {
-                    $0.pushThumbnailImageCache()
-                }
-                
                 DispatchQueue.main.async {
                     self.navigationItem.title = decodedData.name
+                    self.productDetailView.setupViewItems(decodedData)
                 }
                 
             case .failure(let error):
@@ -93,8 +82,10 @@ final class ProductDetailViewController: UIViewController {
         NSLayoutConstraint.activate(
             [
                 totalStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                totalStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-                totalStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+                totalStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                        constant: 10),
+                totalStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                         constant: -10),
                 totalStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             ])
     }
@@ -107,7 +98,7 @@ final class ProductDetailViewController: UIViewController {
         layout.scrollDirection = .horizontal
         
         productImageCollectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: layout)
+                                                      collectionViewLayout: layout)
         
         productImageCollectionView?.register(ProductImageCell.self,
                                              forCellWithReuseIdentifier: ProductImageCell.identifier)
@@ -167,20 +158,20 @@ extension ProductDetailViewController: Datable {
 
 extension ProductDetailViewController: UICollectionViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-            guard let layout = self.productImageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        guard let layout = self.productImageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
-            let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-            let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
-            let index: Int
-            
-            if velocity.x > 0 {
-                index = Int(ceil(estimatedIndex))
-            } else if velocity.x < 0 {
-                index = Int(floor(estimatedIndex))
-            } else {
-                index = Int(round(estimatedIndex))
-            }
-            
-            targetContentOffset.pointee = CGPoint(x: CGFloat(index) * cellWidthIncludingSpacing, y: 0)
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
+        let index: Int
+        
+        if velocity.x > 0 {
+            index = Int(ceil(estimatedIndex))
+        } else if velocity.x < 0 {
+            index = Int(floor(estimatedIndex))
+        } else {
+            index = Int(round(estimatedIndex))
         }
+        
+        targetContentOffset.pointee = CGPoint(x: CGFloat(index) * cellWidthIncludingSpacing, y: 0)
+    }
 }
