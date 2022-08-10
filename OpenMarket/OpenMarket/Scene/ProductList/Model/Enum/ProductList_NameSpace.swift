@@ -1,23 +1,9 @@
 //
-//  NameSpace.swift
+//  ProductList_NameSpace.swift
 //  OpenMarket
 //
 //  Created by groot, bard on 2022/07/19.
 //
-
-enum PriceText {
-    case soldOut
-    case stock
-    
-    var text: String {
-        switch self {
-        case .soldOut:
-            return "품절"
-        case .stock:
-            return "잔여수량 : "
-        }
-    }
-}
 
 enum Product {
     case page

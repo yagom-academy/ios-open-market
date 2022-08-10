@@ -58,12 +58,12 @@ extension ProductDetail {
     
     func makeStockText() -> NSMutableAttributedString {
         if self.stock == 0 {
-            let stockText = PriceText.soldOut.text
+            let stockText = PriceText.soldOut.detailText
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
             
             let attributes: [NSAttributedString.Key: Any] =
             [
-                .font: UIFont.preferredFont(forTextStyle: .footnote),
+                .font: UIFont.preferredFont(forTextStyle: .title3),
                 .foregroundColor: UIColor.systemOrange
             ]
             
@@ -72,12 +72,12 @@ extension ProductDetail {
             
             return muttableAttributedString
         } else {
-            let stockText = "\(PriceText.stock.text)\(stock)"
+            let stockText = "\(PriceText.stock.detailText)\(stock)"
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
             
             let attributes: [NSAttributedString.Key: Any] =
             [
-                .font: UIFont.preferredFont(forTextStyle: .footnote),
+                .font: UIFont.preferredFont(forTextStyle: .title3),
                 .foregroundColor: UIColor.systemGray
             ]
             
@@ -93,7 +93,7 @@ private extension NSMutableAttributedString {
     func makePriceText(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
-            .font: UIFont.preferredFont(forTextStyle: .footnote),
+            .font: UIFont.preferredFont(forTextStyle: .body),
             .strikethroughStyle: NSUnderlineStyle.single.rawValue,
             .foregroundColor: UIColor.systemRed
         ]
@@ -107,7 +107,7 @@ private extension NSMutableAttributedString {
     func makeBargainPriceText(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
-            .font: UIFont.preferredFont(forTextStyle: .footnote),
+            .font: UIFont.preferredFont(forTextStyle: .body),
             .foregroundColor: UIColor.systemGray
         ]
         
