@@ -1,8 +1,10 @@
 import UIKit
 
-class ProductDetailView: UIView {
+class ProductRegistView: UIView {
 
     // MARK: - Properties
+
+    var productInfo: Page?
     
     let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -10,7 +12,7 @@ class ProductDetailView: UIView {
         return scrollView
     }()
     
-    let itemImageScrollView: UIScrollView = {
+    private let itemImageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -30,6 +32,7 @@ class ProductDetailView: UIView {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.autocorrectionType = .no
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -43,6 +46,7 @@ class ProductDetailView: UIView {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.keyboardType = .numberPad
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -59,7 +63,7 @@ class ProductDetailView: UIView {
         return segmentControl
     }()
     
-    let currencyStackView: UIStackView = {
+    private let currencyStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 8
         stackView.axis = .horizontal
@@ -72,6 +76,7 @@ class ProductDetailView: UIView {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.keyboardType = .numberPad
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -85,6 +90,7 @@ class ProductDetailView: UIView {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.keyboardType = .numberPad
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.systemGray3.cgColor
@@ -94,7 +100,7 @@ class ProductDetailView: UIView {
         return textField
     }()
     
-    let rightBarPlusButton: UIButton = {
+    let addImageButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -102,7 +108,7 @@ class ProductDetailView: UIView {
         return button
     }()
     
-    let textFieldStackView: UIStackView = {
+    private let textFieldStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
@@ -130,7 +136,7 @@ class ProductDetailView: UIView {
         return label
     }()
     
-    let mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -147,42 +153,23 @@ class ProductDetailView: UIView {
         addViews()
         configureLayoutContraints()
         configureDescriptionPlaceholder()
+        backgroundColor = .systemBackground
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func addToScrollView(of image: UIImage, viewController: ProductsDetailViewController) {
-        let newImageView = UIImageView(image: image)
-        newImageView.translatesAutoresizingMaskIntoConstraints = false
-        newImageView.widthAnchor.constraint(equalTo: newImageView.heightAnchor).isActive = true
-        newImageView.isUserInteractionEnabled = true
-        
-        imageStackView.insertArrangedSubview(newImageView, at: imageStackView.arrangedSubviews.count - 1)
-    }
-    
-    func configureDelegate(viewController: UITextFieldDelegate & UITextViewDelegate) {
-        itemNameTextField.delegate = viewController
-        itemPriceTextField.delegate = viewController
-        itemSaleTextField.delegate = viewController
-        itemStockTextField.delegate = viewController
-        
-        mainScrollView.keyboardDismissMode = .interactive
-        
-        descriptionTextView.delegate = viewController
-    }
-    
-    func configureDescriptionPlaceholder() {
-        descriptionTextViewPlaceHolder.font = descriptionTextView.font
-        descriptionTextView.addSubview(descriptionTextViewPlaceHolder)
-        descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
-    }
 }
 
 // MARK: - UIView Functions
 
-extension ProductDetailView {
+extension ProductRegistView {
+    private func configureDescriptionPlaceholder() {
+        descriptionTextViewPlaceHolder.font = descriptionTextView.font
+        descriptionTextView.addSubview(descriptionTextViewPlaceHolder)
+        descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
+    }
+    
     private func addViews() {
         addSubview(mainScrollView)
         
@@ -194,7 +181,7 @@ extension ProductDetailView {
         
         itemImageScrollView.addSubview(imageStackView)
         
-        imageStackView.addArrangedSubview(rightBarPlusButton)
+        imageStackView.addArrangedSubview(addImageButton)
         
         textFieldStackView.addArrangedSubview(itemNameTextField)
         textFieldStackView.addArrangedSubview(currencyStackView)
@@ -234,7 +221,64 @@ extension ProductDetailView {
         ])
         
         NSLayoutConstraint.activate([
-            rightBarPlusButton.heightAnchor.constraint(equalTo: rightBarPlusButton.widthAnchor)
+            addImageButton.heightAnchor.constraint(equalTo: addImageButton.widthAnchor)
         ])
+    }
+}
+
+// MARK: - Setter Functions
+
+extension ProductRegistView {
+    func configureDelegate(viewController: UITextFieldDelegate & UITextViewDelegate) {
+        itemNameTextField.delegate = viewController
+        itemPriceTextField.delegate = viewController
+        itemSaleTextField.delegate = viewController
+        itemStockTextField.delegate = viewController
+        
+        mainScrollView.keyboardDismissMode = .interactive
+        
+        descriptionTextView.delegate = viewController
+    }
+    
+    func addToScrollView(of image: UIImage, viewController: ProductsRegistViewController) {
+        let newImageView = UIImageView(image: image)
+        newImageView.translatesAutoresizingMaskIntoConstraints = false
+        newImageView.widthAnchor.constraint(equalTo: newImageView.heightAnchor).isActive = true
+        newImageView.isUserInteractionEnabled = true
+        
+        imageStackView.insertArrangedSubview(newImageView, at: imageStackView.arrangedSubviews.count - 1)
+    }
+    
+    private func makeimageView(url: String) {
+        guard let url = URL(string: url),
+              let data = try? Data(contentsOf: url),
+              let image = UIImage(data: data) else { return }
+        let imageView = UIImageView(image: image)
+        imageStackView.addArrangedSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor).isActive = true
+    }
+    
+    func setProductInfomation(productInfo: Page?) {
+        self.productInfo = productInfo
+        
+        guard let productInfo = productInfo else { return }
+        
+        imageStackView.arrangedSubviews.last?.removeFromSuperview()
+        productInfo.images?.forEach { makeimageView(url: $0.url) }
+        itemNameTextField.text = productInfo.name
+        itemPriceTextField.text = String(Int(productInfo.price))
+        itemSaleTextField.text = String(Int(productInfo.discountedPrice))
+        itemStockTextField.text = String(productInfo.stock)
+        
+        descriptionTextView.text = productInfo.description
+        descriptionTextViewPlaceHolder.isHidden = !descriptionTextView.text.isEmpty
+        
+        guard let segmentIndex = Currency(rawValue: productInfo.currency)?.toIndex() else { return }
+        currencySegmentControl.selectedSegmentIndex = segmentIndex
+    }
+    
+    func addTargetToImageButton(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) {
+        addImageButton.addTarget(target, action: action, for: controlEvents)
     }
 }

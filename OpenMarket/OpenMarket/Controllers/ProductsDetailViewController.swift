@@ -1,247 +1,139 @@
 import UIKit
 
-class ProductsDetailViewController: UIViewController {
+class ProductsDetailViewController: UIViewController, AlertMessage {   
     
-    let imagePicker = UIImagePickerController()
-    var selectedImageView: UIImageView?
+    private let detailView = ProductsDetailView()
+    private var productInfo: Page?
     
-    var detailView = ProductDetailView()
-    
-    // MARK: - Life Cycle
+    var delegate: SendUpdateDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = detailView
-        view.backgroundColor = .systemBackground
-        configureNavigationBar()
-        configureImagePicker()
-        detailView.configureDelegate(viewController: self)
+        view.addSubview(detailView)
+        configureConstraint()
         addNavigationBarButton()
-        addTargetAction()
-        makeNotification()
-    }
-    
-    private func presentAlertMessage(message: String) {
-        let alert = UIAlertController(title: "에러!", message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
-        
-        alert.addAction(action)
-        present(alert, animated: true)
-    }
-    
-    private func makeNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-            return
-        }
-        
-        let contentInset = UIEdgeInsets(
-            top: 0.0,
-            left: 0.0,
-            bottom: keyboardFrame.size.height,
-            right: 0.0)
-        detailView.mainScrollView.contentInset = contentInset
-        detailView.mainScrollView.scrollIndicatorInsets = contentInset
-    }
-    
-    @objc private func keyboardWillHide() {
-        let contentInset = UIEdgeInsets.zero
-        detailView.mainScrollView.contentInset = contentInset
-        detailView.mainScrollView.scrollIndicatorInsets = contentInset
-    }
-    
-    private func configureNavigationBar() {
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        title = "상품등록"
-    }
-    
-    private func configureImagePicker() {
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = .photoLibrary
-    }
-    
-    private func addTargetAction() {
-        detailView.rightBarPlusButton.addTarget(self, action: #selector(addButtonDidTapped), for: .touchUpInside)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
-        detailView.mainScrollView.addGestureRecognizer(tap)
-        
-        navigationItem.rightBarButtonItem?.action = #selector(doneButtonDidTapped)
-    }
-    
-    private func addNavigationBarButton() {
-        navigationController?.navigationBar.topItem?.title = "Cancel"
-        navigationController?.navigationBar.backIndicatorImage = UIImage()
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
-    }
-    
-    private func checkPostCondition() -> Bool {
-        if detailView.imageStackView.arrangedSubviews.count <= 1 {
-            presentAlertMessage(message: "이미지를 추가해주세요.")
-            return false
-        } else if detailView.itemNameTextField.text?.count ?? 0 < 3 {
-            presentAlertMessage(message: "상품명을 세 글자 이상 작성해주세요.")
-            return false
-        } else if detailView.itemPriceTextField.text?.isEmpty ?? true {
-            presentAlertMessage(message: "상품가격을 입력하세요.")
-            return false
-        } else if detailView.descriptionTextView.text.isEmpty {
-            presentAlertMessage(message: "상품설명을 입력하세요.")
-            return false
-        } else if detailView.descriptionTextView.text.count < 10 {
-            presentAlertMessage(message: "상품설명을 10자 이상 작성해주세요.")
-            return false
-        }
-        return true
+        getProductInfomation()
     }
 }
 
-// MARK: - UIImagePicker & UINavigation ControllerDelegate Function
+// MARK: - Functions
 
-extension ProductsDetailViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        if let selectedImageView = selectedImageView {
-            
-            selectedImageView.image = selectedImage
-            self.selectedImageView = nil
-        } else {
-            detailView.addToScrollView(of: selectedImage, viewController: self)
-            
-            let imageStackViewCount = detailView.imageStackView.arrangedSubviews.count - 2
-            let firstImageView = detailView.imageStackView.arrangedSubviews[imageStackViewCount]
-            let tap = UITapGestureRecognizer(target: self, action: #selector(changeImageButtonTapped))
-            firstImageView.addGestureRecognizer(tap)
-            
-            if detailView.imageStackView.arrangedSubviews.count == 6 {
-                detailView.rightBarPlusButton.removeFromSuperview()
+extension ProductsDetailViewController {
+    private func getProductInfomation() {
+        guard let delegate = delegate else { return }
+        ProductsDataManager.shared.getData(productId: delegate.sendUpdate().id) { [weak self] (data: Page) in
+            guard let self = self else { return }
+            self.productInfo = data
+            DispatchQueue.main.async {
+                self.title = self.productInfo?.name
+                self.detailView.setProductInfomation(data: data)
             }
         }
-        dismiss(animated: true)
+    }
+    private func configureConstraint() {
+        detailView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            detailView.topAnchor.constraint(equalTo: view.topAnchor),
+            detailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            detailView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            detailView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func addNavigationBarButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(actionButtonDidTapped)
+        )
+    }
+    
+    private func deleteProduct(_ secret: String) {
+        guard let productInfo = self.productInfo else { return }
+        
+        ProductsDataManager.shared.deleteData(
+            identifier: UserInfo.identifier.rawValue,
+            productID: productInfo.id,
+            secret: secret
+        ) { (data: Result<Page, IdentifierError>) in
+            switch data {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.presentAlertMessage(controller: self, message: "\(error)")
+                }
+            }
+        }
+    }
+    
+    private func getProductSecret(_ secret: String, completion: @escaping (String) -> Void) {
+        guard let productInfo = self.productInfo else { return }
+        
+        ProductsDataManager.shared.getProductSecret(
+            identifier: UserInfo.identifier.rawValue,
+            secret: secret,
+            productId: productInfo.id
+        ) { (data: Result<String, IdentifierError>) in
+            switch data {
+            case .success(let productSecret):
+                completion(productSecret)
+            case .failure(let error):
+                self.presentAlertMessage(controller: self, message: "\(error)")
+            }
+        }
+    }
+    
+    private func deleteProcess() {
+        let alert = UIAlertController(title: "암호", message: "암호를 입력하세요.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default) { action in
+            guard let secret = alert.textFields?.first?.text else { return }
+            self.getProductSecret(secret) { productSecret in
+                self.deleteProduct(productSecret)
+            }
+        }
+        alert.addTextField { textField in
+            textField.placeholder = "비밀번호를 입력해주세요."
+        }
+        alert.addAction(action)
+        
+        self.present(alert, animated: true) {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.didTappedOutside(_:)))
+            alert.view.superview?.isUserInteractionEnabled = true
+            alert.view.superview?.addGestureRecognizer(tap)
+        }
+    }
+    
+    private func updateProduct() {
+        let registViewController = ProductsRegistViewController()
+        registViewController.title = DetailViewTitle.update
+        registViewController.registView.setProductInfomation(productInfo: self.productInfo)
+        
+        self.navigationController?.pushViewController(registViewController, animated: true)
     }
 }
 
 // MARK: - @objc Functions
 
 extension ProductsDetailViewController {
-    @objc private func doneButtonDidTapped() {
-        if checkPostCondition() == false {
-            return
-        }
-        
-        var imageViews = detailView.imageStackView.arrangedSubviews
-        
-        guard let productName = detailView.itemNameTextField.text,
-              let productPrice = Int(detailView.itemPriceTextField.text ?? "0"),
-              let productSale = Int(detailView.itemSaleTextField.text ?? "0"),
-              let productStock = Int(detailView.itemStockTextField.text ?? "0"),
-              let productDesciprtion = detailView.descriptionTextView.text,
-              let productCurrency = Currency(rawValue: detailView.currencySegmentControl.selectedSegmentIndex) else { return }
-        
-        if imageViews.last is UIButton {
-            imageViews.removeLast()
-        }
-        
-        var images: [UIImage] = []
-        imageViews.forEach {
-            guard let imageView = $0 as? UIImageView,
-                  let image = imageView.image else { return }
-            images.append(image)
-        }
-        
-        let parameter = Parameters(name: productName,
-                                   descriptions: productDesciprtion,
-                                   price: productPrice,
-                                   currency: productCurrency,
-                                   secret: UserInfo.secret.rawValue,
-                                   discountedPrice: productSale,
-                                   stock: productStock)
-        
-        ProductsDataManager.shared.postData(identifier: UserInfo.identifier.rawValue,
-                                            paramter: parameter,
-                                            images: images)
-        { (data: PostResponse) in
-            DispatchQueue.main.async {
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
+    @objc private func didTappedOutside(_ sender: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @objc private func endEditing() {
-        view.endEditing(true)
-    }
-    
-    @objc private func addButtonDidTapped() {
-        present(imagePicker, animated: true)
-    }
-    
-    @objc private func changeImageButtonTapped(_ sender: UITapGestureRecognizer) {
-        selectedImageView = sender.view as? UIImageView
-        present(imagePicker, animated: true)
-    }
-}
-
-// MARK: - UITextFieldDelegate Functions
-
-extension ProductsDetailViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if isEmptySaleAndStockTextField(textField) {
-            detailView.itemSaleTextField.text = "0"
-            detailView.itemStockTextField.text = "0"
+    @objc private func actionButtonDidTapped() {
+        let alert = UIAlertController()
+        let updateAction = UIAlertAction(title: "수정", style: .default) { _ in
+            self.updateProduct()
         }
-        
-        if defaultTextField(textField) {
-            textField.text = ""
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.deleteProcess()
         }
-    }
-    
-    func isEmptySaleAndStockTextField(_ textField: UITextField) -> Bool {
-        guard let detailView = view as? ProductDetailView else { return false }
-        
-        return textField == detailView.itemNameTextField
-        && detailView.itemSaleTextField.text?.isEmpty ?? false
-        && detailView.itemStockTextField.text?.isEmpty ?? false
-    }
-    
-    func defaultTextField(_ textField: UITextField) -> Bool {
-        guard let detailView = view as? ProductDetailView else { return false }
-        
-        return (textField == detailView.itemStockTextField || textField == detailView.itemSaleTextField)
-        && textField.text == "0"
-    }
-}
-
-// MARK: - UITextViewDelegate Functions
-
-extension ProductsDetailViewController: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text.cString(using: String.Encoding.utf8) == [0] {
-            return true
-        }
-        if textView.text.count >= 1000 {
-            presentAlertMessage(message: "상품설명은 1000자 이하로 입력해주세요.")
-            return false
-        }
-        return true
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        detailView.descriptionTextViewPlaceHolder.isHidden = !detailView.descriptionTextView.text.isEmpty
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(updateAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 }

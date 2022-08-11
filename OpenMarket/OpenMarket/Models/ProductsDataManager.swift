@@ -1,47 +1,5 @@
 import UIKit.NSDataAsset
 
-struct ImageInfo {
-    static let key: String = "images"
-    
-    let filename: String
-    let data: Data
-    let mimeType: String
-    
-    init?(withImage image: UIImage) {
-        self.mimeType = "image/jpeg"
-        self.filename = "image\(arc4random()).jpeg"
-        
-        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
-        self.data = data
-    }
-}
-
-struct Parameters {
-    static let key: String = "params"
-    var parameterDictionary: [String: Any] = [:]
-    
-    init(name: String, descriptions: String, price: Int, currency: Currency, secret: String, discountedPrice: Int? = 0, stock: Int? = 0) {
-        
-        self.parameterDictionary["name"] = name
-        self.parameterDictionary["descriptions"] = descriptions
-        self.parameterDictionary["price"] = price
-        self.parameterDictionary["currency"] = Currency.toString[currency.rawValue]
-        self.parameterDictionary["discountedPrice"] = discountedPrice
-        self.parameterDictionary["stock"] = stock
-        self.parameterDictionary["secret"] = secret
-    }
-    
-    func returnParamatersToJsonData() -> Data? {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: parameterDictionary, options: [])
-            return jsonData
-        } catch {
-            print(error)
-            return nil
-        }
-    }
-}
-
 struct ProductsDataManager: Decodable {
     static let shared = ProductsDataManager()
     private init() {}
@@ -57,8 +15,14 @@ struct ProductsDataManager: Decodable {
         ]
         
         guard let urlComponentURL = urlComponent?.url else { return }
-        
         let request = URLRequest(url: urlComponentURL)
+        
+        sendRequest(request, completion)
+    }
+    
+    func getData<T: Decodable>(productId: Int, completion: @escaping (T) -> Void) {
+        guard let  urlComponent = URL(string: "\(url)/\(productId)") else { return }
+        let request = URLRequest(url: urlComponent)
         
         sendRequest(request, completion)
     }
@@ -81,28 +45,43 @@ struct ProductsDataManager: Decodable {
         }
         
         let dataBody = createDataBody(withParameters: paramter, images: convertedImages, boundary: boundary)
-        
         postRequest.httpBody = dataBody
         
         let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
-            
             if let data = data {
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
-                    print(decodedData)
                     completion(decodedData)
                 } catch {
-                    print(error)
                 }
             }
         }
         task.resume()
     }
     
-    func patchData<T: Decodable>(identifier: String, productID: Int, paramter: Parameters, completion: @escaping (T) -> Void) {
+    func getProductSecret(identifier: String, secret: String, productId: Int, completion: @escaping (Result<String, IdentifierError>) -> Void) {
+        guard let url = URL(string: url + "/" + String(productId) + "/secret") else { return }
+        var postRequest = URLRequest(url: url)
+        
+        postRequest.httpMethod = "POST"
+        postRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
+        
+        postRequest.httpBody = Parameters(secret: secret).returnParamatersToJsonData()
+
+        let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
+            if let data = data {
+                if let parsedData = String(data: data, encoding: .utf8) {
+                    completion(.success(parsedData))
+                } else {
+                    completion(.failure(.notYourProduct))
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func patchData<T: Decodable>(identifier: String, productID: Int, paramter: Parameters, completion: @escaping (Result<T, IdentifierError>) -> Void) {
         guard let url = URL(string: url + "/\(productID)") else { return }
         var postRequest = URLRequest(url: url)
         
@@ -117,8 +96,42 @@ struct ProductsDataManager: Decodable {
             }
             
             if let data = data {
-                guard let parsedData = try? JSONDecoder().decode(Page.self, from: data) else { return }
-                print(parsedData)
+                do {
+                    let parsedData = try JSONDecoder().decode(T.self, from: data)
+                    completion(.success(parsedData))
+                } catch {
+                    completion(.failure(.notYourProduct))
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func deleteData<T: Decodable>(identifier: String, productID: Int, secret: String, completion: @escaping (Result<T, IdentifierError>) -> Void) {
+        guard let url = URL(string: "\(url)/\(productID)/\(secret)") else {
+            completion(.failure(.notYourProduct))
+            return
+        }
+        
+        var postRequest = URLRequest(url: url)
+        
+        postRequest.httpMethod = "DELETE"
+        postRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        postRequest.addValue(identifier, forHTTPHeaderField: "identifier")
+        
+        let task = URLSession.shared.dataTask(with: postRequest) { (data, response, error) in
+            guard response != nil else {
+                completion(.failure(.notYourProduct))
+                return
+            }
+            
+            if let data = data {
+                do {
+                    let parsedData = try JSONDecoder().decode(T.self, from: data)
+                    completion(.success(parsedData))
+                } catch {
+                    completion(.failure(.notYourProduct))
+                }
             }
         }
         task.resume()
@@ -167,51 +180,39 @@ struct ProductsDataManager: Decodable {
             return nil
         }
     }
-}
-
-// MARK: - generateBoundary
-
-func generateBoundary() -> String {
-    return "Boundary-\(UUID().uuidString)"
-}
-
-// MARK: - createDataBody
-
-func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, boundary: String) -> Data {
     
-    let lineBreak = "\r\n"
-    var body = Data()
-    
-    body.append("--\(boundary + lineBreak)")
-    body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
-    body.append(params.returnParamatersToJsonData())
-    body.append("\(lineBreak)")
-    
-    if let images = images {
-        for image in images {
-            body.append("--\(boundary + lineBreak)")
-            body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
-            body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
-            body.append(image.data)
-            body.append(lineBreak)
-        }
+    // MARK: - generateBoundary
+
+    private func generateBoundary() -> String {
+        return "Boundary-\(UUID().uuidString)"
     }
-    
-    body.append("--\(boundary)--\(lineBreak)")
-    
-    return body
-}
 
-extension Data {
-    mutating func append(_ string: String) {
-        if let data = string.data(using: .utf8) {
-            self.append(data)
+    // MARK: - createDataBody
+
+    private func createDataBody(withParameters params: Parameters, images: [ImageInfo]?, boundary: String) -> Data {
+        
+        let lineBreak = "\r\n"
+        var body = Data()
+        do {
+            try body.append("--\(boundary + lineBreak)")
+            try body.append("Content-Disposition: form-data; name=\"\(Parameters.key)\"\(lineBreak + lineBreak)")
+            try body.append(params.returnParamatersToJsonData())
+            try body.append("\(lineBreak)")
+            
+            if let images = images {
+                for image in images {
+                    try body.append("--\(boundary + lineBreak)")
+                    try body.append("Content-Disposition: form-data; name=\"\(ImageInfo.key)\"; filename=\"\(image.filename)\"\(lineBreak)")
+                    try body.append("Content-Type: \(image.mimeType + lineBreak + lineBreak)")
+                    try body.append(image.getReducedImageData(to: 300))
+                    try body.append(lineBreak)
+                }
+            }
+            
+            try body.append("--\(boundary)--\(lineBreak)")
+        } catch {
+            print(error)
         }
-    }
-    
-    mutating func append(_ data: Data?) {
-        if let data = data {
-            self.append(data)
-        }
+        return body
     }
 }

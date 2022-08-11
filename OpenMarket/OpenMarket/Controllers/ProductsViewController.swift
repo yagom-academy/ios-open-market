@@ -12,6 +12,7 @@ class ProductsViewController: UIViewController {
     
     private var currentPage = 0
     private var isFetchingEnd = true
+    private var selectedId: Int?
     
     private let refreshControl = UIRefreshControl()
     private var segmentControl: UISegmentedControl?
@@ -23,6 +24,8 @@ class ProductsViewController: UIViewController {
         return indicator
     }()
     
+    var delegate: SendUpdateDelegate?
+    
     // MARK: - Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +35,6 @@ class ProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureHierarchy()
         configureDataSoure()
         configureSegmentControl()
@@ -47,7 +49,7 @@ class ProductsViewController: UIViewController {
     }
 }
 
-// MARK: - Fetching Method
+// MARK: - Fetching Functions
 
 extension ProductsViewController {
     private func startFetching(completion: @escaping () -> ()) {
@@ -110,16 +112,17 @@ extension ProductsViewController {
     }
     
     private func configureNavigationBarRightButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(showDetailView))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(showRegistView))
     }
     
-    @objc func showDetailView() {
-        let detailViewController = ProductsDetailViewController()
-        self.navigationController?.pushViewController(detailViewController, animated: true)
+    @objc private func showRegistView() {
+        let registViewController = ProductsRegistViewController()
+        registViewController.title = DetailViewTitle.regist
+        self.navigationController?.pushViewController(registViewController, animated: true)
     }
     
     private func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout(title: Titles.list))
         collectionView?.backgroundColor = .white
         collectionView?.delegate = self
         
@@ -129,10 +132,10 @@ extension ProductsViewController {
     }
     
     private func configureDataSoure() {
-        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [weak self] (cell, indexPath, identifier) in
+        let cellRegistration = UICollectionView.CellRegistration<ItemCollectionViewCell, Page> { [weak self] (cell, indexPath, item) in
             guard let self = self else { return }
             
-            cell.setProduct(by: identifier)
+            cell.setProduct(by: item)
             
             guard let segmentControl = self.segmentControl,
                   let currentSeguement = Titles(rawValue: segmentControl.selectedSegmentIndex) else { return }
@@ -169,29 +172,22 @@ extension ProductsViewController {
     }
     
     private func setLayout(_ collectionView: UICollectionView, _ topCellIndexPath: IndexPath) {
+        
+        guard let selectedSegmentIndex = self.segmentControl?.selectedSegmentIndex,
+              let title = Titles(rawValue: selectedSegmentIndex) else { return }
+        
+        self.isFetchingEnd = false
+        
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
-            if self.segmentControl?.selectedSegmentIndex == Titles.list.rawValue {
-                self.isFetchingEnd = false
-                collectionView.setCollectionViewLayout(self.createListLayout(), animated: false) { [weak self] bool in
-                    self?.isFetchingEnd = true
-                }
-                collectionView.visibleCells.forEach { cell in
-                    guard let cell = cell as? ItemCollectionViewCell else { return }
-                    cell.setAxis(segment: .list)
-                }
-                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
-            } else if self.segmentControl?.selectedSegmentIndex == Titles.grid.rawValue {
-                self.isFetchingEnd = false
-                collectionView.setCollectionViewLayout(self.createGridLayout(), animated: false) { [weak self] bool in
-                    self?.isFetchingEnd = true
-                }
-                collectionView.visibleCells.forEach { cell in
-                    guard let cell = cell as? ItemCollectionViewCell else { return }
-                    cell.setAxis(segment: .grid)
-                }
-                collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
+            collectionView.setCollectionViewLayout(self.createLayout(title: title), animated: false) { bool in
+                self.isFetchingEnd = true
             }
+            collectionView.visibleCells.forEach { cell in
+                guard let cell = cell as? ItemCollectionViewCell else { return }
+                cell.setAxis(segment: title)
+            }
+            collectionView.scrollToItem(at: topCellIndexPath, at: .top, animated: false)
         }
     }
     
@@ -215,36 +211,37 @@ extension ProductsViewController {
 // MARK: - Layout Method
 
 extension ProductsViewController {
-    private func createListLayout() -> UICollectionViewLayout {
-        let flowLayout = UICollectionViewFlowLayout()
-        
-        let width = view.frame.width
-        let height = view.frame.height
-        
-        flowLayout.minimumLineSpacing = 2
-        flowLayout.estimatedItemSize = CGSize(width: width, height: height * 0.08)
-        
-        return flowLayout
-    }
-    
-    private func createGridLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.31))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item,
-                                                       count: 2)
-        group.interItemSpacing = .fixed(10)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+    private func createLayout(title: Titles) -> UICollectionViewLayout {
+        switch title {
+        case .list:
+            let flowLayout = UICollectionViewFlowLayout()
+            
+            let width = view.frame.width
+            let height = view.frame.height
+            
+            flowLayout.minimumLineSpacing = 2
+            flowLayout.estimatedItemSize = CGSize(width: width, height: height * 0.08)
+            
+            return flowLayout
+        case .grid:
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .fractionalHeight(0.31))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                           subitem: item,
+                                                           count: 2)
+            group.interItemSpacing = .fixed(10)
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 10
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            
+            let layout = UICollectionViewCompositionalLayout(section: section)
+            return layout
+        }
     }
     
     private func addIndicatorLayout() {
@@ -299,11 +296,14 @@ extension ProductsViewController {
 
 extension ProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+        let detailViewController = ProductsDetailViewController()
+        selectedId = dataSource?.itemIdentifier(for: indexPath)?.id
+        detailViewController.delegate = self
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - scrollView.frame.height
         
@@ -313,5 +313,11 @@ extension ProductsViewController: UICollectionViewDelegate {
                 activityIndicator.stopAnimating()
             }
         }
+    }
+}
+
+extension ProductsViewController: SendUpdateDelegate {
+    func sendUpdate() -> UserIdentifier {
+        return UserIdentifier(id: selectedId ?? 0, secret: UserInfo.secret.rawValue)
     }
 }
