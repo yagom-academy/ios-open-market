@@ -183,8 +183,10 @@ final class ProductDetailViewController: UIViewController {
                         self.navigationController?.popToRootViewController(animated: true)
                     }
                     
-                case .failure(let failure):
-                    print(failure.localizedDescription)
+                case .failure:
+                    DispatchQueue.main.async {
+                        self.showDeleteFailAlert()
+                    }
                 }
             }
         }
@@ -196,7 +198,6 @@ final class ProductDetailViewController: UIViewController {
         alertController.addAction(deleteAlertAction)
         alertController.addAction(cancelAlertAction)
         present(alertController, animated: true)
-        
     }
     
     private func updateAlertActionDidTap() {
@@ -206,6 +207,17 @@ final class ProductDetailViewController: UIViewController {
         dataSendableDelegate?.setupData(productDetail)
         self.navigationController?.pushViewController(productUpdateViewController,
                                                       animated: true)
+    }
+    
+    private func showDeleteFailAlert() {
+        let alertController = UIAlertController(title: "비밀번호가 틀렸습니다",
+                                                message: nil,
+                                                preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "확인",
+                                        style: .default)
+        alertController.addAction(alertAction)
+        
+        self.present(alertController, animated: true)
     }
 }
 
