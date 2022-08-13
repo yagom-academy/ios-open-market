@@ -25,6 +25,7 @@ final class ProductUpdateView: UIView {
         scrollView.setupBoder(cornerRadius: Design.borderCornerRadius,
                               borderWidth: Design.borderWidth,
                               borderColor: UIColor.systemGray3.cgColor)
+        scrollView.showsHorizontalScrollIndicator = false
         
         return scrollView
     }()
@@ -211,14 +212,12 @@ final class ProductUpdateView: UIView {
         
         NSLayoutConstraint.activate(
             [
-                imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
-                                                    constant: Design.imageScrollViewTopAnchorConstant),
-                imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
-                                                       constant: Design.imageScrollViewBottomAnchorConstant),
                 imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
                                                         constant: Design.imageScrollViewLeadingAnchorConstant),
                 imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
-                                                         constant: Design.imageScrollViewTrailingAnchorConstant)
+                                                         constant: Design.imageScrollViewTrailingAnchorConstant),
+                imageStackView.heightAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.heightAnchor)
+                
             ])
     }
     
