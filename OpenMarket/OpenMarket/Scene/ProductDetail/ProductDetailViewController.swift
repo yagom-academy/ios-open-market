@@ -47,7 +47,7 @@ final class ProductDetailViewController: UIViewController {
         let request = ProductGetRequest(headers: nil,
                                         query: nil,
                                         body: nil,
-                                        productID: "/" + productID)
+                                        productID: productID)
         
         let session = MyURLSession()
         session.dataTask(with: request) { (result: Result<Data, Error>) in
@@ -57,7 +57,7 @@ final class ProductDetailViewController: UIViewController {
                 
                 decodedData.images.forEach
                 {
-                    OpenMarketImageManager.setupImage(key: $0.thumbnail) { image in
+                    OpenMarketManager.setupImage(key: $0.thumbnail) { image in
                         self.images.append(image)
                         DispatchQueue.main.async {
                             self.productImageCollectionView.reloadData()
@@ -143,15 +143,15 @@ final class ProductDetailViewController: UIViewController {
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
         
-        let updateAlertAction = UIAlertAction(title: "수정",
+        let updateAlertAction = UIAlertAction(title: Design.patch,
                                               style: .default) { _ in
             self.updateAlertActionDidTap()
         }
-        let deleteAlertAction = UIAlertAction(title: "삭제",
+        let deleteAlertAction = UIAlertAction(title: Design.delete,
                                               style: .destructive) { _ in
             self.deleteAlertActionDidTap()
         }
-        let cancelAlertAction = UIAlertAction(title: "취소",
+        let cancelAlertAction = UIAlertAction(title: Design.cancel,
                                               style: .cancel)
         
         alertController.addAction(updateAlertAction)
@@ -162,11 +162,11 @@ final class ProductDetailViewController: UIViewController {
     }
     
     func deleteAlertActionDidTap() {
-        let alertController = UIAlertController(title: "비밀번호를 입력하세요",
+        let alertController = UIAlertController(title: Design.writePassword,
                                                 message: nil,
                                                 preferredStyle: .alert)
         
-        let deleteAlertAction = UIAlertAction(title: "삭제",
+        let deleteAlertAction = UIAlertAction(title: Design.delete,
                                               style: .default) { _ in
             guard let password = alertController.textFields?[0].text,
                   let productID = self.productID
@@ -188,7 +188,7 @@ final class ProductDetailViewController: UIViewController {
                 }
             }
         }
-        let cancelAlertAction = UIAlertAction(title: "취소",
+        let cancelAlertAction = UIAlertAction(title: Design.cancel,
                                               style: .cancel)
         
         alertController.addTextField()
@@ -255,4 +255,14 @@ extension ProductDetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         productDetailView.setupPageCountLabel(text: "\(indexPath.row + 1)/\(images.count)")
     }
+}
+
+
+// MARK: - Design
+
+private enum Design {
+    static let delete = "삭제"
+    static let patch = "수정"
+    static let cancel = "취소"
+    static let writePassword = "비밀번호를 입력하세요"
 }

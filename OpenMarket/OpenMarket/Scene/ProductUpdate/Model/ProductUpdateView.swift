@@ -254,7 +254,7 @@ final class ProductUpdateView: UIView {
     
     func setupViewItems(product: ProductDetail) {
         product.images.forEach {
-            OpenMarketImageManager.setupImage(key: $0.thumbnail) { image in
+            OpenMarketManager.setupImage(key: $0.thumbnail) { image in
                 DispatchQueue.main.async { [weak self] in
                     self?.imageStackView.addArrangedSubview(self?.setupPickerImageView(image: image) ?? UIImageView())
                 }
@@ -269,38 +269,31 @@ final class ProductUpdateView: UIView {
         productDescriptionTextView.text = product.description
     }
     
-    func patch() {
+    func patchProduct() {
+        guard let product = setupProduct(),
+              let productID = productID
+        else { return showInvalidInputAlert() }
+        
+        ProductUpdateManager.update(product: product, productID: productID)
+    }
+    
+    private func setupProduct() -> RegistrationProduct? {
         guard let productName = productNameTextField.text,
               productName.count > 2,
               productDescriptionTextView.text.count > 9,
-              let price = makePriceText(),
-              let productID = productID
-        else { return showInvalidInputAlert() }
+              let price = makePriceText()
+        else { return nil }
         
         let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
         let product = RegistrationProduct(name: productName,
                                           descriptions: productDescriptionTextView.text,
                                           price: price,
                                           currency: currency.rawValue,
-                                          discountedPrice: Double(productDiscountedPriceTextField.text ?? "0"),
-                                          stock: Int(productStockTextField.text ?? "0"),
-                                          secret: "R49CfVhSdh")
+                                          discountedPrice: Double(productDiscountedPriceTextField.text ?? Design.zeroString),
+                                          stock: Int(productStockTextField.text ?? Design.zeroString),
+                                          secret: Design.secretKey)
         
-        guard let productData = try? JSONEncoder().encode(product) else { return }
-        
-        var request = ProductPatchRequest(productID: productID)
-        request.body = .json(productData)
-        
-        let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
-            switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let error):
-                print(error.localizedDescription)
-                break
-            }
-        }
+        return product
     }
     
     private func setupPickerImageView(image: UIImage) -> UIImageView {
@@ -320,7 +313,7 @@ final class ProductUpdateView: UIView {
     private func makePriceText() -> Double? {
         guard let priceText = productPriceTextField.text,
               let price = Double(priceText),
-              let discountedPrice = Double(productDiscountedPriceTextField.text ?? "0"),
+              let discountedPrice = Double(productDiscountedPriceTextField.text ?? Design.zeroString),
               price >= discountedPrice
         else { return nil }
         
@@ -328,11 +321,11 @@ final class ProductUpdateView: UIView {
     }
     
     private func showInvalidInputAlert() {
-        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다",
-                                          message: "필수사항을 입력해주세요",
+        let postAlert = UIAlertController(title: Design.postAlertControllerTitle,
+                                          message: Design.postAlertControllerMessage,
                                           preferredStyle: .alert)
         
-        let alertAction = UIAlertAction(title: "확인",
+        let alertAction = UIAlertAction(title: Design.alertActionTitle,
                                         style: .default)
         postAlert.addAction(alertAction)
         
@@ -398,4 +391,9 @@ private enum Design {
     static let imageDataCountConstraint = 300.0
     static let renderImageResizeNumber = 5.0
     static let devideImageDataCountByThousand = 1000.0
+    static let secretKey = "R49CfVhSdh"
+    static let postAlertControllerTitle = "등록 형식이 잘못되었습니다"
+    static let postAlertControllerMessage = "필수사항을 입력해주세요"
+    static let alertActionTitle = "확인"
+    static let zeroString = "0"
 }

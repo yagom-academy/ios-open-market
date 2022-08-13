@@ -13,7 +13,11 @@ struct ProductGetRequest: APIRequest {
     }
     
     var path: String? {
-        URLAdditionalPath.product.value + (productID ?? "")
+        if let unwrappedProductID = productID {
+            return URLAdditionalPath.product.value + "/\(unwrappedProductID)"
+        } else {
+            return URLAdditionalPath.product.value
+        }
     }
     
     var method: HTTPMethod {
