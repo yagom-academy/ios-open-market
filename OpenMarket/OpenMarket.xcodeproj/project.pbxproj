@@ -315,9 +315,9 @@
 		D70EECFB2880F873003679E9 /* JSONModel */ = {
 			isa = PBXGroup;
 			children = (
-				D71BB6DF287D07CE006035C6 /* ProductInformation.swift */,
 				D7D94ED628A289C600B3F81B /* ProductDetail.swift */,
 				D71BB6E1287D098E006035C6 /* ProductImage.swift */,
+				D71BB6DF287D07CE006035C6 /* ProductInformation.swift */,
 				37239698287D054E001EFC70 /* ProductsList.swift */,
 				3723969C287D0FC5001EFC70 /* RegisterationProduct.swift */,
 				3723969E287D11F0001EFC70 /* SecretProducts.swift */,
@@ -385,8 +385,8 @@
 		D7649C8B2886936F00E3F30A /* Enum */ = {
 			isa = PBXGroup;
 			children = (
-				D7649C892886936800E3F30A /* Section.swift */,
 				37D96A742886C49D002B1A8F /* ProductListNameSpace.swift */,
+				D7649C892886936800E3F30A /* Section.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -430,18 +430,10 @@
 		D7D94ECC28A2831F00B3F81B /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
-				D7D94ECD28A2833400B3F81B /* Model */,
 				D7D94ECE28A2833E00B3F81B /* View */,
 				D7D94ECF28A2834500B3F81B /* Controller */,
 			);
 			path = ProductDetail;
-			sourceTree = "<group>";
-		};
-		D7D94ECD28A2833400B3F81B /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 		D7D94ECE28A2833E00B3F81B /* View */ = {
