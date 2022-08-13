@@ -47,7 +47,7 @@ final class ProductDetailViewController: UIViewController {
         let request = ProductGetRequest(headers: nil,
                                         query: nil,
                                         body: nil,
-                                        productID: Design.slash + productID)
+                                        productID: productID)
         
         let session = MyURLSession()
         session.dataTask(with: request) { (result: Result<Data, Error>) in
@@ -261,7 +261,6 @@ extension ProductDetailViewController: UICollectionViewDelegate {
 // MARK: - Design
 
 private enum Design {
-    static let slash = "/"
     static let delete = "삭제"
     static let patch = "수정"
     static let cancel = "취소"
