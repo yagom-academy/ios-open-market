@@ -113,6 +113,8 @@ final class ProductListViewController: UIViewController {
             case .success(let success):
                 guard let decodedData = success.decodeData(type: ProductsList.self) else { return }
                 
+                self.productsIDList.removeAll()
+                
                 decodedData.pages
                     .filter
                 {
