@@ -1,25 +1,22 @@
 //
-//  ProductDetail.swift
+//  ProductInformation.swift
 //  OpenMarket
 //
-//  Created by groot, bard on 2022/08/09.
+//  Created by groot, bard on 2022/07/12.
 //
 
 import UIKit
 
-struct ProductDetail: Decodable {
+struct ProductInformation: Codable, Hashable {
     let id: Int
     let vendorID: Int
     let name: String
-    let description: String
     let thumbnail: String
     let currency: Currency
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let images: [ProductImage]
-    let vendors: Vendors
     let createdAt: String
     let issuedAt: String
     
@@ -27,21 +24,18 @@ struct ProductDetail: Decodable {
         case id
         case vendorID = "vendor_id"
         case name
-        case description
         case thumbnail
         case currency
         case price
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
-        case images
-        case vendors
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
 }
 
-extension ProductDetail {
+extension ProductInformation {
     func makePriceText() -> NSMutableAttributedString {
         let price = "\(self.currency.rawValue) \(self.price.formatNumber())"
         
@@ -56,14 +50,31 @@ extension ProductDetail {
         }
     }
     
+    func pushThumbnailImageCache() {
+        let request = ImageGetRequest(baseURL: self.thumbnail)
+        
+        let session = MyURLSession()
+        session.execute(with: request) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                guard let image = UIImage(data: success) else { return }
+                
+                ImageCacheManager.shared.setObject(image,
+                                                   forKey: NSString(string: self.thumbnail))
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
     func makeStockText() -> NSMutableAttributedString {
         if self.stock == 0 {
-            let stockText = PriceText.soldOut.detailText
+            let stockText = PriceText.soldOut.listText
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
             
             let attributes: [NSAttributedString.Key: Any] =
             [
-                .font: UIFont.preferredFont(forTextStyle: .title3),
+                .font: UIFont.preferredFont(forTextStyle: .footnote),
                 .foregroundColor: UIColor.systemOrange
             ]
             
@@ -72,12 +83,12 @@ extension ProductDetail {
             
             return muttableAttributedString
         } else {
-            let stockText = "\(PriceText.stock.detailText)\(stock)"
+            let stockText = "\(PriceText.stock.listText)\(stock)"
             let muttableAttributedString = NSMutableAttributedString(string: stockText)
             
             let attributes: [NSAttributedString.Key: Any] =
             [
-                .font: UIFont.preferredFont(forTextStyle: .title3),
+                .font: UIFont.preferredFont(forTextStyle: .footnote),
                 .foregroundColor: UIColor.systemGray
             ]
             
@@ -93,7 +104,7 @@ private extension NSMutableAttributedString {
     func makePriceText(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
-            .font: UIFont.preferredFont(forTextStyle: .body),
+            .font: UIFont.preferredFont(forTextStyle: .footnote),
             .strikethroughStyle: NSUnderlineStyle.single.rawValue,
             .foregroundColor: UIColor.systemRed
         ]
@@ -107,7 +118,7 @@ private extension NSMutableAttributedString {
     func makeBargainPriceText(string: String) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] =
         [
-            .font: UIFont.preferredFont(forTextStyle: .body),
+            .font: UIFont.preferredFont(forTextStyle: .footnote),
             .foregroundColor: UIColor.systemGray
         ]
         
@@ -117,5 +128,3 @@ private extension NSMutableAttributedString {
         return self
     }
 }
-
-

@@ -10,6 +10,8 @@ import UIKit
 final class ProductUpdateView: UIView {
     // MARK: - properties
     
+    private var productID: String?
+    
     private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +27,7 @@ final class ProductUpdateView: UIView {
         scrollView.setupBoder(cornerRadius: Design.borderCornerRadius,
                               borderWidth: Design.borderWidth,
                               borderColor: UIColor.systemGray3.cgColor)
+        scrollView.showsHorizontalScrollIndicator = false
         
         return scrollView
     }()
@@ -66,7 +69,6 @@ final class ProductUpdateView: UIView {
                             borderColor: UIColor.systemGray3.cgColor)
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.text = Design.productDescriptionPlaceholder
-        textView.textColor = .systemGray3
         
         return textView
     }()
@@ -119,7 +121,7 @@ final class ProductUpdateView: UIView {
         return textField
     }()
     
-    private let stockTextField: UITextField = {
+    private let productStockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.stockPlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -188,7 +190,7 @@ final class ProductUpdateView: UIView {
             totalStackView.addArrangedSubview($0)
         }
         
-        [productNameTextField, segmentedStackView, productDiscountedPriceTextField, stockTextField].forEach
+        [productNameTextField, segmentedStackView, productDiscountedPriceTextField, productStockTextField].forEach
         {
             productInformationStackView.addArrangedSubview($0)
         }
@@ -212,14 +214,12 @@ final class ProductUpdateView: UIView {
         
         NSLayoutConstraint.activate(
             [
-                imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor,
-                                                    constant: Design.imageScrollViewTopAnchorConstant),
-                imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor,
-                                                       constant: Design.imageScrollViewBottomAnchorConstant),
                 imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor,
                                                         constant: Design.imageScrollViewLeadingAnchorConstant),
                 imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor,
-                                                         constant: Design.imageScrollViewTrailingAnchorConstant)
+                                                         constant: Design.imageScrollViewTrailingAnchorConstant),
+                imageStackView.heightAnchor.constraint(equalTo: imageScrollView.contentLayoutGuide.heightAnchor)
+                
             ])
     }
     
@@ -251,6 +251,87 @@ final class ProductUpdateView: UIView {
     @objc func endEditing(){
         resignFirstResponder()
     }
+    
+    func setupViewItems(product: ProductDetail) {
+        product.images.forEach {
+            OpenMarketManager.setupImage(key: $0.thumbnail) { image in
+                DispatchQueue.main.async { [weak self] in
+                    self?.imageStackView.addArrangedSubview(self?.setupPickerImageView(image: image) ?? UIImageView())
+                }
+            }
+        }
+        
+        productID = product.id.description
+        productNameTextField.text = product.name
+        productPriceTextField.text = product.price.description
+        productDiscountedPriceTextField.text = product.discountedPrice.description
+        productStockTextField.text = product.stock.description
+        productDescriptionTextView.text = product.description
+    }
+    
+    func patchProduct() {
+        guard let product = setupProduct(),
+              let productID = productID
+        else { return showInvalidInputAlert() }
+        
+        ProductUpdateManager.update(product: product, productID: productID)
+    }
+    
+    private func setupProduct() -> RegistrationProduct? {
+        guard let productName = productNameTextField.text,
+              productName.count > 2,
+              productDescriptionTextView.text.count > 9,
+              let price = makePriceText()
+        else { return nil }
+        
+        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
+        let product = RegistrationProduct(name: productName,
+                                          descriptions: productDescriptionTextView.text,
+                                          price: price,
+                                          currency: currency.rawValue,
+                                          discountedPrice: Double(productDiscountedPriceTextField.text ?? Design.zeroString),
+                                          stock: Int(productStockTextField.text ?? Design.zeroString),
+                                          secret: Design.secretKey)
+        
+        return product
+    }
+    
+    private func setupPickerImageView(image: UIImage) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = image
+        
+        NSLayoutConstraint.activate(
+            [
+                imageView.widthAnchor.constraint(equalToConstant: imageScrollView.frame.height),
+                imageView.heightAnchor.constraint(equalToConstant: imageScrollView.frame.height)
+            ])
+        
+        return imageView
+    }
+    
+    private func makePriceText() -> Double? {
+        guard let priceText = productPriceTextField.text,
+              let price = Double(priceText),
+              let discountedPrice = Double(productDiscountedPriceTextField.text ?? Design.zeroString),
+              price >= discountedPrice
+        else { return nil }
+        
+        return price - discountedPrice
+    }
+    
+    private func showInvalidInputAlert() {
+        let postAlert = UIAlertController(title: Design.postAlertControllerTitle,
+                                          message: Design.postAlertControllerMessage,
+                                          preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: Design.alertActionTitle,
+                                        style: .default)
+        postAlert.addAction(alertAction)
+        
+        window?.rootViewController?.present(postAlert,
+                                            animated: true)
+    }
 }
 
 // MARK: - extensions
@@ -267,11 +348,6 @@ extension ProductUpdateView: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         frame.origin.y = .zero
-        
-        if textView.text.count == 0 {
-            textView.text = Design.productDescriptionPlaceholder
-            textView.textColor = .lightGray
-        }
     }
 }
 
@@ -315,4 +391,9 @@ private enum Design {
     static let imageDataCountConstraint = 300.0
     static let renderImageResizeNumber = 5.0
     static let devideImageDataCountByThousand = 1000.0
+    static let secretKey = "R49CfVhSdh"
+    static let postAlertControllerTitle = "등록 형식이 잘못되었습니다"
+    static let postAlertControllerMessage = "필수사항을 입력해주세요"
+    static let alertActionTitle = "확인"
+    static let zeroString = "0"
 }

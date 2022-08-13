@@ -1,15 +1,17 @@
 //
 //  OpenMarket - ProductListViewController.swift
-//  Created by groot, bard. 
+//  Created by groot, bard.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
 final class ProductListViewController: UIViewController {
     // MARK: - properties
     
+    private var datableDelgate: DataSendable?
     private var loadingView: UIView?
+    private var productsIDList = [String]()
     private lazy var gridCollectionView = GridCollecntionView(frame: .null,
                                                               collectionViewLayout: createGridLayout())
     
@@ -33,8 +35,12 @@ final class ProductListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        
         setupUI()
         setupRefreshControl()
+        
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,8 +81,8 @@ final class ProductListViewController: UIViewController {
     
     private func setupSegmentedControl() {
         segmentedControl.addTarget(self,
-                                        action: #selector(segmentButtonDidTap(sender:)),
-                                        for: .valueChanged)
+                                   action: #selector(segmentButtonDidTap(sender:)),
+                                   for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
         
     }
@@ -90,12 +96,13 @@ final class ProductListViewController: UIViewController {
                 listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
             ])
         
-        NSLayoutConstraint.activate([
-            gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        ])
+        NSLayoutConstraint.activate(
+            [
+                gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            ])
     }
     
     // MARK: - functions
@@ -107,7 +114,15 @@ final class ProductListViewController: UIViewController {
         myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
             switch result {
             case .success(let success):
-                guard let decodedData = success.decodeData() else { return }
+                guard let decodedData = success.decodeData(type: ProductsList.self) else { return }
+                
+                self.productsIDList.removeAll()
+                
+                decodedData.pages
+                    .forEach
+                {
+                    self.productsIDList.append($0.id.description)
+                }
                 
                 decodedData.pages
                     .filter
@@ -149,6 +164,7 @@ final class ProductListViewController: UIViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.listLayoutFractionalWidth),
                                                 heightDimension: .fractionalHeight(Design.listLayoutFractionalHeight))
+        
         let item = NSCollectionLayoutItem(layoutSize: layoutSize)
         
         let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.listGroupFractionlWidth),
@@ -169,6 +185,7 @@ final class ProductListViewController: UIViewController {
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = Design.itemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.gridGroupFractionalWidth),
                                                heightDimension: .absolute(self.view.frame.height * Design.gridGroupFrameHeightRatio))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
@@ -216,7 +233,7 @@ final class ProductListViewController: UIViewController {
     
     @objc private func productRegistrationButtonDidTap() {
         navigationController?.pushViewController(ProductRegistrationViewController(),
-                                                      animated: true)
+                                                 animated: true)
     }
     
     @objc private func refresh() {
@@ -230,17 +247,17 @@ final class ProductListViewController: UIViewController {
     }
 }
 
-extension Data {
-    func decodeData() -> ProductsDetailList? {
-        let jsonDecoder = JSONDecoder()
-        var data: ProductsDetailList?
+extension ProductListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let productDetailViewController = ProductDetailViewController()
         
-        data = try? jsonDecoder.decode(ProductsDetailList.self, from: self)
+        datableDelgate = productDetailViewController
+        datableDelgate?.setupData(productsIDList[indexPath.row])
         
-        return data
+        navigationController?.pushViewController(productDetailViewController,
+                                                 animated: true)
     }
 }
-
 
 // MARK: - Design
 

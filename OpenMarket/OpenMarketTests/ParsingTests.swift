@@ -27,7 +27,7 @@ final class ParsingTests: XCTestCase {
     func test_목데이터디코딩이_잘되는지() {
         // given
         let data = (mockData?.data)!
-        let openMaketData = try? jsonDecoder.decode(ProductsDetailList.self, from: data)
+        let openMaketData = try? jsonDecoder.decode(ProductsList.self, from: data)
         
         // when
         let result = "Test Product"

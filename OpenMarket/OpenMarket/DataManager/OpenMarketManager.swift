@@ -1,5 +1,5 @@
 //
-//  OpenMarketImageManager.swift
+//  OpenMarketManager.swift
 //  OpenMarket
 //
 //  Created by groot, bard on 2022/07/27.
@@ -7,7 +7,7 @@
 
 import UIKit.UIImage
 
-struct OpenMarketImageManager {
+struct OpenMarketManager {
     static func setupImage(key: String, completion: @escaping (UIImage) -> Void) {
         if let cachedImage = ImageCacheManager.shared.object(forKey: NSString(string: key)) {
             completion(cachedImage)

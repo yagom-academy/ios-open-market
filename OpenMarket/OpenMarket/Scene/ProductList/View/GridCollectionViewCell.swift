@@ -105,8 +105,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
             ])
     }
     
-    func setViewItems(_ product: ProductDetail) {
-        OpenMarketImageManager.setupImage(key: product.thumbnail) { image in
+    func setViewItems(_ product: ProductInformation) {
+        OpenMarketManager.setupImage(key: product.thumbnail) { image in
             DispatchQueue.main.async { [weak self] in
                 self?.productImageView.image = image
             }

@@ -34,19 +34,40 @@ class ProductUpdateViewController: UIViewController {
     
     private func setupNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                             target: nil,
-                                             action: #selector(updateProducts))
+                                             target: self,
+                                             action: #selector(updateButtonDidTap))
         self.navigationItem.title = Design.navigationItemTitle
         self.navigationItem.setRightBarButton(rightBarButton,
                                               animated: true)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                                target: self,
+                                                                action: #selector(cancelButtonDidTap))
     }
     
     // MARK: - @objc functions
     
-    @objc private func updateProducts() {
+    @objc private func updateButtonDidTap() {
+        productUpdateView.patchProduct()
+        
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @objc private func cancelButtonDidTap() {
         navigationController?.popViewController(animated: true)
     }
 }
+
+// MARK: - extensions
+
+extension ProductUpdateViewController: DataSendable {
+    func setupData<T>(_ data: T) {
+        guard let product = data as? ProductDetail else { return }
+        
+        productUpdateView.setupViewItems(product: product)
+    }
+}
+
+// MARK: - Design
 
 private enum Design {
     static let navigationItemTitle = "상품수정"
