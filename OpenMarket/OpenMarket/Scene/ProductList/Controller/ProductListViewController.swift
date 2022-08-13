@@ -119,6 +119,12 @@ final class ProductListViewController: UIViewController {
                 self.productsIDList.removeAll()
                 
                 decodedData.pages
+                    .forEach
+                {
+                    self.productsIDList.append($0.id.description)
+                }
+                
+                decodedData.pages
                     .filter
                 {
                     ImageCacheManager.shared.object(forKey: NSString(string: $0.thumbnail)) == nil
@@ -127,7 +133,6 @@ final class ProductListViewController: UIViewController {
                 .forEach
                 {
                     $0.pushThumbnailImageCache()
-                    self.productsIDList.append($0.id.description)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
