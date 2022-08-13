@@ -33,7 +33,6 @@ final class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        setupNavigationController()
         fetchData()
         setupProductImageCollectionView()
         setupSubviews()
@@ -69,6 +68,9 @@ final class ProductDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.navigationItem.title = decodedData.name
                     self.productDetailView.setupViewItems(decodedData)
+                    if decodedData.vendorID == 97 {
+                        self.setupNavigationController()
+                    }
                 }
                 
                 self.productDetail = decodedData
@@ -147,7 +149,7 @@ final class ProductDetailViewController: UIViewController {
         }
         let deleteAlertAction = UIAlertAction(title: "삭제",
                                               style: .destructive) { _ in
-            print("삭제")
+            self.deleteAlertActionDidTap()
         }
         let cancelAlertAction = UIAlertAction(title: "취소",
                                               style: .cancel)
@@ -157,6 +159,44 @@ final class ProductDetailViewController: UIViewController {
         alertController.addAction(cancelAlertAction)
         
         present(alertController, animated: true)
+    }
+    
+    func deleteAlertActionDidTap() {
+        let alertController = UIAlertController(title: "비밀번호를 입력하세요",
+                                                message: nil,
+                                                preferredStyle: .alert)
+        
+        let deleteAlertAction = UIAlertAction(title: "삭제",
+                                              style: .default) { _ in
+            guard let password = alertController.textFields?[0].text,
+                  let productID = self.productID
+            else { return }
+            
+            let request = ProductDeleteRequest(productID: productID, productSeceret: password)
+            
+            let mySession = MyURLSession()
+            mySession.dataTask(with: request) { (result: Result<Data, Error>) in
+                
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                    
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+            }
+        }
+        let cancelAlertAction = UIAlertAction(title: "취소",
+                                              style: .cancel)
+        
+        alertController.addTextField()
+        
+        alertController.addAction(deleteAlertAction)
+        alertController.addAction(cancelAlertAction)
+        present(alertController, animated: true)
+        
     }
     
     private func updateAlertActionDidTap() {

@@ -49,7 +49,7 @@ class ProductUpdateViewController: UIViewController {
     @objc private func updateProducts() {
         productUpdateView.patch()
         
-        navigationController?.popViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc private func cancelProducts() {
