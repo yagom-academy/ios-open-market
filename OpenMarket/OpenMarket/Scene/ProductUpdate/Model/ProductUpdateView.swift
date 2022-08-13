@@ -10,6 +10,8 @@ import UIKit
 final class ProductUpdateView: UIView {
     // MARK: - properties
     
+    private var productID: String?
+    
     private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -119,7 +121,7 @@ final class ProductUpdateView: UIView {
         return textField
     }()
     
-    private let stockTextField: UITextField = {
+    private let productStockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Design.stockPlaceholder
         textField.leftView = UIView(frame: CGRect(x: .zero,
@@ -188,7 +190,7 @@ final class ProductUpdateView: UIView {
             totalStackView.addArrangedSubview($0)
         }
         
-        [productNameTextField, segmentedStackView, productDiscountedPriceTextField, stockTextField].forEach
+        [productNameTextField, segmentedStackView, productDiscountedPriceTextField, productStockTextField].forEach
         {
             productInformationStackView.addArrangedSubview($0)
         }
@@ -259,11 +261,46 @@ final class ProductUpdateView: UIView {
             }
         }
         
+        productID = product.id.description
         productNameTextField.text = product.name
         productPriceTextField.text = product.price.description
         productDiscountedPriceTextField.text = product.discountedPrice.description
-        stockTextField.text = product.stock.description
+        productStockTextField.text = product.stock.description
         productDescriptionTextView.text = product.description
+    }
+    
+    func patch() {
+        guard let productName = productNameTextField.text,
+              productName.count > 2,
+              productDescriptionTextView.text.count > 9,
+              let price = makePriceText(),
+              let productID = productID
+        else { return showInvalidInputAlert() }
+        
+        let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
+        let product = RegistrationProduct(name: productName,
+                                          descriptions: productDescriptionTextView.text,
+                                          price: price,
+                                          currency: currency.rawValue,
+                                          discountedPrice: Double(productDiscountedPriceTextField.text ?? "0"),
+                                          stock: Int(productStockTextField.text ?? "0"),
+                                          secret: "R49CfVhSdh")
+        
+        guard let productData = try? JSONEncoder().encode(product) else { return }
+        
+        var request = ProductPatchRequest(productID: productID)
+        request.body = .json(productData)
+        
+        let myURLSession = MyURLSession()
+        myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
     }
     
     private func setupPickerImageView(image: UIImage) -> UIImageView {
@@ -278,6 +315,29 @@ final class ProductUpdateView: UIView {
             ])
         
         return imageView
+    }
+    
+    private func makePriceText() -> Double? {
+        guard let priceText = productPriceTextField.text,
+              let price = Double(priceText),
+              let discountedPrice = Double(productDiscountedPriceTextField.text ?? "0"),
+              price >= discountedPrice
+        else { return nil }
+        
+        return price - discountedPrice
+    }
+    
+    private func showInvalidInputAlert() {
+        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다",
+                                          message: "필수사항을 입력해주세요",
+                                          preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "확인",
+                                        style: .default)
+        postAlert.addAction(alertAction)
+        
+        window?.rootViewController?.present(postAlert,
+                                            animated: true)
     }
 }
 

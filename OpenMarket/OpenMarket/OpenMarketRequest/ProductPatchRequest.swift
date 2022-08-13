@@ -11,7 +11,7 @@ struct ProductPatchRequest: APIRequest {
     var baseURL: String = URLHost.openMarket.url
     
     var path: String? {
-        URLAdditionalPath.product.value + productID
+        URLAdditionalPath.product.value + "/\(productID)"
     }
     
     var method: HTTPMethod = .patch
