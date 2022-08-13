@@ -172,7 +172,7 @@ class ProductRegistrationView: UIView {
         return textView
     }()
     
-    // MARK: - functions
+    // MARK: - initializers
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -183,24 +183,30 @@ class ProductRegistrationView: UIView {
         super.init(coder: coder)
         commonInit()
     }
+    
+    private func commonInit() {
+        setupView()
+        setupDelegate()
+        setupContent()
+    }
+    
+    // MARK: - functions
+    
+    func registerProduct() {
+        guard let product = setupProduct() else { return showInvalidInputAlert() }
         
-    func register() {
+        let images = setupImages()
+        guard !images.isEmpty else { return showInvalidInputAlert() }
+        
+        OpenMarketManager.register(product: product, images: images)
+    }
+    
+    private func setupProduct() -> RegistrationProduct? {
         guard let productName = productNameTextField.text,
               productName.count > 2,
               productDescriptionTextView.text.count > 9,
               let price = makePriceText()
-        else { return showInvalidInputAlert() }
-        
-        var images = [Image]()
-        let imagesData = convertImages(view: imageStackView)
-        imagesData.forEach
-        {
-            images.append(Image(name: $0.description,
-                                data: $0,
-                                type: Design.png))
-        }
-     
-        guard !images.isEmpty else { return showInvalidInputAlert() }
+        else { return nil }
         
         let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
         let product = RegistrationProduct(name: productName,
@@ -211,41 +217,20 @@ class ProductRegistrationView: UIView {
                                           stock: Int(productStockTextField.text ?? Design.zeroString),
                                           secret: Design.secretKey)
         
-        guard let productData = try? JSONEncoder().encode(product) else { return }
-        
-        let boundary = "Boundary-\(UUID().uuidString)"
-        var request = ProductPostRequest()
-
-        request.additionHeaders =
-        [
-            HTTPHeaders.multipartFormData(boundary: boundary).key: HTTPHeaders.multipartFormData(boundary: boundary).value
-        ]
-        
-        let multiPartFormData =  MultiPartForm(
-            jsonParameterName: "params",
-            imageParameterName: "images",
-            boundary: boundary,
-            jsonData: productData,
-            images: images)
-        
-        request.body = .multiPartForm(multiPartFormData)
-        
-        let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
-            switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let error):
-                print(error.localizedDescription)
-                break
-            }
-        }
+        return product
     }
     
-    private func commonInit() {
-        setupView()
-        setupDelegate()
-        setupContent()
+    private func setupImages() -> [Image] {
+        var images = [Image]()
+        let imagesData = convertImages(view: imageStackView)
+        imagesData.forEach
+        {
+            images.append(Image(name: $0.description,
+                                data: $0,
+                                type: Design.png))
+        }
+        
+        return images
     }
     
     private func setupView() {
@@ -254,22 +239,6 @@ class ProductRegistrationView: UIView {
         setupSubviews()
         setupSubViewsHeight()
         setupConstraints()
-    }
-    
-    private func setupDelegate() {
-        pickerController.delegate = self
-        productDescriptionTextView.delegate = self
-        productNameTextField.delegate = self
-        productPriceTextField.delegate = self
-    }
-    
-    private func setupContent() {
-        setupUiToolbar()
-        imagePrickerButton.addTarget(self,
-                                     action: #selector(pickImages),
-                                     for: .touchUpInside)
-        addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                    action: #selector(endEditing(_:))))
     }
     
     private func setupSubviews() {
@@ -338,6 +307,22 @@ class ProductRegistrationView: UIView {
                 productInformationStackView.heightAnchor.constraint(equalTo: productDescriptionTextView.heightAnchor,
                                                                     multiplier: Design.productDescriptionTextViewHeightAnchorMultiplier)
             ])
+    }
+    
+    private func setupContent() {
+        setupUiToolbar()
+        imagePrickerButton.addTarget(self,
+                                     action: #selector(pickImages),
+                                     for: .touchUpInside)
+        addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                    action: #selector(endEditing(_:))))
+    }
+    
+    private func setupDelegate() {
+        pickerController.delegate = self
+        productDescriptionTextView.delegate = self
+        productNameTextField.delegate = self
+        productPriceTextField.delegate = self
     }
     
     private func setupUiToolbar() {

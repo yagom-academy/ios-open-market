@@ -254,7 +254,7 @@ final class ProductUpdateView: UIView {
     
     func setupViewItems(product: ProductDetail) {
         product.images.forEach {
-            OpenMarketImageManager.setupImage(key: $0.thumbnail) { image in
+            OpenMarketManager.setupImage(key: $0.thumbnail) { image in
                 DispatchQueue.main.async { [weak self] in
                     self?.imageStackView.addArrangedSubview(self?.setupPickerImageView(image: image) ?? UIImageView())
                 }

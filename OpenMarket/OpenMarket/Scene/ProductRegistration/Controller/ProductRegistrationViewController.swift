@@ -36,15 +36,15 @@ class ProductRegistrationViewController: UIViewController {
     private func setupNavigationController() {
         let rightBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                              target: nil,
-                                             action: #selector(registerProducts))
+                                             action: #selector(registerButtonDidTap))
         navigationItem.title = Design.navigationTitle
         navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
     // MARK: - @objc functions
     
-    @objc private func registerProducts() {
-        productRegistrationView.register()
+    @objc private func registerButtonDidTap() {
+        productRegistrationView.registerProduct()
         navigationController?.popViewController(animated: true)
     }
 }

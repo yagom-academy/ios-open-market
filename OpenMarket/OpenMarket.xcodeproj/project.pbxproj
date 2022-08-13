@@ -51,12 +51,13 @@
 		D799F06328A29C0E00FF7EA8 /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D799F06228A29C0D00FF7EA8 /* ProductImageCell.swift */; };
 		D7AE3E44288C0E5B00565F3D /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AE3E43288C0E5B00565F3D /* ImageCacheManager.swift */; };
 		D7C4C7172890D322007CF8F1 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4C7162890D322007CF8F1 /* ListCollectionViewCell.swift */; };
-		D7C4C7192890FAB3007CF8F1 /* OpenMarketImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4C7182890FAB3007CF8F1 /* OpenMarketImageManager.swift */; };
+		D7C4C7192890FAB3007CF8F1 /* OpenMarketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4C7182890FAB3007CF8F1 /* OpenMarketManager.swift */; };
 		D7D4648028858AC30040A0A7 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D4647F28858AC30040A0A7 /* GridCollectionViewCell.swift */; };
 		D7D94ED128A2836400B3F81B /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED028A2836400B3F81B /* ProductDetailViewController.swift */; };
 		D7D94ED328A2836E00B3F81B /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED228A2836E00B3F81B /* ProductDetailView.swift */; };
 		D7D94ED728A289C700B3F81B /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED628A289C600B3F81B /* ProductDetail.swift */; };
 		D7D94ED928A28A4800B3F81B /* Vendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED828A28A4800B3F81B /* Vendors.swift */; };
+		D7DC7FE828A781E5005F7D3B /* OpenMarketManager+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DC7FE728A781E5005F7D3B /* OpenMarketManager+extension.swift */; };
 		D7EBDB28289E3F7B0039FEBE /* ImageGetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -118,12 +119,13 @@
 		D799F06228A29C0D00FF7EA8 /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		D7AE3E43288C0E5B00565F3D /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		D7C4C7162890D322007CF8F1 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
-		D7C4C7182890FAB3007CF8F1 /* OpenMarketImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketImageManager.swift; sourceTree = "<group>"; };
+		D7C4C7182890FAB3007CF8F1 /* OpenMarketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketManager.swift; sourceTree = "<group>"; };
 		D7D4647F28858AC30040A0A7 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		D7D94ED028A2836400B3F81B /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		D7D94ED228A2836E00B3F81B /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		D7D94ED628A289C600B3F81B /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		D7D94ED828A28A4800B3F81B /* Vendors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendors.swift; sourceTree = "<group>"; };
+		D7DC7FE728A781E5005F7D3B /* OpenMarketManager+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OpenMarketManager+extension.swift"; sourceTree = "<group>"; };
 		D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGetRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -195,7 +197,7 @@
 		37343920289CF1ED004D4D38 /* ProductRegistration */ = {
 			isa = PBXGroup;
 			children = (
-				37343923289CF1ED004D4D38 /* Model */,
+				D7DC7FE628A781CD005F7D3B /* Model */,
 				37343924289CF1ED004D4D38 /* View */,
 				37343921289CF1ED004D4D38 /* Controller */,
 			);
@@ -208,13 +210,6 @@
 				37343922289CF1ED004D4D38 /* ProductRegistrationViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		37343923289CF1ED004D4D38 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		37343924289CF1ED004D4D38 /* View */ = {
@@ -240,7 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				D7AE3E43288C0E5B00565F3D /* ImageCacheManager.swift */,
-				D7C4C7182890FAB3007CF8F1 /* OpenMarketImageManager.swift */,
+				D7C4C7182890FAB3007CF8F1 /* OpenMarketManager.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -463,6 +458,14 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		D7DC7FE628A781CD005F7D3B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D7DC7FE728A781E5005F7D3B /* OpenMarketManager+extension.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -585,13 +588,14 @@
 				37239699287D054E001EFC70 /* ProductsList.swift in Sources */,
 				37FBE23B2896816E00240A1E /* Data+extension.swift in Sources */,
 				373B48012880F4940068F781 /* MyURLSession.swift in Sources */,
-				D7C4C7192890FAB3007CF8F1 /* OpenMarketImageManager.swift in Sources */,
+				D7C4C7192890FAB3007CF8F1 /* OpenMarketManager.swift in Sources */,
 				D7D94ED128A2836400B3F81B /* ProductDetailViewController.swift in Sources */,
 				D799F06328A29C0E00FF7EA8 /* ProductImageCell.swift in Sources */,
 				37FBE2EC289CEC7100240A1E /* ProductPatchRequest.swift in Sources */,
 				3734391E289CF147004D4D38 /* ProductUpdateView.swift in Sources */,
 				372396A5287D195C001EFC70 /* APIRequest.swift in Sources */,
 				3723969D287D0FC5001EFC70 /* RegisterationProduct.swift in Sources */,
+				D7DC7FE828A781E5005F7D3B /* OpenMarketManager+extension.swift in Sources */,
 				D7D94ED928A28A4800B3F81B /* Vendors.swift in Sources */,
 				37FBE2EE289CEC9800240A1E /* ProductDeleteRequest.swift in Sources */,
 				37FBE2E0289CEAC900240A1E /* UIImage+extension.swift in Sources */,

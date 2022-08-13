@@ -57,7 +57,7 @@ final class ProductDetailViewController: UIViewController {
                 
                 decodedData.images.forEach
                 {
-                    OpenMarketImageManager.setupImage(key: $0.thumbnail) { image in
+                    OpenMarketManager.setupImage(key: $0.thumbnail) { image in
                         self.images.append(image)
                         DispatchQueue.main.async {
                             self.productImageCollectionView.reloadData()
