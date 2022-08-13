@@ -35,8 +35,10 @@ final class ProductListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        
         setupUI()
         setupRefreshControl()
+        
         listCollectionView.delegate = self
         gridCollectionView.delegate = self
     }
@@ -79,8 +81,8 @@ final class ProductListViewController: UIViewController {
     
     private func setupSegmentedControl() {
         segmentedControl.addTarget(self,
-                                        action: #selector(segmentButtonDidTap(sender:)),
-                                        for: .valueChanged)
+                                   action: #selector(segmentButtonDidTap(sender:)),
+                                   for: .valueChanged)
         segmentedControl.selectedSegmentIndex = 0
         
     }
@@ -94,12 +96,13 @@ final class ProductListViewController: UIViewController {
                 listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
             ])
         
-        NSLayoutConstraint.activate([
-            gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        ])
+        NSLayoutConstraint.activate(
+            [
+                gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+                gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            ])
     }
     
     // MARK: - functions
@@ -156,6 +159,7 @@ final class ProductListViewController: UIViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.listLayoutFractionalWidth),
                                                 heightDimension: .fractionalHeight(Design.listLayoutFractionalHeight))
+        
         let item = NSCollectionLayoutItem(layoutSize: layoutSize)
         
         let groupsize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.listGroupFractionlWidth),
@@ -176,6 +180,7 @@ final class ProductListViewController: UIViewController {
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = Design.itemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Design.gridGroupFractionalWidth),
                                                heightDimension: .absolute(self.view.frame.height * Design.gridGroupFrameHeightRatio))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
@@ -223,7 +228,7 @@ final class ProductListViewController: UIViewController {
     
     @objc private func productRegistrationButtonDidTap() {
         navigationController?.pushViewController(ProductRegistrationViewController(),
-                                                      animated: true)
+                                                 animated: true)
     }
     
     @objc private func refresh() {
@@ -242,11 +247,10 @@ extension ProductListViewController: UICollectionViewDelegate {
         let productDetailViewController = ProductDetailViewController()
         
         datableDelgate = productDetailViewController
-//        datableDelgate?.setupProduct(id: productsIDList[indexPath.row])
         datableDelgate?.setupData(productsIDList[indexPath.row])
         
         navigationController?.pushViewController(productDetailViewController,
-                                                      animated: true)
+                                                 animated: true)
     }
 }
 
