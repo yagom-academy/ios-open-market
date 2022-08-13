@@ -197,7 +197,7 @@ class ProductRegistrationView: UIView {
         {
             images.append(Image(name: $0.description,
                                 data: $0,
-                                type: "png"))
+                                type: Design.png))
         }
      
         guard !images.isEmpty else { return showInvalidInputAlert() }
@@ -207,9 +207,9 @@ class ProductRegistrationView: UIView {
                                           descriptions: productDescriptionTextView.text,
                                           price: price,
                                           currency: currency.rawValue,
-                                          discountedPrice: Double(productDiscountedPriceTextField.text ?? "0"),
-                                          stock: Int(productStockTextField.text ?? "0"),
-                                          secret: "R49CfVhSdh")
+                                          discountedPrice: Double(productDiscountedPriceTextField.text ?? Design.zeroString),
+                                          stock: Int(productStockTextField.text ?? Design.zeroString),
+                                          secret: Design.secretKey)
         
         guard let productData = try? JSONEncoder().encode(product) else { return }
         
@@ -366,11 +366,11 @@ class ProductRegistrationView: UIView {
     }
     
     private func showInvalidInputAlert() {
-        let postAlert = UIAlertController(title: "등록 형식이 잘못되었습니다",
-                                          message: "필수사항을 입력해주세요",
+        let postAlert = UIAlertController(title: Design.postAlertControllerTitle,
+                                          message: Design.postAlertControllerMessage,
                                           preferredStyle: .alert)
         
-        let alertAction = UIAlertAction(title: "확인",
+        let alertAction = UIAlertAction(title: Design.alertActionTitle,
                                         style: .default)
         postAlert.addAction(alertAction)
         
@@ -503,4 +503,10 @@ private enum Design {
     static let imageDataCountConstraint = 300.0
     static let renderImageResizeNumber = 5.0
     static let devideImageDataCountByThousand = 1000.0
+    static let secretKey = "R49CfVhSdh"
+    static let postAlertControllerTitle = "등록 형식이 잘못되었습니다"
+    static let postAlertControllerMessage = "필수사항을 입력해주세요"
+    static let alertActionTitle = "확인"
+    static let zeroString = "0"
+    static let png = "png"
 }
