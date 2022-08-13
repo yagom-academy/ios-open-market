@@ -1,15 +1,13 @@
 //
-//  OpenMarketManager+ extension.swift
+//  ProductRegistrationManager.swift
 //  OpenMarket
 //
 //  Created by groot, bard on 2022/08/13.
 //
 
 import Foundation
-import UIKit
 
-extension OpenMarketManager {
-    
+struct ProductRegistrationManager {
     static func register(product: RegistrationProduct, images: [Image]) {
         guard let productData = try? JSONEncoder().encode(product) else { return }
         

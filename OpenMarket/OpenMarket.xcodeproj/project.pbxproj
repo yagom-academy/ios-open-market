@@ -17,6 +17,7 @@
 		372396AA287D303C001EFC70 /* CodableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372396A9287D303C001EFC70 /* CodableError.swift */; };
 		372396AC287D31C8001EFC70 /* RequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372396AB287D31C8001EFC70 /* RequestTests.swift */; };
 		372F5A0628A3EE2A006085BC /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F5A0528A3EE2A006085BC /* NameSpace.swift */; };
+		372F5A0828A788AF006085BC /* ProductUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F5A0728A788AF006085BC /* ProductUpdateManager.swift */; };
 		37301DCB28A2861100B4951B /* DataSendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37301DCA28A2861100B4951B /* DataSendable.swift */; };
 		3734391B289CF147004D4D38 /* ProductUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37343914289CF147004D4D38 /* ProductUpdateViewController.swift */; };
 		3734391E289CF147004D4D38 /* ProductUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3734391A289CF147004D4D38 /* ProductUpdateView.swift */; };
@@ -57,7 +58,7 @@
 		D7D94ED328A2836E00B3F81B /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED228A2836E00B3F81B /* ProductDetailView.swift */; };
 		D7D94ED728A289C700B3F81B /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED628A289C600B3F81B /* ProductDetail.swift */; };
 		D7D94ED928A28A4800B3F81B /* Vendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D94ED828A28A4800B3F81B /* Vendors.swift */; };
-		D7DC7FE828A781E5005F7D3B /* OpenMarketManager+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DC7FE728A781E5005F7D3B /* OpenMarketManager+extension.swift */; };
+		D7DC7FE828A781E5005F7D3B /* ProductRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DC7FE728A781E5005F7D3B /* ProductRegistrationManager.swift */; };
 		D7EBDB28289E3F7B0039FEBE /* ImageGetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		372396A9287D303C001EFC70 /* CodableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableError.swift; sourceTree = "<group>"; };
 		372396AB287D31C8001EFC70 /* RequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTests.swift; sourceTree = "<group>"; };
 		372F5A0528A3EE2A006085BC /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
+		372F5A0728A788AF006085BC /* ProductUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdateManager.swift; sourceTree = "<group>"; };
 		37301DCA28A2861100B4951B /* DataSendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSendable.swift; sourceTree = "<group>"; };
 		37343914289CF147004D4D38 /* ProductUpdateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductUpdateViewController.swift; sourceTree = "<group>"; };
 		3734391A289CF147004D4D38 /* ProductUpdateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductUpdateView.swift; sourceTree = "<group>"; };
@@ -125,7 +127,7 @@
 		D7D94ED228A2836E00B3F81B /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		D7D94ED628A289C600B3F81B /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		D7D94ED828A28A4800B3F81B /* Vendors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendors.swift; sourceTree = "<group>"; };
-		D7DC7FE728A781E5005F7D3B /* OpenMarketManager+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OpenMarketManager+extension.swift"; sourceTree = "<group>"; };
+		D7DC7FE728A781E5005F7D3B /* ProductRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationManager.swift; sourceTree = "<group>"; };
 		D7EBDB27289E3F7A0039FEBE /* ImageGetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGetRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -402,6 +404,7 @@
 		D77A6ABB289E8088005AB9B2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				372F5A0728A788AF006085BC /* ProductUpdateManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -461,7 +464,7 @@
 		D7DC7FE628A781CD005F7D3B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D7DC7FE728A781E5005F7D3B /* OpenMarketManager+extension.swift */,
+				D7DC7FE728A781E5005F7D3B /* ProductRegistrationManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -587,6 +590,7 @@
 				D7D94ED328A2836E00B3F81B /* ProductDetailView.swift in Sources */,
 				37239699287D054E001EFC70 /* ProductsList.swift in Sources */,
 				37FBE23B2896816E00240A1E /* Data+extension.swift in Sources */,
+				372F5A0828A788AF006085BC /* ProductUpdateManager.swift in Sources */,
 				373B48012880F4940068F781 /* MyURLSession.swift in Sources */,
 				D7C4C7192890FAB3007CF8F1 /* OpenMarketManager.swift in Sources */,
 				D7D94ED128A2836400B3F81B /* ProductDetailViewController.swift in Sources */,
@@ -595,7 +599,7 @@
 				3734391E289CF147004D4D38 /* ProductUpdateView.swift in Sources */,
 				372396A5287D195C001EFC70 /* APIRequest.swift in Sources */,
 				3723969D287D0FC5001EFC70 /* RegisterationProduct.swift in Sources */,
-				D7DC7FE828A781E5005F7D3B /* OpenMarketManager+extension.swift in Sources */,
+				D7DC7FE828A781E5005F7D3B /* ProductRegistrationManager.swift in Sources */,
 				D7D94ED928A28A4800B3F81B /* Vendors.swift in Sources */,
 				37FBE2EE289CEC9800240A1E /* ProductDeleteRequest.swift in Sources */,
 				37FBE2E0289CEAC900240A1E /* UIImage+extension.swift in Sources */,

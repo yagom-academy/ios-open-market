@@ -269,13 +269,20 @@ final class ProductUpdateView: UIView {
         productDescriptionTextView.text = product.description
     }
     
-    func patch() {
+    func patchProduct() {
+        guard let product = setupProduct(),
+              let productID = productID
+        else { return showInvalidInputAlert() }
+        
+        ProductUpdateManager.update(product: product, productID: productID)
+    }
+    
+    private func setupProduct() -> RegistrationProduct? {
         guard let productName = productNameTextField.text,
               productName.count > 2,
               productDescriptionTextView.text.count > 9,
-              let price = makePriceText(),
-              let productID = productID
-        else { return showInvalidInputAlert() }
+              let price = makePriceText()
+        else { return nil }
         
         let currency = currencySegmentedControl.selectedSegmentIndex == .zero ?  Currency.krw: Currency.usd
         let product = RegistrationProduct(name: productName,
@@ -286,21 +293,7 @@ final class ProductUpdateView: UIView {
                                           stock: Int(productStockTextField.text ?? Design.zeroString),
                                           secret: Design.secretKey)
         
-        guard let productData = try? JSONEncoder().encode(product) else { return }
-        
-        var request = ProductPatchRequest(productID: productID)
-        request.body = .json(productData)
-        
-        let myURLSession = MyURLSession()
-        myURLSession.dataTask(with: request) { (result: Result<Data, Error>) in
-            switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let error):
-                print(error.localizedDescription)
-                break
-            }
-        }
+        return product
     }
     
     private func setupPickerImageView(image: UIImage) -> UIImageView {

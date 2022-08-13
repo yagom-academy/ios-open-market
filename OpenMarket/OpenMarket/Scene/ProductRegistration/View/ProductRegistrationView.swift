@@ -198,7 +198,7 @@ class ProductRegistrationView: UIView {
         let images = setupImages()
         guard !images.isEmpty else { return showInvalidInputAlert() }
         
-        OpenMarketManager.register(product: product, images: images)
+        ProductRegistrationManager.register(product: product, images: images)
     }
     
     private func setupProduct() -> RegistrationProduct? {

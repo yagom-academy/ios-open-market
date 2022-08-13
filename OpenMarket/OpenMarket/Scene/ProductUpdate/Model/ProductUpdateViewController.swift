@@ -47,7 +47,7 @@ class ProductUpdateViewController: UIViewController {
     // MARK: - @objc functions
     
     @objc private func updateProducts() {
-        productUpdateView.patch()
+        productUpdateView.patchProduct()
         
         navigationController?.popToRootViewController(animated: true)
     }
