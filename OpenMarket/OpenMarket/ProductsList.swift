@@ -2,7 +2,7 @@
 //  ProductsList.swift
 //  OpenMarket
 //
-//  Created by 이정민 on 2022/11/14.
+//  Created by Jpush, Aaron on 2022/11/14.
 //
 
 import Foundation
@@ -18,4 +18,3 @@ struct ProductsList: Codable {
     let hasPrev: Bool
     let pages: [Product]
 }
-
