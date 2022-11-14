@@ -10,7 +10,7 @@ struct Product: Codable {
     let id: Int
     let vendorId: Int
     let name: String
-    let description: String
+//    let description: String
     let thumbnail: String
     let currency: Currency
     let price: Int
@@ -29,7 +29,7 @@ struct Product: Codable {
         case id
         case vendorId = "vendor_id"
         case name
-        case description
+//        case description
         case thumbnail
         case currency
         case price
