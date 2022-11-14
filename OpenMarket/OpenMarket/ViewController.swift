@@ -10,7 +10,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let networkManager = NetworkManager()
         
+        print(networkManager.fetch(type: .healthChecker), "-------------")
     }
 }
 
