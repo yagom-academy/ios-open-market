@@ -7,7 +7,8 @@
 
 struct Product: Decodable {
     let id, vendorID: Int
-    let name, description, thumbnail: String
+    let name, thumbnail: String
+    let description: String?
     let currency: Currency
     let price, bargainPrice, discountedPrice: Double
     let stock: Int
@@ -15,7 +16,7 @@ struct Product: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case id
-        case vendorID = "vender_id"
+        case vendorID = "vendor_id"
         case name, description, thumbnail, currency, price
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
