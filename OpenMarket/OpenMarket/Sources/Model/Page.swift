@@ -8,7 +8,7 @@ struct Page: Codable {
     let id: Int
     let vendorId: Int
     let name: String
-    let thumbNail: String
+    let thumbnail: String
     let currency: String
     let price: Int
     let bargainPrice: Int
@@ -19,9 +19,9 @@ struct Page: Codable {
     
     enum CodingKeys: String, CodingKey {
         case id
-        case vendorId = "vender_id"
+        case vendorId = "vendor_id"
         case name
-        case thumbNail
+        case thumbnail
         case currency
         case price
         case bargainPrice = "bargain_price"

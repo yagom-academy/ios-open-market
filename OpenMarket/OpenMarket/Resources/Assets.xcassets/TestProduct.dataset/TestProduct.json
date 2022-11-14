@@ -1,0 +1,25 @@
+{
+  "page_no": 1,
+  "items_per_page": 2,
+  "total_count": 3,
+  "offset": 4,
+  "limit": 5,
+  "pages": [
+    {
+      "id": 11,
+      "vendor_id": 12,
+      "name": "name test",
+      "thumbnail": "thumbnail test",
+      "currency": "currency test",
+      "price": 13,
+      "bargain_price": 14,
+      "discounted_price": 15,
+      "stock": 16,
+      "created_at": "created_at test",
+      "issued_at": "issued_at test"
+    }
+  ],
+  "last_page": 6,
+  "has_next": false,
+  "has_prev": false
+}
