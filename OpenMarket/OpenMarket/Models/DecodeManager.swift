@@ -7,17 +7,18 @@
 
 import UIKit
 
-struct DecodeManager {
+struct DecodeManager<T: Decodable> {
     private let decoder: JSONDecoder = JSONDecoder()
     
-    func fetchData(name: String) throws -> [Product] {
+    func fetchData(name: String) throws -> Result<[T], DataError> {
         guard let assetData: NSDataAsset = NSDataAsset.init(name: name) else {
-            throw DataError.empty
+            return Result.failure(DataError.empty)
         }
-        guard let datas = try? decoder.decode([Product].self, from: assetData.data) else {
-            throw DataError.decoding
+        guard let datas = try? decoder.decode([T].self, from: assetData.data) else {
+            return Result.failure(DataError.decoding)
         }
         
-        return datas
+        return Result.success(datas)
     }
 }
+
