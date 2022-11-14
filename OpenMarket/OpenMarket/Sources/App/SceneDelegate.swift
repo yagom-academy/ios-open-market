@@ -1,8 +1,9 @@
 //
 //  OpenMarket - SceneDelegate.swift
-//  Created by yagom. 
+//  Created by Zhilly, Dragon. 22/11/14
 //  Copyright © yagom. All rights reserved.
-// 
+//
+
 
 import UIKit
 
