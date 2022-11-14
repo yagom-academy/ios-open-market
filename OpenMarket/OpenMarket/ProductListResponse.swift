@@ -6,13 +6,18 @@
 //
 
 struct ProductListResponse: Decodable {
-    let pageNo: Int
-    let itemsPerPage: Int
-    let totalCount: Int
-    let offset: Int
-    let limit: Int
-    let lastPage: Int
-    let hasNext: Bool
-    let hasPrev: Bool
-    let pages: [Product]
+    let numberOfPage, itemCountInPage, totalCount, offset, limit, endOfPage: Int
+    let products: [Product]
+    let hasNextPage, hasPrevPage: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case offset, limit
+        case numberOfPage = "page_no"
+        case itemCountInPage = "items_per_page"
+        case totalCount = "total_count"
+        case products = "pages"
+        case endOfPage = "last_page"
+        case hasNextPage = "has_next"
+        case hasPrevPage = "has_prev"
+    }
 }

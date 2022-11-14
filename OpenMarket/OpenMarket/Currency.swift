@@ -5,6 +5,6 @@
 //  Created by Baemini on 2022/11/14.
 //
 
-enum Currency: Decodable {
+enum Currency: String, Decodable {
     case KRW, USD
 }
