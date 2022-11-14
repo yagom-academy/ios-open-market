@@ -6,7 +6,7 @@
 //
 
 struct ProductPage: Decodable {
-    let pageNumber: String
+    let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
     let offset: Int

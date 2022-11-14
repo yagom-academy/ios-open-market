@@ -48,9 +48,9 @@
 		3CA35E132922315F00C47E06 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				90D3319D29223F45001C2B46 /* ProductPage.swift */,
 				3CA35E142922318D00C47E06 /* Product.swift */,
 				90D3319829223430001C2B46 /* DecodeManager.swift */,
-				90D3319D29223F45001C2B46 /* ProductPage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
