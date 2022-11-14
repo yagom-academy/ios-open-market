@@ -14,6 +14,8 @@
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		D03ED9D029224DBD005F30A8 /* JSONDecodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9CF29224DBD005F30A8 /* JSONDecodeExtension.swift */; };
+		D03ED9D229225712005F30A8 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9D129225712005F30A8 /* Products.swift */; };
+		D03ED9D629225B01005F30A8 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9D529225B01005F30A8 /* Page.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D03ED9CF29224DBD005F30A8 /* JSONDecodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JSONDecodeExtension.swift; path = OpenMarket/Sources/Model/JSONDecodeExtension.swift; sourceTree = SOURCE_ROOT; };
+		D03ED9D129225712005F30A8 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
+		D03ED9D529225B01005F30A8 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,8 @@
 		D03ED9C929224CF3005F30A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D03ED9D529225B01005F30A8 /* Page.swift */,
+				D03ED9D129225712005F30A8 /* Products.swift */,
 				D03ED9CF29224DBD005F30A8 /* JSONDecodeExtension.swift */,
 			);
 			path = Model;
@@ -190,6 +196,8 @@
 			files = (
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				D03ED9D029224DBD005F30A8 /* JSONDecodeExtension.swift in Sources */,
+				D03ED9D629225B01005F30A8 /* Page.swift in Sources */,
+				D03ED9D229225712005F30A8 /* Products.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
