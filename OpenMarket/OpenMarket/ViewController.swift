@@ -12,7 +12,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let networkManager = NetworkManager()
         
-        print(networkManager.fetch(type: .healthChecker), "-------------")
+        networkManager.fetch(type: .searchProductList(1, 10)) { result in
+            result.pages.forEach { product in
+                print(product)
+            }
+        }
     }
 }
 

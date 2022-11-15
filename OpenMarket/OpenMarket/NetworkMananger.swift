@@ -27,78 +27,34 @@ struct NetworkManager {
         }
     }
     
-    //    func fetch(type: requestType) -> ProductsList? {
-    //        guard let url = generateURL(type: type) else {
-    //            return nil
-    //        }
-    //
-    //        let config = URLSessionConfiguration.default
-    //        let session = URLSession(configuration: config)
-    //
-    //        var result: ProductsList?
-    //        print(url)
-    //        let dataTask = session.dataTask(with: URLRequest(url: url)) { data, response, error in
-    //            let successRange = 200..<300
-    //            print("1")
-    //
-    //            guard error == nil, let statusCode = (response as? HTTPURLResponse)?.statusCode, successRange.contains(statusCode) else {
-    //                return
-    //            }
-    //            print("2")
-    //
-    //
-    //            guard let resultData = data else {
-    //                return
-    //            }
-    //            print("3")
-    //
-    //
-    //            let decoder = JSONDecoder()
-    //            result = try! decoder.decode(ProductsList.self, from: resultData)
-    //            print("4")
-    //        }
-    //
-    //        dataTask.resume()
-    //
-    //
-    //        return result
-    //    }
-    
-    func fetch(type: requestType) {
+    func fetch(type: requestType, completion: @escaping (ProductsList) -> Void ) {
         guard let url = generateURL(type: type) else {
             return
         }
         
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        
-        print(url)
-        let dataTask = session.dataTask(with: URLRequest(url: url)) { data, response, error in
+        let dataTask = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
             let successRange = 200..<300
             
             guard error == nil, let statusCode = (response as? HTTPURLResponse)?.statusCode, successRange.contains(statusCode) else {
                 return
             }
-            print(statusCode)
             
             guard let resultData = data else {
                 return
             }
             
-            do {
-                let decoder = JSONDecoder()
-                
-                let result = try decoder.decode(ProductsList.self, from: resultData)
-                let pages = result.pages
-                
-                for page in pages {
-                    print("page: \(page.description)")
-                }
-            } catch let error {
-                print("--> error: \(error.localizedDescription)")
+            let dateFormater = DateFormatter()
+            dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(dateFormater)
+            guard let result = try? decoder.decode(ProductsList.self, from: resultData) else {
+                return
             }
+            
+            completion(result)
         }
-        
         dataTask.resume()
     }
+
 }

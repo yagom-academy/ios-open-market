@@ -9,6 +9,7 @@ import Foundation
 struct Product: Codable {
     let id: Int
     let vendorId: Int
+    let vendorName: String
     let name: String
     let description: String
     let thumbnail: String
@@ -20,14 +21,15 @@ struct Product: Codable {
     let createdAt: Date
     let issuedAt: Date
     
-    enum Currency: String, Codable {
-        case KRW = "KRW"
-        case USD = "USD"
+    enum Currency: Codable {
+        case KRW
+        case USD
     }
     
     enum CodingKeys: String, CodingKey {
         case id
         case vendorId = "vendor_id"
+        case vendorName
         case name
         case description
         case thumbnail
