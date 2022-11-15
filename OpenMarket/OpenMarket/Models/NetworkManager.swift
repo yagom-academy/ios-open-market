@@ -8,14 +8,18 @@
 import Foundation
 
 struct NetworkManager {
-    let url: String = "https://openmarket.yagom-academy.kr/"
+    let url: String
+    let session: URLSession
+    
+    init(url: String = "https://openmarket.yagom-academy.kr/", session: URLSession = URLSession(configuration: .default)) {
+        self.url = url
+        self.session = session
+    }
     
     func checkAPIHealth(completion: @escaping (Bool) -> Void) {
         let urlString = "\(url)healthChecker"
         
         guard let url: URL = URL(string: urlString) else { return }
-        
-        let session: URLSession = URLSession(configuration: .default)
         
         let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil { return completion(false) }
@@ -32,8 +36,6 @@ struct NetworkManager {
         let urlString = "\(url)api/products?page_no=\(pageNo)&items_per_page=\(pageCount)"
         
         guard let url: URL = URL(string: urlString) else { return }
-        
-        let session: URLSession = URLSession(configuration: .default)
         
         let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {
@@ -62,8 +64,6 @@ struct NetworkManager {
         let urlString = "\(url)api/products/\(productId)"
         
         guard let url: URL = URL(string: urlString) else { return }
-        
-        let session: URLSession = URLSession(configuration: .default)
         
         let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {
