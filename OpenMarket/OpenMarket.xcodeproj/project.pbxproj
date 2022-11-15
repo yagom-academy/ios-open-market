@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C62E5EA29232BCF00D0E45E /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5E929232BCE00D0E45E /* DecodeManager.swift */; };
+		3C62E5EC29232C0A00D0E45E /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5EB29232C0A00D0E45E /* DataError.swift */; };
 		577ED10B292320840026B9E3 /* ProductPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577ED10A292320840026B9E3 /* ProductPage.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C62E5E929232BCE00D0E45E /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
+		3C62E5EB29232C0A00D0E45E /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		577ED10A292320840026B9E3 /* ProductPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPage.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 				577ED10A292320840026B9E3 /* ProductPage.swift */,
+				3C62E5E929232BCE00D0E45E /* DecodeManager.swift */,
+				3C62E5EB29232C0A00D0E45E /* DataError.swift */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -140,6 +146,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C62E5EC29232C0A00D0E45E /* DataError.swift in Sources */,
+				3C62E5EA29232BCF00D0E45E /* DecodeManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				577ED10B292320840026B9E3 /* ProductPage.swift in Sources */,
