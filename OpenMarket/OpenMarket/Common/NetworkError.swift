@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum DataError: Error {
+enum NetworkError: Error {
     case empty
     case decoding
     case unknown
-}
-
-extension DataError: LocalizedError {
-    public var errorDescription: String? {
+    case data
+    case networking
+    
+    public var description: String {
         switch self {
         case .empty:
             return "None Data Error"
@@ -22,6 +22,10 @@ extension DataError: LocalizedError {
             return "Decoding Error"
         case .unknown:
             return "Unknown Error"
+        case .data:
+            return "Data Error"
+        case .networking:
+            return "Networking Error"
         }
     }
 }

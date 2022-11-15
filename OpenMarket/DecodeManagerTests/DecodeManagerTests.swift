@@ -34,7 +34,7 @@ class DecodeManagerTests: XCTestCase {
         case .success(let data):
             XCTFail("Expected to be a failure but got a success with \(data)")
         case .failure(let error):
-            XCTAssertEqual(error, DataError.empty)
+            XCTAssertEqual(error, NetworkError.empty)
         }
     }
 }

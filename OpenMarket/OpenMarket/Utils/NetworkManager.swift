@@ -22,17 +22,17 @@ final class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print("Calling Error")
+                print(NetworkError.networking.description)
                 print(error!)
                 return
             }
             guard let safeData = data else {
-                print("Receive Error")
+                print(NetworkError.data.description)
                 return
             }
             guard let response = response as? HTTPURLResponse,
                     (200 ..< 299) ~= response.statusCode else {
-                print("Request Fail Error")
+                print(NetworkError.networking.description)
                 return
             }
            
@@ -52,17 +52,16 @@ final class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print("Calling Error")
-                print(error!)
+                print(NetworkError.networking.description)
                 return
             }
             guard let safeData = data else {
-                print("Receive Error")
+                print(NetworkError.data.description)
                 return
             }
             guard let response = response as? HTTPURLResponse,
                     (200 ..< 299) ~= response.statusCode else {
-                print("Request Fail Error")
+                print(NetworkError.networking.description)
                 return
             }
             
@@ -89,17 +88,17 @@ final class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print("Calling Error")
+                print(NetworkError.networking.description)
                 print(error!)
                 return
             }
             guard let safeData = data else {
-                print("Receive Error")
+                print(NetworkError.data.description)
                 return
             }
             guard let response = response as? HTTPURLResponse,
                     (200 ..< 299) ~= response.statusCode else {
-                print("Request Fail Error")
+                print(NetworkError.networking.description)
                 return
             }
             
