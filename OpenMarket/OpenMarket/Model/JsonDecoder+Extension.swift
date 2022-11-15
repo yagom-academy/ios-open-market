@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension JSONDecoder {
-    func decodeData<T: Decodable>(_ data: String, to dataType: T.Type) -> T? {
+    func decodeData<T: Decodable>(_ data: String) -> T? {
         guard let dataAsset: NSDataAsset = NSDataAsset(name: data) else {
             return nil
         }
@@ -22,7 +22,7 @@ extension JSONDecoder {
         }
     }
 
-    func decodeData<T: Decodable>(_ data: Data, to dataType: T.Type) -> T? {
+    func decodeData<T: Decodable>(_ data: Data) -> T? {
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
