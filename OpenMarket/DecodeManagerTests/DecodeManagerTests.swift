@@ -22,13 +22,20 @@ class DecodeManagerTests: XCTestCase {
     }
 
     func test_정상적으로_데이터가_decoding이_되는지_확인() {
-        let data = try? sut.fetchData(name: "products")
+        let data = sut.decodeJsonFile(file: "products")
+        var flag = false
+        switch data {
+        case .success:
+            flag = true
+        case .failure(let error):
+            XCTFail("Expected to be a success but got a failure with \(error)")
+        }
         
-        XCTAssertTrue(data != nil)
+        XCTAssertTrue(flag)
     }
     
     func test_데이터가_없는_경우_오류_확인() {
-        let data = sut.fetchData(name: "")
+        let data = sut.decodeJsonFile(file: "")
         
         switch data {
         case .success(let data):

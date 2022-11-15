@@ -9,7 +9,7 @@ struct Product: Decodable {
     let id: Int
     let vendorId: Int
     let name: String
-    let description: String
+    let description: String?
     let thumbnail: String
     let currency: String
     let price: Double
@@ -18,19 +18,4 @@ struct Product: Decodable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case description
-        case thumbnail
-        case currency
-        case price
-        case stock
-        case vendorId = "vendor_id"
-        case bargainPrice = "bargain_price"
-        case discountedPrice = "discounted_price"
-        case createdAt = "created_at"
-        case issuedAt = "issued_at"
-    }
 }
