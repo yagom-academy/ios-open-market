@@ -1,10 +1,10 @@
 //
-//  OpenMarket - Products.swift
+//  OpenMarket - ProductList.swift
 //  Created by Zhilly, Dragon. 22/11/14
 //  Copyright © yagom. All rights reserved.
 //
 
-struct Products: Codable {
+struct ProductList: Codable {
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int

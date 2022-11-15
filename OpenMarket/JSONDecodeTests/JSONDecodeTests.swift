@@ -22,7 +22,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let result = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let result = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
 
         //then - 결과가 nil이 아닌지
         XCTAssertNotNil(result)
@@ -33,7 +33,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.pageNumber
         
         //then - page_no가 1인지
@@ -45,7 +45,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.itemsPerPage
 
         //then - itemsPerPage가 2인지
@@ -57,7 +57,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.totalCount
 
         //then - totalCount가 3인지
@@ -69,7 +69,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.offset
 
         //then - offeset가 4인지
@@ -81,7 +81,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.limit
 
         //then - limit가 5인지
@@ -93,7 +93,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.lastPage
 
         //then - lastPage가 1인지
@@ -105,7 +105,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.hasNext
 
         //then - hasNext가 false인지
@@ -117,7 +117,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let data = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
         let result = data?.hasPrevious
 
         //then - hasPrevious가 1인지
@@ -129,7 +129,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let result = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let result = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
 
         //then - @@가 @@인지
         XCTAssertEqual(result?.pages.first!.id, 11)
@@ -140,7 +140,7 @@ final class JSONDecodeTests: XCTestCase {
         let dataAssetName: String = "TestProduct"
         
         //when - decodeAsset을 했을때
-        let result = JSONDecoder.decodeAsset(name: dataAssetName, to: Products.self)
+        let result = JSONDecoder.decodeAsset(name: dataAssetName, to: ProductList.self)
 
         //then - @@가 @@인지
         XCTAssertEqual(result?.pages.first!.name, "name test")
