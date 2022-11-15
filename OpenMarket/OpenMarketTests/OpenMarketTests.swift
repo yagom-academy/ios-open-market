@@ -68,4 +68,37 @@ final class OpenMarketTests: XCTestCase {
         XCTAssertNotNil(pizzaIssuedDate)
         XCTAssertEqual(pizzaIssuedDate, productIssuedAt.date())
     }
+    
+    func test_JSONDecoder에_잘못된asset을전달했을때_nil을반환하는지() {
+        // given
+        let asset: String = "yagom"
+        
+        // when
+        let productList = JSONDecoder.decode(ProductList.self, from: asset)
+        
+        // then
+        XCTAssertNil(productList)
+    }
+    
+    func test_JSONDecoder에_잘못된타입을전달했을때_error를던지는지() {
+        // given
+        let asset: String = "products"
+        
+        // when
+        let product = JSONDecoder.decode(Product.self, from: asset)
+        
+        // then
+        XCTAssertNil(product)
+    }
+    
+    func test_포맷에맞지않은값을_Date로변환하려고하면_nil을반환하는지() {
+        // given
+        let incorrectString: String = "이천이십이년 십일월 십오일 오후 한 시 이십삼분"
+        
+        // when
+        let date = incorrectString.date()
+        
+        // then
+        XCTAssertNil(date)
+    }
 }
