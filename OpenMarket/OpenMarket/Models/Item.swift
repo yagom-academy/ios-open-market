@@ -4,7 +4,6 @@
 //
 //  Created by 스톤, 로빈 on 2022/11/15.
 //
-
 struct Item: Codable {
     let id: Int
     let vendorId: Int
@@ -28,9 +27,4 @@ struct Item: Codable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
-}
-
-enum Currency: String {
-    case krw = "KRW"
-    case usd = "USD"
 }
