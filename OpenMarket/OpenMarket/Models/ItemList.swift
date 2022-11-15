@@ -8,7 +8,7 @@ struct ItemList: Codable {
     let pageNo: Int
     let itemsPerPage: Int
     let totalCount: Int
-    let offeset: Int
+    let offset: Int
     let limit: Int
     let lastPage: Int
     let hasNext: Bool
@@ -19,6 +19,10 @@ struct ItemList: Codable {
         case pageNo = "page_no"
         case itemsPerPage = "items_per_page"
         case totalCount = "total_count"
-        case offeset ,limit ,lastPage ,hasNext ,hasPrev, pages
+        case offset ,limit
+        case lastPage = "last_page"
+        case hasNext = "has_next"
+        case hasPrev = "has_prev"
+        case pages
     }
 }
