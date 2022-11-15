@@ -1,0 +1,6 @@
+disabled_rules: # 실행에서 제외할 룰 식별자들
+- vertical_whitespace
+- line_length
+- unused_optional_binding
+- deployment_target
+opt_in_rules: # 일부 룰은 옵트 인 형태로 제공
