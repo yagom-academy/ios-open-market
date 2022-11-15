@@ -4,35 +4,14 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-enum Currency: Codable {
-    case KRWString
-    case USDString
-    case JPYString
-    case HKDString
-    
-    case KRWSymbol
-    case USDSymbol
-    case JPYSymbol
-    case HKDSymbol
-    
-    var name: String {
-        switch self {
-        case .KRWString:
-            return "KRW"
-        case .USDString:
-            return "USD"
-        case .JPYString:
-            return "JPY"
-        case .HKDString:
-            return "HKD"
-        case .KRWSymbol:
-            return "₩"
-        case .USDSymbol:
-            return "$"
-        case .JPYSymbol:
-            return "￥"
-        case .HKDSymbol:
-            return "HK$"
-        }
-    }
+enum Currency: String, Codable {
+    case KRWString = "KRW"
+    case USDString = "USD"
+    case JPYString = "JPY"
+    case HKDString = "HKD"
+
+    case KRWSymbol = "₩"
+    case USDSymbol = "$"
+    case JPYSymbol = "￥"
+    case HKDSymbol = "HK$"
 }
