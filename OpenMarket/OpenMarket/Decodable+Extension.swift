@@ -7,8 +7,8 @@
 
 import UIKit
 
-extension Decodable {
-    func decode<T: Decodable>(asset: String) -> T? {
+extension JSONDecoder {
+    static func decode<T: Decodable>(type: T.Type, from asset: String) -> T? {
         let decoder = JSONDecoder()
         
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -16,7 +16,7 @@ extension Decodable {
         guard let asset = NSDataAsset(name: asset) else { return nil }
         
         do {
-            let data: T = try decoder.decode(T.self, from: asset.data)
+            let data: T = try decoder.decode(type, from: asset.data)
             return data
         } catch {
             print(error.localizedDescription)
