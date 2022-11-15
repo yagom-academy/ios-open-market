@@ -16,14 +16,14 @@ struct ProductList: Decodable {
     let pages: [Product]
     
     enum CodingKeys: String, CodingKey {
-        case pageNumber = "pageNo"
-        case itemsPerPage
-        case totalCount
+        case pageNumber = "page_no"
+        case itemsPerPage = "items_per_page"
+        case totalCount = "total_count"
         case firstIndex = "offset"
         case lastIndex = "limit"
-        case lastPage
-        case hasNext
-        case hasPrev
+        case lastPage = "last_page"
+        case hasNext = "has_next"
+        case hasPrev = "has_prev"
         case pages
     }
 }
