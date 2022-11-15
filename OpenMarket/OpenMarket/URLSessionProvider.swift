@@ -40,8 +40,10 @@ class MarketURLSessionProvider {
                   let data = data else {
                 return }
             
-            guard let decodedData = JSONDecoder.decodeFromServer(type: type,
-                                                                 from: data) else { return }
+            guard let decodedData = JSONDecoder.decodeFromSnakeCase(type: type, from: data) else {
+                return
+            }
+            
             print(decodedData)
         }
         

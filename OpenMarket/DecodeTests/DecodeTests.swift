@@ -9,9 +9,24 @@ import XCTest
 @testable import OpenMarket
 
 class DecodeTests: XCTestCase {
+    var sut: Data!
+    
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        
+        let asset = NSDataAsset(name: "testData")
+        sut = asset?.data
+    }
+    
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+        sut = nil
+    }
     
     func test_decode_메서드작동확인_pages배열의_첫번째이름_정상디코딩확인() {
-        guard let data = JSONDecoder.decodeFromAsset(type: Market.self, from: "testData") else { return }
+        guard let data = JSONDecoder.decodeFromSnakeCase(type: Market.self, from: sut) else {
+            return
+        }
         
         // when
         let result = "Test Product"
@@ -21,7 +36,9 @@ class DecodeTests: XCTestCase {
     }
     
     func test_decode_메서드작동확인_Market타입의_lastPage_정상디코딩확인() {
-        guard let data = JSONDecoder.decodeFromAsset(type: Market.self, from: "testData") else { return }
+        guard let data = JSONDecoder.decodeFromSnakeCase(type: Market.self, from: sut) else {
+            return
+        }
         
         // when
         let result = 1
@@ -31,7 +48,9 @@ class DecodeTests: XCTestCase {
     }
     
     func test_decode_메서드작동확인_pages배열의_마지막id_정상디코딩확인() {
-        guard let data = JSONDecoder.decodeFromAsset(type: Market.self, from: "testData") else { return }
+        guard let data = JSONDecoder.decodeFromSnakeCase(type: Market.self, from: sut) else {
+            return
+        }
         
         // when
         let result = 2
@@ -39,5 +58,4 @@ class DecodeTests: XCTestCase {
         // then
         XCTAssertEqual(result, data.pages.last?.id)
     }
-    
 }
