@@ -9,40 +9,40 @@ import Foundation
 
 enum Request {
     case healthChecker
-    case productList(number: Int)
-    case productDetail(number: Int)
+    case productList(pageNumber: Int, itemsPerPage: Int )
+    case productDetail(productNumber: Int)
     
-    var name: String {
+    var url: URL? {
         switch self {
         case .healthChecker:
-            return "/healthChecker"
-        case .productList(let number):
-            return "/api/products?page_no=\(number)&items_per_page=100"
-        case .productDetail(let number):
-            return "/api/products/\(number)"
+            return URLComponents.healthCheckUrl
+        case .productList(let pageNumber, let itemsPerPage):
+            return URLComponents.marketUrl(path: nil,
+                                           queryItems: [URLQueryItem(name: "page_no",
+                                                                     value: String(pageNumber)),
+                                                        URLQueryItem(name: "items_per_page",
+                                                                     value: String(itemsPerPage))])
+        case .productDetail(let productNumber):
+            return URLComponents.marketUrl(path: [String(productNumber)], queryItems: nil)
         }
     }
 }
 
 class MarketURLSessionProvider {
     let session: URLSession = URLSession(configuration: .default)
-    let baseUrl: URL? = URL(string: "https://openmarket.yagom-academy.kr")
     var market: Market?
     
     func fetchData<T: Decodable>(request: Request, type: T.Type) {
-        guard let baseUrl = baseUrl,
-              let relativeUrl = URL(string: request.name, relativeTo: baseUrl) else { return }
+        guard let url = request.url else { return }
         
-        let dataTask = session.dataTask(with: relativeUrl) { (data, response, error) in
+        let dataTask = session.dataTask(with: url) { (data, response, error) in
             guard error == nil,
                   let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode),
-                  let data = data else {
-                return }
+                  let data = data else { return }
             
-            guard let decodedData = JSONDecoder.decodeFromSnakeCase(type: type, from: data) else {
-                return
-            }
+            guard let decodedData = JSONDecoder.decodeFromSnakeCase(type: type,
+                                                                    from: data) else { return }
             
             print(decodedData)
         }
