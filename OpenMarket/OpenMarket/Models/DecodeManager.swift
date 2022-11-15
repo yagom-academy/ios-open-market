@@ -10,7 +10,7 @@ import UIKit
 struct DecodeManager<T: Decodable> {
     private let decoder: JSONDecoder = JSONDecoder()
     
-    func fetchData(name: String) throws -> Result<T, DataError> {
+    func fetchData(name: String) -> Result<T, DataError> {
         guard let assetData: NSDataAsset = NSDataAsset.init(name: name) else {
             return Result.failure(DataError.empty)
         }
