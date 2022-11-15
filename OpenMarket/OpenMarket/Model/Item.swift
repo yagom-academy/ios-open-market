@@ -1,13 +1,13 @@
 //
-//  Page.swift
+//  Item.swift
 //  OpenMarket
 //
 //  Created by Ash and som on 2022/11/15.
 //
 
-struct Page: Codable {
+struct Item: Codable {
     let id, vendorID: Int
-    let name: Name
+    let name: String
     let thumbnail: String
     let currency: Currency
     let price, bargainPrice, discountedPrice, stock: Int

@@ -8,7 +8,7 @@
 import XCTest
 
 class OpenMarketTests: XCTestCase {
-    var sut: Welcome!
+    var sut: ItemList!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -16,7 +16,7 @@ class OpenMarketTests: XCTestCase {
         guard let dataAsset: NSDataAsset = NSDataAsset(name: "62cba0444113154855988ca5") else { return }
         
         do {
-            self.sut = try JSONDecoder().decode(Welcome.self, from: dataAsset.data)
+            self.sut = try JSONDecoder().decode(ItemList.self, from: dataAsset.data)
         } catch {
             print(error.localizedDescription)
         }
@@ -27,7 +27,7 @@ class OpenMarketTests: XCTestCase {
         sut = nil
     }
     
-    func test_Welcome타입에서_pageNo값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_pageNo값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.pageNo
@@ -36,7 +36,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, 1)
     }
     
-    func test_Welcome타입에서_itemsPerPage값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_itemsPerPage값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.itemsPerPage
@@ -45,7 +45,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, 20)
     }
     
-    func test_Welcome타입에서_totalCount값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_totalCount값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.totalCount
@@ -54,7 +54,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, 10)
     }
     
-    func test_Welcome타입에서_offset값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_offset값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.offset
@@ -63,7 +63,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, 0)
     }
     
-    func test_Welcome타입에서_limit값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_limit값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.limit
@@ -72,7 +72,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, 20)
     }
     
-    func test_Welcome타입에서_pages의id값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_pages의id값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.pages.map { $0.id }
@@ -81,7 +81,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, [20, 19, 18, 17, 16, 15, 13, 4, 3, 2])
     }
     
-    func test_Welcome타입에서_pages의createdAt의_첫번째값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_pages의createdAt의_첫번째값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.pages.map { $0.createdAt }.first
@@ -90,7 +90,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, "2022-01-04T00:00:00.00")
     }
     
-    func test_Welcome타입에서_lastPage값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_lastPage값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.lastPage
@@ -99,7 +99,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, 1)
     }
     
-    func test_Welcome타입에서_hasNext값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_hasNext값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.hasNext
@@ -108,7 +108,7 @@ class OpenMarketTests: XCTestCase {
         XCTAssertFalse(result)
     }
     
-    func test_Welcome타입에서_hasPrev값을불러왔을때_해당json데이터값이들어와야한다() {
+    func test_ItemList타입에서_hasPrev값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
         let result = sut.hasPrev

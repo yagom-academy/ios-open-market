@@ -1,14 +1,14 @@
 //
-//  Welcome.swift
+//  ItemList.swift
 //  OpenMarket
 //
 //  Created by Ash and som on 2022/11/15.
 //
 
-struct Welcome: Codable {
+struct ItemList: Codable {
     let pageNo, itemsPerPage, totalCount, offset: Int
     let limit: Int
-    let pages: [Page]
+    let pages: [Item]
     let lastPage: Int
     let hasNext, hasPrev: Bool
 
