@@ -10,6 +10,7 @@
 		BF22661A29233453001D777C /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF22661929233453001D777C /* OpenMarketTests.swift */; };
 		BF226624292335A4001D777C /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF226623292335A4001D777C /* JSONDecoder+.swift */; };
 		BF2266272923587E001D777C /* OpenMarketNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2266262923587E001D777C /* OpenMarketNetworkRequest.swift */; };
+		BF22662929237C5A001D777C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF22662829237C5A001D777C /* NetworkManager.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -43,6 +44,7 @@
 		BF22661929233453001D777C /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
 		BF226623292335A4001D777C /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 		BF2266262923587E001D777C /* OpenMarketNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketNetworkRequest.swift; sourceTree = "<group>"; };
+		BF22662829237C5A001D777C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				E3D3397729236550006325AB /* Network Protocol */,
 				E3D3397329234F38006325AB /* HttpMethod.swift */,
 				E3D339752923516B006325AB /* NetworkRequest.swift */,
+				BF22662829237C5A001D777C /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				E3D3397429234F38006325AB /* HttpMethod.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				BF226624292335A4001D777C /* JSONDecoder+.swift in Sources */,
+				BF22662929237C5A001D777C /* NetworkManager.swift in Sources */,
 				E3D3396D29232FEF006325AB /* Product.swift in Sources */,
 				E3D3396F2923374C006325AB /* ProductList.swift in Sources */,
 				E3D3397929236581006325AB /* URLSessionProtocol.swift in Sources */,

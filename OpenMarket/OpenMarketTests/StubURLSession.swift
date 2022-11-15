@@ -15,7 +15,7 @@ final class MockURLSession: URLSessionProtocol {
         self.dummyData = dummy
     }
 
-    func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTaskProtocol {
+    func dataTask(with request: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTaskProtocol {
         return MockURLSessionDataTask(resumeCompletion: completionHandler)
     }
 }
