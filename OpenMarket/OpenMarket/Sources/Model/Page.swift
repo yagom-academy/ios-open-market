@@ -4,18 +4,20 @@
 //  Copyright © yagom. All rights reserved.
 //
 
+import Foundation
+
 struct Page: Codable {
     let id: Int
     let vendorId: Int
     let name: String
     let thumbnail: String
-    let currency: String
+    let currency: Currency
     let price: Int
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let createdAt: String
-    let issuedAt: String
+    let createdAt: Date
+    let issuedAt: Date
     
     enum CodingKeys: String, CodingKey {
         case id
