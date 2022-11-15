@@ -11,12 +11,7 @@ final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
-    func checkHealth() {
-        guard let url =
-                URL(string: "\(NetworkURLAsset.host)\(NetworkURLAsset.healthChecker)") else {
-            return
-        }
-        
+    func checkHealth(to url: URL) {
         var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.GET
         
@@ -29,7 +24,7 @@ final class NetworkManager {
             guard let safeData = data else {
                 print(NetworkError.data.description)
                 return
-            }             
+            }
             
             guard let response = response as? HTTPURLResponse,
                   200 == response.statusCode else {
@@ -41,16 +36,11 @@ final class NetworkManager {
         }.resume()
     }
     
-    func fetchData<T: Decodable>(to networkAsset: String,
+    func fetchData<T: Decodable>(to url: URL,
                                  dataType: T.Type,
                                  completion: @escaping (Result<T, NetworkError>) -> Void) {
         
         let decodeManager = DecodeManager<T>()
-        
-        guard let url =
-                URL(string: "\(NetworkURLAsset.host)\(networkAsset)") else {
-            return
-        }
         
         var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.GET
@@ -72,23 +62,15 @@ final class NetworkManager {
                 return
             }
             
-            if networkAsset == NetworkURLAsset.productDetail {
-                let productData = decodeManager.decodeData(data: safeData)
-                switch productData {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            } else {
-                let productData = decodeManager.decodeData(data: safeData)
-                switch productData {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+            let productData = decodeManager.decodeData(data: safeData)
+            
+            switch productData {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }.resume()
     }
 }
+
