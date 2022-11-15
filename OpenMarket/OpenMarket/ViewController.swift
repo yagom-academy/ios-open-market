@@ -12,9 +12,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let networkManager = NetworkManager()
         
-        networkManager.fetch(type: .searchProductList(1, 10)) { result in
-            result.pages.forEach { product in
-                print(product)
+        networkManager.fetch(type: .healthChecker) { result in
+            if let result = result as? Int { // 1. int일 경우
+                print(result)
+            } else if let result = result as? ProductsList { // 2. ProductsList
+                print(result)
+            } else if let result = result as? Product { // 3. Product
+                print(result)
             }
         }
     }

@@ -26,35 +26,37 @@ struct NetworkManager {
             return URL(string: String(format: "%@/api/products/%d", host, productNumber))
         }
     }
-    
-    func fetch(type: requestType, completion: @escaping (ProductsList) -> Void ) {
+
+    func fetch(type: requestType, completion: @escaping (completionable) -> Void) {
         guard let url = generateURL(type: type) else {
             return
         }
         
-        let dataTask = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
+        switch type {
+        case .healthChecker:
+            getHealthChecker(url) { statusCode in
+                completion(statusCode)
+            }
+        case .searchProductList(let a, let b):
+            completion(12)
+        case .searchProductDetail(let a):
+            print("")
+        }
+    }
+    
+    func getHealthChecker(_ url: URL, completion: @escaping (Int) -> Void) {
+        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             let successRange = 200..<300
             
-            guard error == nil, let statusCode = (response as? HTTPURLResponse)?.statusCode, successRange.contains(statusCode) else {
+            guard error == nil,
+                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                  successRange.contains(statusCode) else {
                 return
             }
             
-            guard let resultData = data else {
-                return
-            }
-            
-            let dateFormater = DateFormatter()
-            dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-            
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(dateFormater)
-            guard let result = try? decoder.decode(ProductsList.self, from: resultData) else {
-                return
-            }
-            
-            completion(result)
+            completion(statusCode)
         }
+        
         dataTask.resume()
     }
-
 }

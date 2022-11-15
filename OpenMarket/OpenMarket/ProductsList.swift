@@ -7,7 +7,13 @@
 
 import Foundation
 
-struct ProductsList: Codable {
+protocol completionable {}
+
+typealias StatusCode = Int
+
+extension StatusCode: completionable {}
+
+struct ProductsList: Codable, completionable {
     let pageNo: Int
     let itemsPerPage: Int
     let totalCount: Int
