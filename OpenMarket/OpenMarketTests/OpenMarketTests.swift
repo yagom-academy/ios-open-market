@@ -72,6 +72,24 @@ class OpenMarketTests: XCTestCase {
         XCTAssertEqual(result, 20)
     }
     
+    func test_Welcome타입에서_pages의id값을불러왔을때_해당json데이터값이들어와야한다() {
+        // given
+        // when
+        let result = sut.pages.map { $0.id }
+
+        // then
+        XCTAssertEqual(result, [20, 19, 18, 17, 16, 15, 13, 4, 3, 2])
+    }
+    
+    func test_Welcome타입에서_pages의createdAt의_첫번째값을불러왔을때_해당json데이터값이들어와야한다() {
+        // given
+        // when
+        let result = sut.pages.map { $0.createdAt }.first
+
+        // then
+        XCTAssertEqual(result, "2022-01-04T00:00:00.00")
+    }
+    
     func test_Welcome타입에서_lastPage값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
