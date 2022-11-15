@@ -19,7 +19,7 @@ struct Pages: Codable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
