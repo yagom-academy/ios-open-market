@@ -28,7 +28,7 @@ struct NetworkManager {
         
     }
     
-    func fetchItemList(pageNo: Int, pageCount: Int, completion: @escaping (Result<ItemList,NetworkError>) -> Void) {
+    func fetchItemList(pageNo: Int, pageCount: Int, completion: @escaping (Result<ItemList, NetworkError>) -> Void) {
         let urlString = "\(url)api/products?page_no=\(pageNo)&items_per_page=\(pageCount)"
         
         guard let url: URL = URL(string: urlString) else { return }
@@ -51,6 +51,37 @@ struct NetworkManager {
                 let itemList: ItemList = try JSONDecoder().decode(ItemList.self, from: data)
                 completion(.success(itemList))
             } catch {
+                completion(.failure(.parseError))
+            }
+        }
+        
+        dataTask.resume()
+    }
+    
+    func fetchItem(productId: Int, completion: @escaping (Result<Item, NetworkError>) -> ()) {
+        let urlString = "\(url)api/products/\(productId)"
+        
+        guard let url: URL = URL(string: urlString) else { return }
+        
+        let session: URLSession = URLSession(configuration: .default)
+        
+        let dataTask: URLSessionDataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
+            if error != nil {
+                return completion(.failure(.invalidError))
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode) else {
+                return completion(.failure(.responseError))
+            }
+            
+            guard let data = data else { return completion(.failure(.dataError))}
+            
+            do {
+                let item: Item = try JSONDecoder().decode(Item.self, from: data)
+                completion(.success(item))
+            } catch {
+                print(error)
                 completion(.failure(.parseError))
             }
         }
