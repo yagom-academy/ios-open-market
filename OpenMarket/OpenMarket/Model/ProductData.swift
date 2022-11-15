@@ -21,15 +21,15 @@ struct ProductData: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case identifier = "id"
-        case vendorIdentifier = "vendor_id"
+        case vendorIdentifier = "vendorId"
         case name
         case thumbnail
         case currency
         case price
-        case bargainPrice = "bargain_price"
-        case discountedPrice = "discounted_price"
+        case bargainPrice
+        case discountedPrice
         case stock
-        case createdDate = "created_at"
-        case issuedDate = "issued_at"
+        case createdDate = "createdAt"
+        case issuedDate = "issuedAt"
     }
 }

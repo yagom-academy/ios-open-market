@@ -7,7 +7,7 @@
 import Foundation
 
 struct NetworkManager {
-    func loadData(of url: URL?, completion: @escaping (Data?) -> Void ) {
+    func loadData(of url: URL?, completion: @escaping (Data?) -> Void) {
         guard let url = url else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in

@@ -26,6 +26,8 @@ final class ProductListDataTest: XCTestCase {
     }
     
     func test_ProductListData가_json파일의_객체형식과_일치해야한다() {
-        XCTAssertNoThrow(try JSONDecoder().decode(ProductListData.self, from: self.assetData))
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        XCTAssertNoThrow(try jsonDecoder.decode(ProductListData.self, from: self.assetData))
     }
 }
