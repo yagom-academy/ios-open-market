@@ -1,42 +1,39 @@
 //  Created by Aejong, Tottale on 2022/11/15.
 
-struct ProductPage: Codable {
+struct ProductList: Codable {
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
     let offset: Int
     let limit: Int
-    let pages: [Product]
     let lastPage: Int
     let hasNext: Bool
     let hasPrev: Bool
+    let pages: [ProductForPage]
     
     enum CodingKeys: String, CodingKey {
-        case offset, limit, pages
-        case pageNumber = "page_no"
-        case itemsPerPage = "items_per_page"
-        case totalCount = "total_count"
-        case lastPage = "last_page"
-        case hasNext = "has_next"
-        case hasPrev = "has_prev"
+        case offset, limit, pages, itemsPerPage, totalCount, hasNext, hasPrev, lastPage
+        case pageNumber = "pageNo"
     }
 }
 
-struct Product: Codable {
+struct ProductForPage: Codable {
     let productID: Int
     let vendorID: Int
+    let vendorName: String
     let name: String
+    let description: String
     let thumbnail: String
     let currency: String
-    let price: Int
-    let bargainPrice: Int
-    let discountedPrice: Int
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let createdAt: String
     let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
-        case name, thumbnail, currency, price, stock
+        case name, currency, thumbnail, price, stock, vendorName, description
         case productID = "id"
         case vendorID = "vendor_id"
         case bargainPrice = "bargain_price"
