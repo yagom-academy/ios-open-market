@@ -9,11 +9,26 @@ import XCTest
 @testable import OpenMarket
 
 final class OpenMarketTests: XCTestCase {
+    var data: Data!
+    
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        
+        data = DataLoader.data(fileName: "products")
+    }
+
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+        
+        data = nil
+        
+    }
+    
     func test_ProductList타입의파싱이_정상적으로되는지() {
         // given
         
         // when
-        let productList = JSONDecoder.decode(ProductList.self, from: "products")
+        let productList = JSONDecoder.decode(ProductList.self, from: data)
         
         // then
         XCTAssertNotNil(productList)
@@ -26,7 +41,7 @@ final class OpenMarketTests: XCTestCase {
         let limit: Int = 20
         
         // when
-        let productList = JSONDecoder.decode(ProductList.self, from: "products")
+        let productList = JSONDecoder.decode(ProductList.self, from: data)
         
         // then
         XCTAssertEqual(productList?.pageNo, pageNo)
@@ -40,7 +55,7 @@ final class OpenMarketTests: XCTestCase {
         let productName: String = "pizza"
         
         // when
-        let productList = JSONDecoder.decode(ProductList.self, from: "products")
+        let productList = JSONDecoder.decode(ProductList.self, from: data)
         let pizza = productList?.pages.filter { $0.id == productID }.first
         
         // then
@@ -56,7 +71,7 @@ final class OpenMarketTests: XCTestCase {
         let productIssuedAt: String = "2021-12-29T00:00:00.00"
         
         // when
-        let productList = JSONDecoder.decode(ProductList.self, from: "products")
+        let productList = JSONDecoder.decode(ProductList.self, from: data)
         let pizza = productList?.pages.filter { $0.id == productID }.first
         
         let pizzaCreatedDate = pizza?.createdDate
@@ -69,23 +84,11 @@ final class OpenMarketTests: XCTestCase {
         XCTAssertEqual(pizzaIssuedDate, productIssuedAt.date())
     }
     
-    func test_JSONDecoder에_잘못된asset을전달했을때_nil을반환하는지() {
-        // given
-        let asset: String = "yagom"
-        
-        // when
-        let productList = JSONDecoder.decode(ProductList.self, from: asset)
-        
-        // then
-        XCTAssertNil(productList)
-    }
-    
     func test_JSONDecoder에_잘못된타입을전달했을때_error를던지는지() {
         // given
-        let asset: String = "products"
         
         // when
-        let product = JSONDecoder.decode(Product.self, from: asset)
+        let product = JSONDecoder.decode(Product.self, from: data)
         
         // then
         XCTAssertNil(product)

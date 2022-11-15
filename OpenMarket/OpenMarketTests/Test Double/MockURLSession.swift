@@ -1,5 +1,5 @@
 //
-//  StubURLSession.swift
+//  MockURLSession.swift
 //  OpenMarketTests
 //
 //  Created by Gundy, Wonbi on 2022/11/15.
@@ -15,7 +15,9 @@ final class MockURLSession: URLSessionProtocol {
         self.dummyData = dummy
     }
 
-    func dataTask(with request: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTaskProtocol {
+    func dataTask(with request: URLRequest,
+                  completionHandler: @escaping DataTaskCompletionHandler
+    ) -> URLSessionDataTaskProtocol {
         return MockURLSessionDataTask(resumeCompletion: completionHandler)
     }
 }
