@@ -13,6 +13,8 @@ struct Product: Decodable {
     let price, bargainPrice, discountedPrice: Double
     let stock: Int
     let createdAt, issuedAt: String
+    let images: [ProductImage]?
+    let vendor: Vendor?
     
     private enum CodingKeys: String, CodingKey {
         case id
@@ -23,5 +25,7 @@ struct Product: Decodable {
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
+        case images
+        case vendor = "vendors"
     }
 }
