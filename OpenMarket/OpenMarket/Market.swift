@@ -29,8 +29,8 @@ struct Market: Decodable {
         let bargainPrice: Double
         let discountedPrice: Double
         let stock: Int
-        let createdAt: String
-        let issuedAt: String
+        let createdAt: Date
+        let issuedAt: Date
         let images: [Image]?
         let vendors: Vendors?
         
@@ -38,7 +38,7 @@ struct Market: Decodable {
             let id: Int
             let url: String
             let thumbnailUrl: String
-            let issuedAt: String
+            let issuedAt: Date
         }
 
         struct Vendors: Decodable {

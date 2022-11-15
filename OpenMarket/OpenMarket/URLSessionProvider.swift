@@ -32,8 +32,8 @@ class MarketURLSessionProvider {
     let session: URLSession = URLSession(configuration: .default)
     var market: Market?
     
-    func fetchData<T: Decodable>(request: Request, type: T.Type) {
-        guard let url = request.url else { return }
+    func fetchData<T: Decodable>(url: URL?, type: T.Type) {
+        guard let url = url else { return }
         
         let dataTask = session.dataTask(with: url) { (data, response, error) in
             guard error == nil,
