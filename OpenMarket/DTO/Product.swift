@@ -1,33 +1,11 @@
 //
-//  Products.swift
+//  Product.swift
 //  OpenMarket
 //
 //  Created by Gundy, Wonbi on 2022/11/15.
 //
 
 import Foundation
-
-struct ProductList: Codable {
-    let pageNo: Int
-    let itemsPerPage: Int
-    let totalCount: Int
-    let offset: Int
-    let limit: Int
-    let pages: [Product]
-    let lastPage: Int
-    let hasNext: Bool
-    let hasPrev: Bool
-    
-    enum CodingKeys: String, CodingKey {
-        case pageNo = "page_no"
-        case itemsPerPage = "items_per_page"
-        case totalCount = "total_count"
-        case offset, limit, pages
-        case lastPage = "last_page"
-        case hasNext = "has_next"
-        case hasPrev = "has_prev"
-    }
-}
 
 struct Product: Codable {
     let id: Int
@@ -39,8 +17,15 @@ struct Product: Codable {
     let bargainPrice: Int
     let discountedPrice: Int
     let stock: Int
-    let createdAt: Date
-    let issuedAt: Date
+    let createdAt: String
+    let issuedAt: String
+    
+    var createdDate: Date? {
+        createdAt.date()
+    }
+    var issuedDate: Date? {
+        issuedAt.date()
+    }
     
     enum CodingKeys: String, CodingKey {
         case id
