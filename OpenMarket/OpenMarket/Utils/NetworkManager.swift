@@ -10,8 +10,8 @@ import Foundation
 final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
-
-    func getHealthChecker() {
+    
+    func checkHealth() {
         guard let url =
                 URL(string: "\(NetworkURLAsset.host)\(NetworkURLAsset.healthChecker)") else {
             return
@@ -23,27 +23,32 @@ final class NetworkManager {
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 print(NetworkError.networking.description)
-                print(error!)
                 return
             }
+            
             guard let safeData = data else {
                 print(NetworkError.data.description)
                 return
-            }
+            }             
+            
             guard let response = response as? HTTPURLResponse,
-                    (200 ..< 299) ~= response.statusCode else {
+                  200 == response.statusCode else {
                 print(NetworkError.networking.description)
                 return
             }
-           
+            
             print(String(decoding: safeData, as: UTF8.self))
         }.resume()
     }
     
-    func getProductList() {
-        let decodeManager = DecodeManager<ProductPage>()
+    func fetchData<T: Decodable>(to networkAsset: String,
+                                 dataType: T.Type,
+                                 completion: @escaping (Result<T, NetworkError>) -> Void) {
+        
+        let decodeManager = DecodeManager<T>()
+        
         guard let url =
-                URL(string: "\(NetworkURLAsset.host)\(NetworkURLAsset.productList)") else {
+                URL(string: "\(NetworkURLAsset.host)\(networkAsset)") else {
             return
         }
         
@@ -52,63 +57,37 @@ final class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print(NetworkError.networking.description)
+                completion(.failure(.networking))
                 return
             }
+            
             guard let safeData = data else {
-                print(NetworkError.data.description)
+                completion(.failure(.data))
                 return
             }
+            
             guard let response = response as? HTTPURLResponse,
-                    (200 ..< 299) ~= response.statusCode else {
-                print(NetworkError.networking.description)
+                  (200 ..< 299) ~= response.statusCode else {
+                completion(.failure(.networking))
                 return
             }
             
-            let productData = decodeManager.decodeData(data: safeData)
-            
-            switch productData {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
-            }
-        }.resume()
-    }
-    
-    func getProductDetail() {
-        let decodeManager = DecodeManager<Product>()
-        guard let url =
-                URL(string: "\(NetworkURLAsset.host)\(NetworkURLAsset.productDetail)") else {
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = HttpMethod.GET
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                print(NetworkError.networking.description)
-                print(error!)
-                return
-            }
-            guard let safeData = data else {
-                print(NetworkError.data.description)
-                return
-            }
-            guard let response = response as? HTTPURLResponse,
-                    (200 ..< 299) ~= response.statusCode else {
-                print(NetworkError.networking.description)
-                return
-            }
-            
-            let productData = decodeManager.decodeData(data: safeData)
-            
-            switch productData {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
+            if networkAsset == NetworkURLAsset.productDetail {
+                let productData = decodeManager.decodeData(data: safeData)
+                switch productData {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            } else {
+                let productData = decodeManager.decodeData(data: safeData)
+                switch productData {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }.resume()
     }
