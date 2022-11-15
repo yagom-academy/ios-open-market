@@ -42,7 +42,7 @@ final class NetworkingTest: XCTestCase {
             case .success(let itemList):
                 XCTAssertEqual(itemList.itemsPerPage, pageCount)
             case .failure(_):
-                break
+                XCTFail()
             }
             promise.fulfill()
         }
@@ -57,7 +57,7 @@ final class NetworkingTest: XCTestCase {
         sut.fetchItemList(pageNo: pageNo, pageCount: pageCount) { result in
             switch result {
             case .success(_):
-                break
+                XCTFail()
             case .failure(let error):
                 XCTAssertEqual(NetworkError.parseError, error)
             }
@@ -75,7 +75,7 @@ final class NetworkingTest: XCTestCase {
             case .success(let item):
                 XCTAssertEqual(item.id, productId)
             case .failure(_):
-                break
+                XCTFail()
             }
             promise.fulfill()
         }
@@ -89,7 +89,7 @@ final class NetworkingTest: XCTestCase {
         sut.fetchItem(productId: productId) { result in
             switch result {
             case .success(_):
-                break
+                XCTFail()
             case .failure(let error):
                 XCTAssertEqual(error, NetworkError.responseError)
             }
