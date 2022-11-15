@@ -6,12 +6,15 @@
 //
 struct Item: Codable {
     let id, vendorId: Int
-    let vendorName, name, pageDescription: String
+    let vendorName: String?
+    let name, pageDescription: String
     let thumbnail: String
     let currency: Currency
     let price, bargainPrice, discountedPrice: Double
     let stock: Int
     let createdAt, issuedAt: String
+    let images: [Image]?
+    let vendors: Vendors?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -24,5 +27,24 @@ struct Item: Codable {
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
+        case images
+        case vendors
     }
+}
+
+struct Image: Codable {
+    let id: Int
+    let url, thumbnailURL: String
+    let issuedAt: String
+
+    enum CodingKeys: String, CodingKey {
+        case id, url
+        case thumbnailURL = "thumbnail_url"
+        case issuedAt = "issued_at"
+    }
+}
+
+struct Vendors: Codable {
+    let id: Int
+    let name: String
 }
