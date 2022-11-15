@@ -18,14 +18,14 @@ struct ProductListData: Decodable {
     let hasPrevious: Bool
     
     enum CodingKeys: String, CodingKey {
-        case pageNumber = "page_no"
-        case itemsPerPage = "items_per_page"
-        case totalCount = "total_count"
+        case pageNumber = "pageNo"
+        case itemsPerPage = "itemsPerPage"
+        case totalCount = "totalCount"
         case offset
         case limit
         case pages
-        case lastPage = "last_page"
-        case hasNext = "has_next"
-        case hasPrevious = "has_prev"
+        case lastPage = "lastPage"
+        case hasNext = "hasNext"
+        case hasPrevious = "hasPrev"
     }
 }
