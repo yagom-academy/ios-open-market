@@ -1,9 +1,4 @@
-//
-//  DataError.swift
-//  OpenMarket
-//
-//  Created by jin on 11/15/22.
-//
+//  Created by Aejong, Tottale on 2022/11/15.
 
 import Foundation
 
