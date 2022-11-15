@@ -9,26 +9,24 @@ import XCTest
 
 @testable import OpenMarket
 final class ParsingTest: XCTestCase {
-
+    
+    var sut: JSONDecoder!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        sut = JSONDecoder()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        try super.tearDownWithError()
+        sut = nil
     }
     
-    func test_json데이터를_정상적으로_모델타입에_맞게_파싱되는지() throws {
-        let jsonDecoder: JSONDecoder = JSONDecoder()
+    func test_json데이터를_정상적으로_모델타입에_맞게_파싱되는지() {
         guard let dataAsset: NSDataAsset = NSDataAsset(name: "products") else { return }
+    
+        let itemList: ItemList? = try? sut.decode(ItemList.self, from: dataAsset.data)
         
-        do {
-            let itemList: ItemList? = try jsonDecoder.decode(ItemList.self, from: dataAsset.data)
-        } catch error {
-            print(error)
-        }
-        
-        //let itemList: ItemList? = try? jsonDecoder.decode(ItemList.self, from: dataAsset.data)
         XCTAssertNotNil(itemList)
     }
 
