@@ -11,7 +11,7 @@ import XCTest
 class DecodeTests: XCTestCase {
     
     func test_decode_메서드작동확인_pages배열의_첫번째이름_정상디코딩확인() {
-        guard let data = JSONDecoder.decode(type: Market.self, from: "testData") else { return }
+        guard let data = JSONDecoder.decodeFromAsset(type: Market.self, from: "testData") else { return }
         
         // when
         let result = "Test Product"
@@ -21,7 +21,7 @@ class DecodeTests: XCTestCase {
     }
     
     func test_decode_메서드작동확인_Market타입의_lastPage_정상디코딩확인() {
-        guard let data = JSONDecoder.decode(type: Market.self, from: "testData") else { return }
+        guard let data = JSONDecoder.decodeFromAsset(type: Market.self, from: "testData") else { return }
         
         // when
         let result = 1
@@ -31,7 +31,7 @@ class DecodeTests: XCTestCase {
     }
     
     func test_decode_메서드작동확인_pages배열의_마지막id_정상디코딩확인() {
-        guard let data = JSONDecoder.decode(type: Market.self, from: "testData") else { return }
+        guard let data = JSONDecoder.decodeFromAsset(type: Market.self, from: "testData") else { return }
         
         // when
         let result = 2

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */; };
+		41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */; };
 		86F0E0282923245600188086 /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0272923245600188086 /* Market.swift */; };
 		86F0E03029232AEA00188086 /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E02F29232AEA00188086 /* DecodeTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
+		41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		86F0E0272923245600188086 /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
 		86F0E02D29232AEA00188086 /* DecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86F0E02F29232AEA00188086 /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 				86F0E0272923245600188086 /* Market.swift */,
 				41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */,
+				41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -214,6 +217,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				86F0E0282923245600188086 /* Market.swift in Sources */,
 			);
