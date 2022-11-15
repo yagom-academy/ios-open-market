@@ -12,6 +12,7 @@
 		265ABA752923270200A4E864 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B529231F5A00E3B588 /* Page.swift */; };
 		265ABA762923270700A4E864 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B729231F8300E3B588 /* Currency.swift */; };
 		265ABA772923270900A4E864 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B929231FC100E3B588 /* Name.swift */; };
+		265ABA792923660100A4E864 /* URLSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265ABA782923660100A4E864 /* URLSessionManager.swift */; };
 		AE5A90B429231EBB00E3B588 /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B329231EBB00E3B588 /* Welcome.swift */; };
 		AE5A90B629231F5A00E3B588 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B529231F5A00E3B588 /* Page.swift */; };
 		AE5A90B829231F8300E3B588 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B729231F8300E3B588 /* Currency.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		265ABA6B292320BB00A4E864 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		265ABA6D292320BB00A4E864 /* OpenMarketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketTests.swift; sourceTree = "<group>"; };
+		265ABA782923660100A4E864 /* URLSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionManager.swift; sourceTree = "<group>"; };
 		AE5A90B329231EBB00E3B588 /* Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		AE5A90B529231F5A00E3B588 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		AE5A90B729231F8300E3B588 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		AE5A90BB2923200200E3B588 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				265ABA782923660100A4E864 /* URLSessionManager.swift */,
 				AE5A90B329231EBB00E3B588 /* Welcome.swift */,
 				AE5A90B529231F5A00E3B588 /* Page.swift */,
 				AE5A90B729231F8300E3B588 /* Currency.swift */,
@@ -253,6 +256,7 @@
 				AE5A90B829231F8300E3B588 /* Currency.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				265ABA792923660100A4E864 /* URLSessionManager.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				AE5A90BA29231FC100E3B588 /* Name.swift in Sources */,
 				AE5A90B629231F5A00E3B588 /* Page.swift in Sources */,
