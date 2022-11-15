@@ -3,12 +3,11 @@
 import Foundation
 
 class NetworkAPI {
-    
     static let shared = NetworkAPI()
     private init() {}
     
-    let scheme = "https"
-    let host = "openmarket.yagom-academy.kr"
+    let scheme = RequestConstant.scheme
+    let host = RequestConstant.host
     
     var urlComponents: URLComponents {
         var urlComponents = URLComponents()
@@ -24,7 +23,6 @@ class NetworkAPI {
         if let parameters = parameters {
             urlComponents.setQueryItems(with: parameters)
         }
-        
         
         guard let url = urlComponents.url else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
