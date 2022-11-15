@@ -11,6 +11,7 @@
 		1AEA46AF2923261A00213A87 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA46AE2923261A00213A87 /* Item.swift */; };
 		1AEA46B729232AD900213A87 /* ParsingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA46B629232AD900213A87 /* ParsingTest.swift */; };
 		1AEA46BE2923318400213A87 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA46BD2923318400213A87 /* NetworkManager.swift */; };
+		543645F1292353DA002B84B4 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543645F0292353DA002B84B4 /* NetworkError.swift */; };
 		54D0B0E9292328940061BB15 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0B0E8292328940061BB15 /* ItemList.swift */; };
 		54D0B0EB29232A110061BB15 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0B0EA29232A110061BB15 /* Currency.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -45,6 +46,7 @@
 		1AEA46B429232AD800213A87 /* ParsingTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParsingTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AEA46B629232AD900213A87 /* ParsingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingTest.swift; sourceTree = "<group>"; };
 		1AEA46BD2923318400213A87 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		543645F0292353DA002B84B4 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		54D0B0E8292328940061BB15 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		54D0B0EA29232A110061BB15 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +99,7 @@
 				54D0B0E8292328940061BB15 /* ItemList.swift */,
 				54D0B0EA29232A110061BB15 /* Currency.swift */,
 				1AEA46BD2923318400213A87 /* NetworkManager.swift */,
+				543645F0292353DA002B84B4 /* NetworkError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54D0B0EB29232A110061BB15 /* Currency.swift in Sources */,
+				543645F1292353DA002B84B4 /* NetworkError.swift in Sources */,
 				1AEA46AF2923261A00213A87 /* Item.swift in Sources */,
 				54D0B0E9292328940061BB15 /* ItemList.swift in Sources */,
 				1AEA46BE2923318400213A87 /* NetworkManager.swift in Sources */,
