@@ -21,6 +21,11 @@
 		E3D3397129233C91006325AB /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3397029233C91006325AB /* String+.swift */; };
 		E3D3397429234F38006325AB /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3397329234F38006325AB /* HttpMethod.swift */; };
 		E3D339762923516B006325AB /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D339752923516B006325AB /* NetworkRequest.swift */; };
+		E3D3397929236581006325AB /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3397829236581006325AB /* URLSessionProtocol.swift */; };
+		E3D3397D29236D8E006325AB /* DataTaskCompletionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3397C29236D8E006325AB /* DataTaskCompletionHandler.swift */; };
+		E3D3398029237926006325AB /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3397A292367EA006325AB /* StubURLSession.swift */; };
+		E3D3398429237992006325AB /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3398329237992006325AB /* DummyData.swift */; };
+		E3D3398629237AF7006325AB /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3398529237AF7006325AB /* MockURLSessionDataTask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +56,11 @@
 		E3D3397029233C91006325AB /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		E3D3397329234F38006325AB /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		E3D339752923516B006325AB /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		E3D3397829236581006325AB /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		E3D3397A292367EA006325AB /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
+		E3D3397C29236D8E006325AB /* DataTaskCompletionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskCompletionHandler.swift; sourceTree = "<group>"; };
+		E3D3398329237992006325AB /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
+		E3D3398529237AF7006325AB /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +85,9 @@
 			isa = PBXGroup;
 			children = (
 				BF22661929233453001D777C /* OpenMarketTests.swift */,
+				E3D3398329237992006325AB /* DummyData.swift */,
+				E3D3397A292367EA006325AB /* StubURLSession.swift */,
+				E3D3398529237AF7006325AB /* MockURLSessionDataTask.swift */,
 			);
 			path = OpenMarketTests;
 			sourceTree = "<group>";
@@ -144,10 +157,20 @@
 		E3D3397229234F04006325AB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				E3D3397729236550006325AB /* Network Protocol */,
 				E3D3397329234F38006325AB /* HttpMethod.swift */,
 				E3D339752923516B006325AB /* NetworkRequest.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		E3D3397729236550006325AB /* Network Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				E3D3397829236581006325AB /* URLSessionProtocol.swift */,
+				E3D3397C29236D8E006325AB /* DataTaskCompletionHandler.swift */,
+			);
+			path = "Network Protocol";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +273,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3D3398429237992006325AB /* DummyData.swift in Sources */,
+				E3D3398629237AF7006325AB /* MockURLSessionDataTask.swift in Sources */,
+				E3D3398029237926006325AB /* StubURLSession.swift in Sources */,
 				BF22661A29233453001D777C /* OpenMarketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,8 +289,10 @@
 				BF226624292335A4001D777C /* JSONDecoder+.swift in Sources */,
 				E3D3396D29232FEF006325AB /* Product.swift in Sources */,
 				E3D3396F2923374C006325AB /* ProductList.swift in Sources */,
+				E3D3397929236581006325AB /* URLSessionProtocol.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				BF2266272923587E001D777C /* OpenMarketNetworkRequest.swift in Sources */,
+				E3D3397D29236D8E006325AB /* DataTaskCompletionHandler.swift in Sources */,
 				E3D3397129233C91006325AB /* String+.swift in Sources */,
 				E3D339762923516B006325AB /* NetworkRequest.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
