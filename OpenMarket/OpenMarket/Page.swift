@@ -14,7 +14,7 @@ struct Page: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case number = "pageNo"
-        case productPerPage = "itemPerPage"
+        case productPerPage = "itemsPerPage"
         case totalCount, offset, limit, lastPage
         case hasNextPage = "hasNext"
         case hasPreviousPage = "hasPrev"
