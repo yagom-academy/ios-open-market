@@ -10,7 +10,7 @@ struct Product: Decodable {
     let vendorName: String
     let name: String
     let productDescription: String
-    let thumbnailURL: String
+    let thumbnailUrl: String
     let currency: Currency
     let price: UInt
     let bargainPrice: UInt
@@ -25,7 +25,7 @@ struct Product: Decodable {
         case vendorName
         case name
         case productDescription = "description"
-        case thumbnailURL = "thumbnail"
+        case thumbnailUrl = "thumbnail"
         case currency
         case price
         case bargainPrice = "bargain_price"

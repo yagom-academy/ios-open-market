@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0422A94229237ED200BD97CD /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422A94129237ED200BD97CD /* ProductList.swift */; };
+		0422A944292386B200BD97CD /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422A943292386B200BD97CD /* ProductImage.swift */; };
+		0422A946292387DD00BD97CD /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422A945292387DD00BD97CD /* Vendor.swift */; };
 		57F1C34F2923825E006240E2 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1C34E2923825E006240E2 /* Product.swift */; };
 		57F1C3512923837A006240E2 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1C3502923837A006240E2 /* Currency.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -20,6 +22,8 @@
 
 /* Begin PBXFileReference section */
 		0422A94129237ED200BD97CD /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
+		0422A943292386B200BD97CD /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
+		0422A945292387DD00BD97CD /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
 		57F1C34E2923825E006240E2 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		57F1C3502923837A006240E2 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +53,8 @@
 				0422A94129237ED200BD97CD /* ProductList.swift */,
 				57F1C34E2923825E006240E2 /* Product.swift */,
 				57F1C3502923837A006240E2 /* Currency.swift */,
+				0422A943292386B200BD97CD /* ProductImage.swift */,
+				0422A945292387DD00BD97CD /* Vendor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -159,7 +165,9 @@
 				0422A94229237ED200BD97CD /* ProductList.swift in Sources */,
 				57F1C34F2923825E006240E2 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				0422A946292387DD00BD97CD /* Vendor.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				0422A944292386B200BD97CD /* ProductImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
