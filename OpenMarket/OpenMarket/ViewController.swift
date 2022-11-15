@@ -12,6 +12,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         NetworkManager.shared.getHealthChecker()
         NetworkManager.shared.getProductList()
+        NetworkManager.shared.getProductDetail()
     }
     
     private func setupData() {

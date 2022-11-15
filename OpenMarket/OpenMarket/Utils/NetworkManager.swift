@@ -10,15 +10,15 @@ import Foundation
 final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
-    
-    var decodeManager = DecodeManager<ProductPage>()
-    
-    let url = URL(string: "https://openmarket.yagom-academy.kr")!
 
     func getHealthChecker() {
-        let urlString = URL(string: "\(url)/healthChecker")
-        var request = URLRequest(url: urlString!)
-        request.httpMethod = "GET"
+        guard let url =
+                URL(string: "\(NetworkURLAsset.host)\(NetworkURLAsset.healthChecker)") else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = HttpMethod.GET
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -30,7 +30,8 @@ final class NetworkManager {
                 print("Receive Error")
                 return
             }
-            guard let response = response as? HTTPURLResponse, (200 ..< 299) ~= response.statusCode else {
+            guard let response = response as? HTTPURLResponse,
+                    (200 ..< 299) ~= response.statusCode else {
                 print("Request Fail Error")
                 return
             }
@@ -40,10 +41,14 @@ final class NetworkManager {
     }
     
     func getProductList() {
-        let urlString = URL(string: "\(url)/api/products?page_no=1&items_per_page=100")
+        let decodeManager = DecodeManager<ProductPage>()
+        guard let url =
+                URL(string: "\(NetworkURLAsset.host)\(NetworkURLAsset.productList)") else {
+            return
+        }
         
-        var request = URLRequest(url: urlString!)
-        request.httpMethod = "GET"
+        var request = URLRequest(url: url)
+        request.httpMethod = HttpMethod.GET
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -55,12 +60,50 @@ final class NetworkManager {
                 print("Receive Error")
                 return
             }
-            guard let response = response as? HTTPURLResponse, (200 ..< 299) ~= response.statusCode else {
+            guard let response = response as? HTTPURLResponse,
+                    (200 ..< 299) ~= response.statusCode else {
                 print("Request Fail Error")
                 return
             }
             
-            let productData = self.decodeManager.decodeData(data: safeData)
+            let productData = decodeManager.decodeData(data: safeData)
+            
+            switch productData {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }.resume()
+    }
+    
+    func getProductDetail() {
+        let decodeManager = DecodeManager<Product>()
+        guard let url =
+                URL(string: "\(NetworkURLAsset.host)\(NetworkURLAsset.productDetail)") else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = HttpMethod.GET
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                print("Calling Error")
+                print(error!)
+                return
+            }
+            guard let safeData = data else {
+                print("Receive Error")
+                return
+            }
+            guard let response = response as? HTTPURLResponse,
+                    (200 ..< 299) ~= response.statusCode else {
+                print("Request Fail Error")
+                return
+            }
+            
+            let productData = decodeManager.decodeData(data: safeData)
             
             switch productData {
             case .success(let data):
