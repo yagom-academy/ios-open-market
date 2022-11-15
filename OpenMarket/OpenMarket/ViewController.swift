@@ -10,12 +10,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupData()
+        NetworkManager.shared.getHealthChecker()
+        NetworkManager.shared.getProductList()
     }
     
-    func setupData() {
+    private func setupData() {
         let manager = DecodeManager<ProductPage>()
-        guard let datas = try? manager.fetchData(name: "products") else { return }
+        let datas = manager.fetchData(name: "products")
         switch datas {
         case .success(let datas):
             let newData = datas.pages

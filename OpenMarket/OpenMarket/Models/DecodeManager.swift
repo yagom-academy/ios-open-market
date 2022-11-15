@@ -21,4 +21,12 @@ struct DecodeManager<T: Decodable> {
         
         return Result.success(datas)
     }
+    
+    func decodeData(data: Data) -> Result<T, DataError> {
+        guard let datas = try? decoder.decode(T.self, from: data) else {
+            return Result.failure(DataError.decoding)
+        }
+        
+        return Result.success(datas)
+    }
 }
