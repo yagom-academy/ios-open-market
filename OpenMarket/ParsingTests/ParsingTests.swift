@@ -9,7 +9,7 @@ import XCTest
 @testable import OpenMarket
 
 class ParsingTests: XCTestCase {
-    var sut: Products?
+    var sut: TestJsonProducts?
 
     override func setUpWithError() throws {
         try super.setUpWithError()
