@@ -7,14 +7,13 @@
 
 import Foundation
 
-class NetworkCommunication {
-    var searchListProducts: SearchListProducts?
+struct NetworkCommunication {
+    let session = URLSession(configuration: .default)
     
     func requestHealthChecker(url: String) {
-        let session = URLSession(configuration: .default)
         guard let url: URL = URL(string: url) else { return }
         
-        let task: URLSessionDataTask = session.dataTask(with: url) { data, response, error in
+        let task: URLSessionDataTask = session.dataTask(with: url) { _, response, error in
             if let error = error {
                 // 코드 수정하기
                 print(error.localizedDescription)
@@ -28,29 +27,28 @@ class NetworkCommunication {
         task.resume()
     }
     
-    func requestSearchListProducts(url: String) {
-        let session = URLSession(configuration: .default)
+    func requestProductsInformation<T: Decodable>(url: String, type: T.Type) {
         guard let url: URL = URL(string: url) else { return }
         
-        let task: URLSessionDataTask = session.dataTask(with: url) { data, response, error in
+        let task: URLSessionDataTask = session.dataTask(with: url) { data, _, error in
             if let error = error {
-                // 코드 수정하기
                 print(error.localizedDescription)
                 return
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                print(response.statusCode)
             }
             
             guard let data = data else { return }
             
             do {
-                self.searchListProducts = try JSONDecoder().decode(SearchListProducts.self, from: data)
+                let decodingData = try JSONDecoder().decode(type.self, from: data)
+                if type == SearchListProducts.self {
+                    guard let searchListProducts = decodingData as? SearchListProducts else { return }
+                    print(searchListProducts.pages[0])
+                } else {
+                    print(decodingData)
+                }
             } catch {
                 print(error.localizedDescription)
             }
-
         }
         task.resume()
     }
