@@ -6,10 +6,10 @@
 //
 import Foundation
 
-struct Product: Codable, completionable {
+struct Product: Codable {
     let id: Int
     let vendorId: Int
-    let vendorName: String
+    let vendorName: String?
     let name: String
     let description: String
     let thumbnail: String
@@ -20,10 +20,12 @@ struct Product: Codable, completionable {
     let stock: Int
     let createdAt: Date
     let issuedAt: Date
+    let images: [Image]?
+    let vendors: Vendor?
     
-    enum Currency: Codable {
-        case KRW
-        case USD
+    enum Currency: String, Codable {
+        case KRW = "KRW"
+        case USD = "USD"
     }
     
     enum CodingKeys: String, CodingKey {
@@ -40,5 +42,7 @@ struct Product: Codable, completionable {
         case stock
         case createdAt = "created_at"
         case issuedAt = "issued_at"
+        case images
+        case vendors
     }
 }

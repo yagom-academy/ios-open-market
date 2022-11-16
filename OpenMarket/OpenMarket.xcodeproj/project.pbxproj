@@ -13,6 +13,9 @@
 		AC4F65492922624000CCCDE7 /* ParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F65482922624000CCCDE7 /* ParsingTests.swift */; };
 		AC4F654F2922624F00CCCDE7 /* ProductsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F654029225A8800CCCDE7 /* ProductsList.swift */; };
 		AC4F65502922625000CCCDE7 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1109F8EA29225C6200C9E176 /* Product.swift */; };
+		AC4F65522923AEC600CCCDE7 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F65512923AEC600CCCDE7 /* Image.swift */; };
+		AC4F65542923AF9300CCCDE7 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F65532923AF9300CCCDE7 /* Vendor.swift */; };
+		AC4F65582923B36600CCCDE7 /* Completionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F65572923B36600CCCDE7 /* Completionable.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -37,6 +40,9 @@
 		AC4F654029225A8800CCCDE7 /* ProductsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsList.swift; sourceTree = "<group>"; };
 		AC4F65462922624000CCCDE7 /* ParsingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParsingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC4F65482922624000CCCDE7 /* ParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingTests.swift; sourceTree = "<group>"; };
+		AC4F65512923AEC600CCCDE7 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		AC4F65532923AF9300CCCDE7 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
+		AC4F65572923B36600CCCDE7 /* Completionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completionable.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +79,26 @@
 			path = ParsingTests;
 			sourceTree = "<group>";
 		};
+		AC4F65552923AFB700CCCDE7 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				AC4F65512923AEC600CCCDE7 /* Image.swift */,
+				AC4F65532923AF9300CCCDE7 /* Vendor.swift */,
+				AC4F654029225A8800CCCDE7 /* ProductsList.swift */,
+				1109F8EA29225C6200C9E176 /* Product.swift */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
+		AC4F65562923AFD200CCCDE7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1109F8EC29226A2800C9E176 /* NetworkMananger.swift */,
+				AC4F65572923B36600CCCDE7 /* Completionable.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
@@ -97,9 +123,8 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				AC4F654029225A8800CCCDE7 /* ProductsList.swift */,
-				1109F8EA29225C6200C9E176 /* Product.swift */,
-				1109F8EC29226A2800C9E176 /* NetworkMananger.swift */,
+				AC4F65562923AFD200CCCDE7 /* Network */,
+				AC4F65552923AFB700CCCDE7 /* Product */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -222,7 +247,10 @@
 				AC4F654129225A8800CCCDE7 /* ProductsList.swift in Sources */,
 				1109F8EB29225C6200C9E176 /* Product.swift in Sources */,
 				1109F8ED29226A2800C9E176 /* NetworkMananger.swift in Sources */,
+				AC4F65582923B36600CCCDE7 /* Completionable.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				AC4F65542923AF9300CCCDE7 /* Vendor.swift in Sources */,
+				AC4F65522923AEC600CCCDE7 /* Image.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
