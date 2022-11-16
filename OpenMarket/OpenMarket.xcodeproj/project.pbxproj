@@ -121,15 +121,47 @@
 			path = MockTests;
 			sourceTree = "<group>";
 		};
+		1A8CA6E82924813400B53E75 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1AEA46BD2923318400213A87 /* NetworkManager.swift */,
+				543645F0292353DA002B84B4 /* NetworkError.swift */,
+				5450DDE92924778C0051B723 /* Mock */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		1A8CA6E92924819400B53E75 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		1A8CA6EA292481A400B53E75 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1A8CA6EB292481B000B53E75 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB10025BEF61C00C9924E /* Main.storyboard */,
+				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		1AEA46AD2923231000213A87 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5450DDE92924778C0051B723 /* Mock */,
 				1AEA46AE2923261A00213A87 /* Item.swift */,
 				54D0B0E8292328940061BB15 /* ItemList.swift */,
 				54D0B0EA29232A110061BB15 /* Currency.swift */,
-				1AEA46BD2923318400213A87 /* NetworkManager.swift */,
-				543645F0292353DA002B84B4 /* NetworkError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -177,12 +209,12 @@
 			isa = PBXGroup;
 			children = (
 				1AEA46AD2923231000213A87 /* Models */,
+				1A8CA6EB292481B000B53E75 /* Views */,
+				1A8CA6EA292481A400B53E75 /* Controllers */,
+				1A8CA6E92924819400B53E75 /* Resource */,
+				1A8CA6E82924813400B53E75 /* Network */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				C70FB10025BEF61C00C9924E /* Main.storyboard */,
-				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
-				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
