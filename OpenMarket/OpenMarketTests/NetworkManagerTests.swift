@@ -30,7 +30,7 @@ final class NetworkManagerTests: XCTestCase {
     
     func test_dummyData에_Data가있고_statusCode가200일때_fetchData가_정상작동하는지() {
         // given
-        guard let url = productListRequest.urlComponents,
+        guard let url = productListRequest.url,
               let data = DataLoader.data(fileName: "products") else { return }
         
         let mockURLSession: MockURLSession = {
@@ -60,7 +60,7 @@ final class NetworkManagerTests: XCTestCase {
     
     func test_잘못된dataType을넘겼을때_failToParse에러를반환하는지() {
         // given
-        guard let url = productListRequest.urlComponents,
+        guard let url = productListRequest.url,
               let data = DataLoader.data(fileName: "products") else { return }
         
         let mockURLSession: MockURLSession = {
@@ -89,7 +89,7 @@ final class NetworkManagerTests: XCTestCase {
     
     func test_data가없고_statusCode가400일때_invalid에러를반환하는지() {
         // given
-        guard let url = productListRequest.urlComponents else { return }
+        guard let url = productListRequest.url else { return }
         
         let mockURLSession: MockURLSession = {
             let response: HTTPURLResponse? = HTTPURLResponse(url: url,
@@ -116,7 +116,7 @@ final class NetworkManagerTests: XCTestCase {
     
     func test_dummyData에에러가있을때_에러를반환하는지() {
         // given
-        guard let url = productListRequest.urlComponents,
+        guard let url = productListRequest.url,
               let data = DataLoader.data(fileName: "products") else { return }
         
         let mockURLSession: MockURLSession = {

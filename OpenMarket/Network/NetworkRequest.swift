@@ -15,7 +15,10 @@ protocol NetworkRequest {
 }
 
 extension NetworkRequest {
-    var urlComponents: URL? {
+    var url: URL? {
+        if queryParameters.isEmpty {
+            return URL(string: urlHost + urlPath)
+        }
         var urlComponents = URLComponents(string: urlHost + urlPath)
         let queryItems = queryParameters.map { URLQueryItem(name: $0, value: $1) }
         urlComponents?.queryItems = queryItems
@@ -24,11 +27,11 @@ extension NetworkRequest {
     }
     
     var requestURL: URLRequest? {
-        guard let urlComponents = urlComponents else {
+        guard let url = url else {
             print("URL is nil")
             return nil
         }
-        var request = URLRequest(url: urlComponents)
+        var request = URLRequest(url: url)
         request.httpMethod = self.httpMethod.description
         return request
     }
