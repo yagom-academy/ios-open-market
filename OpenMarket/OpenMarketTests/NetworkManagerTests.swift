@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-class NetworkManagerTests: XCTestCase {
+final class NetworkManagerTests: XCTestCase {
     var sut: NetworkManager!
     let productListRequest: ProductListRequest = .init(pageNo: 1, itemsPerPage: 20)
     var dummyData: DummyData = .init(data: nil, response: nil, error: nil)
