@@ -9,17 +9,17 @@ import Foundation
 struct NetworkManager {
     let hostUrlAddress: String = ProductsAPIEnum.hostUrl.address
     
-    func getApplicationHealthChecker() {
+    func getApplicationHealthChecker(completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         let targetAddress: String = hostUrlAddress + ProductsAPIEnum.healthChecker.address
         guard let targetURL: URL = URL(string: targetAddress) else {
             return
         }
         let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
         
-        dataTask(request: targetRequest)
+        dataTask(request: targetRequest, completion: completion)
     }
     
-    func getItemList(pageNumber: Int, itemPerPage: Int, searchValue: String? = nil) {
+    func getItemList(pageNumber: Int, itemPerPage: Int, searchValue: String? = nil, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         var searchValueString: String = String()
         if let unwrappingSearchValue: String = searchValue {
             searchValueString = ProductsAPIEnum.bridge.address + ProductsAPIEnum.searchValue.address + unwrappingSearchValue
@@ -35,17 +35,17 @@ struct NetworkManager {
         }
         let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
         
-        dataTask(request: targetRequest)
+        dataTask(request: targetRequest, completion: completion)
     }
     
-    func getItemDetailList(productID: Int) {
+    func getItemDetailList(productID: Int, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         let targetAddress: String = hostUrlAddress + ProductsAPIEnum.products.address + String(productID)
         guard let targetURL: URL = URL(string: targetAddress) else {
             return
         }
         let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
         
-        dataTask(request: targetRequest)
+        dataTask(request: targetRequest, completion: completion)
     }
     
     private func makeRequest(url: URL, httpMethod: HttpMethodEnum) -> URLRequest {
@@ -56,37 +56,32 @@ struct NetworkManager {
         return request
     }
     
-    private func dataTask(request: URLRequest) {
+    private func dataTask(request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let task: URLSessionDataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                print(error?.localizedDescription)
+                completion(.failure(.dataTaskError))
             }
             
             if let serverResponse = response as? HTTPURLResponse {
                 switch serverResponse.statusCode {
                 case 100...101:
-                    print("informational")
-                case 200...206:
-                    print("success")
+                    return completion(.failure(.informational))
                 case 300...307:
-                    print("redirection")
+                    return completion(.failure(.redirection))
                 case 400...415:
-                    print("client error")
-                    return
+                    return completion(.failure(.clientError))
                 case 500...505:
-                    print("server error")
-                    return
+                    return completion(.failure(.serverError))
                 default:
-                    print("unknown error")
-                    return
+                    return completion(.failure(.unknownError))
                 }
             }
-
+            
             guard let data = data else {
-                print(String(describing: error))
-                return
+                return completion(.failure(.invalidData))
             }
-            print(String(data: data, encoding: .utf8)!)
+            
+            return completion(.success(data))
         }
         
         task.resume()

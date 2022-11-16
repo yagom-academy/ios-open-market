@@ -13,6 +13,5 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         var NM = NetworkManager()
-        NM.getApplicationHealthChecker()
     }
 }
