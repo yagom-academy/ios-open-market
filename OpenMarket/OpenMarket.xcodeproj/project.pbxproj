@@ -149,6 +149,7 @@
 				86F0E0502924D11800188086 /* NetworkError.swift */,
 				86F0E0382923B51400188086 /* URLComponents+Extension.swift */,
 				41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */,
+				86F0E03E29247D1500188086 /* MockURLSession */,
 			);
 			path = URLSession;
 			sourceTree = "<group>";
@@ -187,7 +188,8 @@
 				86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */,
 				41D3D7762924814B00C86A9A /* SampleData.swift */,
 			);
-			path = MockURLSession;
+			name = MockURLSession;
+			path = ../../MockURLSession;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -217,7 +219,6 @@
 				418C67DF29250C06009051E2 /* Model */,
 				418C67E029250C12009051E2 /* View */,
 				418C67E129250C18009051E2 /* ViewController */,
-				86F0E03E29247D1500188086 /* MockURLSession */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
