@@ -12,6 +12,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         netWorkHandler.requestHealthChecker()
+        netWorkHandler.requestProductListSearching()
     }
 }
 
