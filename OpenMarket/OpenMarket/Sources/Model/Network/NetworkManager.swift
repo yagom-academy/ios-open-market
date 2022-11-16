@@ -7,7 +7,12 @@
 import Foundation
 
 struct NetworkManager {
+    let session: URLSessionProtocol
     let hostUrlAddress: String = ProductsAPIEnum.hostUrl.address
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
     
     func getApplicationHealthChecker(completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         let targetAddress: String = hostUrlAddress + ProductsAPIEnum.healthChecker.address
@@ -57,7 +62,7 @@ struct NetworkManager {
     }
     
     private func dataTask(request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        let task: URLSessionDataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
             if error != nil {
                 completion(.failure(.dataTaskError))
             }
