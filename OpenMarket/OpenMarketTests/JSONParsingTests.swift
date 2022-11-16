@@ -1,5 +1,5 @@
 //
-//  OpenMarketTests.swift
+//  JSONParsingTests.swift
 //  OpenMarketTests
 //
 //  Created by Gundy, Wonbi on 2022/11/15.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import OpenMarket
 
-final class OpenMarketTests: XCTestCase {
+final class JSONParsingTests: XCTestCase {
     var data: Data!
     
     override func setUpWithError() throws {

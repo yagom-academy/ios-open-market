@@ -11,7 +11,8 @@ import Foundation
 final class MockURLSessionDataTask: URLSessionDataTaskProtocol {
     var dummyData: DummyData?
     
-    init(resumeCompletion: @escaping DataTaskCompletionHandler) {
+    init(dummy: DummyData?, resumeCompletion: @escaping DataTaskCompletionHandler) {
+        self.dummyData = dummy
         self.dummyData?.completionHandler = resumeCompletion
     }
 

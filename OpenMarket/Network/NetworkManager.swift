@@ -13,18 +13,16 @@ enum NetworkError: Error {
 }
 
 final class NetworkManager {
-    let session: URLSessionProtocol
+    var session: URLSessionProtocol
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(for request: URLRequest?,
+    func fetchData<T: Decodable>(for url: URL,
                                  dataType: T.Type,
                                  completion: @escaping (Result<T, Error>) -> Void) {
-        guard let request = request else { return }
-        
-        let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: request) {
+        let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) {
             (data, response, error) in
             if let error = error {
                 completion(.failure(error))
