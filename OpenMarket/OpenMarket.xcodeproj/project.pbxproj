@@ -19,6 +19,7 @@
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
+		DF6EE0652925255400CB57F3 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6EE0642925255400CB57F3 /* DummyData.swift */; };
 		DFDCA5282923BC6A00655B05 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDCA5272923BC6A00655B05 /* ImageData.swift */; };
 		DFDCA52A2923BDD800655B05 /* VendorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDCA5292923BDD800655B05 /* VendorData.swift */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,7 @@
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF6EE0642925255400CB57F3 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		DFDCA5272923BC6A00655B05 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		DFDCA5292923BDD800655B05 /* VendorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,8 +124,17 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
+				DF6EE05F2925151800CB57F3 /* Test Double */,
 			);
 			path = OpenMarket;
+			sourceTree = "<group>";
+		};
+		DF6EE05F2925151800CB57F3 /* Test Double */ = {
+			isa = PBXGroup;
+			children = (
+				DF6EE0642925255400CB57F3 /* DummyData.swift */,
+			);
+			path = "Test Double";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +254,7 @@
 				DFDCA52A2923BDD800655B05 /* VendorData.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B25ABE892923CC180032FF1D /* NetworkRequest.swift in Sources */,
+				DF6EE0652925255400CB57F3 /* DummyData.swift in Sources */,
 				DFDCA5282923BC6A00655B05 /* ImageData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
