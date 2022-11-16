@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4412F552924A101001FA318 /* targetHttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F542924A101001FA318 /* targetHttpMethod.swift */; };
 		B44353FE2923723100F165B5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44353FD2923723100F165B5 /* NetworkManager.swift */; };
 		B4AF346C29225E8000DF99C7 /* JSONDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B4412F542924A101001FA318 /* targetHttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = targetHttpMethod.swift; sourceTree = "<group>"; };
 		B44353FD2923723100F165B5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B4AF346929225E8000DF99C7 /* JSONDecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONDecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodeTests.swift; sourceTree = "<group>"; };
@@ -73,6 +75,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4412F562924A118001FA318 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B4412F542924A101001FA318 /* targetHttpMethod.swift */,
+				B44353FD2923723100F165B5 /* NetworkManager.swift */,
+				D03ED9E329235FBF005F30A8 /* Get */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		B4AF346A29225E8000DF99C7 /* JSONDecodeTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,8 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				D03ED9CF29224DBD005F30A8 /* JSONDecodeExtension.swift */,
-				B44353FD2923723100F165B5 /* NetworkManager.swift */,
-				D03ED9E329235FBF005F30A8 /* Get */,
+				B4412F562924A118001FA318 /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -310,6 +321,7 @@
 				D03ED9D229225712005F30A8 /* ProductList.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D03ED9E929236322005F30A8 /* Vendor.swift in Sources */,
+				B4412F552924A101001FA318 /* targetHttpMethod.swift in Sources */,
 				D03ED9DA29234F24005F30A8 /* CurrencyEnum.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

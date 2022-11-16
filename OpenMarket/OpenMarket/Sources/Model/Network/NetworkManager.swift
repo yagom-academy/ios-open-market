@@ -7,14 +7,13 @@
 import Foundation
 
 class NetworkManager {
-    private var semaphore = DispatchSemaphore (value: 0)
     private let hostURL: String = "https://openmarket.yagom-academy.kr"
     
     func getApplicationHealthChecker() {
         guard let targetURL: URL = URL(string: hostURL + "/healthChecker") else {
             return
         }
-        let targetRequest = makeRequest(url: targetURL)
+        let targetRequest = makeRequest(url: targetURL, httpMethod: targetHttpMethod.get)
         
         dataTask(request: targetRequest)
     }
@@ -35,7 +34,7 @@ class NetworkManager {
         ) else {
             return
         }
-        let targetRequest = makeRequest(url: targetURL)
+        let targetRequest = makeRequest(url: targetURL, httpMethod: targetHttpMethod.get)
         
         dataTask(request: targetRequest)
     }
@@ -45,15 +44,15 @@ class NetworkManager {
         guard let targetURL: URL = URL(string: hostURL + "/api/products/" + productIDString) else {
             return
         }
-        let targetRequest = makeRequest(url: targetURL)
+        let targetRequest = makeRequest(url: targetURL, httpMethod: targetHttpMethod.get)
         
         dataTask(request: targetRequest)
     }
     
-    private func makeRequest(url: URL) -> URLRequest {
+    private func makeRequest(url: URL, httpMethod: targetHttpMethod) -> URLRequest {
         var request: URLRequest = URLRequest(url: url,timeoutInterval: Double.infinity)
         
-        request.httpMethod = "GET"
+        request.httpMethod = httpMethod.name
         
         return request
     }
@@ -62,14 +61,11 @@ class NetworkManager {
         let task: URLSessionDataTask = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print(String(describing: error))
-                self.semaphore.signal()
                 return
             }
             print(String(data: data, encoding: .utf8)!)
-            self.semaphore.signal()
         }
         
         task.resume()
-        semaphore.wait()
     }
 }
