@@ -9,7 +9,7 @@ import Foundation
 
 enum Request {
     case healthChecker
-    case productList(pageNumber: Int, itemsPerPage: Int )
+    case productList(pageNumber: Int, itemsPerPage: Int)
     case productDetail(productNumber: Int)
     
     var url: URL? {
