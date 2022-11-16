@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		416AF3972924B476002CD10C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416AF3962924B476002CD10C /* MockURLSession.swift */; };
 		41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */; };
 		41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */; };
 		41B6E8A82923BDD900CBF91D /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A72923BDD900CBF91D /* DateFormatter+Extension.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		416AF3962924B476002CD10C /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
 		41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		41B6E8A72923BDD900CBF91D /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */,
 				41D3D7762924814B00C86A9A /* SampleData.swift */,
 				86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */,
+				416AF3962924B476002CD10C /* MockURLSession.swift */,
 			);
 			path = MockURLSession;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				416AF3972924B476002CD10C /* MockURLSession.swift in Sources */,
 				86F0E04029247DFA00188086 /* URLSessionProtocol.swift in Sources */,
 				86F0E0392923B51400188086 /* URLComponents+Extension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,

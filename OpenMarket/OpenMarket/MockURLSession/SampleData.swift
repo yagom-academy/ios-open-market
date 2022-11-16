@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 enum SampleDate {
-    var sampleData: Data {
+    static var sampleData: Data {
         Data(
             """
             {
