@@ -9,9 +9,9 @@ import Foundation
 @testable import OpenMarket
 
 struct DummyData {
-    let data: Data?
-    let response: URLResponse?
-    let error: Error?
+    var data: Data?
+    var response: URLResponse?
+    var error: Error?
     var completionHandler: DataTaskCompletionHandler? = nil
     
     func resumeCompletion() {

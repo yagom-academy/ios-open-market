@@ -9,41 +9,44 @@ import XCTest
 @testable import OpenMarket
 
 class NetworkManagerTests: XCTestCase {
-    var networkManager: NetworkManager!
+    var sut: NetworkManager!
+    let productListRequest: ProductListRequest = .init(pageNo: 1, itemsPerPage: 20)
+    var dummyData: DummyData = .init(data: nil, response: nil, error: nil)
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        networkManager = .init()
+        sut = .init()
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         
-        networkManager = nil
+        sut = nil
+        dummyData.data = nil
+        dummyData.response = nil
+        dummyData.error = nil
     }
     
-    func test_dummyData를통해_productList를_리퀘스트했을때_fetchData가_정상작동하는지() {
+    func test_dummyData에_Data가있고_statusCode가200일때_fetchData가_정상작동하는지() {
         // given
-        let productListRequest: ProductListRequest = .init(pageNo: 1, itemsPerPage: 20)
-        guard let url = productListRequest.urlComponents else { return }
-        let data: Data? = DataLoader.data(fileName: "products")
-        guard let data = data else { return }
+        guard let url = productListRequest.urlComponents,
+              let data = DataLoader.data(fileName: "products") else { return }
+        
         let mockURLSession: MockURLSession = {
             let response: HTTPURLResponse? = HTTPURLResponse(url: url,
                                                             statusCode: 200,
                                                             httpVersion: nil,
                                                             headerFields: nil)
-            let dummyData: DummyData = .init(data: data,
-                                             response: response,
-                                             error: nil)
+            dummyData.data = data
+            dummyData.response = response
             return MockURLSession(dummy: dummyData)
         }()
-        networkManager.session = mockURLSession
+        sut.session = mockURLSession
         
         // when
         var result: ProductList?
-        networkManager.fetchData(for: url, dataType: ProductList.self) { response in
+        sut.fetchData(for: url, dataType: ProductList.self) { response in
             if case let .success(productList) = response {
                 result = productList
             }
@@ -53,5 +56,91 @@ class NetworkManagerTests: XCTestCase {
         // then
         XCTAssertNotNil(result)
         XCTAssertEqual(result?.pages.count, expectation?.pages.count)
+    }
+    
+    func test_잘못된dataType을넘겼을때_failToParse에러를반환하는지() {
+        // given
+        guard let url = productListRequest.urlComponents,
+              let data = DataLoader.data(fileName: "products") else { return }
+        
+        let mockURLSession: MockURLSession = {
+            let response: HTTPURLResponse? = HTTPURLResponse(url: url,
+                                                            statusCode: 200,
+                                                            httpVersion: nil,
+                                                            headerFields: nil)
+            dummyData.data = data
+            dummyData.response = response
+            return MockURLSession(dummy: dummyData)
+        }()
+        sut.session = mockURLSession
+        
+        // when
+        var result: NetworkError?
+        sut.fetchData(for: url, dataType: Product.self) { response in
+            if case let .failure(error) = response {
+                result = error as? NetworkError
+            }
+        }
+        let expectation: NetworkError = .failToParse
+        
+        // then
+        XCTAssertEqual(result, expectation)
+    }
+    
+    func test_data가없고_statusCode가400일때_invalid에러를반환하는지() {
+        // given
+        guard let url = productListRequest.urlComponents else { return }
+        
+        let mockURLSession: MockURLSession = {
+            let response: HTTPURLResponse? = HTTPURLResponse(url: url,
+                                                            statusCode: 400,
+                                                            httpVersion: nil,
+                                                            headerFields: nil)
+            dummyData.response = response
+            return MockURLSession(dummy: dummyData)
+        }()
+        sut.session = mockURLSession
+        
+        // when
+        var result: NetworkError?
+        sut.fetchData(for: url, dataType: ProductList.self) { response in
+            if case let .failure(error) = response {
+                result = error as? NetworkError
+            }
+        }
+        let expectation: NetworkError = .invalid
+        
+        // then
+        XCTAssertEqual(result, expectation)
+    }
+    
+    func test_dummyData에에러가있을때_에러를반환하는지() {
+        // given
+        guard let url = productListRequest.urlComponents,
+              let data = DataLoader.data(fileName: "products") else { return }
+        
+        let mockURLSession: MockURLSession = {
+            let response: HTTPURLResponse? = HTTPURLResponse(url: url,
+                                                            statusCode: 200,
+                                                            httpVersion: nil,
+                                                            headerFields: nil)
+            dummyData.data = data
+            dummyData.response = response
+            dummyData.error = NetworkError.failRequest
+            return MockURLSession(dummy: dummyData)
+        }()
+        sut.session = mockURLSession
+        
+        // when
+        var result: NetworkError?
+        sut.fetchData(for: url, dataType: ProductList.self) { response in
+            if case let .failure(error) = response {
+                result = error as? NetworkError
+            }
+        }
+        let expectation: NetworkError = .failRequest
+        
+        // then
+        XCTAssertEqual(result, expectation)
     }
 }

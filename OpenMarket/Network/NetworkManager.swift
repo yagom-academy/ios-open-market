@@ -10,6 +10,7 @@ import Foundation
 enum NetworkError: Error {
     case failToParse
     case invalid
+    case failRequest
 }
 
 final class NetworkManager {
