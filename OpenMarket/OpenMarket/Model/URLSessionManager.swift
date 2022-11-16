@@ -9,16 +9,16 @@ import Foundation
 
 class URLSessionManager {
     let session: URLSession
-    let baseURL = "https://openmarket.yagom-academy.kr"
+    let baseURL = OpenMarketURL.base
     
     init(session: URLSession = URLSession.shared) {
         self.session = session
     }
     
-    func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, CustomError>) -> Void) {
+    private func dataTask(request: URLRequest, completionHandler: @escaping (Result<Data, CustomError>) -> Void) {
         let task = session.dataTask(with: request) { data, urlResponse, error in
-            guard let httpResonse = urlResponse as? HTTPURLResponse,
-                  (200...299).contains(httpResonse.statusCode) else {
+            guard let httpResponse = urlResponse as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
                 return completionHandler(.failure(.statusCodeError))
             }
             
@@ -32,28 +32,28 @@ class URLSessionManager {
     }
     
     func getHeathChecker(completionHandler: @escaping (Result<Data, CustomError>) -> Void) {
-        guard let url = URL(string: baseURL + "/healthChecker") else { return }
+        guard let url = URL(string: baseURL + OpenMarketURL.heathChecker) else { return }
         
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
+        request.httpMethod = HTTPMethod.get
         
         dataTask(request: request, completionHandler: completionHandler)
     }
     
     func getItemsPerPage(completionHandler: @escaping (Result<Data, CustomError>) -> Void) {
-        guard let url = URL(string: baseURL + "/api/products?page_no=1&items_per_page=100") else { return }
+        guard let url = URL(string: baseURL + OpenMarketURL.itemPage) else { return }
         
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
+        request.httpMethod = HTTPMethod.get
         
         dataTask(request: request, completionHandler: completionHandler)
     }
     
     func getProducts(completionHandler: @escaping (Result<Data, CustomError>) -> Void) {
-        guard let url = URL(string: baseURL + "/api/products/32") else { return }
+        guard let url = URL(string: baseURL + OpenMarketURL.product) else { return }
         
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
+        request.httpMethod = HTTPMethod.get
         
         dataTask(request: request, completionHandler: completionHandler)
     }
