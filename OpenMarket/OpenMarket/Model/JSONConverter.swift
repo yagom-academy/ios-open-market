@@ -17,14 +17,12 @@ class JSONConverter {
             guard let error = error as? DecodingError else { return nil }
             
             switch error {
-            case .dataCorrupted:
-                print(error)
+            case .dataCorrupted(let context):
+                print(context.codingPath, context.debugDescription, context.underlyingError ?? "", separator: "\n")
+                return nil
+            default :
                 return nil
             }
         }
     }
-}
-
-enum DecodingError: Error {
-    case dataCorrupted
 }

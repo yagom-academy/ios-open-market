@@ -18,6 +18,7 @@ class NetworkManager {
             guard let data: ItemList = JSONConverter.decodeData(data: data) else {
                 return
             }
+            
             completion(data)
         }
     }
@@ -27,6 +28,7 @@ class NetworkManager {
             guard let data: Item = JSONConverter.decodeData(data: data) else {
                 return
             }
+            
             completion(data)
         }
     }
