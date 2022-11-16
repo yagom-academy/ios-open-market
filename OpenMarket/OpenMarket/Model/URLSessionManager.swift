@@ -63,3 +63,13 @@ enum CustomError: Error {
     case statusCodeError
     case unknownError
 }
+
+class JSONDataManager {
+    static func decodeData(data: Data) {
+        guard let data = try? JSONDecoder().decode(ItemList.self, from: data) else {
+            return 
+        }
+        
+        print(data)
+    }
+}
