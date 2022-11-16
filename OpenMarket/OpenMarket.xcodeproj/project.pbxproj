@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B4412F552924A101001FA318 /* targetHttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F542924A101001FA318 /* targetHttpMethod.swift */; };
+		B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F542924A101001FA318 /* HttpMethodEnum.swift */; };
 		B44353FE2923723100F165B5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44353FD2923723100F165B5 /* NetworkManager.swift */; };
 		B4AF346C29225E8000DF99C7 /* JSONDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -23,6 +23,7 @@
 		D03ED9E229235FB6005F30A8 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9E129235FB6005F30A8 /* ProductDetail.swift */; };
 		D03ED9E729236261005F30A8 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9E629236260005F30A8 /* Image.swift */; };
 		D03ED9E929236322005F30A8 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9E829236322005F30A8 /* Vendor.swift */; };
+		D03ED9EB2924A55E005F30A8 /* ProductsAPIEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9EA2924A55E005F30A8 /* ProductsAPIEnum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B4412F542924A101001FA318 /* targetHttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = targetHttpMethod.swift; sourceTree = "<group>"; };
+		B4412F542924A101001FA318 /* HttpMethodEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethodEnum.swift; sourceTree = "<group>"; };
 		B44353FD2923723100F165B5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B4AF346929225E8000DF99C7 /* JSONDecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONDecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodeTests.swift; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		D03ED9E129235FB6005F30A8 /* ProductDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetail.swift; sourceTree = "<group>"; };
 		D03ED9E629236260005F30A8 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		D03ED9E829236322005F30A8 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
+		D03ED9EA2924A55E005F30A8 /* ProductsAPIEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsAPIEnum.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +80,9 @@
 		B4412F562924A118001FA318 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				B4412F542924A101001FA318 /* targetHttpMethod.swift */,
 				B44353FD2923723100F165B5 /* NetworkManager.swift */,
+				D03ED9EA2924A55E005F30A8 /* ProductsAPIEnum.swift */,
+				B4412F542924A101001FA318 /* HttpMethodEnum.swift */,
 				D03ED9E329235FBF005F30A8 /* Get */,
 			);
 			path = Network;
@@ -321,7 +324,8 @@
 				D03ED9D229225712005F30A8 /* ProductList.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D03ED9E929236322005F30A8 /* Vendor.swift in Sources */,
-				B4412F552924A101001FA318 /* targetHttpMethod.swift in Sources */,
+				D03ED9EB2924A55E005F30A8 /* ProductsAPIEnum.swift in Sources */,
+				B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */,
 				D03ED9DA29234F24005F30A8 /* CurrencyEnum.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

@@ -6,50 +6,49 @@
 
 import Foundation
 
-class NetworkManager {
-    private let hostURL: String = "https://openmarket.yagom-academy.kr"
+struct NetworkManager {
+    let hostUrlAddress: String = ProductsAPIEnum.hostUrl.address
     
     func getApplicationHealthChecker() {
-        guard let targetURL: URL = URL(string: hostURL + "/healthChecker") else {
+        let targetAddress: String = hostUrlAddress + ProductsAPIEnum.healthChecker.address
+        guard let targetURL: URL = URL(string: targetAddress) else {
             return
         }
-        let targetRequest = makeRequest(url: targetURL, httpMethod: targetHttpMethod.get)
+        let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
         
         dataTask(request: targetRequest)
     }
     
     func getItemListCheck(pageNumber: Int, itemPerPage: Int, searchValue: String? = nil) {
-        let pageNumberString: String = "page_no=" + String(pageNumber)
-        let itemPerPageString: String = "&items_per_page=" + String(itemPerPage)
         var searchValueString: String = ""
         if let unwrappingSearchValue: String = searchValue {
-            searchValueString = "&search_value=" + unwrappingSearchValue
+            searchValueString = ProductsAPIEnum.bridge.address + ProductsAPIEnum.searchValue.address + unwrappingSearchValue
         }
-        guard let targetURL: URL = URL(string:
-                                        hostURL +
-                                       "/api/products?" +
-                                       pageNumberString +
-                                       itemPerPageString +
-                                       searchValueString
-        ) else {
+        let targetAddress: String = hostUrlAddress +
+        ProductsAPIEnum.products.address +
+        ProductsAPIEnum.pageNumber.address + String(pageNumber) +
+        ProductsAPIEnum.bridge.address +
+        ProductsAPIEnum.itemPerPage.address + String(itemPerPage) +
+        searchValueString
+        guard let targetURL: URL = URL(string: targetAddress) else {
             return
         }
-        let targetRequest = makeRequest(url: targetURL, httpMethod: targetHttpMethod.get)
+        let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
         
         dataTask(request: targetRequest)
     }
     
     func getItemDetailListCheck(productID: Int) {
-        let productIDString: String = String(productID)
-        guard let targetURL: URL = URL(string: hostURL + "/api/products/" + productIDString) else {
+        let targetAddress: String = hostUrlAddress + ProductsAPIEnum.products.address + String(productID)
+        guard let targetURL: URL = URL(string: targetAddress) else {
             return
         }
-        let targetRequest = makeRequest(url: targetURL, httpMethod: targetHttpMethod.get)
+        let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
         
         dataTask(request: targetRequest)
     }
     
-    private func makeRequest(url: URL, httpMethod: targetHttpMethod) -> URLRequest {
+    private func makeRequest(url: URL, httpMethod: HttpMethodEnum) -> URLRequest {
         var request: URLRequest = URLRequest(url: url,timeoutInterval: Double.infinity)
         
         request.httpMethod = httpMethod.name
