@@ -7,9 +7,9 @@
 
 import Foundation
 
-class MockURLSession: URLSessionProtocol {
-    var isRequestFail: Bool
-    var sessionDataTask: MockURLSessionDataTask?
+final class MockURLSession: URLSessionProtocol {
+    private var isRequestFail: Bool
+    private var sessionDataTask: MockURLSessionDataTask?
 
     init(isRequestFail: Bool = false) {
         self.isRequestFail = isRequestFail
