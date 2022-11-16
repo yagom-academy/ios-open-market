@@ -9,12 +9,12 @@ import Foundation
 
 struct DummyData {
     let data: Data?
-    let reponse: URLResponse?
+    let response: URLResponse?
     let error: Error?
     var completionHandler: DataTaskCompletionHandler? = nil
     
     func completion() {
-        completionHandler?(data, reponse, error)
+        completionHandler?(data, response, error)
     }
 }
 

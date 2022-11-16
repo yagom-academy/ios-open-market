@@ -9,9 +9,9 @@ import Foundation
 
 struct NetworkManager {
     let url: String
-    let session: URLSession
+    var session: URLSessionProtocol
     
-    init(url: String = "https://openmarket.yagom-academy.kr/", session: URLSession = URLSession(configuration: .default)) {
+    init(url: String = "https://openmarket.yagom-academy.kr/", session: URLSessionProtocol = URLSession(configuration: .default)) {
         self.url = url
         self.session = session
     }
