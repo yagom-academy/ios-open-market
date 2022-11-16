@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		264E4501292470AD00787F86 /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264E4500292470AD00787F86 /* Namespace.swift */; };
 		265ABA6E292320BB00A4E864 /* OpenMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265ABA6D292320BB00A4E864 /* OpenMarketTests.swift */; };
-		265ABA742923229E00A4E864 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B329231EBB00E3B588 /* ItemList.swift */; };
-		265ABA752923270200A4E864 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B529231F5A00E3B588 /* Item.swift */; };
-		265ABA762923270700A4E864 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B729231F8300E3B588 /* Currency.swift */; };
 		AE5A90B429231EBB00E3B588 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B329231EBB00E3B588 /* ItemList.swift */; };
 		AE5A90B629231F5A00E3B588 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B529231F5A00E3B588 /* Item.swift */; };
 		AE5A90B829231F8300E3B588 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5A90B729231F8300E3B588 /* Currency.swift */; };
@@ -245,10 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				265ABA762923270700A4E864 /* Currency.swift in Sources */,
-				265ABA742923229E00A4E864 /* ItemList.swift in Sources */,
 				265ABA6E292320BB00A4E864 /* OpenMarketTests.swift in Sources */,
-				265ABA752923270200A4E864 /* Item.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -31,8 +31,4 @@ class HTTPManager {
             completion(data)
         }.resume()
     }
-    
-    
-    
-    
 }

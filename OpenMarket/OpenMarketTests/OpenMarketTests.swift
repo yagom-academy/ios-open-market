@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
     var sut: ItemList!
@@ -30,7 +31,7 @@ class OpenMarketTests: XCTestCase {
     func test_ItemList타입에서_pageNo값을불러왔을때_해당json데이터값이들어와야한다() {
         // given
         // when
-        let result = sut.pageNo
+        let result = sut?.pageNo
         
         // then
         XCTAssertEqual(result, 1)
