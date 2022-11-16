@@ -32,8 +32,8 @@ class MarketURLSessionProvider {
     let session: URLSessionProtocol
     var market: Market?
     
-    init(session: URLSessionProtocol) {
-        self.session = URLSession(configuration: .default)
+    init(session: URLSessionProtocol = URLSession(configuration: .default)) {
+        self.session = session
     }
     
     func fetchData<T: Decodable>(url: URL,
