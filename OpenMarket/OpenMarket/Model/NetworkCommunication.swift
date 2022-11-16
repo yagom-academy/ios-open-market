@@ -2,7 +2,7 @@
 //  NetworkCommunication.swift
 //  OpenMarket
 //
-//  Created by Mangdi on 2022/11/16.
+//  Created by Mangdi, Woong on 2022/11/16.
 //
 
 import Foundation
@@ -15,7 +15,6 @@ struct NetworkCommunication {
         
         let task: URLSessionDataTask = session.dataTask(with: url) { _, response, error in
             if let error = error {
-                // 코드 수정하기
                 print(error.localizedDescription)
                 return
             }

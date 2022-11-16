@@ -2,7 +2,7 @@
 //  TestJsonProducts.swift
 //  OpenMarket
 //
-//  Created by Mangdi on 2022/11/15.
+//  Created by Mangdi, Woong on 2022/11/15.
 //
 
 import Foundation

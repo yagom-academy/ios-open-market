@@ -2,7 +2,7 @@
 //  SearchListProducts.swift
 //  OpenMarket
 //
-//  Created by 서현웅 on 2022/11/16.
+//  Created by Mangdi, Woong on 2022/11/16.
 //
 
 import Foundation
