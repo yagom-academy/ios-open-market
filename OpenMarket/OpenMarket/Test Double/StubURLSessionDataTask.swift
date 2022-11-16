@@ -9,7 +9,7 @@ import Foundation
 class StubURLSessionDataTask: URLSessionDataTask {
     var dummyData: DummyData?
     
-    init(dummyData: DummyData?, completionHandler: ((Data?, URLResponse?, Error?) -> Void)?) {
+    init(dummyData: DummyData?, completionHandler: DataTaskCompletionHandler?) {
         self.dummyData = dummyData
         self.dummyData?.completionHandler = completionHandler
     }
