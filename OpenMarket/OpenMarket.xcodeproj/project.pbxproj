@@ -15,6 +15,7 @@
 		86F0E03029232AEA00188086 /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E02F29232AEA00188086 /* DecodeTests.swift */; };
 		86F0E0392923B51400188086 /* URLComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0382923B51400188086 /* URLComponents+Extension.swift */; };
 		86F0E04029247DFA00188086 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */; };
+		86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -43,6 +44,7 @@
 		86F0E02F29232AEA00188086 /* DecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeTests.swift; sourceTree = "<group>"; };
 		86F0E0382923B51400188086 /* URLComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Extension.swift"; sourceTree = "<group>"; };
 		86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */,
 				41D3D7762924814B00C86A9A /* SampleData.swift */,
+				86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */,
 			);
 			path = MockURLSession;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				41D3D7772924814B00C86A9A /* SampleData.swift in Sources */,
 				41B6E8A82923BDD900CBF91D /* DateFormatter+Extension.swift in Sources */,
+				86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */,
 				41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */,
