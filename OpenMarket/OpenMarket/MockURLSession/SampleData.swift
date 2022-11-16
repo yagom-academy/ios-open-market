@@ -12,32 +12,32 @@ enum SampleData {
         Data(
             """
             {
-              "page_no": 1,
-              "items_per_page": 20,
-              "total_count": 10,
+              "pageNo": 1,
+              "itemsPerPage": 1,
+              "totalCount": 114,
               "offset": 0,
-              "limit": 20,
+              "limit": 1,
+              "lastPage": 114,
+              "hasNext": true,
+              "hasPrev": false,
               "pages": [
                 {
-                  "id": 20,
-                  "vendor_id": 3,
-                  "name": "Test Product",
-                  "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/3/thumb/5a0cd56b6d3411ecabfa97fd953cf965.jpg",
+                  "id": 195,
+                  "vendor_id": 29,
+                  "vendorName": "wongbing",
+                  "name": "테스트",
+                  "description": "Post테스트용",
+                  "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/29/20221116/e0e33c9e657911eda917131deaf687f6_thumb.png",
                   "currency": "KRW",
-                  "price": 0,
-                  "bargain_price": 0,
+                  "price": 1200,
+                  "bargain_price": 1200,
                   "discounted_price": 0,
-                  "stock": 0,
-                  "created_at": "2022-01-04T00:00:00.00",
-                  "issued_at": "2022-01-04T00:00:00.00"
-                
+                  "stock": 3,
+                  "created_at": "2022-11-16T00:00:00",
+                  "issued_at": "2022-11-16T00:00:00"
                 }
-              ],
-              "last_page": 1,
-              "has_next": false,
-              "has_prev": false
+              ]
             }
-
             """.utf8
         )
     }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		416AF3972924B476002CD10C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416AF3962924B476002CD10C /* MockURLSession.swift */; };
+		418C67D72924D30E009051E2 /* MockURLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C67D62924D30E009051E2 /* MockURLSessionTests.swift */; };
 		41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */; };
 		41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */; };
 		41B6E8A82923BDD900CBF91D /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A72923BDD900CBF91D /* DateFormatter+Extension.swift */; };
@@ -17,7 +18,6 @@
 		86F0E0392923B51400188086 /* URLComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0382923B51400188086 /* URLComponents+Extension.swift */; };
 		86F0E04029247DFA00188086 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */; };
 		86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */; };
-		86F0E04A2924B99900188086 /* MockURLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0492924B99900188086 /* MockURLSessionTests.swift */; };
 		86F0E0512924D11800188086 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0502924D11800188086 /* NetworkError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -28,14 +28,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		86F0E03129232AEA00188086 /* PBXContainerItemProxy */ = {
+		418C67D82924D30E009051E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C70FB0EF25BEF61C00C9924E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C70FB0F625BEF61C00C9924E;
 			remoteInfo = OpenMarket;
 		};
-		86F0E04B2924B99900188086 /* PBXContainerItemProxy */ = {
+		86F0E03129232AEA00188086 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C70FB0EF25BEF61C00C9924E /* Project object */;
 			proxyType = 1;
@@ -46,6 +46,8 @@
 
 /* Begin PBXFileReference section */
 		416AF3962924B476002CD10C /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		418C67D42924D30E009051E2 /* MockURLSessionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockURLSessionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		418C67D62924D30E009051E2 /* MockURLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTests.swift; sourceTree = "<group>"; };
 		41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
 		41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		41B6E8A72923BDD900CBF91D /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
@@ -56,8 +58,6 @@
 		86F0E0382923B51400188086 /* URLComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Extension.swift"; sourceTree = "<group>"; };
 		86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
-		86F0E0472924B99900188086 /* MockURLSessionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockURLSessionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		86F0E0492924B99900188086 /* MockURLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTests.swift; sourceTree = "<group>"; };
 		86F0E0502924D11800188086 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,14 +70,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		86F0E02A29232AEA00188086 /* Frameworks */ = {
+		418C67D12924D30E009051E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		86F0E0442924B99900188086 /* Frameworks */ = {
+		86F0E02A29232AEA00188086 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -94,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		418C67D52924D30E009051E2 /* MockURLSessionTests */ = {
+			isa = PBXGroup;
+			children = (
+				418C67D62924D30E009051E2 /* MockURLSessionTests.swift */,
+			);
+			path = MockURLSessionTests;
+			sourceTree = "<group>";
+		};
 		86F0E02E29232AEA00188086 /* DecodeTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,20 +121,12 @@
 			path = MockURLSession;
 			sourceTree = "<group>";
 		};
-		86F0E0482924B99900188086 /* MockURLSessionTests */ = {
-			isa = PBXGroup;
-			children = (
-				86F0E0492924B99900188086 /* MockURLSessionTests.swift */,
-			);
-			path = MockURLSessionTests;
-			sourceTree = "<group>";
-		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
 				86F0E02E29232AEA00188086 /* DecodeTests */,
-				86F0E0482924B99900188086 /* MockURLSessionTests */,
+				418C67D52924D30E009051E2 /* MockURLSessionTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,7 +136,7 @@
 			children = (
 				C70FB0F725BEF61C00C9924E /* OpenMarket.app */,
 				86F0E02D29232AEA00188086 /* DecodeTests.xctest */,
-				86F0E0472924B99900188086 /* MockURLSessionTests.xctest */,
+				418C67D42924D30E009051E2 /* MockURLSessionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,6 +165,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		418C67D32924D30E009051E2 /* MockURLSessionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 418C67DA2924D30E009051E2 /* Build configuration list for PBXNativeTarget "MockURLSessionTests" */;
+			buildPhases = (
+				418C67D02924D30E009051E2 /* Sources */,
+				418C67D12924D30E009051E2 /* Frameworks */,
+				418C67D22924D30E009051E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				418C67D92924D30E009051E2 /* PBXTargetDependency */,
+			);
+			name = MockURLSessionTests;
+			productName = MockURLSessionTests;
+			productReference = 418C67D42924D30E009051E2 /* MockURLSessionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		86F0E02C29232AEA00188086 /* DecodeTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 86F0E03529232AEA00188086 /* Build configuration list for PBXNativeTarget "DecodeTests" */;
@@ -181,24 +199,6 @@
 			name = DecodeTests;
 			productName = DecodeTests;
 			productReference = 86F0E02D29232AEA00188086 /* DecodeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		86F0E0462924B99900188086 /* MockURLSessionTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 86F0E04F2924B99900188086 /* Build configuration list for PBXNativeTarget "MockURLSessionTests" */;
-			buildPhases = (
-				86F0E0432924B99900188086 /* Sources */,
-				86F0E0442924B99900188086 /* Frameworks */,
-				86F0E0452924B99900188086 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				86F0E04C2924B99900188086 /* PBXTargetDependency */,
-			);
-			name = MockURLSessionTests;
-			productName = MockURLSessionTests;
-			productReference = 86F0E0472924B99900188086 /* MockURLSessionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		C70FB0F625BEF61C00C9924E /* OpenMarket */ = {
@@ -227,11 +227,11 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
-					86F0E02C29232AEA00188086 = {
-						CreatedOnToolsVersion = 13.4;
+					418C67D32924D30E009051E2 = {
+						CreatedOnToolsVersion = 13.4.1;
 						TestTargetID = C70FB0F625BEF61C00C9924E;
 					};
-					86F0E0462924B99900188086 = {
+					86F0E02C29232AEA00188086 = {
 						CreatedOnToolsVersion = 13.4;
 						TestTargetID = C70FB0F625BEF61C00C9924E;
 					};
@@ -255,20 +255,20 @@
 			targets = (
 				C70FB0F625BEF61C00C9924E /* OpenMarket */,
 				86F0E02C29232AEA00188086 /* DecodeTests */,
-				86F0E0462924B99900188086 /* MockURLSessionTests */,
+				418C67D32924D30E009051E2 /* MockURLSessionTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		86F0E02B29232AEA00188086 /* Resources */ = {
+		418C67D22924D30E009051E2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		86F0E0452924B99900188086 /* Resources */ = {
+		86F0E02B29232AEA00188086 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -288,19 +288,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		418C67D02924D30E009051E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				418C67D72924D30E009051E2 /* MockURLSessionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		86F0E02929232AEA00188086 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				86F0E03029232AEA00188086 /* DecodeTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		86F0E0432924B99900188086 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				86F0E04A2924B99900188086 /* MockURLSessionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,15 +327,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		418C67D92924D30E009051E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
+			targetProxy = 418C67D82924D30E009051E2 /* PBXContainerItemProxy */;
+		};
 		86F0E03229232AEA00188086 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
 			targetProxy = 86F0E03129232AEA00188086 /* PBXContainerItemProxy */;
-		};
-		86F0E04C2924B99900188086 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
-			targetProxy = 86F0E04B2924B99900188086 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -359,6 +359,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		418C67DB2924D30E009051E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G9W4Z8U9JB;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunny.MockURLSessionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Debug;
+		};
+		418C67DC2924D30E009051E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G9W4Z8U9JB;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunny.MockURLSessionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Release;
+		};
 		86F0E03329232AEA00188086 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -389,44 +429,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JaeDev.DecodeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
-			};
-			name = Release;
-		};
-		86F0E04D2924B99900188086 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.JaeDev.MockURLSessionTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
-			};
-			name = Debug;
-		};
-		86F0E04E2924B99900188086 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.JaeDev.MockURLSessionTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -594,20 +596,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		418C67DA2924D30E009051E2 /* Build configuration list for PBXNativeTarget "MockURLSessionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				418C67DB2924D30E009051E2 /* Debug */,
+				418C67DC2924D30E009051E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		86F0E03529232AEA00188086 /* Build configuration list for PBXNativeTarget "DecodeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				86F0E03329232AEA00188086 /* Debug */,
 				86F0E03429232AEA00188086 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		86F0E04F2924B99900188086 /* Build configuration list for PBXNativeTarget "MockURLSessionTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				86F0E04D2924B99900188086 /* Debug */,
-				86F0E04E2924B99900188086 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
