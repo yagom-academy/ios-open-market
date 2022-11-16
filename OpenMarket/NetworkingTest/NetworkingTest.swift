@@ -21,7 +21,7 @@ final class NetworkingTest: XCTestCase {
         sut = nil
     }
 
-    func test_checkAPIHelath를_통해_서버가_정상적으로_응답을하는_true_값을_반환하는지() {
+    func test_checkAPIHelath를_통해_서버가_정상적으로_응답을하는_true값을_반환하는지() {
         let promise = expectation(description: "test")
         
         sut.checkAPIHealth { bool in
@@ -32,7 +32,7 @@ final class NetworkingTest: XCTestCase {
         wait(for: [promise], timeout: 3)
     }
     
-    func test_fetchItemList메서드를_사용해_itemList를_가져올때_pageNo값과_pageCount_값이_동일한지() {
+    func test_fetchItemList메서드를_사용해_itemList를_가져올때_pageNo값과_pageCount값이_동일한지() {
         let promise = expectation(description: "test")
         let pageNo = 1
         let pageCount = 100
@@ -40,6 +40,7 @@ final class NetworkingTest: XCTestCase {
         sut.fetchItemList(pageNo: pageNo, pageCount: pageCount) { result in
             switch result {
             case .success(let itemList):
+                XCTAssertEqual(itemList.pageNo, pageNo)
                 XCTAssertEqual(itemList.itemsPerPage, pageCount)
             case .failure(_):
                 XCTFail()
