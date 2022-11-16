@@ -6,11 +6,14 @@
 //
 
 struct Item: Codable {
-    let id, vendorID: Int
-    let name, vendorName, description: String
+    let id: Int
+    let vendorID: Int
+    let name, description: String
+    let vendorName: String?
     let thumbnail: String
     let currency: Currency
-    let price, bargainPrice, discountedPrice, stock: Int
+    let price, bargainPrice, discountedPrice: Double
+    let stock: Int
     let createdAt, issuedAt: String
 
     enum CodingKeys: String, CodingKey {
