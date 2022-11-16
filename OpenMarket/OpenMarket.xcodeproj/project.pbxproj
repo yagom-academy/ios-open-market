@@ -14,6 +14,8 @@
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		D35C5D642923207F005BD21A /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35C5D632923207F005BD21A /* URLSession.swift */; };
+		D3697B5629247B2E008D4017 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B5529247B2E008D4017 /* Error.swift */; };
+		D3697B5829247B40008D4017 /* OpenMarketHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B5729247B40008D4017 /* OpenMarketHealth.swift */; };
 		D382743529226F0200A51A0A /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D382743429226F0200A51A0A /* Page.swift */; };
 		EB5233862922958800FF1573 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		EB52338A29235C8600FF1573 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB52338929235C8600FF1573 /* ProductImage.swift */; };
@@ -46,6 +48,8 @@
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D35C5D632923207F005BD21A /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
+		D3697B5529247B2E008D4017 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		D3697B5729247B40008D4017 /* OpenMarketHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketHealth.swift; sourceTree = "<group>"; };
 		D382743429226F0200A51A0A /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		EB52338929235C8600FF1573 /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		EB52338B29235D0F00FF1573 /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				D35C5D632923207F005BD21A /* URLSession.swift */,
+				D3697B5529247B2E008D4017 /* Error.swift */,
+				D3697B5729247B40008D4017 /* OpenMarketHealth.swift */,
 				EB52338929235C8600FF1573 /* ProductImage.swift */,
 				EB52338B29235D0F00FF1573 /* Vendor.swift */,
 				EBDB2292292269AE0072AE13 /* Product.swift */,
@@ -228,7 +234,9 @@
 				D35C5D642923207F005BD21A /* URLSession.swift in Sources */,
 				EBDB2293292269AE0072AE13 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				D3697B5629247B2E008D4017 /* Error.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				D3697B5829247B40008D4017 /* OpenMarketHealth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
