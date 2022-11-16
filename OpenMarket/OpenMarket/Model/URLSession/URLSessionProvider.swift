@@ -19,6 +19,10 @@ final class MarketURLSessionProvider {
                                  type: T.Type,
                                  completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
         let dataTask = session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                return completionHandler(.failure(.requestFailError))
+            }
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 return completionHandler(.failure(.httpResponseError(
