@@ -27,8 +27,7 @@ final class ParsingTest: XCTestCase {
     
         let itemList: ItemList? = try? sut.decode(ItemList.self, from: dataAsset.data)
         
-//        XCTAssertNotNil(itemList)
-        XCTAssertNil(itemList)
+        XCTAssertNotNil(itemList)
     }
 
 }
