@@ -23,7 +23,7 @@ final class NetworkRequestTests: XCTestCase {
         sut = nil
     }
     
-    func test_HealthCheckerRequest의_urlComponents가_정상적으로반환되는지() {
+    func test_HealthCheckerRequest가_정상적으로URL을반환하는지() {
         // given
         sut = HealthCheckerRequest()
         
@@ -33,5 +33,25 @@ final class NetworkRequestTests: XCTestCase {
         // then
         let expectation: URL? = .init(string: "https://openmarket.yagom-academy.kr/healthChecker?")
         XCTAssertEqual(result, expectation)
+    }
+    
+    func test_ProductListRequest가_정상적으로URL을반환하는지() {
+        // given
+        sut = ProductListRequest(pageNo: 1, itemsPerPage: 20, searchValue: "pizza")
+        
+        // when
+        let result = sut.urlComponents
+        
+        
+        // then
+        let url: String = "https://openmarket.yagom-academy.kr/api/products?"
+        let expectationList = [URL(string: url + "page_no=1&items_per_page=20&search_value=pizza"),
+                               URL(string: url + "page_no=1&search_value=pizza&items_per_page=20"),
+                               URL(string: url + "items_per_page=20&page_no=1&search_value=pizza"),
+                               URL(string: url + "items_per_page=20&search_value=pizza&page_no=1"),
+                               URL(string: url + "search_value=pizza&page_no=1&items_per_page=20"),
+                               URL(string: url + "search_value=pizza&items_per_page=20&page_no=1")]
+        
+        XCTAssertTrue(expectationList.contains(result))
     }
 }
