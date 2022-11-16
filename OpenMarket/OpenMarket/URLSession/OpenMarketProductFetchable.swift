@@ -22,6 +22,8 @@ extension OpenMarketProductFetchable {
                 completion(nil)
             } else if let data = data {
                 completion(try? JSONDecoder().decode(Product.self, from: data))
+            } else {
+                completion(nil)
             }
         }?.resume()
     }

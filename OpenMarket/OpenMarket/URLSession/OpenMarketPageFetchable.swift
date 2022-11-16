@@ -25,6 +25,8 @@ extension OpenMarketPageFetchable {
                 completion(nil)
             } else if let data = data {
                 completion(try? JSONDecoder().decode(Page.self, from: data))
+            } else {
+                completion(nil)
             }
         }?.resume()
     }

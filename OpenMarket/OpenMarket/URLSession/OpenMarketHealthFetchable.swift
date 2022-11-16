@@ -19,6 +19,8 @@ extension OpenMarketHealthFetchable {
                 completion(.bad)
             } else if data != nil {
                 completion(.ok)
+            } else {
+                completion(.bad)
             }
         }?.resume()
     }

@@ -22,6 +22,8 @@ extension URLSession: OpenMarketURLSessionProtocol {
                 completion(nil, OpenMarketError.badStatus)
             } else if let data = data {
                 completion(data, nil)
+            } else {
+                completion(nil, nil)
             }
         }
     }
