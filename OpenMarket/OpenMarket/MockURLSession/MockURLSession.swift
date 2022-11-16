@@ -35,7 +35,7 @@ class MockURLSession: URLSessionProtocol {
             if self.isRequestFail {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(SampleDate.sampleData, successResponse, nil)
+                completionHandler(SampleData.sampleData, successResponse, nil)
             }
         }
         self.sessionDataTask = sessionDataTask

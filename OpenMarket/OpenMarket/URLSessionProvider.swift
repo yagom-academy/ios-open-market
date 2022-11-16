@@ -29,22 +29,33 @@ enum Request {
 }
 
 class MarketURLSessionProvider {
-    let session: URLSessionProtocol = URLSession(configuration: .default)
+    let session: URLSessionProtocol
     var market: Market?
     
-    func fetchData<T: Decodable>(url: URL?, type: T.Type) {
-        guard let url = url else { return }
-        
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
-            guard error == nil,
-                  let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode),
-                  let data = data else { return }
+    init(session: URLSessionProtocol) {
+        self.session = URLSession(configuration: .default)
+    }
+    
+    func fetchData<T: Decodable>(url: URL,
+                                 type: T.Type,
+                                 completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+        let dataTask = session.dataTask(with: url) { data, response, error in
             
-            guard let decodedData = JSONDecoder.decodeFromSnakeCase(type: type,
-                                                                    from: data) else { return }
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completionHandler(.failure(.httpResponseError(
+                    code: (response as? HTTPURLResponse)?.statusCode ?? 0)))
+            }
             
-            print(decodedData)
+            guard let data = data else {
+                return completionHandler(.failure(.noDataError))
+            }
+            
+            guard let decodedData = JSONDecoder.decodeFromSnakeCase(type: type, from: data) else {
+                return completionHandler(.failure(.decodingError))
+            }
+            
+            completionHandler(.success(decodedData))
         }
         
         dataTask.resume()

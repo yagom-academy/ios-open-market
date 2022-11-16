@@ -5,10 +5,9 @@
 //  Created by 써니쿠키, 메네 on 2022/11/16.
 //
 
-import Foundation
 import UIKit
 
-enum SampleDate {
+enum SampleData {
     static var sampleData: Data {
         Data(
             """

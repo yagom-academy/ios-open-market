@@ -17,6 +17,8 @@
 		86F0E0392923B51400188086 /* URLComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0382923B51400188086 /* URLComponents+Extension.swift */; };
 		86F0E04029247DFA00188086 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */; };
 		86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */; };
+		86F0E04A2924B99900188086 /* MockURLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0492924B99900188086 /* MockURLSessionTests.swift */; };
+		86F0E0512924D11800188086 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0502924D11800188086 /* NetworkError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -27,6 +29,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		86F0E03129232AEA00188086 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C70FB0EF25BEF61C00C9924E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C70FB0F625BEF61C00C9924E;
+			remoteInfo = OpenMarket;
+		};
+		86F0E04B2924B99900188086 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C70FB0EF25BEF61C00C9924E /* Project object */;
 			proxyType = 1;
@@ -47,6 +56,9 @@
 		86F0E0382923B51400188086 /* URLComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Extension.swift"; sourceTree = "<group>"; };
 		86F0E03F29247DFA00188086 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		86F0E0412924B35A00188086 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
+		86F0E0472924B99900188086 /* MockURLSessionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockURLSessionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		86F0E0492924B99900188086 /* MockURLSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionTests.swift; sourceTree = "<group>"; };
+		86F0E0502924D11800188086 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +71,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		86F0E02A29232AEA00188086 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86F0E0442924B99900188086 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -94,11 +113,20 @@
 			path = MockURLSession;
 			sourceTree = "<group>";
 		};
+		86F0E0482924B99900188086 /* MockURLSessionTests */ = {
+			isa = PBXGroup;
+			children = (
+				86F0E0492924B99900188086 /* MockURLSessionTests.swift */,
+			);
+			path = MockURLSessionTests;
+			sourceTree = "<group>";
+		};
 		C70FB0EE25BEF61C00C9924E = {
 			isa = PBXGroup;
 			children = (
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
 				86F0E02E29232AEA00188086 /* DecodeTests */,
+				86F0E0482924B99900188086 /* MockURLSessionTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,6 +136,7 @@
 			children = (
 				C70FB0F725BEF61C00C9924E /* OpenMarket.app */,
 				86F0E02D29232AEA00188086 /* DecodeTests.xctest */,
+				86F0E0472924B99900188086 /* MockURLSessionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,6 +150,7 @@
 				86F0E0272923245600188086 /* Market.swift */,
 				41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */,
 				41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */,
+				86F0E0502924D11800188086 /* NetworkError.swift */,
 				86F0E0382923B51400188086 /* URLComponents+Extension.swift */,
 				86F0E03E29247D1500188086 /* MockURLSession */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
@@ -153,6 +183,24 @@
 			productReference = 86F0E02D29232AEA00188086 /* DecodeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		86F0E0462924B99900188086 /* MockURLSessionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86F0E04F2924B99900188086 /* Build configuration list for PBXNativeTarget "MockURLSessionTests" */;
+			buildPhases = (
+				86F0E0432924B99900188086 /* Sources */,
+				86F0E0442924B99900188086 /* Frameworks */,
+				86F0E0452924B99900188086 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				86F0E04C2924B99900188086 /* PBXTargetDependency */,
+			);
+			name = MockURLSessionTests;
+			productName = MockURLSessionTests;
+			productReference = 86F0E0472924B99900188086 /* MockURLSessionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C70FB0F625BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C70FB10B25BEF61D00C9924E /* Build configuration list for PBXNativeTarget "OpenMarket" */;
@@ -183,6 +231,10 @@
 						CreatedOnToolsVersion = 13.4;
 						TestTargetID = C70FB0F625BEF61C00C9924E;
 					};
+					86F0E0462924B99900188086 = {
+						CreatedOnToolsVersion = 13.4;
+						TestTargetID = C70FB0F625BEF61C00C9924E;
+					};
 					C70FB0F625BEF61C00C9924E = {
 						CreatedOnToolsVersion = 12.3;
 					};
@@ -203,12 +255,20 @@
 			targets = (
 				C70FB0F625BEF61C00C9924E /* OpenMarket */,
 				86F0E02C29232AEA00188086 /* DecodeTests */,
+				86F0E0462924B99900188086 /* MockURLSessionTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		86F0E02B29232AEA00188086 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86F0E0452924B99900188086 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -236,6 +296,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		86F0E0432924B99900188086 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				86F0E04A2924B99900188086 /* MockURLSessionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C70FB0F325BEF61C00C9924E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +318,7 @@
 				41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */,
+				86F0E0512924D11800188086 /* NetworkError.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				86F0E0282923245600188086 /* Market.swift in Sources */,
 			);
@@ -262,6 +331,11 @@
 			isa = PBXTargetDependency;
 			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
 			targetProxy = 86F0E03129232AEA00188086 /* PBXContainerItemProxy */;
+		};
+		86F0E04C2924B99900188086 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C70FB0F625BEF61C00C9924E /* OpenMarket */;
+			targetProxy = 86F0E04B2924B99900188086 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -315,6 +389,44 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JaeDev.DecodeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Release;
+		};
+		86F0E04D2924B99900188086 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JaeDev.MockURLSessionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenMarket.app/OpenMarket";
+			};
+			name = Debug;
+		};
+		86F0E04E2924B99900188086 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JaeDev.MockURLSessionTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -487,6 +599,15 @@
 			buildConfigurations = (
 				86F0E03329232AEA00188086 /* Debug */,
 				86F0E03429232AEA00188086 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		86F0E04F2924B99900188086 /* Build configuration list for PBXNativeTarget "MockURLSessionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86F0E04D2924B99900188086 /* Debug */,
+				86F0E04E2924B99900188086 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
