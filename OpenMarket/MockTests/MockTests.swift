@@ -25,7 +25,7 @@ final class MockTests: XCTestCase {
     func test_checkAPIHelath를_통해_정상적으로_응답을하는_true_값을_반환하는지() {
         let promise = expectation(description: "test")
         
-        guard let url = URL(string: "\(url)healchecker") else { return }
+        guard let url = URL(string: "\(url)healthChecker") else { return }
 
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: nil, response: response, error: nil)
