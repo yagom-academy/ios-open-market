@@ -1,7 +1,6 @@
 //
 //  NetworkRequest.swift
 //  OpenMarket
-//  OpenMarket
 //  Created by inho, Hamo, Jeremy on 2022/11/15.
 //
 
