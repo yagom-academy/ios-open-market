@@ -12,12 +12,12 @@ struct ProductListResponse: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case offset, limit
-        case numberOfPage = "page_no"
-        case itemCountInPage = "items_per_page"
-        case totalCount = "total_count"
+        case numberOfPage = "pageNo"
+        case itemCountInPage = "itemsPerPage"
+        case totalCount = "totalCount"
         case products = "pages"
-        case endOfPage = "last_page"
-        case hasNextPage = "has_next"
-        case hasPrevPage = "has_prev"
+        case endOfPage = "lastPage"
+        case hasNextPage = "hasNext"
+        case hasPrevPage = "hasPrev"
     }
 }

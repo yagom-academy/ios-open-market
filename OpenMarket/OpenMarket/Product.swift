@@ -8,8 +8,10 @@
 import Foundation
 
 struct Product: Decodable {
-    let id, sellerId, price, bargainPrice, discountedPrice, stock: Int
+    let id, sellerId, stock: Int
+    let price, bargainPrice, discountedPrice: Double
     let name, thumbnail: String
+    let sellerName: String?
     let description: String?
     let currency: Currency
     let createdDate: String
@@ -18,6 +20,7 @@ struct Product: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, name, thumbnail, description, currency, price, stock
         case sellerId = "vendor_id"
+        case sellerName = "vendorName"
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case createdDate = "created_at"
