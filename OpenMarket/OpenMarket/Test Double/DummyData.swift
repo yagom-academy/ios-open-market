@@ -10,9 +10,9 @@ struct DummyData {
     let data: Data?
     let response: URLResponse?
     let error: Error?
-    let completionHandler: ((Data?, URLResponse?, Error?) -> Void)
+    var completionHandler: ((Data?, URLResponse?, Error?) -> Void)?
     
     func completion() {
-        completionHandler(data, response, error)
+        completionHandler?(data, response, error)
     }
 }
