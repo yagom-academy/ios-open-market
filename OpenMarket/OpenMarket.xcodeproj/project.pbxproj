@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F542924A101001FA318 /* HttpMethodEnum.swift */; };
+		B4412F582924BDFE001FA318 /* NetworkErrorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F572924BDFE001FA318 /* NetworkErrorEnum.swift */; };
 		B44353FE2923723100F165B5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44353FD2923723100F165B5 /* NetworkManager.swift */; };
 		B4AF346C29225E8000DF99C7 /* JSONDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		B4412F542924A101001FA318 /* HttpMethodEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethodEnum.swift; sourceTree = "<group>"; };
+		B4412F572924BDFE001FA318 /* NetworkErrorEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorEnum.swift; sourceTree = "<group>"; };
 		B44353FD2923723100F165B5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B4AF346929225E8000DF99C7 /* JSONDecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONDecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodeTests.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				B44353FD2923723100F165B5 /* NetworkManager.swift */,
 				D03ED9EA2924A55E005F30A8 /* ProductsAPIEnum.swift */,
 				B4412F542924A101001FA318 /* HttpMethodEnum.swift */,
+				B4412F572924BDFE001FA318 /* NetworkErrorEnum.swift */,
 				D03ED9E329235FBF005F30A8 /* Get */,
 			);
 			path = Network;
@@ -327,6 +330,7 @@
 				D03ED9EB2924A55E005F30A8 /* ProductsAPIEnum.swift in Sources */,
 				B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */,
 				D03ED9DA29234F24005F30A8 /* CurrencyEnum.swift in Sources */,
+				B4412F582924BDFE001FA318 /* NetworkErrorEnum.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

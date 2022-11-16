@@ -19,8 +19,8 @@ struct NetworkManager {
         dataTask(request: targetRequest)
     }
     
-    func getItemListCheck(pageNumber: Int, itemPerPage: Int, searchValue: String? = nil) {
-        var searchValueString: String = ""
+    func getItemList(pageNumber: Int, itemPerPage: Int, searchValue: String? = nil) {
+        var searchValueString: String = String()
         if let unwrappingSearchValue: String = searchValue {
             searchValueString = ProductsAPIEnum.bridge.address + ProductsAPIEnum.searchValue.address + unwrappingSearchValue
         }
@@ -38,7 +38,7 @@ struct NetworkManager {
         dataTask(request: targetRequest)
     }
     
-    func getItemDetailListCheck(productID: Int) {
+    func getItemDetailList(productID: Int) {
         let targetAddress: String = hostUrlAddress + ProductsAPIEnum.products.address + String(productID)
         guard let targetURL: URL = URL(string: targetAddress) else {
             return
@@ -58,6 +58,30 @@ struct NetworkManager {
     
     private func dataTask(request: URLRequest) {
         let task: URLSessionDataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            if error != nil {
+                print(error?.localizedDescription)
+            }
+            
+            if let serverResponse = response as? HTTPURLResponse {
+                switch serverResponse.statusCode {
+                case 100...101:
+                    print("informational")
+                case 200...206:
+                    print("success")
+                case 300...307:
+                    print("redirection")
+                case 400...415:
+                    print("client error")
+                    return
+                case 500...505:
+                    print("server error")
+                    return
+                default:
+                    print("unknown error")
+                    return
+                }
+            }
+
             guard let data = data else {
                 print(String(describing: error))
                 return
