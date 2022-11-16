@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         
         netWorkHandler.requestHealthChecker()
         netWorkHandler.requestProductListSearching()
+        netWorkHandler.requestDetailProductListSearching(32)
     }
 }
 
