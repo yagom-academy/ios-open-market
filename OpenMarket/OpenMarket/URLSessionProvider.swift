@@ -29,7 +29,7 @@ enum Request {
 }
 
 class MarketURLSessionProvider {
-    let session: URLSession = URLSession(configuration: .default)
+    let session: URLSessionProtocol = URLSession(configuration: .default)
     var market: Market?
     
     func fetchData<T: Decodable>(url: URL?, type: T.Type) {
