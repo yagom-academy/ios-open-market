@@ -2,7 +2,7 @@
 //  URLSessionTests.swift
 //  URLSessionTests
 //
-//  Created by Ayaan on 2022/11/16.
+//  Created by Ayaan, junho on 2022/11/16.
 //
 
 import Foundation
@@ -17,12 +17,12 @@ class URLSessionTests: XCTestCase {
         try super.setUpWithError()
         sut = FakeURLSession()
     }
-
+    
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         sut = nil
     }
-
+    
     func test_GivenDataAndHTTPStatus200_WhenFetchedHealth_ThenResultIsOK() {
         //given
         let promise = expectation(description: "OpenMarketHealthChecker")
