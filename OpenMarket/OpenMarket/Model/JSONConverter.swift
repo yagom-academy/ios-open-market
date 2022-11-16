@@ -13,7 +13,6 @@ class JSONConverter {
             let result = try JSONDecoder().decode(T.self, from: data)
             return result
         } catch {
-            print(error)
             guard let error = error as? DecodingError else { return nil }
             
             switch error {
