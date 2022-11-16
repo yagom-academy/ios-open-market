@@ -81,7 +81,6 @@ struct NetworkManager {
                 let item: Item = try JSONDecoder().decode(Item.self, from: data)
                 completion(.success(item))
             } catch {
-                print(error)
                 completion(.failure(.parseError))
             }
         }
