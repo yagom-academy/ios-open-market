@@ -35,7 +35,7 @@ class URLSessionManager {
         guard let url = URL(string: baseURL + "/healthChecker") else { return }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = HTTPMethod.get.rawValue
         
         dataTask(request: request, completionHandler: completionHandler)
     }
@@ -44,7 +44,7 @@ class URLSessionManager {
         guard let url = URL(string: baseURL + "/api/products?page_no=1&items_per_page=100") else { return }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = HTTPMethod.get.rawValue
         
         dataTask(request: request, completionHandler: completionHandler)
     }
@@ -53,7 +53,7 @@ class URLSessionManager {
         guard let url = URL(string: baseURL + "/api/products/32") else { return }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = HTTPMethod.get.rawValue
         
         dataTask(request: request, completionHandler: completionHandler)
     }
