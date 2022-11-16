@@ -66,6 +66,8 @@ struct NetworkManager {
                 switch serverResponse.statusCode {
                 case 100...101:
                     return completion(.failure(.informational))
+                case 200...206:
+                    break
                 case 300...307:
                     return completion(.failure(.redirection))
                 case 400...415:
