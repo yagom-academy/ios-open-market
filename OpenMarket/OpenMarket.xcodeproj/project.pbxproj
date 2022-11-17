@@ -14,6 +14,8 @@
 		5743DFE22923659100D2442D /* NetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFE12923659100D2442D /* NetworkAPI.swift */; };
 		5743DFE429236B5200D2442D /* URLComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFE329236B5200D2442D /* URLComponents+Extension.swift */; };
 		5743DFEB2925D6A000D2442D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFEA2925D6A000D2442D /* URLSessionProtocol.swift */; };
+		5743DFEE2925DDB500D2442D /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFED2925DDB500D2442D /* MockURLSessionDataTask.swift */; };
+		5743DFF02925DDC200D2442D /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFEF2925DDC200D2442D /* MockURLSession.swift */; };
 		577ED11329232F6E0026B9E3 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577ED11229232F6E0026B9E3 /* DecodingTests.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -41,6 +43,8 @@
 		5743DFE12923659100D2442D /* NetworkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPI.swift; sourceTree = "<group>"; };
 		5743DFE329236B5200D2442D /* URLComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Extension.swift"; sourceTree = "<group>"; };
 		5743DFEA2925D6A000D2442D /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		5743DFED2925DDB500D2442D /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
+		5743DFEF2925DDC200D2442D /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		577ED11029232F6E0026B9E3 /* DecodingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DecodingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		577ED11229232F6E0026B9E3 /* DecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingTests.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +118,15 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
+		5743DFEC2925DD6900D2442D /* MockForTest */ = {
+			isa = PBXGroup;
+			children = (
+				5743DFED2925DDB500D2442D /* MockURLSessionDataTask.swift */,
+				5743DFEF2925DDC200D2442D /* MockURLSession.swift */,
+			);
+			path = MockForTest;
+			sourceTree = "<group>";
+		};
 		577ED11129232F6E0026B9E3 /* DecodingTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +156,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				5743DFEC2925DD6900D2442D /* MockForTest */,
 				5743DFE92925D46A00D2442D /* Errors */,
 				5743DFE82925D44300D2442D /* View */,
 				5743DFE72925D40700D2442D /* Model */,
@@ -266,11 +280,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5743DFF02925DDC200D2442D /* MockURLSession.swift in Sources */,
 				5743DFEB2925D6A000D2442D /* URLSessionProtocol.swift in Sources */,
 				5743DFE22923659100D2442D /* NetworkAPI.swift in Sources */,
 				5743DFE429236B5200D2442D /* URLComponents+Extension.swift in Sources */,
 				3C62E5EC29232C0A00D0E45E /* DataError.swift in Sources */,
 				3C458B352925CA9600E43838 /* NetworkAPIProvider.swift in Sources */,
+				5743DFEE2925DDB500D2442D /* MockURLSessionDataTask.swift in Sources */,
 				3C62E5EA29232BCF00D0E45E /* DecodeManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */,
