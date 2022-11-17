@@ -67,8 +67,8 @@ final class JSONParsingTests: XCTestCase {
     func test_Product타입의연산프로퍼티가_정상적으로Date를생성하는지() {
         // given
         let productID: Int = 15
-        let productCreatedAt: String = "2021-12-29T00:00:00.00"
-        let productIssuedAt: String = "2021-12-29T00:00:00.00"
+        let productCreatedAt: String = "2021-12-29T00:00:00"
+        let productIssuedAt: String = "2021-12-29T00:00:00"
         
         // when
         let productList = JSONDecoder.decode(ProductList.self, from: data)
