@@ -10,7 +10,7 @@ import Foundation
 final class MockURLSession: URLSessionProtocol {
     private var isRequestFail: Bool
     private var sessionDataTask: MockURLSessionDataTask?
-
+    
     init(isRequestFail: Bool = false) {
         self.isRequestFail = isRequestFail
     }
@@ -19,18 +19,18 @@ final class MockURLSession: URLSessionProtocol {
                   completionHandler: @escaping (Data?,
                                                 URLResponse?,
                                                 Error?) -> Void) -> URLSessionDataTask {
-        let successResponse = HTTPURLResponse(url: url,
-                                              statusCode: 200,
-                                              httpVersion: "2",
-                                              headerFields: nil)
+        let successResponse = MockHTTPURLResponse(url: url,
+                                                  statusCode: 200,
+                                                  httpVersion: "2",
+                                                  headerFields: nil)
         
-        let failureResponse = HTTPURLResponse(url: url,
-                                              statusCode: 410,
-                                              httpVersion: "2",
-                                              headerFields: nil)
-
+        let failureResponse = MockHTTPURLResponse(url: url,
+                                                  statusCode: 410,
+                                                  httpVersion: "2",
+                                                  headerFields: nil)
+        
         let sessionDataTask = MockURLSessionDataTask()
-
+        
         sessionDataTask.resumeDidCall = {
             if self.isRequestFail {
                 completionHandler(nil, failureResponse, nil)
