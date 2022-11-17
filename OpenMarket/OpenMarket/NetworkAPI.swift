@@ -2,51 +2,36 @@
 
 import Foundation
 
-class NetworkAPI {
-    static let shared = NetworkAPI()
-    private init() {}
+enum NetworkAPI {
     
-    let scheme = RequestConstant.scheme
-    let host = RequestConstant.host
+    static let scheme = "https"
+    static let host = "openmarket.yagom-academy.kr"
+    
+    case productList(query: [Query: String]?)
+    case product(productID: Int)
+    case healthCheck
     
     var urlComponents: URLComponents {
         var urlComponents = URLComponents()
-        urlComponents.scheme = self.scheme
-        urlComponents.host = self.host
-        
+        urlComponents.scheme = NetworkAPI.scheme
+        urlComponents.host = NetworkAPI.host
+        switch self {
+        case .productList(let query):
+            urlComponents.path = "/api/products"
+            if let query = query {
+                urlComponents.setQueryItems(with: query)
+            }
+        case .product(let productID):
+            urlComponents.path = "/api/products/\(productID)"
+        case .healthCheck:
+            urlComponents.path = "/healthChecker"
+        }
         return urlComponents
     }
-    
-    func fetch(path: String, parameters: [String: String]?, completion: @escaping (Data) -> Void) {
-        var urlComponents = self.urlComponents
-        urlComponents.path = path
-        if let parameters = parameters {
-            urlComponents.setQueryItems(with: parameters)
-        }
-        
-        guard let url = urlComponents.url else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                dump(error)
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                self.handleServerError(response)
-                return
-            }
-            
-            guard let data = data else { return }
-            
-            completion(data)
-        }.resume()
-        
-    }
-    
-    private func handleServerError(_ response: URLResponse?) {
-        guard let httpResponse = response as? HTTPURLResponse else { return }
-        print(httpResponse.statusCode)
-    }
+}
 
+enum Query: String {
+    case pageNumber = "page_no"
+    case itemsPerPage = "items_per_page"
+    case searchFilter = "search_value"
 }
