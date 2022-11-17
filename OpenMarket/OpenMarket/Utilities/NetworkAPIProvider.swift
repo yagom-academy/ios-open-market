@@ -9,13 +9,18 @@ class NetworkAPIProvider {
         self.session = session
     }
     
-    func fetchProductList(query: [Query: String]?, completion: @escaping (Data) -> Void) {
-        fetch(path: .productList(query: query), completion: completion)
+    func fetchProductList(query: [Query: String]?, completion: @escaping (ProductList) -> Void) {
+        fetch(path: .productList(query: query)) { data in
+            guard let productList: ProductList = try DecodeManger.shared.fetchData(data: data) else {
+                return
+            }
+            completion(productList)
+        }
     }
 }
 
 extension NetworkAPIProvider {
-    func fetch(path: NetworkAPI, completion: @escaping (Data) -> Void) {
+    func fetch(path: NetworkAPI, completion: @escaping (Data) throws -> Void) {
         
         guard let url = path.urlComponents.url else { return }
         
