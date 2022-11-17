@@ -2,10 +2,10 @@
 
 import UIKit
 
-class DecodeManger {
+final class DecodeManger {
     
     static let shared = DecodeManger()
-    let decoder = JSONDecoder()
+    private let decoder = JSONDecoder()
     
     private init() { }
     

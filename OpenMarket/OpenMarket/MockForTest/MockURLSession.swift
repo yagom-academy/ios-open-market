@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-class MockURLSession: URLSessionProtocol {
+final class MockURLSession: URLSessionProtocol {
     
     var makeRequestFail = false
     init(makeRequestFail: Bool = false) {

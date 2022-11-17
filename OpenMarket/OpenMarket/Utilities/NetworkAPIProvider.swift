@@ -2,7 +2,7 @@
 
 import Foundation
 
-class NetworkAPIProvider {
+final class NetworkAPIProvider {
     
     let session: URLSessionProtocol
     init(session: URLSessionProtocol = URLSession.shared) {
