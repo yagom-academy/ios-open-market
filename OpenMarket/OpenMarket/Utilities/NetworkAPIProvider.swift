@@ -11,7 +11,7 @@ class NetworkAPIProvider {
     
     func fetchProductList(query: [Query: String]?, completion: @escaping (ProductList) -> Void) {
         fetch(path: .productList(query: query)) { data in
-            guard let productList: ProductList = try DecodeManger.shared.fetchData(data: data) else {
+            guard let productList: ProductList = DecodeManger.shared.fetchData(data: data) else {
                 return
             }
             completion(productList)
@@ -20,11 +20,11 @@ class NetworkAPIProvider {
 }
 
 extension NetworkAPIProvider {
-    func fetch(path: NetworkAPI, completion: @escaping (Data) throws -> Void) {
+    func fetch(path: NetworkAPI, completion: @escaping (Data) -> Void) {
         
         guard let url = path.urlComponents.url else { return }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
+
+        session.dataTask(with: url) { data, response, error in
             if let error = error {
                 dump(error)
                 return

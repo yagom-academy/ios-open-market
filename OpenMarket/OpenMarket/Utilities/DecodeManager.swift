@@ -19,10 +19,10 @@ class DecodeManger {
         return itemData
     }
     
-    func fetchData<T: Decodable>(data: Data) throws -> T? {
+    func fetchData<T: Decodable>(data: Data) -> T? {
         
         guard let itemData = try? decoder.decode(T.self, from: data) else {
-            throw DataError.decodingError
+            return nil
         }
         
         return itemData

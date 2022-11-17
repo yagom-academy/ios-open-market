@@ -12,7 +12,7 @@ class MockURLSession: URLSessionProtocol {
     
     var sessionDataTask: MockURLSessionDataTask?
     
-    func dataTask(with request: URLRequest,
+    func dataTask(with url: URL,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         
         guard let url: URL = NetworkAPI.productList(query: nil).urlComponents.url,
