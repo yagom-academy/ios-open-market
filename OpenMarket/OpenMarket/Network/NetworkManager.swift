@@ -8,31 +8,39 @@
 import Foundation
 
 final class NetworkManager {
-    static let shared = NetworkManager()
-    private init() {}
+    let session: URLSessionProtocol
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
     
-    func checkHealth(to url: URL) {
+    func checkHealth(to url: URL, completion: @escaping (Result<Int, NetworkError>) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.GET
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 print(NetworkError.networking.description)
+                completion(.failure(.networking))
                 return
             }
             
             guard let safeData = data else {
                 print(NetworkError.data.description)
+                completion(.failure(.data))
                 return
             }
             
             guard let response = response as? HTTPURLResponse,
                   200 == response.statusCode else {
                 print(NetworkError.networking.description)
+                completion(.failure(.networking))
                 return
             }
             
-            print(String(decoding: safeData, as: UTF8.self))
+            let data = String(decoding: safeData, as: UTF8.self)
+            print(data)
+            let responseData = response.statusCode
+            completion(.success(responseData))
         }.resume()
     }
     
@@ -45,7 +53,7 @@ final class NetworkManager {
         var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.GET
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(.networking))
                 return
@@ -73,4 +81,3 @@ final class NetworkManager {
         }.resume()
     }
 }
-

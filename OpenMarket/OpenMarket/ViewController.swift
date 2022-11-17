@@ -7,24 +7,31 @@
 import UIKit
 
 final class ViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTestNetwork()
     }
     
     private func setupTestNetwork() {
+        let networkManager = NetworkManager()
         guard let healthCheckerURL = NetworkRequest.checkHealth.requestURL else {
             return
         }
         
-        NetworkManager.shared.checkHealth(to: healthCheckerURL)
+        networkManager.checkHealth(to: healthCheckerURL) { result in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
         
         guard let productDetailURL = NetworkRequest.productDetail.requestURL else {
             return
         }
         
-        NetworkManager.shared.fetchData(to: productDetailURL, dataType: Product.self) { result in
+        networkManager.fetchData(to: productDetailURL, dataType: Product.self) { result in
             switch result {
             case .success(let data):
                 print(data)
@@ -37,7 +44,7 @@ final class ViewController: UIViewController {
             return
         }
         
-        NetworkManager.shared.fetchData(to: productListURL, dataType: ProductPage.self) { result in
+        networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
             switch result {
             case .success(let data):
                 print(data)
