@@ -7,12 +7,16 @@
 import Foundation
 
 struct NetworkManager {
-    func loadData(of request: NetworkRequest, completion: @escaping (Result<Data, Error>) -> Void) throws {
-        guard let url = request.url else {
-            throw OpenMarketError.invalidURL
-        }
+    let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
+    
+    func loadData<T: Decodable>(of request: NetworkRequest, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let url = request.url else { return }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 completion(.failure(OpenMarketError.transportError))
                 return
@@ -30,7 +34,15 @@ struct NetworkManager {
                 return
             }
             
-            completion(.success(data))
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                
+                let data = try decoder.decode(T.self, from: data)
+                completion(.success(data))
+            } catch {
+                completion(.failure(OpenMarketError.failedToParse))
+            }
         }.resume()
     }
 }

@@ -8,12 +8,8 @@ import Foundation
 
 class StubURLSession: URLSessionProtocol {
     var dummyData: DummyData?
-    
-    init(dummyData: DummyData) {
-        self.dummyData = dummyData
-    }
         
-    func dataTask(with request: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
+    func dataTask(with request: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
         return StubURLSessionDataTask(dummyData: dummyData, completionHandler: completionHandler)
     }
 }

@@ -16,6 +16,7 @@
 		B21E63E22923617F001CA04A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21E63E12923617F001CA04A /* NetworkManager.swift */; };
 		B25ABE892923CC180032FF1D /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25ABE882923CC180032FF1D /* NetworkRequest.swift */; };
 		B25ABE8F29252A640032FF1D /* StubURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25ABE8E29252A640032FF1D /* StubURLSessionDataTask.swift */; };
+		B25ABE912925BA260032FF1D /* StubURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25ABE902925BA260032FF1D /* StubURLSessionTest.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -48,6 +49,7 @@
 		B21E63E12923617F001CA04A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B25ABE882923CC180032FF1D /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		B25ABE8E29252A640032FF1D /* StubURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionDataTask.swift; sourceTree = "<group>"; };
+		B25ABE902925BA260032FF1D /* StubURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionTest.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		0CA730002923901700EEF38C /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
+				B25ABE902925BA260032FF1D /* StubURLSessionTest.swift */,
 				0CA730012923901700EEF38C /* ProductListDataTest.swift */,
 			);
 			path = OpenMarketTests;
@@ -246,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B25ABE912925BA260032FF1D /* StubURLSessionTest.swift in Sources */,
 				0CA730022923901700EEF38C /* ProductListDataTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,7 +314,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KHQ37J8NU9;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xoxoxo.OpenMarketTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -330,7 +334,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KHQ37J8NU9;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xoxoxo.OpenMarketTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

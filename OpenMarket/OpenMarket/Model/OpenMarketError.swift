@@ -5,8 +5,8 @@
 //
 
 enum OpenMarketError: Error {
-    case invalidURL
     case transportError
     case serverError
     case missingData
+    case failedToParse
 }
