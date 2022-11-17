@@ -21,7 +21,7 @@ final class NetworkingTest: XCTestCase {
         sut = nil
     }
 
-    func test_checkAPIHelath를_통해_서버가_정상적으로_응답을하는_true값을_반환하는지() {
+    func test_checkAPIHealth를_통해_서버가_정상적으로_응답을하는_true값을_반환하는지() {
         let promise = expectation(description: "test")
         
         sut.checkAPIHealth { bool in
