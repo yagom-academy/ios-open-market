@@ -47,6 +47,7 @@ final class NetworkingTest: XCTestCase {
             }
             promise.fulfill()
         }
+        
         wait(for: [promise], timeout: 3)
     }
     
@@ -64,6 +65,7 @@ final class NetworkingTest: XCTestCase {
             }
             promise.fulfill()
         }
+        
         wait(for: [promise], timeout: 3)
     }
     
@@ -80,6 +82,7 @@ final class NetworkingTest: XCTestCase {
             }
             promise.fulfill()
         }
+        
         wait(for: [promise], timeout: 3)
     }
     
@@ -96,6 +99,7 @@ final class NetworkingTest: XCTestCase {
             }
             promise.fulfill()
         }
+        
         wait(for: [promise], timeout: 3)
     }
 }
