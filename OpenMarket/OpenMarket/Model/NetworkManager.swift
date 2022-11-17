@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkManager {
+struct NetworkManager {
     public static let publicNetworkManager = NetworkManager()
     
     func getItemListData(completion: @escaping (ItemList?) -> Void) {

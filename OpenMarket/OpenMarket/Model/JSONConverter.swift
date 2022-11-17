@@ -7,7 +7,7 @@
 
 import Foundation
 
-class JSONConverter {
+struct JSONConverter {
     static func decodeData<T: Codable>(data: Data) -> T? {
         do {
             let result = try JSONDecoder().decode(T.self, from: data)

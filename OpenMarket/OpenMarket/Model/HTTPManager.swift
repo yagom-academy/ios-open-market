@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HTTPManager {
+struct HTTPManager {
     static func requestGet(url: String, completion: @escaping (Data) -> ()) {
         guard let validURL = URL(string: url) else {
             return
