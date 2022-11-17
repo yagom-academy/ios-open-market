@@ -4,11 +4,17 @@ import Foundation
 
 class NetworkAPIProvider {
     
-    let session: URLSession
-    init(session: URLSession = .shared) {
+    let session: URLSessionProtocol
+    init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
+    func fetchProductList(query: [Query: String]?, completion: @escaping (Data) -> Void) {
+        fetch(path: .productList(query: query), completion: completion)
+    }
+}
+
+extension NetworkAPIProvider {
     func fetch(path: NetworkAPI, completion: @escaping (Data) -> Void) {
         
         guard let url = path.urlComponents.url else { return }
@@ -37,4 +43,3 @@ class NetworkAPIProvider {
         print(httpResponse.statusCode)
     }
 }
-
