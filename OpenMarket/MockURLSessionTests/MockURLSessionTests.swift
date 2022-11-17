@@ -15,11 +15,11 @@ class MockURLSessionTests: XCTestCase {
         sut = .init(session: mockSession)
     }
     
-    func test_getItemList_success() {
-        // 결과 data가 Json 형태라면
-        _ = try? JSONDecoder().decode(ProductList.self, from: MockData().data)
+    func test_data가Json형태로주어졌을때_getItemList에서data를가져오는것을성공하면_data와결과가같은지() {
+        // given
+        let mockData = try? JSONDecoder().decode(ProductList.self, from: MockData.data)
         
-        // MockURLSession을 통해 테스트
+        // when
         sut.getItemList(pageNumber: 1, itemPerPage: 1) { result in
             switch result {
             case .success(let data):
@@ -27,8 +27,9 @@ class MockURLSessionTests: XCTestCase {
                     XCTFail("Decode Error")
                     return
                 }
-                XCTAssertEqual(test.pageNumber, test.pageNumber)
-                XCTAssertEqual(test.lastPage, test.pageNumber)
+                // then
+                XCTAssertEqual(mockData?.pageNumber, test.pageNumber)
+                XCTAssertEqual(mockData?.totalCount, test.totalCount)
             case .failure(_):
                 XCTFail("getItemList failure")
                 return
@@ -36,16 +37,17 @@ class MockURLSessionTests: XCTestCase {
         }
     }
     
-    func test_getItemList_failure() {
-        // MockSession이 강제로 실패하도록 설정
+    func test_MockURLSession에서실패하도록설정했을때_getItemList를실행하면_fail이뜨고error가clientError와_같은지() {
+        // given
         sut = NetworkManager(session: MockURLSession(isRequestSuccess: false))
         
-        // MockSession의 실패 응답의 httpStatus가 402로 설정되었으므로 반환되는 에러는 statusCodeError
+        // when
         sut.getItemList(pageNumber: 1, itemPerPage: 1) { result in
             switch result {
             case .success(_):
                 XCTFail("result is success")
             case .failure(let error):
+                // then
                 XCTAssertEqual(error, NetworkError.clientError)
             }
         }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B415024E2925CFB0006780CF /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B415024D2925CFB0006780CF /* MockData.swift */; };
+		B41502502925D015006780CF /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B415024F2925D015006780CF /* MockURLSessionDataTask.swift */; };
 		B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F542924A101001FA318 /* HttpMethodEnum.swift */; };
 		B4412F582924BDFE001FA318 /* NetworkErrorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F572924BDFE001FA318 /* NetworkErrorEnum.swift */; };
 		B44353FE2923723100F165B5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44353FD2923723100F165B5 /* NetworkManager.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B415024D2925CFB0006780CF /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		B415024F2925D015006780CF /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		B4412F542924A101001FA318 /* HttpMethodEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethodEnum.swift; sourceTree = "<group>"; };
 		B4412F572924BDFE001FA318 /* NetworkErrorEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorEnum.swift; sourceTree = "<group>"; };
 		B44353FD2923723100F165B5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 			children = (
 				D00F80AD29251317001F6C03 /* MockURLSessionTests.swift */,
 				D00F80B429251333001F6C03 /* MockURLSession.swift */,
+				B415024F2925D015006780CF /* MockURLSessionDataTask.swift */,
+				B415024D2925CFB0006780CF /* MockData.swift */,
 			);
 			path = MockURLSessionTests;
 			sourceTree = "<group>";
@@ -384,6 +390,7 @@
 				D00F80B729251444001F6C03 /* MockURLSession.swift in Sources */,
 				D00F80A6292512EB001F6C03 /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				B415024E2925CFB0006780CF /* MockData.swift in Sources */,
 				D03ED9E729236261005F30A8 /* Image.swift in Sources */,
 				D03ED9D029224DBD005F30A8 /* JSONDecodeExtension.swift in Sources */,
 				D03ED9E229235FB6005F30A8 /* ProductDetail.swift in Sources */,
@@ -395,6 +402,7 @@
 				D03ED9EB2924A55E005F30A8 /* ProductsAPIEnum.swift in Sources */,
 				B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */,
 				D03ED9DA29234F24005F30A8 /* CurrencyEnum.swift in Sources */,
+				B41502502925D015006780CF /* MockURLSessionDataTask.swift in Sources */,
 				B4412F582924BDFE001FA318 /* NetworkErrorEnum.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);

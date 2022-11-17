@@ -6,18 +6,6 @@
 
 import Foundation
 
-struct MockData {
-    let data: Data = Data()
-}
-
-class MockURLSessionDataTask: URLSessionDataTask {
-    var resumeDidCall: () -> Void = {}
-
-    override func resume() {
-        resumeDidCall
-    }
-}
-
 class MockURLSession: URLSessionProtocol {
     var isRequestSuccess: Bool
     var sessionDataTask: MockURLSessionDataTask?
@@ -41,7 +29,7 @@ class MockURLSession: URLSessionProtocol {
 
         if isRequestSuccess {
             sessionDataTask.resumeDidCall = {
-                completionHandler(MockData().data, successResponse, nil)
+                completionHandler(MockData.data, successResponse, nil)
             }
         } else {
             sessionDataTask.resumeDidCall = {
