@@ -1,10 +1,10 @@
 //
 //  OpenMarket - MockData.swift
-//  Created by Zhilly, Dragon. 22/11/16
+//  Created by Zhilly, Dragon. 22/11/17
 //  Copyright © yagom. All rights reserved.
 //
 
-import Foundation
+import Foundation.NSData
 
 enum MockData {
     static var data: Data {

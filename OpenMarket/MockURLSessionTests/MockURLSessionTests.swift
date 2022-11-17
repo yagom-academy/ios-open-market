@@ -8,7 +8,7 @@ import XCTest
 @testable import OpenMarket
 
 class MockURLSessionTests: XCTestCase {
-    let mockSession = MockURLSession()
+    let mockSession: MockURLSession = MockURLSession()
     var sut: NetworkManager!
     
     override func setUpWithError() throws {

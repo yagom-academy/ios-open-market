@@ -7,8 +7,8 @@
 import Foundation
 
 struct NetworkManager {
-    let session: URLSessionProtocol
-    let hostUrlAddress: String = ProductsAPIEnum.hostUrl.address
+    private let session: URLSessionProtocol
+    private let hostUrlAddress: String = ProductsAPIEnum.hostUrl.address
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
@@ -24,10 +24,15 @@ struct NetworkManager {
         dataTask(request: targetRequest, completion: completion)
     }
     
-    func getItemList(pageNumber: Int, itemPerPage: Int, searchValue: String? = nil, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
+    func getItemList(pageNumber: Int,
+                     itemPerPage: Int,
+                     searchValue: String? = nil,
+                     completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         var searchValueString: String = String()
         if let unwrappingSearchValue: String = searchValue {
-            searchValueString = ProductsAPIEnum.bridge.address + ProductsAPIEnum.searchValue.address + unwrappingSearchValue
+            searchValueString = ProductsAPIEnum.bridge.address +
+            ProductsAPIEnum.searchValue.address +
+            unwrappingSearchValue
         }
         let targetAddress: String = hostUrlAddress +
         ProductsAPIEnum.products.address +
@@ -43,8 +48,10 @@ struct NetworkManager {
         dataTask(request: targetRequest, completion: completion)
     }
     
-    func getItemDetailList(productID: Int, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
-        let targetAddress: String = hostUrlAddress + ProductsAPIEnum.products.address + String(productID)
+    func getItemDetailList(productID: Int,
+                           completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
+        let targetAddress: String = hostUrlAddress +
+        ProductsAPIEnum.products.address + String(productID)
         guard let targetURL: URL = URL(string: targetAddress) else {
             return
         }
@@ -61,7 +68,8 @@ struct NetworkManager {
         return request
     }
     
-    private func dataTask(request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    private func dataTask(request: URLRequest,
+                          completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
             if error != nil {
                 completion(.failure(.dataTaskError))

@@ -1,5 +1,5 @@
 //
-//  OpenMarket - JSONDecode.swift
+//  OpenMarket - JSONDecode+Extension.swift
 //  Created by Zhilly, Dragon. 22/11/14
 //  Copyright © yagom. All rights reserved.
 //
