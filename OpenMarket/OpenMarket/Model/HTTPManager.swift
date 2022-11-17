@@ -7,9 +7,16 @@
 
 import Foundation
 
+enum NetworkError: Error {
+    case clientError
+    case missingData
+    case serverError
+}
+
 struct HTTPManager {
     static func requestGet(url: String, completion: @escaping (Data) -> ()) {
         guard let validURL = URL(string: url) else {
+            handleError(error: NetworkError.clientError)
             return
         }
         
@@ -18,6 +25,7 @@ struct HTTPManager {
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else {
+                handleError(error: NetworkError.missingData)
                 return
             }
             
@@ -25,10 +33,22 @@ struct HTTPManager {
                 if let response = urlResponse as? HTTPURLResponse {
                     print(response.statusCode)
                 }
+                handleError(error: NetworkError.serverError)
                 return
             }
             
             completion(data)
         }.resume()
+    }
+    
+    static func handleError(error: NetworkError) {
+        switch error {
+        case .clientError:
+            print("ERROR: 클라이언트 요청 오류")
+        case .missingData:
+            print("ERROR: 데이터 유실")
+        case .serverError:
+            print("ERROR: 서버 오류")
+        }
     }
 }
