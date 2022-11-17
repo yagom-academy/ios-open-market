@@ -5,6 +5,8 @@
 //  Created by Ash and som on 2022/11/16.
 //
 
+import Foundation
+
 enum HTTPMethod {
     static let get: String = "GET"
     static let post: String = "POST"
@@ -15,6 +17,18 @@ enum HTTPMethod {
 enum OpenMarketURL {
     static let base: String = "https://openmarket.yagom-academy.kr"
     static let heathChecker: String = "/healthChecker"
-    static let itemPage: String = "/api/products?page_no=1&items_per_page=100"
-    static let product: String = "/api/products/32"
+}
+
+enum OpenMarketURLComponent {
+    case itemPageComponent(pageNo: Int, itemPerPage: Int)
+    case productComponent(productID: Int)
+    
+    var url: String {
+        switch self {
+        case .itemPageComponent(let pageNo, let itemPerPage):
+            return "/api/products?page_no=\(pageNo)&items_per_page=\(itemPerPage)"
+        case .productComponent(let productID):
+            return "/api/products/\(productID)"
+        }
+    }
 }
