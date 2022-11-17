@@ -14,9 +14,7 @@ class MockURLSession: URLSessionProtocol {
     
     func dataTask(with url: URL,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        
-        guard let url: URL = NetworkAPI.productList(query: nil).urlComponents.url,
-              let assetData = NSDataAsset.init(name: "products") else {
+        guard let url: URL = NetworkAPI.productList(query: nil).urlComponents.url else {
             return MockURLSessionDataTask()
         }
         
@@ -36,7 +34,7 @@ class MockURLSession: URLSessionProtocol {
             if self.makeRequestFail {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(assetData.data, successResponse, nil)
+                completionHandler(MockData.sampleData, successResponse, nil)
             }
         }
         self.sessionDataTask = sessionDataTask

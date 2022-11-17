@@ -1,9 +1,4 @@
-//
-//  NetworkTests.swift
-//  NetworkTests
-//
-//  Created by jin on 11/17/22.
-//
+//  Created by Aejong, Tottale on 2022/11/17.
 
 import XCTest
 @testable import OpenMarket
@@ -20,24 +15,18 @@ final class NetworkTests: XCTestCase {
         sut = nil
     }
     
-    func test_fetchRandomJoke() {
-//        let expectation = XCTestExpectation()
-        guard let assetData = NSDataAsset.init(name: "products") else {
-            return
-        }
-        
+    func test_fetchProductList_success() {
+        let expectation = XCTestExpectation()
         let response = try? JSONDecoder().decode(ProductList.self,
-                                                 from: assetData.data)
+                                                 from: MockData.sampleData)
         
         sut.fetchProductList(query: nil) { result in
-            print(result.itemsPerPage)
-            print(response?.hasNext)
             XCTAssertEqual(result.pageNumber, response?.pageNumber)
             XCTAssertEqual(result.itemsPerPage, response?.itemsPerPage)
-//            expectation.fulfill()
+            expectation.fulfill()
         }
-        sleep(5)
-//        wait(for: [expectation], timeout: 10.0)
+        
+        wait(for: [expectation], timeout: 2.0)
     }
     
 }

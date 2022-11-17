@@ -20,8 +20,8 @@ class NetworkAPIProvider {
 }
 
 extension NetworkAPIProvider {
+    
     func fetch(path: NetworkAPI, completion: @escaping (Data) -> Void) {
-        
         guard let url = path.urlComponents.url else { return }
 
         session.dataTask(with: url) { data, response, error in
@@ -40,7 +40,6 @@ extension NetworkAPIProvider {
             
             completion(data)
         }.resume()
-        
     }
     
     private func handleServerError(_ response: URLResponse?) {

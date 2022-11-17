@@ -1,6 +1,7 @@
 //  Created by Aejong, Tottale on 2022/11/15.
 
 struct ProductList: Codable {
+    
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
@@ -12,12 +13,14 @@ struct ProductList: Codable {
     let pages: [ProductForPage]
     
     enum CodingKeys: String, CodingKey {
+        
         case offset, limit, pages, itemsPerPage, totalCount, hasNext, hasPrev, lastPage
         case pageNumber = "pageNo"
     }
 }
 
 struct ProductForPage: Codable {
+    
     let productID: Int
     let vendorID: Int
     let vendorName: String
@@ -33,6 +36,7 @@ struct ProductForPage: Codable {
     let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
+        
         case name, currency, thumbnail, price, stock, vendorName, description
         case productID = "id"
         case vendorID = "vendor_id"

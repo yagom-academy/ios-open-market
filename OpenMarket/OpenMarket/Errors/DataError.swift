@@ -3,6 +3,7 @@
 import Foundation
 
 enum DataError: Error {
+    
     case noneDataError
     case decodingError
     case unknownError
@@ -10,6 +11,7 @@ enum DataError: Error {
 }
 
 extension DataError: LocalizedError {
+    
     public var errorDescription: String? {
         switch self {
         case .noneDataError:
