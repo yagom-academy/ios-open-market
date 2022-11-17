@@ -28,7 +28,7 @@ struct Page: Decodable {
     let id: Int
     let vendorId: Int
     let name: String
-    let description: String
+    let description: String?
     let thumbnail: String
     let currency: Currency
     let price: Double

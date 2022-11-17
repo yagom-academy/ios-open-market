@@ -15,8 +15,8 @@
       "bargain_price": 0,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2022-01-04T00:00:00.00",
-      "issued_at": "2022-01-04T00:00:00.00"
+      "created_at": "2022-01-04T00:00:00",
+      "issued_at": "2022-01-04T00:00:00"
     },
     {
       "id": 19,
@@ -28,8 +28,8 @@
       "bargain_price": 0,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2022-01-04T00:00:00.00",
-      "issued_at": "2022-01-04T00:00:00.00"
+      "created_at": "2022-01-04T00:00:00",
+      "issued_at": "2022-01-04T00:00:00"
     },
     {
       "id": 18,
@@ -41,8 +41,8 @@
       "bargain_price": 0,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2022-01-04T00:00:00.00",
-      "issued_at": "2022-01-04T00:00:00.00"
+      "created_at": "2022-01-04T00:00:00",
+      "issued_at": "2022-01-04T00:00:00"
     },
     {
       "id": 17,
@@ -54,8 +54,8 @@
       "bargain_price": 0,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2022-01-04T00:00:00.00",
-      "issued_at": "2022-01-04T00:00:00.00"
+      "created_at": "2022-01-04T00:00:00",
+      "issued_at": "2022-01-04T00:00:00"
     },
     {
       "id": 16,
@@ -67,8 +67,8 @@
       "bargain_price": 2000,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2022-01-03T00:00:00.00",
-      "issued_at": "2022-01-03T00:00:00.00"
+      "created_at": "2022-01-03T00:00:00",
+      "issued_at": "2022-01-03T00:00:00"
     },
     {
       "id": 15,
@@ -80,8 +80,8 @@
       "bargain_price": 25000,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2021-12-29T00:00:00.00",
-      "issued_at": "2021-12-29T00:00:00.00"
+      "created_at": "2021-12-29T00:00:00",
+      "issued_at": "2021-12-29T00:00:00"
     },
     {
       "id": 13,
@@ -93,8 +93,8 @@
       "bargain_price": 2000,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2021-12-29T00:00:00.00",
-      "issued_at": "2021-12-29T00:00:00.00"
+      "created_at": "2021-12-29T00:00:00",
+      "issued_at": "2021-12-29T00:00:00"
     },
     {
       "id": 4,
@@ -106,8 +106,8 @@
       "bargain_price": 999,
       "discounted_price": 1,
       "stock": 100000,
-      "created_at": "2021-12-27T00:00:00.00",
-      "issued_at": "2021-12-27T00:00:00.00"
+      "created_at": "2021-12-27T00:00:00",
+      "issued_at": "2021-12-27T00:00:00"
     },
     {
       "id": 3,
@@ -119,8 +119,8 @@
       "bargain_price": 1000,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2021-12-27T00:00:00.00",
-      "issued_at": "2021-12-27T00:00:00.00"
+      "created_at": "2021-12-27T00:00:00",
+      "issued_at": "2021-12-27T00:00:00"
     },
     {
       "id": 2,
@@ -132,8 +132,8 @@
       "bargain_price": 2000,
       "discounted_price": 0,
       "stock": 0,
-      "created_at": "2021-12-26T00:00:00.00",
-      "issued_at": "2021-12-26T00:00:00.00"
+      "created_at": "2021-12-26T00:00:00",
+      "issued_at": "2021-12-26T00:00:00"
     }
   ],
   "last_page": 1,
