@@ -6,8 +6,8 @@
 
 import Foundation
 
-class StubURLSessionDataTask: URLSessionDataTask {
-    var dummyData: DummyData?
+final class StubURLSessionDataTask: URLSessionDataTask {
+    private var dummyData: DummyData?
     
     init(dummyData: DummyData?, completionHandler: DataTaskCompletionHandler?) {
         self.dummyData = dummyData

@@ -6,7 +6,7 @@
 
 import Foundation
 
-class StubURLSession: URLSessionProtocol {
+final class StubURLSession: URLSessionProtocol {
     var dummyData: DummyData?
         
     func dataTask(with request: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {

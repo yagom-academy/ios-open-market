@@ -1,14 +1,13 @@
 //
 //  StubURLSessionTest.swift
 //  OpenMarketTests
-//
-//  Created by 김인호 on 2022/11/17.
+//  Created by inho, Hamo, Jeremy on 2022/11/15.
 //
 
 import XCTest
 @testable import OpenMarket
 
-class StubURLSessionTest: XCTestCase {
+final class StubURLSessionTest: XCTestCase {
     var sut: NetworkManager!
     var stubUrlSession: StubURLSession!
 

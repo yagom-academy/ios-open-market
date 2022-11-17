@@ -81,6 +81,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C81B3362925DD620020F5EA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0C892A4229252E6900109AB8 /* URLSessionProtocol.swift */,
+				B21E63E12923617F001CA04A /* NetworkManager.swift */,
+				B25ABE882923CC180032FF1D /* NetworkRequest.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		0CA730002923901700EEF38C /* OpenMarketTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,13 +103,12 @@
 		B21E63E02923360D001CA04A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0C81B3362925DD620020F5EA /* Network */,
 				0CBAC4B42923379300B2DC65 /* ProductListData.swift */,
 				B21E63DE29233488001CA04A /* ProductData.swift */,
 				DFDCA5292923BDD800655B05 /* VendorData.swift */,
 				DFDCA5272923BC6A00655B05 /* ImageData.swift */,
-				B21E63E12923617F001CA04A /* NetworkManager.swift */,
 				0C892A4029250B8B00109AB8 /* OpenMarketError.swift */,
-				B25ABE882923CC180032FF1D /* NetworkRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -125,6 +134,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				DF6EE05F2925151800CB57F3 /* Test Double */,
 				B21E63E02923360D001CA04A /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
@@ -133,7 +143,6 @@
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
-				DF6EE05F2925151800CB57F3 /* Test Double */,
 			);
 			path = OpenMarket;
 			sourceTree = "<group>";
@@ -143,7 +152,6 @@
 			children = (
 				DF6EE0642925255400CB57F3 /* DummyData.swift */,
 				B25ABE8E29252A640032FF1D /* StubURLSessionDataTask.swift */,
-				0C892A4229252E6900109AB8 /* URLSessionProtocol.swift */,
 				0C892A4429252EA300109AB8 /* StubURLSession.swift */,
 			);
 			path = "Test Double";
