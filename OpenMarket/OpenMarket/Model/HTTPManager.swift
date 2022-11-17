@@ -33,6 +33,10 @@ struct HTTPManager {
                 if let response = urlResponse as? HTTPURLResponse {
                     print(response.statusCode)
                 }
+                return
+            }
+            
+            guard error == nil else {
                 handleError(error: NetworkError.serverError)
                 return
             }
