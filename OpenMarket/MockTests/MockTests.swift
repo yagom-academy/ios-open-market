@@ -22,16 +22,16 @@ final class MockTests: XCTestCase {
         sut = nil
     }
     
-    func test_checkAPIHelath를_통해_정상적으로_응답을하는_true_값을_반환하는지() {
+    func test_checkAPIHealth를_통해_정상적으로_응답을하는_true_값을_반환하는지() {
         let promise = expectation(description: "test")
         
         guard let url = URL(string: "\(url)healthChecker") else { return }
 
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: nil, response: response, error: nil)
-        let stubUrlSession = StubURLSession(dummy: dummy)
+        let stubURLSession = StubURLSession(dummy: dummy)
         
-        sut.session = stubUrlSession
+        sut.session = stubURLSession
         sut.checkAPIHealth { bool in
             bool ? XCTAssertEqual(true, bool) : XCTFail()
             promise.fulfill()
@@ -43,7 +43,7 @@ final class MockTests: XCTestCase {
     func test_fetchItemList메서드를_사용해_itemList를_가져올때_pageNo값과_itemsPerPage값이_동일한지() {
         let promise = expectation(description: "test")
         
-        let pageNo: Int = 3
+        let pageNo = 3
         let perPage = 20
         guard let url = URL(string: "\(url)api/products?page_no=\(pageNo)&items_per_page=\(perPage)") else { return }
         guard let dataAsset: NSDataAsset = NSDataAsset(name: "itemList") else { return }
@@ -73,7 +73,7 @@ final class MockTests: XCTestCase {
         
         let productId = 188
         guard let url = URL(string: "\(url)api/products/\(productId)") else { return }
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: "item") else { return }
+        guard let dataAsset = NSDataAsset(name: "item") else { return }
 
         let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
         let dummy = DummyData(data: dataAsset.data, response: response, error: nil)

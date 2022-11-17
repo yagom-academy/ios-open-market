@@ -4,15 +4,17 @@
 //
 //  Created by 스톤, 로빈 on 2022/11/15.
 //
+
+import Foundation
+
 struct Item: Codable {
     let id, vendorId: Int
     let vendorName: String?
-    let name, pageDescription: String
-    let thumbnail: String
+    let name, pageDescription, thumbnail: String
     let currency: Currency
     let price, bargainPrice, discountedPrice: Double
     let stock: Int
-    let createdAt, issuedAt: String
+    let createdDate, issuedDate: String
     let images: [Image]?
     let vendors: Vendors?
     
@@ -25,22 +27,20 @@ struct Item: Codable {
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
-        case createdAt = "created_at"
-        case issuedAt = "issued_at"
-        case images
-        case vendors
+        case createdDate = "created_at"
+        case issuedDate = "issued_at"
+        case images, vendors
     }
 }
 
 struct Image: Codable {
     let id: Int
-    let url, thumbnailURL: String
-    let issuedAt: String
+    let url, thumbnailURL, issuedDate: String
 
     enum CodingKeys: String, CodingKey {
         case id, url
         case thumbnailURL = "thumbnail_url"
-        case issuedAt = "issued_at"
+        case issuedDate = "issued_at"
     }
 }
 
