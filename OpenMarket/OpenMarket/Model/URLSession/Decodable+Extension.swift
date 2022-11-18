@@ -12,7 +12,7 @@ extension JSONDecoder {
         let decoder = JSONDecoder()
         
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .formatted(DateFormatter.dateFormatter)
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Format)
         
         do {
             let data: T = try decoder.decode(type, from: data)
