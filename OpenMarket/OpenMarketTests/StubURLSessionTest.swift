@@ -52,7 +52,8 @@ final class StubURLSessionTest: XCTestCase {
     
     func test_productListData를받았을때_전달받은값을_리턴해야한다() {
         //given
-        guard let url = NetworkRequest.productList.url else { return }
+        guard let url = NetworkRequest.productList(pageNumber: 1,
+                                                   itemsPerPage: 100).url else { return }
         
         let expectedData = """
                         {
@@ -77,7 +78,7 @@ final class StubURLSessionTest: XCTestCase {
         stubUrlSession.dummyData = dummyData
         
         //when
-        sut.loadData(of: NetworkRequest.productList,
+        sut.loadData(of: NetworkRequest.productList(pageNumber: 1, itemsPerPage: 100),
                      dataType: ProductListData.self) { result in
             switch result {
             case .success(let productListData):
@@ -90,7 +91,7 @@ final class StubURLSessionTest: XCTestCase {
     }
     
     func test_productData를받았을때_전달받은값을_리턴해야한다() {
-        guard let url = NetworkRequest.product.url else { return }
+        guard let url = NetworkRequest.product(identifier: 197).url else { return }
         
         let expectedData = """
                         {
@@ -119,7 +120,7 @@ final class StubURLSessionTest: XCTestCase {
         stubUrlSession.dummyData = dummyData
         
         //when
-        sut.loadData(of: .product, dataType: ProductData.self) { result in
+        sut.loadData(of: .product(identifier: 197), dataType: ProductData.self) { result in
             switch result {
             case .success(let productData):
                 //then
@@ -131,7 +132,7 @@ final class StubURLSessionTest: XCTestCase {
     }
     
     func test_response의statusCode가_서버오류를나타낼때_데이터를가져오는데_실패해야한다() {
-        guard let url = NetworkRequest.productList.url else { return }
+        guard let url = NetworkRequest.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
         
         let expectedData = """
                         {
@@ -159,13 +160,13 @@ final class StubURLSessionTest: XCTestCase {
                                   error: nil)
         stubUrlSession.dummyData = dummyData
         
-        sut.loadData(of: .product, dataType: ProductData.self) { result in
+        sut.loadData(of: .product(identifier: 197), dataType: ProductData.self) { result in
             switch result {
             case .success(let productData):
                 //then
                 XCTAssertNotEqual(productData.vendorName, "notAVendor")
             case .failure(let error):
-                XCTAssertEqual(OpenMarketError.serverError, error as? OpenMarketError)
+                XCTAssertEqual(NetworkError.serverError, error as? NetworkError)
             }
         }
     }
