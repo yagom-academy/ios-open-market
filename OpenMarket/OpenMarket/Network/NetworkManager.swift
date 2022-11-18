@@ -4,7 +4,7 @@
 
 import Foundation
 
-class NetworkManager {
+final class NetworkManager {
     func request<Model: Decodable>(endpoint: Endpointable,
                                    dataType: Model.Type,
                                    completion: @escaping (Result<Model, NetworkError>) -> Void) {
