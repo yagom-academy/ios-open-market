@@ -8,8 +8,8 @@
 import Foundation
 
 struct NetworkManager {
-    let successRange = 200..<300
     typealias StatusCode = Int
+    let successRange = 200..<300
     
     enum RequestType {
         case healthChecker
@@ -18,24 +18,27 @@ struct NetworkManager {
     }
     
     private func generateURL(type: RequestType) -> URL? {
-        let host = "https://openmarket.yagom-academy.kr"
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "openmarket.yagom-academy.kr"
         
         switch type {
         case .healthChecker:
-            let url = URL(string: "healthChecker", relativeTo: URL(string: host))
-            
-            return url?.absoluteURL
+            components.path = "/healthChecker"
+
+            return components.url?.absoluteURL
         case .searchProductList(let pageNo, let itemsPerPage):
-            var components = URLComponents(string: "\(host)/api/products")
-            let pageNoParam = URLQueryItem(name: "page_no", value: "\(pageNo)")
-            let itemsPerPageParam = URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
-            components?.queryItems = [pageNoParam, itemsPerPageParam]
+            components.path = "/api/products/"
+            components.queryItems = [
+                URLQueryItem(name: "page_no", value: "\(pageNo)"),
+                URLQueryItem(name: "items_per_page", value: "\(itemsPerPage)")
+            ]
             
-            return components?.url
+            return components.url?.absoluteURL
         case .searchProductDetail(let productNumber):
-            let url = URL(string: "\(productNumber)", relativeTo: URL(string: "\(host)/api/products/"))
+            components.path = "/api/products/\(productNumber)"
             
-            return url?.absoluteURL
+            return components.url?.absoluteURL
         }
     }
     

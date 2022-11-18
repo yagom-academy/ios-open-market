@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         networkManager.getProductsList(.searchProductList(pageNo: 1, itemsPerPage: 10)) { productList in
             print(productList)
         }
-        
+
         networkManager.getHealthChecker(.healthChecker) { statusCode in
             print(statusCode)
         }
