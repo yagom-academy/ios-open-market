@@ -8,12 +8,16 @@ import XCTest
 @testable import OpenMarket
 
 final class StubURLSessionTest: XCTestCase {
-    var sut: NetworkManager!
-    var stubUrlSession: StubURLSession!
+    var sut: NetworkManager?
+    var stubUrlSession: StubURLSession?
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         stubUrlSession = StubURLSession()
+        guard let stubUrlSession = stubUrlSession else {
+            XCTFail("missing url session")
+            return
+        }
         sut = NetworkManager(session: stubUrlSession)
     }
     
@@ -25,7 +29,10 @@ final class StubURLSessionTest: XCTestCase {
     
     func test_healtChecker를_요청할때_OK를리턴해야한다() {
         //given
-        guard let url = NetworkRequest.healthCheck.url else { return }
+        guard let url = NetworkRequest.healthCheck.url else {
+            XCTFail("missing healthCheck url")
+            return
+        }
         
         let expectedData = "\"OK\"".data(using: .utf8)
         let response = HTTPURLResponse(url: url,
@@ -35,10 +42,10 @@ final class StubURLSessionTest: XCTestCase {
         let dummyData = DummyData(data: expectedData,
                                   response: response,
                                   error: nil)
-        stubUrlSession.dummyData = dummyData
+        stubUrlSession?.dummyData = dummyData
         
         //when
-        sut.loadData(of: NetworkRequest.healthCheck,
+        sut?.loadData(of: NetworkRequest.healthCheck,
                      dataType: String.self) { result in
             switch result {
             case .success(let text):
@@ -53,7 +60,10 @@ final class StubURLSessionTest: XCTestCase {
     func test_productListData를받았을때_전달받은값을_리턴해야한다() {
         //given
         guard let url = NetworkRequest.productList(pageNumber: 1,
-                                                   itemsPerPage: 100).url else { return }
+                                                   itemsPerPage: 100).url else {
+            XCTFail("missing productList url")
+            return
+        }
         
         let expectedData = """
                         {
@@ -75,10 +85,10 @@ final class StubURLSessionTest: XCTestCase {
         let dummyData = DummyData(data: expectedData,
                                   response: response,
                                   error: nil)
-        stubUrlSession.dummyData = dummyData
+        stubUrlSession?.dummyData = dummyData
         
         //when
-        sut.loadData(of: NetworkRequest.productList(pageNumber: 1, itemsPerPage: 100),
+        sut?.loadData(of: NetworkRequest.productList(pageNumber: 1, itemsPerPage: 100),
                      dataType: ProductListData.self) { result in
             switch result {
             case .success(let productListData):
@@ -91,7 +101,10 @@ final class StubURLSessionTest: XCTestCase {
     }
     
     func test_productData를받았을때_전달받은값을_리턴해야한다() {
-        guard let url = NetworkRequest.product(identifier: 197).url else { return }
+        guard let url = NetworkRequest.product(identifier: 197).url else {
+            XCTFail("missing product url")
+            return
+        }
         
         let expectedData = """
                         {
@@ -117,10 +130,10 @@ final class StubURLSessionTest: XCTestCase {
         let dummyData = DummyData(data: expectedData,
                                   response: response,
                                   error: nil)
-        stubUrlSession.dummyData = dummyData
+        stubUrlSession?.dummyData = dummyData
         
         //when
-        sut.loadData(of: .product(identifier: 197), dataType: ProductData.self) { result in
+        sut?.loadData(of: .product(identifier: 197), dataType: ProductData.self) { result in
             switch result {
             case .success(let productData):
                 //then
@@ -132,7 +145,12 @@ final class StubURLSessionTest: XCTestCase {
     }
     
     func test_response의statusCode가_서버오류를나타낼때_데이터를가져오는데_실패해야한다() {
-        guard let url = NetworkRequest.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
+        guard let url = NetworkRequest.productList(pageNumber: 1,
+                                                   itemsPerPage: 100).url
+        else {
+            XCTFail("missing productList url")
+            return
+        }
         
         let expectedData = """
                         {
@@ -158,9 +176,9 @@ final class StubURLSessionTest: XCTestCase {
         let dummyData = DummyData(data: expectedData,
                                   response: response,
                                   error: nil)
-        stubUrlSession.dummyData = dummyData
+        stubUrlSession?.dummyData = dummyData
         
-        sut.loadData(of: .product(identifier: 197), dataType: ProductData.self) { result in
+        sut?.loadData(of: .product(identifier: 197), dataType: ProductData.self) { result in
             switch result {
             case .success(let productData):
                 //then

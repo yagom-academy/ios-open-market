@@ -8,7 +8,7 @@ import XCTest
 @testable import OpenMarket
 
 final class ProductListDataTest: XCTestCase {
-    var assetData: Data!
+    var assetData: Data?
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -28,6 +28,11 @@ final class ProductListDataTest: XCTestCase {
     func test_ProductListData가_json파일의_객체형식과_일치해야한다() {
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        XCTAssertNoThrow(try jsonDecoder.decode(ProductListData.self, from: self.assetData))
+        guard let assetData = assetData else {
+            XCTFail("missing asset data")
+            return
+        }
+        
+        XCTAssertNoThrow(try jsonDecoder.decode(ProductListData.self, from: assetData))
     }
 }
