@@ -12,7 +12,7 @@ enum DataError: Error {
 
 extension DataError: LocalizedError {
     
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .noneDataError:
             return "NoneData Error"
@@ -25,7 +25,7 @@ extension DataError: LocalizedError {
         }
     }
     
-    public var failureReason: String? {
+    var failureReason: String? {
         switch self {
         case .noneDataError:
             return "데이터 불러오기 실패"
