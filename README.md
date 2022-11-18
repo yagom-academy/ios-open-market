@@ -19,8 +19,8 @@
 <br>
 
 ## 💻 개발환경 및 라이브러리
-[![iOS](https://img.shields.io/badge/iOS_Deployment_Target-13.2-blue)]()
-[![swift](https://img.shields.io/badge/Xcode_Compatible-9.3-orange)]()
+* [![iOS](https://img.shields.io/badge/iOS_Deployment_Target-13.2-blue)]()
+* [![swift](https://img.shields.io/badge/Xcode_Compatible-9.3-orange)]()
 
 <br>
 
@@ -70,7 +70,7 @@
 
 - 추후 작성 예정
 
-## 🎯 트러블 슈팅 및 고민****
+## 🎯 트러블 슈팅 및 고민
 
 ### Decodable Model Property Optional
 |상품 리스트 조회시 아이템|상품 상세 조회시 아이템|
@@ -201,5 +201,6 @@
 </details>
 
 ## 📚 참고 링크
-[Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
-[URLSession](https://developer.apple.com/documentation/foundation/urlsession)
+
+* [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+* [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
