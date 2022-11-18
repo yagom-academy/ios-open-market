@@ -60,9 +60,9 @@ class NetworkUnitTest: XCTestCase {
         XCTAssertNotNil(data)
     }
     
-    func test_testable() {
+    func test_MockingNetworking으로_더미데이터를_잘받아오는가() {
         //given
-        let promise = expectation(description: "시작")
+        let promise = expectation(description: "Response is Success")
         let data: Data? =  """
         {
             "pageNo": 1,
