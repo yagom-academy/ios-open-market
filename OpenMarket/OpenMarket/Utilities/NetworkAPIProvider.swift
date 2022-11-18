@@ -11,7 +11,7 @@ final class NetworkAPIProvider {
     
     func fetchProductList(query: [Query: String]?, completion: @escaping (ProductList) -> Void) {
         fetch(path: .productList(query: query)) { data in
-            guard let productList: ProductList = DecodeManger.shared.fetchData(data: data) else {
+            guard let productList: ProductList = JSONDecoder().fetchData(data: data) else {
                 return
             }
             completion(productList)

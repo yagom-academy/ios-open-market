@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */; };
 		3C458B352925CA9600E43838 /* NetworkAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */; };
-		3C62E5EA29232BCF00D0E45E /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5E929232BCE00D0E45E /* DecodeManager.swift */; };
 		3C62E5EC29232C0A00D0E45E /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5EB29232C0A00D0E45E /* DataError.swift */; };
 		3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5EF2923649F00D0E45E /* ProductList.swift */; };
 		3CE5CC89292662A100F8DD61 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE5CC88292662A100F8DD61 /* NetworkTests.swift */; };
@@ -44,8 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+extension.swift"; sourceTree = "<group>"; };
 		3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPIProvider.swift; sourceTree = "<group>"; };
-		3C62E5E929232BCE00D0E45E /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
 		3C62E5EB29232C0A00D0E45E /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		3C62E5EF2923649F00D0E45E /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		3CE5CC86292662A100F8DD61 /* NetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,7 +103,6 @@
 		5743DFE52925D3EA00D2442D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				3C62E5E929232BCE00D0E45E /* DecodeManager.swift */,
 				5743DFE12923659100D2442D /* NetworkAPI.swift */,
 				3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */,
 			);
@@ -114,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				5743DFE329236B5200D2442D /* URLComponents+Extension.swift */,
+				3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -344,8 +344,8 @@
 				3C62E5EC29232C0A00D0E45E /* DataError.swift in Sources */,
 				3C458B352925CA9600E43838 /* NetworkAPIProvider.swift in Sources */,
 				5743DFEE2925DDB500D2442D /* MockURLSessionDataTask.swift in Sources */,
-				3C62E5EA29232BCF00D0E45E /* DecodeManager.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */,
 				3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
