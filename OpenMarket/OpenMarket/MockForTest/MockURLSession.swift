@@ -6,8 +6,11 @@ import UIKit
 final class MockURLSession: URLSessionProtocol {
     
     var makeRequestFail = false
-    init(makeRequestFail: Bool = false) {
+    var sampleData: Data
+    
+    init(makeRequestFail: Bool = false, sampleData: Data) {
         self.makeRequestFail = makeRequestFail
+        self.sampleData = sampleData
     }
     
     var sessionDataTask: MockURLSessionDataTask?
@@ -34,7 +37,7 @@ final class MockURLSession: URLSessionProtocol {
             if self.makeRequestFail {
                 completionHandler(nil, failureResponse, nil)
             } else {
-                completionHandler(MockData.sampleData, successResponse, nil)
+                completionHandler(self.sampleData, successResponse, nil)
             }
         }
         self.sessionDataTask = sessionDataTask
