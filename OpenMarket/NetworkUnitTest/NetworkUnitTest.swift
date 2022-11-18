@@ -92,19 +92,19 @@ class NetworkUnitTest: XCTestCase {
             ]
         }
         """.data(using: .utf8)
-        let response: HTTPURLResponse? = HTTPURLResponse(url: URL(string: "https://openmarket.yagom-academy.kr/api/products?items_per_page=1&page_no=1")!, statusCode: 200, httpVersion: nil, headerFields: nil)
-        
-        var dummyData: DummyData? = DummyData(data: data, response: response, error: nil)
-        let stubURLSession = StubURLSession(dummy: dummyData!)
+        let url = URL(string: "https://openmarket.yagom-academy.kr/api/products?items_per_page=1&page_no=1")!
+        let response: HTTPURLResponse? = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let api = OpenMarketAPI.productsList(pageNumber: 1, rowCount: 1)
+        let dummyData: DummyData = DummyData(data: data, response: response, error: nil)
+        let stubURLSession = StubURLSession(dummy: dummyData)
         
         //when
         sut?.session = stubURLSession
-        sut?.fetchData(endPoint: OpenMarketAPI.productsList(pageNumber: 1, rowCount: 1), completion: { _ in
-            
-            //then
-            XCTAssertEqual(dummyData?.data, self.sut?.testData)
+        sut?.fetchData(endPoint: api) { _ in
+            XCTAssertEqual(self.sut?.testData, dummyData.data)
             promise.fulfill()
-        })
+        }
+        
         
         wait(for: [promise], timeout: 10)
     }

@@ -1,7 +1,7 @@
 {
-  "page_no": 1,
-  "items_per_page": 20,
-  "total_count": 10,
+  "pageNo": 1,
+  "itemsPerPage": 20,
+  "totalCount": 10,
   "offset": 0,
   "limit": 20,
   "pages": [
@@ -136,7 +136,7 @@
       "issued_at": "2021-12-26T00:00:00.00"
     }
   ],
-  "last_page": 1,
-  "has_next": false,
-  "has_prev": false
+  "lastPage": 1,
+  "hasNext": false,
+  "hasPrev": false
 }
