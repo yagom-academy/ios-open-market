@@ -31,7 +31,9 @@ enum NetworkRequest {
 }
 
 extension NetworkRequest {
-    func configureURL(path: String, queryNames: [String]? = nil, queryValues: [String]? = nil) -> URL? {
+    func configureURL(path: String,
+                      queryNames: [String]? = nil,
+                      queryValues: [String]? = nil) -> URL? {
         var baseURL = URLComponents(string: "https://openmarket.yagom-academy.kr")
         var queries: [URLQueryItem] = []
         baseURL?.path.append(path)

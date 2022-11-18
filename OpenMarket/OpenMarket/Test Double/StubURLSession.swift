@@ -9,7 +9,8 @@ import Foundation
 final class StubURLSession: URLSessionProtocol {
     var dummyData: DummyData?
         
-    func dataTask(with request: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
+    func dataTask(with request: URL,
+                  completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
         return StubURLSessionDataTask(dummyData: dummyData, completionHandler: completionHandler)
     }
 }

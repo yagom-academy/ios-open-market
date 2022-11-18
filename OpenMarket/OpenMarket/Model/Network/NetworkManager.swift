@@ -13,7 +13,9 @@ struct NetworkManager {
         self.session = session
     }
     
-    func loadData<T: Decodable>(of request: NetworkRequest, dataType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    func loadData<T: Decodable>(of request: NetworkRequest,
+                                dataType: T.Type,
+                                completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = request.url else { return }
         
         session.dataTask(with: url) { data, response, error in
