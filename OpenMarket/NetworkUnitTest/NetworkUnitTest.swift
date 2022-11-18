@@ -10,11 +10,13 @@ import XCTest
 
 class NetworkUnitTest: XCTestCase {
     let decoder = JSONDecoder()
+    var sut: NetworkManager<ProductListResponse>?
     
     override func setUpWithError() throws {
         try super.setUpWithError()
+        sut = NetworkManager<ProductListResponse>()
     }
-
+    
     override func tearDownWithError() throws {
         try super.tearDownWithError()
     }
@@ -22,7 +24,7 @@ class NetworkUnitTest: XCTestCase {
     func test_없는_파일을_디코딩_하려고하는_경우_Nil을_반환하는가() {
         //given
         let decode = NSDataAsset(name: "example")
-
+        
         //when
         let data = try? decoder.decode(ProductListResponse.self, from: decode?.data ?? Data())
         
@@ -56,5 +58,54 @@ class NetworkUnitTest: XCTestCase {
         
         //then
         XCTAssertNotNil(data)
+    }
+    
+    func test_testable() {
+        //given
+        let promise = expectation(description: "시작")
+        let data: Data? =  """
+        {
+            "pageNo": 1,
+            "itemsPerPage": 1,
+            "totalCount": 112,
+            "offset": 0,
+            "limit": 1,
+            "lastPage": 112,
+            "hasNext": true,
+            "hasPrev": false,
+            "pages": [
+                {
+                    "id": 208,
+                    "vendor_id": 29,
+                    "vendorName": "wongbing",
+                    "name": "테스트",
+                    "description": "Post테스트용",
+                    "thumbnail": "https://s3.ap-northeast-2.amazonaws.com/media.yagom-academy.kr/training-resources/29/20221118/5d06f05766db11eda917a9d79f703efd_thumb.png",
+                    "currency": "KRW",
+                    "price": 1200.0,
+                    "bargain_price": 1200.0,
+                    "discounted_price": 0.0,
+                    "stock": 3,
+                    "created_at": "2022-11-18T00:00:00",
+                    "issued_at": "2022-11-18T00:00:00"
+                }
+            ]
+        }
+        """.data(using: .utf8)
+        let response: HTTPURLResponse? = HTTPURLResponse(url: URL(string: "https://openmarket.yagom-academy.kr/api/products?items_per_page=1&page_no=1")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        
+        var dummyData: DummyData? = DummyData(data: data, response: response, error: nil)
+        let stubURLSession = StubURLSession(dummy: dummyData!)
+        
+        //when
+        sut?.session = stubURLSession
+        sut?.fetchData(endPoint: OpenMarketAPI.productsList(pageNumber: 1, rowCount: 1), completion: { _ in
+            
+            //then
+            XCTAssertEqual(dummyData?.data, self.sut?.testData)
+            promise.fulfill()
+        })
+        
+        wait(for: [promise], timeout: 10)
     }
 }

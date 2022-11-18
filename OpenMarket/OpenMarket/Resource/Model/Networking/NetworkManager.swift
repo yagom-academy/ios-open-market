@@ -6,21 +6,18 @@
 
 import Foundation
 
-struct NetworkManager<T: Decodable> {
-    private var session: URLSession = URLSession(configuration: .default)
-    private var endPoint: APIType
+class NetworkManager<T: Decodable> {
+    var session: URLSessionProtocol = URLSession.shared
+    var testData: Data?
     
-    init(endPoint: APIType) {
-        self.endPoint = endPoint
-    }
-    
-    func fetchData(completion: @escaping (Result<T, NetworkError>) -> Void) {
+    func fetchData(endPoint: APIType, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = endPoint.generateURL() else {
             completion(.failure(.invalidURL))
             return
         }
         
         let task = session.dataTask(with: url) { data, response, error in
+            self.testData = data
             guard error == nil else {
                 completion(.failure(.requestError))
                 return
