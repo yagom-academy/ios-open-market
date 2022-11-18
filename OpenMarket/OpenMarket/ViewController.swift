@@ -11,12 +11,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let networkManager: NetworkManager = NetworkManager(session: URLSession(configuration: .default))
+        let manager = NetworkManager()
+        manager.request(endpoint: OpenMarketAPI.product(id: 7), dataType: Product.self) { result in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
         
-        networkManager.checkAPIHealth()
-        print("OK")
-        networkManager.fetchProductList(pageNumber: 1, itemsPerPage: 20)
-        networkManager.fetchProductDetail(for: 98)
+        manager.checkAPIHealth(endpoint: OpenMarketAPI.healthChecker) { result in
+            switch result {
+            case .success(let result):
+                print(result)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
