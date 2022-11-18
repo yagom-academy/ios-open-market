@@ -2,14 +2,12 @@
 
 ## 📖 목차
 
-1. [소개](#🌱-소개)
-2. [프로젝트 구조](#🛠-프로젝트-구조)
-3. [구현 내용](#📌-구현-내용)
-4. [타임라인](#⏰-타임라인)
-5. [실행 화면](#📱-실행-화면)
-6. [트러블 슈팅 & 어려웠던 점](#❓-트러블-슈팅-및-어려웠던-점)
-7. [프로젝트 wiki](#📕-프로젝트에서-배운-점-wiki)
-8. [참고 링크](#-참고-링크)
+1. [소개](#-소개)
+2. [구현 내용](#-구현-내용)
+3. [타임라인](#-타임라인)
+4. [트러블 슈팅 & 어려웠던 점](#-트러블-슈팅-및-어려웠던-점)
+5. [프로젝트 wiki](#-프로젝트에서-배운-점-wiki)
+6. [참고 링크](#-참고-링크)
 
 ## 🌱 소개
 
@@ -184,6 +182,11 @@ extension NetworkAPIProvider {
 [바로가기](https://github.com/jonghancha/ios-open-market/wiki/1.-STEP-1-%EC%97%90%EC%84%9C-%EB%B0%B0%EC%9A%B4-%EC%A0%90)
 
 ## 📖 참고 링크
+- [URLSession.dataTask를 통해 데이터 Fetching하기(공식문서)](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [URLComponents로 URL구성하기](https://kirkim.github.io/swift/2022/08/13/urlsession.html)
+- [iOS 네트워킹과 테스트](https://techblog.woowahan.com/2704/)
+- [stub과 mock의 차이](https://martinfowler.com/articles/mocksArentStubs.html)
 
 
-[🔝 맨 위로 이동하기](#오픈마켓-🏬)
+
+[🔝 맨 위로 이동하기](#오픈마켓-)
