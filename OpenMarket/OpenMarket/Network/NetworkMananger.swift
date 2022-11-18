@@ -9,14 +9,15 @@ import Foundation
 
 struct NetworkManager {
     let successRange = 200..<300
+    typealias StatusCode = Int
     
-    enum requestType {
+    enum RequestType {
         case healthChecker
         case searchProductList(pageNo: Int, itemsPerPage: Int)
         case searchProductDetail(productNumber: Int)
     }
     
-    private func generateURL(type: requestType) -> URL? {
+    private func generateURL(type: RequestType) -> URL? {
         let host = "https://openmarket.yagom-academy.kr"
         
         switch type {
@@ -37,29 +38,12 @@ struct NetworkManager {
             return url?.absoluteURL
         }
     }
-
-    func fetch(type: requestType, completion: @escaping (Completionable) -> Void) {
+    
+    func getHealthChecker(_ type: RequestType, completion: @escaping (StatusCode) -> Void) {
         guard let url = generateURL(type: type) else {
             return
         }
         
-        switch type {
-        case .healthChecker:
-            getHealthChecker(url) { statusCode in
-                completion(statusCode)
-            }
-        case .searchProductList(_, _):
-            getProductsList(url) { productsList in
-                completion(productsList)
-            }
-        case .searchProductDetail(_):
-            getProductDetail(url) { product in
-                completion(product)
-            }
-        }
-    }
-    
-    private func getHealthChecker(_ url: URL, completion: @escaping (StatusCode) -> Void) {
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil,
                   let statusCode = (response as? HTTPURLResponse)?.statusCode,
@@ -73,7 +57,11 @@ struct NetworkManager {
         dataTask.resume()
     }
     
-    private func getProductsList(_ url: URL, completion: @escaping (ProductsList) -> Void) {
+    func getProductsList(_ type: RequestType, completion: @escaping (ProductsList) -> Void) {
+        guard let url = generateURL(type: type) else {
+            return
+        }
+        
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             if isSuccessResponse(response: response, error: error) == false {
                 return
@@ -94,7 +82,11 @@ struct NetworkManager {
         dataTask.resume()
     }
     
-    private func getProductDetail(_ url: URL, completion: @escaping (Product) -> Void) {
+    func getProductDetail(_ type: RequestType, completion: @escaping (Product) -> Void) {
+        guard let url = generateURL(type: type) else {
+            return
+        }
+        
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             if isSuccessResponse(response: response, error: error) == false {
                 return
