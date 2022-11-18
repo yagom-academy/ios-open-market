@@ -3,11 +3,13 @@
 ## 목차
 1. [소개](#1-소개)
 2. [타임라인](#2-타임라인)
-3. [UML](#3-다이어그램)
+3. [UML](#3-uml)
 4. [실행 화면](#4-실행화면)
 5. [고민했던 점](#5-고민했던-점)
 6. [트러블 슈팅](#6-트러블-슈팅)
 7. [참고 링크](#7-참고-링크)
+
+---
 
 ## 1. 소개
 ### 📱 앱 소개
@@ -54,9 +56,11 @@
 ## 4. 실행화면
 
 **데이터 요청**
+
 <img src=https://i.imgur.com/bk31glQ.png width="550">
 
 **요청 결과**
+
 <img src=https://i.imgur.com/LZt7fxf.png width="550">
 
 </br>
@@ -193,7 +197,7 @@ enum OpenMarketURL: String {
 ### 1️⃣ `request` 메서드를 통해 `checkHealth`의 응답을 받아올 수 없는 문제
 네트워크에 응답을 요청하는 메서드를 아래와 같이 `request`라는 하나의 메서드로 구현했는데, `checkHealth`의 경우에는 요청 시 디코딩 에러가 발생했습니다. `request` 메서드는 JSON 데이터를 디코딩 하도록 작성되어 있지만 `checkHealth`의 응답 형식이 JSON 데이터가 아닌 text/plain이기 때문입니다.
 
-```swift!
+```swift
 func request<Model: Decodable>(endpoint: Endpointable, dataType: Model.Type, completion: @escaping (Result<Model, NetworkError>) -> Void) {
     guard let url = endpoint.createURL() else {
         return completion(.failure(.URLError))
@@ -229,7 +233,7 @@ func request<Model: Decodable>(endpoint: Endpointable, dataType: Model.Type, com
 
 `checkHealth`가 반환하는 text/plain 형식의 데이터를 String으로 변환해주는 별도의 메서드를 작성해 해결했습니다.
 
-```swift!
+```swift
 func checkAPIHealth(endpoint: Endpointable, completion: @escaping (Result<String, NetworkError>) -> Void) {
     guard let url = endpoint.createURL() else {
         return completion(.failure(.URLError))
