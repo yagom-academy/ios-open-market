@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         let networkManager: NetworkManager = NetworkManager(session: URLSession(configuration: .default))
         
         networkManager.checkAPIHealth()
+        print("OK")
         networkManager.fetchProductList(pageNumber: 1, itemsPerPage: 20)
         networkManager.fetchProductDetail(for: 98)
     }

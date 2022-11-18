@@ -41,8 +41,9 @@ class NetworkManager {
     func checkAPIHealth() {
         guard let url = URL(string: baseUrl + "/healthChecker") else { return }
         let request = URLRequest(url: url)
-        
+        print(Thread.isMainThread) // true
         dataTask(request: request, completion: { result in
+            print(Thread.isMainThread) // false
             switch result {
             case .success(_):
                 print("OK")

@@ -1,23 +1,24 @@
 //  Endpointable.swift
 //  OpenMarket
 //  Created by SummerCat & Bella on 2022/11/18.
+
 import Foundation
 
 protocol Endpointable {
-    var baseUrl: String { get }
+    var baseURL: String { get }
     var path: String { get }
     var queries: [String: String] { get }
     
-    func createUrl() -> URL?
+    func createURL() -> URL?
 }
 
 extension Endpointable {
-    var baseUrl: String {
+    var baseURL: String {
         return "https://openmarket.yagom-academy.kr"
     }
     
-    func createUrl() -> URL? {
-        guard var components = URLComponents(string: baseUrl) else { return nil }
+    func createURL() -> URL? {
+        guard var components = URLComponents(string: baseURL) else { return nil }
         
         components.path = path
         components.queryItems = queries.map {
