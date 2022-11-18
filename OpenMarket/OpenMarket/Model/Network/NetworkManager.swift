@@ -18,19 +18,19 @@ struct NetworkManager {
         
         session.dataTask(with: url) { data, response, error in
             guard error == nil else {
-                completion(.failure(OpenMarketError.transportError))
+                completion(.failure(NetworkError.transportError))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode)
             else {
-                completion(.failure(OpenMarketError.serverError))
+                completion(.failure(NetworkError.serverError))
                 return
             }
             
             guard let data = data else {
-                completion(.failure(OpenMarketError.missingData))
+                completion(.failure(NetworkError.missingData))
                 return
             }
             
@@ -41,7 +41,7 @@ struct NetworkManager {
                 let data = try decoder.decode(T.self, from: data)
                 completion(.success(data))
             } catch {
-                completion(.failure(OpenMarketError.failedToParse))
+                completion(.failure(NetworkError.failedToParse))
             }
         }.resume()
     }
