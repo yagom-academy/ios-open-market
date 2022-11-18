@@ -12,7 +12,7 @@
 
 ## 😁 소개
 
-[stone](https://github.com/lws2269), [로빈](https://github.com/yuvinrho)의 은행 창구 매니저 앱입니다.
+[stone](https://github.com/lws2269), [로빈](https://github.com/yuvinrho)의 오픈마켓 프로젝트 앱입니다.
 
 - KeyWords
     - JSONParse
@@ -20,7 +20,6 @@
     - CodingKeys프로토콜 활용
     - Unit Test를 통한 설계 검증
         - Test Double - Stub
-        - 
 ## 🛠 프로젝트 구조
 
 ### 📊 UML
@@ -186,8 +185,7 @@ func fetchItem(productId: Int,
 }
 ```
 #### 해결방안
-- 모델타입을 서버 json데이터에 맞게 리팩토링하여서 해결하였습니다.
-
+- 샘플 JSON 데이터의 page_no, items_per_page, total_count와 같이 Snake case로 정의되어 있는 부분을 Codingkeys프로토콜을 사용해 Camel case로 매핑했었는데, 해당 매핑하는 부분을 지움으로써 모델의 프로퍼티 네이밍과 통신시 데이터 네이밍을 동일하게하여 해결했습니다.
 
 
 ---
