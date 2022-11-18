@@ -30,8 +30,19 @@ enum NetworkAPI {
     }
 }
 
-enum Query: String {
-    case pageNumber = "page_no"
-    case itemsPerPage = "items_per_page"
-    case searchFilter = "search_value"
+enum Query: CustomStringConvertible {
+    case pageNumber
+    case itemsPerPage
+    case searchFilter
+    
+    var description: String {
+        switch self {
+        case .pageNumber:
+            return "page_no"
+        case .itemsPerPage:
+            return "items_per_page"
+        case .searchFilter:
+            return "search_value"
+        }
+    }
 }
