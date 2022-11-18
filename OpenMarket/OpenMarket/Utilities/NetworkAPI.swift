@@ -18,7 +18,7 @@ enum NetworkAPI {
         switch self {
         case .productList(let query):
             urlComponents.path = "/api/products"
-            if let query = query {
+            if let query {
                 urlComponents.setQueryItems(with: query)
             }
         case .product(let productID):
