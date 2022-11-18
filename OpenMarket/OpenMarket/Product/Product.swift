@@ -21,7 +21,7 @@ struct Product: Codable {
     let createdAt: Date
     let issuedAt: Date
     let images: [Image]?
-    let vendors: Vendor?
+    let vendor: Vendor?
     
     enum Currency: String, Codable {
         case KRW = "KRW"
@@ -43,6 +43,6 @@ struct Product: Codable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
         case images
-        case vendors
+        case vendor = "vendors"
     }
 }

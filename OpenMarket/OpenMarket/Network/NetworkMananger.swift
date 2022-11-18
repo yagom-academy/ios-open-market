@@ -59,7 +59,7 @@ struct NetworkManager {
         }
     }
     
-    private func getHealthChecker(_ url: URL, completion: @escaping (Int) -> Void) {
+    private func getHealthChecker(_ url: URL, completion: @escaping (StatusCode) -> Void) {
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil,
                   let statusCode = (response as? HTTPURLResponse)?.statusCode,
