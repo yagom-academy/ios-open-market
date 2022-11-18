@@ -14,8 +14,8 @@ struct DecodeManager<T: Decodable> {
         return decoder
     }()
 
-    func decodeJsonFile(file: String) -> Result<T, NetworkError> {
-        guard let assetData: NSDataAsset = NSDataAsset.init(name: file) else {
+    func decodeJson(fileName: String) -> Result<T, NetworkError> {
+        guard let assetData: NSDataAsset = NSDataAsset.init(name: fileName) else {
             return Result.failure(NetworkError.empty)
         }
         

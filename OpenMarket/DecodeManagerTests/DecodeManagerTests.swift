@@ -22,7 +22,7 @@ class DecodeManagerTests: XCTestCase {
     }
 
     func test_정상적으로_데이터가_decoding이_되는지_확인() {
-        let data = sut.decodeJsonFile(file: "products")
+        let data = sut.decodeJson(fileName: "products")
         var flag = false
         switch data {
         case .success:
@@ -35,7 +35,7 @@ class DecodeManagerTests: XCTestCase {
     }
     
     func test_데이터가_없는_경우_오류_확인() {
-        let data = sut.decodeJsonFile(file: "")
+        let data = sut.decodeJson(fileName: "")
         
         switch data {
         case .success(let data):
