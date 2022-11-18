@@ -7,10 +7,16 @@
 
 import Foundation
 
-final class MockURLSessionDataTask: URLSessionDataTask {
+protocol MockURLSessionDataTaskProtocol {
+    func resume()
+}
+
+extension URLSessionDataTask: MockURLSessionDataTaskProtocol { }
+
+final class MockURLSessionDataTask: MockURLSessionDataTaskProtocol {
     var resumeDidCall: () -> Void = {}
 
-    override func resume() {
+    func resume() {
         resumeDidCall()
     }
 }

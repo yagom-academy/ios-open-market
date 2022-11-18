@@ -18,7 +18,7 @@ final class MockURLSession: URLSessionProtocol {
     func dataTask(with url: URL,
                   completionHandler: @escaping (Data?,
                                                 URLResponse?,
-                                                Error?) -> Void) -> URLSessionDataTask {
+                                                Error?) -> Void) -> MockURLSessionDataTaskProtocol {
         let successResponse = MockHTTPURLResponse(url: url,
                                                   statusCode: 200,
                                                   httpVersion: "2",
