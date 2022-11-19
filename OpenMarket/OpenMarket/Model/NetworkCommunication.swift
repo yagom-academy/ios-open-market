@@ -12,17 +12,25 @@ struct NetworkCommunication {
     
     func requestHealthChecker(
         url: String,
-        completionHandler: @escaping (Result<HTTPURLResponse, Error>) -> ()
+        completionHandler: @escaping (Result<HTTPURLResponse, APIError>) -> Void
     ) {
-        guard let url: URL = URL(string: url) else { return }
+        guard let url: URL = URL(string: url) else {
+            completionHandler(.failure(.wrongUrlError))
+            return
+        }
         
         let task: URLSessionDataTask = session.dataTask(with: url) { _, response, error in
-            if let error = error {
-                print(error.localizedDescription)
+            if error != nil {
+                completionHandler(.failure(.unkownError))
                 return
             }
             
             if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    print("URL요청 실패 : 코드\(response.statusCode)")
+                    completionHandler(.failure(.statusCodeError))
+                    return
+                }
                 completionHandler(.success(response))
             }
         }
@@ -32,23 +40,34 @@ struct NetworkCommunication {
     func requestProductsInformation<T: Decodable>(
         url: String,
         type: T.Type,
-        completionHandler: @escaping (Result<Any, Error>) -> ()
+        completionHandler: @escaping (Result<Any, APIError>) -> Void
     ) {
-        guard let url: URL = URL(string: url) else { return }
+        guard let url: URL = URL(string: url) else {
+            completionHandler(.failure(.wrongUrlError))
+            return
+        }
         
-        let task: URLSessionDataTask = session.dataTask(with: url) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
+        let task: URLSessionDataTask = session.dataTask(with: url) { data, response, error in
+            if error != nil {
+                completionHandler(.failure(.unkownError))
                 return
             }
             
-            guard let data = data else { return }
+            if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    print("URL요청 실패 : 코드\(response.statusCode)")
+                    completionHandler(.failure(.statusCodeError))
+                    return
+                }
+            }
             
-            do {
-                let decodingData = try JSONDecoder().decode(type.self, from: data)
-                completionHandler(.success(decodingData))
-            } catch {
-                completionHandler(.failure(error))
+            if let data = data {
+                do {
+                    let decodingData = try JSONDecoder().decode(type.self, from: data)
+                    completionHandler(.success(decodingData))
+                } catch {
+                    completionHandler(.failure(.jsonDecodingError))
+                }
             }
         }
         task.resume()

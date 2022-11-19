@@ -63,7 +63,7 @@ class ViewController: UIViewController {
                 self.detailProduct = data
                 print(data)
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error.rawValue)
             }
         }
     }
