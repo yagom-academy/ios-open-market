@@ -1,6 +1,6 @@
 //  Created by Aejong, Tottale on 2022/11/15.
 
-struct ProductList: Codable {
+struct ProductList: Decodable {
     
     let pageNumber: Int
     let itemsPerPage: Int
@@ -10,7 +10,7 @@ struct ProductList: Codable {
     let lastPage: Int
     let hasNext: Bool
     let hasPrev: Bool
-    let pages: [ProductForPage]
+    let pages: [Product]
     
     enum CodingKeys: String, CodingKey {
         
@@ -19,7 +19,7 @@ struct ProductList: Codable {
     }
 }
 
-struct ProductForPage: Codable {
+struct Product: Decodable {
     
     let productID: Int
     let vendorID: Int
@@ -32,12 +32,14 @@ struct ProductForPage: Codable {
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
+    let images: [Image]?
+    let vendors: Vendors?
     let createdAt: String
     let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
         
-        case name, currency, thumbnail, price, stock, vendorName, description
+        case images, vendors, name, currency, thumbnail, price, stock, vendorName, description
         case productID = "id"
         case vendorID = "vendor_id"
         case bargainPrice = "bargain_price"
@@ -45,4 +47,20 @@ struct ProductForPage: Codable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
+}
+
+struct Image: Decodable {
+    let id: Int?
+    let url, thumbnailURL: String?
+    let issuedAt: String?
+    enum CodingKeys: String, CodingKey {
+        case id, url
+        case thumbnailURL = "thumbnail_url"
+        case issuedAt = "issued_at"
+    }
+}
+
+struct Vendors: Decodable {
+    let id: Int?
+    let name: String?
 }
