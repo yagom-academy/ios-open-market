@@ -10,7 +10,10 @@ import Foundation
 struct NetworkCommunication {
     let session = URLSession(configuration: .default)
     
-    func requestHealthChecker(url: String) {
+    func requestHealthChecker(
+        url: String,
+        completionHandler: @escaping (Result<HTTPURLResponse, Error>) -> ()
+    ) {
         guard let url: URL = URL(string: url) else { return }
         
         let task: URLSessionDataTask = session.dataTask(with: url) { _, response, error in
@@ -20,13 +23,17 @@ struct NetworkCommunication {
             }
             
             if let response = response as? HTTPURLResponse {
-                print(response.statusCode)
+                completionHandler(.success(response))
             }
         }
         task.resume()
     }
     
-    func requestProductsInformation<T: Decodable>(url: String, type: T.Type) {
+    func requestProductsInformation<T: Decodable>(
+        url: String,
+        type: T.Type,
+        completionHandler: @escaping (Result<Any, Error>) -> ()
+    ) {
         guard let url: URL = URL(string: url) else { return }
         
         let task: URLSessionDataTask = session.dataTask(with: url) { data, _, error in
@@ -39,14 +46,9 @@ struct NetworkCommunication {
             
             do {
                 let decodingData = try JSONDecoder().decode(type.self, from: data)
-                if type == SearchListProducts.self {
-                    guard let searchListProducts = decodingData as? SearchListProducts else { return }
-                    print(searchListProducts.pages[0])
-                } else {
-                    print(decodingData)
-                }
+                completionHandler(.success(decodingData))
             } catch {
-                print(error.localizedDescription)
+                completionHandler(.failure(error))
             }
         }
         task.resume()
