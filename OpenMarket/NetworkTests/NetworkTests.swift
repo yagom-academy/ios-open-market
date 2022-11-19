@@ -22,8 +22,13 @@ final class NetworkTests: XCTestCase {
                                                  from: sampleData)
         
         sut.fetchProductList(query: nil) { result in
-            XCTAssertEqual(result.pageNumber, response?.pageNumber)
-            XCTAssertEqual(result.itemsPerPage, response?.itemsPerPage)
+            switch result {
+            case .failure:
+                XCTFail()
+            case .success(let productList):
+                XCTAssertEqual(productList.pageNumber, response?.pageNumber)
+                XCTAssertEqual(productList.itemsPerPage, response?.itemsPerPage)
+            }
             expectation.fulfill()
         }
         

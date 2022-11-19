@@ -9,41 +9,45 @@ final class NetworkAPIProvider {
         self.session = session
     }
     
-    func fetchProductList(query: [Query: String]?, completion: @escaping (ProductList) -> Void) {
-        fetch(path: .productList(query: query)) { data in
-            guard let productList: ProductList = JSONDecoder().fetchData(data: data) else {
-                return
+    func fetchProductList(query: [Query: String]?, completion: @escaping (Result<ProductList, Error>) -> Void) {
+        fetch(path: .productList(query: query)) { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let data):
+                guard let productList: ProductList = JSONDecoder().fetchData(data: data) else {
+                    completion(.failure(NetworkError.decodeFailed))
+                    return
+                }
+                completion(.success(productList))
             }
-            completion(productList)
         }
     }
 }
 
 extension NetworkAPIProvider {
     
-    func fetch(path: NetworkAPI, completion: @escaping (Data) -> Void) {
+    func fetch(path: NetworkAPI, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = path.urlComponents.url else { return }
 
         session.dataTask(with: url) { data, response, error in
             if let error = error {
-                dump(error)
+                completion(.failure(error))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                self.handleServerError(response)
+                completion(.failure(NetworkError.serverFailed))
                 return
             }
             
-            guard let data = data else { return }
+            guard let data = data else {
+                completion(.failure(NetworkError.invalidData))
+                return
+            }
             
-            completion(data)
+            completion(.success(data))
         }.resume()
-    }
-    
-    private func handleServerError(_ response: URLResponse?) {
-        guard let httpResponse = response as? HTTPURLResponse else { return }
-        print(httpResponse.statusCode)
     }
 }
