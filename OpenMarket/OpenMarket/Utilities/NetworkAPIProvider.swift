@@ -4,7 +4,7 @@ import Foundation
 
 final class NetworkAPIProvider {
     
-    let session: URLSessionProtocol
+    private let session: URLSessionProtocol
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
