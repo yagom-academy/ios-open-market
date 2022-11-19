@@ -19,7 +19,7 @@ extension URLSession: OpenMarketURLSessionProtocol {
             if let error = error {
                 completion(nil, error)
             } else if (response as? HTTPURLResponse)?.statusCode != 200 {
-                completion(nil, OpenMarketError.badStatus)
+                completion(nil, OpenMarketError.badStatus(file: #file, line: #line))
             } else if let data = data {
                 completion(data, nil)
             } else {
