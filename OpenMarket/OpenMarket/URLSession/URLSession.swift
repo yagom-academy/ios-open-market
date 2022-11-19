@@ -29,6 +29,4 @@ extension URLSession: OpenMarketURLSessionProtocol {
     }
 }
 
-extension URLSession: OpenMarketHealthFetchable { }
-extension URLSession: OpenMarketPageFetchable { }
-extension URLSession: OpenMarketProductFetchable { }
+extension URLSession: OpenMarketHealthFetchable, OpenMarketPageFetchable, OpenMarketProductFetchable { }
