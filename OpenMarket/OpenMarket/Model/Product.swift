@@ -12,11 +12,11 @@ struct Product: Decodable {
     let thumbnailURL: String
     let currency: Currency
     let price: UInt
-    let bargainPrice: UInt
-    let discountedPrice: Int
+    let bargainPrice: UInt?
+    let discountedPrice: Int?
     let stock: Int
     let createdAt: String
-    let issuedAt: String
+    let issuedAt: String?
     
     enum CodingKeys: String, CodingKey {
         case ID = "id"
