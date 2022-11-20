@@ -13,6 +13,7 @@
 		0422A9492923A9A500BD97CD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422A9482923A9A500BD97CD /* NetworkManager.swift */; };
 		04CA5F7029271595002FA01F /* Endpointable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA5F6F29271595002FA01F /* Endpointable.swift */; };
 		04CA5F7229271A5B002FA01F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA5F7129271A5B002FA01F /* NetworkError.swift */; };
+		04CA5F78292A62D9002FA01F /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA5F77292A62D9002FA01F /* Identifiable.swift */; };
 		57F1C34F2923825E006240E2 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1C34E2923825E006240E2 /* Product.swift */; };
 		57F1C3512923837A006240E2 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1C3502923837A006240E2 /* Currency.swift */; };
 		57F1C36D29238AA1006240E2 /* ProductListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1C36C29238AA1006240E2 /* ProductListTests.swift */; };
@@ -42,6 +43,7 @@
 		0422A9482923A9A500BD97CD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04CA5F6F29271595002FA01F /* Endpointable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpointable.swift; sourceTree = "<group>"; };
 		04CA5F7129271A5B002FA01F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		04CA5F77292A62D9002FA01F /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
 		57F1C34E2923825E006240E2 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		57F1C3502923837A006240E2 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		57F1C36329238A7E006240E2 /* OpenMarketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenMarketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +85,7 @@
 				57F1C3502923837A006240E2 /* Currency.swift */,
 				0422A943292386B200BD97CD /* ProductImage.swift */,
 				0422A945292387DD00BD97CD /* Vendor.swift */,
+				04CA5F77292A62D9002FA01F /* Identifiable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				57F1C46A29271869006240E2 /* OpenMarketAPI.swift in Sources */,
 				0422A94229237ED200BD97CD /* ProductList.swift in Sources */,
+				04CA5F78292A62D9002FA01F /* Identifiable.swift in Sources */,
 				57F1C34F2923825E006240E2 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				0422A946292387DD00BD97CD /* Vendor.swift in Sources */,

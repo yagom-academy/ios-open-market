@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct ProductImage: Decodable {
+struct ProductImage: Decodable, Identifiable {
     let ID: Int
     let URL: String
     let thumbnailURL: String
