@@ -8,11 +8,11 @@ final class NetworkManager {
     func request<Model: Decodable>(endpoint: Endpointable,
                                    dataType: Model.Type,
                                    completion: @escaping (Result<Model, NetworkError>) -> Void) {
-        guard let url = endpoint.createURL() else {
+        guard let requestURL = endpoint.createURL() else {
             return completion(.failure(.URLError))
         }
         
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: requestURL)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -41,11 +41,11 @@ final class NetworkManager {
     
     func checkAPIHealth(endpoint: Endpointable,
                         completion: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) {
-        guard let url = endpoint.createURL() else {
+        guard let requestURL = endpoint.createURL() else {
             return completion(.failure(.URLError))
         }
         
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: requestURL)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {

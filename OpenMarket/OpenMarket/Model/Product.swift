@@ -5,11 +5,11 @@
 import Foundation
 
 struct Product: Decodable {
-    let id: Int
-    let vendorId: Int
+    let ID: Int
+    let vendorID: Int
     let name: String
     let productDescription: String
-    let thumbnailUrl: String
+    let thumbnailURL: String
     let currency: Currency
     let price: UInt
     let bargainPrice: UInt
@@ -19,11 +19,11 @@ struct Product: Decodable {
     let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case vendorId = "vendor_id"
+        case ID = "id"
+        case vendorID = "vendor_id"
         case name
         case productDescription = "description"
-        case thumbnailUrl = "thumbnail"
+        case thumbnailURL = "thumbnail"
         case currency
         case price
         case bargainPrice = "bargain_price"

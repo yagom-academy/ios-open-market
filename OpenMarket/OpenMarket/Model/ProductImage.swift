@@ -5,15 +5,15 @@
 import Foundation
 
 struct ProductImage: Decodable {
-    let id: Int
-    let url: String
-    let thumbnailUrl: String
+    let ID: Int
+    let URL: String
+    let thumbnailURL: String
     let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case url
-        case thumbnailUrl = "thumbnail_url"
+        case ID = "id"
+        case URL = "url"
+        case thumbnailURL = "thumbnail_url"
         case issuedAt = "issued_at"
     }
 }
