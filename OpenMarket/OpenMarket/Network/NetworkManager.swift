@@ -40,7 +40,7 @@ final class NetworkManager {
     }
     
     func checkAPIHealth(endpoint: Endpointable,
-                        completion: @escaping (Result<String, NetworkError>) -> Void) {
+                        completion: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) {
         guard let url = endpoint.createURL() else {
             return completion(.failure(.URLError))
         }
@@ -57,11 +57,7 @@ final class NetworkManager {
                       return completion(.failure(.statusCodeError))
             }
             
-            guard let data = data else {
-                return completion(.failure(.noData))
-            }
-            
-            completion(.success(String(decoding: data, as: UTF8.self)))
+            completion(.success(response))
         }
         
         task.resume()
