@@ -12,15 +12,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let networkManager = NetworkManager()
         
-        networkManager.getProductsList(.searchProductList(pageNo: 1, itemsPerPage: 10)) { productList in
-            print(productList)
-        }
-
-        networkManager.getHealthChecker(.healthChecker) { statusCode in
+        networkManager.getHealthChecker { statusCode in
             print(statusCode)
         }
         
-        networkManager.getProductDetail(.searchProductDetail(productNumber: 10)) { product in
+        networkManager.getProductDetail(productNumber: 10) { product in
             print(product)
         }
     }

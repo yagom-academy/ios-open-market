@@ -42,8 +42,8 @@ struct NetworkManager {
         }
     }
     
-    func getHealthChecker(_ type: RequestType, completion: @escaping (StatusCode) -> Void) {
-        guard let url = generateURL(type: type) else {
+    func getHealthChecker(completion: @escaping (StatusCode) -> Void) {
+        guard let url = generateURL(type: .healthChecker) else {
             return
         }
         
@@ -60,8 +60,8 @@ struct NetworkManager {
         dataTask.resume()
     }
     
-    func getProductsList(_ type: RequestType, completion: @escaping (ProductsList) -> Void) {
-        guard let url = generateURL(type: type) else {
+    func getProductsList(pageNo: Int, itemsPerPage: Int, completion: @escaping (ProductsList) -> Void) {
+        guard let url = generateURL(type: .searchProductList(pageNo: pageNo, itemsPerPage: itemsPerPage)) else {
             return
         }
         
@@ -85,8 +85,8 @@ struct NetworkManager {
         dataTask.resume()
     }
     
-    func getProductDetail(_ type: RequestType, completion: @escaping (Product) -> Void) {
-        guard let url = generateURL(type: type) else {
+    func getProductDetail(productNumber: Int, completion: @escaping (Product) -> Void) {
+        guard let url = generateURL(type: .searchProductDetail(productNumber: productNumber)) else {
             return
         }
         
