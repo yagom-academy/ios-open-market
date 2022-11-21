@@ -16,13 +16,22 @@ class ListCollectionViewCell: UICollectionViewCell {
     }()
     
     let productNameLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let productDescriptionLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
+        label.textColor = UIColor.lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let productStockLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,7 +54,20 @@ class ListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
+    
+    let listView: UICollectionView = {
+        let listView = UICollectionView()
+        listView.translatesAutoresizingMaskIntoConstraints = false
+        return listView
+    }()
+    
+    let gridView: UICollectionView = {
+        let gridView = UICollectionView()
+        gridView.translatesAutoresizingMaskIntoConstraints = false
+        return gridView
+    }()
 }
 
 extension ListCollectionViewCell: ReuseIdentifierProtocol {
+    
 }

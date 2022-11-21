@@ -1,19 +1,25 @@
 //
 //  OpenMarket - ViewController.swift
-//  Created by yagom. 
+//  Created by yagom.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
+
 final class MainViewController: UIViewController {
     let mainView = MainView()
+    var layoutStatus: CollectionStatus = .list
+    var productData: [Product] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainView
         setupNavigationBar()
         setupSegmentedControlTarget()
+        setupData()
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
     }
     
     func setupNavigationBar() {
@@ -29,6 +35,10 @@ final class MainViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = addBarButtonItem
     }
     
+    @objc func addProduct() {
+        
+    }
+    
     private func setupSegmentedControlTarget() {
         mainView.segmentedControl.addTarget(self,
                                             action: #selector(segmentedControlValueChanged),
@@ -36,41 +46,16 @@ final class MainViewController: UIViewController {
     }
     
     @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
-       
+        if sender.selectedSegmentIndex == 0 {
+            mainView.layoutStatus = .list
+        } else {
+            mainView.layoutStatus = .grid
+            print(productData)
+        }
     }
     
-    @objc func addProduct() {
-        
-    }
-    
-    private func setupTestNetwork() {
+    private func setupData() {
         let networkManager = NetworkManager()
-        guard let healthCheckerURL = NetworkRequest.checkHealth.requestURL else {
-            return
-        }
-        
-        networkManager.checkHealth(to: healthCheckerURL) { result in
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        guard let productDetailURL = NetworkRequest.productDetail.requestURL else {
-            return
-        }
-        
-        networkManager.fetchData(to: productDetailURL, dataType: Product.self) { result in
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error.description)
-            }
-        }
-        
         guard let productListURL = NetworkRequest.productList.requestURL else {
             return
         }
@@ -78,7 +63,11 @@ final class MainViewController: UIViewController {
         networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
             switch result {
             case .success(let data):
-                print(data)
+                self.productData = data.pages
+                print(self.productData)
+                DispatchQueue.main.async {
+                    self.mainView.collectionView.reloadData()
+                }
             case .failure(let error):
                 print(error.description)
             }
@@ -86,19 +75,31 @@ final class MainViewController: UIViewController {
     }
 }
 
-// MARK: - Extention UICollectionView
+// MARK: - Extension UICollectionView
 extension MainViewController: UICollectionViewDelegate {
     
 }
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return productData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.reuseIdentifier,
-                                                      for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.reuseIdentifier,
+                                                            for: indexPath) as? GridCollectionViewCell else {
+            let errorCell = UICollectionViewCell()
+            return errorCell
+        }
+        
+        if let imageURL = URL(string: productData[indexPath.item].thumbnail) {
+            cell.productImageView.loadImage(url: imageURL)
+        }
+        
+        cell.productNameLabel.text = productData[indexPath.item].name
+        cell.productPriceLabel.text = String(productData[indexPath.item].price)
+        cell.productSalePriceLabel.text = String(productData[indexPath.item].bargainPrice)
+        cell.productStockLabel.text = String(productData[indexPath.item].stock)
         
         return cell
     }
