@@ -20,6 +20,14 @@ final class MainView: UIView {
     
     let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["LIST", "GRID"])
+        control.layer.borderColor = UIColor.blue.cgColor
+        control.layer.borderWidth = 1
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue],
+                                       for: UIControl.State.normal)
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white],
+                                       for: UIControl.State.selected)
+        
+        control.selectedSegmentTintColor = .blue
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -29,7 +37,7 @@ final class MainView: UIView {
 //        listView.translatesAutoresizingMaskIntoConstraints = false
 //        return listView
 //    }()
-//    
+//
 //    let gridView: UICollectionView = {
 //        let gridView = UICollectionView()
 //        gridView.translatesAutoresizingMaskIntoConstraints = false

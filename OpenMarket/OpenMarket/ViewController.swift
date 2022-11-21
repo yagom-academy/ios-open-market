@@ -12,7 +12,26 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTestNetwork()
+        
         self.view = mainView
+        setupNavigationBar()
+    }
+    
+    func setupNavigationBar() {
+        self.navigationItem.titleView = mainView.segmentedControl
+        let appearance = UINavigationBarAppearance()
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        let addBarButtonItem = UIBarButtonItem(title: "+",
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(addProduct))
+        self.navigationItem.rightBarButtonItem = addBarButtonItem
+    }
+    
+    @objc func addProduct() {
+        
     }
     
     private func setupTestNetwork() {
