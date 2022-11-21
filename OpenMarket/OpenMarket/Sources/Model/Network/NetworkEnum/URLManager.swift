@@ -15,14 +15,14 @@ enum URLManager {
         switch self {
         case .healthChecker:
             let path: String = "/healthChecker"
-            return configureOpenMarketAPIURL(path: path, query: [:])
+            return configureOpenMarketAPIURL(path: path)
             
         case .productList(
             pageNumber: let pageNum,
             itemsPerPage: let itemPer,
             searchValue: let search
         ):
-            let path: String = "/api/products?"
+            let path: String = "/api/products"
             var queryDictionary: [String: String] = [
                 "page_no": String(pageNum),
                 "items_per_page": String(itemPer)
@@ -43,14 +43,18 @@ enum URLManager {
 }
 
 extension URLManager {
-    private func configureOpenMarketAPIURL(path: String, query: [String: String]) -> URL? {
+    private func configureOpenMarketAPIURL(path: String, query: [String: String] = [:]) -> URL? {
         let hostURL: String = "https://openmarket.yagom-academy.kr"
         var components: URLComponents? = URLComponents(string: hostURL)
+        
+        components?.path.append(path)
+        
         for item in query {
             let queryItem: URLQueryItem = URLQueryItem(name: item.key, value: item.value)
             components?.queryItems?.append(queryItem)
         }
-        
+        print(components?.url)
+
         return components?.url
     }
 }

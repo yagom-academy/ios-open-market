@@ -4,7 +4,7 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-struct Product: Codable {
+struct Product: Decodable {
     let id: Int
     let vendorID: Int
     let vendorName: String?
@@ -12,16 +12,16 @@ struct Product: Codable {
     let description: String
     let thumbnail: String
     let currency: Currency
-    let price: Int
-    let bargainPrice: Int
-    let discountedPrice: Int
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let images: [Image]?
     let vendors: Vendor?
     let createdAt: String
     let issuedAt: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
         case vendorName

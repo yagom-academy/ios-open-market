@@ -20,7 +20,7 @@ class MockURLSessionTests: XCTestCase {
         let mockData = try? JSONDecoder().decode(ProductList.self, from: MockData.data)
         
         // when
-        sut.getItemList(pageNumber: 1, itemPerPage: 1) { result in
+        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethodEnum.get) { result in
             switch result {
             case .success(let data):
                 guard let test = JSONDecoder.decodeData(data: data, to: ProductList.self) else {
@@ -40,9 +40,9 @@ class MockURLSessionTests: XCTestCase {
     func test_MockURLSession에서실패하도록설정했을때_getItemList를실행하면_fail이뜨고error가clientError와_같은지() {
         // given
         sut = NetworkManager(session: MockURLSession(isRequestSuccess: false))
-        
+
         // when
-        sut.getItemList(pageNumber: 1, itemPerPage: 1) { result in
+        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethodEnum.get) { result in
             switch result {
             case .success(_):
                 XCTFail("result is success")

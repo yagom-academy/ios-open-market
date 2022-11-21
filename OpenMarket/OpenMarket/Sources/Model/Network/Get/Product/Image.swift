@@ -4,13 +4,13 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-struct Image: Codable {
+struct Image: Decodable {
     let id: Int
     let url: String
     let thumbnailURL: String
     let issuedAt: String
    
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case url
         case thumbnailURL = "thumbnail_url"

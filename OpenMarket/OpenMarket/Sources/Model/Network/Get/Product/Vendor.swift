@@ -4,7 +4,7 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-struct Vendor: Codable {
+struct Vendor: Decodable {
     let id: Int
     let name: String
 }

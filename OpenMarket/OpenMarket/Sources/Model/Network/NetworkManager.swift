@@ -13,13 +13,15 @@ struct NetworkManager {
         self.session = session
     }
     
-    func request(from url: URL,
+    func request(from url: URL?,
                  httpMethod: HttpMethodEnum,
                  completion: @escaping (Result<Data,NetworkError>) -> Void) {
-        var request: URLRequest = URLRequest(url: url,timeoutInterval: Double.infinity)
-        request.httpMethod = httpMethod.name
-        
-        dataTask(request: request, completion: completion)
+        if let targetURL = url {
+            var request: URLRequest = URLRequest(url: targetURL,timeoutInterval: Double.infinity)
+            request.httpMethod = httpMethod.name
+            
+            dataTask(request: request, completion: completion)
+        }
     }
     
     private func dataTask(request: URLRequest,
