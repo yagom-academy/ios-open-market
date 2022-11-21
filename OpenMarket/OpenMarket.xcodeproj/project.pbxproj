@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18509BFA2924B90100C6B9AC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18509BF92924B90100C6B9AC /* NetworkManager.swift */; };
+		18E3B685292B6C2C00B25B84 /* Mockable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E3B684292B6C2C00B25B84 /* Mockable+.swift */; };
 		18E853C32925EF8B00EDCE2A /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853C22925EF8B00EDCE2A /* Dictionary+.swift */; };
 		18E853C72925EFE200EDCE2A /* APIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853C62925EFE200EDCE2A /* APIType.swift */; };
 		18E853CA2925F01800EDCE2A /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853C92925F01800EDCE2A /* OpenMarketAPI.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		18509BF92924B90100C6B9AC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		18E3B684292B6C2C00B25B84 /* Mockable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mockable+.swift"; sourceTree = "<group>"; };
 		18E853C22925EF8B00EDCE2A /* Dictionary+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+.swift"; sourceTree = "<group>"; };
 		18E853C62925EFE200EDCE2A /* APIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIType.swift; sourceTree = "<group>"; };
 		18E853C92925F01800EDCE2A /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				18E853C22925EF8B00EDCE2A /* Dictionary+.swift */,
+				18E3B684292B6C2C00B25B84 /* Mockable+.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				F6833684292733C900ADB02B /* URLSessionProtocol.swift in Sources */,
 				F6833686292733E800ADB02B /* StubURLSession.swift in Sources */,
 				F683946129223E11001BCCBC /* Currency.swift in Sources */,
+				18E3B685292B6C2C00B25B84 /* Mockable+.swift in Sources */,
 				F683945B29223B91001BCCBC /* ProductListResponse.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				18509BFA2924B90100C6B9AC /* NetworkManager.swift in Sources */,
