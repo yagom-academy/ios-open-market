@@ -22,7 +22,7 @@ class ListCollectionViewCell: UICollectionViewCell {
     private var item: Item?
 
        private func defaultListContentConfiguration() -> UIListContentConfiguration {
-           return .sidebarSubtitleCell()
+           return .subtitleCell()
        }
 
        private lazy var itemListContentView = UIListContentView(configuration: defaultListContentConfiguration())
