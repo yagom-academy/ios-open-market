@@ -13,8 +13,10 @@ enum NetworkError: Error {
     case serverError
 }
 
-struct HTTPManager {
-    static func requestGet(url: String, completion: @escaping (Data) -> ()) {
+class HTTPManager {
+    static let shared = HTTPManager()
+    
+    func requestGet(url: String, completion: @escaping (Data) -> ()) {
         guard let validURL = URL(string: url) else {
             handleError(error: NetworkError.clientError)
             return
@@ -25,7 +27,7 @@ struct HTTPManager {
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else {
-                handleError(error: NetworkError.missingData)
+                self.handleError(error: NetworkError.missingData)
                 return
             }
             
@@ -37,7 +39,7 @@ struct HTTPManager {
             }
             
             guard error == nil else {
-                handleError(error: NetworkError.serverError)
+                self.handleError(error: NetworkError.serverError)
                 return
             }
             
@@ -45,7 +47,7 @@ struct HTTPManager {
         }.resume()
     }
     
-    static func handleError(error: NetworkError) {
+    func handleError(error: NetworkError) {
         switch error {
         case .clientError:
             print("ERROR: 클라이언트 요청 오류")
