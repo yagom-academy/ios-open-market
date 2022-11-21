@@ -9,9 +9,10 @@ import UIKit
 class ViewController: UIViewController {
     let segmentedControl: UISegmentedControl = {
         let item = ["LIST", "GRID"]
-        let segmentedController = UISegmentedControl(items: item)
-        segmentedController.translatesAutoresizingMaskIntoConstraints = false
-        return segmentedController
+        let segmentedControl = UISegmentedControl(items: item)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.selectedSegmentIndex = 0
+        return segmentedControl
     }()
 
     override func viewDidLoad() {

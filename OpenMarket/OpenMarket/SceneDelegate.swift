@@ -18,8 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let rootVC = ViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
-        rootVC.view.backgroundColor = .white
 
+        self.window?.backgroundColor = .white
         self.window?.rootViewController = navVC
         window?.makeKeyAndVisible()
     }

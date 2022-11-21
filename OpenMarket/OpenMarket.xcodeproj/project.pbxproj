@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */; };
 		1A8CA6CD29234C0000B53E75 /* NetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */; };
 		1A8CA6DD2924739A00B53E75 /* MockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6DC2924739A00B53E75 /* MockTests.swift */; };
 		1AEA46AF2923261A00213A87 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA46AE2923261A00213A87 /* Item.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A8CA6CA29234C0000B53E75 /* NetworkingTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingTests.swift; sourceTree = "<group>"; };
 		1A8CA6DA2924739A00B53E75 /* MockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */,
 				54BE7770292477E000BCD075 /* URLSessionProtocol.swift in Sources */,
 				54D0B0EB29232A110061BB15 /* Currency.swift in Sources */,
 				54BE7771292477E000BCD075 /* StubURLSession.swift in Sources */,
@@ -628,7 +632,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -683,7 +687,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -700,7 +704,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -719,7 +723,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
