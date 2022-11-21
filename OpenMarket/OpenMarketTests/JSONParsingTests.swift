@@ -10,6 +10,7 @@ import XCTest
 
 final class JSONParsingTests: XCTestCase {
     var data: Data!
+    let formatConverter: FormatConverter = .init()
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -79,9 +80,9 @@ final class JSONParsingTests: XCTestCase {
         
         // then
         XCTAssertNotNil(pizzaCreatedDate)
-        XCTAssertEqual(pizzaCreatedDate, productCreatedAt.date())
+        XCTAssertEqual(pizzaCreatedDate, formatConverter.date(from: productCreatedAt))
         XCTAssertNotNil(pizzaIssuedDate)
-        XCTAssertEqual(pizzaIssuedDate, productIssuedAt.date())
+        XCTAssertEqual(pizzaIssuedDate, formatConverter.date(from: productIssuedAt))
     }
     
     func test_JSONDecoder에_잘못된타입을전달했을때_error를던지는지() {
@@ -99,7 +100,7 @@ final class JSONParsingTests: XCTestCase {
         let incorrectString: String = "이천이십이년 십일월 십오일 오후 한 시 이십삼분"
         
         // when
-        let date = incorrectString.date()
+        let date = formatConverter.date(from: incorrectString)
         
         // then
         XCTAssertNil(date)

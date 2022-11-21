@@ -28,7 +28,7 @@ final class NetworkRequestTests: XCTestCase {
         sut = HealthCheckerRequest()
         
         // when
-        let result = sut.url
+        let result = sut.request?.url
         
         // then
         let expectation = URL(string: "https://openmarket.yagom-academy.kr/healthChecker")
@@ -40,7 +40,7 @@ final class NetworkRequestTests: XCTestCase {
         sut = ProductListRequest(pageNo: 1, itemsPerPage: 20, searchValue: "pizza")
         
         // when
-        let result = sut.url
+        let result = sut.request?.url
         
         // then
         let url: String = "https://openmarket.yagom-academy.kr/api/products?"
@@ -59,7 +59,7 @@ final class NetworkRequestTests: XCTestCase {
         sut = ProductDetailRequest(productID: 32)
         
         // when
-        let result = sut.url
+        let result = sut.request?.url
         
         // then
         let expectation = URL(string: "https://openmarket.yagom-academy.kr/api/products/32")

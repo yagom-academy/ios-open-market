@@ -15,7 +15,7 @@ protocol NetworkRequest {
 }
 
 extension NetworkRequest {
-    var url: URL? {
+    private var url: URL? {
         if queryParameters.isEmpty {
             return URL(string: urlHost + urlPath)
         }
@@ -26,7 +26,7 @@ extension NetworkRequest {
         return urlComponents?.url
     }
     
-    var requestURL: URLRequest? {
+    var request: URLRequest? {
         guard let url = url else {
             print("URL is nil")
             return nil
