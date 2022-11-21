@@ -14,6 +14,8 @@ extension JSONDecoder {
         var decodedData: T?
         do {
             decodedData = try decoder.decode(type, from: data)
+        } catch let error as DecodingError {
+            print(error.errorDescription)
         } catch {
             print(error.localizedDescription)
         }
