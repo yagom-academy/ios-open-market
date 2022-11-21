@@ -7,9 +7,12 @@
 import UIKit
 
 final class ViewController: UIViewController {
+    let mainView = MainView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTestNetwork()
+        self.view = mainView
     }
     
     private func setupTestNetwork() {
