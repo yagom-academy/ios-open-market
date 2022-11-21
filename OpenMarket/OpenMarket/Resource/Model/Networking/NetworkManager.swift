@@ -18,15 +18,15 @@ class NetworkManager<T: Decodable> {
         
         let task = session.dataTask(with: url) { data, response, error in
             self.testData = data
-            guard error == nil else {
-                completion(.failure(.requestError))
+            if let error = error {
+                completion(.failure(.requestError(error: error)))
                 return
             }
             
             guard let response = response as? HTTPURLResponse,
                   response.statusCode == 200,
                   let data = data else {
-                completion(.failure(.responseError))
+                completion(.failure(.invalidStatusCode))
                 return
             }
     

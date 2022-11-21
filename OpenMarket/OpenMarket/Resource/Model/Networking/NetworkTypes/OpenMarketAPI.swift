@@ -26,7 +26,7 @@ enum OpenMarketAPI: APIType {
         }
     }
     
-    var params: [String : String] {
+    var parameters: [String : String] {
         switch self {
         case .productsList(let pageNumber, let rowCount, let searchValue):
             return [
@@ -45,7 +45,7 @@ enum OpenMarketAPI: APIType {
         }
         
         baseComponents.path = path
-        baseComponents.queryItems = params.asParameters()
+        baseComponents.queryItems = parameters.asParameters()
         
         return baseComponents.url
     }
