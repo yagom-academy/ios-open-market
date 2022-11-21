@@ -21,7 +21,7 @@ extension JSONDecoder {
           if let date = formatter.date(from: dateStr) {
             return date
           }
-            throw NetworkError.invalidData
+            throw JSONDecodeError.invalidData
         })
         
         
@@ -52,7 +52,7 @@ extension JSONDecoder {
           if let date = formatter.date(from: dateStr) {
             return date
           }
-            throw NetworkError.invalidData
+            throw JSONDecodeError.invalidData
         })
         var decodedData: T?
         

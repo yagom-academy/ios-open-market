@@ -30,7 +30,7 @@ class MockURLSessionTests: XCTestCase {
           if let date = formatter.date(from: dateStr) {
             return date
           }
-            throw NetworkError.invalidData
+            throw JSONDecodeError.invalidData
         })
         
         let mockData = try? jsonDecoder.decode(ProductList.self, from: MockData.data)
