@@ -26,20 +26,27 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
-        configureCollectionView()
         configureFetchItemList()
-        configureDataSource()
     }
 
     func configureNavigation() {
         navigationItem.titleView = segmentedControl
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
     }
-    //
+    
     func configureFetchItemList() {
-        guard let dataAsset = NSDataAsset(name: "itemList") else { return }
-        let itemList = try? JSONDecoder().decode(ItemList.self, from: dataAsset.data)
-        self.itemList = itemList!.pages
+        NetworkManager().fetchItemList(pageNo: 1, pageCount: 100) { result in
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    self.itemList = success.pages
+                    self.configureCollectionView()
+                    self.configureDataSource()
+                }
+            case .failure(let failure):
+                print(failure)
+            }
+        }
     }
 }
 
