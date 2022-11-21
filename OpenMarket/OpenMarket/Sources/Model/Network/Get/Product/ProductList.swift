@@ -13,7 +13,7 @@ struct ProductList: Codable {
     let lastPage: Int
     let hasNext: Bool
     let hasPrevious: Bool
-    let pages: [Page]
+    let pages: [Product]
     
     enum CodingKeys: String, CodingKey {
         case pageNumber = "pageNo"
