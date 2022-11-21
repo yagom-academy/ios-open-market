@@ -7,38 +7,46 @@
 
 import Foundation
 
-struct DummyData {
-    let data: Data?
-    let response: URLResponse?
-    let error: Error?
-    var completionHandler: DataTaskCompletionHandler? = nil
+class StubURLSession<T: Mockable>: URLSessionProtocol {
+    var isSuccess: Bool
     
-    func completion() {
-        completionHandler?(data, response, error)
+    init(isSuccess: Bool) {
+        self.isSuccess = isSuccess
     }
-}
-
-class StubURLSession: URLSessionProtocol {
-    var dummyData: DummyData?
     
-    init(dummy: DummyData) {
-        self.dummyData = dummy
-    }
-
     func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
-        return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)
+        let sessionDataTask = StubURLSessionDataTask()
+        
+        if isSuccess {
+            let response = HTTPURLResponse(
+                url: url,
+                statusCode: 200,
+                httpVersion: nil,
+                headerFields: nil
+            )
+            sessionDataTask.completion = {
+                completionHandler(T.mockData, response, nil)
+            }
+        } else {
+            let response = HTTPURLResponse(
+                url: url,
+                statusCode: 404,
+                httpVersion: nil,
+                headerFields: nil
+            )
+            sessionDataTask.completion = {
+                completionHandler(nil, response, nil)
+            }
+        }
+
+        return sessionDataTask
     }
 }
 
 class StubURLSessionDataTask: URLSessionDataTask {
-    var dummyData: DummyData?
-    
-    init(dummy: DummyData?, completionHandler: DataTaskCompletionHandler?) {
-        self.dummyData = dummy
-        self.dummyData?.completionHandler = completionHandler
-    }
+    var completion: () -> Void = { }
     
     override func resume() {
-        dummyData?.completion()
+        completion()
     }
 }

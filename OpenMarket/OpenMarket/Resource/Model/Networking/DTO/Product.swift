@@ -5,8 +5,6 @@
 //  Created by Baemini on 2022/11/14.
 //
 
-import Foundation
-
 struct Product: Decodable {
     let id, sellerId, stock: Int
     let price, bargainPrice, discountedPrice: Double
