@@ -4,14 +4,20 @@
 //  Copyright © yagom. All rights reserved.
 //
 
+import UIKit
+
 enum Currency: String, Codable {
     case KRWString = "KRW"
     case USDString = "USD"
     case JPYString = "JPY"
     case HKDString = "HKD"
-
-    case KRWSymbol = "₩"
-    case USDSymbol = "$"
-    case JPYSymbol = "￥"
-    case HKDSymbol = "HK$"
+    
+    var symbol: String {
+        let locale = NSLocale(localeIdentifier: self.rawValue)
+        if let symbol = locale.displayName(forKey: .currencySymbol, value: self.rawValue) {
+            return symbol
+        }
+        
+        return String()
+    }
 }
