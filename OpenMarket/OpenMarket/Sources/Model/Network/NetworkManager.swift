@@ -8,64 +8,18 @@ import Foundation
 
 struct NetworkManager {
     private let session: URLSessionProtocol
-    private let hostUrlAddress: String = ProductsAPIEnum.hostUrl.address
     
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
-    func getApplicationHealthChecker(completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
-        let targetAddress: String = hostUrlAddress + ProductsAPIEnum.healthChecker.address
-        guard let targetURL: URL = URL(string: targetAddress) else {
-            return
-        }
-        let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
-        
-        dataTask(request: targetRequest, completion: completion)
-    }
-    
-    func getItemList(pageNumber: Int,
-                     itemPerPage: Int,
-                     searchValue: String? = nil,
-                     completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
-        var searchValueString: String = String()
-        if let unwrappingSearchValue: String = searchValue {
-            searchValueString = ProductsAPIEnum.bridge.address +
-            ProductsAPIEnum.searchValue.address +
-            unwrappingSearchValue
-        }
-        let targetAddress: String = hostUrlAddress +
-        ProductsAPIEnum.products.address +
-        ProductsAPIEnum.pageNumber.address + String(pageNumber) +
-        ProductsAPIEnum.bridge.address +
-        ProductsAPIEnum.itemPerPage.address + String(itemPerPage) +
-        searchValueString
-        guard let targetURL: URL = URL(string: targetAddress) else {
-            return
-        }
-        let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
-        
-        dataTask(request: targetRequest, completion: completion)
-    }
-    
-    func getItemDetailList(productID: Int,
-                           completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
-        let targetAddress: String = hostUrlAddress +
-        ProductsAPIEnum.products.address + String(productID)
-        guard let targetURL: URL = URL(string: targetAddress) else {
-            return
-        }
-        let targetRequest = makeRequest(url: targetURL, httpMethod: HttpMethodEnum.get)
-        
-        dataTask(request: targetRequest, completion: completion)
-    }
-    
-    private func makeRequest(url: URL, httpMethod: HttpMethodEnum) -> URLRequest {
+    func request(from url: URL,
+                 httpMethod: HttpMethodEnum,
+                 completion: @escaping (Result<Data,NetworkError>) -> Void) {
         var request: URLRequest = URLRequest(url: url,timeoutInterval: Double.infinity)
-        
         request.httpMethod = httpMethod.name
         
-        return request
+        dataTask(request: request, completion: completion)
     }
     
     private func dataTask(request: URLRequest,
