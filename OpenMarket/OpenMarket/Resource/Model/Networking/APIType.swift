@@ -9,7 +9,7 @@ import Foundation
 protocol APIType {
     var baseURL: String { get }
     var path: String { get }
-    var params: [String: String] { get }
+    var parameters: [String: String] { get }
     
     func generateURL() -> URL?
 }
