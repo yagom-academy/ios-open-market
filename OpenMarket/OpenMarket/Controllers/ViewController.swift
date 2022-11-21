@@ -56,7 +56,7 @@ extension ViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
             cell.updateWithItem(item)
-//            cell.accessories = [.disclosureIndicator()]
+            cell.accessories = [.disclosureIndicator()]
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
