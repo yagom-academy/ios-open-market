@@ -115,7 +115,7 @@
 		BF2266252923580F001D777C /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E3D3396B29232FDA006325AB /* DTO */,
+				E3D3396B29232FDA006325AB /* Model */,
 				BF2266262923587E001D777C /* OpenMarketNetworkRequest.swift */,
 			);
 			path = Network;
@@ -156,13 +156,13 @@
 			path = OpenMarket;
 			sourceTree = "<group>";
 		};
-		E3D3396B29232FDA006325AB /* DTO */ = {
+		E3D3396B29232FDA006325AB /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				E3D3396C29232FEF006325AB /* Product.swift */,
 				E3D3396E2923374C006325AB /* ProductList.swift */,
 			);
-			path = DTO;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		E3D3397229234F04006325AB /* Network */ = {
