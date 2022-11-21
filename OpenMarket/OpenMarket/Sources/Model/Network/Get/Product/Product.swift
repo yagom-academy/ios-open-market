@@ -4,6 +4,8 @@
 //  Copyright © yagom. All rights reserved.
 //
 
+import Foundation
+
 struct Product: Decodable {
     let id: Int
     let vendorID: Int
@@ -18,8 +20,8 @@ struct Product: Decodable {
     let stock: Int
     let images: [Image]?
     let vendors: Vendor?
-    let createdAt: String
-    let issuedAt: String
+    let createdAt: Date
+    let issuedAt: Date
     
     private enum CodingKeys: String, CodingKey {
         case id

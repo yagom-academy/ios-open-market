@@ -35,9 +35,8 @@ enum URLManager {
     
             
         case .product(id: let id):
-            let path: String = "/api/products/"
-            let queryDictionary: [String: String] = ["": String(id)]
-            return configureOpenMarketAPIURL(path: path, query: queryDictionary)
+            let path: String = "/api/products/\(id)"
+            return configureOpenMarketAPIURL(path: path)
         }
     }
 }
@@ -53,8 +52,7 @@ extension URLManager {
             let queryItem: URLQueryItem = URLQueryItem(name: item.key, value: item.value)
             components?.queryItems?.append(queryItem)
         }
-        print(components?.url)
-
+        
         return components?.url
     }
 }

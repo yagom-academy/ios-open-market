@@ -4,11 +4,13 @@
 //  Copyright © yagom. All rights reserved.
 //
 
+import Foundation
+
 struct Image: Decodable {
     let id: Int
     let url: String
     let thumbnailURL: String
-    let issuedAt: String
+    let issuedAt: Date
    
     private enum CodingKeys: String, CodingKey {
         case id
