@@ -6,15 +6,14 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     let mainView = MainView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTestNetwork()
-        
         self.view = mainView
         setupNavigationBar()
+        setupSegmentedControlTarget()
     }
     
     func setupNavigationBar() {
@@ -28,6 +27,16 @@ final class ViewController: UIViewController {
                                                target: self,
                                                action: #selector(addProduct))
         self.navigationItem.rightBarButtonItem = addBarButtonItem
+    }
+    
+    private func setupSegmentedControlTarget() {
+        mainView.segmentedControl.addTarget(self,
+                                            action: #selector(segmentedControlValueChanged),
+                                            for: .valueChanged)
+    }
+    
+    @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
+       
     }
     
     @objc func addProduct() {
@@ -74,5 +83,23 @@ final class ViewController: UIViewController {
                 print(error.description)
             }
         }
+    }
+}
+
+// MARK: - Extention UICollectionView
+extension MainViewController: UICollectionViewDelegate {
+    
+}
+
+extension MainViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.reuseIdentifier,
+                                                      for: indexPath)
+        
+        return cell
     }
 }
