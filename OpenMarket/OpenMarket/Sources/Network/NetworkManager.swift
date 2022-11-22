@@ -13,18 +13,6 @@ struct NetworkManager {
         self.session = session
     }
     
-    func request<T: Decodable>(from url: URL?,
-                 httpMethod: HttpMethod,
-                 dataType: T.Type,
-                 completion: @escaping (Result<T,NetworkError>) -> Void) {
-        if let targetURL = url {
-            var request: URLRequest = URLRequest(url: targetURL,timeoutInterval: Double.infinity)
-            request.httpMethod = httpMethod.name
-            
-            dataTask(request: request, dataType: dataType, completion: completion)
-        }
-    }
-    
     private func dataTask<T: Decodable>(request: URLRequest,
                           dataType: T.Type,
                           completion: @escaping (Result<T, NetworkError>) -> Void) {
@@ -64,5 +52,19 @@ struct NetworkManager {
         }
         
         task.resume()
+    }
+}
+
+extension NetworkManager: NetworkRequestable {
+    func request<T: Decodable>(from url: URL?,
+                 httpMethod: HttpMethod,
+                 dataType: T.Type,
+                 completion: @escaping (Result<T,NetworkError>) -> Void) {
+        if let targetURL = url {
+            var request: URLRequest = URLRequest(url: targetURL,timeoutInterval: Double.infinity)
+            request.httpMethod = httpMethod.name
+            
+            dataTask(request: request, dataType: dataType, completion: completion)
+        }
     }
 }

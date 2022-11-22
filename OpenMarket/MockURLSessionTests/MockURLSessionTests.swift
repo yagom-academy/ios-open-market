@@ -9,10 +9,10 @@ import XCTest
 
 class MockURLSessionTests: XCTestCase {
     let mockSession: MockURLSession = MockURLSession()
-    var sut: NetworkManager!
+    var sut: NetworkRequestable!
     
     override func setUpWithError() throws {
-        sut = .init(session: mockSession)
+        sut = NetworkManager(session: mockSession)
     }
     
     func test_data가Json형태로주어졌을때_getItemList에서data를가져오는것을성공하면_data와결과가같은지() {
