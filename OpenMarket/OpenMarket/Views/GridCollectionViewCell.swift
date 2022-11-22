@@ -164,12 +164,17 @@ extension GridCollectionViewCell {
     
     private func setupBottomLabelConstraints() {
         NSLayoutConstraint.activate([
-            productPriceLabel.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 10),
-            productPriceLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            productPriceLabel.topAnchor.constraint(
+                equalTo: productStackView.bottomAnchor, constant: 10),
+            productPriceLabel.centerXAnchor.constraint(
+                equalTo: self.centerXAnchor),
             
-            productStockLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            productStockLabel.topAnchor.constraint(equalTo: productPriceLabel.bottomAnchor, constant: 10),
-            productStockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
+            productStockLabel.centerXAnchor.constraint(
+                equalTo: self.centerXAnchor),
+            productStockLabel.topAnchor.constraint(
+                equalTo: productPriceLabel.bottomAnchor, constant: 10),
+            productStockLabel.bottomAnchor.constraint(
+                equalTo: self.bottomAnchor, constant: -10)
         ])
     }
     
@@ -187,9 +192,10 @@ extension GridCollectionViewCell {
             
             productStockLabel.topAnchor.constraint(
                 equalTo: productSalePriceLabel.bottomAnchor, constant: 10),
-            productStockLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            productStockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
-                                                      constant: -10)
+            productStockLabel.centerXAnchor.constraint(
+                equalTo: self.centerXAnchor),
+            productStockLabel.bottomAnchor.constraint(
+                equalTo: self.bottomAnchor, constant: -10)
         ])
     }
 }

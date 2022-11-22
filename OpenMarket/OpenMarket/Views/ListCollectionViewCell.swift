@@ -28,8 +28,7 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     private let productNameLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -64,7 +63,10 @@ class ListCollectionViewCell: UICollectionViewCell {
     }()
     
     private let nextButton: UIButton = {
-        let button = UIButton(type: .detailDisclosure)
+        let button = UIButton()
+        button.setImage(UIImage.init(systemName: "chevron.right"), for: .normal)
+        button.tintColor = .gray
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -93,7 +95,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         productStockLabel.text = nil
     }
     
-    private func applyStrikeThroghtStyle(label: UILabel) {
+    private func applyStrikeThroughStyle(label: UILabel) {
         let attributeString = NSMutableAttributedString(string: label.text ?? "")
         attributeString.addAttribute(.strikethroughStyle,
                                      value: NSUnderlineStyle.single.rawValue,
@@ -116,6 +118,7 @@ extension ListCollectionViewCell {
     private func setupView() {
         self.addSubview(productImageView)
         self.addSubview(productNameLabel)
+        self.addSubview(nextButton)
     }
     
     private func setupPriceLabel() {
@@ -129,7 +132,7 @@ extension ListCollectionViewCell {
             clearPriceLabel()
             self.addSubview(productBeforeSalePriceLabel)
             self.addSubview(productSalePriceLabel)
-            applyStrikeThroghtStyle(label: productBeforeSalePriceLabel)
+            applyStrikeThroughStyle(label: productBeforeSalePriceLabel)
             setupPriceSaleLabelConstraints()
         }
     }
@@ -142,40 +145,72 @@ extension ListCollectionViewCell {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            productImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            productImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.2),
+            productImageView.centerYAnchor.constraint(
+                equalTo: self.centerYAnchor),
+            productImageView.leadingAnchor.constraint(
+                equalTo: self.leadingAnchor, constant: 10),
+            productImageView.widthAnchor.constraint(
+                equalToConstant: UIScreen.main.bounds.width * 0.2),
+            productImageView.bottomAnchor.constraint(
+                equalTo: self.bottomAnchor, constant: -5),
             
-            productNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            productNameLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
-            productNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -100),
+            productNameLabel.topAnchor.constraint(
+                equalTo: self.topAnchor, constant: 10),
+            productNameLabel.leadingAnchor.constraint(
+                equalTo: productImageView.trailingAnchor, constant: 10),
+            productNameLabel.trailingAnchor.constraint(
+                equalTo: self.trailingAnchor, constant: -100)
         ])
     }
     
     func setupPriceLabelConstraints() {
         NSLayoutConstraint.activate([
-            productPriceLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5),
-            productPriceLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
+            productPriceLabel.topAnchor.constraint(
+                equalTo: productNameLabel.bottomAnchor, constant: 5),
+            productPriceLabel.leadingAnchor.constraint(
+                equalTo: productImageView.trailingAnchor, constant: 10),
             
-            productPriceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            productPriceLabel.bottomAnchor.constraint(
+                equalTo: self.bottomAnchor, constant: -10),
             
-            productStockLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            productStockLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30)
+            nextButton.topAnchor.constraint(
+                equalTo: self.topAnchor, constant: 5),
+            nextButton.bottomAnchor.constraint(
+                lessThanOrEqualTo: self.bottomAnchor, constant: -20),
+            nextButton.trailingAnchor.constraint(
+                equalTo: self.trailingAnchor, constant: -10),
+            
+            productStockLabel.topAnchor.constraint(
+                equalTo: nextButton.topAnchor),
+            productStockLabel.trailingAnchor.constraint(
+                equalTo: nextButton.leadingAnchor, constant: -5)
         ])
     }
     
     func setupPriceSaleLabelConstraints() {
         NSLayoutConstraint.activate([
-            productBeforeSalePriceLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5),
-            productBeforeSalePriceLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
+            productBeforeSalePriceLabel.topAnchor.constraint(
+                equalTo: productNameLabel.bottomAnchor, constant: 5),
+            productBeforeSalePriceLabel.leadingAnchor.constraint(
+                equalTo: productImageView.trailingAnchor, constant: 10),
             
             
-            productSalePriceLabel.topAnchor.constraint(equalTo: productBeforeSalePriceLabel.topAnchor),
-            productSalePriceLabel.leadingAnchor.constraint(equalTo: productBeforeSalePriceLabel.trailingAnchor, constant: 10),
+            productSalePriceLabel.topAnchor.constraint(
+                equalTo: productBeforeSalePriceLabel.topAnchor),
+            productSalePriceLabel.leadingAnchor.constraint(
+                equalTo: productBeforeSalePriceLabel.trailingAnchor, constant: 10),
+                        
+            nextButton.topAnchor.constraint(
+                equalTo: self.topAnchor, constant: 5),
+            nextButton.bottomAnchor.constraint(
+                lessThanOrEqualTo: self.bottomAnchor, constant: -20),
+            nextButton.trailingAnchor.constraint(
+                equalTo: self.trailingAnchor, constant: -10),
             
-            
-            productStockLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            productStockLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30)
+            productStockLabel.topAnchor.constraint(
+                equalTo: nextButton.topAnchor),
+            productStockLabel.trailingAnchor.constraint(
+                equalTo: nextButton.leadingAnchor, constant: -5)
         ])
     }
 }
