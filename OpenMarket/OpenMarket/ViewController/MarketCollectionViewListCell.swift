@@ -22,6 +22,33 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
     func configureListCell() -> UIListContentConfiguration {
         return .subtitleCell()
     }
+    
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        setupViewsIfNeeded()
+        
+        //내용을만든다! -> ContentConfiguration
+        var content = configureListCell().updated(for: state)
+        
+        if let thumbnail = state.pageData?.thumbnail {
+            content.image = urlToImage(thumbnail)
+        }
+        
+        guard let pageData = state.pageData else { return }
+        
+        content.text = pageData.name
+        content.secondaryText = "\(pageData.currency) \(pageData.price)"
+        stockLabel.text = pageData.stock == 0 ? "품절" : "잔여수량 : \(pageData.stock)"
+    }
+    
+    func urlToImage(_ urlString: String) -> UIImage? {
+        guard let url = URL(string: urlString),
+              let data = try? Data(contentsOf: url),
+              let image = UIImage(data: data) else {
+                  return nil
+              }
+
+        return image
+    }
 }
 
 extension UIConfigurationStateCustomKey {
