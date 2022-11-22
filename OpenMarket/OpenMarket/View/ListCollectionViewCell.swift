@@ -25,6 +25,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fill
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -55,4 +56,22 @@ class ListCollectionViewCell: UICollectionViewCell {
         
         return stackView
     }()
+    
+    init() {
+        super.init(frame: .zero)
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
+        ])
+    }
+    
 }
