@@ -49,9 +49,10 @@ final class MainView: UIView {
     let listLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 10
+        layout.minimumLineSpacing = 0
         let collectionCellWidth = UIScreen.main.bounds.width
-        layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellWidth)
+        let collectionCellHeight = UIScreen.main.bounds.height / 12
+        layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellHeight)
         return layout
     }()
     

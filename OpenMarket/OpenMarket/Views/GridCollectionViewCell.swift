@@ -79,10 +79,10 @@ extension GridCollectionViewCell {
         productStackView.addArrangedSubview(productImageView)
         productStackView.addArrangedSubview(productNameLabel)
         addSubview(productStackView)
-        setupStackViweConstraints()
+        setupStackViewConstraints()
     }
     
-    func setupPriceLabel(){
+    func setupPriceLabel() {
         self.addSubview(productPriceLabel)
         self.addSubview(productStockLabel)
         
@@ -94,7 +94,7 @@ extension GridCollectionViewCell {
         }
     }
     
-    func setupStackViweConstraints() {
+    func setupStackViewConstraints() {
         NSLayoutConstraint.activate([
             productStackView.topAnchor.constraint(
                 equalTo: self.topAnchor, constant: 10),
