@@ -61,4 +61,19 @@ class ProductCell: UICollectionViewListCell {
         
         stockLableConstraints = constraints
     }
+    
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        setUpViewsIfNeeded()
+        var content = UIListContentConfiguration.cell().updated(for: state)
+        content.text = state.product?.name
+        guard let url = URL(string: state.product!.thumbnail) else { return }
+        let data = try! Data(contentsOf: url)
+        
+        content.image = UIImage(data: data)
+        content.secondaryText = state.product?.price.description
+        content.secondaryTextProperties.color = .systemGray
+        stockLabel.text = state.product?.price.description
+        stockLabel.textColor = .systemGray
+        listContentView.configuration = content
+    }
 }
