@@ -20,11 +20,9 @@ final class ViewController: UIViewController {
     }()
 
     private var gridCollectionView: GridUICollectionView!
-    private var listCollectionView: UICollectionView!
+    private var listCollectionView: ListUICollectionView!
     
     private var itemList: [Item] = []
-
-    private var listDataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,8 +62,8 @@ final class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.itemList = success.pages
                     self.configureCollectionView()
-                    self.configureListDataSource()
                     self.gridCollectionView.configureGridDataSource(self.itemList)
+                    self.listCollectionView.configureListDataSource(self.itemList)
                 }
             case .failure(let failure):
                 print(failure)
@@ -79,7 +77,7 @@ extension ViewController {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
-
+    
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
@@ -100,7 +98,7 @@ extension ViewController {
     }
     
     private func configureCollectionView() {
-        listCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        listCollectionView = ListUICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         gridCollectionView = GridUICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
         view.addSubview(listCollectionView)
         view.addSubview(gridCollectionView)
@@ -125,21 +123,4 @@ extension ViewController {
     
 
     
-    private func configureListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
-            cell.updateWithItem(item)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: listCollectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
-            
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(itemList)
-        listDataSource.apply(snapshot, animatingDifferences: false)
-    }
 }

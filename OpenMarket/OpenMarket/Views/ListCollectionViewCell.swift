@@ -121,6 +121,7 @@ extension ListCollectionViewCell {
         } else {
             self.stockLabel.textColor = .systemGray
             self.stockLabel.text = "잔여수량 : \(state.item!.stock)"
+            self.stockLabel.textAlignment = .left
         }
         NetworkManager().fetchImage(url: url) { image in
             DispatchQueue.main.async {

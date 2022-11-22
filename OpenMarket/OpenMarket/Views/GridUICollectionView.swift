@@ -9,27 +9,16 @@ import UIKit
 
 class GridUICollectionView: UICollectionView {
     var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>!
-
-
-    private func createGridLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.3))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        let spacing = CGFloat(10)
-        group.interItemSpacing = .fixed(spacing)
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = spacing
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     func configureGridDataSource(_ items: [Item]) {
         let cellRegisteration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { cell, indexPath, item in
             cell.configureData(item: item)
