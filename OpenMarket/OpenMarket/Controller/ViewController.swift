@@ -55,7 +55,11 @@ class ViewController: UIViewController {
 
     func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ProductCell, ProductData> { cell, indexPath, product in
-            cell.updateWithProduct(product)
+            var content = UIListContentConfiguration.cell()
+            content.text = product.name
+            content.secondaryText = product.price.description
+            cell.stockLabel.text = product.stock.description
+            cell.listContentView.configuration = content
             cell.accessories = [.disclosureIndicator()]
         }
         

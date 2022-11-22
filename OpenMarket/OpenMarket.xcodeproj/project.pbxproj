@@ -155,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0F925BEF61C00C9924E /* OpenMarket */,
-				0CA730002923901700EEF38C /* OpenMarketTests */,
 				C70FB0F825BEF61C00C9924E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -177,6 +176,7 @@
 				0C2999DB2927578A00B63A3A /* Controller */,
 				DF6EE05F2925151800CB57F3 /* Test Double */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
+				0CA730002923901700EEF38C /* OpenMarketTests */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
 			path = OpenMarket;
