@@ -43,9 +43,7 @@ class ViewController: UIViewController {
         ) { data in
             switch data {
             case .success(let data):
-                guard let data = data as? SearchListProducts else { return }
                 self.searchListProducts = data
-                print(data)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -59,9 +57,7 @@ class ViewController: UIViewController {
         ) { data in
             switch data {
             case .success(let data):
-                guard let data = data as? DetailProduct else { return }
                 self.detailProduct = data
-                print(data)
             case .failure(let error):
                 print(error.rawValue)
             }

@@ -40,7 +40,7 @@ struct NetworkCommunication {
     func requestProductsInformation<T: Decodable>(
         url: String,
         type: T.Type,
-        completionHandler: @escaping (Result<Any, APIError>) -> Void
+        completionHandler: @escaping (Result<T, APIError>) -> Void
     ) {
         guard let url: URL = URL(string: url) else {
             completionHandler(.failure(.wrongUrlError))
