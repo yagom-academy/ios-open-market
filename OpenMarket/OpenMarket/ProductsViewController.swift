@@ -71,7 +71,7 @@ final class ProductsViewController: UIViewController {
         
         view.addSubview(gridCollectionView)
         view.addSubview(listCollectionView)
-        setupListConstraints()
+        setupCollectionViewConstraints()
         listCollectionView.dataSource = self
         listCollectionView.delegate = self
         gridCollectionView.dataSource = self
@@ -91,10 +91,10 @@ final class ProductsViewController: UIViewController {
         layout.scrollDirection = .vertical
         switch layoutType {
         case .list:
-            layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 80)
+            layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 8)
         case .grid:
             layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 20,
-                                     height: UIScreen.main.bounds.width / 2)
+                                     height: UIScreen.main.bounds.height / 4 + 10)
         }
         return layout
     }
@@ -114,7 +114,7 @@ final class ProductsViewController: UIViewController {
         }
     }
     
-    private func setupcollectionViewConstraints() {
+    private func setupCollectionViewConstraints() {
         NSLayoutConstraint.activate([
             listCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             listCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -134,15 +134,16 @@ final class ProductsViewController: UIViewController {
     @objc private func changeLayout(_ segmentedControl: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
         case LayoutType.list.index:
-            listCollectionView.isHidden = false
             gridCollectionView.isHidden = true
+            listCollectionView.isHidden = false
+            listCollectionView.collectionViewLayout.invalidateLayout()
         case LayoutType.grid.index:
             listCollectionView.isHidden = true
             gridCollectionView.isHidden = false
+            gridCollectionView.collectionViewLayout.invalidateLayout()
         default:
             break
         }
-        
     }
 }
 
@@ -191,6 +192,15 @@ extension ProductsViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let endPoint: CGFloat = scrollView.contentSize.height - scrollView.bounds.height
         let isEndOfScroll: Bool = scrollView.contentOffset.y > endPoint
+        
+        switch scrollView {
+        case listCollectionView:
+            gridCollectionView.contentOffset.y = scrollView.contentOffset.y
+        case gridCollectionView:
+            listCollectionView.contentOffset.y = scrollView.contentOffset.y
+        default:
+            break
+        }
         
         if isEndOfScroll, isInfiniteScroll {
             isInfiniteScroll = false
