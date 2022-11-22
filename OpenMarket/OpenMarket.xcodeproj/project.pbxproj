@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */; };
 		1A576ABE292C5D9B004C9CCF /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */; };
+		1A576AC0292CB2AE004C9CCF /* GridUICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */; };
 		1A8CA6CD29234C0000B53E75 /* NetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */; };
 		1A8CA6DD2924739A00B53E75 /* MockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6DC2924739A00B53E75 /* MockTests.swift */; };
 		1AEA46AF2923261A00213A87 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA46AE2923261A00213A87 /* Item.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
+		1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridUICollectionView.swift; sourceTree = "<group>"; };
 		1A8CA6CA29234C0000B53E75 /* NetworkingTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingTests.swift; sourceTree = "<group>"; };
 		1A8CA6DA2924739A00B53E75 /* MockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +159,7 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */,
 				1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */,
+				1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				543645F1292353DA002B84B4 /* NetworkError.swift in Sources */,
 				1AEA46AF2923261A00213A87 /* Item.swift in Sources */,
 				54D0B0E9292328940061BB15 /* ItemList.swift in Sources */,
+				1A576AC0292CB2AE004C9CCF /* GridUICollectionView.swift in Sources */,
 				1AEA46BE2923318400213A87 /* NetworkManager.swift in Sources */,
 				5463B7D4292C669D00F2AA58 /* String+Extension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
