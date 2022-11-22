@@ -18,7 +18,7 @@ extension UICellConfigurationState {
     }
 }
 
-class ListCollectionViewCell: UICollectionViewListCell {
+final class ListCollectionViewCell: UICollectionViewListCell {
     private var item: Item?
     
     private func defaultListContentConfiguration() -> UIListContentConfiguration {
@@ -59,7 +59,6 @@ class ListCollectionViewCell: UICollectionViewListCell {
 }
 
 extension ListCollectionViewCell {
-    
     func setupViewsIfNeeded() {
         guard stockConstraints == nil else { return }
         contentView.addSubview(imageView)
@@ -103,8 +102,14 @@ extension ListCollectionViewCell {
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = state.item?.name
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
-        content.secondaryText = "\(item!.currency.rawValue) \(item!.price)"
-        
+
+        let priceString = "\(item!.currency.rawValue) \(item!.price) \(item!.currency.rawValue) \(item!.bargainPrice)"
+        let attributedString = NSMutableAttributedString(string: priceString)
+        attributedString.addAttribute(.strikethroughStyle, value: 1,
+                                      range: (priceString as NSString).range(of:"\(item!.currency.rawValue) \(item!.price)"))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.red,
+                                      range: (priceString as NSString).range(of:"\(item!.currency.rawValue) \(item!.price)"))
+        content.secondaryAttributedText = attributedString
         content.secondaryTextProperties.color = .systemGray
         
         itemListContentView.configuration = content
