@@ -7,6 +7,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     var networkCommunication = NetworkCommunication()
     
     var searchListProducts: SearchListProducts?
@@ -18,6 +20,15 @@ class ViewController: UIViewController {
         getResponseAboutHealChecker()
         getProductsListData()
         getProductDetailData(productNumber: "31")
+    }
+    
+    @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            
+        } else {
+            
+        }
+        
     }
     
     private func getResponseAboutHealChecker() {

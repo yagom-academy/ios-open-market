@@ -22,6 +22,7 @@
 		D27FA6362923293E004E3B38 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D27FA6352923293E004E3B38 /* .swiftlint.yml */; };
 		D27FA6402924839D004E3B38 /* SearchListProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FA63F2924839D004E3B38 /* SearchListProducts.swift */; };
 		D27FA642292483F9004E3B38 /* DetailProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FA641292483F9004E3B38 /* DetailProduct.swift */; };
+		D2B4188E292C694800874541 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		D27FA6352923293E004E3B38 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D27FA63F2924839D004E3B38 /* SearchListProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListProducts.swift; sourceTree = "<group>"; };
 		D27FA641292483F9004E3B38 /* DetailProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProduct.swift; sourceTree = "<group>"; };
+		D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		E2FDD5EB470EE761553CBF9F /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
 		F06FB544A4AB71C261A0D948 /* Pods-OpenMarket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.release.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
+				D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				D27FA6402924839D004E3B38 /* SearchListProducts.swift in Sources */,
 				09D8602F2928C3AF008FBE56 /* APIError.swift.swift in Sources */,
+				D2B4188E292C694800874541 /* CustomCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */,
 				09D8602D2928BF8E008FBE56 /* ApiUrl.swift.swift in Sources */,
