@@ -1,12 +1,12 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - ListViewController.swift
 //  Created by Zhilly, Dragon. 22/11/14
 //  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
