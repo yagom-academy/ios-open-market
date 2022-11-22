@@ -7,6 +7,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    var itemList: ItemList?
+    
     let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["List", "Grid"])
 
@@ -27,7 +29,14 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.titleView = segmentedControl
         self.navigationItem.rightBarButtonItem = plusButton
-
+        
+        let url = OpenMarketURL.base + OpenMarketURLComponent.itemPageComponent(pageNo: 1, itemPerPage: 100).url
+        
+        NetworkManager.publicNetworkManager.getJSONData(
+            url: url,
+            type: ItemList.self) { data in
+                self.itemList = data
+            }
     }
 
     @objc private func didChangeValue(segment: UISegmentedControl) {
