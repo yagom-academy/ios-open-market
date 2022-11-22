@@ -1,8 +1,9 @@
 //
-//  OpenMarket - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+// ViewController.swift
+// OpenMarket
+//
+//  Created by 써니쿠키, 메네 on 2022/11/22.
+//
 
 import UIKit
 

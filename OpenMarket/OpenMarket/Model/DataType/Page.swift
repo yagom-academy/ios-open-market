@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct Page: Decodable {
-    enum Currency: String, Decodable {
+struct Page: Decodable, Hashable {
+    enum Currency: String, Decodable, Hashable {
         case krw = "KRW"
         case usd = "USD"
     }
 
-    struct Image: Decodable {
+    struct Image: Decodable, Hashable {
         let id: Int
         let url: String
         let thumbnailUrl: String
         let issuedAt: Date
     }
 
-    struct Vendors: Decodable {
+    struct Vendors: Decodable, Hashable {
         let id: Int
         let name: String
     }

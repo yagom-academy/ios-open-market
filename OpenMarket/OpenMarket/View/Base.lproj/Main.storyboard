@@ -45,7 +45,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="RAB-bD-IfM">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="lid-GV-DQa">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="lid-GV-DQa">
                             <rect key="frame" x="141.5" y="5.5" width="131" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -58,7 +58,7 @@
                             </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="Yqx-1p-8VC">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="NiZ-zS-iHL">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="NiZ-zS-iHL">
                                 <rect key="frame" x="302" y="0.0" width="92" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
@@ -96,13 +96,14 @@
             </objects>
             <point key="canvasLocation" x="-20.289855072463769" y="136.60714285714286"/>
         </scene>
-        <!--View Controller-->
+        <!--Market List View Controller-->
         <scene sceneID="CEb-fV-xr5">
             <objects>
-                <viewController id="d0b-dW-T1y" sceneMemberID="viewController">
+                <viewController id="d0b-dW-T1y" customClass="MarketListViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qs3-56-RdE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="liJ-Wx-7YG"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </viewController>
@@ -117,6 +118,7 @@
                     <view key="view" contentMode="scaleToFill" id="68n-3m-2bz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="5D8-dF-xNe"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </viewController>

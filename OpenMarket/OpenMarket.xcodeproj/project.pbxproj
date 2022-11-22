@@ -13,6 +13,8 @@
 		41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */; };
 		41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */; };
 		41B6E8A82923BDD900CBF91D /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B6E8A72923BDD900CBF91D /* DateFormatter+Extension.swift */; };
+		41BA5BF7292C9BF100EAED05 /* MarketListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BA5BF6292C9BF100EAED05 /* MarketListViewController.swift */; };
+		41BA5BF9292C9CB200EAED05 /* MarketCollectionViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BA5BF8292C9CB200EAED05 /* MarketCollectionViewListCell.swift */; };
 		41D3D7772924814B00C86A9A /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D3D7762924814B00C86A9A /* SampleData.swift */; };
 		864DE0392926300C0025547E /* MockHTTPURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DE0382926300C0025547E /* MockHTTPURLResponse.swift */; };
 		86F0E0282923245600188086 /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0272923245600188086 /* Market.swift */; };
@@ -55,6 +57,8 @@
 		41B6E8A1292325F100CBF91D /* Decodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+Extension.swift"; sourceTree = "<group>"; };
 		41B6E8A32923378F00CBF91D /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
 		41B6E8A72923BDD900CBF91D /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
+		41BA5BF6292C9BF100EAED05 /* MarketListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketListViewController.swift; sourceTree = "<group>"; };
+		41BA5BF8292C9CB200EAED05 /* MarketCollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewListCell.swift; sourceTree = "<group>"; };
 		41D3D7762924814B00C86A9A /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		864DE0382926300C0025547E /* MockHTTPURLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTPURLResponse.swift; sourceTree = "<group>"; };
 		86F0E0272923245600188086 /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				41BA5BF6292C9BF100EAED05 /* MarketListViewController.swift */,
+				41BA5BF8292C9CB200EAED05 /* MarketCollectionViewListCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -384,9 +390,11 @@
 				86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */,
 				41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				41BA5BF7292C9BF100EAED05 /* MarketListViewController.swift in Sources */,
 				418C67E529250D1B009051E2 /* Request.swift in Sources */,
 				41B6E8A42923378F00CBF91D /* URLSessionProvider.swift in Sources */,
 				86F0E0512924D11800188086 /* NetworkError.swift in Sources */,
+				41BA5BF9292C9CB200EAED05 /* MarketCollectionViewListCell.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				86F0E0282923245600188086 /* Market.swift in Sources */,
 				86F0E0552925115000188086 /* Page.swift in Sources */,
@@ -630,7 +638,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G9W4Z8U9JB;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -650,7 +658,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G9W4Z8U9JB;
 				INFOPLIST_FILE = OpenMarket/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
