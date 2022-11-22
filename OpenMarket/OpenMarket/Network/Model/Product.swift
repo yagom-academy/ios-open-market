@@ -8,7 +8,6 @@
 import Foundation
 
 struct Product: Codable {
-    private let formatConverter: FormatConverter = .init()
     let id: Int
     let vendorID: Int
     let name: String
@@ -22,10 +21,10 @@ struct Product: Codable {
     let issuedAt: String
     
     var createdDate: Date? {
-        formatConverter.date(from: createdAt)
+        FormatConverter.date(from: createdAt)
     }
     var issuedDate: Date? {
-        formatConverter.date(from: issuedAt)
+        FormatConverter.date(from: issuedAt)
     }
     
     enum CodingKeys: String, CodingKey {

@@ -2,14 +2,14 @@
 //  GridCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by Wonbi on 2022/11/22.
+//  Created by Gundy, Wonbi on 2022/11/22.
 //
 
 import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
     private var product: Product?
-    private var productimage: UIImage?
+    private var productImage: UIImage?
     private var productName: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
@@ -25,6 +25,7 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .systemYellow
     }
     
     required init?(coder: NSCoder) {

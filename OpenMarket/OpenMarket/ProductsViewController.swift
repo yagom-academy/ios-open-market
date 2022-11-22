@@ -37,7 +37,7 @@ final class ProductsViewController: UIViewController {
     private let gridCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "GridCell")
-        collectionView.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -91,10 +91,11 @@ final class ProductsViewController: UIViewController {
         layout.scrollDirection = .vertical
         switch layoutType {
         case .list:
-            layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 8)
+            layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 12)
+            layout.minimumLineSpacing = 0
         case .grid:
-            layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 20,
-                                     height: UIScreen.main.bounds.height / 4 + 10)
+            layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 15,
+                                     height: UIScreen.main.bounds.height / 4)
         }
         return layout
     }
@@ -136,11 +137,11 @@ final class ProductsViewController: UIViewController {
         case LayoutType.list.index:
             gridCollectionView.isHidden = true
             listCollectionView.isHidden = false
-            listCollectionView.collectionViewLayout.invalidateLayout()
+            listCollectionView.reloadData()
         case LayoutType.grid.index:
             listCollectionView.isHidden = true
             gridCollectionView.isHidden = false
-            gridCollectionView.collectionViewLayout.invalidateLayout()
+            gridCollectionView.reloadData()
         default:
             break
         }
