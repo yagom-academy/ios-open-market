@@ -5,7 +5,7 @@
 //  Created by 스톤, 로빈 on 2022/11/15.
 //
 
-import Foundation
+import UIKit
 
 struct NetworkManager {
     let baseURL: String
@@ -91,5 +91,14 @@ struct NetworkManager {
         }
         
         dataTask.resume()
+    }
+    
+    func fetchImage(url: URL, completion: @escaping (UIImage) -> ()) {
+        DispatchQueue.global(qos: .utility).async {
+            if let data = try? Data(contentsOf: url),
+               let image = UIImage(data: data) {
+                completion(image)
+            }
+        }
     }
 }
