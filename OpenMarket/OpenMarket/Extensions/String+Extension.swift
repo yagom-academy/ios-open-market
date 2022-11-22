@@ -11,4 +11,8 @@ extension String {
     func stringWithFormatter() -> Date? {
         return Formatter.customDateFormat.date(from: self)
     }
+    
+    static var zero: String {
+        return "0.0"
+    }
 }

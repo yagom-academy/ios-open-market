@@ -34,7 +34,7 @@ final class MainView: UIView {
     
     let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["LIST", "GRID"])
-        control.selectedSegmentIndex = 1
+        control.selectedSegmentIndex = 0
         control.layer.borderWidth = 1
         control.layer.borderColor = UIColor.blue.cgColor
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue],
@@ -68,7 +68,7 @@ final class MainView: UIView {
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: gridLayout)
+                                              collectionViewLayout: listLayout)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView

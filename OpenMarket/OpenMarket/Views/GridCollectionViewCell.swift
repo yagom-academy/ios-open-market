@@ -8,6 +8,8 @@
 import UIKit
 
 class GridCollectionViewCell: UICollectionViewCell {
+    private var discountPrice: Double = 0.0
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -17,43 +19,57 @@ class GridCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+
+        imageView.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751),
+                                                      for: .horizontal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let productPriceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let productPriceLabel: UILabel = {
+    private let productBeforeSalePriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGray
+        label.textColor = .red
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let productSalePriceLabel: UILabel = {
+    private let productSalePriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.red
+        label.textColor = .gray
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let productStockLabel: UILabel = {
+    private let productStockLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGray
+        label.textColor = .gray
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let productStackView: UIStackView = {
+    private let productStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
@@ -62,17 +78,48 @@ class GridCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+        
+    func setupData(with productData: Product) {
+        if let imageURL = URL(string: productData.thumbnail) {
+            productImageView.loadImage(url: imageURL)
+        }
+        
+        productNameLabel.text = productData.name
+        productPriceLabel.text = String(productData.price)
+        productBeforeSalePriceLabel.text = String(productData.price)
+        productSalePriceLabel.text = String(productData.bargainPrice)
+        productStockLabel.text = String(productData.stock)
+        discountPrice = productData.discountedPrice
+        
+        setupPriceLabel()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImageView.image = nil
+        productNameLabel.text = nil
+        productPriceLabel.text = nil
+        productBeforeSalePriceLabel.text = nil
+        productSalePriceLabel.text = nil
+        productStockLabel.text = nil
+    }
+    
+    private func applyStrikeThroghtStyle(label: UILabel) {
+        let attributeString = NSMutableAttributedString(string: label.text ?? "")
+        attributeString.addAttribute(.strikethroughStyle,
+                                     value: NSUnderlineStyle.single.rawValue,
+                                     range: NSMakeRange(0, attributeString.length))
+        label.attributedText = attributeString 
+    }
 }
 
 // MARK: - Constraints
 extension GridCollectionViewCell {
-    
     func setupUI() {
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.gray.cgColor
         setupStackView()
-        setupPriceLabel()
     }
     
     func setupStackView() {
@@ -82,19 +129,29 @@ extension GridCollectionViewCell {
         setupStackViewConstraints()
     }
     
-    func setupPriceLabel() {
-        self.addSubview(productPriceLabel)
+    private func setupPriceLabel() {
         self.addSubview(productStockLabel)
-        
-        if productSalePriceLabel.text == "0.0" {
+       
+        if  discountPrice == Double.zero {
+            clearPriceLabel()
+            self.addSubview(productPriceLabel)
             setupBottomLabelConstraints()
         } else {
+            clearPriceLabel()
+            self.addSubview(productBeforeSalePriceLabel)
             self.addSubview(productSalePriceLabel)
+            applyStrikeThroghtStyle(label: productBeforeSalePriceLabel)
             setupBottomSaleLabelConstraints()
         }
     }
     
-    func setupStackViewConstraints() {
+    private func clearPriceLabel() {
+        productPriceLabel.removeFromSuperview()
+        productBeforeSalePriceLabel.removeFromSuperview()
+        productSalePriceLabel.removeFromSuperview()
+    }
+    
+    private func setupStackViewConstraints() {
         NSLayoutConstraint.activate([
             productStackView.topAnchor.constraint(
                 equalTo: self.topAnchor, constant: 10),
@@ -105,28 +162,34 @@ extension GridCollectionViewCell {
         ])
     }
     
-    func setupBottomLabelConstraints() {
+    private func setupBottomLabelConstraints() {
         NSLayoutConstraint.activate([
             productPriceLabel.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 10),
             productPriceLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-     
+            
             productStockLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             productStockLabel.topAnchor.constraint(equalTo: productPriceLabel.bottomAnchor, constant: 10),
             productStockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ])
     }
     
-    func setupBottomSaleLabelConstraints() {
+    private func setupBottomSaleLabelConstraints() {
         NSLayoutConstraint.activate([
-            productSalePriceLabel.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 10),
-            productSalePriceLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            productBeforeSalePriceLabel.topAnchor.constraint(
+                equalTo: productStackView.bottomAnchor, constant: 5),
+            productBeforeSalePriceLabel.centerXAnchor.constraint(
+                equalTo: self.centerXAnchor),
             
-            productPriceLabel.topAnchor.constraint(equalTo: productSalePriceLabel.bottomAnchor, constant: 1),
-            productPriceLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            productSalePriceLabel.topAnchor.constraint(
+                equalTo: productBeforeSalePriceLabel.bottomAnchor, constant: 1),
+            productSalePriceLabel.centerXAnchor.constraint(
+                equalTo: self.centerXAnchor),
             
-            productStockLabel.topAnchor.constraint(equalTo: productPriceLabel.bottomAnchor, constant: 10),
+            productStockLabel.topAnchor.constraint(
+                equalTo: productSalePriceLabel.bottomAnchor, constant: 10),
             productStockLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            productStockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
+            productStockLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
+                                                      constant: -10)
         ])
     }
 }

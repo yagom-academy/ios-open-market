@@ -38,7 +38,6 @@ final class NetworkManager {
             }
             
             let data = String(decoding: safeData, as: UTF8.self)
-            print(data)
             let responseData = response.statusCode
             completion(.success(responseData))
         }.resume()

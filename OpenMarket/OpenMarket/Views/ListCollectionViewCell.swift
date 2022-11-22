@@ -8,6 +8,8 @@
 import UIKit
 
 class ListCollectionViewCell: UICollectionViewCell {
+    private var discountPrice: Double = 0.0
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -17,14 +19,14 @@ class ListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -32,37 +34,78 @@ class ListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let productPriceLabel: UILabel = {
+    private let productPriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGray
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let productSalePriceLabel: UILabel = {
+    private let productSalePriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.red
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let productStockLabel: UILabel = {
+    private let productBeforeSalePriceLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGray
+        label.textColor = .red
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let nextButton: UIButton = {
+    private let productStockLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let nextButton: UIButton = {
         let button = UIButton(type: .detailDisclosure)
         return button
     }()
+    
+    func setupData(with productData: Product) {
+        if let imageURL = URL(string: productData.thumbnail) {
+            productImageView.loadImage(url: imageURL)
+        }
+        
+        productNameLabel.text = productData.name
+        productPriceLabel.text = String(productData.price)
+        productBeforeSalePriceLabel.text = String(productData.price)
+        productSalePriceLabel.text = String(productData.bargainPrice)
+        productStockLabel.text = String(productData.stock)
+        discountPrice = productData.discountedPrice
+        
+        setupPriceLabel()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImageView.image = nil
+        productNameLabel.text = nil
+        productPriceLabel.text = nil
+        productBeforeSalePriceLabel.text = nil
+        productSalePriceLabel.text = nil
+        productStockLabel.text = nil
+    }
+    
+    private func applyStrikeThroghtStyle(label: UILabel) {
+        let attributeString = NSMutableAttributedString(string: label.text ?? "")
+        attributeString.addAttribute(.strikethroughStyle,
+                                     value: NSUnderlineStyle.single.rawValue,
+                                     range: NSMakeRange(0, attributeString.length))
+        label.attributedText = attributeString
+    }
 }
 
 // MARK: - Constraints
 extension ListCollectionViewCell {
     
-    func setupUI() {
+    private func setupUI() {
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.gray.cgColor
@@ -70,26 +113,66 @@ extension ListCollectionViewCell {
         setupConstraints()
     }
     
-    func setupView() {
+    private func setupView() {
         self.addSubview(productImageView)
         self.addSubview(productNameLabel)
-        self.addSubview(productPriceLabel)
+    }
+    
+    private func setupPriceLabel() {
         self.addSubview(productStockLabel)
+       
+        if  discountPrice == Double.zero {
+            clearPriceLabel()
+            self.addSubview(productPriceLabel)
+            setupPriceLabelConstraints()
+        } else {
+            clearPriceLabel()
+            self.addSubview(productBeforeSalePriceLabel)
+            self.addSubview(productSalePriceLabel)
+            applyStrikeThroghtStyle(label: productBeforeSalePriceLabel)
+            setupPriceSaleLabelConstraints()
+        }
+    }
+    
+    private func clearPriceLabel() {
+        productPriceLabel.removeFromSuperview()
+        productBeforeSalePriceLabel.removeFromSuperview()
+        productSalePriceLabel.removeFromSuperview()
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            productImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             productImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            productImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
             productImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.2),
             
             productNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             productNameLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
-            
+            productNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -100),
+        ])
+    }
+    
+    func setupPriceLabelConstraints() {
+        NSLayoutConstraint.activate([
             productPriceLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5),
             productPriceLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
+            
             productPriceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            
+            productStockLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            productStockLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30)
+        ])
+    }
+    
+    func setupPriceSaleLabelConstraints() {
+        NSLayoutConstraint.activate([
+            productBeforeSalePriceLabel.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor, constant: 5),
+            productBeforeSalePriceLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10),
+            
+            
+            productSalePriceLabel.topAnchor.constraint(equalTo: productBeforeSalePriceLabel.topAnchor),
+            productSalePriceLabel.leadingAnchor.constraint(equalTo: productBeforeSalePriceLabel.trailingAnchor, constant: 10),
+            
             
             productStockLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             productStockLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30)
