@@ -12,4 +12,5 @@ enum NetworkError: Error {
     case unknownError
     case invalidData
     case dataTaskError
+    case parsingError
 }

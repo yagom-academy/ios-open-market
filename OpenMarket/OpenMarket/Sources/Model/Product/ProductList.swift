@@ -4,7 +4,7 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-struct ProductList: Codable {
+struct ProductList: Decodable {
     let pageNumber: Int
     let itemsPerPage: Int
     let totalCount: Int
@@ -13,9 +13,9 @@ struct ProductList: Codable {
     let lastPage: Int
     let hasNext: Bool
     let hasPrevious: Bool
-    let pages: [Page]
+    let pages: [Product]
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case pageNumber = "pageNo"
         case itemsPerPage
         case totalCount
