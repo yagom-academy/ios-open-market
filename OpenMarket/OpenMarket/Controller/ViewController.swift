@@ -7,18 +7,35 @@
 import UIKit
 
 class ViewController: UIViewController {
+    enum Section {
+        case main
+    }
+    
+    let networkManager: NetworkManager = .init()
+    var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
+    var productCollectionView: UICollectionView!
+    var productList: ProductListData?
     let segmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["list", "grid"])
         return segment
     }()
     
-    var productCollectionView: UICollectionView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.titleView = segmentControl
+        navigationItem.titleView = segmentControl
         configureProductCollectionView()
+        networkManager.loadData(of: .productList(pageNumber: 1, itemsPerPage: 100), dataType: ProductListData.self) { result in
+            switch result {
+            case .success(let productList):
+                self.productList = productList
+                DispatchQueue.main.async {
+                    self.configureDataSource()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func configureProductCollectionView() {
@@ -36,5 +53,20 @@ class ViewController: UIViewController {
         ])
     }
 
+    func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<ProductCell, ProductData> { cell, indexPath, product in
+            cell.updateWithProduct(product)
+            cell.accessories = [.disclosureIndicator()]
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductData>(collectionView: productCollectionView) { collectionView, indexPath, product in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(productList!.pages)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
 }
 

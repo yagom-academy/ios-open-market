@@ -34,11 +34,11 @@ class ProductCell: UICollectionViewListCell {
     
     var listContentView: UIListContentView = UIListContentView(configuration: .cell())
     let stockLabel: UILabel = UILabel()
-    var stockLableConstraints: (stockLabelLeading: NSLayoutConstraint,
+    var stockLabelConstraints: (stockLabelLeading: NSLayoutConstraint,
                                 stockLabelTrailing: NSLayoutConstraint)?
     
     private func setUpViewsIfNeeded() {
-        guard stockLableConstraints == nil else {
+        guard stockLabelConstraints == nil else {
             return
         }
         
@@ -59,7 +59,7 @@ class ProductCell: UICollectionViewListCell {
             constraints.stockLabelTrailing
         ])
         
-        stockLableConstraints = constraints
+        stockLabelConstraints = constraints
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
