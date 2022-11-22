@@ -40,6 +40,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
+    
     let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -50,13 +51,51 @@ class GridCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
+        configureUI()
         configureConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    func configureData(item: Item) {
+        
+        if let url = URL(string: item.thumbnail) {
+            NetworkManager().fetchImage(url: url) { image in
+                DispatchQueue.main.async {
+                    self.itemImageView.image = image
+                }
+            }
+        }
+        
+        self.itemNameLabel.text = item.name
+        self.priceLabel.text = "\(item.currency.rawValue) \(item.price)"
+        self.priceLabel.textColor = .systemGray
+        
+        // 세일 가격이 있으면
+        if item.bargainPrice != 0 {
+            self.priceLabel.textColor = .systemRed
+            self.priceLabel.attributedText = self.priceLabel.text?.strikeThrough()
+            self.bargainPrice.text = "\(item.currency.rawValue) \(item.bargainPrice)"
+            self.bargainPrice.textColor = .systemGray
+        }
+        
+        if item.stock == 0 {
+            self.stockLabel.textColor = .systemOrange
+            self.stockLabel.text = "품절"
+        } else {
+            self.stockLabel.textColor = .systemGray
+            self.stockLabel.text = "잔여수량 : \(item.stock)"
+        }
+        
+    }
+    func configureUI() {
+        self.layer.borderColor = UIColor.darkGray.cgColor
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 10
+        
+    }
     private func configureView() {
         contentView.addSubview(itemImageView)
         contentView.addSubview(itemNameLabel)
