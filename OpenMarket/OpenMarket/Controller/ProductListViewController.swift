@@ -115,8 +115,8 @@ private extension UICellConfigurationState {
 class ProductListCell: UICollectionViewListCell {
     private var productData: Product?
     
-    private let productTypeLabel = UILabel()
-    private var productTypeConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
+    private let productPriceLabel = UILabel()
+    private var customViewConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
     
     func update(with newProduct: Product) {
         guard productData != newProduct else { return }
@@ -131,7 +131,9 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     private func defaultProductConfiguration() -> UIListContentConfiguration {
-        return .subtitleCell()
+        var config = UIListContentConfiguration.subtitleCell()
+        config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        return config
     }
     
     private lazy var productListContentView = UIListContentView(configuration: defaultProductConfiguration())
@@ -139,33 +141,33 @@ class ProductListCell: UICollectionViewListCell {
 
 extension ProductListCell {
     func setupViewsIfNeeded() {
-        guard productTypeConstraints == nil else {
+        guard customViewConstraints == nil else {
             return
         }
         
-        [productListContentView, productTypeLabel].forEach {
+        [productListContentView, productPriceLabel].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        productTypeLabel.font = .preferredFont(forTextStyle: .footnote)
-        productTypeLabel.textColor = .gray
+        productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
+        productPriceLabel.textColor = .gray
         
         let constraints = (leading:
-                            productTypeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productListContentView.trailingAnchor),
+                            productPriceLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productListContentView.trailingAnchor),
                            trailing:
-                            productTypeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor) )
+                            productPriceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10.0))
         
         NSLayoutConstraint.activate([
             productListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             productListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             productListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            productTypeLabel.topAnchor.constraint(equalTo: productListContentView.topAnchor),
+            productPriceLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
             constraints.leading,
             constraints.trailing
         ])
         
-        productTypeConstraints = constraints
+        customViewConstraints = constraints
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
@@ -181,7 +183,7 @@ extension ProductListCell {
         
         productListContentView.configuration = content
         
-        productTypeLabel.text = "잔여수량: \(state.productData?.stock ?? 0)"
+        productPriceLabel.text = "잔여수량: \(state.productData?.stock ?? 0)"
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {
