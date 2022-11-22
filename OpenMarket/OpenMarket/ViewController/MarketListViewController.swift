@@ -8,11 +8,17 @@
 import UIKit
 
 class MarketListViewController: UIViewController {
+    var pageData: [Page] = []
     var collectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
+    let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewListCell, Page> {
+        (cell, indexPath, page) in
+        cell.update(with: page)
+        cell.accessories = [.disclosureIndicator()]
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     func createListLayout() -> UICollectionViewCompositionalLayout {
@@ -24,8 +30,25 @@ class MarketListViewController: UIViewController {
         collectionView = UICollectionView(frame: view.bounds,
                                           collectionViewLayout: createListLayout())
         view.addSubview(collectionView)
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView:
+                                                                        collectionView) {
+            (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration,
+                                                                for: indexPath,
+                                                                item: itemIdentifier)
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+        snapshot.appendSections([.productList])
+        snapshot.appendItems(pageData)
+        dataSource?.apply(snapshot)
     }
-    
-    
-    
 }
+
+extension MarketListViewController {
+    enum Section {
+        case productList
+    }
+}
+
