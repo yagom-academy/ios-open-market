@@ -24,7 +24,7 @@ class ListUICollectionView: UICollectionView {
             cell.accessories = [.disclosureIndicator()]
         }
         
-        listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: self) {
+        self.listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: self) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: Item) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)

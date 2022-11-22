@@ -41,18 +41,18 @@ final class ViewController: UIViewController {
     
     private func checkCollectionType(segmentIndex: Int) {
         if segmentIndex == 0 {
-            gridCollectionView.isHidden = true
-            listCollectionView.isHidden = false
+            self.gridCollectionView.isHidden = true
+            self.listCollectionView.isHidden = false
         } else {
-            listCollectionView.isHidden = true
-            gridCollectionView.isHidden = false
+            self.listCollectionView.isHidden = true
+            self.gridCollectionView.isHidden = false
         }
     }
 
     private func configureNavigation() {
-        navigationItem.titleView = segmentedControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
-        segmentedControl.addTarget(self, action: #selector(changeItemView(_:)), for: .valueChanged)
+        self.navigationItem.titleView = segmentedControl
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
+        self.segmentedControl.addTarget(self, action: #selector(changeItemView(_:)), for: .valueChanged)
     }
     
     private func configureFetchItemList() {
@@ -65,8 +65,8 @@ final class ViewController: UIViewController {
                     self.gridCollectionView.configureGridDataSource(self.itemList)
                     self.listCollectionView.configureListDataSource(self.itemList)
                 }
-            case .failure(let failure):
-                print(failure)
+            case .failure(_):
+                self.viewDidLoad()
             }
         }
     }
@@ -98,29 +98,26 @@ extension ViewController {
     }
     
     private func configureCollectionView() {
-        listCollectionView = ListUICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
-        gridCollectionView = GridUICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
-        view.addSubview(listCollectionView)
-        view.addSubview(gridCollectionView)
+        self.listCollectionView = ListUICollectionView(frame: self.view.bounds, collectionViewLayout: createListLayout())
+        self.gridCollectionView = GridUICollectionView(frame: self.view.bounds, collectionViewLayout: createGridLayout())
+        self.view.addSubview(self.listCollectionView)
+        self.view.addSubview(self.gridCollectionView)
         
-        checkCollectionType(segmentIndex: segmentedControl.selectedSegmentIndex)
+        checkCollectionType(segmentIndex: self.segmentedControl.selectedSegmentIndex)
 
-        listCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.listCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            listCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            listCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            listCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            self.listCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.listCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.listCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
 
-            gridCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            gridCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            gridCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            self.gridCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.gridCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.gridCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
-
-    
 }

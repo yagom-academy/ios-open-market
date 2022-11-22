@@ -23,7 +23,7 @@ class GridUICollectionView: UICollectionView {
         let cellRegisteration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { cell, indexPath, item in
             cell.configureData(item: item)
         }
-        gridDataSource = UICollectionViewDiffableDataSource(collectionView: self,
+        self.gridDataSource = UICollectionViewDiffableDataSource(collectionView: self,
                                                         cellProvider: { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegisteration, for: indexPath, item: item)
         })

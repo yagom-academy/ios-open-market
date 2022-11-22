@@ -59,31 +59,31 @@ final class ListCollectionViewCell: UICollectionViewListCell {
 }
 
 extension ListCollectionViewCell {
-    func setupViewsIfNeeded() {
+    private func setupViewsIfNeeded() {
         guard stockConstraints == nil else { return }
-        contentView.addSubview(imageView)
-        contentView.addSubview(itemListContentView)
-        contentView.addSubview(stockLabel)
-        itemListContentView.translatesAutoresizingMaskIntoConstraints = false
-        stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(self.imageView)
+        self.contentView.addSubview(self.itemListContentView)
+        self.contentView.addSubview(self.stockLabel)
+        self.itemListContentView.translatesAutoresizingMaskIntoConstraints = false
+        self.stockLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = (leading:
-                            stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: itemListContentView.trailingAnchor),
-                           trailing: stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-                           width: stockLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
-                           centerY: stockLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor))
+                            self.stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: self.itemListContentView.trailingAnchor),
+                           trailing: self.stockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -5),
+                           width: self.stockLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.3),
+                           centerY: self.stockLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor))
         
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
-            imageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
+            self.imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            self.imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            self.imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
+            self.imageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
+            self.imageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
             
-            itemListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            itemListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            itemListContentView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            itemListContentView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
+            self.itemListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            self.itemListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            self.itemListContentView.leadingAnchor.constraint(equalTo: self.imageView.trailingAnchor),
+            self.itemListContentView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5),
             
             constraints.leading,
             constraints.trailing,
@@ -91,7 +91,7 @@ extension ListCollectionViewCell {
             constraints.centerY
         ])
         
-        stockConstraints = constraints
+        self.stockConstraints = constraints
     }
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
@@ -103,24 +103,25 @@ extension ListCollectionViewCell {
         content.text = state.item?.name
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
 
-        let priceString = "\(item!.currency.rawValue) \(item!.price) \(item!.currency.rawValue) \(item!.bargainPrice)"
+        guard let item = self.item else { return }
+        let priceString = "\(item.currency.rawValue) \(item.price) \(item.currency.rawValue) \(item.bargainPrice)"
         let attributedString = NSMutableAttributedString(string: priceString)
         attributedString.addAttribute(.strikethroughStyle, value: 1,
-                                      range: (priceString as NSString).range(of:"\(item!.currency.rawValue) \(item!.price)"))
+                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price)"))
         attributedString.addAttribute(.foregroundColor, value: UIColor.red,
-                                      range: (priceString as NSString).range(of:"\(item!.currency.rawValue) \(item!.price)"))
+                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price)"))
         content.secondaryAttributedText = attributedString
         content.secondaryTextProperties.color = .systemGray
         
         itemListContentView.configuration = content
         
-        if state.item?.stock == 0 {
+        if item.stock == 0 {
             self.stockLabel.textColor = .systemOrange
             self.stockLabel.text = "품절"
             self.stockLabel.textAlignment = .right
         } else {
             self.stockLabel.textColor = .systemGray
-            self.stockLabel.text = "잔여수량 : \(state.item!.stock)"
+            self.stockLabel.text = "잔여수량 : \(item.stock)"
             self.stockLabel.textAlignment = .left
         }
         NetworkManager().fetchImage(url: url) { image in

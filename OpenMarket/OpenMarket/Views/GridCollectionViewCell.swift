@@ -7,18 +7,18 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell {
     override var reuseIdentifier: String {
         return String(describing: Self.self)
     }
 
-    let itemImageView: UIImageView = {
+    private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
-    let itemNameLabel: UILabel = {
+    private let itemNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -27,21 +27,21 @@ class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    let priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
     }()
 
-    let bargainPrice: UILabel = {
+    private let bargainPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
     }()
     
-    let stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -60,7 +60,6 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func configureData(item: Item) {
-        
         if let url = URL(string: item.thumbnail) {
             NetworkManager().fetchImage(url: url) { image in
                 DispatchQueue.main.async {
@@ -72,8 +71,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         self.itemNameLabel.text = item.name
         self.priceLabel.text = "\(item.currency.rawValue) \(item.price)"
         self.priceLabel.textColor = .systemGray
-        
-        // 세일 가격이 있으면
+    
         if item.bargainPrice != 0 {
             self.priceLabel.textColor = .systemRed
             self.priceLabel.attributedText = self.priceLabel.text?.strikeThrough()
@@ -90,45 +88,45 @@ class GridCollectionViewCell: UICollectionViewCell {
         }
         
     }
-    func configureUI() {
+    private func configureUI() {
         self.layer.borderColor = UIColor.darkGray.cgColor
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
         
     }
     private func configureView() {
-        contentView.addSubview(itemImageView)
-        contentView.addSubview(itemNameLabel)
-        contentView.addSubview(priceLabel)
-        contentView.addSubview(bargainPrice)
-        contentView.addSubview(stockLabel)
+        self.contentView.addSubview(self.itemImageView)
+        self.contentView.addSubview(self.itemNameLabel)
+        self.contentView.addSubview(self.priceLabel)
+        self.contentView.addSubview(self.bargainPrice)
+        self.contentView.addSubview(self.stockLabel)
     }
 
     private func configureConstraints() {
         let inset = CGFloat(5)
 
         NSLayoutConstraint.activate([
-            itemImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
-            itemImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
-            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            itemImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
+            self.itemImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.5),
+            self.itemImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: inset),
+            self.itemImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
+            self.itemImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
 
-            itemNameLabel.topAnchor.constraint(equalTo: itemImageView.bottomAnchor, constant: inset),
-            itemNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            itemNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
+            self.itemNameLabel.topAnchor.constraint(equalTo: self.itemImageView.bottomAnchor, constant: inset),
+            self.itemNameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
+            self.itemNameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
 
-            priceLabel.topAnchor.constraint(equalTo: itemNameLabel.bottomAnchor, constant: inset),
-            priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
+            self.priceLabel.topAnchor.constraint(equalTo: self.itemNameLabel.bottomAnchor, constant: inset),
+            self.priceLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
+            self.priceLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
 
-            bargainPrice.topAnchor.constraint(equalTo: priceLabel.bottomAnchor),
-            bargainPrice.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            bargainPrice.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
+            self.bargainPrice.topAnchor.constraint(equalTo: self.priceLabel.bottomAnchor),
+            self.bargainPrice.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
+            self.bargainPrice.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
 
-            stockLabel.topAnchor.constraint(equalTo: bargainPrice.bottomAnchor, constant: inset),
-            stockLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
-            stockLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset)
+            self.stockLabel.topAnchor.constraint(equalTo: self.bargainPrice.bottomAnchor, constant: inset),
+            self.stockLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
+            self.stockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
+            self.stockLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -inset)
         ])
     }
 }
