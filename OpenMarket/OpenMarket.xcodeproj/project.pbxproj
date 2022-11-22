@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */; };
+		1A576ABE292C5D9B004C9CCF /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */; };
 		1A8CA6CD29234C0000B53E75 /* NetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */; };
 		1A8CA6DD2924739A00B53E75 /* MockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6DC2924739A00B53E75 /* MockTests.swift */; };
 		1AEA46AF2923261A00213A87 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA46AE2923261A00213A87 /* Item.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
+		1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A8CA6CA29234C0000B53E75 /* NetworkingTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingTests.swift; sourceTree = "<group>"; };
 		1A8CA6DA2924739A00B53E75 /* MockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +154,7 @@
 			children = (
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */,
+				1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A576ABE292C5D9B004C9CCF /* GridCollectionViewCell.swift in Sources */,
 				1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */,
 				54BE7770292477E000BCD075 /* URLSessionProtocol.swift in Sources */,
 				54D0B0EB29232A110061BB15 /* Currency.swift in Sources */,
