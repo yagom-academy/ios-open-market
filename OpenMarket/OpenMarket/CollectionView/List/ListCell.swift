@@ -8,34 +8,49 @@
 import UIKit
 
 class ListCell: UICollectionViewListCell {
-    var image: UIImage? {
-        guard let url = URL(string: imageURL) else {
-            return nil
-        }
-        
-        guard let data = try? Data(contentsOf: url) else {
-            return nil
-        }
-        
-        return UIImage(data: data)
-    }
-    let imageURL: String
-    let productName: String
-    let price: Double
-    let bargainPrice: Double
-    var discountedPrice: Double {
-        return price - bargainPrice
-    }
-    let stock: Int
+    let image: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
     
-    init(_ item: Product) {
-        self.imageURL = item.thumbnail
-        self.productName = item.name
-        self.price = item.price
-        self.bargainPrice = item.bargainPrice
-        self.stock = item.stock
-        
+    var imageURL: String = ""
+    
+    let productName: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let price: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+
+    }()
+    
+    let bargainPrice: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+
+    }()
+    
+    let stock: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+
+    }()
+    
+    override init(frame: CGRect) {
         super.init(frame: .zero)
+        
+        self.contentView.addSubview(price)
+         
+        NSLayoutConstraint.activate([
+            price.topAnchor.constraint(equalTo: contentView.topAnchor),
+            price.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+        ])
     }
     
     required init?(coder: NSCoder) {
