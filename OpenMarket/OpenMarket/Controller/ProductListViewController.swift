@@ -13,6 +13,12 @@ class ProductListViewController: UIViewController {
         view.backgroundColor = .white
         configureSegmentedControl()
         configureNavigationBar()
+        configureAddButton()
+    }
+    
+    @objc private func addButtonPressed() {
+        let addProductViewController = AddProductViewController()
+        self.present(addProductViewController, animated: true, completion: nil)
     }
 }
 
@@ -34,5 +40,10 @@ extension ProductListViewController {
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
         
         self.navigationItem.titleView = segmentedControl
+    }
+    
+    private func configureAddButton() {
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        self.navigationItem.rightBarButtonItem = addItem
     }
 }
