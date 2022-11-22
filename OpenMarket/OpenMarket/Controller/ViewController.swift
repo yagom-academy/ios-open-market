@@ -7,10 +7,15 @@
 import UIKit
 
 class ViewController: UIViewController {
+    let segmentControl: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["list", "grid"])
+        return segment
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        self.navigationItem.titleView = segmentControl
     }
 
 
