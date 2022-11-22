@@ -36,7 +36,7 @@ class MockURLSessionTests: XCTestCase {
         let mockData = try? jsonDecoder.decode(ProductList.self, from: MockData.data)
         
         // when
-        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethodEnum.get) { result in
+        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethod.get) { result in
             switch result {
             case .success(let data):
                 guard let test = JSONDecoder.decodeData(data: data, to: ProductList.self) else {
@@ -59,7 +59,7 @@ class MockURLSessionTests: XCTestCase {
         sut = NetworkManager(session: MockURLSession(isRequestSuccess: false))
 
         // when
-        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethodEnum.get) { result in
+        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethod.get) { result in
             switch result {
             case .success(_):
                 XCTFail("result is success")

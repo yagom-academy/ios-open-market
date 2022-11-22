@@ -1,10 +1,10 @@
 //
-//  OpenMarket - HttpMethodEnum.swift
+//  OpenMarket - HttpMethod.swift
 //  Created by Zhilly, Dragon. 22/11/16
 //  Copyright © yagom. All rights reserved.
 //
 
-enum HttpMethodEnum {
+enum HttpMethod {
     case get
     case post
     case patch

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		B415024E2925CFB0006780CF /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B415024D2925CFB0006780CF /* MockData.swift */; };
 		B41502502925D015006780CF /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B415024F2925D015006780CF /* MockURLSessionDataTask.swift */; };
-		B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F542924A101001FA318 /* HttpMethodEnum.swift */; };
+		B4412F552924A101001FA318 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F542924A101001FA318 /* HttpMethod.swift */; };
 		B4412F582924BDFE001FA318 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4412F572924BDFE001FA318 /* NetworkError.swift */; };
 		B44353FE2923723100F165B5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44353FD2923723100F165B5 /* NetworkManager.swift */; };
 		B48C5AE0292B816D0090F23D /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48C5ADF292B816D0090F23D /* URLManager.swift */; };
@@ -53,7 +53,7 @@
 /* Begin PBXFileReference section */
 		B415024D2925CFB0006780CF /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		B415024F2925D015006780CF /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
-		B4412F542924A101001FA318 /* HttpMethodEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethodEnum.swift; sourceTree = "<group>"; };
+		B4412F542924A101001FA318 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		B4412F572924BDFE001FA318 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		B44353FD2923723100F165B5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B48C5ADF292B816D0090F23D /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 				B48C5ADF292B816D0090F23D /* URLManager.swift */,
 				D0F39F702925D6AC00645529 /* URLSession+Extension.swift */,
 				D00F80A5292512EB001F6C03 /* URLSessionProtocol.swift */,
-				B4412F542924A101001FA318 /* HttpMethodEnum.swift */,
+				B4412F542924A101001FA318 /* HttpMethod.swift */,
 			);
 			path = URL;
 			sourceTree = "<group>";
@@ -185,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				B44353FD2923723100F165B5 /* NetworkManager.swift */,
+				D0225485292BBB360010F13A /* URL */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -192,9 +193,6 @@
 		D03ED9C929224CF3005F30A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D0225486292BBB850010F13A /* Network */,
-				D0225485292BBB360010F13A /* URL */,
-				D0225484292BBACA0010F13A /* Error */,
 				D03ED9E42923600E005F30A8 /* Product */,
 			);
 			path = Model;
@@ -220,10 +218,12 @@
 			isa = PBXGroup;
 			children = (
 				D03ED9CE29224D76005F30A8 /* App */,
-				D0225483292BBA140010F13A /* Extension */,
+				D0225486292BBB850010F13A /* Network */,
+				D0225484292BBACA0010F13A /* Error */,
 				D03ED9C929224CF3005F30A8 /* Model */,
 				D03ED9CA29224CFD005F30A8 /* View */,
 				D03ED9CB29224D11005F30A8 /* Controller */,
+				D0225483292BBA140010F13A /* Extension */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -420,7 +420,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D03ED9E929236322005F30A8 /* Vendor.swift in Sources */,
 				D0F39F712925D6AC00645529 /* URLSession+Extension.swift in Sources */,
-				B4412F552924A101001FA318 /* HttpMethodEnum.swift in Sources */,
+				B4412F552924A101001FA318 /* HttpMethod.swift in Sources */,
 				D03ED9DA29234F24005F30A8 /* Currency.swift in Sources */,
 				B41502502925D015006780CF /* MockURLSessionDataTask.swift in Sources */,
 				B4412F582924BDFE001FA318 /* NetworkError.swift in Sources */,

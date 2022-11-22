@@ -9,12 +9,12 @@ import Foundation
 struct NetworkManager {
     private let session: URLSessionProtocol
     
-    init(session: URLSessionProtocol = URLSession.shared) {
+    init(session: URLSessionProtocol) {
         self.session = session
     }
     
     func request(from url: URL?,
-                 httpMethod: HttpMethodEnum,
+                 httpMethod: HttpMethod,
                  completion: @escaping (Result<Data,NetworkError>) -> Void) {
         if let targetURL = url {
             var request: URLRequest = URLRequest(url: targetURL,timeoutInterval: Double.infinity)
