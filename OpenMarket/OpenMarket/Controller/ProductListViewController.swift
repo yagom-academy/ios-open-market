@@ -5,9 +5,15 @@
 
 import UIKit
 
+private enum Section: Hashable {
+    case main
+}
+
 class ProductListViewController: UIViewController {
     
     var collectionView: UICollectionView!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    var productData: ProductList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +22,20 @@ class ProductListViewController: UIViewController {
         configureSegmentedControl()
         configureNavigationBar()
         configureAddButton()
+        
+        let networkProvider = NetworkAPIProvider()
+        networkProvider.fetchProductList(query: nil) { result in
+            switch result {
+            case .success(let data):
+                self.productData = data
+                DispatchQueue.main.async {
+                    self.configureHierarchy()
+                    self.configureDataSource()
+                }
+            default :
+                return
+            }
+        }
     }
     
     @objc private func addButtonPressed() {
@@ -50,12 +70,41 @@ extension ProductListViewController {
     }
 }
 
-@available(iOS 14.0, *)
 fileprivate extension UIConfigurationStateCustomKey {
     static let product = UIConfigurationStateCustomKey("product")
 }
 
-@available(iOS 14.0, *)
+extension ProductListViewController {
+    private func createLayout() -> UICollectionViewLayout {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: config)
+    }
+}
+
+extension ProductListViewController {
+    private func configureHierarchy() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(collectionView)
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
+            cell.update(with: product)
+            cell.accessories = [.disclosureIndicator()]
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(productData?.pages ?? [])
+        dataSource.apply(snapshot)
+    }
+}
+
 private extension UICellConfigurationState {
     var productData: Product? {
         set { self[.product] = newValue }
@@ -63,7 +112,6 @@ private extension UICellConfigurationState {
     }
 }
 
-@available(iOS 14.0, *)
 class ProductListCell: UICollectionViewListCell {
     private var productData: Product?
     
@@ -89,7 +137,6 @@ class ProductListCell: UICollectionViewListCell {
     private lazy var productListContentView = UIListContentView(configuration: defaultProductConfiguration())
 }
 
-@available(iOS 14.0, *)
 extension ProductListCell {
     func setupViewsIfNeeded() {
         guard productTypeConstraints == nil else {
@@ -101,6 +148,9 @@ extension ProductListCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        productTypeLabel.font = .preferredFont(forTextStyle: .footnote)
+        productTypeLabel.textColor = .gray
+        
         let constraints = (leading:
                             productTypeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productListContentView.trailingAnchor),
                            trailing:
@@ -110,7 +160,7 @@ extension ProductListCell {
             productListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             productListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             productListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            productTypeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            productTypeLabel.topAnchor.constraint(equalTo: productListContentView.topAnchor),
             constraints.leading,
             constraints.trailing
         ])
@@ -127,11 +177,11 @@ extension ProductListCell {
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = state.productData?.name
         content.textProperties.font = .preferredFont(forTextStyle: .body)
-        content.secondaryText = "\(String(describing: productData?.currency)) \(String(describing: productData?.price))"
+        content.secondaryText = "\(productData?.currency.description ?? "") \(productData?.price.description ?? "")"
         
         productListContentView.configuration = content
         
-        productTypeLabel.text = "잔여수량: \(String(describing: state.productData?.stock))"
+        productTypeLabel.text = "잔여수량: \(state.productData?.stock ?? 0)"
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {

@@ -1,4 +1,5 @@
 //  Created by Aejong, Tottale on 2022/11/15.
+import Foundation
 
 struct ProductList: Decodable {
     
@@ -20,7 +21,6 @@ struct ProductList: Decodable {
 }
 
 struct Product: Decodable, Hashable {
-    
     let id: Int
     let vendorID: Int
     let vendorName: String
@@ -48,7 +48,7 @@ struct Product: Decodable, Hashable {
     }
 }
 
-struct Image: Decodable {
+struct Image: Decodable, Hashable {
     let id: Int?
     let url, thumbnailURL: String?
     let issuedAt: String?
@@ -59,7 +59,7 @@ struct Image: Decodable {
     }
 }
 
-struct Vendors: Decodable {
+struct Vendors: Decodable, Hashable {
     let id: Int?
     let name: String?
 }
