@@ -10,6 +10,15 @@ final class ProductsViewController: UIViewController {
     private enum LayoutType {
         case list
         case grid
+        
+        var index: Int {
+            switch self {
+            case .list:
+                return 0
+            case .grid:
+                return 1
+            }
+        }
     }
     
     private var networkManager = NetworkManager()
@@ -17,9 +26,17 @@ final class ProductsViewController: UIViewController {
     private var pageNumber: Int = 1
     private var isInfiniteScroll: Bool = true
     
-    private let collectionView: UICollectionView = {
+    private let listCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "ListCell")
+        collectionView.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    private let gridCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "GridCell")
         collectionView.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -28,7 +45,7 @@ final class ProductsViewController: UIViewController {
     private let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = LayoutType.list.index
         segmentedControl.backgroundColor = .systemGray6
         
         return segmentedControl
@@ -47,17 +64,23 @@ final class ProductsViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.navigationItem.titleView = self.segmentedControl
+        addTarget()
         self.navigationItem.rightBarButtonItem = self.addProductButton
-        collectionView.collectionViewLayout = makeLayout(.list)
+        listCollectionView.collectionViewLayout = makeLayout(.list)
+        gridCollectionView.collectionViewLayout = makeLayout(.grid)
         
-        view.addSubview(collectionView)
+        view.addSubview(gridCollectionView)
+        view.addSubview(listCollectionView)
         setupListConstraints()
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        listCollectionView.dataSource = self
+        listCollectionView.delegate = self
+        gridCollectionView.dataSource = self
+        gridCollectionView.delegate = self
         
         fetchData() {
             DispatchQueue.main.async { [weak self] in
-                self?.collectionView.reloadData()
+                self?.gridCollectionView.reloadData()
+                self?.listCollectionView.reloadData()
             }
         }
     }
@@ -91,13 +114,35 @@ final class ProductsViewController: UIViewController {
         }
     }
     
-    private func setupListConstraints() {
+    private func setupcollectionViewConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            listCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            listCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            listCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            gridCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gridCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gridCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
         ])
+    }
+    
+    private func addTarget() {
+        segmentedControl.addTarget(self, action: #selector(changeLayout(_:)), for: .valueChanged)
+    }
+    
+    @objc private func changeLayout(_ segmentedControl: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case LayoutType.list.index:
+            listCollectionView.isHidden = false
+            gridCollectionView.isHidden = true
+        case LayoutType.grid.index:
+            listCollectionView.isHidden = true
+            gridCollectionView.isHidden = false
+        default:
+            break
+        }
+        
     }
 }
 
@@ -113,16 +158,32 @@ extension ProductsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
-                                                            for: indexPath) as? ListCollectionViewCell
-        else {
+        let productList = productLists[indexPath.section]
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case LayoutType.list.index:
+            guard let cell = listCollectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
+                                                                    for: indexPath) as? ListCollectionViewCell
+            else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureCell(from: productList.pages[indexPath.item])
+            return cell
+            
+        case LayoutType.grid.index:
+            guard let cell = gridCollectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
+                                                                    for: indexPath) as? GridCollectionViewCell
+            else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureCell(from: productList.pages[indexPath.item])
+            return cell
+            
+        default:
             return UICollectionViewCell()
         }
-        
-        let productList = productLists[indexPath.section]
-        cell.configureCell(from: productList.pages[indexPath.item])
-        
-        return cell
     }
 }
 
@@ -136,7 +197,8 @@ extension ProductsViewController: UICollectionViewDelegate {
             pageNumber += 1
             fetchData() {
                 DispatchQueue.main.async { [weak self] in
-                    self?.collectionView.reloadData()
+                    self?.listCollectionView.reloadData()
+                    self?.gridCollectionView.reloadData()
                     self?.isInfiniteScroll = true
                 }
             }
