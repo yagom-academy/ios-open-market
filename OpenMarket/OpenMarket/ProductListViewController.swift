@@ -27,6 +27,11 @@ extension ProductListViewController {
         let segmentTextContent = [NSLocalizedString("LIST", comment: ""), NSLocalizedString("GRID", comment: "")]
         let segmentedControl = UISegmentedControl(items: segmentTextContent)
         segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.backgroundColor = .systemBackground
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        segmentedControl.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
         
         self.navigationItem.titleView = segmentedControl
     }
