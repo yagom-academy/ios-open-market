@@ -5,7 +5,7 @@
 //  Created by Ayaan, junho on 2022/11/15.
 //
 
-struct Vendor: Decodable {
+struct Vendor: Decodable, Hashable {
     let id: Int
     let name: String
 }

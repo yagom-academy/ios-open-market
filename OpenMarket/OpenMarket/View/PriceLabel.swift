@@ -33,6 +33,7 @@ class PriceLabel: UILabel {
         font = UIFont.preferredFont(forTextStyle: .body)
         adjustsFontForContentSizeCategory = true
         textAlignment = .left
+        numberOfLines = 0
         textColor = .gray
         translatesAutoresizingMaskIntoConstraints = false
     }

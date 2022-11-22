@@ -23,6 +23,7 @@ final class ProductListCell: UICollectionViewListCell {
                                           compatibleWith: UITraitCollection.init(preferredContentSizeCategory: .large))
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .left
+        label.numberOfLines = 0
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -66,15 +67,16 @@ final class ProductListCell: UICollectionViewListCell {
             thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor),
             nameLabel.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: spacing),
-            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: stockLabel.leadingAnchor, constant: spacing),
+            nameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: stockLabel.bottomAnchor),
             stockLabel.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor),
+            stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: nameLabel.trailingAnchor, constant: spacing),
             stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            stockLabel.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: spacing),
             priceLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: spacing),
             priceLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -spacing),
             priceLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
         ])
+        nameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
     private func setupDataIfNeeded() {
