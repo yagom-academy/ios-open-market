@@ -49,6 +49,12 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
 
         return image
     }
+    
+    func update(with newPageData: Page) {
+        guard pageData != newPageData else { return }
+        pageData = newPageData
+        setNeedsUpdateConfiguration()
+    }
 }
 
 extension UIConfigurationStateCustomKey {
