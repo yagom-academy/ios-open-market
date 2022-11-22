@@ -26,7 +26,6 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
         
-        //내용을만든다! -> ContentConfiguration
         var content = configureListCell().updated(for: state)
         
         if let thumbnail = state.pageData?.thumbnail {
@@ -35,9 +34,12 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         
         guard let pageData = state.pageData else { return }
         
+        content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = pageData.name
+        content.textProperties.font = .preferredFont(forTextStyle: .headline)
         content.secondaryText = "\(pageData.currency) \(pageData.price)"
         stockLabel.text = pageData.stock == 0 ? "품절" : "잔여수량 : \(pageData.stock)"
+        pageListContentView.configuration = content
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {

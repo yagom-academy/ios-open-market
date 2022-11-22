@@ -16,9 +16,23 @@ class MarketListViewController: UIViewController {
         cell.update(with: page)
         cell.accessories = [.disclosureIndicator()]
     }
+    let marketURLSessionProvider = MarketURLSessionProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let url = Request.productList(pageNumber: 1, itemsPerPage: 50).url else { return }
+        marketURLSessionProvider.fetchData(url: url, type: Market.self) { result in
+            switch result {
+            case .success(let market):
+                self.pageData = market.pages
+                DispatchQueue.main.async {
+                    self.configureCollectionView()
+                    self.configureDataSource()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func createListLayout() -> UICollectionViewCompositionalLayout {
@@ -30,7 +44,9 @@ class MarketListViewController: UIViewController {
         collectionView = UICollectionView(frame: view.bounds,
                                           collectionViewLayout: createListLayout())
         view.addSubview(collectionView)
-        
+    }
+    
+    func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView:
                                                                         collectionView) {
             (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
