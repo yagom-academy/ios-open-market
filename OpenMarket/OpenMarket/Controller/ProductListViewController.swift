@@ -57,8 +57,91 @@ fileprivate extension UIConfigurationStateCustomKey {
 
 @available(iOS 14.0, *)
 private extension UICellConfigurationState {
-    var product: Product? {
+    var productData: Product? {
         set { self[.product] = newValue }
         get { return self[.product] as? Product }
     }
 }
+
+@available(iOS 14.0, *)
+class ProductListCell: UICollectionViewListCell {
+    private var productData: Product?
+    
+    private let productTypeLabel = UILabel()
+    private var productTypeConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
+    
+    func update(with newProduct: Product) {
+        guard productData != newProduct else { return }
+        productData = newProduct
+        setNeedsUpdateConfiguration()
+    }
+    
+    override var configurationState: UICellConfigurationState {
+        var state = super.configurationState
+        state.productData = self.productData
+        return state
+    }
+    
+    private func defaultProductConfiguration() -> UIListContentConfiguration {
+        return .subtitleCell()
+    }
+    
+    private lazy var productListContentView = UIListContentView(configuration: defaultProductConfiguration())
+}
+
+@available(iOS 14.0, *)
+extension ProductListCell {
+    func setupViewsIfNeeded() {
+        guard productTypeConstraints == nil else {
+            return
+        }
+        
+        [productListContentView, productTypeLabel].forEach {
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        let constraints = (leading:
+                            productTypeLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productListContentView.trailingAnchor),
+                           trailing:
+                            productTypeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor) )
+        
+        NSLayoutConstraint.activate([
+            productListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            productListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            productListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            productTypeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            constraints.leading,
+            constraints.trailing
+        ])
+        
+        productTypeConstraints = constraints
+    }
+    
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        setupViewsIfNeeded()
+        
+        var content = defaultProductConfiguration().updated(for: state)
+        
+        content.image = urlToImage(state.productData?.thumbnail ?? "")
+        content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+        content.text = state.productData?.name
+        content.textProperties.font = .preferredFont(forTextStyle: .body)
+        content.secondaryText = "\(String(describing: productData?.currency)) \(String(describing: productData?.price))"
+        
+        productListContentView.configuration = content
+        
+        productTypeLabel.text = "잔여수량: \(String(describing: state.productData?.stock))"
+    }
+    
+    func urlToImage(_ urlString: String) -> UIImage? {
+        guard let url = URL(string: urlString),
+              let data = try? Data(contentsOf: url),
+              let image = UIImage(data: data) else {
+            return nil
+        }
+        
+        return image
+    }
+}
+
