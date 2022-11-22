@@ -13,7 +13,9 @@ final class ProductsViewController: UIViewController {
     }
     
     private var networkManager = NetworkManager()
-    private var productList: ProductList?
+    private var productLists: [ProductList] = []
+    private var pageNumber: Int = 1
+    private var isInfiniteScroll: Bool = true
     
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -51,8 +53,13 @@ final class ProductsViewController: UIViewController {
         view.addSubview(collectionView)
         setupListConstraints()
         collectionView.dataSource = self
+        collectionView.delegate = self
         
-        fetchData()
+        fetchData() {
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
     }
     
     private func makeLayout(_ layoutType: LayoutType) -> UICollectionViewFlowLayout {
@@ -69,17 +76,15 @@ final class ProductsViewController: UIViewController {
         return layout
     }
     
-    private func fetchData() {
-        let productListRequest = ProductListRequest(pageNo: 1, itemsPerPage: 20)
+    private func fetchData(_ completion: @escaping () -> Void) {
+        let productListRequest = ProductListRequest(pageNo: pageNumber, itemsPerPage: 20)
         guard let url = productListRequest.request?.url else { return }
         
         networkManager.fetchData(for: url, dataType: ProductList.self) { [weak self] result in
             switch result {
             case .success(let productList):
-                self?.productList = productList
-                DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                }
+                self?.productLists.append(productList)
+                completion()
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -97,23 +102,44 @@ final class ProductsViewController: UIViewController {
 }
 
 extension ProductsViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return productLists.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productList?.pages.count ?? 0
+        return productLists[valid: section]?.pages.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
-                                                                for: indexPath) as? ListCollectionViewCell else {
+                                                            for: indexPath) as? ListCollectionViewCell
+        else {
             return UICollectionViewCell()
         }
         
-        if let productList = productList {
-            cell.configureCell(from: productList.pages[indexPath.item])
-        }
+        let productList = productLists[indexPath.section]
+        cell.configureCell(from: productList.pages[indexPath.item])
         
         return cell
     }
 }
 
+extension ProductsViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let endPoint: CGFloat = scrollView.contentSize.height - scrollView.bounds.height
+        let isEndOfScroll: Bool = scrollView.contentOffset.y > endPoint
+        
+        if isEndOfScroll, isInfiniteScroll {
+            isInfiniteScroll = false
+            pageNumber += 1
+            fetchData() {
+                DispatchQueue.main.async { [weak self] in
+                    self?.collectionView.reloadData()
+                    self?.isInfiniteScroll = true
+                }
+            }
+        }
+    }
+}
