@@ -1,8 +1,6 @@
 //
-//  AddProductViewController.swift
-//  OpenMarket
-//
-//  Created by jin on 11/22/22.
+//  OpenMarket - AddProductViewController.swift
+//  Created by Aejong, Tottale on 2022/11/22.
 //
 
 import UIKit
