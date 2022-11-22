@@ -7,12 +7,32 @@
 import UIKit
 
 class ListViewController: UIViewController {
+    var product: ProductList?
+    let networkManager: NetworkRequestable = NetworkManager(session: URLSession.shared)
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCollectionView()
+        DispatchQueue.global().async {
+            self.loadData { data in
+                DispatchQueue.main.sync {
+                    self.configureCollectionView()
+                }
+            }
+        }
+    }
+    
+    func loadData(complete: @escaping(ProductList) -> ()) {
+        networkManager.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 200).url, httpMethod: HttpMethod.get, dataType: ProductList.self) { result in
+            switch result {
+            case .success(let data):
+                self.product = data
+                complete(data)
+            case .failure(_):
+                break
+            }
+        }
     }
     
     private func configureCollectionView() {
@@ -31,11 +51,20 @@ extension ListViewController: UICollectionViewDelegate {
 
 extension ListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        
+        guard let count: Int = product?.pages.count else {
+            return 0
+        }
+        
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCollectionViewCell", for: indexPath) as! ListCollectionViewCell
+        
+        cell.productNameLabel.text = product?.pages[indexPath.item].name
+        cell.priceLabel.text = "\(product!.pages[indexPath.item].price)"
+        
         return cell
     }
 }
