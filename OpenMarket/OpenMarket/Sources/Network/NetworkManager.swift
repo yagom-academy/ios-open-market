@@ -13,19 +13,21 @@ struct NetworkManager {
         self.session = session
     }
     
-    func request(from url: URL?,
+    func request<T: Decodable>(from url: URL?,
                  httpMethod: HttpMethod,
-                 completion: @escaping (Result<Data,NetworkError>) -> Void) {
+                 dataType: T.Type,
+                 completion: @escaping (Result<T,NetworkError>) -> Void) {
         if let targetURL = url {
             var request: URLRequest = URLRequest(url: targetURL,timeoutInterval: Double.infinity)
             request.httpMethod = httpMethod.name
             
-            dataTask(request: request, completion: completion)
+            dataTask(request: request, dataType: dataType, completion: completion)
         }
     }
     
-    private func dataTask(request: URLRequest,
-                          completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    private func dataTask<T: Decodable>(request: URLRequest,
+                          dataType: T.Type,
+                          completion: @escaping (Result<T, NetworkError>) -> Void) {
         let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
             if error != nil {
                 completion(.failure(.dataTaskError))
@@ -52,7 +54,13 @@ struct NetworkManager {
                 return completion(.failure(.invalidData))
             }
             
-            return completion(.success(data))
+            let decodedData = JSONDecoder.decodeData(data: data, to: dataType.self)
+            
+            if let data = decodedData {
+                return completion(.success(data))
+            } else {
+                return completion(.failure(.parsingError))
+            }
         }
         
         task.resume()

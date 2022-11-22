@@ -36,17 +36,13 @@ class MockURLSessionTests: XCTestCase {
         let mockData = try? jsonDecoder.decode(ProductList.self, from: MockData.data)
         
         // when
-        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethod.get) { result in
+        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethod.get, dataType: ProductList.self) { result in
             switch result {
             case .success(let data):
-                guard let test = JSONDecoder.decodeData(data: data, to: ProductList.self) else {
-                    XCTFail("Decode Error")
-                    return
-                }
-                print(test)
+                print(data)
                 // then
-                XCTAssertEqual(mockData?.pageNumber, test.pageNumber)
-                XCTAssertEqual(mockData?.totalCount, test.totalCount)
+                XCTAssertEqual(mockData?.pageNumber, data.pageNumber)
+                XCTAssertEqual(mockData?.totalCount, data.totalCount)
             case .failure(_):
                 XCTFail("getItemList failure")
                 return
@@ -59,7 +55,7 @@ class MockURLSessionTests: XCTestCase {
         sut = NetworkManager(session: MockURLSession(isRequestSuccess: false))
 
         // when
-        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethod.get) { result in
+        sut.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 100).url, httpMethod: HttpMethod.get, dataType: ProductList.self) { result in
             switch result {
             case .success(_):
                 XCTFail("result is success")
