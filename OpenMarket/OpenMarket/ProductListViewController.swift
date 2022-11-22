@@ -9,15 +9,25 @@ class ProductListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationBarConfiguration()
+        
         view.backgroundColor = .white
+        configureSegmentedControl()
+        configureNavigationBar()
     }
 }
 
 extension ProductListViewController {
-    private func navigationBarConfiguration() {
+    private func configureNavigationBar() {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .systemGray6
         self.navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+    }
+    
+    private func configureSegmentedControl() {
+        let segmentTextContent = [NSLocalizedString("LIST", comment: ""), NSLocalizedString("GRID", comment: "")]
+        let segmentedControl = UISegmentedControl(items: segmentTextContent)
+        segmentedControl.selectedSegmentIndex = 0
+        
+        self.navigationItem.titleView = segmentedControl
     }
 }
