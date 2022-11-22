@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell {
     private var discountPrice: Double = 0.0
     
     override init(frame: CGRect) {
@@ -22,9 +22,8 @@ class GridCollectionViewCell: UICollectionViewCell {
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-
         imageView.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751),
-                                                      for: .horizontal)
+                                                          for: .horizontal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -78,19 +77,21 @@ class GridCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-        
+    
     func setupData(with productData: Product) {
         if let imageURL = URL(string: productData.thumbnail) {
             productImageView.loadImage(url: imageURL)
         }
         
+        discountPrice = productData.discountedPrice
+        
         productNameLabel.text = productData.name
         productPriceLabel.text = String(productData.price)
         productBeforeSalePriceLabel.text = String(productData.price)
         productSalePriceLabel.text = String(productData.bargainPrice)
-        productStockLabel.text = String(productData.stock)
-        discountPrice = productData.discountedPrice
+        productStockLabel.text = productData.stockDescription
         
+        setupStockLabel()
         setupPriceLabel()
     }
     
@@ -109,7 +110,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         attributeString.addAttribute(.strikethroughStyle,
                                      value: NSUnderlineStyle.single.rawValue,
                                      range: NSMakeRange(0, attributeString.length))
-        label.attributedText = attributeString 
+        label.attributedText = attributeString
     }
 }
 
@@ -129,10 +130,18 @@ extension GridCollectionViewCell {
         setupStackViewConstraints()
     }
     
+    private func setupStockLabel() {
+        if productStockLabel.text == "품절" {
+            productStockLabel.textColor = .systemOrange
+            self.addSubview(productStockLabel)
+        } else {
+            productStockLabel.textColor = .gray
+            self.addSubview(productStockLabel)
+        }
+    }
+    
     private func setupPriceLabel() {
-        self.addSubview(productStockLabel)
-       
-        if  discountPrice == Double.zero {
+        if discountPrice == Double.zero {
             clearPriceLabel()
             self.addSubview(productPriceLabel)
             setupBottomLabelConstraints()

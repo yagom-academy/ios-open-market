@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+final class ListCollectionViewCell: UICollectionViewCell {
     private var discountPrice: Double = 0.0
     
     override init(frame: CGRect) {
@@ -75,13 +75,15 @@ class ListCollectionViewCell: UICollectionViewCell {
             productImageView.loadImage(url: imageURL)
         }
         
+        discountPrice = productData.discountedPrice
+        
         productNameLabel.text = productData.name
         productPriceLabel.text = String(productData.price)
         productBeforeSalePriceLabel.text = String(productData.price)
         productSalePriceLabel.text = String(productData.bargainPrice)
-        productStockLabel.text = String(productData.stock)
-        discountPrice = productData.discountedPrice
+        productStockLabel.text = productData.stockDescription
         
+        setupStockLabel()
         setupPriceLabel()
     }
     
@@ -121,9 +123,19 @@ extension ListCollectionViewCell {
         self.addSubview(nextButton)
     }
     
+    private func setupStockLabel() {
+        if productStockLabel.text == "품절" {
+            productStockLabel.textColor = .systemOrange
+            self.addSubview(productStockLabel)
+        } else {
+            productStockLabel.textColor = .gray
+            self.addSubview(productStockLabel)
+        }
+    }
+    
     private func setupPriceLabel() {
         self.addSubview(productStockLabel)
-       
+        
         if  discountPrice == Double.zero {
             clearPriceLabel()
             self.addSubview(productPriceLabel)
@@ -143,7 +155,7 @@ extension ListCollectionViewCell {
         productSalePriceLabel.removeFromSuperview()
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             productImageView.centerYAnchor.constraint(
                 equalTo: self.centerYAnchor),
@@ -159,11 +171,11 @@ extension ListCollectionViewCell {
             productNameLabel.leadingAnchor.constraint(
                 equalTo: productImageView.trailingAnchor, constant: 10),
             productNameLabel.trailingAnchor.constraint(
-                equalTo: self.trailingAnchor, constant: -100)
+                equalTo: self.trailingAnchor, constant: -130)
         ])
     }
     
-    func setupPriceLabelConstraints() {
+    private func setupPriceLabelConstraints() {
         NSLayoutConstraint.activate([
             productPriceLabel.topAnchor.constraint(
                 equalTo: productNameLabel.bottomAnchor, constant: 5),
@@ -187,7 +199,7 @@ extension ListCollectionViewCell {
         ])
     }
     
-    func setupPriceSaleLabelConstraints() {
+    private func setupPriceSaleLabelConstraints() {
         NSLayoutConstraint.activate([
             productBeforeSalePriceLabel.topAnchor.constraint(
                 equalTo: productNameLabel.bottomAnchor, constant: 5),
@@ -199,7 +211,7 @@ extension ListCollectionViewCell {
                 equalTo: productBeforeSalePriceLabel.topAnchor),
             productSalePriceLabel.leadingAnchor.constraint(
                 equalTo: productBeforeSalePriceLabel.trailingAnchor, constant: 10),
-                        
+            
             nextButton.topAnchor.constraint(
                 equalTo: self.topAnchor, constant: 5),
             nextButton.bottomAnchor.constraint(

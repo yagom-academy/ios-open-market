@@ -24,7 +24,16 @@ struct Product: Decodable {
     var createdAtByFormatter: Date {
         return createdAt.stringWithFormatter() ?? Date()
     }
+    
     var issuedAtByFormatter: Date {
         return issuedAt.stringWithFormatter() ?? Date()
+    }
+    
+    var stockDescription: String {
+        if stock == Int.zero {
+            return String(format: "품절")
+        } else {
+            return String(format: "잔여수량 : %@", String(self.stock))
+        }
     }
 }

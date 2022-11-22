@@ -20,7 +20,7 @@ final class MainViewController: UIViewController {
         mainView.collectionView.dataSource = self
     }
     
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         self.navigationItem.titleView = mainView.segmentedControl
         let appearance = UINavigationBarAppearance()
         navigationController?.navigationBar.standardAppearance = appearance
@@ -84,30 +84,38 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if mainView.layoutStatus == .list {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.reuseIdentifier,
-                                                                for: indexPath) as? ListCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ListCollectionViewCell.reuseIdentifier,
+                for: indexPath) as? ListCollectionViewCell
+            else {
                 let errorCell = UICollectionViewCell()
                 return errorCell
             }
             
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.async { [weak self] in
                 if indexPath == collectionView.indexPath(for: cell) {
-                    cell.setupData(with: self.productData[indexPath.item])
+                    guard let data = self?.productData[indexPath.item] else { return }
+                    cell.setupData(with: data)
                 }
             }
+            
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.reuseIdentifier,
-                                                                for: indexPath) as? GridCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: GridCollectionViewCell.reuseIdentifier,
+                for: indexPath) as? GridCollectionViewCell
+            else {
                 let errorCell = UICollectionViewCell()
                 return errorCell
             }
             
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.async { [weak self] in
                 if indexPath == collectionView.indexPath(for: cell) {
-                    cell.setupData(with: self.productData[indexPath.item])
+                    guard let data = self?.productData[indexPath.item] else { return }
+                    cell.setupData(with: data)
                 }
             }
+            
             return cell
         }
     }

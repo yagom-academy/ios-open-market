@@ -16,10 +16,11 @@ final class MainView: UIView {
     var layoutStatus: CollectionStatus = .list {
         didSet {
             changeLayout()
+            scrollViewTop()
             collectionView.reloadData()
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -46,7 +47,7 @@ final class MainView: UIView {
         return control
     }()
     
-    let listLayout: UICollectionViewFlowLayout = {
+    private let listLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
@@ -56,7 +57,7 @@ final class MainView: UIView {
         return layout
     }()
     
-    let gridLayout: UICollectionViewFlowLayout = {
+    private let gridLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 10
@@ -90,6 +91,11 @@ final class MainView: UIView {
             collectionView.collectionViewLayout = gridLayout
         }
     }
+    
+    private func scrollViewTop(){
+        self.layoutIfNeeded()
+        collectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+    }
 }
 
 // MARK: - UI Constraint
@@ -99,14 +105,16 @@ extension MainView {
         self.addSubview(collectionView)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                                    constant: 10),
-            collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                     constant: -10)
+            collectionView.topAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
 }
