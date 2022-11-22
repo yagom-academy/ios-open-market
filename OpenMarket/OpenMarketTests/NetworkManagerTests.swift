@@ -9,7 +9,7 @@ final class NetworkManagerTests: XCTestCase {
     
     var sut: NetworkManager!
     
-    func test_request_success이고_product변환성공() {
+    func test_request_JSON데이터를_Product타입으로_decoding성공() {
         // given
         let jsonData = """
 {
@@ -40,6 +40,26 @@ final class NetworkManagerTests: XCTestCase {
                 XCTAssertEqual(product, expectedData)
             case .failure(_):
                 XCTFail()
+            }
+        })
+    }
+    
+    func test_request_의도적인error_주입시_예상한error가_발생() {
+     // given
+        let testData = "bella"
+        let expectedData = try? JSONDecoder().decode(Product.self, from: Data(testData.utf8))
+        let expectedResponse = HTTPURLResponse(url: URL(string: "kakao")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let stubSession: URLSessionable =  StubURLSession(data: Data(testData.utf8), response: expectedResponse!, error: NetworkError.decodingError)
+        sut = NetworkManager(session: stubSession)
+        
+        // when
+        sut.request(endpoint: OpenMarketAPI.product(id: 215), dataType: Product.self, completion: { result in
+            // then
+            switch result {
+            case .success(_):
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, NetworkError.URLError)
             }
         })
     }
