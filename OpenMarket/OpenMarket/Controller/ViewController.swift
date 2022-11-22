@@ -52,7 +52,7 @@ class ViewController: UIViewController {
             productCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
+    
     func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ProductCell, ProductData> { cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
@@ -61,8 +61,23 @@ class ViewController: UIViewController {
             cell.stockLabel.text = product.stock.description
             cell.listContentView.configuration = content
             cell.accessories = [.disclosureIndicator()]
+            content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+            
+            self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
+                switch result {
+                case .success(let image):
+                    content.image = image
+                    DispatchQueue.main.async {
+                        if indexPath == self.productCollectionView.indexPath(for: cell) {
+                            cell.listContentView.configuration = content
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
         }
-        
+
         dataSource = UICollectionViewDiffableDataSource<Section, ProductData>(collectionView: productCollectionView) { collectionView, indexPath, product in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
