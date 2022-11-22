@@ -15,7 +15,7 @@ final class NetworkAPIProvider {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let data):
-                guard let productList: ProductList = JSONDecoder().fetchData(data: data) else {
+                guard let productList: ProductList = JSONDecoder().decode(data: data) else {
                     completion(.failure(NetworkError.decodeFailed))
                     return
                 }

@@ -4,7 +4,7 @@
 import Foundation
 
 extension JSONDecoder {
-    func fetchData<T: Decodable>(data: Data) -> T? {
+    func decode<T: Decodable>(data: Data) -> T? {
         guard let itemData = try? self.decode(T.self, from: data) else {
             return nil
         }
