@@ -4,19 +4,19 @@
 
 import Foundation
 
-struct Product: Decodable, Identifiable {
+struct Product: Decodable, Identifiable, Equatable {
     let ID: Int
     let vendorID: Int
     let name: String
     let productDescription: String
     let thumbnailURL: String
     let currency: Currency
-    let price: UInt
-    let bargainPrice: UInt?
-    let discountedPrice: Int?
+    let price: Int
+    let bargainPrice: Int
+    let discountedPrice: Int
     let stock: Int
     let createdAt: String
-    let issuedAt: String?
+    let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
         case ID = "id"

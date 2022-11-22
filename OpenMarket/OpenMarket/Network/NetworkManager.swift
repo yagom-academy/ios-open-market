@@ -5,6 +5,14 @@
 import Foundation
 
 final class NetworkManager {
+    private let session: URLSessionable
+    
+    init(session: URLSessionable = URLSession.shared) {
+        self.session = session
+    }
+    
+    // networkmanager: urlrequest 만들어서 session.datatask에 전달, 한번만 호출하고있냐?
+    // 이거를 mockurlsession을 통해서 검증 -> 얘가 실제로 한번만 호출됐냐? 하고 urlrequest가 제대로 된 애가 들어왔냐? (endpoint 가지고 url 제대로 만들었냐?)
     func request<Model: Decodable>(endpoint: Endpointable,
                                    dataType: Model.Type,
                                    completion: @escaping (Result<Model, NetworkError>) -> Void) {
@@ -14,7 +22,7 @@ final class NetworkManager {
         
         let request = URLRequest(url: requestURL)
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return completion(.failure(.URLError))
             }
@@ -47,7 +55,7 @@ final class NetworkManager {
         
         let request = URLRequest(url: requestURL)
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return completion(.failure(.URLError))
             }
