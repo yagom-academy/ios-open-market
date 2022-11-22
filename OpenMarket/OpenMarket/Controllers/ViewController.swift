@@ -10,9 +10,8 @@ enum Section: Hashable {
     case main
 }
 
-class ViewController: UIViewController {
-    
-    let segmentedControl: UISegmentedControl = {
+final class ViewController: UIViewController {
+    private let segmentedControl: UISegmentedControl = {
         let item = ["LIST", "GRID"]
         let segmentedControl = UISegmentedControl(items: item)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
@@ -23,9 +22,9 @@ class ViewController: UIViewController {
     private var gridCollectionView: UICollectionView!
     private var listCollectionView: UICollectionView!
     
-    var itemList: [Item] = []
-    var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>!
-    var listDataSource: UICollectionViewDiffableDataSource<Section, Item>!
+    private var itemList: [Item] = []
+    private var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>!
+    private var listDataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +32,7 @@ class ViewController: UIViewController {
         configureFetchItemList()
         
     }
+
     @objc private func addItem() {
         print("button pressed.")
     }
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         checkCollectionType(segmentIndex: sender.selectedSegmentIndex)
     }
     
-    func checkCollectionType(segmentIndex: Int) {
+    private func checkCollectionType(segmentIndex: Int) {
         if segmentIndex == 0 {
             gridCollectionView.isHidden = true
             listCollectionView.isHidden = false
@@ -50,13 +50,14 @@ class ViewController: UIViewController {
             gridCollectionView.isHidden = false
         }
     }
-    func configureNavigation() {
+
+    private func configureNavigation() {
         navigationItem.titleView = segmentedControl
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         segmentedControl.addTarget(self, action: #selector(changeItemView(_:)), for: .valueChanged)
     }
     
-    func configureFetchItemList() {
+    private func configureFetchItemList() {
         NetworkManager().fetchItemList(pageNo: 1, pageCount: 100) { result in
             switch result {
             case .success(let success):
@@ -98,13 +99,28 @@ extension ViewController {
         return layout
     }
     
-    func configureCollectionView() {
+    private func configureCollectionView() {
         listCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         gridCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
         view.addSubview(listCollectionView)
         view.addSubview(gridCollectionView)
         
         checkCollectionType(segmentIndex: segmentedControl.selectedSegmentIndex)
+
+        listCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            listCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            listCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            listCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            gridCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            gridCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            gridCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
     }
     
     private func configureGridDataSource() {
