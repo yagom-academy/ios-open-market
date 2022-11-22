@@ -27,9 +27,22 @@ class ListCollectionViewCell: UICollectionViewListCell {
     
     private lazy var itemListContentView = UIListContentView(configuration: defaultListContentConfiguration())
     
-    private let stockLabel = UILabel()
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.textColor = .systemGray
+        return label
+    }()
     
-    private var stockConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private var stockConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint,
+                                   width: NSLayoutConstraint, centerY: NSLayoutConstraint)?
     
     
     func updateWithItem(_ newItem: Item) {
@@ -49,6 +62,7 @@ extension ListCollectionViewCell {
     
     func setupViewsIfNeeded() {
         guard stockConstraints == nil else { return }
+        contentView.addSubview(imageView)
         contentView.addSubview(itemListContentView)
         contentView.addSubview(stockLabel)
         itemListContentView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,15 +70,26 @@ extension ListCollectionViewCell {
         
         let constraints = (leading:
                             stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: itemListContentView.trailingAnchor),
-                           trailing:stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
+                           trailing: stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+                           width: stockLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
+                           centerY: stockLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor))
         
         NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            imageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
+            imageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15),
+            
             itemListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             itemListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            itemListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stockLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            itemListContentView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            itemListContentView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
+            
             constraints.leading,
-            constraints.trailing
+            constraints.trailing,
+            constraints.width,
+            constraints.centerY
         ])
         
         stockConstraints = constraints
@@ -74,22 +99,29 @@ extension ListCollectionViewCell {
         
         guard let url = URL(string: state.item?.thumbnail ?? "") else { return }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                DispatchQueue.main.async { [self] in
-                    var content = defaultListContentConfiguration().updated(for: state)
-                    content.image = UIImage(data: data)
-                    content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
-                    content.text = state.item?.name
-                    content.textProperties.font = .preferredFont(forTextStyle: .headline)
-                    content.secondaryText = "\(item!.currency.rawValue) \(item!.price)"
-                    
-                    itemListContentView.configuration = content
-                    
-                    stockLabel.text = "잔여 수량:\(state.item!.stock)"
-                }
+        var content = defaultListContentConfiguration().updated(for: state)
+        content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+        content.text = state.item?.name
+        content.textProperties.font = .preferredFont(forTextStyle: .headline)
+        content.secondaryText = "\(item!.currency.rawValue) \(item!.price)"
+        
+        content.secondaryTextProperties.color = .systemGray
+        
+        itemListContentView.configuration = content
+        
+        if state.item?.stock == 0 {
+            self.stockLabel.textColor = .systemOrange
+            self.stockLabel.text = "품절"
+            self.stockLabel.textAlignment = .right
+        } else {
+            self.stockLabel.textColor = .systemGray
+            self.stockLabel.text = "잔여수량 : \(state.item!.stock)"
+        }
+        NetworkManager().fetchImage(url: url) { image in
+            DispatchQueue.main.async {
+                self.imageView.image = image
             }
-        }.resume()
+        }
     }
     
 }
