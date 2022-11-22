@@ -31,4 +31,34 @@ class ProductCell: UICollectionViewListCell {
         state.product = self.product
         return state
     }
+    
+    var listContentView: UIListContentView = UIListContentView(configuration: .cell())
+    let stockLabel: UILabel = UILabel()
+    var stockLableConstraints: (stockLabelLeading: NSLayoutConstraint,
+                                stockLabelTrailing: NSLayoutConstraint)?
+    
+    private func setUpViewsIfNeeded() {
+        guard stockLableConstraints == nil else {
+            return
+        }
+        
+        contentView.addSubview(listContentView)
+        contentView.addSubview(stockLabel)
+        listContentView.translatesAutoresizingMaskIntoConstraints = false
+        stockLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let constraints = (stockLabelLeading: stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: listContentView.trailingAnchor),
+                           stockLabelTrailing: stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
+        
+        NSLayoutConstraint.activate([
+            listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            listContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            constraints.stockLabelLeading,
+            constraints.stockLabelTrailing
+        ])
+        
+        stockLableConstraints = constraints
+    }
 }
