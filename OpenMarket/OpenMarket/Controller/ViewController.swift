@@ -16,6 +16,7 @@ private enum Section: Hashable {
 }
 
 final class ViewController: UIViewController {
+    private let segmentedControl: LayoutSegmentedControl = LayoutSegmentedControl()
     private let listLayout: UICollectionViewLayout = {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
@@ -49,7 +50,7 @@ final class ViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }()
-    private var currentLayout: CollectionViewLayout = .grid
+    private var currentLayout: CollectionViewLayout = .list
     private var collectionView: UICollectionView? = nil
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>? = nil
     
@@ -60,7 +61,9 @@ final class ViewController: UIViewController {
     }
     
     private func setupViewsIfNeeded() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: gridLayout)
+        navigationItem.titleView = segmentedControl
+        segmentedControl.addTarget(self, action: #selector(layoutSegmentedControlValueChanged), for: .valueChanged)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
         collectionView?.backgroundColor = .white
         if let collectionView = collectionView {
             view.addSubview(collectionView)
@@ -73,6 +76,24 @@ final class ViewController: UIViewController {
                 collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
             ])
         }
+    }
+    
+    @objc
+    private func layoutSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            currentLayout = .list
+            collectionView?.setCollectionViewLayout(listLayout, animated: false)
+        case 1:
+            currentLayout = .grid
+            collectionView?.setCollectionViewLayout(gridLayout, animated: false)
+        default:
+            return
+        }
+    }
+    
+    private func layout() -> CollectionViewLayout {
+        return currentLayout
     }
 }
 
@@ -92,7 +113,7 @@ extension ViewController {
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: Product) -> UICollectionViewCell? in
-            switch self.currentLayout {
+            switch self.layout() {
             case .list:
                 return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
             case .grid:

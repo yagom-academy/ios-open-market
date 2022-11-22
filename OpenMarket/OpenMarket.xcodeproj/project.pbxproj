@@ -54,6 +54,7 @@
 		EBDB22C1292281970072AE13 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB2292292269AE0072AE13 /* Product.swift */; };
 		EBDB22C22922819A0072AE13 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB229429226B460072AE13 /* Currency.swift */; };
 		EBDB22C32922819D0072AE13 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D382743429226F0200A51A0A /* Page.swift */; };
+		EBEC414F292D079400CDBE6A /* LayoutSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEC414E292D079400CDBE6A /* LayoutSegmentedControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		EBDB229429226B460072AE13 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		EBDB22B82922818A0072AE13 /* PageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBDB22BA2922818A0072AE13 /* PageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTests.swift; sourceTree = "<group>"; };
+		EBEC414E292D079400CDBE6A /* LayoutSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutSegmentedControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,7 +165,7 @@
 				D375015A292C59AA005031AC /* View */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				EBEC414B292CFAF000CDBE6A /* Controller */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -225,6 +227,7 @@
 				D3750163292CC1E8005031AC /* ProductGridCell.swift */,
 				D375015D292C5ED8005031AC /* StockLabel.swift */,
 				D375015F292C633C005031AC /* PriceLabel.swift */,
+				EBEC414E292D079400CDBE6A /* LayoutSegmentedControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -235,6 +238,14 @@
 				EBDB22BA2922818A0072AE13 /* PageTests.swift */,
 			);
 			path = PageTests;
+			sourceTree = "<group>";
+		};
+		EBEC414B292CFAF000CDBE6A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,6 +380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBEC414F292D079400CDBE6A /* LayoutSegmentedControl.swift in Sources */,
 				EBD82F4829249C9A0061732A /* OpenMarketURLSessionProtocol.swift in Sources */,
 				EBD82F4C2924BC570061732A /* OpenMarketPageFetchable.swift in Sources */,
 				EB52338C29235D0F00FF1573 /* Vendor.swift in Sources */,
