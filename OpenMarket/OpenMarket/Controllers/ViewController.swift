@@ -26,9 +26,9 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        LoadingSpinner.showLoading()
         configureNavigation()
         configureFetchItemList()
-        
     }
 
     @objc private func addItem() {
@@ -62,6 +62,7 @@ final class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.itemList = success.pages
                     self.configureCollectionView()
+                    LoadingSpinner.hideLoading()
                     self.gridCollectionView.configureGridDataSource(self.itemList)
                     self.listCollectionView.configureListDataSource(self.itemList)
                 }
