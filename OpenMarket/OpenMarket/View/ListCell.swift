@@ -1,12 +1,12 @@
 //
-//  ProductCell.swift
+//  ListCell.swift
 //  OpenMarket
 //  Created by inho, Hamo, Jeremy on 2022/11/22.
 //
 
 import UIKit
 
-class ProductCell: UICollectionViewListCell {
+class ListCell: UICollectionViewListCell {
     var listContentView: UIListContentView = UIListContentView(configuration: .cell())
     let stockLabel: UILabel = UILabel()
     var stockLabelConstraints: (stockLabelcenterY: NSLayoutConstraint,

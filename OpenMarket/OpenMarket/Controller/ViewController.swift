@@ -11,6 +11,11 @@ class ViewController: UIViewController {
         case main
     }
     
+    enum ViewType: Int {
+        case list
+        case grid
+    }
+    
     let networkManager: NetworkManager = .init()
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
     var productCollectionView: UICollectionView!
@@ -39,11 +44,6 @@ class ViewController: UIViewController {
         }
     }
     
-    enum ViewType: Int {
-        case list
-        case grid
-    }
-    
     func configureLayout(of type: ViewType) -> UICollectionViewCompositionalLayout {
         switch type {
         case .list:
@@ -59,8 +59,8 @@ class ViewController: UIViewController {
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = spacing
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-            
             let layout = UICollectionViewCompositionalLayout(section: section)
+            
             return layout
         }
     }
@@ -81,7 +81,7 @@ class ViewController: UIViewController {
     }
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ProductCell, ProductData> { cell, indexPath, product in
+        let cellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> { cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
             content.text = product.name
 
