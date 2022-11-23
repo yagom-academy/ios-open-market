@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
     var productCollectionView: UICollectionView!
     var productList: ProductListData?
+    
     let segmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["list", "grid"])
         segment.selectedSegmentIndex = 0
@@ -28,7 +29,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        segmentControl.addTarget(self, action: #selector(switchView(_:)), for: .valueChanged)
         navigationItem.titleView = segmentControl
         configureProductCollectionView(type: .list)
         networkManager.loadData(of: .productList(pageNumber: 1, itemsPerPage: 100), dataType: ProductListData.self) { result in
@@ -51,13 +52,17 @@ class ViewController: UIViewController {
             let layout = UICollectionViewCompositionalLayout.list(using: configure)
             return layout
         case .grid:
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+            let groupSpacing = CGFloat(10)
+            let itemSpacing = CGFloat(20)
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            let spacing = CGFloat(10)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.3))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+            group.interItemSpacing = .fixed(itemSpacing)
+            
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = spacing
+            section.interGroupSpacing = groupSpacing
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
             let layout = UICollectionViewCompositionalLayout(section: section)
             
@@ -81,7 +86,72 @@ class ViewController: UIViewController {
     }
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> { cell, indexPath, product in
+        let listCellRegistration = createListCellRegistration()
+        let gridCellRegistration = createGridCellRegistration()
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductData>(collectionView: productCollectionView) { collectionView, indexPath, product in
+            if self.segmentControl.selectedSegmentIndex == 0 {
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
+            } else {
+                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: product)
+            }
+        }
+        
+        guard let product = productList?.pages else {
+            return
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(product)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    @objc func switchView(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            configureProductCollectionView(type: .list)
+            configureDataSource()
+        } else {
+            configureProductCollectionView(type: .grid)
+            configureDataSource()
+        }
+    }
+    
+    func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
+        let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> { cell, indexPath, product in
+            if product.stock == 0 {
+                cell.stockLabel.text = "품절"
+                cell.stockLabel.textColor = .systemYellow
+            } else {
+                cell.stockLabel.text = "잔여수량: " + product.stock.description
+                cell.stockLabel.textColor = .systemGray2
+            }
+            
+            if product.price == product.bargainPrice {
+                cell.priceLabel.text = product.currencyAndPrice
+            } else {
+                cell.priceLabel.attributedText = product.currencyAndDiscountedPrice
+            }
+            
+            self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        if indexPath == self.productCollectionView.indexPath(for: cell) {
+                            cell.imageView.image = image
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+        
+        return gridCellRegistration
+    }
+    
+    func createListCellRegistration() -> UICollectionView.CellRegistration<ListCell, ProductData> {
+        let listCellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> { cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
             content.text = product.name
 
@@ -117,14 +187,7 @@ class ViewController: UIViewController {
                 }
             }
         }
-
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductData>(collectionView: productCollectionView) { collectionView, indexPath, product in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
-        }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(productList!.pages)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        return listCellRegistration
     }
 }

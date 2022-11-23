@@ -7,25 +7,26 @@
 import UIKit
 
 class GridCell: UICollectionViewCell {
-    let productImageView: UIImageView = {
+    let imageView: UIImageView = {
         let image = UIImageView()
         return image
     }()
-    let productNameLabel: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         return label
     }()
-    let productPriceLabel: UILabel = {
+    let priceLabel: UILabel = {
         let label = UILabel()
         return label
     }()
-    let productStockLabel: UILabel = {
+    let stockLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fill
         return stackView
@@ -42,7 +43,7 @@ class GridCell: UICollectionViewCell {
     }
     
     func configureLayout() {
-        [productImageView, productNameLabel, productPriceLabel, productStockLabel].forEach { view in
+        [imageView, nameLabel, priceLabel, stockLabel].forEach { view in
             totalStackView.addArrangedSubview(view)
         }
         contentView.addSubview(totalStackView)
