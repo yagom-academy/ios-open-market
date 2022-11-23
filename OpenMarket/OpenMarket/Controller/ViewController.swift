@@ -29,11 +29,10 @@ class ViewController: UIViewController {
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            print("sender 0")
+            settingCollectionViewLayoutList()
         } else {
-            print("sender 1")
+            settingCollectionViewLayoutGrid()
         }
-        
     }
     
     private func getCollectionViewCellNib() {
@@ -114,18 +113,19 @@ class ViewController: UIViewController {
         self.collectionView.reloadData()
     }
     
-    //    private func settingCollectionViewLayoutGrid() {
-    //        let layoutSize = NSCollectionLayoutSize(widthDimension: <#T##NSCollectionLayoutDimension#>,
-    //                                                heightDimension: <#T##NSCollectionLayoutDimension#>)
-    //        let layoutItem = NSCollectionLayoutItem(layoutSize: layoutSize)
-    //        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-    //                                               heightDimension: <#T##NSCollectionLayoutDimension#>)
-    //        let layoutGruop = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: layoutItem, count: 2)
-    //        let layoutSection = NSCollectionLayoutSection(group: layoutGruop)
-    //        let compositionalLayout = UICollectionViewCompositionalLayout(section: layoutSection)
-    //        collectionView.collectionViewLayout = compositionalLayout
-    //        self.collectionView.reloadData()
-    //    }
+    private func settingCollectionViewLayoutGrid() {
+        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .fractionalHeight(1))
+        let layoutItem = NSCollectionLayoutItem(layoutSize: layoutSize)
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .fractionalHeight(0.4))
+        let layoutGruop = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: layoutItem, count: 2)
+        let layoutSection = NSCollectionLayoutSection(group: layoutGruop)
+        let compositionalLayout = UICollectionViewCompositionalLayout(section: layoutSection)
+        collectionView.collectionViewLayout = compositionalLayout
+        self.collectionView.reloadData()
+    }
     
 }
 
@@ -135,7 +135,15 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewListCell", for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell() }
+        let customCell: CustomCollectionViewCell
+        if segmentedControl.selectedSegmentIndex == 0 {
+            customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewListCell", for: indexPath) as? CustomCollectionViewCell ?? CustomCollectionViewCell()
+        } else {
+            customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewGridCell", for: indexPath) as? CustomCollectionViewCell ?? CustomCollectionViewCell()
+            customCell.layer.cornerRadius = CGFloat(10)
+            customCell.layer.borderWidth = CGFloat(3)
+            customCell.layer.borderColor = UIColor.systemGray3.cgColor
+        }
         
         customCell.configureCell(imageSource: self.searchListPages[indexPath.item].thumbnail,
                                  name: self.searchListPages[indexPath.item].name,
