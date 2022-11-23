@@ -62,14 +62,23 @@ extension ProductListCell {
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
+        guard let productData else { return }
         
         var content = defaultProductConfiguration().updated(for: state)
+        var priceText = "\(productData.currency) \(productData.price) "
+        var attributedStr = NSMutableAttributedString(string: priceText)
         
         content.image = urlToImage(state.productData?.thumbnail ?? "")
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = state.productData?.name
         content.textProperties.font = .preferredFont(forTextStyle: .body)
-        content.secondaryText = "\(productData?.currency.description ?? "") \(productData?.price.description ?? "")"
+        
+        if productData.bargainPrice != productData.price {
+            priceText += "\(productData.currency) \(productData.bargainPrice)"
+            attributedStr = NSMutableAttributedString(string: priceText)
+            attributedStr.addAttributes([.strikethroughStyle: 1, .foregroundColor: UIColor.systemRed], range: (priceText as NSString).range(of: "\(productData.currency) \(productData.price)"))
+        }
+        content.secondaryAttributedText = attributedStr
         
         productListContentView.configuration = content
         

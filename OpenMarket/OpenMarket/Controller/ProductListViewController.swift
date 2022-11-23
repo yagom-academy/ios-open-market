@@ -21,7 +21,7 @@ class ProductListViewController: UIViewController {
         configureAddButton()
         
         let networkProvider = NetworkAPIProvider()
-        networkProvider.fetchProductList(query: nil) { result in
+        networkProvider.fetchProductList(query: [.pageNumber: "3"]) { result in
             switch result {
             case .success(let data):
                 self.productData = data
