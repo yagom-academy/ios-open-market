@@ -123,7 +123,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let cacheKey = NSString(string: product.thumbnail)
         
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
-            print("CachedImage")
             productImage.image = cachedImage
             loadingView.stopAnimating()
             loadingView.isHidden = true
@@ -140,7 +139,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
             ImageCacheManager.shared.setObject(image, forKey: cacheKey)
             DispatchQueue.main.async { [weak self] in
                 if product == self?.product {
-                    print("NetworkImage")
                     self?.productImage.image = image
                     self?.loadingView.stopAnimating()
                     self?.loadingView.isHidden = true

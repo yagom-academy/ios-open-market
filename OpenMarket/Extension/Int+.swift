@@ -2,7 +2,7 @@
 //  Int+.swift
 //  OpenMarket
 //
-//  Created by Wonbi on 2022/11/22.
+//  Created by Gundy, Wonbi on 2022/11/22.
 //
 
 extension Int {

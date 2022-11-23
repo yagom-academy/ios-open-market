@@ -64,16 +64,7 @@ final class ProductsViewController: UIViewController {
         self.navigationItem.titleView = self.segmentedControl
         addTarget()
         self.navigationItem.rightBarButtonItem = self.addProductButton
-        listCollectionView.collectionViewLayout = makeLayout(.list)
-        gridCollectionView.collectionViewLayout = makeLayout(.grid)
-        
-        view.addSubview(gridCollectionView)
-        view.addSubview(listCollectionView)
-        setupCollectionViewConstraints()
-        listCollectionView.dataSource = self
-        listCollectionView.delegate = self
-        gridCollectionView.dataSource = self
-        gridCollectionView.delegate = self
+        setupCollectionView()
         
         fetchData() {
             DispatchQueue.main.async { [weak self] in
@@ -81,6 +72,21 @@ final class ProductsViewController: UIViewController {
                 self?.listCollectionView.reloadData()
             }
         }
+    }
+    
+    private func setupCollectionView() {
+        view.addSubview(gridCollectionView)
+        view.addSubview(listCollectionView)
+        
+        listCollectionView.collectionViewLayout = makeLayout(.list)
+        gridCollectionView.collectionViewLayout = makeLayout(.grid)
+        
+        listCollectionView.dataSource = self
+        listCollectionView.delegate = self
+        gridCollectionView.dataSource = self
+        gridCollectionView.delegate = self
+        setupCollectionViewConstraints()
+        
     }
     
     private func makeLayout(_ layoutType: LayoutType) -> UICollectionViewFlowLayout {
@@ -199,15 +205,6 @@ extension ProductsViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let endPoint: CGFloat = scrollView.contentSize.height - scrollView.bounds.height
         let isEndOfScroll: Bool = scrollView.contentOffset.y > endPoint
-        
-//        switch scrollView {
-//        case listCollectionView:
-//            gridCollectionView.contentOffset.y = scrollView.contentOffset.y * 2.1
-//        case gridCollectionView:
-//            listCollectionView.contentOffset.y = scrollView.contentOffset.y / 2.1
-//        default:
-//            break
-//        }
         
         if isEndOfScroll, isInfiniteScroll {
             isInfiniteScroll = false
