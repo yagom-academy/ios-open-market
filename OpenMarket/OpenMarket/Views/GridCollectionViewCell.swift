@@ -12,7 +12,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return String(describing: Self.self)
     }
 
-    private let stackView: UIStackView = {
+    private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -21,11 +21,11 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
-    private let priceStackView: UIStackView = {
+    private let priceLabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.spacing = 2
         return stackView
     }()
@@ -52,7 +52,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    private let bargainPrice: UILabel = {
+    private let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -94,8 +94,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
         if item.bargainPrice != 0 {
             self.priceLabel.textColor = .systemRed
             self.priceLabel.attributedText = self.priceLabel.text?.strikeThrough()
-            self.bargainPrice.text = "\(item.currency.rawValue) \(item.bargainPrice)"
-            self.bargainPrice.textColor = .systemGray
+            self.bargainPriceLabel.text = "\(item.currency.rawValue) \(item.bargainPrice)"
+            self.bargainPriceLabel.textColor = .systemGray
         }
         
         if item.stock == 0 {
@@ -115,12 +115,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     private func configureView() {
         self.contentView.addSubview(self.itemImageView)
-        self.contentView.addSubview(stackView)
-        self.priceStackView.addArrangedSubview(priceLabel)
-        self.priceStackView.addArrangedSubview(bargainPrice)
-        self.stackView.addArrangedSubview(self.itemNameLabel)
-        self.stackView.addArrangedSubview(self.priceStackView)
-        self.stackView.addArrangedSubview(self.stockLabel)
+        self.contentView.addSubview(self.labelStackView)
+        self.priceLabelStackView.addArrangedSubview(self.priceLabel)
+        self.priceLabelStackView.addArrangedSubview(self.bargainPriceLabel)
+        self.labelStackView.addArrangedSubview(self.itemNameLabel)
+        self.labelStackView.addArrangedSubview(self.priceLabelStackView)
+        self.labelStackView.addArrangedSubview(self.stockLabel)
     }
 
     private func configureConstraints() {
@@ -132,10 +132,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
             self.itemImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
             self.itemImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
 
-            self.stackView.topAnchor.constraint(equalTo: self.itemImageView.bottomAnchor, constant: inset),
-            self.stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
-            self.stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
-            self.stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -inset),
+            self.labelStackView.topAnchor.constraint(equalTo: self.itemImageView.bottomAnchor, constant: inset),
+            self.labelStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
+            self.labelStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
+            self.labelStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -inset),
 
         ])
     }

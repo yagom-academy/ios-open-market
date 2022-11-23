@@ -73,12 +73,15 @@ extension ListCollectionViewCell {
                            width: self.stockLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.3),
                            centerY: self.stockLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor))
         
+        let imageViewHeight = self.imageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15)
+        imageViewHeight.priority = UILayoutPriority(750)
+        
         NSLayoutConstraint.activate([
             self.imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
             self.imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
             self.imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
             self.imageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
-            self.imageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
+            imageViewHeight,
 
             self.itemListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             self.itemListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
