@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+extension Double {
+    var formattedString: String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+
+        guard let string = numberFormatter.string(for: self) else {
+            return "error"
+        }
+        return string
+    }
+}

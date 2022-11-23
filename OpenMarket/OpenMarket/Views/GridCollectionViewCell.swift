@@ -88,13 +88,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
         }
         
         self.itemNameLabel.text = item.name
-        self.priceLabel.text = "\(item.currency.rawValue) \(item.price)"
+        self.priceLabel.text = "\(item.currency.rawValue) \(item.price.formattedString)"
         self.priceLabel.textColor = .systemGray
     
         if item.bargainPrice != 0 {
             self.priceLabel.textColor = .systemRed
             self.priceLabel.attributedText = self.priceLabel.text?.strikeThrough()
-            self.bargainPriceLabel.text = "\(item.currency.rawValue) \(item.bargainPrice)"
+            self.bargainPriceLabel.text = "\(item.currency.rawValue) \(item.bargainPrice.formattedString)"
             self.bargainPriceLabel.textColor = .systemGray
         }
         

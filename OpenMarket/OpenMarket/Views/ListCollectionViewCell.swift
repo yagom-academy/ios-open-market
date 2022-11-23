@@ -107,12 +107,12 @@ extension ListCollectionViewCell {
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
 
         guard let item = self.item else { return }
-        let priceString = "\(item.currency.rawValue) \(item.price) \(item.currency.rawValue) \(item.bargainPrice)"
+        let priceString = "\(item.currency.rawValue) \(item.price.formattedString) \(item.currency.rawValue) \(item.bargainPrice.formattedString)"
         let attributedString = NSMutableAttributedString(string: priceString)
         attributedString.addAttribute(.strikethroughStyle, value: 1,
-                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price)"))
+                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price.formattedString)"))
         attributedString.addAttribute(.foregroundColor, value: UIColor.red,
-                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price)"))
+                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price.formattedString)"))
         content.secondaryAttributedText = attributedString
         content.secondaryTextProperties.color = .systemGray
         
