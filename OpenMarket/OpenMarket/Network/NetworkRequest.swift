@@ -22,7 +22,7 @@ enum NetworkRequest {
                                          queryItem: [URLQueryItem(name: "page_no",
                                                                   value: String(1)),
                                                      URLQueryItem(name: "items_per_page",
-                                                                  value: String(100))
+                                                                  value: String(1000))
                                          ])
         case .productDetail:
             return URLComponents.createURL(path: "/api/products/32",

@@ -19,7 +19,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let indicatorView: UIActivityIndicatorView = {
+    let indicatorView: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
@@ -101,28 +101,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func setupProductImage(with productThumnail: String) {
-        indicatorView.startAnimating()
-        
-        let cacheKey = NSString(string: productThumnail)
-        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
-            uploadImage(cachedImage)
-            return
-        }
-        
-        guard let imageURL = URL(string: productThumnail) else { return }
-        
-        DispatchQueue.global().async { [weak self] in
-            guard let data = try? Data(contentsOf: imageURL),
-                  let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                ImageCacheManager.shared.setObject(image, forKey: cacheKey)
-                self?.uploadImage(image)
-            }
-        }
-    }
-    
-    private func uploadImage(_ image: UIImage) {
+    func uploadImage(_ image: UIImage) {
         productImageView.image = image
         indicatorView.stopAnimating()
         indicatorView.isHidden = true
@@ -149,14 +128,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         productPriceLabel.text = nil
         productSalePriceLabel.text = nil
         productStockLabel.text = nil
-    }
-    
-    private func applyStrikeThroughStyle(label: UILabel) {
-        let attributeString = NSMutableAttributedString(string: label.text ?? "")
-        attributeString.addAttribute(.strikethroughStyle,
-                                     value: NSUnderlineStyle.single.rawValue,
-                                     range: NSMakeRange(0, attributeString.length))
-        label.attributedText = attributeString
     }
 }
 
@@ -188,13 +159,16 @@ extension ListCollectionViewCell {
     }
     
     private func setupPriceLabel() {
-        if  discountPrice == Double.zero {
+        if discountPrice == Double.zero {
             productSalePriceLabel.isHidden = true
         } else {
-            productSalePriceLabel.isHidden = false
-            productPriceLabel.textColor = .red
-            applyStrikeThroughStyle(label: productPriceLabel)
+            changePriceLabel()
         }
+    }
+    
+    private func changePriceLabel() {
+        productPriceLabel.textColor = .red
+        productPriceLabel.applyStrikeThroughStyle()
     }
     
     private func clearPriceLabel() {

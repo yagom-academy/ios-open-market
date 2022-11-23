@@ -19,7 +19,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let indicatorView: UIActivityIndicatorView = {
+    let indicatorView: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
@@ -71,7 +71,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.spacing = 2
         stackView.alignment = .center
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -88,28 +88,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func setupProductImage(with productThumbnail: String) {
-        indicatorView.startAnimating()
-        
-        let cacheKey = NSString(string: productThumbnail)
-        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
-            uploadImage(cachedImage)
-            return
-        }
-        
-        guard let imageURL = URL(string: productThumbnail) else { return }
-        
-        DispatchQueue.global().async { [weak self] in
-            guard let data = try? Data(contentsOf: imageURL),
-                  let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                ImageCacheManager.shared.setObject(image, forKey: cacheKey)
-                self?.uploadImage(image)
-            }
-        }
-    }
-    
-    private func uploadImage(_ image: UIImage) {
+    func uploadImage(_ image: UIImage) {
         productImageView.image = image
         indicatorView.stopAnimating()
         indicatorView.isHidden = true
@@ -136,14 +115,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         productPriceLabel.text = nil
         productSalePriceLabel.text = nil
         productStockLabel.text = nil
-    }
-    
-    private func applyStrikeThroughStyle(label: UILabel) {
-        let attributeString = NSMutableAttributedString(string: label.text ?? "")
-        attributeString.addAttribute(.strikethroughStyle,
-                                     value: NSUnderlineStyle.single.rawValue,
-                                     range: NSMakeRange(0, attributeString.length))
-        label.attributedText = attributeString
     }
 }
 
@@ -182,7 +153,7 @@ extension GridCollectionViewCell {
     
     private func changePriceLabel() {
         productPriceLabel.textColor = .red
-        applyStrikeThroughStyle(label: productPriceLabel)
+        productPriceLabel.applyStrikeThroughStyle()
     }
     
     private func clearPriceLabel() {

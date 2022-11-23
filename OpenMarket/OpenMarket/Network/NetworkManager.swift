@@ -5,7 +5,7 @@
 //  Created by Kyo, LJ on 2022/11/15.
 //
 
-import Foundation
+import UIKit
 
 final class NetworkManager {
     let session: URLSessionProtocol
@@ -77,5 +77,16 @@ final class NetworkManager {
                 completion(.failure(error))
             }
         }.resume()
+    }
+    
+    func fetchImage(with stringURL: String, completionHandler: @escaping (UIImage) -> Void) {
+        guard let imageURL = URL(string: stringURL) else { return }
+        
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: imageURL),
+                  let image = UIImage(data: data) else { return }
+            
+            completionHandler(image)
+        }
     }
 }

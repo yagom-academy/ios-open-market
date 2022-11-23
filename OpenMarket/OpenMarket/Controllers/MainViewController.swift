@@ -7,6 +7,7 @@
 import UIKit
 
 final class MainViewController: UIViewController {
+    let networkManager = NetworkManager()
     let mainView = MainView()
     var productData: [Product] = []
     
@@ -52,7 +53,6 @@ final class MainViewController: UIViewController {
     }
     
     private func setupData() {
-        let networkManager = NetworkManager()
         guard let productListURL = NetworkRequest.productList.requestURL else {
             return
         }
@@ -83,7 +83,8 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if mainView.layoutStatus == .list {
+        switch mainView.layoutStatus {
+        case .list:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: ListCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? ListCollectionViewCell
@@ -92,16 +93,27 @@ extension MainViewController: UICollectionViewDataSource {
                 return errorCell
             }
             
-            DispatchQueue.main.async { [weak self] in
-                if indexPath == collectionView.indexPath(for: cell) {
-                    guard let data = self?.productData[indexPath.item] else { return }
-                    cell.setupProductImage(with: data.thumbnail)
-                    cell.setupData(with: data)
+            cell.indicatorView.startAnimating()
+            
+            let data = self.productData[indexPath.item]
+            cell.setupData(with: data)
+            
+            let cacheKey = NSString(string: data.thumbnail)
+            if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+                cell.uploadImage(cachedImage)
+                return cell
+            }
+            
+            networkManager.fetchImage(with: data.thumbnail) { image in
+                DispatchQueue.main.async {
+                    if indexPath == collectionView.indexPath(for: cell) {
+                        cell.uploadImage(image)
+                    }
                 }
             }
             
             return cell
-        } else {
+        case .grid:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: GridCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? GridCollectionViewCell
@@ -110,12 +122,22 @@ extension MainViewController: UICollectionViewDataSource {
                 return errorCell
             }
             
-            DispatchQueue.main.async { [weak self] in
-                if indexPath == collectionView.indexPath(for: cell) {
-                    guard let data = self?.productData[indexPath.item] else { return }
-                    
-                    cell.setupProductImage(with: data.thumbnail)
-                    cell.setupData(with: data)
+            cell.indicatorView.startAnimating()
+            
+            let data = self.productData[indexPath.item]
+            cell.setupData(with: data)
+            
+            let cacheKey = NSString(string: data.thumbnail)
+            if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+                cell.uploadImage(cachedImage)
+                return cell
+            }
+            
+            networkManager.fetchImage(with: data.thumbnail) { image in
+                DispatchQueue.main.async {
+                    if indexPath == collectionView.indexPath(for: cell) {
+                        cell.uploadImage(image)
+                    }
                 }
             }
             return cell
