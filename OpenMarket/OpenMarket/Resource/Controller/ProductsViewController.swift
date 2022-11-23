@@ -87,12 +87,12 @@ extension ProductsViewController: UICollectionViewDataSource {
         return 10
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
             return UICollectionViewCell()
         }
-        cell.backgroundColor = .blue
+        
+        cell.configureLayout()
         return cell
     }
 }
