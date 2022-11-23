@@ -8,7 +8,7 @@
 import UIKit
 
 extension NSMutableAttributedString {
-    func displayPreDiscountPrice(string: String) -> NSMutableAttributedString {
+    func strikethrough(string: String) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: string)
         attributedString.addAttribute(NSMutableAttributedString.Key.strikethroughStyle,
                                      value: NSUnderlineStyle.single.rawValue,
@@ -20,8 +20,17 @@ extension NSMutableAttributedString {
         return attributedString
     }
     
-    func displayCurrentPrice(string: String) -> NSMutableAttributedString {
+    func normal(string: String) -> NSMutableAttributedString {
         self.append(NSAttributedString(string: string))
         return self
+    }
+    
+    func yellowColor(string: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: string)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor,
+                                      value: UIColor.systemYellow,
+                                      range: NSMakeRange(0, attributedString.length))
+        
+        return attributedString
     }
 }

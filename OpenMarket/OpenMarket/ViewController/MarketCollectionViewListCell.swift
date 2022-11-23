@@ -41,11 +41,11 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         
         if pageData.bargainPrice > 0  {
             content.secondaryAttributedText = NSMutableAttributedString()
-                .displayPreDiscountPrice(string: "\(pageData.currency.rawValue) \(pageData.price)")
-                .displayCurrentPrice(string: " \(pageData.currency.rawValue) \(pageData.bargainPrice)")
+                .strikethrough(string: "\(pageData.currency.rawValue) \(pageData.price)")
+                .normal(string: " \(pageData.currency.rawValue) \(pageData.bargainPrice)")
         } else {
             content.secondaryAttributedText = NSMutableAttributedString()
-                .displayCurrentPrice(string: "\(pageData.currency.rawValue) \(pageData.price)")
+                .normal(string: "\(pageData.currency.rawValue) \(pageData.price)")
         }
         
         stockLabel.text = pageData.stock == 0 ? "품절" : "잔여수량 : \(pageData.stock)"

@@ -80,15 +80,22 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
 
         if page.bargainPrice > 0  {
             priceLabel.attributedText = NSMutableAttributedString()
-                .displayPreDiscountPrice(string: "\(page.currency.rawValue) \(page.price)")
-                .displayCurrentPrice(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
+                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
+                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
         } else {
             priceLabel.attributedText = NSMutableAttributedString()
-                .displayCurrentPrice(string: "\(page.currency.rawValue) \(page.price)")
+                .normal(string: "\(page.currency.rawValue) \(page.price)")
         }
     
         nameLabel.text = page.name
-        stockLabel.text = page.stock == 0 ? "품절" : "잔여수량: \(page.stock)"
+        
+        if page.stock == 0 {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .yellowColor(string: "품절")
+        } else {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .normal(string: "잔여수량: \(page.stock)")
+        }
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {
