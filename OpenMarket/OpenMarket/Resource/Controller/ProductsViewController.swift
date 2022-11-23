@@ -7,6 +7,8 @@
 import UIKit
 
 class ProductsViewController: UIViewController {
+    var productsData: ProductListResponse?
+    
     enum Constant {
         static let edgeInsetValue: CGFloat = 8
     }
@@ -53,6 +55,18 @@ class ProductsViewController: UIViewController {
         self.navigationItem.titleView = segment
         
         self.view = collectionView
+        fetchData()
+    }
+    
+    func fetchData() {
+        NetworkManager<ProductListResponse>().fetchData(endPoint: OpenMarketAPI.productsList(pageNumber: 1, rowCount: 30)) { result in
+            switch result {
+            case .success(let data):
+                self.productsData = data
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc func didChangedSegmentIndex(_ sender: UISegmentedControl) {
