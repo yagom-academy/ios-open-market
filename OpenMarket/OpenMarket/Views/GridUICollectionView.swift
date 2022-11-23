@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridUICollectionView: UICollectionView {
+final class GridUICollectionView: UICollectionView {
     var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -21,7 +21,7 @@ class GridUICollectionView: UICollectionView {
     
     func configureGridDataSource(_ items: [Item]) {
         let cellRegisteration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { cell, indexPath, item in
-            cell.configureData(item: item)
+            cell.updateWithItem(item)
         }
         self.gridDataSource = UICollectionViewDiffableDataSource(collectionView: self,
                                                         cellProvider: { collectionView, indexPath, item in

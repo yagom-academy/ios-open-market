@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListUICollectionView: UICollectionView {
+final class ListUICollectionView: UICollectionView {
     var listDataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {

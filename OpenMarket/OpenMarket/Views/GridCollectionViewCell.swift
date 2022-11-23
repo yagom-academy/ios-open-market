@@ -78,8 +78,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureData(item: Item) {
-        if let url = URL(string: item.thumbnail) {
+    func updateWithItem(_ newItem: Item) {
+        if let url = URL(string: newItem.thumbnail) {
             NetworkManager().fetchImage(url: url) { image in
                 DispatchQueue.main.async {
                     self.itemImageView.image = image
@@ -87,23 +87,23 @@ final class GridCollectionViewCell: UICollectionViewCell {
             }
         }
         
-        self.itemNameLabel.text = item.name
-        self.priceLabel.text = "\(item.currency.rawValue) \(item.price.formattedString)"
+        self.itemNameLabel.text = newItem.name
+        self.priceLabel.text = "\(newItem.currency.rawValue) \(newItem.price.formattedString)"
         self.priceLabel.textColor = .systemGray
     
-        if item.bargainPrice != 0 {
+        if newItem.bargainPrice != 0 {
             self.priceLabel.textColor = .systemRed
             self.priceLabel.attributedText = self.priceLabel.text?.strikeThrough()
-            self.bargainPriceLabel.text = "\(item.currency.rawValue) \(item.bargainPrice.formattedString)"
+            self.bargainPriceLabel.text = "\(newItem.currency.rawValue) \(newItem.bargainPrice.formattedString)"
             self.bargainPriceLabel.textColor = .systemGray
         }
         
-        if item.stock == 0 {
+        if newItem.stock == 0 {
             self.stockLabel.textColor = .systemOrange
             self.stockLabel.text = "품절"
         } else {
             self.stockLabel.textColor = .systemGray
-            self.stockLabel.text = "잔여수량 : \(item.stock)"
+            self.stockLabel.text = "잔여수량 : \(newItem.stock)"
         }
         
     }
