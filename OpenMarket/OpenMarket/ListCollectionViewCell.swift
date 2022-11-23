@@ -131,11 +131,23 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupImage(from product: Product) {
-        DispatchQueue.global().async { [weak self] in
-            guard let data = product.thumbnailData,
+        let cacheKey = NSString(string: product.thumbnail)
+        
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+            productImage.image = cachedImage
+            loadingView.stopAnimating()
+            loadingView.isHidden = true
+            productImage.isHidden = false
+            return
+        }
+        
+        DispatchQueue.global().async {
+            guard let url = URL(string: product.thumbnail),
+                  let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data) else {
                 return
             }
+            ImageCacheManager.shared.setObject(image, forKey: cacheKey)
             DispatchQueue.main.async { [weak self] in
                 if product == self?.product {
                     self?.productImage.image = image

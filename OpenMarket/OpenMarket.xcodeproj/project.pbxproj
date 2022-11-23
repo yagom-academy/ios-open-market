@@ -16,6 +16,7 @@
 		BF226651292B137F001D777C /* FormatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF226650292B137F001D777C /* FormatConverter.swift */; };
 		BF226653292B68C6001D777C /* DecodingError+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF226652292B68C6001D777C /* DecodingError+.swift */; };
 		BF22665D292C9B5C001D777C /* Collection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF22665C292C9B5C001D777C /* Collection+.swift */; };
+		BF226662292DFC40001D777C /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF226661292DFC40001D777C /* ImageCacheManager.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */; };
@@ -59,6 +60,7 @@
 		BF226650292B137F001D777C /* FormatConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatConverter.swift; sourceTree = "<group>"; };
 		BF226652292B68C6001D777C /* DecodingError+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecodingError+.swift"; sourceTree = "<group>"; };
 		BF22665C292C9B5C001D777C /* Collection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+.swift"; sourceTree = "<group>"; };
+		BF226661292DFC40001D777C /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				BF2266262923587E001D777C /* OpenMarketNetworkRequest.swift */,
+				BF226661292DFC40001D777C /* ImageCacheManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				BF226624292335A4001D777C /* JSONDecoder+.swift in Sources */,
 				E337FF6C292DF58B0098F945 /* AddProductViewController.swift in Sources */,
 				BF22665D292C9B5C001D777C /* Collection+.swift in Sources */,
+				BF226662292DFC40001D777C /* ImageCacheManager.swift in Sources */,
 				BF22662929237C5A001D777C /* NetworkManager.swift in Sources */,
 				E337FF6A292D00C20098F945 /* Int+.swift in Sources */,
 				E3D3396D29232FEF006325AB /* Product.swift in Sources */,
