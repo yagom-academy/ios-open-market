@@ -16,20 +16,20 @@ class ListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var priceStackView: UIStackView!
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         productImage.image = nil
         productNameLabel.text = ""
+        priceLabel.attributedText = nil
         priceLabel.text = ""
+        priceLabel.textColor = .gray
         bargainPriceLabel.text = ""
         stockLabel.text = ""
-        
-        priceLabel.textColor = .gray
-        bargainPriceLabel.attributedText = bargainPriceLabel.text?.defaultStyle()
         stockLabel.textColor = .gray
     }
     
     func configurationCell(item: Product) {
         productNameLabel.text = item.name
-
         priceLabel.text = "\(item.currency.symbol) \(item.price)"
 
         if item.price != item.bargainPrice {
@@ -37,8 +37,6 @@ class ListCollectionViewCell: UICollectionViewCell {
             priceLabel.textColor = .red
             
             bargainPriceLabel.text = "\(item.currency.symbol) \(item.bargainPrice)"
-        } else {
-            priceLabel.attributedText = priceLabel.text?.defaultStyle()
         }
         
         if item.stock > 0 {

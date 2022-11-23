@@ -14,24 +14,25 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.global().async {
-            self.loadData { data in
-                DispatchQueue.main.sync {
-                    self.configureCollectionView()
-                }
-            }
-        }
+        configureCollectionView()
+        loadData()
     }
     
-    func loadData(complete: @escaping(ProductList) -> ()) {
+    func loadData() {
         networkManager.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 200).url, httpMethod: HttpMethod.get, dataType: ProductList.self) { result in
             switch result {
             case .success(let data):
                 self.product = data
-                complete(data)
+                self.reloadData()
             case .failure(_):
                 break
             }
+        }
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
     
