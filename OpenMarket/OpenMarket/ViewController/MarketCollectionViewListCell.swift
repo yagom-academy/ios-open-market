@@ -10,7 +10,12 @@ import UIKit
 class MarketCollectionViewListCell: UICollectionViewListCell {
     var pageData: Page?
     lazy var pageListContentView = UIListContentView(configuration: configureListCell())
-    var stockLabel = UILabel()
+    var stockLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.font = .preferredFont(forTextStyle: .body)
+        return label
+    }()
     var stockLabelConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
     
     override var configurationState: UICellConfigurationState {
@@ -34,21 +39,29 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         
         guard let pageData = state.pageData else { return }
         
-        content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
+        content.imageProperties.maximumSize = CGSize(width: 80, height: 80)
+        content.imageProperties.cornerRadius = 10
         content.text = pageData.name
-        content.textProperties.font = .preferredFont(forTextStyle: .headline)
-        content.secondaryText = "\(pageData.currency) \(pageData.price)"
+        content.textProperties.font = .preferredFont(forTextStyle: .title2)
+        content.secondaryTextProperties.color = .systemGray
+        content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
         
         if pageData.bargainPrice > 0  {
             content.secondaryAttributedText = NSMutableAttributedString()
                 .strikethrough(string: "\(pageData.currency.rawValue) \(pageData.price)")
-                .normal(string: " \(pageData.currency.rawValue) \(pageData.bargainPrice)")
+                .normal(string: "\n\(pageData.currency.rawValue) \(pageData.bargainPrice)")
         } else {
             content.secondaryAttributedText = NSMutableAttributedString()
                 .normal(string: "\(pageData.currency.rawValue) \(pageData.price)")
         }
         
-        stockLabel.text = pageData.stock == 0 ? "품절" : "잔여수량 : \(pageData.stock)"
+        if pageData.stock == 0 {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .orangeColor(string: "품절")
+        } else {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .normal(string: "잔여수량: \(pageData.stock)")
+        }
         pageListContentView.configuration = content
     }
     
@@ -103,6 +116,7 @@ extension MarketCollectionViewListCell {
             pageListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             pageListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             pageListContentView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             labelConstraints.leading,
             labelConstraints.trailing
         ])

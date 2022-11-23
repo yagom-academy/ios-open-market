@@ -25,10 +25,10 @@ extension NSMutableAttributedString {
         return self
     }
     
-    func yellowColor(string: String) -> NSMutableAttributedString {
+    func orangeColor(string: String) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: string)
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor,
-                                      value: UIColor.systemYellow,
+                                      value: UIColor.systemOrange,
                                       range: NSMakeRange(0, attributedString.length))
         
         return attributedString

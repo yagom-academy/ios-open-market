@@ -91,7 +91,7 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         
         if page.stock == 0 {
             stockLabel.attributedText = NSMutableAttributedString()
-                .yellowColor(string: "품절")
+                .orangeColor(string: "품절")
         } else {
             stockLabel.attributedText = NSMutableAttributedString()
                 .normal(string: "잔여수량: \(page.stock)")
