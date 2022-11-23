@@ -51,7 +51,6 @@ class MarketListViewController: UIViewController {
         let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewListCell, Page> {
             (cell, indexPath, page) in
             cell.update(with: page)
-            cell.accessories = [.disclosureIndicator()]
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView:

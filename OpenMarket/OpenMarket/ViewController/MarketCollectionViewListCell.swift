@@ -10,13 +10,32 @@ import UIKit
 class MarketCollectionViewListCell: UICollectionViewListCell {
     var pageData: Page?
     lazy var pageListContentView = UIListContentView(configuration: configureListCell())
+
     var stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = .preferredFont(forTextStyle: .body)
+        
         return label
     }()
-    var stockLabelConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
+    
+    var disclosureIndicatorView: UIImageView = {
+        let image = UIImage(systemName: "chevron.right")
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = .systemGray
+        imageView.bounds.size = CGSize(width: 20, height: 20)
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
+
+    var stockStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
+        
+        return stackView
+    }()
     
     override var configurationState: UICellConfigurationState {
         var state = super.configurationState
@@ -95,32 +114,22 @@ extension UIConfigurationState {
 
 extension MarketCollectionViewListCell {
     func setupViewsIfNeeded() {
-        guard stockLabelConstraints == nil else { return }
+        [stockLabel, disclosureIndicatorView].forEach {
+            stockStackView.addArrangedSubview($0)
+        }
         
-        [pageListContentView, stockLabel].forEach {
+        [pageListContentView, stockStackView].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
-        let labelConstraints = (leading:
-                                    stockLabel.leadingAnchor.constraint(
-                                        greaterThanOrEqualTo:pageListContentView.trailingAnchor
-                                    ),
-                                trailing:
-                                    stockLabel.trailingAnchor.constraint(
-                                        equalTo: contentView.trailingAnchor
-                                    ))
         
         NSLayoutConstraint.activate([
             pageListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pageListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             pageListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             pageListContentView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            labelConstraints.leading,
-            labelConstraints.trailing
+            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
-        
-        stockLabelConstraints = labelConstraints
     }
 }
