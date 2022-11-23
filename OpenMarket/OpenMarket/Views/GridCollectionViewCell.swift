@@ -91,10 +91,19 @@ final class GridCollectionViewCell: UICollectionViewCell {
     func setupProductImage(with productThumnail: String) {
         indicatorView.startAnimating()
         
+        let cacheKey = NSString(string: productThumnail)
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+            productImageView.image = cachedImage
+            indicatorView.stopAnimating()
+            indicatorView.isHidden = true
+            return
+        }
+        
         if let imageURL = URL(string: productThumnail) {
             DispatchQueue.global().async { [weak self] in
                 if let data = try? Data(contentsOf: imageURL), let image = UIImage(data: data) {
                     DispatchQueue.main.async {
+                        ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                         self?.productImageView.image = image
                         self?.indicatorView.stopAnimating()
                         self?.indicatorView.isHidden = true
