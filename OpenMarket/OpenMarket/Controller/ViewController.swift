@@ -22,7 +22,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.titleView = segmentControl
         configureProductCollectionView()
         networkManager.loadData(of: .productList(pageNumber: 1, itemsPerPage: 100), dataType: ProductListData.self) { result in
@@ -57,10 +56,22 @@ class ViewController: UIViewController {
         let cellRegistration = UICollectionView.CellRegistration<ProductCell, ProductData> { cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
             content.text = product.name
-            content.secondaryText = product.price.description
+
+            if product.stock == 0 {
+                cell.stockLabel.text = "품절"
+                cell.stockLabel.textColor = .systemYellow
+            } else {
+                cell.stockLabel.text = "잔여수량: " + product.stock.description
+                cell.stockLabel.textColor = .systemGray2
+            }
+            
+            if product.price == product.bargainPrice {
+                content.secondaryText = product.currencyAndPrice
+            } else {
+                content.secondaryAttributedText = product.currencyAndDiscountedPrice
+            }
+            
             content.secondaryTextProperties.color = .systemGray2
-            cell.stockLabel.text = product.stock.description
-            cell.stockLabel.textColor = .systemGray2
             cell.listContentView.configuration = content
             cell.accessories = [.disclosureIndicator()]
             
@@ -89,4 +100,3 @@ class ViewController: UIViewController {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
-

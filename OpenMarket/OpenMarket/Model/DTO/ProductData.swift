@@ -4,14 +4,14 @@
 //  Created by inho, Hamo, Jeremy on 2022/11/15.
 //
 
-import Foundation
+import UIKit
 
 struct ProductData: Decodable, Hashable {
     let identifier: Int
     let vendorIdentifier: Int
     let name: String
     let thumbnail: String
-    let currency: String
+    let currency: Currency
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
@@ -39,5 +39,24 @@ struct ProductData: Decodable, Hashable {
         case description
         case images
         case vendors
+    }
+    
+    enum Currency: String, Codable {
+        case USD
+        case KRW
+        case JPY
+    }
+}
+
+extension ProductData {
+    var currencyAndPrice: String {
+        return "\(currency.rawValue) \(price)"
+    }
+    
+    var currencyAndDiscountedPrice: NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: "\(currencyAndPrice) \(currency.rawValue) \(bargainPrice)")
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: (currencyAndPrice as NSString).range(of: currencyAndPrice))
+        attributedString.addAttribute(.strikethroughStyle, value: 1, range: (currencyAndPrice as NSString).range(of: currencyAndPrice))
+        return attributedString
     }
 }
