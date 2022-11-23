@@ -14,6 +14,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bargainPrice: UILabel!
     @IBOutlet weak var stock: UILabel!
     
+    override func prepareForReuse() {
+        self.thumbnail.image = nil
+        self.name.text = nil
+        self.price.attributedText = nil
+        self.price.text = nil
+        self.bargainPrice.text = nil
+        self.stock.text = nil
+    }
+    
     func configureCell(imageSource: String,
                        name: String,
                        currency: Currency,
@@ -27,15 +36,31 @@ class CustomCollectionViewCell: UICollectionViewCell {
         guard let imageUrl = URL(string: imageSource),
               let imageData = try? Data(contentsOf: imageUrl),
               let image = UIImage(data: imageData),
-              let price = numberFormatter.string(for: price),
-              let bargainPrice = numberFormatter.string(for: bargainPrice) else { return }
+              let priceText = numberFormatter.string(for: price),
+              let bargainPriceText = numberFormatter.string(for: bargainPrice) else { return }
         
         self.thumbnail.image = image
         self.name.text = name
-        self.price.text = "\(currency) \(price)"
-        self.bargainPrice.text = "\(currency) \(bargainPrice)"
+        self.price.text = "\(currency) \(priceText)"
+        
+        if bargainPrice <= 0 || price <= bargainPrice {
+            self.bargainPrice.text = ""
+            self.price.textColor = UIColor.systemGray
+            print(self.price.attributedText)
+        } else {
+            guard let priceText = self.price.text else { return }
+            let attributeText = NSMutableAttributedString(string: priceText)
+            attributeText.addAttribute(.strikethroughStyle,
+                                       value: NSUnderlineStyle.single.rawValue,
+                                       range: NSMakeRange(0, attributeText.length))
+            self.price.attributedText = attributeText
+            self.bargainPrice.text = "\(currency) \(bargainPriceText)"
+            self.price.textColor = UIColor.systemRed
+        }
+        
         if stock > 0 {
             self.stock.text = "잔여수량 : \(stock)"
+            self.stock.textColor = UIColor.systemGray
         } else {
             self.stock.text = "품절"
             self.stock.textColor = UIColor.systemYellow
