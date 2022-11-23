@@ -5,7 +5,7 @@
 
 import UIKit
 
-private enum Section: Hashable {
+enum Section: Hashable {
     case main
 }
 

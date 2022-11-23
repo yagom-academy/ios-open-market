@@ -10,6 +10,7 @@
 		3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */; };
 		3C458B352925CA9600E43838 /* NetworkAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */; };
 		3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5EF2923649F00D0E45E /* ProductList.swift */; };
+		3C77A91D292DC86900280ACC /* ProductGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77A91C292DC86900280ACC /* ProductGridViewController.swift */; };
 		3C8B1389292C742D00E3756E /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8B1388292C742D00E3756E /* AddProductViewController.swift */; };
 		3CE5CC89292662A100F8DD61 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE5CC88292662A100F8DD61 /* NetworkTests.swift */; };
 		5743DFE22923659100D2442D /* NetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFE12923659100D2442D /* NetworkAPI.swift */; };
@@ -42,6 +43,7 @@
 		3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+extension.swift"; sourceTree = "<group>"; };
 		3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPIProvider.swift; sourceTree = "<group>"; };
 		3C62E5EF2923649F00D0E45E /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
+		3C77A91C292DC86900280ACC /* ProductGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridViewController.swift; sourceTree = "<group>"; };
 		3C8B1388292C742D00E3756E /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		3CE5CC86292662A100F8DD61 /* NetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE5CC88292662A100F8DD61 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				C70FB0FE25BEF61C00C9924E /* ProductListViewController.swift */,
 				3C8B1388292C742D00E3756E /* AddProductViewController.swift */,
 				57D3E2A9292DC5BD00D1BAB7 /* ProductListCell.swift */,
+				3C77A91C292DC86900280ACC /* ProductGridViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -170,11 +173,11 @@
 				5743DFE92925D46A00D2442D /* Errors */,
 				5743DFE62925D3FD00D2442D /* Extensions */,
 				5743DFE52925D3EA00D2442D /* Utilities */,
-				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				5743DFE72925D40700D2442D /* Model */,
 				5743DFE82925D44300D2442D /* View */,
 				3C8B1387292C740600E3756E /* Controller */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
+				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,
 			);
@@ -303,6 +306,7 @@
 				3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */,
 				3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				3C77A91D292DC86900280ACC /* ProductGridViewController.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
