@@ -58,10 +58,11 @@ class ViewController: UIViewController {
             var content = UIListContentConfiguration.cell()
             content.text = product.name
             content.secondaryText = product.price.description
+            content.secondaryTextProperties.color = .systemGray2
             cell.stockLabel.text = product.stock.description
+            cell.stockLabel.textColor = .systemGray2
             cell.listContentView.configuration = content
             cell.accessories = [.disclosureIndicator()]
-            content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
             
             self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
                 switch result {

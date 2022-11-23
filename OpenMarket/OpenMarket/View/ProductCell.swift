@@ -23,22 +23,35 @@ class ProductCell: UICollectionViewListCell {
     
     private func configureLayout() {
         contentView.addSubview(listContentView)
-        listContentView.addSubview(stockLabel)
+        contentView.addSubview(stockLabel)
         listContentView.translatesAutoresizingMaskIntoConstraints = false
         stockLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+        stockLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         let constraints = (stockLabelcenterY: stockLabel.centerYAnchor.constraint(equalTo: listContentView.centerYAnchor),
-                           stockLabelTrailing: stockLabel.trailingAnchor.constraint(equalTo: listContentView.trailingAnchor))
+                           stockLabelTrailing: stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
         
         NSLayoutConstraint.activate([
             listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            listContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            listContentView.trailingAnchor.constraint(lessThanOrEqualTo: stockLabel.leadingAnchor),
             listContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             constraints.stockLabelcenterY,
-            constraints.stockLabelTrailing
+            constraints.stockLabelTrailing,
         ])
         
         stockLabelConstraints = constraints
+    }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        super.preferredLayoutAttributesFitting(layoutAttributes)
+        layoutIfNeeded()
+        
+        let size = self.frame.width * 0.2
+        var frame = layoutAttributes.frame
+        
+        frame.size.height = size
+        layoutAttributes.frame = frame
+        
+        return layoutAttributes
     }
 }
