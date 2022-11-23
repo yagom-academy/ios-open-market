@@ -2,12 +2,13 @@
 //  ProductGridCell.swift
 //  OpenMarket
 //
-//  Created by Ayaan on 2022/11/22.
+//  Created by Ayaan, junho on 2022/11/22.
 //
 
 import UIKit
 
 final class ProductGridCell: UICollectionViewCell {
+    //MARK: - Views
     private let thumbnailImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         
@@ -41,7 +42,6 @@ final class ProductGridCell: UICollectionViewCell {
         
         return stackView
     }()
-    private let operationQueue: OperationQueue = OperationQueue.init()
     
     private var product: Product? {
         didSet {
@@ -60,12 +60,13 @@ final class ProductGridCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func updateWithProduct(_ product: Product) {
-        self.product = product
+    //MARK: - Method
+    func updateWithProduct(_ newProduct: Product) {
+        self.product = newProduct
     }
     
     private func setupViewsIfNeeded() {
+        let spacing: CGFloat = 10
         stackView.addArrangedSubview(thumbnailImageView)
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(priceLabel)
@@ -73,27 +74,38 @@ final class ProductGridCell: UICollectionViewCell {
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             thumbnailImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
-            thumbnailImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.47),
-            nameLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor, multiplier: 0.21),
-            nameLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20),
-            priceLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor, multiplier: 0.18),
-            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20),
-            stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.12),
-            stockLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20)
+            thumbnailImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor,
+                                                       multiplier: 0.47),
+            nameLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor,
+                                              multiplier: 0.21),
+            nameLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor,
+                                             constant: -20),
+            priceLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor,
+                                               multiplier: 0.18),
+            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor,
+                                              constant: -20),
+            stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor,
+                                               multiplier: 0.12),
+            stockLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor,
+                                              constant: -20)
         ])
-        nameLabel.setContentHuggingPriority(.init(rawValue: 1000), for: .vertical)
-        nameLabel.setContentCompressionResistancePriority(.init(rawValue: 1000), for: .vertical)
+        
+        nameLabel.setContentHuggingPriority(.init(rawValue: 1000),
+                                            for: .vertical)
+        nameLabel.setContentCompressionResistancePriority(.init(rawValue: 1000),
+                                                          for: .vertical)
     }
     
     private func setupDataIfNeeded() {
-        guard let product = product else {
+        guard let product: Product = product else {
             return
         }
+        
         ImageParser.parse(product.thumbnail) { (thumbnailImage) in
             self.thumbnailImageView.image = thumbnailImage
         }

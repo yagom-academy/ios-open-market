@@ -20,10 +20,10 @@ extension OpenMarketPageFetchable {
         let query: String = "api/products?page_no=\(pageNumber)&items_per_page=\(productsPerPage)"
         
         fetchOpenMarketDataTask(query: query) { (data, error) in
-            if let error = error {
+            if let error: Error = error {
                 print(error.localizedDescription)
                 completion(nil)
-            } else if let data = data {
+            } else if let data: Data = data {
                 completion(try? JSONDecoder().decode(Page.self, from: data))
             } else {
                 completion(nil)

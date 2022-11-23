@@ -2,7 +2,7 @@
 //  CollectionViewLayout.swift
 //  OpenMarket
 //
-//  Created by junho lee on 2022/11/23.
+//  Created by Ayaan, junho on 2022/11/23.
 //
 
 enum CollectionViewLayout {

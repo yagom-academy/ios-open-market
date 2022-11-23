@@ -182,7 +182,7 @@
 			path = OpenMarket;
 			sourceTree = "<group>";
 		};
-		D3697B592924C64A008D4017 /* Model */ = {
+		D342405B292E350E002B6F38 /* JSONDataModel */ = {
 			isa = PBXGroup;
 			children = (
 				D382743429226F0200A51A0A /* Page.swift */,
@@ -190,6 +190,14 @@
 				EBDB229429226B460072AE13 /* Currency.swift */,
 				EB52338929235C8600FF1573 /* ProductImage.swift */,
 				EB52338B29235D0F00FF1573 /* Vendor.swift */,
+			);
+			path = JSONDataModel;
+			sourceTree = "<group>";
+		};
+		D3697B592924C64A008D4017 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D342405B292E350E002B6F38 /* JSONDataModel */,
 				D3697B5729247B40008D4017 /* OpenMarketHealth.swift */,
 				D3750161292C645E005031AC /* PositiveNumber.swift */,
 				D3424059292DFE2E002B6F38 /* ImageParser.swift */,

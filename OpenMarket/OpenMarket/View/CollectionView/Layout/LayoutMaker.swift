@@ -2,7 +2,7 @@
 //  LayoutMaker.swift
 //  OpenMarket
 //
-//  Created by junho lee on 2022/11/23.
+//  Created by Ayaan, junho on 2022/11/23.
 //
 
 import UIKit
@@ -18,38 +18,39 @@ enum LayoutMaker {
     }
     
     private static func makeListLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        let config: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
     private static func makeGridLayout() -> UICollectionViewLayout {
-        let spacing = CGFloat(10)
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0,
+        let spacing: CGFloat = CGFloat(10)
+        let itemCountOfColumn: Int = 2
+        let itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0))
+        let item: NSCollectionLayoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: .zero,
                                                      leading: spacing,
-                                                     bottom: 0,
-                                                     trailing: 0)
+                                                     bottom: .zero,
+                                                     trailing: .zero)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalWidth(0.87))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+        let groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(0.87))
+        let group: NSCollectionLayoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
-                                                       count: 2)
+                                                       count: itemCountOfColumn)
         group.contentInsets = NSDirectionalEdgeInsets(top: spacing,
-                                                      leading: 0,
-                                                      bottom: 0,
+                                                      leading: .zero,
+                                                      bottom: .zero,
                                                       trailing: spacing)
         
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0,
-                                                        leading: 0,
+        let section: NSCollectionLayoutSection = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: .zero,
+                                                        leading: .zero,
                                                         bottom: spacing,
-                                                        trailing: 0)
+                                                        trailing: .zero)
         
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        return layout
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }

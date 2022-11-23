@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StockLabel: UILabel {
+final class StockLabel: UILabel {
     @PositiveNumber var stock: Int {
         didSet {
             setText(for: stock)
@@ -36,6 +36,7 @@ class StockLabel: UILabel {
     
     private func setText(for stock: Int) {
         let stockInformation: String
+        
         if stock == 0 {
             stockInformation = "품절"
         } else {

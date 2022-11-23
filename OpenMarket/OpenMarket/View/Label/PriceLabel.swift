@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PriceLabel: UILabel {
+final class PriceLabel: UILabel {
     private var currency: Currency = .krw
     @PositiveNumber private var price: Double
     @PositiveNumber private var bargainPrice: Double
@@ -45,6 +45,7 @@ class PriceLabel: UILabel {
         let separator: String = style == .list ? " " : "\n"
         let priceText: String = "\(currency.rawValue) \(price)"
         let bargainPriceText: String = "\(currency.rawValue) \(bargainPrice)"
+        
         if price == bargainPrice {
             text = "\(bargainPriceText)"
             setAttributedString(bargainPriceTextLength: bargainPriceText.count)
@@ -55,11 +56,14 @@ class PriceLabel: UILabel {
         }
     }
     
-    private func setAttributedString(priceTextLength: Int = 0, bargainPriceTextLength: Int) {
+    private func setAttributedString(priceTextLength: Int = 0,
+                                     bargainPriceTextLength: Int) {
         guard let text: String = text else {
             return
         }
-        let attributedString = NSMutableAttributedString(string: text)
+        
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+        
         attributedString.addAttributes([.strikethroughStyle: NSUnderlineStyle.single.rawValue,
                                         .foregroundColor: UIColor.red],
                                        range: NSRange(location: 0,
@@ -68,6 +72,7 @@ class PriceLabel: UILabel {
                                       value: UIColor.gray,
                                       range: NSRange(location: priceTextLength,
                                                      length: text.count - priceTextLength))
+        
         attributedText = attributedString
     }
 }

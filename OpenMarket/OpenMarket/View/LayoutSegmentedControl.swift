@@ -2,7 +2,7 @@
 //  LayoutSegmentedControl.swift
 //  OpenMarket
 //
-//  Created by junho lee on 2022/11/22.
+//  Created by Ayaan, junho on 2022/11/22.
 //
 
 import UIKit

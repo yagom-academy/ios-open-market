@@ -14,7 +14,7 @@ extension OpenMarketHealthFetchable {
         let query: String = "healthChecker"
         
         fetchOpenMarketDataTask(query: query) { (data, error) in
-            if let error = error {
+            if let error: Error = error {
                 print(error.localizedDescription)
                 completion(.bad)
             } else if data != nil {

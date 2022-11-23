@@ -8,6 +8,7 @@
 import UIKit
 
 final class ProductListCell: UICollectionViewListCell {
+    //MARK: - Views
     private let thumbnailImageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
         
@@ -67,9 +68,9 @@ final class ProductListCell: UICollectionViewListCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func updateWithProduct(_ product: Product) {
-        self.product = product
+    //MARK: - Method
+    func updateWithProduct(_ newProduct: Product) {
+        self.product = newProduct
     }
     
     private func setupViewsIfNeeded() {
@@ -101,9 +102,10 @@ final class ProductListCell: UICollectionViewListCell {
     }
     
     private func setupDataIfNeeded() {
-        guard let product = product else {
+        guard let product: Product = product else {
             return
         }
+        
         ImageParser.parse(product.thumbnail) { (thumbnailImage) in
             self.thumbnailImageView.image = thumbnailImage
         }
