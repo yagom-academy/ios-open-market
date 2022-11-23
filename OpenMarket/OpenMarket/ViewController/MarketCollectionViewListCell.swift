@@ -15,6 +15,8 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
+        label.textAlignment = .right
         
         return label
     }()
@@ -33,7 +35,7 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.distribution = .fillProportionally
         stackView.spacing = 10
-        
+        stackView.alignment = .top
         return stackView
     }()
     
@@ -58,10 +60,11 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         
         guard let pageData = state.pageData else { return }
         
-        content.imageProperties.maximumSize = CGSize(width: 80, height: 80)
+        content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
         content.imageProperties.cornerRadius = 10
         content.text = pageData.name
-        content.textProperties.font = .preferredFont(forTextStyle: .title2)
+        content.textProperties.font = .preferredFont(forTextStyle: .title3)
+        content.textToSecondaryTextVerticalPadding = 5
         content.secondaryTextProperties.color = .systemGray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
         
@@ -79,7 +82,7 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
                 .orangeColor(string: "품절")
         } else {
             stockLabel.attributedText = NSMutableAttributedString()
-                .normal(string: "잔여수량: \(pageData.stock)")
+                .normal(string: "잔여수량:\n\(pageData.stock)")
         }
         pageListContentView.configuration = content
     }
@@ -127,7 +130,9 @@ extension MarketCollectionViewListCell {
             pageListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pageListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             pageListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            pageListContentView.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor,constant: -10),
             pageListContentView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            pageListContentView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
             stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
