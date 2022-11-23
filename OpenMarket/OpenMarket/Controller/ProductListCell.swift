@@ -40,9 +40,6 @@ extension ProductListCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
-        productPriceLabel.textColor = .gray
-        
         let constraints = (leading:
                             productPriceLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productListContentView.trailingAnchor),
                            trailing:
@@ -57,20 +54,22 @@ extension ProductListCell {
             constraints.trailing
         ])
         
+        productListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
         customViewConstraints = constraints
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
-        guard let productData else { return }
+        guard let productData = state.productData else { return }
         
         var content = defaultProductConfiguration().updated(for: state)
         var priceText = "\(productData.currency) \(productData.price) "
         var attributedStr = NSMutableAttributedString(string: priceText)
         
-        content.image = urlToImage(state.productData?.thumbnail ?? "")
+        content.image = urlToImage(productData.thumbnail)
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
-        content.text = state.productData?.name
+        content.text = productData.name
         content.textProperties.font = .preferredFont(forTextStyle: .body)
         
         if productData.bargainPrice != productData.price {
@@ -82,7 +81,9 @@ extension ProductListCell {
         
         productListContentView.configuration = content
         
-        productPriceLabel.text = "잔여수량: \(state.productData?.stock ?? 0)"
+        productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
+        productPriceLabel.textColor = .gray
+        productPriceLabel.text = "잔여수량: \(productData.stock)"
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {
