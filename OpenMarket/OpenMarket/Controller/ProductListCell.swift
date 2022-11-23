@@ -1,9 +1,4 @@
-//
-//  ProductListCell.swift
-//  OpenMarket
-//
-//  Created by Victor on 2022/11/23.
-//
+//  Created by Aejong, Tottale on 2022/11/22.
 
 import UIKit
 

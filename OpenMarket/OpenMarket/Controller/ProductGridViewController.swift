@@ -1,9 +1,4 @@
-//
-//  ProductGridViewController.swift
-//  OpenMarket
-//
-//  Created by jin on 11/23/22.
-//
+//  Created by Aejong, Tottale on 2022/11/22.
 
 import UIKit
 
@@ -12,7 +7,6 @@ class ProductGridViewController: UIViewController {
     var gridCollectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     var productData: ProductList?
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +26,7 @@ class ProductGridViewController: UIViewController {
         }
     }
     
-    func createLayout() -> UICollectionViewCompositionalLayout{ 
+    func createLayout() -> UICollectionViewCompositionalLayout{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
@@ -65,8 +59,9 @@ class ProductGridViewController: UIViewController {
     
     func configureDataSource() {
         // 5-1. `CellRegistration` 구현
-        let cellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { cell, indexPath, product in
-            cell.update(with: product)
+        let cellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { cell, indexPath, product in
+//            cell.update(with: product)
+            cell.configCell(with: product)
         }
 
         // 5-2. `UICollectionViewDiffableDataSource` 인스턴스 생성 및 cellProvider의 `dequeueConfiguredReusableCell` 구현
