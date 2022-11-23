@@ -8,17 +8,22 @@ import UIKit
 
 class ProductListCell: UICollectionViewCell {
     static let identifier = String(describing: ProductListCell.self)
+    var task: URLSessionDataTask? {
+        didSet {
+            if task != nil {
+                task?.resume()
+            }
+        }
+    }
     
     let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "person")
         return imageView
     }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Mac min M"
         label.numberOfLines = 1
         label.textColor = .label
         return label
@@ -26,14 +31,12 @@ class ProductListCell: UICollectionViewCell {
     
     let subTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "USD 800"
         label.textColor = .label
         return label
     }()
     
     let stockLabel: UILabel = {
         let label = UILabel()
-        label.text = "잔여수량 : 148"
         label.textAlignment = .right
         label.textColor = .label
         return label
@@ -46,6 +49,13 @@ class ProductListCell: UICollectionViewCell {
         stackView.axis = .vertical
         return stackView
     }()
+    
+    override func prepareForReuse() {
+        thumbnailImageView.image = UIImage(systemName: "circle")
+        task?.cancel()
+        task = nil
+        super.prepareForReuse()
+    }
     
     func configureLayout() {
         [
@@ -74,7 +84,7 @@ class ProductListCell: UICollectionViewCell {
     private func setupLayoutOfStackView() {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(lessThanOrEqualTo: stockLabel.leadingAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])

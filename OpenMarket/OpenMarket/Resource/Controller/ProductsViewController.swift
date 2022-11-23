@@ -7,11 +7,20 @@
 import UIKit
 
 class ProductsViewController: UIViewController {
-    var productsData: ProductListResponse?
+    var productsData: ProductListResponse? {
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    let productResponseNetworkManager = NetworkManager<ProductListResponse>()
+    var currentPage: Int = 1
     
     enum Constant {
         static let edgeInsetValue: CGFloat = 8
     }
+    
     var segmentIndex = 0
     
     let addButton: UIBarButtonItem = {
@@ -43,7 +52,10 @@ class ProductsViewController: UIViewController {
             right: Constant.edgeInsetValue
         )
 
-        collectionView.register(ProductListCell.self, forCellWithReuseIdentifier: ProductListCell.identifier)
+        collectionView.register(
+            ProductListCell.self,
+            forCellWithReuseIdentifier: ProductListCell.identifier
+        )
         
         return collectionView
     }()
@@ -59,7 +71,8 @@ class ProductsViewController: UIViewController {
     }
     
     func fetchData() {
-        NetworkManager<ProductListResponse>().fetchData(endPoint: OpenMarketAPI.productsList(pageNumber: 1, rowCount: 30)) { result in
+        let endPoint = OpenMarketAPI.productsList(pageNumber: currentPage, rowCount: 200)
+        productResponseNetworkManager.fetchData(endPoint: endPoint) { result in
             switch result {
             case .success(let data):
                 self.productsData = data
@@ -78,35 +91,93 @@ class ProductsViewController: UIViewController {
 }
 
 extension ProductsViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let size = collectionView.bounds.size
         let index = (segmentIndex + 1)
         let contentsWidth = (size.width / CGFloat(index)) - (2 * Constant.edgeInsetValue)
-        let contentsHeight = index == 1 ? size.height * 0.08 : size.height * 0.3
+        let contentsHeight = index == 1 ? size.height * 0.1 : size.height * 0.3
          
         return CGSize(width: contentsWidth, height: contentsHeight)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return Constant.edgeInsetValue
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return Constant.edgeInsetValue
     }
 }
 
 extension ProductsViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        guard let products = productsData?.products else { return 0 }
+        return products.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductListCell.identifier, for: indexPath) as? ProductListCell else {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let products = productsData?.products else { return UICollectionViewCell() }
+        
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ProductListCell.identifier,
+            for: indexPath
+        ) as? ProductListCell else {
             return UICollectionViewCell()
         }
+        let product = products[indexPath.row]
         
         cell.configureLayout()
+        cell.titleLabel.text = product.name
+        cell.subTitleLabel.text = "\(product.currency.rawValue) \(product.price)"
+        cell.stockLabel.text = "잔여수량 : \(product.stock)"
+        
+        guard let url = URL(string: product.thumbnail) else { return cell }
+        let imageTask = URLSession.createTask(url: url) { image in
+            DispatchQueue.main.async {
+                cell.thumbnailImageView.image = image
+            }
+        }
+        
+        cell.task = imageTask
         return cell
+    }
+}
+
+private extension URLSession {
+    static func createTask(
+        url: URL,
+        completion: @escaping (UIImage?) -> Void
+    ) -> URLSessionDataTask {
+        Self.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error)
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 200 else { return }
+            
+            if let data = data {
+                let image = UIImage(data: data)
+                completion(image)
+            }
+        }
     }
 }
