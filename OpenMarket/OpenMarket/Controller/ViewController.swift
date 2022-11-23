@@ -10,8 +10,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var networkCommunication = NetworkCommunication()
-    
     var searchListProducts: SearchListProducts?
+    var searchListPages: [SearchListPage] = []
     var detailProduct: DetailProduct?
     
     override func viewDidLoad() {
@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         getProductsListData()
         getProductDetailData(productNumber: "31")
         getCollectionViewCellNib()
+        settingCollectionViewLayoutList()
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
@@ -35,8 +36,8 @@ class ViewController: UIViewController {
     }
     
     private func getCollectionViewCellNib() {
-        let customCollectionViewCellNib = UINib(nibName: "CustomCollectionViewGridCell", bundle: nil)
-        collectionView.register(customCollectionViewCellNib, forCellWithReuseIdentifier: "customCollectionViewCell")
+        collectionView.register(UINib(nibName: "CustomCollectionViewListCell", bundle: nil), forCellWithReuseIdentifier: "customCollectionViewListCell")
+        collectionView.register(UINib(nibName: "CustomCollectionViewGridCell", bundle: nil), forCellWithReuseIdentifier: "customCollectionViewGridCell")
     }
     
     private func getResponseAboutHealChecker() {
@@ -63,6 +64,7 @@ class ViewController: UIViewController {
             switch data {
             case .success(let data):
                 self.searchListProducts = data
+                self.searchListPages = data.pages
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -85,20 +87,38 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    private func settingCollectionViewLayoutList() {
+        let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .fractionalHeight(1))
+        let layoutItem = NSCollectionLayoutItem(layoutSize: layoutSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .absolute(70))
+        let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                             subitems: [layoutItem])
+        let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
+        let compositionalLayout = UICollectionViewCompositionalLayout(section: layoutSection)
+        collectionView.collectionViewLayout = compositionalLayout
+        self.collectionView.reloadData()
+    }
 }
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let searchListProducts = searchListProducts else { return 0 }
-        return searchListProducts.pages.count
+        return self.searchListPages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewCell", for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell() }
+        guard let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewListCell", for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.configureCell(imageSource: <#T##String#>, name: <#T##String#>, currency: <#T##Currency#>, price: <#T##Double#>, bargainPrice: <#T##Double#>, stock: <#T##Int#>)
+        customCell.configureCell(imageSource: self.searchListPages[indexPath.item].thumbnail,
+                                 name: self.searchListPages[indexPath.item].name,
+                                 currency: self.searchListPages[indexPath.item].currency,
+                                 price: self.searchListPages[indexPath.item].price,
+                                 bargainPrice: self.searchListPages[indexPath.item].bargainPrice,
+                                 stock: self.searchListPages[indexPath.item].stock)
         
-        return cell
+        return customCell
     }
     
     
