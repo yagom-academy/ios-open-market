@@ -41,6 +41,7 @@ final class ProductGridCell: UICollectionViewCell {
         
         return stackView
     }()
+    private let operationQueue: OperationQueue = OperationQueue.init()
     
     private var product: Product? {
         didSet {
@@ -100,7 +101,8 @@ final class ProductGridCell: UICollectionViewCell {
         stockLabel.stock = product.stock
         priceLabel.setPrice(product.price,
                             bargainPrice: product.bargainPrice,
-                            currency: product.currency)
+                            currency: product.currency,
+                            style: .grid)
     }
     
     override func prepareForReuse() {
@@ -110,6 +112,7 @@ final class ProductGridCell: UICollectionViewCell {
         stockLabel.stock = 0
         priceLabel.setPrice(0,
                             bargainPrice: 0,
-                            currency: Currency.krw)
+                            currency: Currency.krw,
+                            style: .grid)
     }
 }

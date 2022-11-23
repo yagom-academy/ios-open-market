@@ -15,18 +15,21 @@ class PriceLabel: UILabel {
     init() {
         super.init(frame: .zero)
         configure()
-        setText()
+        setText(style: CollectionViewLayout.defaultLayout)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setPrice(_ price: Double, bargainPrice: Double, currency: Currency) {
+    func setPrice(_ price: Double,
+                  bargainPrice: Double,
+                  currency: Currency,
+                  style: CollectionViewLayout) {
         self.price = price
         self.bargainPrice = bargainPrice
         self.currency = currency
-        setText()
+        setText(style: style)
     }
     
     private func configure() {
@@ -38,17 +41,21 @@ class PriceLabel: UILabel {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func setText() {
+    private func setText(style: CollectionViewLayout) {
+        let separator: String = style == .list ? " " : "\n"
         let priceText: String = "\(currency.rawValue) \(price)"
         let bargainPriceText: String = "\(currency.rawValue) \(bargainPrice)"
         if price == bargainPrice {
             text = "\(bargainPriceText)"
+            setAttributedString(bargainPriceTextLength: bargainPriceText.count)
         } else {
-            text = "\(priceText) \(bargainPriceText)"
+            text = "\(priceText)\(separator)\(bargainPriceText)"
+            setAttributedString(priceTextLength: priceText.count,
+                                bargainPriceTextLength: bargainPriceText.count)
         }
     }
     
-    private func attributedString(priceTextLength: Int, bargainPriceTextLength: Int) {
+    private func setAttributedString(priceTextLength: Int = 0, bargainPriceTextLength: Int) {
         guard let text: String = text else {
             return
         }

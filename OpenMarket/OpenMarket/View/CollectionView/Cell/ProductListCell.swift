@@ -111,7 +111,8 @@ final class ProductListCell: UICollectionViewListCell {
         stockLabel.stock = product.stock
         priceLabel.setPrice(product.price,
                             bargainPrice: product.bargainPrice,
-                            currency: product.currency)
+                            currency: product.currency,
+                            style: .list)
     }
     
     override func prepareForReuse() {
@@ -121,6 +122,7 @@ final class ProductListCell: UICollectionViewListCell {
         stockLabel.stock = 0
         priceLabel.setPrice(0,
                             bargainPrice: 0,
-                            currency: Currency.krw)
+                            currency: Currency.krw,
+                            style: .list)
     }
 }
