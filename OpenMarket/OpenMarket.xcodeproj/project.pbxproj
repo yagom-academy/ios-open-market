@@ -89,9 +89,9 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ProductListViewController.swift */,
+				3C77A91C292DC86900280ACC /* ProductGridViewController.swift */,
 				57D3E2A9292DC5BD00D1BAB7 /* ProductListCell.swift */,
 				3C8B1388292C742D00E3756E /* AddProductViewController.swift */,
-				3C77A91C292DC86900280ACC /* ProductGridViewController.swift */,
 				57D3E2AB292DCE6D00D1BAB7 /* ProductGridCell.swift */,
 			);
 			path = Controller;

@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let rootViewController = ProductGridViewController()
+        let rootViewController = ProductListViewController()
         let navigationViewController = UINavigationController(rootViewController: rootViewController)
         
         self.window?.rootViewController = navigationViewController

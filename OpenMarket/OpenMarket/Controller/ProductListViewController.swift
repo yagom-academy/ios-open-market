@@ -57,10 +57,21 @@ extension ProductListViewController {
         segmentedControl.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
-        
+        segmentedControl.addTarget(self, action: #selector(segControlChanged), for: UIControl.Event.valueChanged)
         self.navigationItem.titleView = segmentedControl
     }
     
+    @objc func segControlChanged(segcon: UISegmentedControl) {
+        switch segcon.selectedSegmentIndex {
+        case 0:
+            self.configureHierarchy()
+            self.configureDataSource()
+        case 1:
+            self.createGridCollectionView()
+            self.configureGridDataSource()
+        default: return
+        }
+    }
     private func configureAddButton() {
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
         self.navigationItem.rightBarButtonItem = addItem
@@ -76,6 +87,9 @@ extension ProductListViewController {
 
 extension ProductListViewController {
     private func configureHierarchy() {
+        if let collectionView {
+            collectionView.removeFromSuperview()
+        }
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(collectionView)
@@ -95,6 +109,58 @@ extension ProductListViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(productData?.pages ?? [])
         dataSource.apply(snapshot)
+    }
+}
+
+extension ProductListViewController {
+    func createGridLayout() -> UICollectionViewCompositionalLayout{
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.25))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        group.interItemSpacing = .fixed(10)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = CGFloat(10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }
+    
+    func createGridCollectionView() {
+        if let collectionView {
+            collectionView.removeFromSuperview()
+        }
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
+        
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+    
+    func configureGridDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { cell, indexPath, product in
+            //            cell.update(with: product)
+            cell.configCell(with: product)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        })
+        
+        var snapShot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(productData?.pages ?? [])
+        dataSource.apply(snapShot)
     }
 }
 
