@@ -11,11 +11,17 @@ class MarketListViewController: UIViewController {
     var pageData: [Page] = []
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
-    let marketURLSessionProvider = MarketURLSessionProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchMarketData()
+    }
+    
+    func fetchMarketData() {
+        let marketURLSessionProvider = MarketURLSessionProvider()
+        
         guard let url = Request.productList(pageNumber: 1, itemsPerPage: 50).url else { return }
+        
         marketURLSessionProvider.fetchData(url: url, type: Market.self) { result in
             switch result {
             case .success(let market):

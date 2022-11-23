@@ -14,7 +14,26 @@ class MarketGridViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchMarketData()
+    }
+    
+    func fetchMarketData() {
+        let marketURLSessionProvider = MarketURLSessionProvider()
         
+        guard let url = Request.productList(pageNumber: 1, itemsPerPage: 50).url else { return }
+        
+        marketURLSessionProvider.fetchData(url: url, type: Market.self) { result in
+            switch result {
+            case .success(let market):
+                self.pageData = market.pages
+                DispatchQueue.main.async {
+                    self.configureCollectionView()
+                    self.configureDataSource()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func createGridLayout() -> UICollectionViewCompositionalLayout {
