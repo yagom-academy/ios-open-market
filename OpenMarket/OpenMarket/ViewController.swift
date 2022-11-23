@@ -29,11 +29,29 @@ class ViewController: UIViewController {
         configure()
         
         let cellRegistration = UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, itemIdentifier in
-            cell.price.text = "\(itemIdentifier.price)"
-            cell.productName.text = "\(itemIdentifier.name)"
-            cell.bargainPrice.text = "\(itemIdentifier.bargainPrice)"
-            cell.stock.text = "\(itemIdentifier.stock)"
-            cell.image.image = UIImage(data: try! Data(contentsOf: URL(string: itemIdentifier.thumbnail)!))
+            DispatchQueue.global().async {
+                
+                if itemIdentifier.hashValue != indexPath.hashValue {
+                    let picture = UIImage(data: try! Data(contentsOf: URL(string: itemIdentifier.thumbnail)!))
+                     
+                    DispatchQueue.main.async {
+                        cell.productName.text = "\(itemIdentifier.name)"
+                        cell.bargainPrice.text = "\(itemIdentifier.bargainPrice)"
+                        cell.stock.text = "\(itemIdentifier.stock)"
+                        cell.image.image = picture
+                        
+                        if itemIdentifier.bargainPrice != itemIdentifier.price {
+                            let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: " ")
+                            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
+                            cell.price.attributedText = attributeString
+                            cell.price.text = "\(itemIdentifier.price)"
+                        } else {
+                            cell.price.isHidden = true
+                        }
+                        
+                    }
+                }
+            }
         }
         
         datasource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -42,12 +60,11 @@ class ViewController: UIViewController {
         
         let manager = NetworkManager()
         
-        manager.getProductsList(pageNo: 1, itemsPerPage: 10) { list in
+        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { list in
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
             snapshot.appendItems(list.products)
             self.datasource.apply(snapshot, animatingDifferences: true)
-            print("????")
         }
         
         setupNavBar()
@@ -60,10 +77,10 @@ class ViewController: UIViewController {
             let columns = 1
             let spacing = CGFloat(10)
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0))
+                                                  heightDimension: .estimated(100))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(1.0/10))
+                                                   heightDimension: .estimated(100))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
             group.interItemSpacing = .fixed(spacing)
             
@@ -75,6 +92,7 @@ class ViewController: UIViewController {
         }
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(collectionView)
     }
     

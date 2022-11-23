@@ -18,22 +18,23 @@ class ListCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
         return label
     }()
     
     let price: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .systemRed
+        
         return label
-
     }()
     
     let bargainPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-
     }()
     
     let stock: UILabel = {
@@ -47,6 +48,7 @@ class ListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
         return stackView
     }()
     
@@ -54,6 +56,7 @@ class ListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -61,7 +64,7 @@ class ListCell: UICollectionViewListCell {
        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -69,7 +72,8 @@ class ListCell: UICollectionViewListCell {
        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-
+        stackView.alignment = .center
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -95,18 +99,27 @@ class ListCell: UICollectionViewListCell {
         setUpUI()
     }
     
+    override func prepareForReuse() {
+        image.image = nil
+        productName.text = nil
+        price.text = nil
+        bargainPrice.text = nil
+        stock.text = nil
+    }
+    
     func setUpUI() {
+        let priceHugging = bargainPrice.contentHuggingPriority(for: .horizontal) + 1
+        price.setContentHuggingPriority(priceHugging, for: .horizontal)
         NSLayoutConstraint.activate([
-            
-            
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
+                    
             image.widthAnchor.constraint(equalToConstant: 100),
-            image.heightAnchor.constraint(equalTo: image.widthAnchor)
-
+            image.heightAnchor.constraint(equalTo: image.widthAnchor),
+            
+            contentView.widthAnchor.constraint(greaterThanOrEqualTo: image.heightAnchor)
         ])
     }
     
