@@ -9,10 +9,12 @@ import UIKit
 final class ViewController: UIViewController {
     private let segmentedControl: LayoutSegmentedControl = LayoutSegmentedControl()
     private var collectionView: OpenMarketCollectionView!
+    private var indicatorView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewsIfNeeded()
+        setIndicatorView()
         applySnapshotOfFetchedPage()
     }
     
@@ -34,6 +36,22 @@ final class ViewController: UIViewController {
         let barButton: UIBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(tappedAddProductButton))
         barButton.tintColor = .systemBlue
         navigationItem.setRightBarButton(barButton, animated: false)
+    }
+    
+    private func setIndicatorView() {
+        let indicatorView: UIView = UIView(frame: view.bounds)
+        indicatorView.backgroundColor = .systemGray6
+        let indicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
+        indicator.center = indicatorView.center
+        indicator.startAnimating()
+        indicatorView.addSubview(indicator)
+        view.addSubview(indicatorView)
+        self.indicatorView = indicatorView
+    }
+    
+    private func removeIndicatorView() {
+        indicatorView?.removeFromSuperview()
+        indicatorView = nil
     }
     
     @objc
@@ -63,6 +81,7 @@ extension ViewController {
             snapshot.appendSections([.main])
             snapshot.appendItems(page.products)
             DispatchQueue.main.async {
+                self.removeIndicatorView()
                 self.collectionView.applySnapshot(snapshot)
             }
         }
