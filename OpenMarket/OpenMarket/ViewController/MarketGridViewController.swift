@@ -9,10 +9,12 @@ import UIKit
 
 class MarketGridViewController: UIViewController {
     var gridCollectionView: UICollectionView!
-
+    var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
+    var pageData: [Page] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
     func createGridLayout() -> UICollectionViewCompositionalLayout {
@@ -42,5 +44,31 @@ class MarketGridViewController: UIViewController {
             gridCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             gridCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+    
+    func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewGridCell, Page> {
+            cell, indexPath, page in
+            cell.configureCell(page: page)
+        }
+        dataSource = UICollectionViewDiffableDataSource(collectionView: gridCollectionView,
+                                                        cellProvider: {
+            collectionView, indexPath, page in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: page)
+        })
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+        snapshot.appendSections([.productGrid])
+        snapshot.appendItems(pageData)
+        dataSource?.apply(snapshot)
+    }
+}
+
+
+extension MarketGridViewController {
+    enum Section {
+        case productGrid
     }
 }
