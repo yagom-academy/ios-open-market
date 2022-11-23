@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		411376E9292DB3A900AB6D55 /* MarketCollectionViewGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411376E8292DB3A900AB6D55 /* MarketCollectionViewGridCell.swift */; };
+		411376EB292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411376EA292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift */; };
 		416AF3972924B476002CD10C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416AF3962924B476002CD10C /* MockURLSession.swift */; };
 		4171DE0F292DAAB10071F5CE /* MarketGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4171DE0E292DAAB10071F5CE /* MarketGridViewController.swift */; };
 		418C67D72924D30E009051E2 /* MockURLSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C67D62924D30E009051E2 /* MockURLSessionTests.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		411376E8292DB3A900AB6D55 /* MarketCollectionViewGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewGridCell.swift; sourceTree = "<group>"; };
+		411376EA292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		416AF3962924B476002CD10C /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		4171DE0E292DAAB10071F5CE /* MarketGridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGridViewController.swift; sourceTree = "<group>"; };
 		418C67D42924D30E009051E2 /* MockURLSessionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockURLSessionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +110,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		411376EC292DE1CF00AB6D55 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				411376EA292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		418C67D52924D30E009051E2 /* MockURLSessionTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +153,7 @@
 				41BA5BF8292C9CB200EAED05 /* MarketCollectionViewListCell.swift */,
 				4171DE0E292DAAB10071F5CE /* MarketGridViewController.swift */,
 				411376E8292DB3A900AB6D55 /* MarketCollectionViewGridCell.swift */,
+				411376EC292DE1CF00AB6D55 /* Extension */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -392,6 +403,7 @@
 				86F0E04029247DFA00188086 /* URLSessionProtocol.swift in Sources */,
 				86F0E0392923B51400188086 /* URLComponents+Extension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
+				411376EB292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift in Sources */,
 				41D3D7772924814B00C86A9A /* SampleData.swift in Sources */,
 				41B6E8A82923BDD900CBF91D /* DateFormatter+Extension.swift in Sources */,
 				86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */,

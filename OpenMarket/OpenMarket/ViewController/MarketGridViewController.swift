@@ -86,7 +86,6 @@ class MarketGridViewController: UIViewController {
     }
 }
 
-
 extension MarketGridViewController {
     enum Section {
         case productGrid

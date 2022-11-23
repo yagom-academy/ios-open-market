@@ -57,14 +57,13 @@
                                 <action selector="changeView:" destination="BYZ-38-t0r" eventType="valueChanged" id="ATo-Nj-Tih"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="Yqx-1p-8VC">
+                        <barButtonItem key="rightBarButtonItem" id="Yqx-1p-8VC">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="NiZ-zS-iHL">
                                 <rect key="frame" x="302" y="0.0" width="92" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="+">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle1"/>
-                                </buttonConfiguration>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="+"/>
                             </button>
                         </barButtonItem>
                     </navigationItem>

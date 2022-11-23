@@ -28,6 +28,7 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .center
         label.setContentHuggingPriority(.init(rawValue: 10), for: .vertical)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -72,9 +73,18 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         if let image = urlToImage(page.thumbnail) {
             productImage.image = image
         }
+
+        if page.bargainPrice > 0  {
+            priceLabel.attributedText = NSMutableAttributedString()
+                .displayPreDiscountPrice(string: "\(page.currency.rawValue) \(page.price)")
+                .displayCurrentPrice(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
+        } else {
+            priceLabel.attributedText = NSMutableAttributedString()
+                .displayCurrentPrice(string: "\(page.currency.rawValue) \(page.price)")
+        }
+    
         nameLabel.text = page.name
-        priceLabel.text = "\(page.currency) \(page.price)"
-        stockLabel.text = page.stock == 0 ? "품절" : "\(page.stock)"
+        stockLabel.text = page.stock == 0 ? "품절" : "잔여수량: \(page.stock)"
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {
