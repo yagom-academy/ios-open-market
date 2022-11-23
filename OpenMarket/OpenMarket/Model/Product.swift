@@ -20,6 +20,15 @@ struct Product: Codable {
     let createdAt: String
     let issuedAt: String
     
+    var thumbnailData: Data? {
+        guard let url = URL(string: self.thumbnail),
+              let data = try? Data(contentsOf: url)
+        else {
+            return nil
+        }
+        return data
+    }
+    
     var createdDate: Date? {
         FormatConverter.date(from: createdAt)
     }

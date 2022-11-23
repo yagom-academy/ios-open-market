@@ -7,9 +7,7 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
-    private var product: Product?
-    
+final class ListCollectionViewCell: UICollectionViewCell {
     private let activityIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
       view.translatesAutoresizingMaskIntoConstraints = false
@@ -87,9 +85,11 @@ class ListCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         productImage.image = nil
         [productName, price, stock].forEach { $0?.text = nil }
+        activityIndicatorView.isHidden = false
+        activityIndicatorView.startAnimating()
     }
     
-    func setupCellConstraints() {
+    private func setupCellConstraints() {
         NSLayoutConstraint.activate([
             activityIndicatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             activityIndicatorView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -119,12 +119,22 @@ class ListCollectionViewCell: UICollectionViewCell {
         productName.text = product.name
         setupPrice(from: product)
         setupStock(from: product)
-        
+        setupImage(from: product)
         setupCellConstraints()
     }
     
     private func setupImage(from product: Product) {
-        
+        DispatchQueue.global().async {
+            guard let data = product.thumbnailData,
+                  let image = UIImage(data: data) else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.productImage.image = image
+                self.activityIndicatorView.stopAnimating()
+                self.activityIndicatorView.isHidden = true
+            }
+        }
     }
     
     private func setupPrice(from product: Product) {

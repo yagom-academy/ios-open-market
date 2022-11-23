@@ -7,17 +7,49 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
-    private var product: Product?
-    private var productImage: UIImage?
-    private var productName: UILabel = {
+final class GridCollectionViewCell: UICollectionViewCell {
+    private let activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .large)
+      view.translatesAutoresizingMaskIntoConstraints = false
+      return view
+    }()
+    
+    private let productImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let productName: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private var price: UILabel?
-    private var stock: UILabel?
+    
+    private let price: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let stock: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var labelStackView: UIStackView = {
+        var stackView = UIStackView(arrangedSubviews: [productName, price, stock])
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     override var reuseIdentifier: String? {
         return "GridCell"
@@ -25,20 +57,94 @@ class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemYellow
+        [activityIndicatorView, productImage, labelStackView].forEach { contentView.addSubview($0) }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(from product: Product) {
-        productName.text = product.name
-        contentView.addSubview(productName)
-        
+    override func prepareForReuse() {
+        productImage.image = nil
+        [productName, price, stock].forEach { $0?.text = nil }
+        activityIndicatorView.isHidden = false
+        activityIndicatorView.startAnimating()
+    }
+    
+    private func setupCellConstraints() {
         NSLayoutConstraint.activate([
-            productName.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            productName.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            activityIndicatorView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            activityIndicatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -20),
+            activityIndicatorView.heightAnchor.constraint(equalTo: activityIndicatorView.widthAnchor),
+            activityIndicatorView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            productImage.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -20),
+            productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
+            productImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            labelStackView.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant:  10),
+            labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            labelStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
         ])
+    }
+    
+    func configureCell(from product: Product) {
+        activityIndicatorView.startAnimating()
+        productName.text = product.name
+        setupPrice(from: product)
+        setupStock(from: product)
+        setupImage(from: product)
+        setupCellConstraints()
+    }
+    
+    private func setupImage(from product: Product) {
+        DispatchQueue.global().async {
+            guard let data = product.thumbnailData,
+                  let image = UIImage(data: data) else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.productImage.image = image
+                self.activityIndicatorView.stopAnimating()
+                self.activityIndicatorView.isHidden = true
+            }
+        }
+    }
+    
+    private func setupPrice(from product: Product) {
+        let text: String
+        let currency = product.currency.rawValue
+        let price = FormatConverter.number(from: product.price)
+        let bargainPrice = FormatConverter.number(from: product.bargainPrice)
+        
+        if product.discountedPrice.isZero {
+            text = "\(currency) \(price)"
+            self.price.textColor = .systemGray
+            self.price.text = text
+        } else {
+            text = "\(currency) \(price)\n\(currency) \(bargainPrice)"
+            let attributedString = NSMutableAttributedString(string: text)
+            attributedString.addAttributes([.foregroundColor: UIColor.systemRed, .strikethroughStyle: 1],
+                                           range: (text as NSString).range(of: "\(currency) \(price)"))
+            attributedString.addAttributes([.foregroundColor: UIColor.systemGray],
+                                           range: (text as NSString).range(of: "\(currency) \(bargainPrice)"))
+            self.price.attributedText = attributedString
+        }
+    }
+    
+    private func setupStock(from product: Product) {
+        if product.stock.isZero {
+            stock.textColor = .systemOrange
+            stock.text = "품절"
+        } else if product.stock.decimal >= 4 {
+            stock.textColor = .systemGray
+            let stock = FormatConverter.number(from: Double(product.stock / 1000))
+            self.stock.text = "잔여수량 : \(stock.components(separatedBy: ".")[0])k"
+        } else {
+            stock.textColor = .systemGray
+            self.stock.text = "잔여수량 : \(product.stock)"
+        }
     }
 }
