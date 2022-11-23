@@ -74,8 +74,16 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
     func configureCell(page: Page) {
         createCellLayout()
         
-        if let image = urlToImage(page.thumbnail) {
-            productImage.image = image
+        let session = MarketURLSessionProvider()
+        session.fetchImage(url: page.thumbnail) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.productImage.image = image
+                }
+            case .failure(let error):
+                print(error)
+            }
         }
 
         if page.bargainPrice > 0  {

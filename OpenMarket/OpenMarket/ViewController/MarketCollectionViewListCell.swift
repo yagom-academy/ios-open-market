@@ -55,11 +55,23 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         var content = configureListCell().updated(for: state)
         
         if let thumbnail = state.pageData?.thumbnail {
-            content.image = urlToImage(thumbnail)
+            let session = MarketURLSessionProvider()
+            session.fetchImage(url: thumbnail) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        content.image = image
+                        self.pageListContentView.configuration = content
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
         }
-        
+
         guard let pageData = state.pageData else { return }
         
+        content.imageProperties.reservedLayoutSize = CGSize(width: 70, height: 70)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
         content.imageProperties.cornerRadius = 10
         content.text = pageData.name
@@ -85,16 +97,6 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
                 .normal(string: "잔여수량:\n\(pageData.stock)")
         }
         pageListContentView.configuration = content
-    }
-    
-    func urlToImage(_ urlString: String) -> UIImage? {
-        guard let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url),
-              let image = UIImage(data: data) else {
-                  return nil
-              }
-
-        return image
     }
     
     func update(with newPageData: Page) {

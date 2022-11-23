@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class MarketURLSessionProvider {
     private let session: URLSessionProtocol
@@ -47,4 +48,31 @@ final class MarketURLSessionProvider {
         
         dataTask.resume()
     }
+    
+    func fetchImage(url: String,
+                    completionHandler: @escaping (Result<UIImage, NetworkError>) -> Void) {
+        guard let url = URL(string: url) else { return }
+        
+        let dataTask = session.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                return completionHandler(.failure(.requestFailError))
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return completionHandler(.failure(.httpResponseError(
+                    code: (response as? HTTPURLResponse)?.statusCode ?? 0)))
+            }
+            
+            guard let data = data,
+                  let image = UIImage(data: data)else {
+                return completionHandler(.failure(.noDataError))
+            }
+            
+            completionHandler(.success(image))
+        }
+        
+        dataTask.resume()
+    }
 }
+
