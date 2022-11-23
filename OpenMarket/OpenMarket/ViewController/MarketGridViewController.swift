@@ -37,14 +37,15 @@ class MarketGridViewController: UIViewController {
     }
     
     func createGridLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                              heightDimension: .fractionalHeight(0.4))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .fractionalWidth(1))
+                                               heightDimension: .estimated(300))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
                                                        count: 2)
+        group.interItemSpacing = .fixed(5)
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         
