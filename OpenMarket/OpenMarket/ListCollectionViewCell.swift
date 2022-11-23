@@ -77,6 +77,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layer.borderWidth = 0.2
+        layer.borderColor = UIColor.systemGray.cgColor
         [loadingView, productImage, productStackView, stockStackView].forEach { contentView.addSubview($0) }
     }
     

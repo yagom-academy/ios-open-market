@@ -197,9 +197,9 @@ extension ProductsViewController: UICollectionViewDelegate {
         
         switch scrollView {
         case listCollectionView:
-            gridCollectionView.contentOffset.y = scrollView.contentOffset.y
+            gridCollectionView.contentOffset.y = scrollView.contentOffset.y * 2.1
         case gridCollectionView:
-            listCollectionView.contentOffset.y = scrollView.contentOffset.y
+            listCollectionView.contentOffset.y = scrollView.contentOffset.y / 2.1
         default:
             break
         }

@@ -60,6 +60,9 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layer.borderWidth = 0.5
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.cornerRadius = 10
         [loadingView, productImage, labelStackView].forEach { contentView.addSubview($0) }
     }
     
