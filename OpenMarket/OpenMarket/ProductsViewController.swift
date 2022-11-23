@@ -47,7 +47,6 @@ final class ProductsViewController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = LayoutType.list.index
         segmentedControl.backgroundColor = .systemGray6
-        
         return segmentedControl
     }()
     
@@ -56,7 +55,6 @@ final class ProductsViewController: UIViewController {
         barButton.title = "+"
         let attributes: [NSAttributedString.Key : Any] = [.font: UIFont.boldSystemFont(ofSize: 16)]
         barButton.setTitleTextAttributes(attributes, for: .normal)
-        
         return barButton
     }()
     
@@ -131,6 +129,13 @@ final class ProductsViewController: UIViewController {
     
     private func addTarget() {
         segmentedControl.addTarget(self, action: #selector(changeLayout(_:)), for: .valueChanged)
+        addProductButton.target = self
+        addProductButton.action = #selector(addNewProduct)
+    }
+    
+    @objc private func addNewProduct() {
+        let viewController = AddProductViewController()
+        present(viewController, animated: true)
     }
     
     @objc private func changeLayout(_ segmentedControl: UISegmentedControl) {
@@ -195,14 +200,14 @@ extension ProductsViewController: UICollectionViewDelegate {
         let endPoint: CGFloat = scrollView.contentSize.height - scrollView.bounds.height
         let isEndOfScroll: Bool = scrollView.contentOffset.y > endPoint
         
-        switch scrollView {
-        case listCollectionView:
-            gridCollectionView.contentOffset.y = scrollView.contentOffset.y * 2.1
-        case gridCollectionView:
-            listCollectionView.contentOffset.y = scrollView.contentOffset.y / 2.1
-        default:
-            break
-        }
+//        switch scrollView {
+//        case listCollectionView:
+//            gridCollectionView.contentOffset.y = scrollView.contentOffset.y * 2.1
+//        case gridCollectionView:
+//            listCollectionView.contentOffset.y = scrollView.contentOffset.y / 2.1
+//        default:
+//            break
+//        }
         
         if isEndOfScroll, isInfiniteScroll {
             isInfiniteScroll = false

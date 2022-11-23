@@ -24,6 +24,7 @@
 		E337FF64292BB9E00098F945 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337FF63292BB9E00098F945 /* ListCollectionViewCell.swift */; };
 		E337FF68292CB7300098F945 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337FF67292CB7300098F945 /* GridCollectionViewCell.swift */; };
 		E337FF6A292D00C20098F945 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337FF69292D00C20098F945 /* Int+.swift */; };
+		E337FF6C292DF58B0098F945 /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E337FF6B292DF58B0098F945 /* AddProductViewController.swift */; };
 		E3D3396D29232FEF006325AB /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3396C29232FEF006325AB /* Product.swift */; };
 		E3D3396F2923374C006325AB /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3396E2923374C006325AB /* ProductList.swift */; };
 		E3D3397429234F38006325AB /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3397329234F38006325AB /* HttpMethod.swift */; };
@@ -68,6 +69,7 @@
 		E337FF63292BB9E00098F945 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		E337FF67292CB7300098F945 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		E337FF69292D00C20098F945 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		E337FF6B292DF58B0098F945 /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		E3D3396C29232FEF006325AB /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		E3D3396E2923374C006325AB /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		E3D3397329234F38006325AB /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */,
+				E337FF6B292DF58B0098F945 /* AddProductViewController.swift */,
 				E337FF63292BB9E00098F945 /* ListCollectionViewCell.swift */,
 				E337FF67292CB7300098F945 /* GridCollectionViewCell.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
@@ -333,6 +336,7 @@
 				E3D3397429234F38006325AB /* HttpMethod.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */,
 				BF226624292335A4001D777C /* JSONDecoder+.swift in Sources */,
+				E337FF6C292DF58B0098F945 /* AddProductViewController.swift in Sources */,
 				BF22665D292C9B5C001D777C /* Collection+.swift in Sources */,
 				BF22662929237C5A001D777C /* NetworkManager.swift in Sources */,
 				E337FF6A292D00C20098F945 /* Int+.swift in Sources */,

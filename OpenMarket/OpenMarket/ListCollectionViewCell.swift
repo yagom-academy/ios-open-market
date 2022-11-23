@@ -123,7 +123,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     func configureCell(from product: Product) {
         self.product = product
         loadingView.startAnimating()
-        productName.text = product.name
+        productName.text = product.name.isEmpty ? " " : product.name
         setupPrice(from: product)
         setupStock(from: product)
         setupImage(from: product)
