@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09987EB629248D48006B9922 /* NetworkCommunication.swift */; };
+		09D432ED292C6B04003C51A7 /* CustomCollectionViewGridCell.xib.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib.xib */; };
 		09D8602D2928BF8E008FBE56 /* ApiUrl.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D8602C2928BF8E008FBE56 /* ApiUrl.swift.swift */; };
 		09D8602F2928C3AF008FBE56 /* APIError.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D8602E2928C3AF008FBE56 /* APIError.swift.swift */; };
 		09DB0F8A292333C10038DE45 /* TestJsonProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DB0F89292333C10038DE45 /* TestJsonProducts.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		09987EB629248D48006B9922 /* NetworkCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCommunication.swift; sourceTree = "<group>"; };
+		09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewGridCell.xib.xib; sourceTree = "<group>"; };
 		09D8602C2928BF8E008FBE56 /* ApiUrl.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUrl.swift.swift; sourceTree = "<group>"; };
 		09D8602E2928C3AF008FBE56 /* APIError.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift.swift; sourceTree = "<group>"; };
 		09DB0F89292333C10038DE45 /* TestJsonProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestJsonProducts.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				09987EB629248D48006B9922 /* NetworkCommunication.swift */,
 				09D8602C2928BF8E008FBE56 /* ApiUrl.swift.swift */,
 				09D8602E2928C3AF008FBE56 /* APIError.swift.swift */,
+				D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -97,7 +100,7 @@
 			children = (
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
-				D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */,
+				09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
+				09D432ED292C6B04003C51A7 /* CustomCollectionViewGridCell.xib.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
