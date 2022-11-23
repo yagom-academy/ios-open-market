@@ -29,4 +29,18 @@ class MarketGridViewController: UIViewController {
         
         return layout
     }
+    
+    func configureCollectionView() {
+        gridCollectionView = UICollectionView(frame: view.bounds,
+                                              collectionViewLayout: createGridLayout())
+        view.addSubview(gridCollectionView)
+        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            gridCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gridCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gridCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
 }
