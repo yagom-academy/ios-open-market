@@ -52,7 +52,7 @@ final class MainView: UIView {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
         let collectionCellWidth = UIScreen.main.bounds.width
-        let collectionCellHeight = UIScreen.main.bounds.height / 12
+        let collectionCellHeight = UIScreen.main.bounds.height / 11
         layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellHeight)
         return layout
     }()

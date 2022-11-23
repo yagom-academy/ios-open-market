@@ -95,6 +95,7 @@ extension MainViewController: UICollectionViewDataSource {
             DispatchQueue.main.async { [weak self] in
                 if indexPath == collectionView.indexPath(for: cell) {
                     guard let data = self?.productData[indexPath.item] else { return }
+                    cell.setupProductImage(with: data.thumbnail)
                     cell.setupData(with: data)
                 }
             }

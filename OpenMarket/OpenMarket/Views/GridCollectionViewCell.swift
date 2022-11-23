@@ -88,29 +88,31 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func setupProductImage(with productThumnail: String) {
+    func setupProductImage(with productThumbnail: String) {
         indicatorView.startAnimating()
         
-        let cacheKey = NSString(string: productThumnail)
+        let cacheKey = NSString(string: productThumbnail)
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
-            productImageView.image = cachedImage
-            indicatorView.stopAnimating()
-            indicatorView.isHidden = true
+            uploadImage(cachedImage)
             return
         }
         
-        if let imageURL = URL(string: productThumnail) {
-            DispatchQueue.global().async { [weak self] in
-                if let data = try? Data(contentsOf: imageURL), let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        ImageCacheManager.shared.setObject(image, forKey: cacheKey)
-                        self?.productImageView.image = image
-                        self?.indicatorView.stopAnimating()
-                        self?.indicatorView.isHidden = true
-                    }
-                }
+        guard let imageURL = URL(string: productThumbnail) else { return }
+        
+        DispatchQueue.global().async { [weak self] in
+            guard let data = try? Data(contentsOf: imageURL),
+                  let image = UIImage(data: data) else { return }
+            DispatchQueue.main.async {
+                ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+                self?.uploadImage(image)
             }
         }
+    }
+    
+    private func uploadImage(_ image: UIImage) {
+        productImageView.image = image
+        indicatorView.stopAnimating()
+        indicatorView.isHidden = true
     }
     
     func setupData(with productData: Product) {
@@ -136,7 +138,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         productStockLabel.text = nil
     }
     
-    private func applyStrikeThroghtStyle(label: UILabel) {
+    private func applyStrikeThroughStyle(label: UILabel) {
         let attributeString = NSMutableAttributedString(string: label.text ?? "")
         attributeString.addAttribute(.strikethroughStyle,
                                      value: NSUnderlineStyle.single.rawValue,
@@ -180,7 +182,7 @@ extension GridCollectionViewCell {
     
     private func changePriceLabel() {
         productPriceLabel.textColor = .red
-        applyStrikeThroghtStyle(label: productPriceLabel)
+        applyStrikeThroughStyle(label: productPriceLabel)
     }
     
     private func clearPriceLabel() {
