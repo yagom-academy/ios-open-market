@@ -19,18 +19,23 @@ final class GridCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let indicatorView: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751),
-                                                          for: .horizontal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     private let productNameLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
+        label.numberOfLines = 2
+        label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -39,14 +44,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
     private let productPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let productBeforeSalePriceLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .red
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -68,8 +65,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let productStackView: UIStackView = {
-        let stackView = UIStackView()
+    lazy var productStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [productImageView,
+                                                       productNameLabel,
+                                                       productPriceLabel,
+                                                       productSalePriceLabel,
+                                                       productStockLabel])
         stackView.axis = .vertical
         stackView.spacing = 5
         stackView.alignment = .center
@@ -78,16 +79,27 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    func setupData(with productData: Product) {
-        if let imageURL = URL(string: productData.thumbnail) {
-            productImageView.loadImage(url: imageURL)
-        }
+    func setupProductImage(with productThumnail: String) {
+        indicatorView.startAnimating()
         
+        if let imageURL = URL(string: productThumnail) {
+            DispatchQueue.global().async { [weak self] in
+                if let data = try? Data(contentsOf: imageURL), let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.productImageView.image = image
+                        self?.indicatorView.stopAnimating()
+                        self?.indicatorView.isHidden = true
+                    }
+                }
+            }
+        }
+    }
+    
+    func setupData(with productData: Product) {
         discountPrice = productData.discountedPrice
         
         productNameLabel.text = productData.name
         productPriceLabel.text = String(productData.price)
-        productBeforeSalePriceLabel.text = String(productData.price)
         productSalePriceLabel.text = String(productData.bargainPrice)
         productStockLabel.text = productData.stockDescription
         
@@ -100,7 +112,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         productImageView.image = nil
         productNameLabel.text = nil
         productPriceLabel.text = nil
-        productBeforeSalePriceLabel.text = nil
+        
         productSalePriceLabel.text = nil
         productStockLabel.text = nil
     }
@@ -117,94 +129,79 @@ final class GridCollectionViewCell: UICollectionViewCell {
 // MARK: - Constraints
 extension GridCollectionViewCell {
     func setupUI() {
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 10
-        self.layer.borderColor = UIColor.gray.cgColor
-        setupStackView()
+        contentView.layer.borderWidth = 1
+        contentView.layer.cornerRadius = 10
+        contentView.layer.borderColor = UIColor.gray.cgColor
+        setupView()
     }
     
-    func setupStackView() {
-        productStackView.addArrangedSubview(productImageView)
-        productStackView.addArrangedSubview(productNameLabel)
-        addSubview(productStackView)
+    func setupView() {
+        contentView.addSubview(productStackView)
+        contentView.addSubview(indicatorView)
         setupStackViewConstraints()
+        setupIndicatorConstraints()
+        
     }
     
     private func setupStockLabel() {
-        if productStockLabel.text == "품절" {
-            productStockLabel.textColor = .systemOrange
-            self.addSubview(productStockLabel)
-        } else {
-            productStockLabel.textColor = .gray
-            self.addSubview(productStockLabel)
-        }
+        //        if productStockLabel.text == "품절" {
+        //            productStockLabel.textColor = .systemOrange
+        //            self.addSubview(productStockLabel)
+        //        } else {
+        //            productStockLabel.textColor = .gray
+        //            self.addSubview(productStockLabel)
+        //        }
     }
     
     private func setupPriceLabel() {
-        if discountPrice == Double.zero {
-            clearPriceLabel()
-            self.addSubview(productPriceLabel)
-            setupBottomLabelConstraints()
-        } else {
-            clearPriceLabel()
-            self.addSubview(productBeforeSalePriceLabel)
-            self.addSubview(productSalePriceLabel)
-            applyStrikeThroghtStyle(label: productBeforeSalePriceLabel)
-            setupBottomSaleLabelConstraints()
-        }
+        //        if discountPrice == Double.zero {
+        //            clearPriceLabel()
+        //            contentView.addSubview(productPriceLabel)
+        //            setupBottomLabelConstraints()
+        //        } else {
+        //            clearPriceLabel()
+        //            self.addSubview(productSalePriceLabel)
+        //            setupBottomSaleLabelConstraints()
+        //        }
     }
     
     private func clearPriceLabel() {
         productPriceLabel.removeFromSuperview()
-        productBeforeSalePriceLabel.removeFromSuperview()
         productSalePriceLabel.removeFromSuperview()
     }
     
     private func setupStackViewConstraints() {
         NSLayoutConstraint.activate([
-            productStackView.topAnchor.constraint(
-                equalTo: self.topAnchor, constant: 10),
-            productStackView.leadingAnchor.constraint(
-                equalTo: self.leadingAnchor, constant: 10),
-            productStackView.trailingAnchor.constraint(
-                equalTo: self.trailingAnchor, constant: -10)
+            productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
+            productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
+            
+            productNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
+            
+            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            productStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
     
+    private func setupIndicatorConstraints() {
+        NSLayoutConstraint.activate([
+            indicatorView.topAnchor.constraint(equalTo: productImageView.topAnchor),
+            indicatorView.bottomAnchor.constraint(equalTo: productImageView.bottomAnchor),
+            indicatorView.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor),
+            indicatorView.trailingAnchor.constraint(equalTo: productImageView.trailingAnchor)
+        ])
+    }
+    
+    
     private func setupBottomLabelConstraints() {
         NSLayoutConstraint.activate([
-            productPriceLabel.topAnchor.constraint(
-                equalTo: productStackView.bottomAnchor, constant: 10),
-            productPriceLabel.centerXAnchor.constraint(
-                equalTo: self.centerXAnchor),
             
-            productStockLabel.centerXAnchor.constraint(
-                equalTo: self.centerXAnchor),
-            productStockLabel.topAnchor.constraint(
-                equalTo: productPriceLabel.bottomAnchor, constant: 10),
-            productStockLabel.bottomAnchor.constraint(
-                equalTo: self.bottomAnchor, constant: -10)
         ])
     }
     
     private func setupBottomSaleLabelConstraints() {
         NSLayoutConstraint.activate([
-            productBeforeSalePriceLabel.topAnchor.constraint(
-                equalTo: productStackView.bottomAnchor, constant: 5),
-            productBeforeSalePriceLabel.centerXAnchor.constraint(
-                equalTo: self.centerXAnchor),
             
-            productSalePriceLabel.topAnchor.constraint(
-                equalTo: productBeforeSalePriceLabel.bottomAnchor, constant: 1),
-            productSalePriceLabel.centerXAnchor.constraint(
-                equalTo: self.centerXAnchor),
-            
-            productStockLabel.topAnchor.constraint(
-                equalTo: productSalePriceLabel.bottomAnchor, constant: 10),
-            productStockLabel.centerXAnchor.constraint(
-                equalTo: self.centerXAnchor),
-            productStockLabel.bottomAnchor.constraint(
-                equalTo: self.bottomAnchor, constant: -10)
         ])
     }
 }
