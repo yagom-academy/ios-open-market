@@ -8,10 +8,12 @@
 import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
-    private let activityIndicatorView: UIActivityIndicatorView = {
+    private var product: Product?
+    
+    private let loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
-      view.translatesAutoresizingMaskIntoConstraints = false
-      return view
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private let productImage: UIImageView = {
@@ -30,6 +32,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     private let price: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
@@ -57,7 +60,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [activityIndicatorView, productImage, labelStackView].forEach { contentView.addSubview($0) }
+        [loadingView, productImage, labelStackView].forEach { contentView.addSubview($0) }
     }
     
     required init?(coder: NSCoder) {
@@ -65,22 +68,35 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        product = nil
         productImage.image = nil
         [productName, price, stock].forEach { $0?.text = nil }
-        activityIndicatorView.isHidden = false
-        activityIndicatorView.startAnimating()
+        loadingView.isHidden = false
+        productImage.isHidden = true
+        loadingView.startAnimating()
     }
     
     private func setupCellConstraints() {
+        let imageConstraints = (width: productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                                           constant: -20),
+                                height: productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor))
+        let loadingConstraints = (width: loadingView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                                            constant: -20),
+                                  height: loadingView.heightAnchor.constraint(equalTo: loadingView.widthAnchor))
+        imageConstraints.width.priority = UILayoutPriority(rawValue: 1000)
+        imageConstraints.height.priority = UILayoutPriority(rawValue: 751)
+        loadingConstraints.width.priority = UILayoutPriority(rawValue: 1000)
+        loadingConstraints.height.priority = UILayoutPriority(rawValue: 751)
+        
         NSLayoutConstraint.activate([
-            activityIndicatorView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            activityIndicatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -20),
-            activityIndicatorView.heightAnchor.constraint(equalTo: activityIndicatorView.widthAnchor),
-            activityIndicatorView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadingConstraints.height,
+            loadingConstraints.width,
+            loadingView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            loadingView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             productImage.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -20),
-            productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
+            imageConstraints.height,
+            imageConstraints.width,
             productImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             labelStackView.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant:  10),
@@ -91,7 +107,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(from product: Product) {
-        activityIndicatorView.startAnimating()
+        self.product = product
+        loadingView.startAnimating()
         productName.text = product.name
         setupPrice(from: product)
         setupStock(from: product)
@@ -100,15 +117,18 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupImage(from product: Product) {
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
             guard let data = product.thumbnailData,
                   let image = UIImage(data: data) else {
                 return
             }
-            DispatchQueue.main.async {
-                self.productImage.image = image
-                self.activityIndicatorView.stopAnimating()
-                self.activityIndicatorView.isHidden = true
+            DispatchQueue.main.async { [weak self] in
+                if product == self?.product {
+                    self?.loadingView.stopAnimating()
+                    self?.loadingView.isHidden = true
+                    self?.productImage.image = image
+                    self?.productImage.isHidden = false
+                }
             }
         }
     }

@@ -8,10 +8,12 @@
 import UIKit
 
 final class ListCollectionViewCell: UICollectionViewCell {
-    private let activityIndicatorView: UIActivityIndicatorView = {
+    private var product: Product?
+    
+    private let loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
-      view.translatesAutoresizingMaskIntoConstraints = false
-      return view
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private let productImage: UIImageView = {
@@ -75,7 +77,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [activityIndicatorView, productImage, productStackView, stockStackView].forEach { contentView.addSubview($0) }
+        [loadingView, productImage, productStackView, stockStackView].forEach { contentView.addSubview($0) }
     }
     
     required init?(coder: NSCoder) {
@@ -83,25 +85,27 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        product = nil
         productImage.image = nil
         [productName, price, stock].forEach { $0?.text = nil }
-        activityIndicatorView.isHidden = false
-        activityIndicatorView.startAnimating()
+        loadingView.isHidden = false
+        productImage.isHidden = true
+        loadingView.startAnimating()
     }
     
     private func setupCellConstraints() {
         NSLayoutConstraint.activate([
-            activityIndicatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            activityIndicatorView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            activityIndicatorView.heightAnchor.constraint(equalToConstant: bounds.height * 0.8),
-            activityIndicatorView.widthAnchor.constraint(equalTo: activityIndicatorView.heightAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            loadingView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loadingView.heightAnchor.constraint(equalToConstant: bounds.height * 0.8),
+            loadingView.widthAnchor.constraint(equalTo: loadingView.heightAnchor),
             
             productImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             productImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             productImage.heightAnchor.constraint(equalToConstant: bounds.height * 0.8),
             productImage.widthAnchor.constraint(equalTo: productImage.heightAnchor),
             
-            productStackView.leadingAnchor.constraint(equalTo: activityIndicatorView.trailingAnchor, constant: 10),
+            productStackView.leadingAnchor.constraint(equalTo: loadingView.trailingAnchor, constant: 10),
             productStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             productName.widthAnchor.constraint(equalToConstant: bounds.width * 0.48),
@@ -115,7 +119,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(from product: Product) {
-        activityIndicatorView.startAnimating()
+        self.product = product
+        loadingView.startAnimating()
         productName.text = product.name
         setupPrice(from: product)
         setupStock(from: product)
@@ -124,15 +129,18 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupImage(from product: Product) {
-        DispatchQueue.global().async {
+        DispatchQueue.global().async { [weak self] in
             guard let data = product.thumbnailData,
                   let image = UIImage(data: data) else {
                 return
             }
-            DispatchQueue.main.async {
-                self.productImage.image = image
-                self.activityIndicatorView.stopAnimating()
-                self.activityIndicatorView.isHidden = true
+            DispatchQueue.main.async { [weak self] in
+                if product == self?.product {
+                    self?.productImage.image = image
+                    self?.loadingView.stopAnimating()
+                    self?.loadingView.isHidden = true
+                    self?.productImage.isHidden = false
+                }
             }
         }
     }
