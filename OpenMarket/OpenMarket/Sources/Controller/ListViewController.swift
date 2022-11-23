@@ -62,9 +62,13 @@ extension ListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCollectionViewCell", for: indexPath) as! ListCollectionViewCell
         
-        cell.productNameLabel.text = product?.pages[indexPath.item].name
-        cell.priceLabel.text = "\(product!.pages[indexPath.item].price)"
+        guard let product = product else { return cell }
+        let productItem = product.pages[indexPath.item]
+        
+        cell.configurationCell(item: productItem)
+        //collectionView.reloadData()
         
         return cell
     }
 }
+

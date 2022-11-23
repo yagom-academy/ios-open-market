@@ -13,8 +13,43 @@ class ListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bargainPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     
+    @IBOutlet weak var priceStackView: UIStackView!
+    
     override func prepareForReuse() {
+        productImage.image = nil
         productNameLabel.text = ""
         priceLabel.text = ""
+        bargainPriceLabel.text = ""
+        stockLabel.text = ""
+        
+        priceLabel.textColor = .gray
+        bargainPriceLabel.attributedText = bargainPriceLabel.text?.defaultStyle()
+        stockLabel.textColor = .gray
+    }
+    
+    func configurationCell(item: Product) {
+        productNameLabel.text = item.name
+
+        priceLabel.text = "\(item.currency.symbol) \(item.price)"
+
+        if item.price != item.bargainPrice {
+            priceLabel.attributedText = priceLabel.text?.strikeThrough()
+            priceLabel.textColor = .red
+            
+            bargainPriceLabel.text = "\(item.currency.symbol) \(item.bargainPrice)"
+        } else {
+            priceLabel.attributedText = priceLabel.text?.defaultStyle()
+        }
+        
+        if item.stock > 0 {
+            stockLabel.text = "잔여수량 : \(item.stock)"
+        } else {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemOrange
+        }
+        
+        if let url = URL(string: item.thumbnail) {
+            productImage.load(url: url)
+        }
     }
 }
