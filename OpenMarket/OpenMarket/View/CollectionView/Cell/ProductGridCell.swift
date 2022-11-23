@@ -19,7 +19,7 @@ final class ProductGridCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label: UILabel = UILabel()
         
-        label.font = UIFont.preferredFont(forTextStyle: .title2,
+        label.font = UIFont.preferredFont(forTextStyle: .title3,
                                           compatibleWith: UITraitCollection.init(preferredContentSizeCategory: .large))
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .left
@@ -78,23 +78,23 @@ final class ProductGridCell: UICollectionViewCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             thumbnailImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
             thumbnailImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.47),
-            nameLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.14),
-            priceLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.18),
-            stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.12)
+            nameLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor, multiplier: 0.21),
+            nameLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20),
+            priceLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor, multiplier: 0.18),
+            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20),
+            stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.12),
+            stockLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20)
         ])
+        nameLabel.setContentHuggingPriority(.init(rawValue: 1000), for: .vertical)
+        nameLabel.setContentCompressionResistancePriority(.init(rawValue: 1000), for: .vertical)
     }
     
     private func setupDataIfNeeded() {
         guard let product = product else {
             return
         }
-        DispatchQueue.global().async {
-            if let thumbnailURL = URL(string: product.thumbnail),
-               let thumbnailData = try? Data(contentsOf: thumbnailURL) {
-                DispatchQueue.main.async {
-                    self.thumbnailImageView.image = UIImage(data: thumbnailData)
-                }
-            }
+        ImageParser.parse(product.thumbnail) { (thumbnailImage) in
+            self.thumbnailImageView.image = thumbnailImage
         }
         nameLabel.text = product.name
         stockLabel.stock = product.stock

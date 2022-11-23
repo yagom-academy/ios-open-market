@@ -104,13 +104,8 @@ final class ProductListCell: UICollectionViewListCell {
         guard let product = product else {
             return
         }
-        DispatchQueue.global().async {
-            if let thumbnailURL = URL(string: product.thumbnail),
-               let thumbnailData = try? Data(contentsOf: thumbnailURL) {
-                DispatchQueue.main.async {
-                    self.thumbnailImageView.image = UIImage(data: thumbnailData)
-                }
-            }
+        ImageParser.parse(product.thumbnail) { (thumbnailImage) in
+            self.thumbnailImageView.image = thumbnailImage
         }
         nameLabel.text = product.name
         stockLabel.stock = product.stock

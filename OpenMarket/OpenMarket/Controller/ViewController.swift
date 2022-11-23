@@ -13,7 +13,7 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewsIfNeeded()
-        fetchData()
+        applySnapshotOfFetchedPage()
     }
     
     private func setupViewsIfNeeded() {
@@ -44,14 +44,16 @@ final class ViewController: UIViewController {
 }
 
 extension ViewController {
-    private func fetchData() {
-        let dataAsset: NSDataAsset = NSDataAsset(name: "products")!
-        let page: Page = try! JSONDecoder().decode(Page.self, from: dataAsset.data)
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(page.products)
-        collectionView.applySnapshot(snapshot)
+    private func applySnapshotOfFetchedPage() {
+        URLSession.shared.fetchPage(pageNumber: 1, productsPerPage: 1000) { (page) in
+            guard let page = page else { return }
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(page.products)
+            DispatchQueue.main.async {
+                self.collectionView.applySnapshot(snapshot)
+            }
+        }
     }
 }
 
