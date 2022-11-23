@@ -12,6 +12,24 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return String(describing: Self.self)
     }
 
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 2
+        return stackView
+    }()
+
+    private let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = 2
+        return stackView
+    }()
+
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +56,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        label.text = " "
         return label
     }()
     
@@ -96,10 +115,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     private func configureView() {
         self.contentView.addSubview(self.itemImageView)
-        self.contentView.addSubview(self.itemNameLabel)
-        self.contentView.addSubview(self.priceLabel)
-        self.contentView.addSubview(self.bargainPrice)
-        self.contentView.addSubview(self.stockLabel)
+        self.contentView.addSubview(stackView)
+        self.priceStackView.addArrangedSubview(priceLabel)
+        self.priceStackView.addArrangedSubview(bargainPrice)
+        self.stackView.addArrangedSubview(self.itemNameLabel)
+        self.stackView.addArrangedSubview(self.priceStackView)
+        self.stackView.addArrangedSubview(self.stockLabel)
     }
 
     private func configureConstraints() {
@@ -111,22 +132,11 @@ final class GridCollectionViewCell: UICollectionViewCell {
             self.itemImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
             self.itemImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
 
-            self.itemNameLabel.topAnchor.constraint(equalTo: self.itemImageView.bottomAnchor, constant: inset),
-            self.itemNameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
-            self.itemNameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
+            self.stackView.topAnchor.constraint(equalTo: self.itemImageView.bottomAnchor, constant: inset),
+            self.stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
+            self.stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
+            self.stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -inset),
 
-            self.priceLabel.topAnchor.constraint(equalTo: self.itemNameLabel.bottomAnchor, constant: inset),
-            self.priceLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
-            self.priceLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
-
-            self.bargainPrice.topAnchor.constraint(equalTo: self.priceLabel.bottomAnchor),
-            self.bargainPrice.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
-            self.bargainPrice.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
-
-            self.stockLabel.topAnchor.constraint(equalTo: self.bargainPrice.bottomAnchor, constant: inset),
-            self.stockLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: inset),
-            self.stockLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -inset),
-            self.stockLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -inset)
         ])
     }
 }

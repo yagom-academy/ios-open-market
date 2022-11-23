@@ -79,12 +79,12 @@ extension ListCollectionViewCell {
             self.imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5),
             self.imageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
             self.imageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.15),
-            
+
             self.itemListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             self.itemListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             self.itemListContentView.leadingAnchor.constraint(equalTo: self.imageView.trailingAnchor),
             self.itemListContentView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.5),
-            
+
             constraints.leading,
             constraints.trailing,
             constraints.width,
