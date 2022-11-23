@@ -8,7 +8,7 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     var networkCommunication = NetworkCommunication()
     var searchListProducts: SearchListProducts?
     var searchListPages: [SearchListPage] = []
@@ -24,13 +24,14 @@ class ViewController: UIViewController {
         getProductDetailData(productNumber: "31")
         getCollectionViewCellNib()
         settingCollectionViewLayoutList()
+        settingSegmentedControll()
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            
+            print("sender 0")
         } else {
-            
+            print("sender 1")
         }
         
     }
@@ -43,13 +44,13 @@ class ViewController: UIViewController {
     private func getResponseAboutHealChecker() {
         networkCommunication.requestHealthChecker(
             url: ApiUrl.Path.healthChecker) { response in
-            switch response {
-            case .success(let response):
-                print("코드\(response.statusCode): 연결완료")
-            case .failure(let error):
-                print(error.localizedDescription)
+                switch response {
+                case .success(let response):
+                    print("코드\(response.statusCode): 연결완료")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
-        }
     }
     
     private func getProductsListData(pageNumber: String = "1", itemPerPage: String = "100") {
@@ -88,6 +89,17 @@ class ViewController: UIViewController {
         }
     }
     
+    private func settingSegmentedControll() {
+        segmentedControl.setWidth(view.bounds.width/4, forSegmentAt: 0)
+        segmentedControl.setWidth(view.bounds.width/4, forSegmentAt: 1)
+        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentedControl.layer.borderWidth = CGFloat(2)
+        segmentedControl.selectedSegmentTintColor = UIColor.systemBlue
+        segmentedControl.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: UIControl.State.normal)
+    }
+    
     private func settingCollectionViewLayoutList() {
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                 heightDimension: .fractionalHeight(1))
@@ -101,6 +113,20 @@ class ViewController: UIViewController {
         collectionView.collectionViewLayout = compositionalLayout
         self.collectionView.reloadData()
     }
+    
+    //    private func settingCollectionViewLayoutGrid() {
+    //        let layoutSize = NSCollectionLayoutSize(widthDimension: <#T##NSCollectionLayoutDimension#>,
+    //                                                heightDimension: <#T##NSCollectionLayoutDimension#>)
+    //        let layoutItem = NSCollectionLayoutItem(layoutSize: layoutSize)
+    //        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+    //                                               heightDimension: <#T##NSCollectionLayoutDimension#>)
+    //        let layoutGruop = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: layoutItem, count: 2)
+    //        let layoutSection = NSCollectionLayoutSection(group: layoutGruop)
+    //        let compositionalLayout = UICollectionViewCompositionalLayout(section: layoutSection)
+    //        collectionView.collectionViewLayout = compositionalLayout
+    //        self.collectionView.reloadData()
+    //    }
+    
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -117,7 +143,6 @@ extension ViewController: UICollectionViewDataSource {
                                  price: self.searchListPages[indexPath.item].price,
                                  bargainPrice: self.searchListPages[indexPath.item].bargainPrice,
                                  stock: self.searchListPages[indexPath.item].stock)
-        
         return customCell
     }
     
