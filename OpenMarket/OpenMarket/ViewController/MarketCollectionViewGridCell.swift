@@ -2,19 +2,19 @@
 //  MarketCollectionViewGridCell.swift
 //  OpenMarket
 //
-//  Created by 맹선아 on 2022/11/23.
+//  Created by 써니쿠키, 메네 on 2022/11/23.
 //
 
 import UIKit
 
 class MarketCollectionViewGridCell: UICollectionViewCell {
-    let productImage: UIImageView = {
+    var productImage: UIImageView = {
         let imageView = UIImageView()
         
         return imageView
     }()
     
-    let nameLabel: UILabel = {
+    var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.textAlignment = .center
@@ -22,7 +22,7 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         return label
     }()
     
-    let priceLabel: UILabel = {
+    var priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.textAlignment = .center
@@ -30,14 +30,14 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         return label
     }()
     
-    let stockLabel: UILabel = {
+    var stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.textAlignment = .center
         return label
     }()
     
-    func creatCellLayout() {
+    func createCellLayout() {
         [productImage, nameLabel, priceLabel, stockLabel].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +61,24 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         ])
     }
     
+    func configureCell(page: Page) {
+        createCellLayout()
+        
+        if let image = urlToImage(page.thumbnail) {
+            productImage.image = image
+        }
+        nameLabel.text = page.name
+        priceLabel.text = "\(page.currency) \(page.price)"
+        stockLabel.text = page.stock == 0 ? "품절" : "\(page.stock)"
+    }
     
-    
-    
+    func urlToImage(_ urlString: String) -> UIImage? {
+        guard let url = URL(string: urlString),
+              let data = try? Data(contentsOf: url),
+              let image = UIImage(data: data) else {
+            return nil
+        }
+        
+        return image
+    }
 }
