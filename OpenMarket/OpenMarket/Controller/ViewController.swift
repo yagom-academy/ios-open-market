@@ -17,13 +17,15 @@ class ViewController: UIViewController {
     var productList: ProductListData?
     let segmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["list", "grid"])
+        segment.selectedSegmentIndex = 0
         return segment
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         navigationItem.titleView = segmentControl
-        configureProductCollectionView()
+        configureProductCollectionView(type: .list)
         networkManager.loadData(of: .productList(pageNumber: 1, itemsPerPage: 100), dataType: ProductListData.self) { result in
             switch result {
             case .success(let productList):
@@ -37,11 +39,37 @@ class ViewController: UIViewController {
         }
     }
     
-    func configureProductCollectionView() {
-        let configure = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configure)
+    enum ViewType: Int {
+        case list
+        case grid
+    }
+    
+    func configureLayout(of type: ViewType) -> UICollectionViewCompositionalLayout {
+        switch type {
+        case .list:
+            let configure = UICollectionLayoutListConfiguration(appearance: .plain)
+            let layout = UICollectionViewCompositionalLayout.list(using: configure)
+            return layout
+        case .grid:
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            let spacing = CGFloat(10)
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = spacing
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+            
+            let layout = UICollectionViewCompositionalLayout(section: section)
+            return layout
+        }
+    }
+    
+    func configureProductCollectionView(type: ViewType) {
+        let layout = configureLayout(of: type)
+        productCollectionView = UICollectionView(frame: .zero,
+                                                 collectionViewLayout: layout)
         
-        productCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         productCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(productCollectionView)
         NSLayoutConstraint.activate([
