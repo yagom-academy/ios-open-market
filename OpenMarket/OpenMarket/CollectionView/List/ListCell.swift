@@ -19,7 +19,8 @@ class ListCell: UICollectionViewListCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
@@ -27,13 +28,17 @@ class ListCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .systemRed
-        
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     let bargainPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.textColor = .systemGray
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
@@ -41,6 +46,9 @@ class ListCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
+        //        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
@@ -48,7 +56,7 @@ class ListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         return stackView
     }()
     
@@ -61,7 +69,7 @@ class ListCell: UICollectionViewListCell {
     }()
     
     let labelStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
@@ -69,7 +77,7 @@ class ListCell: UICollectionViewListCell {
     }()
     
     let containerStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -105,18 +113,24 @@ class ListCell: UICollectionViewListCell {
         price.text = nil
         bargainPrice.text = nil
         stock.text = nil
+        stock.textColor = .systemGray
+        price.isHidden = false
     }
     
     func setUpUI() {
         let priceHugging = bargainPrice.contentHuggingPriority(for: .horizontal) + 1
         price.setContentHuggingPriority(priceHugging, for: .horizontal)
+        
+        let stockResistance = productName.contentCompressionResistancePriority(for: .horizontal) - 1
+        stock.setContentCompressionResistancePriority(stockResistance, for: .horizontal)
+        
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                    
-            image.widthAnchor.constraint(equalToConstant: 100),
+            
+            image.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/6),
             image.heightAnchor.constraint(equalTo: image.widthAnchor),
             
             contentView.widthAnchor.constraint(greaterThanOrEqualTo: image.heightAnchor)

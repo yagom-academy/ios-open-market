@@ -7,6 +7,13 @@
 import UIKit
 
 class ViewController: UIViewController {
+    let formatter: NumberFormatter = {
+        let formmater = NumberFormatter()
+        formmater.numberStyle = .decimal
+        
+        return formmater
+    }()
+    
     lazy var navSegmentedView: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
 
@@ -36,17 +43,23 @@ class ViewController: UIViewController {
                      
                     DispatchQueue.main.async {
                         cell.productName.text = "\(itemIdentifier.name)"
-                        cell.bargainPrice.text = "\(itemIdentifier.bargainPrice)"
-                        cell.stock.text = "\(itemIdentifier.stock)"
+                        cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
                         cell.image.image = picture
                         
                         if itemIdentifier.bargainPrice != itemIdentifier.price {
                             let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: " ")
                             attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
                             cell.price.attributedText = attributeString
-                            cell.price.text = "\(itemIdentifier.price)"
+                            cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
                         } else {
                             cell.price.isHidden = true
+                        }
+                        
+                        if itemIdentifier.stock == 0 {
+                            cell.stock.text = "품절"
+                            cell.stock.textColor = .systemYellow
+                        } else {
+                            cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
                         }
                         
                     }
@@ -121,4 +134,3 @@ class ViewController: UIViewController {
     @objc func segmentChanged(_ sender: UISegmentedControl) {
     }
 }
-
