@@ -10,7 +10,8 @@ import UIKit
 class MarketCollectionViewGridCell: UICollectionViewCell {
     var productImage: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.layer.cornerRadius = 18
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -54,10 +55,13 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
             productStackView.addArrangedSubview($0)
         }
         
+        contentView.layer.borderColor = UIColor.systemGray.cgColor
+        contentView.layer.borderWidth = 2
+        contentView.layer.cornerRadius = 25
         contentView.addSubview(productStackView)
         
         NSLayoutConstraint.activate([
-            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
+            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
             productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
             
             productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
