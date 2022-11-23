@@ -41,9 +41,19 @@
                                             <action selector="tapSegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="ehP-1f-YdV"/>
                                         </connections>
                                     </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8OE-DE-cya">
+                                        <rect key="frame" x="359" y="49" width="47" height="34"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
+                                        <connections>
+                                            <segue destination="AOr-IO-2Z8" kind="show" id="8de-Fc-UI9"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="8OE-DE-cya" secondAttribute="trailing" constant="8" id="0O3-Sx-J6j"/>
+                                    <constraint firstItem="8OE-DE-cya" firstAttribute="centerY" secondItem="N2f-4M-XSf" secondAttribute="centerY" id="N9U-W0-SWz"/>
                                     <constraint firstAttribute="bottom" secondItem="N2f-4M-XSf" secondAttribute="bottom" constant="8" id="VE0-6a-tvX"/>
                                     <constraint firstItem="N2f-4M-XSf" firstAttribute="centerX" secondItem="N0w-K7-nHs" secondAttribute="centerX" id="g2E-um-kX3"/>
                                 </constraints>
@@ -73,8 +83,25 @@
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="-34.151785714285715"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="xXI-Vl-qpu">
+            <objects>
+                <viewController id="AOr-IO-2Z8" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kd8-Qa-rrm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="M5x-nH-cvu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xAQ-qw-hSz"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q5r-tu-hWo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="897" y="-34"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
