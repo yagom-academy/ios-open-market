@@ -25,10 +25,11 @@ class StockLabel: UILabel {
     }
     
     private func configure() {
-        font = UIFont.preferredFont(forTextStyle: .body)
+        font = UIFont.preferredFont(forTextStyle: .caption1)
         adjustsFontForContentSizeCategory = true
         textAlignment = .right
         textColor = .orange
+        numberOfLines = 0
         text = "품절"
         translatesAutoresizingMaskIntoConstraints = false
     }
@@ -38,7 +39,7 @@ class StockLabel: UILabel {
         if stock == 0 {
             stockInformation = "품절"
         } else {
-            stockInformation = "잔여수량: \(stock)"
+            stockInformation = "잔여수량 : \(stock)"
         }
         text = stockInformation
         

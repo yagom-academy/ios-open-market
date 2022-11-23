@@ -30,7 +30,7 @@ class PriceLabel: UILabel {
     }
     
     private func configure() {
-        font = UIFont.preferredFont(forTextStyle: .body)
+        font = UIFont.preferredFont(forTextStyle: .caption1)
         adjustsFontForContentSizeCategory = true
         textAlignment = .left
         numberOfLines = 0

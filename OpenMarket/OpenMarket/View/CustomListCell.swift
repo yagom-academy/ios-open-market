@@ -19,7 +19,7 @@ final class ProductListCell: UICollectionViewListCell {
     private let nameLabel: UILabel = {
         let label: UILabel = UILabel()
         
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle,
+        label.font = UIFont.preferredFont(forTextStyle: .title3,
                                           compatibleWith: UITraitCollection.init(preferredContentSizeCategory: .large))
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .left
@@ -31,6 +31,27 @@ final class ProductListCell: UICollectionViewListCell {
     }()
     private let stockLabel: StockLabel = StockLabel()
     private let priceLabel: PriceLabel = PriceLabel()
+    private let contentStackView: UIStackView = {
+        let stackView: UIStackView = UIStackView()
+        
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    private let stackView: UIStackView = {
+        let stackView: UIStackView = UIStackView()
+        
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
     
     private var product: Product? {
         didSet {
@@ -52,31 +73,31 @@ final class ProductListCell: UICollectionViewListCell {
     }
     
     private func setupViewsIfNeeded() {
-        contentView.addSubview(thumbnailImageView)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(stockLabel)
-        contentView.addSubview(priceLabel)
+        contentStackView.addArrangedSubview(thumbnailImageView)
+        stackView.addArrangedSubview(nameLabel)
+        stackView.addArrangedSubview(priceLabel)
+        contentStackView.addArrangedSubview(stackView)
+        contentStackView.addArrangedSubview(stockLabel)
+        contentView.addSubview(contentStackView)
+
         
         let spacing: CGFloat = 10
         
-        NSLayoutConstraint.activate([
-            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
-            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
-            thumbnailImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing),
-            thumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25),
-            thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor),
-            nameLabel.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: spacing),
-            nameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: stockLabel.bottomAnchor),
-            stockLabel.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor),
-            stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: nameLabel.trailingAnchor, constant: spacing),
-            stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: spacing),
-            priceLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: spacing),
-            priceLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -spacing),
-            priceLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
-        ])
+        let constraints = (width: thumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25),
+                           height: thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor))
+        constraints.width.priority = .init(rawValue: 1000)
+        constraints.height.priority = .init(rawValue: 751)
+        
         nameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        NSLayoutConstraint.activate([
+            constraints.width,
+            constraints.height,
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
+            stockLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.23)
+        ])
     }
     
     private func setupDataIfNeeded() {

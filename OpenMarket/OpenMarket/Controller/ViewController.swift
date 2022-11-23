@@ -51,7 +51,7 @@ final class ViewController: UIViewController {
         return layout
     }()
     private var currentLayout: CollectionViewLayout = .list
-    private var collectionView: UICollectionView? = nil
+    private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>? = nil
     
     override func viewDidLoad() {
@@ -63,19 +63,11 @@ final class ViewController: UIViewController {
     private func setupViewsIfNeeded() {
         navigationItem.titleView = segmentedControl
         segmentedControl.addTarget(self, action: #selector(layoutSegmentedControlValueChanged), for: .valueChanged)
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
-        collectionView?.backgroundColor = .white
-        if let collectionView = collectionView {
-            view.addSubview(collectionView)
-            collectionView.translatesAutoresizingMaskIntoConstraints = false
-            let safeArea = view.safeAreaLayoutGuide
-            NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-                collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
-            ])
-        }
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: listLayout)
+        collectionView.backgroundColor = .white
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.delegate = self
+        view.addSubview(collectionView)
     }
     
     @objc
@@ -84,24 +76,19 @@ final class ViewController: UIViewController {
         case 0:
             currentLayout = .list
             collectionView?.setCollectionViewLayout(listLayout, animated: false)
+            collectionView.reloadData()
         case 1:
             currentLayout = .grid
             collectionView?.setCollectionViewLayout(gridLayout, animated: false)
+            collectionView.reloadData()
         default:
             return
         }
-    }
-    
-    private func layout() -> CollectionViewLayout {
-        return currentLayout
     }
 }
 
 extension ViewController {
     private func configureDataSource() {
-        guard let collectionView = collectionView else {
-            return
-        }
         
         let listCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
             cell.updateWithProduct(product)
@@ -113,7 +100,7 @@ extension ViewController {
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: Product) -> UICollectionViewCell? in
-            switch self.layout() {
+            switch self.currentLayout {
             case .list:
                 return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
             case .grid:
@@ -128,5 +115,11 @@ extension ViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(page.products)
         dataSource?.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
