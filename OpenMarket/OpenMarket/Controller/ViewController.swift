@@ -16,10 +16,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
         getResponseAboutHealChecker()
         getProductsListData()
         getProductDetailData(productNumber: "31")
+        getCollectionViewCellNib()
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
@@ -29,6 +32,11 @@ class ViewController: UIViewController {
             
         }
         
+    }
+    
+    private func getCollectionViewCellNib() {
+        let customCollectionViewCellNib = UINib(nibName: "CustomCollectionViewGridCell", bundle: nil)
+        collectionView.register(customCollectionViewCellNib, forCellWithReuseIdentifier: "customCollectionViewCell")
     }
     
     private func getResponseAboutHealChecker() {
@@ -55,6 +63,9 @@ class ViewController: UIViewController {
             switch data {
             case .success(let data):
                 self.searchListProducts = data
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -74,4 +85,25 @@ class ViewController: UIViewController {
             }
         }
     }
+}
+
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let searchListProducts = searchListProducts else { return 0 }
+        return searchListProducts.pages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewCell", for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.configureCell(imageSource: <#T##String#>, name: <#T##String#>, currency: <#T##Currency#>, price: <#T##Double#>, bargainPrice: <#T##Double#>, stock: <#T##Int#>)
+        
+        return cell
+    }
+    
+    
+}
+
+extension ViewController: UICollectionViewDelegate {
+    
 }
