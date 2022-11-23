@@ -11,11 +11,6 @@ class MarketListViewController: UIViewController {
     var pageData: [Page] = []
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
-    let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewListCell, Page> {
-        (cell, indexPath, page) in
-        cell.update(with: page)
-        cell.accessories = [.disclosureIndicator()]
-    }
     let marketURLSessionProvider = MarketURLSessionProvider()
 
     override func viewDidLoad() {
@@ -47,10 +42,16 @@ class MarketListViewController: UIViewController {
     }
     
     func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewListCell, Page> {
+            (cell, indexPath, page) in
+            cell.update(with: page)
+            cell.accessories = [.disclosureIndicator()]
+        }
+        
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView:
                                                                         collectionView) {
             (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration,
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                 for: indexPath,
                                                                 item: itemIdentifier)
         }
