@@ -111,10 +111,10 @@
             </objects>
             <point key="canvasLocation" x="1443" y="-113"/>
         </scene>
-        <!--View Controller-->
+        <!--Market Grid View Controller-->
         <scene sceneID="bss-U0-Fga">
             <objects>
-                <viewController id="Tbi-f2-q0F" sceneMemberID="viewController">
+                <viewController id="Tbi-f2-q0F" customClass="MarketGridViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="68n-3m-2bz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
