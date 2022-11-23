@@ -21,12 +21,19 @@ final class ViewController: UIViewController {
         segmentedControl.addTarget(self,
                                    action: #selector(layoutSegmentedControlValueChanged),
                                    for: .valueChanged)
+        setRightBarButton()
         collectionView = OpenMarketCollectionView(frame: view.bounds,
                                                   collectionViewLayout: CollectionViewLayout.defaultLayout)
         collectionView.backgroundColor = .white
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         view.addSubview(collectionView)
+    }
+    
+    private func setRightBarButton() {
+        let barButton: UIBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(tappedAddProductButton))
+        barButton.tintColor = .systemBlue
+        navigationItem.setRightBarButton(barButton, animated: false)
     }
     
     @objc
@@ -40,6 +47,11 @@ final class ViewController: UIViewController {
             return
         }
         collectionView.reloadData()
+    }
+    
+    @objc
+    private func tappedAddProductButton(_ sender: UIBarButtonItem) {
+        navigationController?.pushViewController(UIViewController(), animated: false)
     }
 }
 
