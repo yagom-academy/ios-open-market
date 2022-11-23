@@ -57,7 +57,7 @@ class ViewController: UIViewController {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.3))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.37))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
             group.interItemSpacing = .fixed(itemSpacing)
             
@@ -109,9 +109,11 @@ class ViewController: UIViewController {
     
     @objc func switchView(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
+            productCollectionView.removeFromSuperview()
             configureProductCollectionView(type: .list)
             configureDataSource()
         } else {
+            productCollectionView.removeFromSuperview()
             configureProductCollectionView(type: .grid)
             configureDataSource()
         }
@@ -119,6 +121,7 @@ class ViewController: UIViewController {
     
     func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
         let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> { cell, indexPath, product in
+            cell.nameLabel.text = product.name
             if product.stock == 0 {
                 cell.stockLabel.text = "품절"
                 cell.stockLabel.textColor = .systemYellow
@@ -130,7 +133,7 @@ class ViewController: UIViewController {
             if product.price == product.bargainPrice {
                 cell.priceLabel.text = product.currencyAndPrice
             } else {
-                cell.priceLabel.attributedText = product.currencyAndDiscountedPrice
+                cell.priceLabel.attributedText = product.fetchCurrencyAndDiscountedPrice()
             }
             
             self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
@@ -154,6 +157,8 @@ class ViewController: UIViewController {
         let listCellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> { cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
             content.text = product.name
+            content.textProperties.font = .preferredFont(forTextStyle: .headline)
+            content.textProperties.adjustsFontForContentSizeCategory = true
 
             if product.stock == 0 {
                 cell.stockLabel.text = "품절"
@@ -166,7 +171,7 @@ class ViewController: UIViewController {
             if product.price == product.bargainPrice {
                 content.secondaryText = product.currencyAndPrice
             } else {
-                content.secondaryAttributedText = product.currencyAndDiscountedPrice
+                content.secondaryAttributedText = product.fetchCurrencyAndDiscountedPrice(" ")
             }
             
             content.secondaryTextProperties.color = .systemGray2

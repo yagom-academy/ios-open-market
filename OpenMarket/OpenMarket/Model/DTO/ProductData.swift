@@ -53,10 +53,14 @@ extension ProductData {
         return "\(currency.rawValue) \(price)"
     }
     
-    var currencyAndDiscountedPrice: NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: "\(currencyAndPrice) \(currency.rawValue) \(bargainPrice)")
-        attributedString.addAttribute(.foregroundColor, value: UIColor.systemRed, range: (currencyAndPrice as NSString).range(of: currencyAndPrice))
-        attributedString.addAttribute(.strikethroughStyle, value: 1, range: (currencyAndPrice as NSString).range(of: currencyAndPrice))
+    func fetchCurrencyAndDiscountedPrice(_ component: String = "\n") -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: "\(currencyAndPrice)\(component)\(currency.rawValue) \(bargainPrice)")
+        attributedString.addAttribute(.foregroundColor,
+                                      value: UIColor.systemRed,
+                                      range: (currencyAndPrice as NSString).range(of: currencyAndPrice))
+        attributedString.addAttribute(.strikethroughStyle,
+                                      value: 1,
+                                      range: (currencyAndPrice as NSString).range(of: currencyAndPrice))
         return attributedString
     }
 }
