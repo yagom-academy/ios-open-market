@@ -129,6 +129,7 @@ extension ListViewController: UICollectionViewDataSource {
         }
         
         cell.configurationCell(item: productItem)
+        cell.addBottomLine(color: .gray, width: 0.5)
         
         return cell
     }
@@ -141,6 +142,7 @@ extension ListViewController: UICollectionViewDataSource {
         }
         
         cell.configurationCell(item: productItem)
+        cell.addBorderLine(color: .gray, width: 1)
         
         return cell
     }

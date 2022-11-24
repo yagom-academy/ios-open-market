@@ -39,12 +39,6 @@
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD 800" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPj-SD-wXV">
-                                <rect key="frame" x="134" y="34" width="56" height="16"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                <color key="textColor" systemColor="systemGrayColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jaJ-jE-DwX">
                                 <rect key="frame" x="372" y="5" width="11" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -60,13 +54,11 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="bPj-SD-wXV" secondAttribute="bottom" constant="10" id="00T-VD-Wei"/>
                             <constraint firstAttribute="bottom" secondItem="LCg-Ux-0nR" secondAttribute="bottom" constant="3" id="0dX-dT-ah2"/>
                             <constraint firstItem="LCg-Ux-0nR" firstAttribute="leading" secondItem="GeC-2n-4en" secondAttribute="leading" constant="3" id="4dC-XA-iZM"/>
                             <constraint firstItem="LCg-Ux-0nR" firstAttribute="top" secondItem="GeC-2n-4en" secondAttribute="top" constant="3" id="7G2-FB-xYy"/>
                             <constraint firstItem="ZdK-vc-ukI" firstAttribute="top" secondItem="GeC-2n-4en" secondAttribute="top" constant="5" id="GDy-kt-Eqe"/>
                             <constraint firstAttribute="bottom" secondItem="9Lw-xt-q8g" secondAttribute="bottom" constant="10" id="Ij2-zp-LVA"/>
-                            <constraint firstItem="bPj-SD-wXV" firstAttribute="leading" secondItem="9Lw-xt-q8g" secondAttribute="trailing" constant="8" symbolic="YES" id="Mg0-l1-EHR"/>
                             <constraint firstItem="LCg-Ux-0nR" firstAttribute="centerY" secondItem="GeC-2n-4en" secondAttribute="centerY" id="U0s-1t-UcP"/>
                             <constraint firstItem="NDq-49-iZq" firstAttribute="top" secondItem="GeC-2n-4en" secondAttribute="top" constant="10" id="a7W-Nq-npB"/>
                             <constraint firstItem="ZdK-vc-ukI" firstAttribute="leading" secondItem="LCg-Ux-0nR" secondAttribute="trailing" constant="8" symbolic="YES" id="bxc-fX-3GM"/>
@@ -88,7 +80,6 @@
             </constraints>
             <size key="customSize" width="543" height="137"/>
             <connections>
-                <outlet property="bargainPriceLabel" destination="bPj-SD-wXV" id="ROc-Ih-5b2"/>
                 <outlet property="priceLabel" destination="9Lw-xt-q8g" id="yH5-LE-Ug8"/>
                 <outlet property="productImage" destination="LCg-Ux-0nR" id="Ung-uZ-UsX"/>
                 <outlet property="productNameLabel" destination="ZdK-vc-ukI" id="b5H-mS-JxC"/>

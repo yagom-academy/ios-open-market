@@ -48,4 +48,10 @@ class GridCollectionViewCell: UICollectionViewCell {
             productImage.load(url: url)
         }
     }
+    
+    func addBorderLine(color: UIColor, width: CGFloat) {
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = width
+        self.layer.borderColor = color.cgColor
+    }
 }
