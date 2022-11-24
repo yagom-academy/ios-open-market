@@ -21,13 +21,13 @@ class ProductListViewController: UIViewController {
         configureAddButton()
         
         let networkProvider = NetworkAPIProvider()
-        networkProvider.fetchProductList(query: [.pageNumber: "3"]) { result in
+        networkProvider.fetchProductList(query: [.itemsPerPage: "200"]) { [weak self] result in
             switch result {
             case .success(let data):
-                self.productData = data
+                self?.productData = data
                 DispatchQueue.main.async {
-                    self.configureHierarchy()
-                    self.configureDataSource()
+                    self?.configureHierarchy()
+                    self?.configureDataSource()
                 }
             default :
                 return

@@ -58,6 +58,24 @@ struct Product: Decodable, Hashable {
         }
         return attributedStr
     }
+    
+    func fetchImage(completion: @escaping (Result<UIImage, Error>) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            guard let url = URL(string: self.thumbnail) else { return }
+            URLSession.shared.dataTask(with: url) { (data, result, error) in
+
+                if let error {
+                    completion(.failure(error))
+                    return
+                }
+
+                if let data = data, let image = UIImage(data: data) {
+                    completion(.success(image))
+                }
+                
+            }.resume()
+        }
+    }
 }
 
 struct Image: Decodable, Hashable {

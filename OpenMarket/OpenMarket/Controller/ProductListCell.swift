@@ -4,7 +4,6 @@ import UIKit
 
 class ProductListCell: UICollectionViewListCell {
     private var productData: Product?
-    
     private let productPriceLabel = UILabel()
     private var customViewConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
     
@@ -65,13 +64,29 @@ extension ProductListCell {
         
         var content = defaultProductConfiguration().updated(for: state)
         
-        content.image = urlToImage(productData.thumbnail)
+        content.image = UIImage(systemName: "timelapse")
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = productData.name
         content.textProperties.font = .boldSystemFont(ofSize: 18)
         content.secondaryTextProperties.color = .gray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .footnote)
         content.secondaryAttributedText = productData.attributedPriceString
+        
+        productData.fetchImage { result in
+            switch result {
+            case .failure(_):
+                DispatchQueue.main.async { [weak self] in
+                    content.image = UIImage(systemName: "xmark.seal.fill")
+                    self?.productListContentView.configuration = content
+                }
+                return
+            case .success(let image):
+                content.image = image
+                DispatchQueue.main.async { [weak self] in
+                    self?.productListContentView.configuration = content
+                }
+            }
+        }
         
         productListContentView.configuration = content
         

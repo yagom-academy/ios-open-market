@@ -83,7 +83,18 @@ class ProductGridCell: UICollectionViewCell {
     }
 
     func configCell(with product: Product) {
-        self.productImage.image = urlToImage(product.thumbnail)
+        product.fetchImage { result in
+            switch result {
+            case .failure(_):
+                DispatchQueue.main.async { [weak self] in
+                    self?.productImage.image = UIImage(systemName: "xmark.seal.fill")
+                }
+            case .success(let image):
+                DispatchQueue.main.async { [weak self] in
+                    self?.productImage.image = image
+                }
+            }
+        }
         self.nameLabel.text = product.name
         self.priceLabel.attributedText = product.attributedPriceString
         self.stockLabel.attributedText = product.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(product.stock)".attributed
