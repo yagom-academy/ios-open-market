@@ -75,7 +75,6 @@ final class MainView: UIView {
         return collectionView
     }()
     
-    
     private func registerCell() {
         collectionView.register(ListCollectionViewCell.self,
                                 forCellWithReuseIdentifier: ListCollectionViewCell.reuseIdentifier)

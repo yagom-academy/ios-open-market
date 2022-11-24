@@ -80,11 +80,13 @@ extension MainViewController: UICollectionViewDelegate {
 }
 
 extension MainViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         return productData.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch mainView.layoutStatus {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(
@@ -109,11 +111,11 @@ extension MainViewController: UICollectionViewDataSource {
             networkManager.fetchImage(with: data.thumbnail) { image in
                 DispatchQueue.main.async {
                     if indexPath == collectionView.indexPath(for: cell) {
+                        ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                         cell.uploadImage(image)
                     }
                 }
             }
-            
             return cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(
@@ -138,6 +140,7 @@ extension MainViewController: UICollectionViewDataSource {
             networkManager.fetchImage(with: data.thumbnail) { image in
                 DispatchQueue.main.async {
                     if indexPath == collectionView.indexPath(for: cell) {
+                        ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                         cell.uploadImage(image)
                     }
                 }
