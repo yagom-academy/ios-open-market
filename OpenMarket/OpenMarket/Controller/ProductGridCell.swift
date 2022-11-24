@@ -14,19 +14,19 @@ class ProductGridCell: UICollectionViewCell {
         return stackview
     }()
 
+    let productImage: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
+    }()
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-
-    let productImage: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        return iv
     }()
     
     let priceLabel: UILabel = {
@@ -53,32 +53,35 @@ class ProductGridCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    func configureStackView() {
+        stackView.addArrangedSubview(productImage)
+        stackView.addArrangedSubview(nameLabel)
+        stackView.addArrangedSubview(priceLabel)
+        stackView.addArrangedSubview(stockLabel)
+    }
 
     func layout() {
-        [productImage, nameLabel].forEach {
-            contentView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        configureStackView()
+        contentView.addSubview(stackView)
 
         layer.masksToBounds = true
         layer.cornerRadius = 10
-
+        
         NSLayoutConstraint.activate([
-            productImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            productImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            productImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            productImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            productImage.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5)
         ])
     }
 
     func configCell(with product: Product) {
-        
         self.productImage.image = urlToImage(product.thumbnail)
-        nameLabel.text = product.name
+        self.nameLabel.text = product.name
+        self.priceLabel.text = product.price.description
+        self.stockLabel.text = product.stock.description
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {
