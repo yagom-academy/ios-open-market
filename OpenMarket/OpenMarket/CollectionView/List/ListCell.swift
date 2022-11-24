@@ -7,19 +7,7 @@
 
 import UIKit
 
-protocol OpenMarketCell {
-    var image: UIImageView { get }
-    var productName: UILabel { get }
-    var price: UILabel { get }
-    var bargainPrice: UILabel { get }
-    var stock: UILabel { get }
-    var nameStockStackView: UIStackView { get }
-    var priceStackView: UIStackView { get }
-    var labelStackView: UIStackView { get }
-    var containerStackView: UIStackView { get }
-}
-
-class ListCell: UICollectionViewListCell, OpenMarketCell {
+class ListCell: UICollectionViewListCell {
     
     let image: UIImageView = {
         let imageView = UIImageView()

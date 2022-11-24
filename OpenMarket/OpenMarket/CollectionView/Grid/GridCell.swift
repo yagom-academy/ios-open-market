@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCell: UICollectionViewCell, OpenMarketCell {
+class GridCell: UICollectionViewCell {
     let image: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false

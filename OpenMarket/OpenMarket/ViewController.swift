@@ -45,8 +45,6 @@ class ViewController: UIViewController {
         configure()
         print("1")
 
-        
-        
         let manager = NetworkManager()
         
         manager.getProductsList(pageNo: 1, itemsPerPage: 30) { [self] list in
@@ -73,35 +71,7 @@ class ViewController: UIViewController {
     
     private func setCellRegistration() {
         self.listCellRegistration = UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, itemIdentifier in
-            DispatchQueue.global().async {
-                if itemIdentifier.hashValue != indexPath.hashValue {
-                    guard let url = URL(string: itemIdentifier.thumbnail),
-                          let data = try? Data(contentsOf: url)  else {
-                        return
-                    }
-                    
-                    let picture = UIImage(data: data)
-                    
-                    DispatchQueue.main.async {
-                        cell.productName.text = "\(itemIdentifier.name)"
-                        cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
-                        cell.image.image = picture
-                        
-                        if itemIdentifier.bargainPrice != itemIdentifier.price {
-                            cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
-                        } else {
-                            cell.price.isHidden = true
-                        }
-                        
-                        if itemIdentifier.stock == 0 {
-                            cell.stock.text = "품절"
-                            cell.stock.textColor = .systemYellow
-                        } else {
-                            cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
-                        }
-                    }
-                }
-            }
+            self.cellRegistration(cell, indexPath, itemIdentifier)
         }
         
         self.gridCellRegistration = UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, itemIdentifier in
@@ -137,10 +107,38 @@ class ViewController: UIViewController {
         }
         print("?")
     }
-//
-//    private func cellRegistration(_ cell: OpenMarketCell, _ indexPath: IndexPath, _ itemIdentifier: Product) {
-//
-//    }
+
+    private func cellRegistration(_ cell: ListCell, _ indexPath: IndexPath, _ itemIdentifier: Product) {
+        DispatchQueue.global().async {
+            if itemIdentifier.hashValue != indexPath.hashValue {
+                guard let url = URL(string: itemIdentifier.thumbnail),
+                      let data = try? Data(contentsOf: url)  else {
+                    return
+                }
+                
+                let picture = UIImage(data: data)
+                
+                DispatchQueue.main.async {
+                    cell.productName.text = "\(itemIdentifier.name)"
+                    cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
+                    cell.image.image = picture
+                    
+                    if itemIdentifier.bargainPrice != itemIdentifier.price {
+                        cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
+                    } else {
+                        cell.price.isHidden = true
+                    }
+                    
+                    if itemIdentifier.stock == 0 {
+                        cell.stock.text = "품절"
+                        cell.stock.textColor = .systemYellow
+                    } else {
+                        cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
+                    }
+                }
+            }
+        }
+    }
     
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
@@ -151,7 +149,7 @@ class ViewController: UIViewController {
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(10))
-        let group = NSCollecgtionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 10
