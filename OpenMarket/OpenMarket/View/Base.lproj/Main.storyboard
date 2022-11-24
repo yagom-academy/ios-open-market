@@ -49,11 +49,17 @@
                                             <segue destination="AOr-IO-2Z8" kind="show" id="8de-Fc-UI9"/>
                                         </connections>
                                     </button>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="bJH-1T-XiE">
+                                        <rect key="frame" x="50" y="56" width="20" height="20"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="8OE-DE-cya" secondAttribute="trailing" constant="8" id="0O3-Sx-J6j"/>
+                                    <constraint firstItem="N2f-4M-XSf" firstAttribute="centerY" secondItem="bJH-1T-XiE" secondAttribute="centerY" id="IHe-pU-nEE"/>
+                                    <constraint firstItem="N2f-4M-XSf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bJH-1T-XiE" secondAttribute="trailing" constant="30" id="Jjj-KB-4At"/>
                                     <constraint firstItem="8OE-DE-cya" firstAttribute="centerY" secondItem="N2f-4M-XSf" secondAttribute="centerY" id="N9U-W0-SWz"/>
+                                    <constraint firstItem="bJH-1T-XiE" firstAttribute="leading" secondItem="N0w-K7-nHs" secondAttribute="leading" priority="750" constant="50" id="T1o-zu-mnU"/>
                                     <constraint firstAttribute="bottom" secondItem="N2f-4M-XSf" secondAttribute="bottom" constant="8" id="VE0-6a-tvX"/>
                                     <constraint firstItem="N2f-4M-XSf" firstAttribute="centerX" secondItem="N0w-K7-nHs" secondAttribute="centerX" id="g2E-um-kX3"/>
                                 </constraints>
@@ -75,6 +81,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="bJH-1T-XiE" id="pwk-HL-zZV"/>
                         <outlet property="collectionView" destination="Sgw-OQ-JvR" id="oab-S1-gtQ"/>
                         <outlet property="segmentedControl" destination="N2f-4M-XSf" id="2Hf-ro-svZ"/>
                     </connections>
