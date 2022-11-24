@@ -1,5 +1,6 @@
 //  Created by Aejong, Tottale on 2022/11/15.
-import Foundation
+
+import UIKit
 
 struct ProductList: Decodable {
     
@@ -45,6 +46,17 @@ struct Product: Decodable, Hashable {
         case discountedPrice = "discounted_price"
         case createdAt = "created_at"
         case issuedAt = "issued_at"
+    }
+    
+    var attributedPriceString: NSAttributedString {
+        var priceText = "\(self.currency) \(self.price.decimalInt) "
+        var attributedStr = NSMutableAttributedString(string: priceText)
+        if self.bargainPrice != self.price {
+            priceText += "\(self.currency) \(self.bargainPrice.decimalInt)"
+            attributedStr = NSMutableAttributedString(string: priceText)
+            attributedStr.addAttributes([.strikethroughStyle: 1, .foregroundColor: UIColor.systemRed], range: (priceText as NSString).range(of: "\(self.currency) \(self.price.decimalInt)"))
+        }
+        return attributedStr
     }
 }
 

@@ -71,24 +71,13 @@ extension ProductListCell {
         content.textProperties.font = .boldSystemFont(ofSize: 18)
         content.secondaryTextProperties.color = .gray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .footnote)
-        content.secondaryAttributedText = configureAttributedString(price: productData.price, bargainPrice: productData.bargainPrice, currency: productData.currency)
+        content.secondaryAttributedText = productData.attributedPriceString
         
         productListContentView.configuration = content
         
         productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
         productPriceLabel.textColor = .gray
         productPriceLabel.attributedText = productData.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(productData.stock)".attributed
-    }
-    
-    func configureAttributedString(price: Double, bargainPrice: Double, currency: String) -> NSAttributedString {
-        var priceText = "\(currency) \(price.decimalInt) "
-        var attributedStr = NSMutableAttributedString(string: priceText)
-        if bargainPrice != price {
-            priceText += "\(currency) \(bargainPrice.decimalInt)"
-            attributedStr = NSMutableAttributedString(string: priceText)
-            attributedStr.addAttributes([.strikethroughStyle: 1, .foregroundColor: UIColor.systemRed], range: (priceText as NSString).range(of: "\(currency) \(price.decimalInt)"))
-        }
-        return attributedStr
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {

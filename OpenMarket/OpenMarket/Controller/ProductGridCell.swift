@@ -26,6 +26,7 @@ class ProductGridCell: UICollectionViewCell {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 18)
         return label
     }()
     
@@ -34,6 +35,7 @@ class ProductGridCell: UICollectionViewCell {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
         return label
     }()
     
@@ -42,6 +44,7 @@ class ProductGridCell: UICollectionViewCell {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
         return label
     }()
 
@@ -82,8 +85,8 @@ class ProductGridCell: UICollectionViewCell {
     func configCell(with product: Product) {
         self.productImage.image = urlToImage(product.thumbnail)
         self.nameLabel.text = product.name
-        self.priceLabel.text = product.price.description
-        self.stockLabel.text = product.stock.description
+        self.priceLabel.attributedText = product.attributedPriceString
+        self.stockLabel.attributedText = product.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(product.stock)".attributed
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {
