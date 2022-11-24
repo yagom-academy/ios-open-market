@@ -6,30 +6,25 @@
 
 import UIKit
 
-class ProductsViewController: UIViewController {
-    var productsData: ProductListResponse? {
+// MARK: ProductsViewController
+final class ProductsViewController: UIViewController {
+    enum Constant {
+        static let edgeInsetValue: CGFloat = 8
+    }
+
+    private let productResponseNetworkManager = NetworkManager<ProductListResponse>()
+    private var currentPage: Int = 1
+    private var segmentIndex = 0
+
+    private var productsData: ProductListResponse? {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
     }
-    let productResponseNetworkManager = NetworkManager<ProductListResponse>()
-    var currentPage: Int = 1
-    
-    enum Constant {
-        static let edgeInsetValue: CGFloat = 8
-    }
-    
-    var segmentIndex = 0
-    
-    let addButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
-        
-        return button
-    }()
-    
-    lazy var segment: UISegmentedControl = {
+
+    private lazy var segment: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
         segment.translatesAutoresizingMaskIntoConstraints = false
         segment.selectedSegmentIndex = 0
@@ -38,7 +33,7 @@ class ProductsViewController: UIViewController {
         return segment
     }()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         
@@ -62,34 +57,12 @@ class ProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.rightBarButtonItem = addButton
-        self.navigationItem.titleView = segment
-        
         self.view = collectionView
         fetchData()
     }
-    
-    func fetchData() {
-        let endPoint = OpenMarketAPI.productsList(pageNumber: currentPage, rowCount: 200)
-        productResponseNetworkManager.fetchData(endPoint: endPoint) { result in
-            switch result {
-            case .success(let data):
-                self.productsData = data
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    @objc func didChangedSegmentIndex(_ sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
-        
-        segmentIndex = index
-        collectionView.reloadData()
-    }
 }
 
+// MARK: UICollectionViewDelegateFlowLayout
 extension ProductsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -121,6 +94,7 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: UICollectionViewDataSource
 extension ProductsViewController: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -141,13 +115,15 @@ extension ProductsViewController: UICollectionViewDataSource {
         ) as? ProductItemCell else {
             return UICollectionViewCell()
         }
-        
         let product = products[indexPath.row]
         
         cell.configureLayout(index: segmentIndex)
         cell.titleLabel.text = product.name
-//        cell.subTitleLabel.text = "\(product.currency.rawValue) \(product.price)"
-        cell.setPriceLabel(currency: product.currency.rawValue, price: product.price, bargainPrice: product.bargainPrice, segment: 1)
+        cell.setPriceLabel(
+            originPrice: product.originPriceStringValue,
+            bargainPrice: product.bargainPriceStringValue,
+            segment: segmentIndex
+        )
         cell.setStockLabelValue(stock: product.stock)
         
         guard let url = URL(string: product.thumbnail) else { return cell }
@@ -162,6 +138,41 @@ extension ProductsViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: Objc Method
+private extension ProductsViewController {
+    @objc func didChangedSegmentIndex(_ sender: UISegmentedControl) {
+        let index = sender.selectedSegmentIndex
+        
+        segmentIndex = index
+        collectionView.reloadData()
+    }
+}
+
+// MARK: Business Login
+private extension ProductsViewController {
+    func fetchData() {
+        let endPoint = OpenMarketAPI.productsList(pageNumber: currentPage, rowCount: 200)
+        productResponseNetworkManager.fetchData(endPoint: endPoint) { result in
+            switch result {
+            case .success(let data):
+                self.productsData = data
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+}
+
+// MARK: Configure UI
+private extension ProductsViewController {
+    func configureNavbar() {
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem = addButton
+        self.navigationItem.titleView = segment
+    }
+}
+
+// MARK: URLSession +
 private extension URLSession {
     static func createTask(
         url: URL,

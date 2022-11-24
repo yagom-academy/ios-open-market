@@ -3,7 +3,7 @@
 //  OpenMarket
 //
 //  Copyright (c) 2022 Minii All rights reserved.
-        
+
 import UIKit
 
 class ProductItemCell: UICollectionViewCell {
@@ -21,44 +21,22 @@ class ProductItemCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.textColor = .label
-        return label
-    }()
-    
-    let subTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .secondaryLabel
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        
-        return label
-    }()
-    
-    let stockLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .right
-        label.textColor = .label
-        label.numberOfLines = 2
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        
-        return label
-    }()
+    let titleLabel = UILabel()
+    let subTitleLabel = UILabel()
+    let stockLabel = UILabel()
     
     override func prepareForReuse() {
         thumbnailImageView.image = UIImage(systemName: "circle")
         task?.cancel()
         task = nil
-        
-        contentView.subviews.forEach {
-            $0.removeFromSuperview()
-        }
+        contentView.subviews.forEach { $0.removeFromSuperview() }
         
         super.prepareForReuse()
     }
-    
+}
+
+// MARK: Configure Item Data
+extension ProductItemCell {
     func configureLayout(index: Int) {
         [
             thumbnailImageView,
@@ -70,121 +48,12 @@ class ProductItemCell: UICollectionViewCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        configureItemStyle(styleNumber: index)
         if index == 0 {
             setupLayoutListCell()
         } else {
-            configureGridItemStyle()
             setupLayoutGridCell()
         }
-        
-    }
-    
-    private func setupLayoutListCell() {
-        func setupLayoutOfThumbnailImageView() {
-            NSLayoutConstraint.activate([
-                thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                thumbnailImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor)
-            ])
-        }
-        
-        func setupLayoutOfTitleLabel() {
-            NSLayoutConstraint.activate([
-                titleLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
-                titleLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 8),
-                titleLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
-                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: stockLabel.leadingAnchor, constant: -8)
-            ])
-        }
-        
-        func setupLayoutOfSubTitleLabel() {
-            NSLayoutConstraint.activate([
-                subTitleLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor),
-                subTitleLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 8),
-                subTitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
-            ])
-        }
-        
-        func setupLayoutOfStockLabel() {
-            NSLayoutConstraint.activate([
-                stockLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor),
-                stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                stockLabel.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-                stockLabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-                stockLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25)
-            ])
-        }
-        
-        setupLayoutOfThumbnailImageView()
-        setupLayoutOfTitleLabel()
-        setupLayoutOfSubTitleLabel()
-        setupLayoutOfStockLabel()
-    }
-    
-    private func setupLayoutGridCell(){
-        func setupLayoutOfThumbnailImageView() {
-            NSLayoutConstraint.activate([
-                thumbnailImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-                thumbnailImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-                thumbnailImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-                thumbnailImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
-            ])
-        }
-        
-        func setupLayoutOfTitleLabel() {
-            NSLayoutConstraint.activate([
-                titleLabel.topAnchor.constraint(lessThanOrEqualTo: thumbnailImageView.bottomAnchor, constant: 8),
-                titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-                titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
-        }
-        
-        func setupLayoutOfSubTitleLabel() {
-            NSLayoutConstraint.activate([
-                subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-                subTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-                subTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-                subTitleLabel.bottomAnchor.constraint(equalTo: stockLabel.topAnchor)
-            ])
-            subTitleLabel.setContentHuggingPriority(.init(1), for: .vertical)
-        }
-        
-        func setupLayoutOfStockLabel() {
-            NSLayoutConstraint.activate([
-                stockLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-                stockLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-                stockLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
-            ])
-        }
-        
-        setupLayoutOfThumbnailImageView()
-        setupLayoutOfTitleLabel()
-        setupLayoutOfSubTitleLabel()
-        setupLayoutOfStockLabel()
-    }
-    
-    private func configureGridItemStyle() {
-        [titleLabel, subTitleLabel, stockLabel].forEach {
-            $0.textAlignment = .center
-        }
-        
-        titleLabel.font = .preferredFont(forTextStyle: .headline)
-        
-        subTitleLabel.textColor = .secondaryLabel
-        subTitleLabel.font = .preferredFont(forTextStyle: .subheadline)
-        
-        stockLabel.textColor = .secondaryLabel
-        stockLabel.font = .preferredFont(forTextStyle: .subheadline)
-        
-        thumbnailImageView.layer.cornerRadius = 20
-        thumbnailImageView.clipsToBounds = true
-        thumbnailImageView.layer.borderColor = UIColor.gray.cgColor
-        thumbnailImageView.layer.borderWidth = 0.1
-        
-        layer.cornerRadius = 20
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.gray.cgColor
     }
     
     func setStockLabelValue(stock: Int) {
@@ -197,23 +66,111 @@ class ProductItemCell: UICollectionViewCell {
         }
     }
     
-    func setPriceLabel(currency: String, price: Double, bargainPrice: Double, segment: Int) {
-         if bargainPrice != price {
-             let text = "\(currency) \(price) \(currency) \(bargainPrice)"
-             let textCancleLine = "\(currency) \(price)"
-             
-             let font = UIFont.preferredFont(forTextStyle: .subheadline)
-             
-             let attributeString = NSMutableAttributedString(string: text)
-             attributeString.addAttribute(.strikethroughColor, value: UIColor.red, range: (text as NSString).range(of: textCancleLine))
-             attributeString.addAttribute(.strikethroughStyle, value: 1, range: (text as NSString).range(of: textCancleLine))
-             attributeString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: textCancleLine))
-             attributeString.addAttribute(.font, value: font, range: (text as NSString).range(of: textCancleLine))
-             subTitleLabel.attributedText = attributeString
-         } else {
-             subTitleLabel.textColor = .secondaryLabel
-             
-             subTitleLabel.text = "\(currency) \(price)"
-         }
-     }
+    func setPriceLabel(originPrice: String, bargainPrice: String, segment: Int) {
+        let bargainPriceString = (segment == 0 ? " \(bargainPrice)" : "\n\(bargainPrice)")
+        
+        if bargainPrice != originPrice {
+            let text = originPrice + bargainPriceString
+            subTitleLabel.attributedText = text.convertAttributedString(target: originPrice)
+        } else {
+            subTitleLabel.text = originPrice
+        }
+    }
+}
+
+// MARK: Configure UI
+private extension ProductItemCell {
+    func setupLayoutListCell() {
+        NSLayoutConstraint.activate([
+            thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            thumbnailImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor),
+            
+            titleLabel.topAnchor.constraint(lessThanOrEqualTo: contentView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 8),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: stockLabel.leadingAnchor, constant: -8),
+            
+            subTitleLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor),
+            subTitleLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 8),
+            subTitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
+            
+            stockLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor),
+            stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stockLabel.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            stockLabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            stockLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25)
+        ])
+    }
+    
+    func setupLayoutGridCell(){
+        NSLayoutConstraint.activate([
+            thumbnailImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            thumbnailImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            thumbnailImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            thumbnailImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6),
+            
+            titleLabel.topAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            subTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            subTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            subTitleLabel.bottomAnchor.constraint(equalTo: stockLabel.topAnchor),
+            
+            stockLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stockLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stockLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        ])
+        
+        subTitleLabel.setContentHuggingPriority(.init(1), for: .vertical)
+    }
+    
+    func configureItemStyle(styleNumber: Int) {
+        titleLabel.font = .preferredFont(forTextStyle: .headline)
+        titleLabel.numberOfLines = 2
+        titleLabel.textColor = .label
+        titleLabel.adjustsFontForContentSizeCategory = true
+        
+        titleLabel.textAlignment = (styleNumber == 0 ? .left : .center)
+        
+        subTitleLabel.textColor = .secondaryLabel
+        subTitleLabel.font = .preferredFont(forTextStyle: .subheadline)
+        subTitleLabel.adjustsFontForContentSizeCategory = true
+        subTitleLabel.textAlignment = (styleNumber == 0 ? .left : .center)
+        subTitleLabel.numberOfLines = 0
+
+        stockLabel.textAlignment = (styleNumber == 0 ? .right : .center)
+        stockLabel.textColor = .secondaryLabel
+        stockLabel.numberOfLines = 2
+        stockLabel.font = .preferredFont(forTextStyle: .subheadline)
+        stockLabel.adjustsFontForContentSizeCategory = true
+        
+        thumbnailImageView.layer.cornerRadius = 20
+        thumbnailImageView.clipsToBounds = true
+        thumbnailImageView.layer.borderColor = UIColor.gray.cgColor
+        thumbnailImageView.layer.borderWidth = 0.1
+        
+        layer.cornerRadius = (styleNumber == 0 ? 0 : 20)
+        layer.borderWidth = (styleNumber == 0 ? 0 : 2)
+        layer.borderColor = (styleNumber == 0 ? nil : UIColor.gray.cgColor)
+    }
+}
+
+// MARK: String +
+private extension String {
+    func convertAttributedString(target: String) -> NSMutableAttributedString {
+        let font = UIFont.preferredFont(forTextStyle: .subheadline)
+        let range = (self as NSString).range(of: target)
+        let attributeString = NSMutableAttributedString(string: self)
+        
+        attributeString.addAttribute(.strikethroughColor, value: UIColor.red, range: range)
+        attributeString.addAttribute(.strikethroughStyle, value: 1, range: range)
+        attributeString.addAttribute(.foregroundColor, value: UIColor.red, range: range)
+        attributeString.addAttribute(.font, value: font, range: range)
+        
+        return attributeString
+    }
 }
