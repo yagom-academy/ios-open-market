@@ -39,9 +39,7 @@ final class MarketListCell: UICollectionViewListCell {
     }()
     
     func configureCell(page: Page,
-                       collectionView: UICollectionView,
-                       indexPath: IndexPath,
-                       cell: MarketListCell) {
+                       completionHandler: @escaping (() -> Void) -> Void) {
         setupLayout()
         
         var content = UIListContentConfiguration.subtitleCell()
@@ -87,8 +85,10 @@ final class MarketListCell: UICollectionViewListCell {
                     DispatchQueue.main.async {
                         ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
                         content.image = image
-                        guard indexPath == collectionView.indexPath(for: cell) else { return }
-                        self.pageListContentView.configuration = content
+                        let updateConfiguration = {
+                            self.pageListContentView.configuration = content
+                        }
+                        completionHandler(updateConfiguration)
                     }
                 case .failure(let error):
                     print(error)

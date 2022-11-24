@@ -81,9 +81,7 @@ final class MarketGridCell: UICollectionViewCell {
     }
     
     func configureCell(page: Page,
-                       collectionView: UICollectionView,
-                       indexPath: IndexPath,
-                       cell: UICollectionViewCell) {
+                       completionHandler: @escaping (() -> Void) -> Void) {
         setupLayout()
         
         let thumbnailUrl = page.thumbnail
@@ -119,8 +117,10 @@ final class MarketGridCell: UICollectionViewCell {
                 case .success(let image):
                     DispatchQueue.main.async {
                         ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
-                        guard indexPath == collectionView.indexPath(for: cell) else { return }
-                        self.productImage.image = image
+                        let updateImage = {
+                            self.productImage.image = image
+                        }
+                        completionHandler(updateImage)
                     }
                 case .failure(let error):
                     print(error)

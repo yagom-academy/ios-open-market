@@ -50,10 +50,11 @@ final class MarketListViewController: UIViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<MarketListCell, Page> {
             (cell, indexPath, page) in
-            cell.configureCell(page: page,
-                               collectionView: self.listView,
-                               indexPath: indexPath,
-                               cell: cell)
+            cell.configureCell(page: page) { updateConfiguration in
+                if indexPath == self.listView.indexPath(for: cell) {
+                    updateConfiguration()
+                }
+            }
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listView) {

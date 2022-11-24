@@ -75,10 +75,11 @@ final class MarketGridViewController: UIViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<MarketGridCell, Page> {
             cell, indexPath, page in
-            cell.configureCell(page: page,
-                               collectionView: self.gridView,
-                               indexPath: indexPath,
-                               cell: cell)
+            cell.configureCell(page: page) { updateImage in
+                if indexPath == self.gridView.indexPath(for: cell) {
+                    updateImage()
+                }
+            }
         }
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: gridView,
