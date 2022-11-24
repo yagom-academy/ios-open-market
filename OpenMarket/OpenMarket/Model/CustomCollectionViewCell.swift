@@ -14,6 +14,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bargainPrice: UILabel!
     @IBOutlet weak var stock: UILabel!
     
+    let networkCommunication = NetworkCommunication()
+    
     override func prepareForReuse() {
         self.thumbnail.image = nil
         self.name.text = nil
@@ -43,11 +45,19 @@ class CustomCollectionViewCell: UICollectionViewCell {
         filePath.appendPathComponent(imageUrl.lastPathComponent)
         
         if fileManager.fileExists(atPath: filePath.path) != true {
-            guard let imageData = try? Data(contentsOf: imageUrl) else { return }
-            self.thumbnail.image = UIImage(data: imageData)
-            fileManager.createFile(atPath: filePath.path,
-                                   contents: imageData,
-                                   attributes: nil)
+            networkCommunication.requestImageData(url: imageUrl) { data in
+                switch data {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self.thumbnail.image = UIImage(data: data)
+                    }
+                    fileManager.createFile(atPath: filePath.path,
+                                           contents: data,
+                                           attributes: nil)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
         } else {
             guard let loadedImageData = try? Data(contentsOf: filePath) else { return }
             self.thumbnail.image = UIImage(data: loadedImageData)
