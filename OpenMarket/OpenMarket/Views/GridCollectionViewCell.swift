@@ -98,8 +98,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
         discountPrice = productData.discountedPrice
         
         productNameLabel.text = productData.name
-        productPriceLabel.text = String(productData.price)
-        productSalePriceLabel.text = String(productData.bargainPrice)
+        productPriceLabel.text = String(productData.currencyPrice)
+        productSalePriceLabel.text = String(productData.currencyBargainPrice)
         productStockLabel.text = productData.stockDescription
         
         setupStockLabel()
