@@ -1,5 +1,5 @@
 //
-//  MarketCollectionViewListCell.swift
+//  MarketListCell.swift
 //  OpenMarket
 //
 //  Created by 써니쿠키, 메네 on 2022/11/22.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MarketCollectionViewListCell: UICollectionViewListCell {
-    var pageListContentView = UIListContentView(configuration: .subtitleCell())
+final class MarketListCell: UICollectionViewListCell {
+    private var pageListContentView = UIListContentView(configuration: .subtitleCell())
     
-    var stockLabel: UILabel = {
+    private var stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = .preferredFont(forTextStyle: .body)
@@ -20,7 +20,7 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         return label
     }()
     
-    var disclosureIndicatorView: UIImageView = {
+    private var disclosureIndicatorView: UIImageView = {
         let image = UIImage(systemName: "chevron.right")
         let imageView = UIImageView(image: image)
         imageView.tintColor = .systemGray
@@ -30,7 +30,7 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         return imageView
     }()
     
-    var stockStackView: UIStackView = {
+    private var stockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillProportionally
         stackView.spacing = 10
@@ -41,8 +41,8 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
     func configureCell(page: Page,
                        collectionView: UICollectionView,
                        indexPath: IndexPath,
-                       cell: MarketCollectionViewListCell) {
-        setupViewsIfNeeded()
+                       cell: MarketListCell) {
+        setupLayout()
         
         var content = UIListContentConfiguration.subtitleCell()
         let thumbnailUrl = page.thumbnail
@@ -53,8 +53,10 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         content.imageProperties.reservedLayoutSize = CGSize(width: 70, height: 70)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
         content.imageProperties.cornerRadius = 10
+        
         content.text = page.name
         content.textProperties.font = .preferredFont(forTextStyle: .title3)
+        
         content.textToSecondaryTextVerticalPadding = 5
         content.secondaryTextProperties.color = .systemGray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
@@ -96,7 +98,7 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         pageListContentView.configuration = content
     }
     
-    func setupViewsIfNeeded() {
+    private func setupLayout() {
         [stockLabel, disclosureIndicatorView].forEach {
             stockStackView.addArrangedSubview($0)
         }
@@ -110,11 +112,16 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
             pageListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pageListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             pageListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            pageListContentView.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor,constant: -10),
+            pageListContentView.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor,
+                                                          constant: -10),
             pageListContentView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            pageListContentView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
-            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            pageListContentView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                       multiplier: 0.7),
+            
+            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                constant: 10),
+            stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                     constant: -10)
         ])
     }
 }

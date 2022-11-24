@@ -7,17 +7,17 @@
 
 import UIKit
 
-class MarketListViewController: UIViewController {
-    var pageData: [Page] = []
-    var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
-
+final class MarketListViewController: UIViewController {
+    private var pageData: [Page] = []
+    private var listView: UICollectionView!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchMarketData()
     }
     
-    func fetchMarketData() {
+    private func fetchMarketData() {
         let marketURLSessionProvider = MarketURLSessionProvider()
         
         guard let url = Request.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
@@ -27,7 +27,7 @@ class MarketListViewController: UIViewController {
             case .success(let market):
                 self.pageData = market.pages
                 DispatchQueue.main.async {
-                    self.configureCollectionView()
+                    self.configureListView()
                     self.configureDataSource()
                 }
             case .failure(let error):
@@ -36,35 +36,35 @@ class MarketListViewController: UIViewController {
         }
     }
     
-    func createListLayout() -> UICollectionViewCompositionalLayout {
+    private func createListLayout() -> UICollectionViewCompositionalLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds,
-                                          collectionViewLayout: createListLayout())
-        view.addSubview(collectionView)
+    private func configureListView() {
+        listView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        view.addSubview(listView)
     }
     
-    func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewListCell, Page> {
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MarketListCell, Page> {
             (cell, indexPath, page) in
             cell.configureCell(page: page,
-                               collectionView: self.collectionView,
+                               collectionView: self.listView,
                                indexPath: indexPath,
                                cell: cell)
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView:
-                                                                        collectionView) {
-            (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
-                                                                for: indexPath,
-                                                                item: itemIdentifier)
+        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listView) {
+            (listView, indexPath, page) -> UICollectionViewCell? in
+            return listView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                          for: indexPath,
+                                                          item: page)
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+        
         snapshot.appendSections([.productList])
         snapshot.appendItems(pageData)
         dataSource?.apply(snapshot)
@@ -72,7 +72,7 @@ class MarketListViewController: UIViewController {
 }
 
 extension MarketListViewController {
-    enum Section {
+    private enum Section {
         case productList
     }
 }

@@ -7,17 +7,17 @@
 
 import UIKit
 
-class MarketGridViewController: UIViewController {
-    var gridCollectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
-    var pageData: [Page] = []
+final class MarketGridViewController: UIViewController {
+    private var gridView: UICollectionView!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
+    private var pageData: [Page] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchMarketData()
     }
     
-    func fetchMarketData() {
+    private func fetchMarketData() {
         let marketURLSessionProvider = MarketURLSessionProvider()
         
         guard let url = Request.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
@@ -27,7 +27,7 @@ class MarketGridViewController: UIViewController {
             case .success(let market):
                 self.pageData = market.pages
                 DispatchQueue.main.async {
-                    self.configureCollectionView()
+                    self.setupGridFrameLayout()
                     self.configureDataSource()
                 }
             case .failure(let error):
@@ -36,55 +36,61 @@ class MarketGridViewController: UIViewController {
         }
     }
     
-    func createGridLayout() -> UICollectionViewCompositionalLayout {
+    private func setupGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                heightDimension: .estimated(350))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
                                                        count: 2)
-
+        
         let section = NSCollectionLayoutSection(group: group)
+        
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
     }
     
-    func configureCollectionView() {
-        gridCollectionView = UICollectionView(frame: view.bounds,
-                                              collectionViewLayout: createGridLayout())
-        view.addSubview(gridCollectionView)
-        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupGridFrameLayout() {
+        gridView = UICollectionView(frame: view.bounds,
+                                    collectionViewLayout: setupGridLayout())
+        view.addSubview(gridView)
+        gridView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            gridCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            gridCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            gridCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            gridView.topAnchor.constraint(equalTo: view.topAnchor),
+            gridView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gridView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gridView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
-    func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewGridCell, Page> {
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MarketGridCell, Page> {
             cell, indexPath, page in
             cell.configureCell(page: page,
-                               collectionView: self.gridCollectionView,
+                               collectionView: self.gridView,
                                indexPath: indexPath,
                                cell: cell)
         }
-        dataSource = UICollectionViewDiffableDataSource(collectionView: gridCollectionView,
+        
+        dataSource = UICollectionViewDiffableDataSource(collectionView: gridView,
                                                         cellProvider: {
-            collectionView, indexPath, page in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
-                                                                for: indexPath,
-                                                                item: page)
+            gridView, indexPath, page in
+            return gridView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                          for: indexPath,
+                                                          item: page)
         })
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+        
         snapshot.appendSections([.productGrid])
         snapshot.appendItems(pageData)
         dataSource?.apply(snapshot)
@@ -92,7 +98,7 @@ class MarketGridViewController: UIViewController {
 }
 
 extension MarketGridViewController {
-    enum Section {
+    private enum Section {
         case productGrid
     }
 }

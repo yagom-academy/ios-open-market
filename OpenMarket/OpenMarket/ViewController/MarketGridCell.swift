@@ -1,5 +1,5 @@
 //
-//  MarketCollectionViewGridCell.swift
+//  MarketGridCell.swift
 //  OpenMarket
 //
 //  Created by 써니쿠키, 메네 on 2022/11/23.
@@ -7,15 +7,16 @@
 
 import UIKit
 
-class MarketCollectionViewGridCell: UICollectionViewCell {
-    var productImage: UIImageView = {
+final class MarketGridCell: UICollectionViewCell {
+    private var productImage: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 18
         imageView.clipsToBounds = true
+        
         return imageView
     }()
     
-    var nameLabel: UILabel = {
+    private var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title2)
         label.textAlignment = .center
@@ -23,34 +24,37 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         return label
     }()
     
-    var priceLabel: UILabel = {
+    private var priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .center
         label.setContentHuggingPriority(.init(rawValue: 10), for: .vertical)
         label.numberOfLines = 0
+        
         return label
     }()
     
-    var stockLabel: UILabel = {
+    private var stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.font = .preferredFont(forTextStyle: .footnote)
         label.textAlignment = .center
+        
         return label
     }()
     
-    var productStackView: UIStackView = {
+    private var productStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
-    func createCellLayout() {
+    private func setupLayout() {
         [productImage, nameLabel, priceLabel, stockLabel].forEach {
             productStackView.addArrangedSubview($0)
         }
@@ -61,13 +65,18 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         contentView.addSubview(productStackView)
         
         NSLayoutConstraint.activate([
-            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
+            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                multiplier: 0.9),
             productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
             
-            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                  constant: 10),
+            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                     constant: -10),
+            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                      constant: 10),
+            productStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                       constant: -10)
         ])
     }
     
@@ -75,7 +84,7 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
                        collectionView: UICollectionView,
                        indexPath: IndexPath,
                        cell: UICollectionViewCell) {
-        createCellLayout()
+        setupLayout()
         
         let thumbnailUrl = page.thumbnail
         let cacheKey = NSString(string: thumbnailUrl)

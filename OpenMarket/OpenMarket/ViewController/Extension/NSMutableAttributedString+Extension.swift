@@ -11,8 +11,8 @@ extension NSMutableAttributedString {
     func strikethrough(string: String) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: string)
         attributedString.addAttribute(NSMutableAttributedString.Key.strikethroughStyle,
-                                     value: NSUnderlineStyle.single.rawValue,
-                                     range: NSMakeRange(0, attributedString.length))
+                                      value: NSUnderlineStyle.single.rawValue,
+                                      range: NSMakeRange(0, attributedString.length))
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor,
                                       value: UIColor.systemRed,
                                       range: NSMakeRange(0, attributedString.length))
@@ -22,6 +22,7 @@ extension NSMutableAttributedString {
     
     func normal(string: String) -> NSMutableAttributedString {
         self.append(NSAttributedString(string: string))
+        
         return self
     }
     
