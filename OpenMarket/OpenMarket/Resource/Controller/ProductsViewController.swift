@@ -57,7 +57,8 @@ final class ProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = collectionView
+        configureNavbar()
+        view = collectionView
         fetchData()
     }
 }
@@ -146,6 +147,13 @@ private extension ProductsViewController {
         segmentIndex = index
         collectionView.reloadData()
     }
+    
+    @objc func didTappedAddButton() {
+        let viewController = UIViewController()
+        
+        viewController.view.backgroundColor = .systemPink
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: Business Login
@@ -166,7 +174,11 @@ private extension ProductsViewController {
 // MARK: Configure UI
 private extension ProductsViewController {
     func configureNavbar() {
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        let addButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTappedAddButton)
+        )
         self.navigationItem.rightBarButtonItem = addButton
         self.navigationItem.titleView = segment
     }
