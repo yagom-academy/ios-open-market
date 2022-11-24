@@ -6,12 +6,12 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+class GridCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var bargainPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
+    @IBOutlet weak var bargainPriceLabel: UILabel!
     
     override func prepareForReuse() {
         super.prepareForReuse()

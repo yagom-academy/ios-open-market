@@ -75,7 +75,6 @@
             <connections>
                 <outlet property="bargainPriceLabel" destination="UKJ-VD-zpa" id="f15-t1-9Eh"/>
                 <outlet property="priceLabel" destination="rkO-Gh-VLm" id="ImV-PN-HsX"/>
-                <outlet property="priceStackView" destination="CJZ-oo-KV9" id="4OH-xd-KR8"/>
                 <outlet property="productImage" destination="in2-Zz-2Qy" id="xTG-EQ-gsg"/>
                 <outlet property="productNameLabel" destination="mah-xV-Lae" id="36O-UA-OY0"/>
                 <outlet property="stockLabel" destination="u8G-jD-nQr" id="aG4-lG-pef"/>

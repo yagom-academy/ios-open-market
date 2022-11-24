@@ -21,11 +21,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="93.666666666666671"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Jik-G3-jym">
-                                        <rect key="frame" x="131" y="57.666666666666657" width="131" height="32"/>
+                                        <rect key="frame" x="146" y="57.666666666666657" width="101" height="32"/>
                                         <segments>
-                                            <segment title="First"/>
-                                            <segment title="Second"/>
+                                            <segment title="LIST"/>
+                                            <segment title="GRID"/>
                                         </segments>
+                                        <color key="selectedSegmentTintColor" systemColor="systemBlueColor"/>
+                                        <connections>
+                                            <action selector="tapViewModeController:" destination="BYZ-38-t0r" eventType="valueChanged" id="C5h-SP-Jq2"/>
+                                        </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHZ-wt-o0a">
                                         <rect key="frame" x="348" y="53.666666666666657" width="35" height="35"/>
@@ -70,6 +74,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="ins-mL-MZW" id="N5a-NQ-QbJ"/>
+                        <outlet property="viewModeController" destination="9Vo-HW-jyy" id="Nxa-dV-TRD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -80,6 +85,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
