@@ -4,19 +4,45 @@ import UIKit
 
 class ProductGridCell: UICollectionViewCell {
     static let identifier = "cell"
+    
+    let stackView: UIStackView = {
+        let stackview = UIStackView()
+        stackview.axis = .vertical
+        stackview.alignment = .center
+        stackview.distribution = .fill
+        stackview.translatesAutoresizingMaskIntoConstraints = false
+        return stackview
+    }()
 
     let nameLabel: UILabel = {
-        let lb = UILabel()
-        lb.textColor = .white
-        lb.textAlignment = .right
-        lb.numberOfLines = 0
-        return lb
+        let label = UILabel()
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
     let productImage: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
+        iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
+    }()
+    
+    let priceLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let stockLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
     override init(frame: CGRect) {
@@ -52,19 +78,7 @@ class ProductGridCell: UICollectionViewCell {
     func configCell(with product: Product) {
         
         self.productImage.image = urlToImage(product.thumbnail)
-        
-
-        let attrString = NSAttributedString(
-            string: product.name,
-            attributes: [
-                NSAttributedString.Key.strokeColor: UIColor.black,
-                NSAttributedString.Key.foregroundColor: UIColor.white,
-                NSAttributedString.Key.strokeWidth: -2.0,
-                NSAttributedString.Key.font: UIFont(name: "Helvetica-Bold", size: 30)
-            ]
-        )
-
-        nameLabel.attributedText = attrString
+        nameLabel.text = product.name
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {

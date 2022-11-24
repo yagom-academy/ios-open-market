@@ -149,7 +149,6 @@ extension ProductListViewController {
     
     func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { cell, indexPath, product in
-            //            cell.update(with: product)
             cell.configCell(with: product)
         }
         
