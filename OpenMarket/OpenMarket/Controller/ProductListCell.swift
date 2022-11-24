@@ -49,7 +49,7 @@ extension ProductListCell {
             productListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             productListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             productListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            productPriceLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
+            productPriceLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             constraints.leading,
             constraints.trailing
         ])
@@ -65,18 +65,19 @@ extension ProductListCell {
         
         var content = defaultProductConfiguration().updated(for: state)
         
-        
         content.image = urlToImage(productData.thumbnail)
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = productData.name
-        content.textProperties.font = .preferredFont(forTextStyle: .body)
+        content.textProperties.font = .boldSystemFont(ofSize: 18)
+        content.secondaryTextProperties.color = .gray
+        content.secondaryTextProperties.font = .preferredFont(forTextStyle: .footnote)
         content.secondaryAttributedText = configureAttributedString(price: productData.price, bargainPrice: productData.bargainPrice, currency: productData.currency)
         
         productListContentView.configuration = content
         
         productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
         productPriceLabel.textColor = .gray
-        productPriceLabel.text = "잔여수량: \(productData.stock)"
+        productPriceLabel.attributedText = productData.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(productData.stock)".attributed
     }
     
     func configureAttributedString(price: Double, bargainPrice: Double, currency: String) -> NSAttributedString {
