@@ -9,14 +9,14 @@ class ProductGridCell: UICollectionViewCell {
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.alignment = .center
-        stackview.distribution = .fill
+        stackview.distribution = .equalSpacing
         stackview.translatesAutoresizingMaskIntoConstraints = false
         return stackview
     }()
 
     let productImage: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -67,12 +67,14 @@ class ProductGridCell: UICollectionViewCell {
 
         layer.masksToBounds = true
         layer.cornerRadius = 10
+        layer.borderWidth = 1.5
+        layer.borderColor = UIColor.lightGray.cgColor
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             productImage.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5)
         ])
     }
