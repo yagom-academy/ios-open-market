@@ -57,12 +57,19 @@ class ListViewController: UIViewController {
         case 1:
             cellIdentifier = "GridCollectionViewCell"
             configureCollectionView()
+            collectionViewFlowLayout()
             collectionView.reloadData()
         default:
             debugPrint("2")
         }
     }
     
+    func collectionViewFlowLayout() {
+        let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let oneProductWidth: CGFloat = UIScreen.main.bounds.width / 2
+        flowLayout.itemSize = CGSize(width: oneProductWidth, height: 250)
+        collectionView.collectionViewLayout = flowLayout
+    }
 }
 
 extension ListViewController: UICollectionViewDelegate {
@@ -109,7 +116,8 @@ extension ListViewController: UICollectionViewDataSource {
             return cell
         }
         
+        cell.configurationCell(item: productItem)
+        
         return cell
     }
 }
-

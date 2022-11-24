@@ -13,8 +13,6 @@ class ListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bargainPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     
-    @IBOutlet weak var priceStackView: UIStackView!
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         
