@@ -46,6 +46,8 @@ class ListViewController: UIViewController {
         let collectionViewCellNib = UINib(nibName: cellIdentifier, bundle: nil)
         
         self.collectionView.register(collectionViewCellNib, forCellWithReuseIdentifier: cellIdentifier)
+        
+        listCollectionViewFlowLayout()
     }
     
     @IBAction func tapViewModeController(_ sender: UISegmentedControl) {
@@ -53,21 +55,29 @@ class ListViewController: UIViewController {
         case 0:
             cellIdentifier = "ListCollectionViewCell"
             configureCollectionView()
+            listCollectionViewFlowLayout()
             collectionView.reloadData()
         case 1:
             cellIdentifier = "GridCollectionViewCell"
             configureCollectionView()
-            collectionViewFlowLayout()
+            gridCollectionViewFlowLayout()
             collectionView.reloadData()
         default:
             debugPrint("2")
         }
     }
     
-    func collectionViewFlowLayout() {
+    func gridCollectionViewFlowLayout() {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let oneProductWidth: CGFloat = UIScreen.main.bounds.width / 2
         flowLayout.itemSize = CGSize(width: oneProductWidth, height: 250)
+        collectionView.collectionViewLayout = flowLayout
+    }
+    
+    func listCollectionViewFlowLayout() {
+        let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let oneProductWidth: CGFloat = UIScreen.main.bounds.width
+        flowLayout.itemSize = CGSize(width: oneProductWidth, height: 60)
         collectionView.collectionViewLayout = flowLayout
     }
 }
