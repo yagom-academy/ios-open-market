@@ -32,7 +32,20 @@ class ViewController: UIViewController {
 
         configureNavigationBar()
         configureProductCollectionView(type: .list)
-        networkManager.loadData(of: .productList(pageNumber: 1, itemsPerPage: 100), dataType: ProductListData.self) { result in
+        loadProductData(pageNumber: 1, itemsPerPage: 100)
+    }
+    
+    func configureNavigationBar() {
+        segmentControl.addTarget(self, action: #selector(switchView(_:)), for: .valueChanged)
+        navigationItem.titleView = segmentControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(showProductRegistrationView))
+    }
+    
+    func loadProductData(pageNumber: Int, itemsPerPage: Int) {
+        networkManager.loadData(of: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage),
+                                dataType: ProductListData.self) { result in
             switch result {
             case .success(let productList):
                 self.productList = productList
@@ -45,33 +58,33 @@ class ViewController: UIViewController {
         }
     }
     
-    func configureNavigationBar() {
-        segmentControl.addTarget(self, action: #selector(switchView(_:)), for: .valueChanged)
-        navigationItem.titleView = segmentControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                            target: self,
-                                                            action: #selector(showProductRegistrationView))
-    }
-    
     func configureLayout(of type: ViewType) -> UICollectionViewCompositionalLayout {
         switch type {
         case .list:
             let configure = UICollectionLayoutListConfiguration(appearance: .plain)
             let layout = UICollectionViewCompositionalLayout.list(using: configure)
+            
             return layout
         case .grid:
             let groupSpacing = CGFloat(10)
             let itemSpacing = CGFloat(20)
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.37))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                   heightDimension: .fractionalHeight(0.37))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                           subitem: item,
+                                                           count: 2)
             group.interItemSpacing = .fixed(itemSpacing)
             
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = groupSpacing
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0,
+                                                            leading: 10,
+                                                            bottom: 0,
+                                                            trailing: 10)
             let layout = UICollectionViewCompositionalLayout(section: section)
             
             return layout
@@ -97,11 +110,16 @@ class ViewController: UIViewController {
         let listCellRegistration = createListCellRegistration()
         let gridCellRegistration = createGridCellRegistration()
         
-        dataSource = UICollectionViewDiffableDataSource<Section, ProductData>(collectionView: productCollectionView) { collectionView, indexPath, product in
+        dataSource = UICollectionViewDiffableDataSource<Section, ProductData>(collectionView: productCollectionView) {
+            collectionView, indexPath, product in
             if self.segmentControl.selectedSegmentIndex == 0 {
-                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
+                                                                    for: indexPath,
+                                                                    item: product)
             } else {
-                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: product)
+                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration,
+                                                                    for: indexPath,
+                                                                    item: product)
             }
         }
         
@@ -116,9 +134,10 @@ class ViewController: UIViewController {
     }
     
     func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
-        let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> { cell, indexPath, product in
+        let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> {
+            cell, indexPath, product in
             cell.nameLabel.text = product.name
-            if product.stock == 0 {
+            if product.stock == .zero {
                 cell.stockLabel.text = "품절"
                 cell.stockLabel.textColor = .systemYellow
             } else {
@@ -150,7 +169,8 @@ class ViewController: UIViewController {
     }
     
     func createListCellRegistration() -> UICollectionView.CellRegistration<ListCell, ProductData> {
-        let listCellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> { cell, indexPath, product in
+        let listCellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> {
+            cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
             content.text = product.name
             content.textProperties.font = .preferredFont(forTextStyle: .headline)

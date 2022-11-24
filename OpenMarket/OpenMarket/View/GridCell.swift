@@ -50,6 +50,10 @@ class GridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        imageView.image = nil
+    }
+    
     func configureLayout() {
         [imageView, nameLabel, priceLabel, stockLabel].forEach { view in
             totalStackView.addArrangedSubview(view)
