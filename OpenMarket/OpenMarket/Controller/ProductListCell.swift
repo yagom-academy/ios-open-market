@@ -64,26 +64,30 @@ extension ProductListCell {
         guard let productData = state.productData else { return }
         
         var content = defaultProductConfiguration().updated(for: state)
-        var priceText = "\(productData.currency) \(productData.price) "
-        var attributedStr = NSMutableAttributedString(string: priceText)
+        
         
         content.image = urlToImage(productData.thumbnail)
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = productData.name
         content.textProperties.font = .preferredFont(forTextStyle: .body)
-        
-        if productData.bargainPrice != productData.price {
-            priceText += "\(productData.currency) \(productData.bargainPrice)"
-            attributedStr = NSMutableAttributedString(string: priceText)
-            attributedStr.addAttributes([.strikethroughStyle: 1, .foregroundColor: UIColor.systemRed], range: (priceText as NSString).range(of: "\(productData.currency) \(productData.price)"))
-        }
-        content.secondaryAttributedText = attributedStr
+        content.secondaryAttributedText = configureAttributedString(price: productData.price, bargainPrice: productData.bargainPrice, currency: productData.currency)
         
         productListContentView.configuration = content
         
         productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
         productPriceLabel.textColor = .gray
         productPriceLabel.text = "잔여수량: \(productData.stock)"
+    }
+    
+    func configureAttributedString(price: Double, bargainPrice: Double, currency: String) -> NSAttributedString {
+        var priceText = "\(currency) \(price.decimalInt) "
+        var attributedStr = NSMutableAttributedString(string: priceText)
+        if bargainPrice != price {
+            priceText += "\(currency) \(bargainPrice.decimalInt)"
+            attributedStr = NSMutableAttributedString(string: priceText)
+            attributedStr.addAttributes([.strikethroughStyle: 1, .foregroundColor: UIColor.systemRed], range: (priceText as NSString).range(of: "\(currency) \(price.decimalInt)"))
+        }
+        return attributedStr
     }
     
     func urlToImage(_ urlString: String) -> UIImage? {
