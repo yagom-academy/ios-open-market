@@ -8,8 +8,7 @@
 import UIKit
 
 class MarketCollectionViewListCell: UICollectionViewListCell {
-    var pageData: Page?
-    lazy var pageListContentView = UIListContentView(configuration: configureListCell())
+    var pageListContentView = UIListContentView(configuration: .subtitleCell())
     
     var stockLabel: UILabel = {
         let label = UILabel()
@@ -39,86 +38,57 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         return stackView
     }()
     
-    override var configurationState: UICellConfigurationState {
-        var state = super.configurationState
-        state.pageData = self.pageData
-        return state
-    }
-    
-    func configureListCell() -> UIListContentConfiguration {
-        return .subtitleCell()
-    }
-    
-    override func updateConfiguration(using state: UICellConfigurationState) {
+    func configureCell(page: Page,
+                       collectionView: UICollectionView,
+                       indexPath: IndexPath,
+                       cell: MarketCollectionViewListCell) {
         setupViewsIfNeeded()
         
-        var content = configureListCell().updated(for: state)
+        var content = UIListContentConfiguration.subtitleCell()
         
-        if let thumbnail = state.pageData?.thumbnail {
-            let session = MarketURLSessionProvider()
-            session.fetchImage(url: thumbnail) { result in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        content.image = image
-                        self.pageListContentView.configuration = content
-                    }
-                case .failure(let error):
-                    print(error)
+        let session = MarketURLSessionProvider()
+        session.fetchImage(url: page.thumbnail) { result in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    content.image = image
+                    guard indexPath == collectionView.indexPath(for: cell) else { return }
+                    self.pageListContentView.configuration = content
                 }
+            case .failure(let error):
+                print(error)
             }
         }
-        
-        guard let pageData = state.pageData else { return }
         
         content.imageProperties.reservedLayoutSize = CGSize(width: 70, height: 70)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
         content.imageProperties.cornerRadius = 10
         content.image = UIImage(named: "loading")
-        content.text = pageData.name
+        content.text = page.name
         content.textProperties.font = .preferredFont(forTextStyle: .title3)
         content.textToSecondaryTextVerticalPadding = 5
         content.secondaryTextProperties.color = .systemGray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
         
-        if pageData.bargainPrice > 0  {
+        if page.bargainPrice > 0  {
             content.secondaryAttributedText = NSMutableAttributedString()
-                .strikethrough(string: "\(pageData.currency.rawValue) \(pageData.price)")
-                .normal(string: "\n\(pageData.currency.rawValue) \(pageData.bargainPrice)")
+                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
+                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
         } else {
             content.secondaryAttributedText = NSMutableAttributedString()
-                .normal(string: "\(pageData.currency.rawValue) \(pageData.price)")
+                .normal(string: "\(page.currency.rawValue) \(page.price)")
         }
         
-        if pageData.stock == 0 {
+        if page.stock == 0 {
             stockLabel.attributedText = NSMutableAttributedString()
                 .orangeColor(string: "품절")
         } else {
             stockLabel.attributedText = NSMutableAttributedString()
-                .normal(string: "잔여수량:\n\(pageData.stock)")
+                .normal(string: "잔여수량:\n\(page.stock)")
         }
         pageListContentView.configuration = content
     }
     
-    func update(with newPageData: Page) {
-        guard pageData != newPageData else { return }
-        pageData = newPageData
-        setNeedsUpdateConfiguration()
-    }
-}
-
-extension UIConfigurationStateCustomKey {
-    static let page = UIConfigurationStateCustomKey("page")
-}
-
-extension UIConfigurationState {
-    var pageData: Page? {
-        get { return self[.page] as? Page }
-        set { self[.page] = newValue }
-    }
-}
-
-extension MarketCollectionViewListCell {
     func setupViewsIfNeeded() {
         [stockLabel, disclosureIndicatorView].forEach {
             stockStackView.addArrangedSubview($0)

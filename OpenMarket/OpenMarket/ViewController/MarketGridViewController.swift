@@ -20,7 +20,7 @@ class MarketGridViewController: UIViewController {
     func fetchMarketData() {
         let marketURLSessionProvider = MarketURLSessionProvider()
         
-        guard let url = Request.productList(pageNumber: 1, itemsPerPage: 50).url else { return }
+        guard let url = Request.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
         
         marketURLSessionProvider.fetchData(url: url, type: Market.self) { result in
             switch result {
