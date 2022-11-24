@@ -137,6 +137,7 @@ class ViewController: UIViewController {
         let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> {
             cell, indexPath, product in
             cell.nameLabel.text = product.name
+            cell.imageView.image = UIImage(named: "loading")
             if product.stock == .zero {
                 cell.stockLabel.text = "품절"
                 cell.stockLabel.textColor = .systemYellow
@@ -173,6 +174,7 @@ class ViewController: UIViewController {
             cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
             content.text = product.name
+            content.image = UIImage(named: "loading")
             content.textProperties.font = .preferredFont(forTextStyle: .headline)
             content.textProperties.adjustsFontForContentSizeCategory = true
 
