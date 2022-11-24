@@ -19,6 +19,7 @@
 		B25ABE912925BA260032FF1D /* StubURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25ABE902925BA260032FF1D /* StubURLSessionTest.swift */; };
 		B2B9C2B5292CB391006E6869 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B9C2B4292CB391006E6869 /* ListCell.swift */; };
 		B2B9C2B7292E16DD006E6869 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B9C2B6292E16DD006E6869 /* GridCell.swift */; };
+		B2B9C2D9292F5F30006E6869 /* ProductRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B9C2D8292F5F30006E6869 /* ProductRegistrationViewController.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -54,6 +55,7 @@
 		B25ABE902925BA260032FF1D /* StubURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionTest.swift; sourceTree = "<group>"; };
 		B2B9C2B4292CB391006E6869 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		B2B9C2B6292E16DD006E6869 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
+		B2B9C2D8292F5F30006E6869 /* ProductRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProductRegistrationViewController.swift; path = OpenMarket/ProductRegistrationViewController.swift; sourceTree = SOURCE_ROOT; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 		0C2999DB2927578A00B63A3A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B2B9C2D8292F5F30006E6869 /* ProductRegistrationViewController.swift */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
@@ -318,6 +321,7 @@
 				DF6EE0652925255400CB57F3 /* DummyData.swift in Sources */,
 				B2B9C2B5292CB391006E6869 /* ListCell.swift in Sources */,
 				0C892A4529252EA300109AB8 /* StubURLSession.swift in Sources */,
+				B2B9C2D9292F5F30006E6869 /* ProductRegistrationViewController.swift in Sources */,
 				DFDCA5282923BC6A00655B05 /* ImageData.swift in Sources */,
 				B2B9C2B7292E16DD006E6869 /* GridCell.swift in Sources */,
 			);

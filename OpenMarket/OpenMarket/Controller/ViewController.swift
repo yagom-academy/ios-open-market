@@ -29,8 +29,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        segmentControl.addTarget(self, action: #selector(switchView(_:)), for: .valueChanged)
-        navigationItem.titleView = segmentControl
+
+        configureNavigationBar()
         configureProductCollectionView(type: .list)
         networkManager.loadData(of: .productList(pageNumber: 1, itemsPerPage: 100), dataType: ProductListData.self) { result in
             switch result {
@@ -43,6 +43,14 @@ class ViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    func configureNavigationBar() {
+        segmentControl.addTarget(self, action: #selector(switchView(_:)), for: .valueChanged)
+        navigationItem.titleView = segmentControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(showProductRegistrationView))
     }
     
     func configureLayout(of type: ViewType) -> UICollectionViewCompositionalLayout {
@@ -105,18 +113,6 @@ class ViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(product)
         dataSource.apply(snapshot, animatingDifferences: false)
-    }
-    
-    @objc func switchView(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            productCollectionView.removeFromSuperview()
-            configureProductCollectionView(type: .list)
-            configureDataSource()
-        } else {
-            productCollectionView.removeFromSuperview()
-            configureProductCollectionView(type: .grid)
-            configureDataSource()
-        }
     }
     
     func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
@@ -194,5 +190,25 @@ class ViewController: UIViewController {
         }
         
         return listCellRegistration
+    }
+}
+
+extension ViewController {
+    @objc func showProductRegistrationView() {
+        let viewController = ProductRegistrationViewController()
+        
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    @objc func switchView(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            productCollectionView.removeFromSuperview()
+            configureProductCollectionView(type: .list)
+            configureDataSource()
+        } else {
+            productCollectionView.removeFromSuperview()
+            configureProductCollectionView(type: .grid)
+            configureDataSource()
+        }
     }
 }
