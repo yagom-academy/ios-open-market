@@ -146,7 +146,8 @@ extension ProductsViewController: UICollectionViewDataSource {
         
         cell.configureLayout(index: segmentIndex)
         cell.titleLabel.text = product.name
-        cell.subTitleLabel.text = "\(product.currency.rawValue) \(product.price)"
+//        cell.subTitleLabel.text = "\(product.currency.rawValue) \(product.price)"
+        cell.setPriceLabel(currency: product.currency.rawValue, price: product.price, bargainPrice: product.bargainPrice, segment: 1)
         cell.setStockLabelValue(stock: product.stock)
         
         guard let url = URL(string: product.thumbnail) else { return cell }

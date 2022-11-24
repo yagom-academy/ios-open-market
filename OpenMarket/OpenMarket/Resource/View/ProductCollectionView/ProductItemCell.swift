@@ -31,14 +31,18 @@ class ProductItemCell: UICollectionViewCell {
     
     let subTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
+        label.textColor = .secondaryLabel
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        
         return label
     }()
     
     let stockLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
+        label.textAlignment = .right
         label.textColor = .label
+        label.numberOfLines = 2
+        label.font = .preferredFont(forTextStyle: .subheadline)
         
         return label
     }()
@@ -90,7 +94,7 @@ class ProductItemCell: UICollectionViewCell {
                 titleLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
                 titleLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 8),
                 titleLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
-                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: stockLabel.leadingAnchor)
+                titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: stockLabel.leadingAnchor, constant: -8)
             ])
         }
         
@@ -104,11 +108,11 @@ class ProductItemCell: UICollectionViewCell {
         
         func setupLayoutOfStockLabel() {
             NSLayoutConstraint.activate([
-                stockLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+                stockLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor),
                 stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                stockLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                stockLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
-                stockLabel.widthAnchor.constraint(greaterThanOrEqualTo: contentView.widthAnchor, multiplier: 0.3)
+                stockLabel.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+                stockLabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+                stockLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25)
             ])
         }
         
@@ -158,8 +162,6 @@ class ProductItemCell: UICollectionViewCell {
         setupLayoutOfTitleLabel()
         setupLayoutOfSubTitleLabel()
         setupLayoutOfStockLabel()
-        
-        
     }
     
     private func configureGridItemStyle() {
@@ -169,11 +171,11 @@ class ProductItemCell: UICollectionViewCell {
         
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         
-        subTitleLabel.textColor = .lightGray
-        subTitleLabel.font = .preferredFont(forTextStyle: .caption1)
+        subTitleLabel.textColor = .secondaryLabel
+        subTitleLabel.font = .preferredFont(forTextStyle: .subheadline)
         
-        stockLabel.textColor = .lightGray
-        stockLabel.font = .preferredFont(forTextStyle: .caption1)
+        stockLabel.textColor = .secondaryLabel
+        stockLabel.font = .preferredFont(forTextStyle: .subheadline)
         
         thumbnailImageView.layer.cornerRadius = 20
         thumbnailImageView.clipsToBounds = true
@@ -191,7 +193,27 @@ class ProductItemCell: UICollectionViewCell {
             stockLabel.textColor = .systemYellow
         } else {
             stockLabel.text = "잔여수량 : \(stock)"
-            stockLabel.textColor = .lightGray
+            stockLabel.textColor = .secondaryLabel
         }
     }
+    
+    func setPriceLabel(currency: String, price: Double, bargainPrice: Double, segment: Int) {
+         if bargainPrice != price {
+             let text = "\(currency) \(price) \(currency) \(bargainPrice)"
+             let textCancleLine = "\(currency) \(price)"
+             
+             let font = UIFont.preferredFont(forTextStyle: .subheadline)
+             
+             let attributeString = NSMutableAttributedString(string: text)
+             attributeString.addAttribute(.strikethroughColor, value: UIColor.red, range: (text as NSString).range(of: textCancleLine))
+             attributeString.addAttribute(.strikethroughStyle, value: 1, range: (text as NSString).range(of: textCancleLine))
+             attributeString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: textCancleLine))
+             attributeString.addAttribute(.font, value: font, range: (text as NSString).range(of: textCancleLine))
+             subTitleLabel.attributedText = attributeString
+         } else {
+             subTitleLabel.textColor = .secondaryLabel
+             
+             subTitleLabel.text = "\(currency) \(price)"
+         }
+     }
 }
