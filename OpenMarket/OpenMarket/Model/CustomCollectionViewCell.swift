@@ -33,16 +33,24 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        let imageCacheKey = NSString(string: imageSource)
+        let fileManager = FileManager()
         
-        if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
-            self.thumbnail.image = imageCacheValue
+        guard let imageUrl = URL(string: imageSource) else { return }
+        guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory,
+                                                             .userDomainMask,
+                                                             true).first else { return }
+        var filePath = URL(fileURLWithPath: path)
+        filePath.appendPathComponent(imageUrl.lastPathComponent)
+        
+        if fileManager.fileExists(atPath: filePath.path) != true {
+            guard let imageData = try? Data(contentsOf: imageUrl) else { return }
+            self.thumbnail.image = UIImage(data: imageData)
+            fileManager.createFile(atPath: filePath.path,
+                                   contents: imageData,
+                                   attributes: nil)
         } else {
-            guard let imageUrl = URL(string: imageSource),
-                  let imageData = try? Data(contentsOf: imageUrl),
-                  let image = UIImage(data: imageData) else { return }
-            self.thumbnail.image = image
-            ImageCacheManager.shared.setObject(image, forKey: imageCacheKey)
+            guard let loadedImageData = try? Data(contentsOf: filePath) else { return }
+            self.thumbnail.image = UIImage(data: loadedImageData)
         }
         
         guard let priceText = numberFormatter.string(for: price),
