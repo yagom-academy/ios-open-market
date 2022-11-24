@@ -12,7 +12,7 @@ struct ImageData: Decodable, Hashable {
     let thumbnailUrl: String
     let issuedDate: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case identifier = "id"
         case url
         case thumbnailUrl

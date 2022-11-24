@@ -17,7 +17,7 @@ struct ProductListData: Decodable {
     let hasNext: Bool
     let hasPrevious: Bool
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case pageNumber = "pageNo"
         case itemsPerPage = "itemsPerPage"
         case totalCount = "totalCount"

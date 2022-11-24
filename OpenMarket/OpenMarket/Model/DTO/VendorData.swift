@@ -10,7 +10,7 @@ struct VendorData: Decodable, Hashable {
     let identifier: Int
     let name: String
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case identifier = "id"
         case name
     }

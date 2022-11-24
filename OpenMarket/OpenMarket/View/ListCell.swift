@@ -6,8 +6,8 @@
 
 import UIKit
 
-class ListCell: UICollectionViewListCell {
-    var listContentView: UIListContentView = UIListContentView(configuration: .cell())
+final class ListCell: UICollectionViewListCell {
+    private(set) var listContentView: UIListContentView = UIListContentView(configuration: .cell())
     let stockLabel: UILabel = UILabel()
     
     override init(frame: CGRect) {

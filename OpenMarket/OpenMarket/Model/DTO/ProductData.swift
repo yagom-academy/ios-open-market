@@ -23,7 +23,7 @@ struct ProductData: Decodable, Hashable {
     let images: [ImageData]?
     let vendors: VendorData?
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case identifier = "id"
         case vendorIdentifier = "vendorId"
         case name

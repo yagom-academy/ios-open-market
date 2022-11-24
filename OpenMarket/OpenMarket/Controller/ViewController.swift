@@ -6,22 +6,22 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    enum Section {
+final class ViewController: UIViewController {
+    private enum Section {
         case main
     }
     
-    enum ViewType: Int {
+    private enum ViewType: Int {
         case list
         case grid
     }
     
-    let networkManager: NetworkManager = .init()
-    var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
-    var productCollectionView: UICollectionView!
-    var productList: ProductListData?
+    private let networkManager: NetworkManager = .init()
+    private var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
+    private var productCollectionView: UICollectionView!
+    private var productList: ProductListData?
     
-    let segmentControl: UISegmentedControl = {
+    private let segmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["list", "grid"])
         segment.selectedSegmentIndex = 0
         return segment
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         loadProductData(pageNumber: 1, itemsPerPage: 100)
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         segmentControl.addTarget(self, action: #selector(switchView(_:)), for: .valueChanged)
         navigationItem.titleView = segmentControl
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
@@ -43,7 +43,7 @@ class ViewController: UIViewController {
                                                             action: #selector(showProductRegistrationView))
     }
     
-    func loadProductData(pageNumber: Int, itemsPerPage: Int) {
+    private func loadProductData(pageNumber: Int, itemsPerPage: Int) {
         networkManager.loadData(of: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage),
                                 dataType: ProductListData.self) { result in
             switch result {
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func configureLayout(of type: ViewType) -> UICollectionViewCompositionalLayout {
+    private func configureLayout(of type: ViewType) -> UICollectionViewCompositionalLayout {
         switch type {
         case .list:
             let configure = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func configureProductCollectionView(type: ViewType) {
+    private func configureProductCollectionView(type: ViewType) {
         let layout = configureLayout(of: type)
         productCollectionView = UICollectionView(frame: .zero,
                                                  collectionViewLayout: layout)
@@ -106,7 +106,7 @@ class ViewController: UIViewController {
         ])
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         let listCellRegistration = createListCellRegistration()
         let gridCellRegistration = createGridCellRegistration()
         
@@ -133,7 +133,7 @@ class ViewController: UIViewController {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
+    private func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
         let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> {
             cell, indexPath, product in
             cell.nameLabel.text = product.name
@@ -169,7 +169,7 @@ class ViewController: UIViewController {
         return gridCellRegistration
     }
     
-    func createListCellRegistration() -> UICollectionView.CellRegistration<ListCell, ProductData> {
+    private func createListCellRegistration() -> UICollectionView.CellRegistration<ListCell, ProductData> {
         let listCellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> {
             cell, indexPath, product in
             var content = UIListContentConfiguration.cell()
@@ -216,13 +216,13 @@ class ViewController: UIViewController {
 }
 
 extension ViewController {
-    @objc func showProductRegistrationView() {
+    @objc private func showProductRegistrationView() {
         let viewController = ProductRegistrationViewController()
         
         present(viewController, animated: true, completion: nil)
     }
     
-    @objc func switchView(_ sender: UISegmentedControl) {
+    @objc private func switchView(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             productCollectionView.removeFromSuperview()
             configureProductCollectionView(type: .list)

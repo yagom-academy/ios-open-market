@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ProductRegistrationViewController: UIViewController {
+final class ProductRegistrationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -6,7 +6,7 @@
 
 import UIKit
 
-class GridCell: UICollectionViewCell {
+final class GridCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ class GridCell: UICollectionViewCell {
         imageView.image = nil
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         [imageView, nameLabel, priceLabel, stockLabel].forEach { view in
             totalStackView.addArrangedSubview(view)
         }
