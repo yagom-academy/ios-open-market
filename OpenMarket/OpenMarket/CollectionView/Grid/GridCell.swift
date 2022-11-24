@@ -2,25 +2,12 @@
 //  ListCell.swift
 //  OpenMarket
 //
-//  Created by Jpush, Aaron on 2022/11/22.
+//  Created by Jpush, Aaron on 2022/11/24.
 //
 
 import UIKit
 
-protocol OpenMarketCell {
-    var image: UIImageView { get }
-    var productName: UILabel { get }
-    var price: UILabel { get }
-    var bargainPrice: UILabel { get }
-    var stock: UILabel { get }
-    var nameStockStackView: UIStackView { get }
-    var priceStackView: UIStackView { get }
-    var labelStackView: UIStackView { get }
-    var containerStackView: UIStackView { get }
-}
-
-class ListCell: UICollectionViewListCell, OpenMarketCell {
-    
+class GridCell: UICollectionViewCell, OpenMarketCell {
     let image: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,12 +27,7 @@ class ListCell: UICollectionViewListCell, OpenMarketCell {
     let price: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        
-        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: " ")
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
-        label.attributedText = attributeString
         label.textColor = .systemRed
-        
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -64,7 +46,7 @@ class ListCell: UICollectionViewListCell, OpenMarketCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
-        //        label.numberOfLines = 0
+        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
         return label
@@ -73,7 +55,7 @@ class ListCell: UICollectionViewListCell, OpenMarketCell {
     let nameStockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
         stackView.distribution = .fill
         return stackView
     }()
@@ -81,7 +63,7 @@ class ListCell: UICollectionViewListCell, OpenMarketCell {
     let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
         stackView.spacing = 8
         return stackView
     }()
@@ -97,7 +79,7 @@ class ListCell: UICollectionViewListCell, OpenMarketCell {
     let containerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
+        stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 8
         return stackView
@@ -105,8 +87,6 @@ class ListCell: UICollectionViewListCell, OpenMarketCell {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
-        self.accessories = [.disclosureIndicator()]
         
         self.contentView.addSubview(containerStackView)
         
@@ -139,32 +119,17 @@ class ListCell: UICollectionViewListCell, OpenMarketCell {
         let priceHugging = bargainPrice.contentHuggingPriority(for: .horizontal) + 1
         price.setContentHuggingPriority(priceHugging, for: .horizontal)
         
-        let stockResistance = productName.contentCompressionResistancePriority(for: .horizontal) - 1
-        stock.setContentCompressionResistancePriority(stockResistance, for: .horizontal)
-        
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            image.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/6),
-            image.heightAnchor.constraint(equalTo: image.widthAnchor),
-            
-            contentView.widthAnchor.constraint(greaterThanOrEqualTo: image.heightAnchor)
+//            contentView.widthAnchor.constraint(greaterThanOrEqualTo: image.widthAnchor)
         ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension ListCell {
-    private func createStrikethroughAttribute() -> NSMutableAttributedString {
-        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: " ")
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
-        
-        return attributeString
     }
 }

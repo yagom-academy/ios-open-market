@@ -7,6 +7,10 @@
 import UIKit
 
 class ViewController: UIViewController {
+    enum Section {
+        case main
+    }
+    
     let formatter: NumberFormatter = {
         let formmater = NumberFormatter()
         formmater.numberStyle = .decimal
@@ -19,37 +23,71 @@ class ViewController: UIViewController {
 
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = .systemBlue
+        for index in 0..<segmentedControl.numberOfSegments {
+            segmentedControl.setWidth(view.frame.width / 5, forSegmentAt: index)
+        }
+        
         return segmentedControl
     }()
     
-    enum Section {
-        case main
-    }
+    var listCellRegistration: UICollectionView.CellRegistration<ListCell, Product>!
+    var gridCellRegistration: UICollectionView.CellRegistration<GridCell, Product>!
     
     var collectionView: UICollectionView!
-    var datasource: UICollectionViewDiffableDataSource<Section, Product>!
-        
+    var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         createCollectionView()
+        setCellRegistration()
         configure()
+        print("1")
+
         
-        let cellRegistration = UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, itemIdentifier in
-            DispatchQueue.global().async {
+        
+        let manager = NetworkManager()
+        
+        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { [self] list in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(list.products)
+            self.gridDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
                 
+                return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: itemIdentifier)
+            })
+            
+            self.listDataSource = UICollectionViewDiffableDataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+                return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: itemIdentifier)
+            })
+            
+            print("2")
+            
+            self.gridDataSource.apply(snapshot)
+            self.listDataSource.apply(snapshot)
+        }
+        
+        setupNavBar()
+    }
+    
+    private func setCellRegistration() {
+        self.listCellRegistration = UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, itemIdentifier in
+            DispatchQueue.global().async {
                 if itemIdentifier.hashValue != indexPath.hashValue {
-                    let picture = UIImage(data: try! Data(contentsOf: URL(string: itemIdentifier.thumbnail)!))
-                     
+                    guard let url = URL(string: itemIdentifier.thumbnail),
+                          let data = try? Data(contentsOf: url)  else {
+                        return
+                    }
+                    
+                    let picture = UIImage(data: data)
+                    
                     DispatchQueue.main.async {
                         cell.productName.text = "\(itemIdentifier.name)"
                         cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
                         cell.image.image = picture
                         
                         if itemIdentifier.bargainPrice != itemIdentifier.price {
-                            let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: " ")
-                            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
-                            cell.price.attributedText = attributeString
                             cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
                         } else {
                             cell.price.isHidden = true
@@ -61,48 +99,91 @@ class ViewController: UIViewController {
                         } else {
                             cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
                         }
-                        
                     }
                 }
             }
         }
         
-        datasource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-        })
-        
-        let manager = NetworkManager()
-        
-        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { list in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(list.products)
-            self.datasource.apply(snapshot, animatingDifferences: true)
+        self.gridCellRegistration = UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, itemIdentifier in
+            DispatchQueue.global().async {
+                if itemIdentifier.hashValue != indexPath.hashValue {
+                    guard let url = URL(string: itemIdentifier.thumbnail),
+                          let data = try? Data(contentsOf: url)  else {
+                        return
+                    }
+                    
+                    let picture = UIImage(data: data)
+                    
+                    DispatchQueue.main.async {
+                        cell.productName.text = "\(itemIdentifier.name)"
+                        cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
+                        cell.image.image = picture
+                        
+                        if itemIdentifier.bargainPrice != itemIdentifier.price {
+                            cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
+                        } else {
+                            cell.price.isHidden = true
+                        }
+                        
+                        if itemIdentifier.stock == 0 {
+                            cell.stock.text = "품절"
+                            cell.stock.textColor = .systemYellow
+                        } else {
+                            cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
+                        }
+                    }
+                }
+            }
         }
+        print("?")
+    }
+//
+//    private func cellRegistration(_ cell: OpenMarketCell, _ indexPath: IndexPath, _ itemIdentifier: Product) {
+//
+//    }
+    
+    private func createListLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(10))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        setupNavBar()
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(10))
+        let group = NSCollecgtionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }
+    
+    private func createGridLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(10))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(10))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
     
     private func createCollectionView() {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int,
-            layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection in
-            let contentSize = layoutEnvironment.container.effectiveContentSize
-            let columns = 1
-            let spacing = CGFloat(10)
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .estimated(100))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .estimated(100))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
-            group.interItemSpacing = .fixed(spacing)
-            
-            let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = spacing
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-            
-            return section
-        }
+        let layout = createListLayout()
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -126,11 +207,27 @@ class ViewController: UIViewController {
         self.navigationItem.titleView = navSegmentedView
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tappedAddButton))
     }
-    
+}
+
+// MARK: - Obj-C Method
+extension ViewController {
     @objc func tappedAddButton() {
         
     }
     
     @objc func segmentChanged(_ sender: UISegmentedControl) {
+        switch self.navSegmentedView.selectedSegmentIndex {
+        case 0:
+            print("sss")
+            let layout = createListLayout()
+            collectionView.dataSource = listDataSource
+            collectionView.setCollectionViewLayout(layout, animated: true)
+        case 1:
+            let layout = createGridLayout()
+            collectionView.dataSource = gridDataSource
+            collectionView.setCollectionViewLayout(layout, animated: true)
+        default:
+            return
+        }
     }
 }
