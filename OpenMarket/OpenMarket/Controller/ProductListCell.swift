@@ -64,6 +64,7 @@ extension ProductListCell {
         
         var content = defaultProductConfiguration().updated(for: state)
         
+        content.imageProperties.reservedLayoutSize = CGSize(width: 50, height: 50)
         content.image = UIImage(systemName: "timelapse")
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         content.text = productData.name
