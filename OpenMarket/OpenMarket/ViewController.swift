@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     
     lazy var navSegmentedView: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
-
+        
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = .systemBlue
         for index in 0..<segmentedControl.numberOfSegments {
@@ -30,12 +30,16 @@ class ViewController: UIViewController {
         return segmentedControl
     }()
     
-    var listCellRegistration: UICollectionView.CellRegistration<ListCell, Product>!
-    var gridCellRegistration: UICollectionView.CellRegistration<GridCell, Product>!
+    var listCellRegistration: UICollectionView.CellRegistration<ListCell, Product>?
+    var gridCellRegistration: UICollectionView.CellRegistration<GridCell, Product>?
     
     var collectionView: UICollectionView!
-    var listDataSource: UICollectionViewDiffableDataSource<Section, Product>!
-    var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    var listDataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,26 +48,24 @@ class ViewController: UIViewController {
         setCellRegistration()
         configure()
         print("1")
-
+        
         let manager = NetworkManager()
         
-        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { [self] list in
+        collectionView.dataSource = listDataSource
+        
+        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { list in
+            
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
             snapshot.appendItems(list.products)
-            self.gridDataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-                
-                return collectionView.dequeueConfiguredReusableCell(using: self.gridCellRegistration, for: indexPath, item: itemIdentifier)
-            })
-            
-            self.listDataSource = UICollectionViewDiffableDataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-                return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration, for: indexPath, item: itemIdentifier)
-            })
             
             print("2")
-            
-            self.gridDataSource.apply(snapshot)
-            self.listDataSource.apply(snapshot)
+            //            DispatchQueue.main.async {
+            print(snapshot.numberOfItems)
+            self.gridDataSource?.apply(snapshot, animatingDifferences: false)
+            print(snapshot.numberOfItems)
+            self.listDataSource?.apply(snapshot, animatingDifferences: false)
+            //            }
         }
         
         setupNavBar()
@@ -74,43 +76,17 @@ class ViewController: UIViewController {
             self.cellRegistration(cell, indexPath, itemIdentifier)
         }
         
+        self.listDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            
+            guard let listCellRegis = self.listCellRegistration else {
+                return UICollectionViewCell()
+            }
+            
+            return collectionView.dequeueConfiguredReusableCell(using: listCellRegis, for: indexPath, item: itemIdentifier)
+        })
+        
         self.gridCellRegistration = UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, itemIdentifier in
             DispatchQueue.global().async {
-                if itemIdentifier.hashValue != indexPath.hashValue {
-                    guard let url = URL(string: itemIdentifier.thumbnail),
-                          let data = try? Data(contentsOf: url)  else {
-                        return
-                    }
-                    
-                    let picture = UIImage(data: data)
-                    
-                    DispatchQueue.main.async {
-                        cell.productName.text = "\(itemIdentifier.name)"
-                        cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
-                        cell.image.image = picture
-                        
-                        if itemIdentifier.bargainPrice != itemIdentifier.price {
-                            cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
-                        } else {
-                            cell.price.isHidden = true
-                        }
-                        
-                        if itemIdentifier.stock == 0 {
-                            cell.stock.text = "품절"
-                            cell.stock.textColor = .systemYellow
-                        } else {
-                            cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
-                        }
-                    }
-                }
-            }
-        }
-        print("?")
-    }
-
-    private func cellRegistration(_ cell: ListCell, _ indexPath: IndexPath, _ itemIdentifier: Product) {
-        DispatchQueue.global().async {
-            if itemIdentifier.hashValue != indexPath.hashValue {
                 guard let url = URL(string: itemIdentifier.thumbnail),
                       let data = try? Data(contentsOf: url)  else {
                     return
@@ -135,6 +111,48 @@ class ViewController: UIViewController {
                     } else {
                         cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
                     }
+                }
+            }
+        }
+        
+        self.gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            
+            
+            guard let gridCellRegis = self.gridCellRegistration else {
+                return UICollectionViewCell()
+            }
+            
+            return collectionView.dequeueConfiguredReusableCell(using: gridCellRegis, for: indexPath, item: itemIdentifier)
+        })
+        
+        print("?")
+    }
+    
+    private func cellRegistration(_ cell: ListCell, _ indexPath: IndexPath, _ itemIdentifier: Product) {
+        DispatchQueue.global().async {
+            guard let url = URL(string: itemIdentifier.thumbnail),
+                  let data = try? Data(contentsOf: url)  else {
+                return
+            }
+            
+            let picture = UIImage(data: data)
+            
+            DispatchQueue.main.async {
+                cell.productName.text = "\(itemIdentifier.name)"
+                cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
+                cell.image.image = picture
+                
+                if itemIdentifier.bargainPrice != itemIdentifier.price {
+                    cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
+                } else {
+                    cell.price.isHidden = true
+                }
+                
+                if itemIdentifier.stock == 0 {
+                    cell.stock.text = "품절"
+                    cell.stock.textColor = .systemYellow
+                } else {
+                    cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
                 }
             }
         }
@@ -184,7 +202,8 @@ class ViewController: UIViewController {
         let layout = createListLayout()
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
     }
     
@@ -218,12 +237,20 @@ extension ViewController {
         case 0:
             print("sss")
             let layout = createListLayout()
-            collectionView.dataSource = listDataSource
+            guard let listDataSource = listDataSource else {
+                return
+            }
             collectionView.setCollectionViewLayout(layout, animated: true)
+            collectionView.dataSource = listDataSource
+            
+            
         case 1:
             let layout = createGridLayout()
-            collectionView.dataSource = gridDataSource
+            guard let gridDataSource = gridDataSource else {
+                return
+            }
             collectionView.setCollectionViewLayout(layout, animated: true)
+            collectionView.dataSource = gridDataSource
         default:
             return
         }
