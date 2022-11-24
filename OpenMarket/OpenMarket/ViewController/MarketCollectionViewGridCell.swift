@@ -74,18 +74,25 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
     func configureCell(page: Page) {
         createCellLayout()
         
+        let thumbnailUrl = page.thumbnail
+        let cacheKey = NSString(string: thumbnailUrl)
         let session = MarketURLSessionProvider()
-        session.fetchImage(url: page.thumbnail) { result in
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    self.productImage.image = image
+        if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
+            productImage.image = cachedImage
+        } else {
+            session.fetchImage(url: thumbnailUrl) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
+                        self.productImage.image = image
+                    }
+                case .failure(let error):
+                    print(error)
                 }
-            case .failure(let error):
-                print(error)
             }
         }
-
+        
         if page.bargainPrice > 0  {
             priceLabel.attributedText = NSMutableAttributedString()
                 .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
@@ -94,7 +101,7 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
             priceLabel.attributedText = NSMutableAttributedString()
                 .normal(string: "\(page.currency.rawValue) \(page.price)")
         }
-    
+        
         nameLabel.text = page.name
         
         if page.stock == 0 {

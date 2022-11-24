@@ -45,25 +45,14 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         setupViewsIfNeeded()
         
         var content = UIListContentConfiguration.subtitleCell()
-        
+        let thumbnailUrl = page.thumbnail
+        let cacheKey = NSString(string: thumbnailUrl)
         let session = MarketURLSessionProvider()
-        session.fetchImage(url: page.thumbnail) { result in
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    content.image = image
-                    guard indexPath == collectionView.indexPath(for: cell) else { return }
-                    self.pageListContentView.configuration = content
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
         
+        content.image = UIImage(named: "loading")
         content.imageProperties.reservedLayoutSize = CGSize(width: 70, height: 70)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
         content.imageProperties.cornerRadius = 10
-        content.image = UIImage(named: "loading")
         content.text = page.name
         content.textProperties.font = .preferredFont(forTextStyle: .title3)
         content.textToSecondaryTextVerticalPadding = 5
@@ -85,6 +74,24 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         } else {
             stockLabel.attributedText = NSMutableAttributedString()
                 .normal(string: "잔여수량:\n\(page.stock)")
+        }
+        
+        if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
+            content.image = cachedImage
+        } else {
+            session.fetchImage(url: thumbnailUrl) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
+                        content.image = image
+                        guard indexPath == collectionView.indexPath(for: cell) else { return }
+                        self.pageListContentView.configuration = content
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
         }
         pageListContentView.configuration = content
     }
