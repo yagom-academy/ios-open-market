@@ -2,7 +2,7 @@
 //  ImageCacheManager.swift
 //  OpenMarket
 //
-//  Created by parkhyo on 2022/11/23.
+//  Created by Kyo, LJ on 2022/11/23.
 //
 
 import UIKit

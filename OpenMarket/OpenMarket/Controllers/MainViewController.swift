@@ -35,7 +35,9 @@ final class MainViewController: UIViewController {
     }
     
     @objc func addProduct() {
-        
+        let addViewController = AddViewController()
+        addViewController.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(addViewController, animated: true)
     }
     
     private func setupSegmentedControlTarget() {
