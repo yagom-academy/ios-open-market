@@ -147,7 +147,7 @@ extension ProductsViewController: UICollectionViewDataSource {
         cell.configureLayout(index: segmentIndex)
         cell.titleLabel.text = product.name
         cell.subTitleLabel.text = "\(product.currency.rawValue) \(product.price)"
-        cell.stockLabel.text = "잔여수량 : \(product.stock)"
+        cell.setStockLabelValue(stock: product.stock)
         
         guard let url = URL(string: product.thumbnail) else { return cell }
         let imageTask = URLSession.createTask(url: url) { image in

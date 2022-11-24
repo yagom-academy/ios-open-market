@@ -184,4 +184,14 @@ class ProductItemCell: UICollectionViewCell {
         layer.borderWidth = 2
         layer.borderColor = UIColor.gray.cgColor
     }
+    
+    func setStockLabelValue(stock: Int) {
+        if stock <= 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
+        } else {
+            stockLabel.text = "잔여수량 : \(stock)"
+            stockLabel.textColor = .lightGray
+        }
+    }
 }
