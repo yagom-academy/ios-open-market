@@ -2,7 +2,7 @@
 //  CustomCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by 서현웅 on 2022/11/22.
+//  Created by Mangdi, Woong on 2022/11/15.
 //
 
 import UIKit
@@ -35,33 +35,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        let fileManager = FileManager()
-        
-        guard let imageUrl = URL(string: imageSource) else { return }
-        guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory,
-                                                             .userDomainMask,
-                                                             true).first else { return }
-        var filePath = URL(fileURLWithPath: path)
-        filePath.appendPathComponent(imageUrl.lastPathComponent)
-        
-        if fileManager.fileExists(atPath: filePath.path) != true {
-            networkCommunication.requestImageData(url: imageUrl) { data in
-                switch data {
-                case .success(let data):
-                    DispatchQueue.main.async {
-                        self.thumbnail.image = UIImage(data: data)
-                    }
-                    fileManager.createFile(atPath: filePath.path,
-                                           contents: data,
-                                           attributes: nil)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        } else {
-            guard let loadedImageData = try? Data(contentsOf: filePath) else { return }
-            self.thumbnail.image = UIImage(data: loadedImageData)
-        }
+        configureImage(imageSource: imageSource)
         
         guard let priceText = numberFormatter.string(for: price),
               let bargainPriceText = numberFormatter.string(for: bargainPrice) else { return }
@@ -89,6 +63,36 @@ class CustomCollectionViewCell: UICollectionViewCell {
         } else {
             self.stock.text = "품절"
             self.stock.textColor = UIColor.systemYellow
+        }
+    }
+    
+    func configureImage(imageSource: String) {
+        let fileManager = FileManager()
+        
+        guard let imageUrl = URL(string: imageSource) else { return }
+        guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory,
+                                                             .userDomainMask,
+                                                             true).first else { return }
+        var filePath = URL(fileURLWithPath: path)
+        filePath.appendPathComponent(imageUrl.lastPathComponent)
+        
+        if fileManager.fileExists(atPath: filePath.path) != true {
+            networkCommunication.requestImageData(url: imageUrl) { data in
+                switch data {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self.thumbnail.image = UIImage(data: data)
+                    }
+                    fileManager.createFile(atPath: filePath.path,
+                                           contents: data,
+                                           attributes: nil)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        } else {
+            guard let loadedImageData = try? Data(contentsOf: filePath) else { return }
+            self.thumbnail.image = UIImage(data: loadedImageData)
         }
     }
 }

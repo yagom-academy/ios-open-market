@@ -2,7 +2,8 @@
 //  OpenMarket - ViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
-// 
+//  Created by Mangdi, Woong on 2022/11/15.
+//
 
 import UIKit
 
@@ -127,7 +128,6 @@ class ViewController: UIViewController {
         collectionView.collectionViewLayout = compositionalLayout
         self.collectionView.reloadData()
     }
-    
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -156,10 +156,7 @@ extension ViewController: UICollectionViewDataSource {
                                  stock: self.searchListPages[indexPath.item].stock)
         return customCell
     }
-    
-    
 }
 
 extension ViewController: UICollectionViewDelegate {
-    
 }

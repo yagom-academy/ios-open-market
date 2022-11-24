@@ -2,10 +2,8 @@
 //  APIError.swift.swift
 //  OpenMarket
 //
-//  Created by Mangdi on 2022/11/19.
+//  Created by Mangdi, Woong on 2022/11/15.
 //
-
-import Foundation
 
 enum APIError: String, Error {
     case wrongUrlError = "잘못된 URL 오류"
