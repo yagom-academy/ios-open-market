@@ -53,8 +53,8 @@ class ProductsViewController: UIViewController {
         )
 
         collectionView.register(
-            ProductListCell.self,
-            forCellWithReuseIdentifier: ProductListCell.identifier
+            ProductItemCell.self,
+            forCellWithReuseIdentifier: ProductItemCell.identifier
         )
         
         return collectionView
@@ -135,16 +135,16 @@ extension ProductsViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let products = productsData?.products else { return UICollectionViewCell() }
-        
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ProductListCell.identifier,
+            withReuseIdentifier: ProductItemCell.identifier,
             for: indexPath
-        ) as? ProductListCell else {
+        ) as? ProductItemCell else {
             return UICollectionViewCell()
         }
+        
         let product = products[indexPath.row]
         
-        cell.configureLayout()
+        cell.configureLayout(index: segmentIndex)
         cell.titleLabel.text = product.name
         cell.subTitleLabel.text = "\(product.currency.rawValue) \(product.price)"
         cell.stockLabel.text = "잔여수량 : \(product.stock)"
