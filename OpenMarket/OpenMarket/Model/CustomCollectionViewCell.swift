@@ -33,20 +33,27 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        guard let imageUrl = URL(string: imageSource),
-              let imageData = try? Data(contentsOf: imageUrl),
-              let image = UIImage(data: imageData),
-              let priceText = numberFormatter.string(for: price),
+        let imageCacheKey = NSString(string: imageSource)
+        
+        if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
+            self.thumbnail.image = imageCacheValue
+        } else {
+            guard let imageUrl = URL(string: imageSource),
+                  let imageData = try? Data(contentsOf: imageUrl),
+                  let image = UIImage(data: imageData) else { return }
+            self.thumbnail.image = image
+            ImageCacheManager.shared.setObject(image, forKey: imageCacheKey)
+        }
+        
+        guard let priceText = numberFormatter.string(for: price),
               let bargainPriceText = numberFormatter.string(for: bargainPrice) else { return }
         
-        self.thumbnail.image = image
         self.name.text = name
         self.price.text = "\(currency) \(priceText)"
         
         if bargainPrice <= 0 || price <= bargainPrice {
             self.bargainPrice.text = ""
             self.price.textColor = UIColor.systemGray
-            print(self.price.attributedText)
         } else {
             guard let priceText = self.price.text else { return }
             let attributeText = NSMutableAttributedString(string: priceText)
