@@ -10,7 +10,7 @@ import UIKit
 class MarketCollectionViewListCell: UICollectionViewListCell {
     var pageData: Page?
     lazy var pageListContentView = UIListContentView(configuration: configureListCell())
-
+    
     var stockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
@@ -30,7 +30,7 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
         
         return imageView
     }()
-
+    
     var stockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillProportionally
@@ -68,12 +68,13 @@ class MarketCollectionViewListCell: UICollectionViewListCell {
                 }
             }
         }
-
+        
         guard let pageData = state.pageData else { return }
         
         content.imageProperties.reservedLayoutSize = CGSize(width: 70, height: 70)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
         content.imageProperties.cornerRadius = 10
+        content.image = UIImage(named: "loading")
         content.text = pageData.name
         content.textProperties.font = .preferredFont(forTextStyle: .title3)
         content.textToSecondaryTextVerticalPadding = 5
