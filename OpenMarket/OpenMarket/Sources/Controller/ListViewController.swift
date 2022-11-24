@@ -57,27 +57,40 @@ class ListViewController: UIViewController {
             configureCollectionView()
             listCollectionViewFlowLayout()
             collectionView.reloadData()
+            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                        at: .top,
+                                        animated: false)
         case 1:
             cellIdentifier = "GridCollectionViewCell"
             configureCollectionView()
             gridCollectionViewFlowLayout()
             collectionView.reloadData()
+            collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                        at: .top,
+                                        animated: false)
         default:
-            debugPrint("2")
+            collectionView.reloadData()
         }
     }
     
     func gridCollectionViewFlowLayout() {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        let oneProductWidth: CGFloat = UIScreen.main.bounds.width / 2
-        flowLayout.itemSize = CGSize(width: oneProductWidth, height: 250)
+        let oneProductWidth: CGFloat = UIScreen.main.bounds.width / 2.2
+        let oneProductHeight: CGFloat = UIScreen.main.bounds.height / 3
+        
+        flowLayout.itemSize = CGSize(width: oneProductWidth, height: oneProductHeight)
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
         collectionView.collectionViewLayout = flowLayout
     }
     
     func listCollectionViewFlowLayout() {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let oneProductWidth: CGFloat = UIScreen.main.bounds.width
-        flowLayout.itemSize = CGSize(width: oneProductWidth, height: 60)
+        let oneProductHeight: CGFloat = UIScreen.main.bounds.height / 12
+        
+        flowLayout.itemSize = CGSize(width: oneProductWidth, height: oneProductHeight)
+        
         collectionView.collectionViewLayout = flowLayout
     }
 }
@@ -119,6 +132,7 @@ extension ListViewController: UICollectionViewDataSource {
         
         return cell
     }
+    
     func makeGridCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GridCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! GridCollectionViewCell
         

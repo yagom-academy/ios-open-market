@@ -11,7 +11,6 @@ class GridCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
-    @IBOutlet weak var bargainPriceLabel: UILabel!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -21,22 +20,23 @@ class GridCollectionViewCell: UICollectionViewCell {
         priceLabel.attributedText = nil
         priceLabel.text = ""
         priceLabel.textColor = .gray
-        bargainPriceLabel.text = ""
         stockLabel.text = ""
         stockLabel.textColor = .gray
     }
     
     func configurationCell(item: Product) {
-        productNameLabel.text = item.name
-        priceLabel.text = "\(item.currency.symbol) \(item.price)"
-
-        if item.price != item.bargainPrice {
-            priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            priceLabel.textColor = .red
-            
-            bargainPriceLabel.text = "\(item.currency.symbol) \(item.bargainPrice)"
-        }
+        let priceText: String = item.currency.symbol + " " + String(item.price)
+        let bargainText: String = item.currency.symbol + " " + String(item.bargainPrice)
         
+        productNameLabel.text = item.name
+        
+        if priceText == bargainText {
+            priceLabel.text = priceText
+        } else {
+            priceLabel.text = priceText + "\n" + bargainText
+            priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceText.count, color: .red)
+        }
+
         if item.stock > 0 {
             stockLabel.text = "잔여수량 : \(item.stock)"
         } else {

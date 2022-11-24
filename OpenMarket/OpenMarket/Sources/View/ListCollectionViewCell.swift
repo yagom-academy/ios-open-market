@@ -31,8 +31,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         priceLabel.text = "\(item.currency.symbol) \(item.price)"
 
         if item.price != item.bargainPrice {
-            priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            priceLabel.textColor = .red
+            priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceLabel.text!.count, color: .red)
             
             bargainPriceLabel.text = "\(item.currency.symbol) \(item.bargainPrice)"
         }

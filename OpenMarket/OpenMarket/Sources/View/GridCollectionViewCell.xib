@@ -21,33 +21,26 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Lm-b6-7To">
                         <rect key="frame" x="0.0" y="0.0" width="170" height="250"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MackBook Pro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Wn-ws-BTs">
+                                <rect key="frame" x="5" y="130" width="160" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="잔여수량 : 150" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSi-F4-JZy">
+                                <rect key="frame" x="5" y="224" width="160" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="UUv-eB-rjF">
-                                <rect key="frame" x="0.0" y="-1" width="170" height="125.66666666666667"/>
+                                <rect key="frame" x="22.666666666666671" y="-1" width="125.00000000000001" height="125.66666666666667"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="UUv-eB-rjF" secondAttribute="height" multiplier="1:1" id="0fZ-k4-00f"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MackBook Pro" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Wn-ws-BTs">
-                                <rect key="frame" x="30" y="132" width="111" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XK-Fu-OSW">
-                                <rect key="frame" x="66" y="161" width="39" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="잔여수량 : 150" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSi-F4-JZy">
-                                <rect key="frame" x="35" y="213" width="100" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BargainPrice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wy1-Oj-b6x">
-                                <rect key="frame" x="44" y="184" width="97" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Price" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XK-Fu-OSW">
+                                <rect key="frame" x="0.0" y="156" width="170" height="63"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -55,10 +48,19 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="UUv-eB-rjF" firstAttribute="height" secondItem="3Lm-b6-7To" secondAttribute="height" multiplier="0.5" id="3eu-7L-8JE"/>
-                            <constraint firstAttribute="trailing" secondItem="UUv-eB-rjF" secondAttribute="trailing" id="KgF-wN-gMh"/>
-                            <constraint firstItem="UUv-eB-rjF" firstAttribute="leading" secondItem="3Lm-b6-7To" secondAttribute="leading" id="QEt-7e-4bL"/>
-                            <constraint firstItem="UUv-eB-rjF" firstAttribute="top" secondItem="3Lm-b6-7To" secondAttribute="top" id="Xff-Eg-NWM"/>
+                            <constraint firstItem="5XK-Fu-OSW" firstAttribute="leading" secondItem="3Lm-b6-7To" secondAttribute="leading" id="8vG-YL-MXw"/>
+                            <constraint firstItem="eSi-F4-JZy" firstAttribute="top" secondItem="5XK-Fu-OSW" secondAttribute="bottom" constant="5" id="B2Q-N1-XXW"/>
+                            <constraint firstItem="7Wn-ws-BTs" firstAttribute="leading" secondItem="3Lm-b6-7To" secondAttribute="leading" constant="5" id="Bbm-79-7eB"/>
+                            <constraint firstItem="UUv-eB-rjF" firstAttribute="height" secondItem="3Lm-b6-7To" secondAttribute="height" multiplier="0.5" id="Dhk-cP-FVZ"/>
+                            <constraint firstItem="7Wn-ws-BTs" firstAttribute="top" secondItem="UUv-eB-rjF" secondAttribute="bottom" constant="5" id="Lb7-Zl-z9O"/>
+                            <constraint firstItem="UUv-eB-rjF" firstAttribute="centerX" secondItem="3Lm-b6-7To" secondAttribute="centerX" id="UN3-iy-nbW"/>
+                            <constraint firstItem="UUv-eB-rjF" firstAttribute="top" secondItem="3Lm-b6-7To" secondAttribute="top" id="Uff-hN-dbw"/>
+                            <constraint firstItem="5XK-Fu-OSW" firstAttribute="top" secondItem="7Wn-ws-BTs" secondAttribute="bottom" constant="5" id="ap9-Y5-kJh"/>
+                            <constraint firstAttribute="trailing" secondItem="5XK-Fu-OSW" secondAttribute="trailing" id="dAD-Ww-iUE"/>
+                            <constraint firstAttribute="trailing" secondItem="eSi-F4-JZy" secondAttribute="trailing" constant="5" id="fJg-nw-jqs"/>
+                            <constraint firstAttribute="bottom" secondItem="eSi-F4-JZy" secondAttribute="bottom" constant="5" id="fja-3h-rSc"/>
+                            <constraint firstItem="eSi-F4-JZy" firstAttribute="leading" secondItem="3Lm-b6-7To" secondAttribute="leading" constant="5" id="snd-Ta-CBI"/>
+                            <constraint firstAttribute="trailing" secondItem="7Wn-ws-BTs" secondAttribute="trailing" constant="5" id="u84-IC-fHh"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -72,7 +74,6 @@
             </constraints>
             <size key="customSize" width="100" height="84"/>
             <connections>
-                <outlet property="bargainPriceLabel" destination="Wy1-Oj-b6x" id="e0n-Cc-9zO"/>
                 <outlet property="priceLabel" destination="5XK-Fu-OSW" id="hx3-Ka-biW"/>
                 <outlet property="productImage" destination="UUv-eB-rjF" id="Zf7-3B-Bb7"/>
                 <outlet property="productNameLabel" destination="7Wn-ws-BTs" id="xWX-Ne-rDU"/>
