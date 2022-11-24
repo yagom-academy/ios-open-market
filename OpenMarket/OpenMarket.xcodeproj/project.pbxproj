@@ -48,6 +48,7 @@
 		EB9E8891292DB92900FC1EF5 /* OpenMarketCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E8890292DB92900FC1EF5 /* OpenMarketCollectionView.swift */; };
 		EB9E8893292DC31A00FC1EF5 /* CollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E8892292DC31A00FC1EF5 /* CollectionViewLayout.swift */; };
 		EB9E8895292DC32D00FC1EF5 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E8894292DC32C00FC1EF5 /* Section.swift */; };
+		EB9E889C292F0D6900FC1EF5 /* DecimalConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */; };
 		EBD82F4829249C9A0061732A /* OpenMarketURLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD82F4729249C9A0061732A /* OpenMarketURLSessionProtocol.swift */; };
 		EBD82F4A2924BC330061732A /* OpenMarketHealthFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD82F492924BC330061732A /* OpenMarketHealthFetchable.swift */; };
 		EBD82F4C2924BC570061732A /* OpenMarketPageFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD82F4B2924BC570061732A /* OpenMarketPageFetchable.swift */; };
@@ -112,6 +113,7 @@
 		EB9E8890292DB92900FC1EF5 /* OpenMarketCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketCollectionView.swift; sourceTree = "<group>"; };
 		EB9E8892292DC31A00FC1EF5 /* CollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewLayout.swift; sourceTree = "<group>"; };
 		EB9E8894292DC32C00FC1EF5 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalConverter.swift; sourceTree = "<group>"; };
 		EBD82F4729249C9A0061732A /* OpenMarketURLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketURLSessionProtocol.swift; sourceTree = "<group>"; };
 		EBD82F492924BC330061732A /* OpenMarketHealthFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketHealthFetchable.swift; sourceTree = "<group>"; };
 		EBD82F4B2924BC570061732A /* OpenMarketPageFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketPageFetchable.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				D3750161292C645E005031AC /* PositiveNumber.swift */,
 				D3424059292DFE2E002B6F38 /* ImageParser.swift */,
 				D3424057292DFB67002B6F38 /* ImageCache.swift */,
+				EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				D342405A292DFE2E002B6F38 /* ImageParser.swift in Sources */,
 				EB52338C29235D0F00FF1573 /* Vendor.swift in Sources */,
 				D3750164292CC1E8005031AC /* ProductGridCell.swift in Sources */,
+				EB9E889C292F0D6900FC1EF5 /* DecimalConverter.swift in Sources */,
 				EB9E888F292DB59900FC1EF5 /* LayoutMaker.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				EBD82F4E2924BC710061732A /* OpenMarketProductFetchable.swift in Sources */,

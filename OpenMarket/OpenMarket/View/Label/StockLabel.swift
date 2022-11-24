@@ -39,8 +39,10 @@ final class StockLabel: UILabel {
         
         if stock == 0 {
             stockInformation = "품절"
-        } else {
+        } else if let stock: String = DecimalConverter.convert(stock) {
             stockInformation = "잔여수량 : \(stock)"
+        } else {
+            stockInformation = "Invalid Stock"
         }
         text = stockInformation
         

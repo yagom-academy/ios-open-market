@@ -42,18 +42,24 @@ final class PriceLabel: UILabel {
     }
     
     private func setText(style: CollectionViewLayout) {
-        let separator: String = style == .list ? " " : "\n"
-        let priceText: String = "\(currency.rawValue) \(price)"
-        let bargainPriceText: String = "\(currency.rawValue) \(bargainPrice)"
-        
-        if price == bargainPrice {
-            text = "\(bargainPriceText)"
-            setAttributedString(bargainPriceTextLength: bargainPriceText.count)
-        } else {
-            text = "\(priceText)\(separator)\(bargainPriceText)"
-            setAttributedString(priceTextLength: priceText.count,
-                                bargainPriceTextLength: bargainPriceText.count)
-        }
+        if let price: String = DecimalConverter.convert(price),
+           let bargainPrice: String = DecimalConverter.convert(bargainPrice) {
+               let separator: String = style == .list ? " " : "\n"
+               let priceText: String = "\(currency.rawValue) \(price)"
+               let bargainPriceText: String = "\(currency.rawValue) \(bargainPrice)"
+               
+               if price == bargainPrice {
+                   text = "\(bargainPriceText)"
+                   setAttributedString(bargainPriceTextLength: bargainPriceText.count)
+               } else {
+                   text = "\(priceText)\(separator)\(bargainPriceText)"
+                   setAttributedString(priceTextLength: priceText.count,
+                                       bargainPriceTextLength: bargainPriceText.count)
+               }
+           } else {
+               let invalidPrice: String = "Invalid Price"
+               text = invalidPrice
+           }
     }
     
     private func setAttributedString(priceTextLength: Int = 0,
