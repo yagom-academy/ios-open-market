@@ -71,7 +71,10 @@ class MarketGridViewController: UIViewController {
     func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<MarketCollectionViewGridCell, Page> {
             cell, indexPath, page in
-            cell.configureCell(page: page)
+            cell.configureCell(page: page,
+                               collectionView: self.gridCollectionView,
+                               indexPath: indexPath,
+                               cell: cell)
         }
         dataSource = UICollectionViewDiffableDataSource(collectionView: gridCollectionView,
                                                         cellProvider: {

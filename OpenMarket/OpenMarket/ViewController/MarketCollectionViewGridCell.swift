@@ -71,27 +71,17 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(page: Page) {
+    func configureCell(page: Page,
+                       collectionView: UICollectionView,
+                       indexPath: IndexPath,
+                       cell: UICollectionViewCell) {
         createCellLayout()
         
         let thumbnailUrl = page.thumbnail
         let cacheKey = NSString(string: thumbnailUrl)
         let session = MarketURLSessionProvider()
-        if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
-            productImage.image = cachedImage
-        } else {
-            session.fetchImage(url: thumbnailUrl) { result in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
-                        self.productImage.image = image
-                    }
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
+        
+        productImage.image = UIImage(named: "loading")
         
         if page.bargainPrice > 0  {
             priceLabel.attributedText = NSMutableAttributedString()
@@ -111,15 +101,22 @@ class MarketCollectionViewGridCell: UICollectionViewCell {
             stockLabel.attributedText = NSMutableAttributedString()
                 .normal(string: "잔여수량: \(page.stock)")
         }
-    }
-    
-    func urlToImage(_ urlString: String) -> UIImage? {
-        guard let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url),
-              let image = UIImage(data: data) else {
-            return nil
-        }
         
-        return image
+        if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
+            productImage.image = cachedImage
+        } else {
+            session.fetchImage(url: thumbnailUrl) { result in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
+                        guard indexPath == collectionView.indexPath(for: cell) else { return }
+                        self.productImage.image = image
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
 }
