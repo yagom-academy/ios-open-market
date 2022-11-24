@@ -13,7 +13,7 @@
 		3C093205292BE7EC00F96865 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C093204292BE7EC00F96865 /* UILabel+Extension.swift */; };
 		3C16B8DC292DF8E10049AF55 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */; };
 		3C16B8E2292F0E110049AF55 /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8E1292F0E110049AF55 /* AddProductView.swift */; };
-		3C16B8E4292F0E360049AF55 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8E3292F0E360049AF55 /* DetailViewController.swift */; };
+		3C16B8E4292F0E360049AF55 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8E3292F0E360049AF55 /* AddViewController.swift */; };
 		3C84EB282924BE5200E667A3 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB272924BE5200E667A3 /* URLSessionProtocol.swift */; };
 		3C84EB2A2924BE9000E667A3 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB292924BE9000E667A3 /* URLSessionDataTaskProtocol.swift */; };
 		3C84EB2C2924C72500E667A3 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB2B2924C72500E667A3 /* MockURLSession.swift */; };
@@ -61,7 +61,7 @@
 		3C093204292BE7EC00F96865 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		3C16B8E1292F0E110049AF55 /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
-		3C16B8E3292F0E360049AF55 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		3C16B8E3292F0E360049AF55 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		3C84EB272924BE5200E667A3 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		3C84EB292924BE9000E667A3 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		3C84EB2B2924C72500E667A3 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
-				3C16B8E3292F0E360049AF55 /* DetailViewController.swift */,
+				3C16B8E3292F0E360049AF55 /* AddViewController.swift */,
 				3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */,
 			);
 			path = Controllers;
@@ -404,7 +404,7 @@
 			files = (
 				3C84EB2C2924C72500E667A3 /* MockURLSession.swift in Sources */,
 				90D3319C29223667001C2B46 /* NetworkError.swift in Sources */,
-				3C16B8E4292F0E360049AF55 /* DetailViewController.swift in Sources */,
+				3C16B8E4292F0E360049AF55 /* AddViewController.swift in Sources */,
 				3C093200292B657400F96865 /* GridCollectionViewCell.swift in Sources */,
 				90D331AF29237BC6001C2B46 /* NetworkRequest.swift in Sources */,
 				3CA35E2A2923BC1F00C47E06 /* URLComponents+Extension.swift in Sources */,

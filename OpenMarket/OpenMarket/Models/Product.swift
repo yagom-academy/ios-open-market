@@ -41,15 +41,24 @@ struct Product: Decodable {
         if stock == Int.zero {
             return String(format: "품절")
         } else {
+            if stock > 1000 {
+                return String(format: "잔여수량 : %@", String(self.stock/1000))
+            }
             return String(format: "잔여수량 : %@", String(self.stock))
         }
     }
     
     var currencyPrice: String {
+        if price > 1000 {
+            return String(format: "%@ %@K", currency.rawValue, String(self.price/1000))
+        }
         return String(format: "%@ %@", currency.rawValue, String(self.price))
     }
     
     var currencyBargainPrice: String {
+        if bargainPrice > 1000 {
+            return String(format: "%@ %@K", currency.rawValue, String(self.bargainPrice/1000))
+        }
         return String(format: "%@ %@", currency.rawValue, String(self.bargainPrice))
     }
 }

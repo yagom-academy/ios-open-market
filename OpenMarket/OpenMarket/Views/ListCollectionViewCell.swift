@@ -79,7 +79,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    lazy var ProductLabelStackView: UIStackView = {
+    lazy var productLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productNameLabel,
                                                        priceLabelStackView])
         stackView.axis = .vertical
@@ -90,9 +90,9 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    lazy var ProductStackView: UIStackView = {
+    lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productImageView,
-                                                      ProductLabelStackView])
+                                                      productLabelStackView])
         stackView.axis = .horizontal
         stackView.spacing = 5
         stackView.alignment = .center
@@ -142,7 +142,7 @@ extension ListCollectionViewCell {
     
     private func setupView() {
         contentView.addSubview(indicatorView)
-        contentView.addSubview(ProductStackView)
+        contentView.addSubview(productStackView)
         contentView.addSubview(productStockLabel)
         contentView.addSubview(nextButton)
         
@@ -181,16 +181,21 @@ extension ListCollectionViewCell {
         NSLayoutConstraint.activate([
             productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25),
             
-            ProductStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            ProductStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            ProductStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            productStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            productStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             
             productStockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            productStockLabel.leadingAnchor.constraint(equalTo: ProductStackView.trailingAnchor, constant: 40),
+            productStockLabel.leadingAnchor.constraint(equalTo: productStackView.trailingAnchor),
+            
+            
             nextButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             nextButton.leadingAnchor.constraint(equalTo: productStockLabel.trailingAnchor, constant: 5),
             nextButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
+
+        productStockLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        productLabelStackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
     func setupIndicatorViewConstraints() {
