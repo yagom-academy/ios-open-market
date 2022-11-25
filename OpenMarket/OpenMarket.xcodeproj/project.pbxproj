@@ -12,6 +12,7 @@
 		1A576AC0292CB2AE004C9CCF /* GridUICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */; };
 		1A576AC4292DC3C6004C9CCF /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AC3292DC3C6004C9CCF /* ImageCacheManager.swift */; };
 		1A576AC6292DD6B7004C9CCF /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AC5292DD6B7004C9CCF /* Double+Extension.swift */; };
+		1A576AC829305540004C9CCF /* LoadingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AC729305540004C9CCF /* LoadingController.swift */; };
 		1A8CA6CD29234C0000B53E75 /* NetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */; };
 		1A8CA6DD2924739A00B53E75 /* MockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6DC2924739A00B53E75 /* MockTests.swift */; };
 		1AEA46AF2923261A00213A87 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA46AE2923261A00213A87 /* Item.swift */; };
@@ -20,7 +21,6 @@
 		543645F1292353DA002B84B4 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543645F0292353DA002B84B4 /* NetworkError.swift */; };
 		5463B7D4292C669D00F2AA58 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5463B7D3292C669D00F2AA58 /* String+Extension.swift */; };
 		54941D17292CB8FC003D63DA /* ListUICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54941D16292CB8FC003D63DA /* ListUICollectionView.swift */; };
-		54A4017D292CC607009B98C7 /* LoadingSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A4017C292CC607009B98C7 /* LoadingSpinner.swift */; };
 		54BE7770292477E000BCD075 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6E4292473E600B53E75 /* URLSessionProtocol.swift */; };
 		54BE7771292477E000BCD075 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8CA6E62924752D00B53E75 /* StubURLSession.swift */; };
 		54D0B0E9292328940061BB15 /* ItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0B0E8292328940061BB15 /* ItemList.swift */; };
@@ -61,6 +61,7 @@
 		1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridUICollectionView.swift; sourceTree = "<group>"; };
 		1A576AC3292DC3C6004C9CCF /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		1A576AC5292DD6B7004C9CCF /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		1A576AC729305540004C9CCF /* LoadingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingController.swift; sourceTree = "<group>"; };
 		1A8CA6CA29234C0000B53E75 /* NetworkingTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkingTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8CA6CC29234C0000B53E75 /* NetworkingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingTests.swift; sourceTree = "<group>"; };
 		1A8CA6DA2924739A00B53E75 /* MockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,7 +75,6 @@
 		543645F0292353DA002B84B4 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		5463B7D3292C669D00F2AA58 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		54941D16292CB8FC003D63DA /* ListUICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUICollectionView.swift; sourceTree = "<group>"; };
-		54A4017C292CC607009B98C7 /* LoadingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinner.swift; sourceTree = "<group>"; };
 		54D0B0E8292328940061BB15 /* ItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemList.swift; sourceTree = "<group>"; };
 		54D0B0EA29232A110061BB15 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
-				54A4017C292CC607009B98C7 /* LoadingSpinner.swift */,
+				1A576AC729305540004C9CCF /* LoadingController.swift */,
 				1A576AC3292DC3C6004C9CCF /* ImageCacheManager.swift */,
 			);
 			path = Controllers;
@@ -432,6 +432,7 @@
 				1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */,
 				1A576AC6292DD6B7004C9CCF /* Double+Extension.swift in Sources */,
 				54BE7770292477E000BCD075 /* URLSessionProtocol.swift in Sources */,
+				1A576AC829305540004C9CCF /* LoadingController.swift in Sources */,
 				54D0B0EB29232A110061BB15 /* Currency.swift in Sources */,
 				1A576AC4292DC3C6004C9CCF /* ImageCacheManager.swift in Sources */,
 				54BE7771292477E000BCD075 /* StubURLSession.swift in Sources */,
@@ -442,7 +443,6 @@
 				1AEA46BE2923318400213A87 /* NetworkManager.swift in Sources */,
 				54941D17292CB8FC003D63DA /* ListUICollectionView.swift in Sources */,
 				5463B7D4292C669D00F2AA58 /* String+Extension.swift in Sources */,
-				54A4017D292CC607009B98C7 /* LoadingSpinner.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,

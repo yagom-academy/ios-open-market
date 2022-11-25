@@ -1,5 +1,5 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - MainViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
@@ -10,7 +10,7 @@ enum Section: Hashable {
     case main
 }
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     private let segmentedControl: UISegmentedControl = {
         let item = ["LIST", "GRID"]
         let segmentedControl = UISegmentedControl(items: item)
@@ -26,7 +26,7 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingSpinner.showLoading()
+        LoadingController.showLoading()
         configureNavigation()
         configureFetchItemList()
     }
@@ -36,10 +36,10 @@ final class ViewController: UIViewController {
     }
     
     @objc private func changeItemView(_ sender: UISegmentedControl) {
-        checkCollectionType(segmentIndex: sender.selectedSegmentIndex)
+        showCollectionType(segmentIndex: sender.selectedSegmentIndex)
     }
     
-    private func checkCollectionType(segmentIndex: Int) {
+    private func showCollectionType(segmentIndex: Int) {
         if segmentIndex == 0 {
             self.gridCollectionView.isHidden = true
             self.listCollectionView.isHidden = false
@@ -62,7 +62,7 @@ final class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.itemList = success.pages
                     self.configureCollectionView()
-                    LoadingSpinner.hideLoading()
+                    LoadingController.hideLoading()
                     self.gridCollectionView.configureGridDataSource(self.itemList)
                     self.listCollectionView.configureListDataSource(self.itemList)
                 }
@@ -73,10 +73,10 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension MainViewController {
     private func createListLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: config)
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: configuration)
     }
     
     private func createGridLayout() -> UICollectionViewLayout {
@@ -104,7 +104,7 @@ extension ViewController {
         self.view.addSubview(self.listCollectionView)
         self.view.addSubview(self.gridCollectionView)
         
-        checkCollectionType(segmentIndex: self.segmentedControl.selectedSegmentIndex)
+        showCollectionType(segmentIndex: self.segmentedControl.selectedSegmentIndex)
 
         self.listCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
