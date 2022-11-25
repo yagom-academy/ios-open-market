@@ -81,7 +81,15 @@ final class MainViewController: UIViewController {
         
         self.collectionView.register(collectionViewCellNib,
                                      forCellWithReuseIdentifier: cellIdentifier)
-        listCollectionViewFlowLayout()
+        
+        switch cellIdentifier {
+        case cellType.list.identifier:
+            listCollectionViewFlowLayout()
+        case cellType.grid.identifier:
+            gridCollectionViewFlowLayout()
+        default:
+            break
+        }
     }
     
     @IBAction func tapViewModeController(_ sender: UISegmentedControl) {
@@ -90,7 +98,6 @@ final class MainViewController: UIViewController {
             cellIdentifier = cellType.list.identifier
             collectionView.reloadData()
             configureCollectionView()
-            listCollectionViewFlowLayout()
             collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
                                         at: .top,
                                         animated: false)
@@ -98,7 +105,6 @@ final class MainViewController: UIViewController {
             cellIdentifier = cellType.grid.identifier
             collectionView.reloadData()
             configureCollectionView()
-            gridCollectionViewFlowLayout()
             collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
                                         at: .top,
                                         animated: false)
