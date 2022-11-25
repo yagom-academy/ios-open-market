@@ -5,11 +5,6 @@
 import Foundation
 
 struct Vendor: Decodable, Identifiable {
-    let ID: Int
+    let id: Int
     let name: String
-    
-    enum CodingKeys: String, CodingKey {
-        case ID = "id"
-        case name
-    }
 }

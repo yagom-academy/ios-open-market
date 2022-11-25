@@ -5,7 +5,7 @@
 import Foundation
 
 struct Product: Decodable, Identifiable, Equatable {
-    let ID: Int
+    let id: Int
     let vendorID: Int
     let name: String
     let productDescription: String
@@ -19,7 +19,7 @@ struct Product: Decodable, Identifiable, Equatable {
     let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
-        case ID = "id"
+        case id
         case vendorID = "vendor_id"
         case name
         case productDescription = "description"

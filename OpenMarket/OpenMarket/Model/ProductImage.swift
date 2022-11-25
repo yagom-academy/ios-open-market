@@ -5,13 +5,13 @@
 import Foundation
 
 struct ProductImage: Decodable, Identifiable {
-    let ID: Int
+    let id: Int
     let URL: String
     let thumbnailURL: String
     let issuedAt: String
     
     enum CodingKeys: String, CodingKey {
-        case ID = "id"
+        case id
         case URL = "url"
         case thumbnailURL = "thumbnail_url"
         case issuedAt = "issued_at"

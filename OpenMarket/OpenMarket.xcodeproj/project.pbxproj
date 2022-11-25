@@ -13,7 +13,7 @@
 		0422A9492923A9A500BD97CD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422A9482923A9A500BD97CD /* NetworkManager.swift */; };
 		04CA5F7029271595002FA01F /* Endpointable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA5F6F29271595002FA01F /* Endpointable.swift */; };
 		04CA5F7229271A5B002FA01F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA5F7129271A5B002FA01F /* NetworkError.swift */; };
-		04CA5F78292A62D9002FA01F /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA5F77292A62D9002FA01F /* Identifiable.swift */; };
+		04E6438C2930E133001CAEF2 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */; };
 		5717E8DF292B8655009B7C58 /* URLSessionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5717E8DE292B8655009B7C58 /* URLSessionable.swift */; };
 		5717E8E2292B86C5009B7C58 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5717E8E1292B86C5009B7C58 /* StubURLSession.swift */; };
 		5717E8E6292B871B009B7C58 /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5717E8E5292B871B009B7C58 /* URLSession+.swift */; };
@@ -24,7 +24,7 @@
 		57F1C46A29271869006240E2 /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1C46929271869006240E2 /* OpenMarketAPI.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
-		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
+		C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */; };
 		C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10025BEF61C00C9924E /* Main.storyboard */; };
 		C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
@@ -47,7 +47,7 @@
 		0422A9482923A9A500BD97CD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		04CA5F6F29271595002FA01F /* Endpointable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpointable.swift; sourceTree = "<group>"; };
 		04CA5F7129271A5B002FA01F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		04CA5F77292A62D9002FA01F /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		5717E8DE292B8655009B7C58 /* URLSessionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionable.swift; sourceTree = "<group>"; };
 		5717E8E1292B86C5009B7C58 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		5717E8E5292B871B009B7C58 /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C70FB0FE25BEF61C00C9924E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketViewController.swift; sourceTree = "<group>"; };
 		C70FB10125BEF61C00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C70FB10325BEF61D00C9924E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C70FB10625BEF61D00C9924E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -93,7 +93,6 @@
 				57F1C3502923837A006240E2 /* Currency.swift */,
 				0422A943292386B200BD97CD /* ProductImage.swift */,
 				0422A945292387DD00BD97CD /* Vendor.swift */,
-				04CA5F77292A62D9002FA01F /* Identifiable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -109,6 +108,14 @@
 				5717E8DE292B8655009B7C58 /* URLSessionable.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		04E6438A2930DF92001CAEF2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		5717E8E0292B86B7009B7C58 /* TestDouble */ = {
@@ -158,11 +165,12 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				04E6438A2930DF92001CAEF2 /* View */,
 				0422A9472923959F00BD97CD /* Network */,
 				0422A93E29237D6600BD97CD /* Model */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
@@ -284,13 +292,13 @@
 				04CA5F7029271595002FA01F /* Endpointable.swift in Sources */,
 				0422A9492923A9A500BD97CD /* NetworkManager.swift in Sources */,
 				57F1C3512923837A006240E2 /* Currency.swift in Sources */,
-				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
+				C70FB0FF25BEF61C00C9924E /* OpenMarketViewController.swift in Sources */,
 				57F1C46A29271869006240E2 /* OpenMarketAPI.swift in Sources */,
 				0422A94229237ED200BD97CD /* ProductList.swift in Sources */,
 				5717E8DF292B8655009B7C58 /* URLSessionable.swift in Sources */,
-				04CA5F78292A62D9002FA01F /* Identifiable.swift in Sources */,
 				57F1C34F2923825E006240E2 /* Product.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				04E6438C2930E133001CAEF2 /* GridCollectionViewCell.swift in Sources */,
 				0422A946292387DD00BD97CD /* Vendor.swift in Sources */,
 				04CA5F7229271A5B002FA01F /* NetworkError.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
