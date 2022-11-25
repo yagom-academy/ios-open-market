@@ -104,7 +104,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
     func uploadImage(_ image: UIImage) {
         productImageView.image = image
         indicatorView.stopAnimating()
-        indicatorView.isHidden = true
     }
     
     func setupData(with productData: Product) {
