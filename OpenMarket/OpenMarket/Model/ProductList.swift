@@ -63,22 +63,18 @@ struct Product: Decodable, Hashable {
         return attributedStr
     }
     
-    func fetchImage(completion: @escaping (Result<UIImage, Error>) -> Void) {
-        DispatchQueue.global(qos: .background).async {
-            guard let url = URL(string: self.thumbnail) else { return }
-            URLSession.shared.dataTask(with: url) { (data, result, error) in
-                
-                if let error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                if let data = data, let image = UIImage(data: data) {
-                    completion(.success(image))
-                }
-                
-            }.resume()
+    var attributedLineBreakedPriceString: NSAttributedString {
+        var priceText = "\(self.currency) \(self.price.decimalInt)\n"
+        var attributedStr = NSMutableAttributedString(string: priceText)
+        if self.bargainPrice != self.price {
+            priceText += "\(self.currency) \(self.bargainPrice.decimalInt)"
+            attributedStr = NSMutableAttributedString(string: priceText)
+            attributedStr.addAttributes([.strikethroughStyle: 1,
+                                         .foregroundColor: UIColor.systemRed],
+                                        range: (priceText as NSString).range(of: "\(self.currency) \(self.price.decimalInt)"))
         }
+        
+        return attributedStr
     }
 }
 

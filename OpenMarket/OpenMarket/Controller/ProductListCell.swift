@@ -88,7 +88,8 @@ extension ProductListCell {
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .footnote)
         content.secondaryAttributedText = productData.attributedPriceString
         
-        productData.fetchImage { result in
+        let networkProvider = NetworkAPIProvider()
+        networkProvider.fetchImage(url: productData.thumbnail) { result in
             switch result {
             case .failure(_):
                 DispatchQueue.main.async { [weak self] in

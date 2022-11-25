@@ -1,6 +1,6 @@
 //  Created by Aejong, Tottale on 2022/11/17.
 
-import Foundation
+import UIKit
 
 final class NetworkAPIProvider {
     
@@ -22,6 +22,24 @@ final class NetworkAPIProvider {
                 }
                 completion(.success(productList))
             }
+        }
+    }
+    
+    func fetchImage(url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            guard let url = URL(string: url) else { return }
+            URLSession.shared.dataTask(with: url) { (data, result, error) in
+                
+                if let error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data, let image = UIImage(data: data) {
+                    completion(.success(image))
+                }
+                
+            }.resume()
         }
     }
 }
