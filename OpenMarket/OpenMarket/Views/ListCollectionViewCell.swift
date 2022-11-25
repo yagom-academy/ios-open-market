@@ -21,6 +21,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     let indicatorView: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()

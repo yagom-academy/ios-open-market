@@ -21,6 +21,28 @@ final class MainViewController: UIViewController {
         mainView.collectionView.dataSource = self
     }
     
+    private func setupData() {
+        guard let productListURL = NetworkRequest.productList.requestURL else {
+            return
+        }
+        
+        networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
+            switch result {
+            case .success(let data):
+                self.productData = data.pages
+                
+                DispatchQueue.main.async {
+                    self.mainView.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error.description)
+            }
+        }
+    }
+}
+
+// MARK: - UI & UIAction
+extension MainViewController {
     private func setupNavigationBar() {
         self.navigationItem.titleView = mainView.segmentedControl
         let appearance = UINavigationBarAppearance()
@@ -51,25 +73,6 @@ final class MainViewController: UIViewController {
             mainView.layoutStatus = .list
         } else {
             mainView.layoutStatus = .grid
-        }
-    }
-    
-    private func setupData() {
-        guard let productListURL = NetworkRequest.productList.requestURL else {
-            return
-        }
-        
-        networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
-            switch result {
-            case .success(let data):
-                self.productData = data.pages
-                
-                DispatchQueue.main.async {
-                    self.mainView.collectionView.reloadData()
-                }
-            case .failure(let error):
-                print(error.description)
-            }
         }
     }
 }
