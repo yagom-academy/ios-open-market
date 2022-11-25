@@ -309,6 +309,14 @@ segment가 바뀔 때마다, 기존에 있던 view는 `removeFromSuperview`를 �
 [바로가기](https://github.com/jonghancha/ios-open-market/wiki/1.-STEP-1-%EC%97%90%EC%84%9C-%EB%B0%B0%EC%9A%B4-%EC%A0%90)
 
 ## 📖 참고 링크
+- [URLSession.dataTask를 통해 데이터 Fetching하기(공식문서)](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [URLComponents로 URL구성하기](https://kirkim.github.io/swift/2022/08/13/urlsession.html)
+- [iOS 네트워킹과 테스트](https://techblog.woowahan.com/2704/)
+- [stub과 mock의 차이](https://martinfowler.com/articles/mocksArentStubs.html)
+- [Grid 구현 블로그](https://leechamin.tistory.com/556?category=941561)
+- [NSCache를 이용해 이미지 캐싱하기](https://ios-development.tistory.com/658)
+- [Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
+- [UICellConfigurationState 공식문서](https://developer.apple.com/documentation/uikit/uicellconfigurationstate)
 
 
 [🔝 맨 위로 이동하기](#오픈마켓-)
