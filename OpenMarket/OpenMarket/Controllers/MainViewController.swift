@@ -32,7 +32,7 @@ final class MainViewController: UIViewController {
     }
 
     @objc private func addItem() {
-        print("button pressed.")
+        navigationController?.pushViewController(ItemAddViewController(), animated: false)
     }
     
     @objc private func changeItemView(_ sender: UISegmentedControl) {
