@@ -30,15 +30,23 @@
 ```
 .
 ├── OpenMarket/
+│   ├── Extension/
+│   │   ├── String+Extension.swift
+│   │   └── Double+Extension.swift
 │   ├── Models/
 │   │   ├── Item.swift
 │   │   ├── ItemList.swfit
 │   │   └── Currency.swift
 │   ├── Views/
-│   │   ├── Main.storyboard
-│   │   └── LaunchScreen.storyboard  
+│   │   ├── ListCollectionViewCell.swift
+│   │   ├── GridCollectionViewCell.swift
+│   │   ├── GridUICollectionView.swift
+│   │   └── ListUICollectionView.swift
 │   ├── Controllers/
-│   │   └── ViewControllers.swift
+│   │   ├── MainViewController.swift
+│   │   ├── LoadingController.swift
+│   │   ├── ImageCacheManager.swift
+│   │   └── ItemAddViewController.swift
 │   ├── Resource/
 │   │   └── Assets.xcassets
 │   ├── Network/
@@ -87,9 +95,93 @@ func fetchItem(productId: Int,
 ### NetworkError
 - DataSessionTask 에서 전달한 Error확인을 위한 enum 타입
 
+### Controller
+### ImageCacheManager
+```swift
+final class ImageCacheManager {
+    static let shared = NSCache<NSString, UIImage>()
+    private init() {}
+}
+```
+
+- 서버에서 받아온 상품 이미지를 저장하기 위한 임시저장소 입니다
+
+### LoadingController
+```swift
+ static func showLoading() {
+        DispatchQueue.main.async {
+            guard let window = UIApplication.shared.windows.last else { return }
+            let loadingIndicatorView: UIActivityIndicatorView
+            if let existedView = window.subviews.first(where: { $0 is UIActivityIndicatorView } ) as? UIActivityIndicatorView {
+                loadingIndicatorView = existedView
+            } else {
+                loadingIndicatorView = UIActivityIndicatorView(style: .large)
+                loadingIndicatorView.frame = window.frame
+                loadingIndicatorView.color = .brown
+                loadingIndicatorView.backgroundColor = .gray
+                window.addSubview(loadingIndicatorView)
+            }
+
+            loadingIndicatorView.startAnimating()
+        }
+    }
+```
+
+- `showLoading()` : 처음 상품 리스트를 로드할 때, 사용자에게 로딩화면을 보여줍니다
+
+```swift
+static func hideLoading() {
+        DispatchQueue.main.async {
+            guard let window = UIApplication.shared.windows.last else { return }
+            window.subviews.filter({ $0 is UIActivityIndicatorView }).forEach { $0.removeFromSuperview()
+            }
+        }
+    }
+```
+
+- `hideLoading()` : 로딩이 끝난 후 로딩화면을 숨깁니다
+
+### MainViewController
+```swift
+@objc private func changeItemView(_ sender: UISegmentedControl) {
+    showCollectionType(segmentIndex: sender.selectedSegmentIndex)
+}
+
+private func showCollectionType(segmentIndex: Int) {
+    if segmentIndex == 0 {
+        self.gridCollectionView.isHidden = true
+        self.listCollectionView.isHidden = false
+    } else {
+        self.listCollectionView.isHidden = true
+        self.gridCollectionView.isHidden = false
+    }
+}
+```
+- 사용자가 segmentedControl의 `LIST` 또는 `GRID` 버튼을 누르면, 상품목록을 List 또는 Grid 형태로 보여줍니다.
+
+### Views
+- Modern Collection View를 사용하여 구현한 리스트, 그리드 형태의 상품리스트입니다.
+- 레이아웃은 `UICollectionViewCompositionalLayout`을 사용했습니다.
+- 콜렉션 뷰의 셀 데이터는 `UICollectionViewDiffableDataSource`을 사용했습니다.
+
+### ListUICollectionView
+- 상품 목록을 테이블뷰와 같은 리스트 형태로 보여주는 콜렉션 뷰 입니다. 
+
+### GridUICollectionView
+- 상품 목록을 그리드 형태로 보여주는 콜렉션 뷰 입니다.
 
 ## 📱 실행 화면
-### STEP2 구현 이후 추가예정입니다.
+| 로딩 후 ListView | `+`버튼 클릭시 빈 페이지 |
+| ----- | ----- |
+|![](https://i.imgur.com/GaGWjXO.gif)|![](https://i.imgur.com/huerEUY.gif)|
+| **List View** | **Grid View** |
+|![](https://i.imgur.com/djQk4nV.gif)|![](https://i.imgur.com/FLAcAuJ.gif)|
+
+
+
+
+
+
 
 ## ⏰ 타임라인
 
@@ -116,6 +208,31 @@ func fetchItem(productId: Int,
 - **2022.11.17**
     - 네이밍, 코드 컨벤션 수정
     - Step1 Merged
+    
+</div>
+</details>
+
+<details>
+<summary>Step2 타임라인</summary>
+<div markdown="1">       
+    
+- **2022.11.20**
+    - 코드로 UI 구현을 위한 스토리보드 삭제
+    - SceneDelegate를 이용한 `Navigation` 컨트롤러 및 `RootView` 구성
+- **2022.11.21**
+    - `Modern Collection View`를 사용하여 `ListCollection` 구현
+    - `NetWorkManager`를 통한 `CollectionView` 구현
+- **2022.11.22**
+    - `GridCollectionView` 구현, `Image` parse를 위한 `fetchImage()` 메서드 구현
+    - `SegmentedControl`을 통한 `Grid`, `List` Switching 구현
+    - 데이터를 받아오기 전 로딩 상태를 알 수 있는 `Spinner` 구현
+- **2022.11.23**
+    - `GridCollectionViewCell` 내부로직 변경 - **스택뷰 추가**
+    - `NumberFormatter`추가
+    - Step2 PR 작성
+- **2022.11.25**
+    - `NumberFormatter`리턴 타입 변경
+    - 데이터 `fetch`시 실패경우와 Loading Spinner에 관한 로직 수정
     
 </div>
 </details>
@@ -186,16 +303,16 @@ func fetchItem(productId: Int,
 ```
 #### 해결방안
 - 샘플 JSON 데이터의 page_no, items_per_page, total_count와 같이 Snake case로 정의되어 있는 부분을 Codingkeys프로토콜을 사용해 Camel case로 매핑했었는데, 해당 매핑하는 부분을 지움으로써 모델의 프로퍼티 네이밍과 통신시 데이터 네이밍을 동일하게하여 해결했습니다.
-
-
+- 
 ---
-
 
 ## 📖 참고 링크
 
 ### 공식문서
 [Swift Language Guide - Closures](https://docs.swift.org/swift-book/LanguageGuide/Closures.html)
 
+### 개인 블로그 문서
+[[iOS - swift] UIActivityIndicatorView, loadingView, 로딩 뷰](https://ios-development.tistory.com/682)
 
 
 ---
