@@ -11,32 +11,36 @@ class GridCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
-    @IBOutlet weak var bargainPriceLabel: UILabel!
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
         productImage.image = nil
-        productNameLabel.text = ""
+        productNameLabel.text = nil
         priceLabel.attributedText = nil
-        priceLabel.text = ""
+        priceLabel.text = nil
         priceLabel.textColor = .gray
-        bargainPriceLabel.text = ""
-        stockLabel.text = ""
+        stockLabel.text = nil
         stockLabel.textColor = .gray
     }
     
     func configurationCell(item: Product) {
-        productNameLabel.text = item.name
-        priceLabel.text = "\(item.currency.symbol) \(item.price)"
-
-        if item.price != item.bargainPrice {
-            priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            priceLabel.textColor = .red
-            
-            bargainPriceLabel.text = "\(item.currency.symbol) \(item.bargainPrice)"
-        }
+        let priceText: String = item.currency.symbol +
+                                NameSpace.whiteSpace.text +
+                                item.price.convertNumberFormat()
+        let bargainText: String = item.currency.symbol +
+                                  NameSpace.whiteSpace.text +
+                                  item.bargainPrice.convertNumberFormat()
         
+        productNameLabel.text = item.name
+        
+        if priceText == bargainText {
+            priceLabel.text = priceText
+        } else {
+            priceLabel.text = priceText + NameSpace.nextLine.text + bargainText
+            priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceText.count, color: .red)
+        }
+
         if item.stock > 0 {
             stockLabel.text = "잔여수량 : \(item.stock)"
         } else {
@@ -47,5 +51,11 @@ class GridCollectionViewCell: UICollectionViewCell {
         if let url = URL(string: item.thumbnail) {
             productImage.load(url: url)
         }
+    }
+    
+    func addBorderLine(color: UIColor, width: CGFloat) {
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = width
+        self.layer.borderColor = color.cgColor
     }
 }

@@ -5,36 +5,41 @@
 //
 
 import UIKit
+import Foundation
 
 class ListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var bargainPriceLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
         productImage.image = nil
-        productNameLabel.text = ""
+        productNameLabel.text = nil
         priceLabel.attributedText = nil
-        priceLabel.text = ""
+        priceLabel.text = nil
         priceLabel.textColor = .gray
-        bargainPriceLabel.text = ""
-        stockLabel.text = ""
+        stockLabel.text = nil
         stockLabel.textColor = .gray
     }
     
     func configurationCell(item: Product) {
+        let priceText: String = item.currency.symbol +
+                                NameSpace.whiteSpace.text +
+                                item.price.convertNumberFormat()
+        let bargainText: String = item.currency.symbol +
+                                  NameSpace.whiteSpace.text +
+                                  item.bargainPrice.convertNumberFormat()
+        
         productNameLabel.text = item.name
-        priceLabel.text = "\(item.currency.symbol) \(item.price)"
-
-        if item.price != item.bargainPrice {
-            priceLabel.attributedText = priceLabel.text?.strikeThrough()
-            priceLabel.textColor = .red
-            
-            bargainPriceLabel.text = "\(item.currency.symbol) \(item.bargainPrice)"
+        
+        if priceText == bargainText {
+            priceLabel.text = priceText
+        } else {
+            priceLabel.text = priceText + NameSpace.doubleWhiteSpace.text + bargainText
+            priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceText.count, color: .red)
         }
         
         if item.stock > 0 {
@@ -47,5 +52,14 @@ class ListCollectionViewCell: UICollectionViewCell {
         if let url = URL(string: item.thumbnail) {
             productImage.load(url: url)
         }
+    }
+    
+    func addBottomLine(color: UIColor, width: CGFloat) {
+        let bottomLine: CALayer = CALayer()
+        
+        bottomLine.frame = CGRectMake(0, self.frame.height - width, self.frame.width, width)
+        bottomLine.backgroundColor = color.cgColor
+        
+        self.layer.addSublayer(bottomLine)
     }
 }
