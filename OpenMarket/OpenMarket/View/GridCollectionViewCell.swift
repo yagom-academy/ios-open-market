@@ -4,6 +4,8 @@
 
 import UIKit
 
+// lazy ㄴㄴ! -> addSubview 하는것들 이동
+//
 class GridCollectionViewCell: UICollectionViewCell {
     static let identifier = "gridCell"
     
@@ -14,11 +16,26 @@ class GridCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: self.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        ])
+        
+        configureUI()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        print("reuse!!")
         
+        productImageView.image = .none
+        productNameLabel.text = .none
+        priceLabel.text = .none
+        bargainPriceLabel.text = .none
+        priceLabel.attributedText = .none
+        stockLabel.text = .none
     }
     
     private lazy var productImageView: UIImageView = {
@@ -47,7 +64,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var discountedPriceLabel: UILabel = {
+    private lazy var bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
@@ -69,10 +86,6 @@ class GridCollectionViewCell: UICollectionViewCell {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        
-        stack.addArrangedSubview(priceLabel)
-        stack.addArrangedSubview(discountedPriceLabel)
-        
         return stack
     }()
     
@@ -82,16 +95,20 @@ class GridCollectionViewCell: UICollectionViewCell {
         stack.axis = .vertical
         stack.distribution = .equalSpacing
         stack.alignment = .center
-        
-        stack.addArrangedSubview(productImageView)
-        stack.addArrangedSubview(productNameLabel)
-        stack.addArrangedSubview(priceStackView)
-        stack.addArrangedSubview(stockLabel)
-        
         return stack
     }()
     
     private func configureUI() {
+        contentView.addSubview(stackView)
+        
+        priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(bargainPriceLabel)
+        
+        stackView.addArrangedSubview(productImageView)
+        stackView.addArrangedSubview(productNameLabel)
+        stackView.addArrangedSubview(priceStackView)
+        stackView.addArrangedSubview(stockLabel)
+        
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
@@ -103,46 +120,46 @@ class GridCollectionViewCell: UICollectionViewCell {
             productImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.95),
             productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.6),
             productNameLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1),
-            priceLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1),
-            discountedPriceLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1),
             stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1)
         ])
     }
     
     func updateContents(_ product: Product) {
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             guard let url = URL(string: product.thumbnailURL),
                   let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data) else {
-                      return
-                  }
-            self.productImageView.image = image
+                  let image = UIImage(data: data) else { return }
+            DispatchQueue.main.async {
+                self.productImageView.image = image
+                self.productNameLabel.text = product.name
+                self.updatePriceLabel(product)
+                self.updateStockLabel(product)
+            }
         }
-        
-        productNameLabel.text = product.name
-        updatePriceLabel(product)
-        updateStockLabel(product)
     }
     
     private func updatePriceLabel(_ product: Product) {
         let price: String = Formatter.format(product.price, product.currency)
-        let discountedPrice: String = Formatter.format(product.discountedPrice, product.currency)
+        let bargainPrice: String = Formatter.format(product.bargainPrice, product.currency)
         priceLabel.text = product.currency.rawValue + " \(price)"
-        discountedPriceLabel.text = product.currency.rawValue + " \(discountedPrice)"
+        bargainPriceLabel.text = product.currency.rawValue + " \(bargainPrice)"
         
-        if product.price == product.discountedPrice {
-            discountedPriceLabel.text = nil
+        if product.price == product.bargainPrice {
+            print("equal", product.name, product.price, product.bargainPrice)
+            bargainPriceLabel.text = ""
         } else {
+            print("else", product.name, product.price, product.bargainPrice)
             priceLabel.attributedText = priceLabel.text?.invalidatePrice()
         }
     }
     
     private func updateStockLabel(_ product: Product) {
-        if product.stock <= 0 {
+        guard product.stock > 0 else {
             stockLabel.text = "품절"
             stockLabel.attributedText = stockLabel.text?.markSoldOut()
             return
         }
-        stockLabel.text = "잔여수량 : (product.stock)"
+        
+        stockLabel.text = "잔여수량 : \(product.stock)"
     }
 }
