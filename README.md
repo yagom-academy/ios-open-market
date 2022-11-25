@@ -85,14 +85,12 @@ OpenMarket
 
 <br>
 
+
+
 ## 💻 실행 화면
 | 기본 화면 | List 화면 | Grid 화면 |
 |:----:|:----:|:----:|
-|<img src = "https://i.imgur.com/GHjpf19.gif">|<img src = "https://i.imgur.com/acSz5a2.gif">|<img src = "https://i.imgur.com/tiey7XC.gif">|
-
-
-
-
+|![오픈마켓 - 세그먼트컨트롤](https://user-images.githubusercontent.com/94514250/203892634-70918cba-62da-43af-bc41-87993fc1ebc0.gif)|![오픈마켓 - list 화면](https://user-images.githubusercontent.com/94514250/203892498-5c249cfd-562d-4146-8a0f-bb5c3bdf3a4c.gif)|![오픈마켓 - grid 화면](https://user-images.githubusercontent.com/94514250/203892511-be9a9597-9327-44b4-8fc1-235526f15ff6.gif)|
 
 <br>
 
