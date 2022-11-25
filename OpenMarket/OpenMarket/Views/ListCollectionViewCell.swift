@@ -107,15 +107,26 @@ extension ListCollectionViewCell {
         content.textProperties.font = .preferredFont(forTextStyle: .headline)
 
         guard let item = self.item else { return }
-        let priceString = "\(item.currency.rawValue) \(item.price.formattedString) \(item.currency.rawValue) \(item.bargainPrice.formattedString)"
-        let attributedString = NSMutableAttributedString(string: priceString)
-        attributedString.addAttribute(.strikethroughStyle, value: 1,
-                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price.formattedString)"))
-        attributedString.addAttribute(.foregroundColor, value: UIColor.red,
-                                      range: (priceString as NSString).range(of:"\(item.currency.rawValue) \(item.price.formattedString)"))
-        content.secondaryAttributedText = attributedString
-        content.secondaryTextProperties.color = .systemGray
         
+        let priceString = item.price.formattedString ?? "가격정보 없음"
+        
+        if item.price > item.bargainPrice {
+            let bargainPriceString = item.bargainPrice.formattedString ?? "가격정보 없음"
+            let priceLabelString = "\(item.currency.rawValue) \(priceString) \(item.currency.rawValue) \(bargainPriceString)"
+            
+            let attributedString = NSMutableAttributedString(string: priceLabelString)
+            
+            attributedString.addAttribute(.strikethroughStyle, value: 1,
+                                          range: (priceLabelString as NSString).range(of:"\(item.currency.rawValue) \(priceString)"))
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.red,
+                                          range: (priceLabelString as NSString).range(of:"\(item.currency.rawValue) \(priceString)"))
+            content.secondaryAttributedText = attributedString
+        } else {
+            content.secondaryText = "\(item.currency.rawValue) \(priceString)"
+        }
+        
+        content.secondaryTextProperties.color = .systemGray
         itemListContentView.configuration = content
         
         if item.stock == 0 {
