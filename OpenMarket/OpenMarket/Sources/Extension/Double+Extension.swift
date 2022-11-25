@@ -9,6 +9,7 @@ import UIKit
 extension Double {
     func convertNumberFormat() -> String {
         let numberFormatter: NumberFormatter = NumberFormatter()
+       
         numberFormatter.numberStyle = .decimal
         
         return numberFormatter.string(for: self) ?? String()

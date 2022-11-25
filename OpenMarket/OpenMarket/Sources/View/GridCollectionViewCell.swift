@@ -16,24 +16,28 @@ class GridCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         productImage.image = nil
-        productNameLabel.text = ""
+        productNameLabel.text = nil
         priceLabel.attributedText = nil
-        priceLabel.text = ""
+        priceLabel.text = nil
         priceLabel.textColor = .gray
-        stockLabel.text = ""
+        stockLabel.text = nil
         stockLabel.textColor = .gray
     }
     
     func configurationCell(item: Product) {
-        let priceText: String = item.currency.symbol + " " + item.price.convertNumberFormat()
-        let bargainText: String = item.currency.symbol + " " + item.bargainPrice.convertNumberFormat()
+        let priceText: String = item.currency.symbol +
+                                NameSpace.whiteSpace.text +
+                                item.price.convertNumberFormat()
+        let bargainText: String = item.currency.symbol +
+                                  NameSpace.whiteSpace.text +
+                                  item.bargainPrice.convertNumberFormat()
         
         productNameLabel.text = item.name
         
         if priceText == bargainText {
             priceLabel.text = priceText
         } else {
-            priceLabel.text = priceText + "\n" + bargainText
+            priceLabel.text = priceText + NameSpace.nextLine.text + bargainText
             priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceText.count, color: .red)
         }
 
