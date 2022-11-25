@@ -18,7 +18,7 @@
 
 ## 💻 개발환경 및 라이브러리
 [![swift](https://img.shields.io/badge/swift-5.6-orange)]()
-[![xcode](https://img.shields.io/badge/Xcode-13.4.1-blue)]()
+[![xcode](https://img.shields.io/badge/Xcode-14.1.1-blue)]()
 
 
 ## 🧑 팀원
@@ -35,6 +35,14 @@
 - completionHandler 비동기 처리
 - HTTP GET 메서드 구현
 
+### STEP2
+- NavigationContoller 생성
+- segmentedControl 생성
+- ListCell, GridCell 생성
+- 각 셀의 DiffableDataSource (iOS 13)
+    - snapshot 
+- compositionallayout 적용 (iOS 14)
+- autoLayout 적용
 
 
 ## 💾 파일구조
@@ -43,7 +51,12 @@
     ├── AppDelegate
     ├── SceneDelegate
     ├── ViewContorller
-    |
+    ├── CollectionView
+    │   ├── Grid
+    │   │   └── GridCell.swift
+    │   └── List
+    │       └── ListCell.swift
+    │
     ├── Network
     │   └── NetworkManager
     │
@@ -55,14 +68,19 @@
 ```
 
 ## 📊 UML
- > ![](https://i.imgur.com/Xx85tpm.jpg)
+> ![](https://i.imgur.com/Xx85tpm.jpg)
 
 
 
 ## 💻 실행 화면
 
-    
-|healthChecker|
+
+|실행화면|
+|:--:|
+|![](https://i.imgur.com/R8ajVX9.gif)|
+
+
+<!-- |healthChecker|
 |:--:|
 |![](https://i.imgur.com/8Ub6OLj.png)|
 
@@ -72,7 +90,7 @@
 
 |상품 상세 조회|
 |:--:|
-|![](https://i.imgur.com/xDvPBSK.png)|
+|![](https://i.imgur.com/xDvPBSK.png)| -->
 
 <!-- |일반 화면|다이나믹 타입 적용화면|
 |:----:|:----:|
@@ -160,10 +178,22 @@ networkManager.fetch(type: 작업) { result in
 
 하지만 이런 방법은 fetch 메서드를 사용할 때 마다 `if let`의 사용이 불가피 하다는 치명적인 단점이 있어서 메서드를 따로 만드는 1번 방법으로 구현 했습니다.
 
+### 뷰의 형태가 잘 나타나지 않는 문제
+
+|해결 전| 해결 후|
+|:--:|:--:|
+|<img src="https://i.imgur.com/jMHEcJ0.jpg" width=350/>|<img src="https://i.imgur.com/YAoIU9D.png" width=370/>|
+
+
+셀을 처음 불러올 때 오토레이아웃이 깨지고 재사용될 때에도 뷰의 높이를 잡지못하는 문제가 있었습니다. 셀의 높이를 지정할 때 직접 지정해주지 않고 컨트롤러가 자동으로 계산해서 지정할 수 있도록 `estimated()` 사이즈를 지정해주었는데 이부분에서 생긴 문제였습니다.
+
+`estimated`의 의미를 생각하며 추정할 수 있도록 이미지의 높이와 레이블의 높이를 더해주어 추정값을 넣어주어 해결했습니다.
 
 
 ## 📚 참고 링크
 
-[URLSession](https://developer.apple.com/documentation/foundation/urlsession) </br>
-[Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
-
+[URLSession](https://developer.apple.com/documentation/foundation/urlsession)<br/>
+[Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)<br/>
+[CollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)<br/>
+[CollectionViewDiffableDataSource](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource)<br/>
+[CollectionViewCompositionallayout](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout)<br/>
