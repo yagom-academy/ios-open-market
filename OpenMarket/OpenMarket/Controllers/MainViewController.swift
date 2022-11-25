@@ -26,7 +26,6 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingController.showLoading()
         configureNavigation()
         configureFetchItemList()
     }
@@ -56,18 +55,20 @@ final class MainViewController: UIViewController {
     }
     
     private func configureFetchItemList() {
+        LoadingController.showLoading()
         NetworkManager().fetchItemList(pageNo: 1, pageCount: 100) { result in
             switch result {
             case .success(let success):
+                LoadingController.hideLoading()
+                self.itemList = success.pages
                 DispatchQueue.main.async {
-                    self.itemList = success.pages
                     self.configureCollectionView()
-                    LoadingController.hideLoading()
                     self.gridCollectionView.configureGridDataSource(self.itemList)
                     self.listCollectionView.configureListDataSource(self.itemList)
                 }
             case .failure(_):
-                self.viewDidLoad()
+                LoadingController.hideLoading()
+                self.configureFetchItemList()
             }
         }
     }

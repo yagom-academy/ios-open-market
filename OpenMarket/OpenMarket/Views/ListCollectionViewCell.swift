@@ -44,7 +44,6 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     private var stockConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint,
                                    width: NSLayoutConstraint, centerY: NSLayoutConstraint)?
     
-    
     func updateWithItem(_ newItem: Item) {
         guard item != newItem else { return }
         item = newItem

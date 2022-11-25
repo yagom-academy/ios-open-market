@@ -18,7 +18,6 @@ final class GridUICollectionView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func configureGridDataSource(_ items: [Item]) {
         let cellRegisteration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { cell, indexPath, item in
             cell.updateWithItem(item)
