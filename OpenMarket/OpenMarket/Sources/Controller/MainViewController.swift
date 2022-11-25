@@ -123,6 +123,7 @@ final class MainViewController: UIViewController {
         let oneProductWidth: CGFloat = UIScreen.main.bounds.width
         let oneProductHeight: CGFloat = UIScreen.main.bounds.height / 12
         
+        flowLayout.minimumLineSpacing = 0
         flowLayout.itemSize = CGSize(width: oneProductWidth, height: oneProductHeight)
         
         collectionView.collectionViewLayout = flowLayout
