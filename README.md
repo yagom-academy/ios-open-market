@@ -93,13 +93,15 @@ Mordern Collection View 활용하여 LIST와 GRID 형태로 상품 목록 화면
 
 ## 💻 실행 화면
 
+
+
 |List|Grid|
 |:---:|:---:|
-|<img src="https://i.imgur.com/zbf016U.gif" width="400">|<img src="https://i.imgur.com/k9qHHTA.gif" width="400">|
+|<img src="https://i.imgur.com/zbf016U.gif" width="400">|<img src="https://i.imgur.com/OmFmQEU.gif" width="400">|
 
 |LIST GRID 전환|
 |:---:|
-|<img src="https://i.imgur.com/sm69aR6.gif" width="335" height = "450">|
+|<img src="https://i.imgur.com/sm69aR6.gif" width="400" height = "450">|
 
 <br>
 
