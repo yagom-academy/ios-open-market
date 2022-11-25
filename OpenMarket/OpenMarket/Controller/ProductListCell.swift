@@ -2,7 +2,7 @@
 
 import UIKit
 
-class ProductListCell: UICollectionViewListCell {
+final class ProductListCell: UICollectionViewListCell {
     private var productData: Product?
     private let productPriceLabel = UILabel()
     private var customViewConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
@@ -26,6 +26,17 @@ class ProductListCell: UICollectionViewListCell {
     }
     
     private lazy var productListContentView = UIListContentView(configuration: defaultProductConfiguration())
+}
+
+private extension UIConfigurationStateCustomKey {
+    static let product = UIConfigurationStateCustomKey("product")
+}
+
+private extension UICellConfigurationState {
+    var productData: Product? {
+        set { self[.product] = newValue }
+        get { return self[.product] as? Product }
+    }
 }
 
 extension ProductListCell {
@@ -95,27 +106,4 @@ extension ProductListCell {
         productPriceLabel.textColor = .gray
         productPriceLabel.attributedText = productData.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(productData.stock)".attributed
     }
-    
-    func urlToImage(_ urlString: String) -> UIImage? {
-        guard let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url),
-              let image = UIImage(data: data) else {
-            return nil
-        }
-        
-        return image
-    }
 }
-
-fileprivate extension UIConfigurationStateCustomKey {
-    static let product = UIConfigurationStateCustomKey("product")
-}
-
-private extension UICellConfigurationState {
-    var productData: Product? {
-        set { self[.product] = newValue }
-        get { return self[.product] as? Product }
-    }
-}
-
-

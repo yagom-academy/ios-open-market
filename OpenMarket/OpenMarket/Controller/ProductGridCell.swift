@@ -2,10 +2,10 @@
 
 import UIKit
 
-class ProductGridCell: UICollectionViewCell {
+final class ProductGridCell: UICollectionViewCell {
     static let identifier = "cell"
     
-    let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.alignment = .center
@@ -14,14 +14,14 @@ class ProductGridCell: UICollectionViewCell {
         return stackview
     }()
 
-    let productImage: UIImageView = {
+    private let productImage: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -30,7 +30,7 @@ class ProductGridCell: UICollectionViewCell {
         return label
     }()
     
-    let priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -39,7 +39,7 @@ class ProductGridCell: UICollectionViewCell {
         return label
     }()
     
-    let stockLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -57,14 +57,14 @@ class ProductGridCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    func configureStackView() {
+    private func configureStackView() {
         stackView.addArrangedSubview(productImage)
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(priceLabel)
         stackView.addArrangedSubview(stockLabel)
     }
 
-    func layout() {
+    private func layout() {
         configureStackView()
         contentView.addSubview(stackView)
 
@@ -98,15 +98,5 @@ class ProductGridCell: UICollectionViewCell {
         self.nameLabel.text = product.name
         self.priceLabel.attributedText = product.attributedPriceString
         self.stockLabel.attributedText = product.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(product.stock)".attributed
-    }
-    
-    func urlToImage(_ urlString: String) -> UIImage? {
-        guard let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url),
-              let image = UIImage(data: data) else {
-            return nil
-        }
-        
-        return image
     }
 }

@@ -6,7 +6,7 @@ enum Section: Hashable {
     case main
 }
 
-class ProductListViewController: UIViewController {
+final class ProductListViewController: UIViewController {
     
     var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
@@ -113,7 +113,7 @@ extension ProductListViewController {
 }
 
 extension ProductListViewController {
-    func createGridLayout() -> UICollectionViewCompositionalLayout{
+    private func createGridLayout() -> UICollectionViewCompositionalLayout{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -130,7 +130,7 @@ extension ProductListViewController {
         return layout
     }
     
-    func createGridCollectionView() {
+    private func createGridCollectionView() {
         if let collectionView {
             collectionView.removeFromSuperview()
         }
@@ -147,7 +147,7 @@ extension ProductListViewController {
         ])
     }
     
-    func configureGridDataSource() {
+    private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { cell, indexPath, product in
             cell.configCell(with: product)
         }

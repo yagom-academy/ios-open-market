@@ -2,7 +2,7 @@
 
 import UIKit
 
-class AddProductViewController: UIViewController {
+final class AddProductViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
