@@ -69,15 +69,14 @@ final class PriceLabel: UILabel {
         }
         
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
-        
+        attributedString.addAttribute(.foregroundColor,
+                                      value: UIColor.gray,
+                                      range: NSRange(location: 0,
+                                                     length: text.count))
         attributedString.addAttributes([.strikethroughStyle: NSUnderlineStyle.single.rawValue,
                                         .foregroundColor: UIColor.red],
                                        range: NSRange(location: 0,
                                                       length: priceTextLength))
-        attributedString.addAttribute(.foregroundColor,
-                                      value: UIColor.gray,
-                                      range: NSRange(location: priceTextLength,
-                                                     length: text.count - priceTextLength))
         
         attributedText = attributedString
     }

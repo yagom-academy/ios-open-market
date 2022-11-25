@@ -27,29 +27,23 @@ enum LayoutMaker {
         let itemCountOfColumn: Int = 2
         let itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1.0))
+            heightDimension: .estimated(100))
         let item: NSCollectionLayoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: .zero,
-                                                     leading: spacing,
-                                                     bottom: .zero,
-                                                     trailing: .zero)
         
         let groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(0.87))
+            heightDimension: .estimated(100))
         let group: NSCollectionLayoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
                                                        count: itemCountOfColumn)
-        group.contentInsets = NSDirectionalEdgeInsets(top: spacing,
-                                                      leading: .zero,
-                                                      bottom: .zero,
-                                                      trailing: spacing)
-        
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(spacing)
+
         let section: NSCollectionLayoutSection = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: .zero,
-                                                        leading: .zero,
+        section.contentInsets = NSDirectionalEdgeInsets(top: spacing,
+                                                        leading: spacing,
                                                         bottom: spacing,
-                                                        trailing: .zero)
+                                                        trailing: spacing)
+        section.interGroupSpacing = spacing
         
         return UICollectionViewCompositionalLayout(section: section)
     }

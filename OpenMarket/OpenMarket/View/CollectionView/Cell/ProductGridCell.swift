@@ -36,8 +36,9 @@ final class ProductGridCell: UICollectionViewCell {
         let stackView: UIStackView = UIStackView()
         
         stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -51,10 +52,7 @@ final class ProductGridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.cornerRadius = 10
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.gray.cgColor
-        setupViewsIfNeeded()
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +63,23 @@ final class ProductGridCell: UICollectionViewCell {
         self.product = newProduct
     }
     
+    private func configure() {
+        setUpLayer()
+        setUpTextAlignment()
+        setupViewsIfNeeded()
+    }
+    
+    private func setUpLayer() {
+        layer.cornerRadius = 10
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.gray.cgColor
+    }
+    
+    private func setUpTextAlignment() {
+        nameLabel.textAlignment = .center
+        priceLabel.textAlignment = .center
+        stockLabel.textAlignment = .center
+    }
     private func setupViewsIfNeeded() {
         let spacing: CGFloat = 10
         stackView.addArrangedSubview(thumbnailImageView)
@@ -73,32 +88,24 @@ final class ProductGridCell: UICollectionViewCell {
         stackView.addArrangedSubview(stockLabel)
         contentView.addSubview(stackView)
         
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            thumbnailImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
-            thumbnailImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor,
-                                                       multiplier: 0.47),
-            nameLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor,
-                                              multiplier: 0.21),
-            nameLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor,
-                                             constant: -20),
-            priceLabel.heightAnchor.constraint(lessThanOrEqualTo: stackView.heightAnchor,
-                                               multiplier: 0.18),
-            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor,
-                                              constant: -20),
-            stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor,
-                                               multiplier: 0.12),
-            stockLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor,
-                                              constant: -20)
-        ])
+        let imageViewConstraints: (width: NSLayoutConstraint,
+                                   height: NSLayoutConstraint)  =
+        (width: thumbnailImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor),
+         height: thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor))
+        imageViewConstraints.width.priority = .init(rawValue: 1000)
+        imageViewConstraints.height.priority = .init(rawValue: 751)
         
-        nameLabel.setContentHuggingPriority(.init(rawValue: 1000),
-                                            for: .vertical)
-        nameLabel.setContentCompressionResistancePriority(.init(rawValue: 1000),
-                                                          for: .vertical)
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                           constant: spacing),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                              constant: -spacing),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                               constant: spacing),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                constant: -spacing),
+            imageViewConstraints.width, imageViewConstraints.height
+        ])
     }
     
     private func setupDataIfNeeded() {
