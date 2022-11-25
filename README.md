@@ -1,50 +1,63 @@
-# Open Market
---------------
+# Open Market ReadME
+ 
+- Kyo와 LJ가 만든 Open Market App입니다.
 
-- Kyo와 LJ가 만든 Open Market App Step-1 입니다.
-- 주요 Step의 목적은 `Networking`, `Mock`, `escaping closure`에 대한 이해를 주목적으로 삼았습니다.
-
-## 📖 목차
-1. [팀 소개](#-팀-소개)
-2. [GroundRule](#-ground-rule)
-3. [Code Convention](#-code-convention)
-4. [실행 화면](#-실행-화면)
-5. [Diagram](#-diagram)
-6. [폴더 구조](#-폴더-구조)
-7. [타임라인](#-타임라인)
-8. [기술적 도전](#-기술적-도전)
-9. [트러블 슈팅 및 고민](#-트러블-슈팅-및-고민)
-10. [일일 스크럼](#-일일-스크럼)
-11. [참고 링크](#-참고-링크)
+## 목차
+1. [팀 소개](#팀-소개)
+2. [GroundRule](#ground-rule)
+3. [Code Convention](#code-convention)
+4. [실행 화면](#실행-화면)
+5. [Diagram](#diagram)
+6. [폴더 구조](#폴더-구조)
+7. [타임라인](#타임라인)
+8. [기술적 도전](#기술적-도전)
+9. [트러블 슈팅 및 고민](#트러블-슈팅-및-고민)
+10. [일일 스크럼](#일일-스크럼)
+11. [참고 링크](#참고-링크)
 
 
-## 🌱 팀 소개
+## 팀 소개
  |[Kyo](https://github.com/KyoPak)|[LJ](https://github.com/lj-7-77)|
  |:---:|:---:|
 | <img width="180px" img style="border: 2px solid lightgray; border-radius: 90px;-moz-border-radius: 90px;-khtml-border-radius: 90px;-webkit-border-radius: 90px;" src= "https://user-images.githubusercontent.com/59204352/193524215-4f9636e8-1cdb-49f1-9a17-1e4fe8d76655.PNG" >|<img width="180px" img style="border: 2px solid lightgray; border-radius: 90px;-moz-border-radius: 90px;-khtml-border-radius: 90px;-webkit-border-radius: 90px;" src= "https://i.imgur.com/BHXYIyl.jpg">|
 
-## 🤙 Ground Rule
+## Ground Rule
 
 [Ground Rule 바로가기](https://github.com/KyoPak/ios-open-market/wiki/GroundRule)
 
-## 🖋 Code Convention
+## Code Convention
 
 [Code Convention 바로가기](https://github.com/KyoPak/ios-open-market/wiki/Code-Convention)
 
-## 🛠 실행 화면
+## 실행 화면
 
-|**HealthCheck**|<img width = 100, src = "https://i.imgur.com/gYPRWVK.png">|
-|:---:|:---|
-|**ProductList**|<img width = 7000, src = "https://i.imgur.com/OCWXSIH.png">|
-|**ProductDetail**|<img width = 700, src ="https://i.imgur.com/POfRE6k.png">|
+### ▶️ Step-1 실행화면 - 네트워크 구현
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+|**기본실행**|**Indicator적용**|**Cache적용**|
+|:--:|:--:|:--:|
+|<img src="https://i.imgur.com/lv84Bvd.gif" width=220> | <img src="https://i.imgur.com/h3xn3i7.gif" >|<img src="https://i.imgur.com/sOTkGBo.gif" >|
+
+</details>
 
 
-## 👀 Diagram
+### ▶️ Step-2 실행화면 - CollectionView
 
-### 🧬 Class Diagram
-![](https://i.imgur.com/Dp7dLmQ.jpg)
+|**기본실행**|**Indicator적용**|**Cache적용**|
+|:--:|:--:|:--:|
+|<img src="https://i.imgur.com/lv84Bvd.gif" width=220>|<img src="https://i.imgur.com/h3xn3i7.gif" width=220>|<img src="https://i.imgur.com/sOTkGBo.gif" width=220>|
+
+
+## Diagram
+
+### Class Diagram
+![](https://i.imgur.com/kN8kjZe.jpg)
+
  
-## 🗂 폴더 구조
+## 폴더 구조
 
 ```
 OpenMarket
@@ -53,37 +66,43 @@ OpenMarket
 ├── NetworkManagerTest
 │   ├── NetworkManagerTest.swift
 │   └── TestData.swift
-├── OpenMarket
-│   ├── AppDelegate.swift
-│   ├── SceneDelegate.swift
-│   ├── Assets.xcassets
-│   │   └── products.dataset
-│   │       ├── Contents.json
-│   │       └── products.json
-│   ├── Common
-│   │   └── NetworkError.swift
-│   ├── Extensions
-│   │   ├── Formatter+.swift
-│   │   ├── String+.swift
-│   │   └── URLComponents+.swift
-│   ├── Models
-│   │   ├── DecodeManager.swift
-│   │   ├── Product.swift
-│   │   └── ProductPage.swift
-│   ├── Network
-│   │   ├── MockURLSession
-│   │   │   └── MockURLSession.swift
-│   │   ├── NetworkManager.swift
-│   │   ├── NetworkRequest.swift
-│   │   └── Protocols
-│   │       ├── URLSessionDataTaskProtocol.swift
-│   │       └── URLSessionProtocol.swift
-│   └── ViewController.swift
+└── OpenMarket
+    ├── AppDelegate.swift
+    ├── SceneDelegate.swift
+    ├── Common
+    │   ├── NetworkError.swift
+    │   └── Protocol
+    │       └── ReuseIdentifierProtocol+Extension.swift
+    ├── Controllers
+    │   ├── AddViewController.swift
+    │   ├── ImageCacheManager.swift
+    │   └── MainViewController.swift
+    ├── Extensions
+    │   ├── Formatter+Extension.swift
+    │   ├── String+Extension.swift
+    │   ├── UILabel+Extension.swift
+    │   └── URLComponents+Extension.swift
+    ├── Models
+    │   ├── DecodeManager.swift
+    │   ├── Product.swift
+    │   └── ProductPage.swift
+    ├── Network
+    │   ├── MockURLSession
+    │   │   └── MockURLSession.swift
+    │   ├── NetworkManager.swift
+    │   ├── NetworkRequest.swift
+    │   └── Protocols
+    │       ├── URLSessionDataTaskProtocol.swift
+    │       └── URLSessionProtocol.swift
+    └── Views
+        ├── AddProductView.swift
+        ├── GridCollectionViewCell.swift
+        ├── ListCollectionViewCell.swift
+        └── MainView.swift
+                
 ```
 
-
-## ⏰ 타임라인
-
+##  타임라인
 ### 👟 Step 1
 
 - Model 구현
@@ -134,7 +153,51 @@ OpenMarket
 </details>
 
 
-## 🏃🏻 기술적 도전
+### 👟 Step 2
+- CollectionView
+    - ✅ Collection View의 활용
+    - ✅ Custom Cell 구현 (List, Grid)
+- Image Asynchronous 처리
+    - ✅ Image 비동기로 처리
+    - ✅ Image 표기 시 Image가 변경되는 이슈 해결
+- Cache
+    - ✅ NSCache 사용
+- UI
+    - ✅ Segmented Control 사용
+    - ✅ Indicator View 사용
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+1️⃣ MainView
+    - `segmentedControl`과 `listLayout`, `gridLayout`, `collectionLayout`이 있는 view입니다.
+    - segmentedControl에서 `List`와 `Grid`를 누를 때 마다, `layoutStatus`라는 Property Observer을 사용하여 필요한 메서드가 호출될수 있도록 구현하였습니다.
+    - `collectionViewLayout`이 변경되는 `changeLayout()` 메서드가 호출되게 끔 구현하였습니다. 그리고 `collectionView`가 `reload`되게끔 하였습니다.
+    
+    
+2️⃣ ListCollectionViewCell
+    - List Layout을 구성할 CollectionViewCell 내부 요소와 오토레이아웃을 구현하였습니다.
+    
+3️⃣ GridCollectionViewCell
+    - Grid Layout을 구성할 CollectionViewCell 내부 요소와 오토레이아웃을 구현하였습니다. 
+    
+4️⃣ AddViewController, AddProductView
+    - `UIBarButtonItem`인 `+`버튼을 눌렀을 때 전환될 다음 뷰(`AddProductView`)를 담당하는 뷰컨트롤러입니다.
+    
+5️⃣ ImageCacheManager
+    - 이미지캐싱을 위한 클래스 타입입니다.
+    
+6️⃣ UILabel+Extension
+    - 할인 전 가격Label에 취소선을 표시해주는 메서드 `applyStrikeThroughStyle`를 구현해주었습니다.
+
+    
+</details>
+
+
+
+## 기술적 도전
 ### ⚙️ Network
 <details>
 <summary> 
@@ -159,10 +222,54 @@ OpenMarket
 - 💡 추가적으로 `URLSessionProtocol`을 채택한 URLSession을 사용하다보니 의존성도 분리가 되지않았을까라는 생각이 들었습니다.
 </details>
         
+### ⚙️ Indicator View
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+      
+사용자에게 이미지가 로드되는 시간동안 비어있는 이미지를 보여주지 않기 위해서 사용하였습니다.
+UIActivityIndicaotrView는 기본적으로 UIView를 상속하는 클래스입니다.
+indicator 애니메이션을 `startAnimating()` 메서드와 `stopAnimating()` 메서드로 control할 수 있습니다.
+hideWhenStopped 프로퍼티를 true로 하면 Indicator 애니메이션이 멈추면 뷰는 자동으로 hide됩니다.
+
+    
+- 💡 가장 먼저 `Indicator View`를 `productImageView`와 동일한 위치에 위치시켰습니다
+- `collectionView(collectionView:, cellForItemAt indexPath:)` 메서드에서 데이터를 받아오는 `setupData()`메서드 실행 전에 `startAnimating()`을 호출하였습니다.
+- 이미지 업로드하는 `uploadImage()`메서드에서 `productImageView`에 `image`를 담은 후 `stopAnimating()`으로 멈추도록 구현하였습니다.    
+</details>
+
+### ⚙️ Cache
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+       
+일단 Cache는 자주 접근하는 리소스에 접근하는 시간을 단축하기 위해 사용됩니다.
+즉, Cache에 데이터를 미리 복사해 놓으면 계산이나 접근 시간 없이 더 빠른속도로 데이터에 접근할 수 있게 됩니다.
+프로젝트에서 사용한 `NSCache`는 `Key-Value`쌍을 임시로 저장하는데 사용되는 변경가능한 Collection입니다.
+NSCache는 자체적으로 메모리가 너무 많이 사용되지 않도록 제거되는 정책을 소유하고 있으며 iOS에서는 메모리 캐싱으로 사용됩니다. 때문에 앱이 종료될 경우 리소스들은 자동으로 OS에 반환됩니다.
+    
+- 💡 Cache를 생성하는 ImageCacheManager를 싱글톤 패턴으로 생성하였습니다. 
+- 💡 이미지를 가져오기 전, 캐싱된 내용에 해당 이미지가 존재하는지 `MainViewController`에서 먼저 검사합니다.
+    갖고있다면 그 이미지를 사용하고 cell을 반환하고, 갖고있지 않다면 NetworkManager 객체의 `fetchImage()`를 통해 비동기처리로 이미지를 load 합니다. 
+    가져온 이미지를 `setObject(image, forKey:)` 메서드로 캐시에 저장 후 이미지를 바꿔주었습니다. 
+
+```swift
+if indexPath == collectionView.indexPath(for: cell) {
+    ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+    // cell update
+    ...
+}
+```
+    
+</details>
 
 
-## 🏔 트러블 슈팅 및 고민
-### ⭐️ 멀티 CodingKey ➡️ `keyDecodingStrategy`
+## 트러블 슈팅 및 고민
+### 🔥 멀티 CodingKey ➡️ `keyDecodingStrategy`
     
 <details>
 <summary> 
@@ -186,7 +293,7 @@ OpenMarket
 - 멀티 CodingKey를 사용하여 Decode 부분에서 메서드 호출에 따라서 어떤 CodingKey를 사용할지 파라메터값으로 전달해주면 더욱 다양한 Case에서 대응이 가능할것이라고 생각합니다.
 </details>
 
-### ⭐️ URLComponent 확장과 NetworkRequest enum으로 URL값 구성 
+### 🔥 URLComponent 확장과 NetworkRequest enum으로 URL값 구성 
     
 <details>
 <summary> 
@@ -211,7 +318,8 @@ static func createURL(path: String?, queryItem: [URLQueryItem]?) -> URL? {
 
 </details>
 
-### ⭐️ 프로토콜에 정의한 dataTask()를 실제로 동작하게 만드는 방법
+
+### 🔥 프로토콜에 정의한 dataTask()를 실제로 동작하게 만드는 방법
     
 <details>
 <summary> 
@@ -244,23 +352,176 @@ extension URLSession: URLSessionProtocol {
     
 </details>
     
+### 🔥 Image 비동기 처리 
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+**문제 및 해결 🔥**
+- Image를 로드해올때 버벅이는 현상이 있었습니다. 
+- 원인은 이미지를 서버로부터 load해오는 작업과 image를 그려주는 작업이 동일한 `Main Thread`에서 동작하기 때문이었습니다.
+- 때문에 이미지를 서버로부터 가져오는 작업은 `global().asnyc`로 실행을 하였고, 비동기 내부에서 image를 대입하는 작업(UI를 그리는 작업)은 다시 `Main Thread`로 보내주어서 해결할 수 있었습니다.
+    
+```swift
+
+// NetworkManager.swift
+DispatchQueue.global().async {
+    guard let data = try? Data(contentsOf: imageURL),
+        let image = UIImage(data: data) else { return }   
+    completionHandler(image)
+}
+
+// MainViewController.swift
+NetworkManager.fetchImage(with: data.thumbnail) { image in
+    DispatchQueue.main.async {                
+    if indexPath == collectionView.indexPath(for: cell) {
+        ImageCacheManager.shared.setObject(image, forKey: cacheKey)    
+        // ex) cell.image = image
+        }
+    }
+}
+```
+    
+</details>
+
+### 🔥 Image 표기 시 Image가 변경되는 이슈
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+**문제 👀**
+
+- 가장 처음에 구현을 하였을때 아래와 같이 구현을 하였고, 이미지 스크롤을 빠르게 내리고 멈추었을 경우 이미지가 바뀌는 오류가 있었습니다.
+```swift
+// MainViewController.swift
+DispatchQueue.main.async { [weak self] in
+    if indexPath == collectionView.indexPath(for: cell) {
+        guard let data = self?.productData[indexPath.item] else { return }
+            cell.setupData(with: data)
+    }
+}    
+
+// List, GridCollectionViewCell.swift
+func setupData(with productData: Product) {
+    if let imageURL = URL(string: productData.thumbnail) {
+        productImageView.loadImage(url: imageURL)
+    }
+    ...
+}
+    
+// UIImageView+Extension.swift
+func loadImage(url: URL) {
+    DispatchQueue.global().async { [weak self] in
+        if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+            DispatchQueue.main.async {
+                self?.image = image                
+            }
+        }
+    }
+}
+```
+- 이 코드의 문제점은 `MainViewController`의 `indexPath`와 `collectionView.indexPath(for: cell)`를 비교하는 문장의 위치였습니다.
+
+- 위와 같은 코드는 비동기이기 때문에 어떤 경우던지 저 조건문을 통과하게 됩니다. 
+- 그렇기 때문에 빠르게 스크롤할 경우 재사용되는 하나의 셀에 이미지를 올리는 작업들이 쌓이게 되고 스크롤을 멈추면 셀에 그동안 쌓였던 작업들이 실행되면서 이미지들이 계속 바뀌게 됩니다. 또한 비동기이기 때문에 최종적으로 올라가야하는 이미지 또한 바뀌게 될수 있는 문제가 있었습니다.
+    
+**해결 🔥**
+    
+- 이미지을 받아오는 fetchImage()라는 메서드를 NetworkManager에 새롭게 구현하였습니다.
+그리고 이미지가 모두 받아져오면 completionHandler로 image를 전달해주었습니다.
+    
+```swift
+// NetworkManager.swift
+func fetchImage(with stringURL: String, completionHandler: @escaping (UIImage) -> Void) {
+    guard let imageURL = URL(string: stringURL) else { return }
+        
+    DispatchQueue.global().async {
+        guard let data = try? Data(contentsOf: imageURL),
+            let image = UIImage(data: data) else { return }
+            
+        completionHandler(image)
+    }
+}
+    
+// MainViewController.swift
+networkManager.fetchImage(with: data.thumbnail) { image in
+    DispatchQueue.main.async {
+        if indexPath == collectionView.indexPath(for: cell) {
+            productImageView.image = image
+        }
+    }
+}
+```    
+- 이미지를 바꾸기 직전에 indexPath와 현재 collectionView의 indexPath와 비교하여 이미지를 넣어주었습니다.
+- 여러 이미지들이 로드되는 동작 자체를 없앨 수는 없지만 이렇게 한다면 스크롤을 빠르게 내렸을때 이미지가 올라온 후에 이미지가 다시 바뀌는 이슈를 해결할 수 있었습니다.
+    
+    
+</details>
+
+
+
+### 🔥 레이블 변경 로직 
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+**문제 👀**
+    
+| 할인가격Label 추가 | 정가 판매 |
+|:--:|:--:| 
+|![](https://i.imgur.com/y71yJPq.png)|![](https://i.imgur.com/VTfQGL3.png)|
+
+- 위의 그림과 같이 할인하는 경우 할인된 가격`Label`을 추가해야했습니다.
+- 처음의 방법은 할인률이 존재한다면 할인된 가격`Label`을 `addSubView` 하고, `prepareForReuse()`에서 해당 할인 가격 Label을 remove해주는 방식으로 구현을 했습니다. 
+- 하지만 이렇게 `Cell` 마다 `View`를 그려주고 `remove` 해준다면 상당한 리소스가 요구될 것이고 앱의 동작에 부담이 갈것이라고 생각하고 다른 방안을 생각했습니다.
+    
+**해결 🔥** 
+- 해당 뷰를 `Hidden`처리하는 방식을 선택했습니다.
+- 아래 처럼 할인률이 없는 경우는 할인가격을 `Hidden`처리하고 그렇지 않은 경우은 그대로 할인 `Label`을 보여주도록 하였습니다.
+```swift
+private func setupPriceLabel() {
+    if discountPrice == Double.zero {
+        productSalePriceLabel.isHidden = true
+    } else {
+    ...    
+}
+    
+private func clearPriceLabel() {
+    productPriceLabel.isHidden = false
+    productPriceLabel.textColor = .gray
+    productPriceLabel.attributedText = .none
+}
+```   
+</details>
+
+
 
     
-## 📝 일일 스크럼
+## 일일 스크럼
 
 [일일 스크럼 바로가기](https://github.com/KyoPak/ios-open-market/wiki/Scrum)
 
-## 🔗 참고 링크
+## 참고 링크
 
 [공식문서]
 - [Swift Language Guide - URLSession](https://developer.apple.com/documentation/foundation/urlsession)
     
-- [developer.apple.com - Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
     
-- [developer.apple.com - URL Loading System](https://developer.apple.com/documentation/foundation/url_loading_system)
+- [URL Loading System](https://developer.apple.com/documentation/foundation/url_loading_system)
     
-- [developer.apple.com - URLSessionDataTask](https://developer.apple.com/documentation/foundation/urlsessiondatatask)
-    
-- [Swift Language Guide - Result](https://developer.apple.com/documentation/swift/result/)
+- [URLSessionDataTask](https://developer.apple.com/documentation/foundation/urlsessiondatatask)
     
 - [Swift Language Guide - Closure - Escaping Closures](https://docs.swift.org/swift-book/LanguageGuide/Closures.html)
+
+- [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview/)
+
+- [NSURLCache](https://developer.apple.com/documentation/foundation/nsurlcache/)
+
+- [UIActivityIndicatorView](https://developer.apple.com/documentation/uikit/uiactivityindicatorview/)
