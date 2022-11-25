@@ -25,8 +25,8 @@ class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func configurationCell(item: Product) {
-        let priceText: String = item.currency.symbol + " " + String(item.price)
-        let bargainText: String = item.currency.symbol + " " + String(item.bargainPrice)
+        let priceText: String = item.currency.symbol + " " + item.price.convertNumberFormat()
+        let bargainText: String = item.currency.symbol + " " + item.bargainPrice.convertNumberFormat()
         
         productNameLabel.text = item.name
         
