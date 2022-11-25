@@ -166,6 +166,7 @@ OpenMarket
 <summary> 
 펼쳐보기
 </summary>
+
 #### 1️⃣ Extension
 - DecodingError
     - `errorDescription`을 사용해 상황에 맞는 에러 메세지를 출력하도록 하였습니다.
@@ -424,6 +425,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 - 이미지를 서버에서 가져오는 로직의 경우, 이미지의 크기가 커 불러오는 작업을 메인 스레드에서 진행하면 스크롤을 내릴 때 마다 화면이 버벅이게 되어 쾌적한 사용자 경험을 제공하지 못하게 됩니다.
 - 따라서 이 로직을 메인 스레드가 아닌 다른 스레드에서 진행하도록 하여 메인 스레드는 받아온 이미지를 띄우기만 하도록 로직을 짜보았습니다.
 문제는 이 작업을 비동기적으로 진행하다보니, 이미지를 불러오기 위한 thumbnail에 접근하는 과정에서 race-condition이 발생하는 것입니다. 때문에 스크롤을 빠르게 내릴 수록 이미지가 계속 바뀌는 상태가 되었습니다.
+
 ![](https://i.imgur.com/RzInO7A.gif)
 
 **해결 🔫**
