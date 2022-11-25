@@ -3,6 +3,7 @@
 import UIKit
 
 enum Section: Hashable {
+    
     case main
 }
 
@@ -21,6 +22,7 @@ final class ProductListViewController: UIViewController {
         configureAddButton()
         
         let networkProvider = NetworkAPIProvider()
+        
         networkProvider.fetchProductList(query: [.itemsPerPage: "200"]) { [weak self] result in
             switch result {
             case .success(let data):
@@ -42,6 +44,7 @@ final class ProductListViewController: UIViewController {
 }
 
 extension ProductListViewController {
+    
     private func configureNavigationBar() {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .systemGray6
@@ -49,15 +52,19 @@ extension ProductListViewController {
     }
     
     private func configureSegmentedControl() {
-        let segmentTextContent = [NSLocalizedString("LIST", comment: ""), NSLocalizedString("GRID", comment: "")]
+        let segmentTextContent = [NSLocalizedString("LIST", comment: ""),
+                                  NSLocalizedString("GRID", comment: "")]
         let segmentedControl = UISegmentedControl(items: segmentTextContent)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = .systemBackground
         segmentedControl.selectedSegmentTintColor = .systemBlue
         segmentedControl.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: .normal)
-        segmentedControl.addTarget(self, action: #selector(segControlChanged), for: UIControl.Event.valueChanged)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white],
+                                                for: .selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue],
+                                                for: .normal)
+        segmentedControl.addTarget(self, action: #selector(segControlChanged),
+                                   for: UIControl.Event.valueChanged)
         self.navigationItem.titleView = segmentedControl
     }
     
@@ -72,13 +79,16 @@ extension ProductListViewController {
         default: return
         }
     }
+    
     private func configureAddButton() {
-        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
+                                      action: #selector(addButtonPressed))
         self.navigationItem.rightBarButtonItem = addItem
     }
 }
 
 extension ProductListViewController {
+    
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
@@ -86,6 +96,7 @@ extension ProductListViewController {
 }
 
 extension ProductListViewController {
+    
     private func configureHierarchy() {
         if let collectionView {
             collectionView.removeFromSuperview()
@@ -113,11 +124,14 @@ extension ProductListViewController {
 }
 
 extension ProductListViewController {
+    
     private func createGridLayout() -> UICollectionViewCompositionalLayout{
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(self.view.frame.height * 0.3))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(self.view.frame.height * 0.3))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         group.interItemSpacing = .fixed(10)
         
@@ -149,7 +163,7 @@ extension ProductListViewController {
     
     private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { cell, indexPath, product in
-            cell.configCell(with: product)
+            cell.configureCell(with: product)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
@@ -162,8 +176,3 @@ extension ProductListViewController {
         dataSource.apply(snapShot)
     }
 }
-
-
-
-
-

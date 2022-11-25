@@ -22,6 +22,7 @@ struct ProductList: Decodable {
 }
 
 struct Product: Decodable, Hashable {
+    
     let id: Int
     let vendorID: Int
     let vendorName: String
@@ -54,8 +55,11 @@ struct Product: Decodable, Hashable {
         if self.bargainPrice != self.price {
             priceText += "\(self.currency) \(self.bargainPrice.decimalInt)"
             attributedStr = NSMutableAttributedString(string: priceText)
-            attributedStr.addAttributes([.strikethroughStyle: 1, .foregroundColor: UIColor.systemRed], range: (priceText as NSString).range(of: "\(self.currency) \(self.price.decimalInt)"))
+            attributedStr.addAttributes([.strikethroughStyle: 1,
+                                         .foregroundColor: UIColor.systemRed],
+                                        range: (priceText as NSString).range(of: "\(self.currency) \(self.price.decimalInt)"))
         }
+        
         return attributedStr
     }
     
@@ -63,12 +67,12 @@ struct Product: Decodable, Hashable {
         DispatchQueue.global(qos: .background).async {
             guard let url = URL(string: self.thumbnail) else { return }
             URLSession.shared.dataTask(with: url) { (data, result, error) in
-
+                
                 if let error {
                     completion(.failure(error))
                     return
                 }
-
+                
                 if let data = data, let image = UIImage(data: data) {
                     completion(.success(image))
                 }
@@ -79,10 +83,13 @@ struct Product: Decodable, Hashable {
 }
 
 struct Image: Decodable, Hashable {
+    
     let id: Int?
     let url, thumbnailURL: String?
     let issuedAt: String?
+    
     enum CodingKeys: String, CodingKey {
+        
         case id, url
         case thumbnailURL = "thumbnail_url"
         case issuedAt = "issued_at"
@@ -90,6 +97,7 @@ struct Image: Decodable, Hashable {
 }
 
 struct Vendors: Decodable, Hashable {
+    
     let id: Int?
     let name: String?
 }

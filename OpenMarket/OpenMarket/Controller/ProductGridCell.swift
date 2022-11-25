@@ -3,7 +3,6 @@
 import UIKit
 
 final class ProductGridCell: UICollectionViewCell {
-    static let identifier = "cell"
     
     private let stackView: UIStackView = {
         let stackview = UIStackView()
@@ -13,7 +12,7 @@ final class ProductGridCell: UICollectionViewCell {
         stackview.translatesAutoresizingMaskIntoConstraints = false
         return stackview
     }()
-
+    
     private let productImage: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -47,12 +46,12 @@ final class ProductGridCell: UICollectionViewCell {
         label.textColor = .gray
         return label
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -63,11 +62,11 @@ final class ProductGridCell: UICollectionViewCell {
         stackView.addArrangedSubview(priceLabel)
         stackView.addArrangedSubview(stockLabel)
     }
-
+    
     private func layout() {
         configureStackView()
         contentView.addSubview(stackView)
-
+        
         layer.masksToBounds = true
         layer.cornerRadius = 10
         layer.borderWidth = 1.5
@@ -81,8 +80,8 @@ final class ProductGridCell: UICollectionViewCell {
             productImage.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5)
         ])
     }
-
-    func configCell(with product: Product) {
+    
+    func configureCell(with product: Product) {
         product.fetchImage { result in
             switch result {
             case .failure(_):

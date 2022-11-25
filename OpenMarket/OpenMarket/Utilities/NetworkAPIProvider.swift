@@ -9,7 +9,8 @@ final class NetworkAPIProvider {
         self.session = session
     }
     
-    func fetchProductList(query: [Query: String]?, completion: @escaping (Result<ProductList, Error>) -> Void) {
+    func fetchProductList(query: [Query: String]?,
+                          completion: @escaping (Result<ProductList, Error>) -> Void) {
         fetch(path: .productList(query: query)) { result in
             switch result {
             case .failure(let error):
@@ -29,7 +30,7 @@ extension NetworkAPIProvider {
     
     func fetch(path: NetworkAPI, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = path.urlComponents.url else { return }
-
+        
         session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))

@@ -3,6 +3,7 @@
 import UIKit
 
 final class ProductListCell: UICollectionViewListCell {
+    
     private var productData: Product?
     private let productPriceLabel = UILabel()
     private var customViewConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
@@ -29,10 +30,12 @@ final class ProductListCell: UICollectionViewListCell {
 }
 
 private extension UIConfigurationStateCustomKey {
+    
     static let product = UIConfigurationStateCustomKey("product")
 }
 
 private extension UICellConfigurationState {
+    
     var productData: Product? {
         set { self[.product] = newValue }
         get { return self[.product] as? Product }
@@ -40,6 +43,7 @@ private extension UICellConfigurationState {
 }
 
 extension ProductListCell {
+    
     func setupViewsIfNeeded() {
         guard customViewConstraints == nil else {
             return
@@ -71,10 +75,10 @@ extension ProductListCell {
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         setupViewsIfNeeded()
+        
         guard let productData = state.productData else { return }
         
         var content = defaultProductConfiguration().updated(for: state)
-        
         content.imageProperties.reservedLayoutSize = CGSize(width: 50, height: 50)
         content.image = UIImage(systemName: "timelapse")
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
@@ -93,8 +97,8 @@ extension ProductListCell {
                 }
                 return
             case .success(let image):
-                content.image = image
                 DispatchQueue.main.async { [weak self] in
+                    content.image = image
                     self?.productListContentView.configuration = content
                 }
             }
