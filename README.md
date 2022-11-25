@@ -66,9 +66,11 @@ OpenMarket
 │   ├── Namespace
 │   ├── ItemList
 │   ├── Item
-│   └── Currency
+│   ├── Currency
+│   └── ImageCacheManager
 ├── View
-│   └── Main.storyboard
+│   ├── ListCollectionViewCell
+│   └── GridCollectionViewCell 
 ├── Controller
 │   └── ViewContoller
 └── OpenMarketTests
@@ -78,12 +80,19 @@ OpenMarket
 <br>
 
 ## 📊 UML
-- 추가 예정
+![](https://i.imgur.com/adlzbUx.jpg)
+
 
 <br>
 
 ## 💻 실행 화면
-- 추가 예정
+| 기본 화면 | List 화면 | Grid 화면 |
+|:----:|:----:|:----:|
+|<img src = "https://i.imgur.com/GHjpf19.gif">|<img src = "https://i.imgur.com/acSz5a2.gif">|<img src = "https://i.imgur.com/tiey7XC.gif">|
+
+
+
+
 
 <br>
 
@@ -94,13 +103,15 @@ OpenMarket
   - 해당 문제의 근본적인 원인은 프로젝트 소스 파일에 1개 이상의 오류가 있는 경우, test 파일에서 import가 불가한 것으로 노티되는 것이었습니다.
   - 소스 파일의 모든 오류를 해결하고, `@testable import <프로젝트명>`을 사용해 import 하는 것으로 해결했습니다.
 
-- 서버 vs. 테스트용 JSON Data가 상이한 문제
+- Get 요청을 보냈을 때 원하는 Data를 전달받지 못하는 문제
   - 처음에는 네트워크 통신 쪽 구현이 잘못되었나 싶어 네트워크 통신 타입을 계속 고치다가 디버깅을 통해 디코딩하는 과정에서 문제가 생겼다는 것을 알게 되었습니다. 그리고 POSTMAN으로 서버의 JSON 데이터를 받아온 결과, 테스트용 데이터와 서버용 데이터가 다르다는 사실을 알게 되었습니다🤣
     |서버용|테스트용|
     |:----:|:----:|
     |![](https://i.imgur.com/t1M36l8.png)|![](https://i.imgur.com/gwHEsqV.png)|
+    
+    서버용에는 `description`과 `vendorName`이 있지만 테스트용에는 해당 데이터가 없어 일어난 오류였습니다. 
 
-- ItemList vs. Item의 서버 JSON Data가 상이한 문제
+- ItemList vs Item의 서버 JSON Data가 상이한 문제
   - ItemList vs. Item의 서버 JSON Data도 venderName의 유무의 차이가 있어 Model 타입에서 venderName을 옵셔널로 구현했습니다. 
 
     | ItemList의 서버 JSON Data | Item의 서버 JSON Data |
@@ -131,21 +142,80 @@ OpenMarket
     그러나 차이점은 URL이 다르다는 점과 데이터를 가져올 Model타입이 다르다는 점 외에는 공통된 부분이 많은 코드라 기능을 합치는 작업을 진행했습니다. 
     ```swift
     func getJSONData<T: Codable>(url: String, type: T.Type, completion: @escaping (T) -> Void) {
-            HTTPManager.requestGet(url: url) { data in
-                guard let data: T = JSONConverter.decodeData(data: data) else {
-                    return
-                }
-
-                completion(data)
+        HTTPManager.requestGet(url: url) { data in
+            guard let data: T = JSONConverter.decodeData(data: data) else {
+                return
             }
+
+            completion(data)
         }
+    }
     ```
     2가지 차이점을 파라미터를 통해 URL은 String, 타입은 Generic으로 구현하였습니다. 
     
+- **Compositional layout vs Flow layout**
+둘 중 어느 것으로 구현할까 고민했을 때, 저희는 Compositional layout으로 구현하기로 결정했습니다. List와 Grid의 컬렉션 뷰가 바뀔 때의 애니메이션이 매끄럽고, `UICollectionViewDiffableDataSource`가 데이터 및 사용자 인터페이스에 대한 업데이트를 간단하고 효율적으로 관리하는 데 필요한 동작을 제공하기 때문입니다.
+
+  그리고 레이아웃 구성 부분이 정말 강점으로 느껴졌습니다. 👍
+    ```swift
+    private func createGridLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(0.3))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let spacing = CGFloat(10)
+        group.interItemSpacing = .fixed(spacing)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    ```
+
+- **SceneDelegate에 ViewController이랑 UINavigationController 다 추가했는데.. 왜 안 뜰까?**
+`Main.storyboard` 파일을 지웠는데도 `Could not find a storyboard named 'Main'`이라는 오류가 계속 뜨길래 SceneDelegate에서 구현한 코드가 잘못 되었는 줄 알고 서치하다가 해결 방법을 찾았습니다☺️
+[[iOS][Swift] - 스토리보드 없이 코드로만 UI 구현하기 (SceneDelegate에서 window설정)](https://velog.io/@lina0322/iOSSwift-%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%B3%B4%EB%93%9C-%EC%97%86%EC%9D%B4-%EC%BD%94%EB%93%9C%EB%A1%9C%EB%A7%8C-UI-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-SceneDelegate%EC%97%90%EC%84%9C-window%EC%84%A4%EC%A0%95)에서 설명해주신대로 Info.plist에서 스토리보드 관련된 부분을 삭제하니 화면에 적용이 되었습니다. 
+
+- **이미지 로딩 후 해당 셀에서 벗어나는 문제**
+아래의 자료와 같이, 이미지가 로딩될 때 해당 셀이 아닌 다른 셀에 나타났다가 다시 해당 셀에 뜨는 문제가 생겼습니다. ([시원한 폭포]의 이미지를 집중적으로 보시면 됩니다!)
+![](https://i.imgur.com/p8Neh81.gif)
+
+```swift
+class ListCollectionViewCell: UICollectionViewCell {
+    var product: Item?
+    
+    func configureContent(item: Item) {
+        self.product = item
+        
+        NetworkManager().getImageData(url: url) { image in
+            DispatchQueue.main.async {
+                if item == self.product {
+                    self.thumbnailView.image = image
+                    self.loadingView.stopAnimating()
+                    self.loadingView.isHidden = true
+                }
+            }
+        }
+    }
+}
+```
+셀을 등록할 때 셀의 데이터 타입(Item)과 product 프로퍼티의 타입(Item)이 같은 지 비교하는 조건문을 넣어 해당 문제 해결했습니다.
+
 <br>
 
 ## 📚 참고 링크
 - [Apple Developer - URLSession](https://developer.apple.com/documentation/foundation/urlsession) 
 - [Apple Developer - Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory) 
+- [Apple Developer - Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
+- [Apple Developer - Updating Collection Views Using Diffable Data Sources](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/updating_collection_views_using_diffable_data_sources)
+- [Apple Developer - Customizing Your App’s Navigation Bar](https://developer.apple.com/documentation/uikit/uinavigationcontroller/customizing_your_app_s_navigation_bar)
+- [Apple Developer - NSCache](https://developer.apple.com/documentation/foundation/nscache)
 - [네트워크 구현에 도움을 받은 블로그](https://bibi6666667.tistory.com/m/359)
 - [네트워크 튜토리얼 사이트](https://www.kodeco.com/3244963-urlsession-tutorial-getting-started#toc-anchor-001)
+- [스토리보드 없이 코드로만 UI 구현하기](https://velog.io/@lina0322/iOSSwift-%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%B3%B4%EB%93%9C-%EC%97%86%EC%9D%B4-%EC%BD%94%EB%93%9C%EB%A1%9C%EB%A7%8C-UI-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-SceneDelegate%EC%97%90%EC%84%9C-window%EC%84%A4%EC%A0%95)
