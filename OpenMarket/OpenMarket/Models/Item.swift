@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Item: Codable {
+struct Item: Codable, Hashable {
     let id, vendorId: Int
     let vendorName: String?
     let name, pageDescription, thumbnail: String
@@ -33,7 +33,7 @@ struct Item: Codable {
     }
 }
 
-struct Image: Codable {
+struct Image: Codable, Hashable {
     let id: Int
     let url, thumbnailURL, issuedDate: String
 
@@ -44,7 +44,7 @@ struct Image: Codable {
     }
 }
 
-struct Vendors: Codable {
+struct Vendors: Codable, Hashable {
     let id: Int
     let name: String
 }
