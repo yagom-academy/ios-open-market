@@ -120,8 +120,29 @@ class GridCollectionViewCell: UICollectionViewCell {
         }
         
         productNameLabel.text = product.name
-        priceLabel.text = product.currency.rawValue + " (product.price)"
-        discountedPriceLabel.text = product.currency.rawValue + " (product.discountedPrice)"
+        updatePriceLabel(product)
+        updateStockLabel(product)
+    }
+    
+    private func updatePriceLabel(_ product: Product) {
+        let price: String = Formatter.format(product.price, product.currency)
+        let discountedPrice: String = Formatter.format(product.discountedPrice, product.currency)
+        priceLabel.text = product.currency.rawValue + " \(price)"
+        discountedPriceLabel.text = product.currency.rawValue + " \(discountedPrice)"
+        
+        if product.price == product.discountedPrice {
+            discountedPriceLabel.text = nil
+        } else {
+            priceLabel.attributedText = priceLabel.text?.invalidatePrice()
+        }
+    }
+    
+    private func updateStockLabel(_ product: Product) {
+        if product.stock <= 0 {
+            stockLabel.text = "품절"
+            stockLabel.attributedText = stockLabel.text?.markSoldOut()
+            return
+        }
         stockLabel.text = "잔여수량 : (product.stock)"
     }
 }
