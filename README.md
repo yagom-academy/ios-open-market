@@ -16,7 +16,7 @@
 
 |<img src= https://i.imgur.com/ryeIjHH.png width=150>|<img src= https://i.imgur.com/RG4tpLq.jpg width=150>|
 |:---:|:---:|
-|토털이|애종
+|[토털이](https://github.com/tottalE)|[애종](https://github.com/jonghancha)
 
 
  
@@ -238,13 +238,12 @@ extension NetworkAPIProvider {
 한번도 해 보지 않은 Double Test 여서 모르는게 많은 상태로 진행해 어려웠던 것 같다. 
 ![](https://i.imgur.com/sxaA2yl.png)
 
-위와 같은 구조로 의존성 주입을 해주어 `NetworkAPIProvider`클래스에 대한 Stubs 테스트를 해줄 수 있었다. 그 과정에서 `@escaping`에 대한 이해가 필요했었다. 
-
+위와 같은 구조로 의존성 주입을 해주어 `NetworkAPIProvider`클래스에 대한 Stubs 테스트를 해줄 수 있었다.
 ## STEP 2
 
 ### 1. collection view의 state
-configurationState란 셀의 모양에 영향을 미치는 모든 공통 상태(선택됨, 집중 또는 비활성화와 같은 보기 상태 및 편집 또는 스와이프됨과 같은 셀 상태)와 함께 특성 컬렉션을 포함합니다. 
- 저희는 `configurationState` 프로퍼티를 통해 state가 product를 가지고 있도록 구현했습니다.
+configurationState란 셀의 모양에 영향을 미치는 모든 공통 상태(선택됨, 집중 또는 비활성화와 같은 보기 상태 및 편집 또는 스와이프됨과 같은 셀 상태)와 함께 특성 컬렉션을 포함한다. 
+ 저희는 `configurationState` 프로퍼티를 통해 state가 product를 가지고 있도록 구현했다.
  ```swift
 override var configurationState: UICellConfigurationState {
         var state = super.configurationState
@@ -252,7 +251,7 @@ override var configurationState: UICellConfigurationState {
         return state
     }
 ```
-UICellConfigurationState가 productData를 가지도록 extension을 통해 구현하였고, "product" 키 값을 통해 state의 productData에 접근할 수 있도록 했습니다.
+UICellConfigurationState가 productData를 가지도록 extension을 통해 구현하였고, "product" 키 값을 통해 state의 productData에 접근할 수 있도록 했다.
 ```swift
 private extension UIConfigurationStateCustomKey {
     
@@ -269,7 +268,7 @@ private extension UICellConfigurationState {
 ```
 
 #### **데이터가 리스트에 데이터가 띄워지는 과정**
-1. 뷰 컨트롤러의 `configureDataSource()` 내의 `update(with: product)`를 통해 해당 셀에 보여질 product의 정보를 `ProductListCell.productData` 에게 넘겨줍니다.
+1. 뷰 컨트롤러의 `configureDataSource()` 내의 `update(with: product)`를 통해 해당 셀에 보여질 product의 정보를 `ProductListCell.productData` 에게 넘겨준다.
 ```swift
 func update(with newProduct: Product) {
         guard productData != newProduct else { return }
@@ -277,8 +276,8 @@ func update(with newProduct: Product) {
         setNeedsUpdateConfiguration()
     }
 ```
-2. 프로퍼티에 할당된 `productData`는 위에서 정의한 `configurationState`의 `state.productData`에 할당됩니다.
-3. 해당 `state`는 `updateConfiguration(using: -->> State <<--)` 의 매개변수로 전해집니다. 결론적으로 현재 상태의 `productData`를 토대로 cell을 구성해줍니다. 
+2. 프로퍼티에 할당된 `productData`는 위에서 정의한 `configurationState`의 `state.productData`에 할당된다.
+3. 해당 `state`는 `updateConfiguration(using: -->> State <<--)` 의 매개변수로 전해진다. 결론적으로 현재 상태의 `productData`를 토대로 cell을 구성한다. 
 
 
 ### 2. modern collection List view 구현 방법
@@ -297,13 +296,13 @@ func update(with newProduct: Product) {
     6-1. 모델에 Hashable 프로토콜 채택
 
 ### 3. translateAutoResizingIntoConstraint = false 
-왜 코드로 구현시에 이 부분을 false로 지정해 주어야 하는지 의문이 들어 공부해 보았습니다.
-`translateAutoResizingIntoConstraint`는 Autoresizing mask를 Auto Layout constarints로 바꿀지 말지를 결정하는 Boolean 값입니다.
-autoresizing mask constraints는 뷰의 크기와 위치를 지정해버리기 때문에, 이후에 추가적인 constraints를 추가할 수 없습니다. 그렇기 때문에 constraints를 추가해 주기 위해서는 false로 지정해 주어야 합니다.
+왜 코드로 구현시에 이 부분을 false로 지정해 주어야 하는지 의문이 들어 공부해 보았다.
+`translateAutoResizingIntoConstraint`는 Autoresizing mask를 Auto Layout constarints로 바꿀지 말지를 결정하는 Boolean 값이다.
+autoresizing mask constraints는 뷰의 크기와 위치를 지정해버리기 때문에, 이후에 추가적인 constraints를 추가할 수 없습니다. 그렇기 때문에 constraints를 추가해 주기 위해서는 false로 지정해 주어야 한다.
 
 ### 4. segmented control로 화면 전환 구현
 
-segment가 바뀔 때마다, 기존에 있던 view는 `removeFromSuperview`를 통해 지워준 후, view controller가 프로퍼티로 가지고 있는 datasource와 collectionview 프로퍼티에 새롭게 만들어준 datasource와 colection view를 넣어주었습니다. 그 이후 바뀐 collectionview를 `addSubview`를 통해 넣어주었습니다!
+segment가 바뀔 때마다, 기존에 있던 view는 `removeFromSuperview`를 통해 지워준 후, view controller가 프로퍼티로 가지고 있는 datasource와 collectionview 프로퍼티에 새롭게 만들어준 datasource와 colection view를 넣어주었다. 그 이후 바뀐 collectionview를 `addSubview`를 통해 넣어주었다!
 
 
 ## 📕 프로젝트에서 배운 점 wiki
@@ -312,4 +311,4 @@ segment가 바뀔 때마다, 기존에 있던 view는 `removeFromSuperview`를 �
 ## 📖 참고 링크
 
 
-[🔝 맨 위로 이동하기](#오픈마켓-🏬)
+[🔝 맨 위로 이동하기](#오픈마켓-)
