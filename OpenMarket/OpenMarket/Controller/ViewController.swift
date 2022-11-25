@@ -17,6 +17,7 @@ final class ViewController: UIViewController {
     }
     
     private let networkManager: NetworkManager = .init()
+    private let errorManager: ErrorManager = .init()
     private var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
     private var productCollectionView: UICollectionView!
     private var productList: ProductListData?
@@ -53,7 +54,10 @@ final class ViewController: UIViewController {
                     self.configureDataSource()
                 }
             case .failure(let error):
-                print(error)
+                guard let error = error as? NetworkError else { return }
+                DispatchQueue.main.async {
+                    self.present(self.errorManager.createAlert(error: error), animated: true)
+                }
             }
         }
     }
@@ -162,6 +166,9 @@ final class ViewController: UIViewController {
                     }
                 case .failure(let error):
                     print(error)
+                    DispatchQueue.main.async {
+                        cell.imageView.image = self.errorManager.showFailedImage()
+                    }
                 }
             }
         }
@@ -207,6 +214,10 @@ final class ViewController: UIViewController {
                     }
                 case .failure(let error):
                     print(error)
+                    DispatchQueue.main.async {
+                        content.image = self.errorManager.showFailedImage()
+                        cell.listContentView.configuration = content
+                    }
                 }
             }
         }

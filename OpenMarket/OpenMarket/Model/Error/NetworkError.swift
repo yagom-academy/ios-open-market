@@ -4,7 +4,7 @@
 //  Created by inho, Hamo, Jeremy on 2022/11/15.
 //
 
-enum NetworkError: Error {
+enum NetworkError: String, Error {
     case transportError
     case serverError
     case missingData
