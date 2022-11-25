@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "step1_testdata.json",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
