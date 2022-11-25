@@ -32,14 +32,16 @@
 ## 실행 화면
 
 ### ▶️ Step-1 실행화면 - 네트워크 구현
+
 <details>
 <summary> 
 펼쳐보기
 </summary>
 
-|**기본실행**|**Indicator적용**|**Cache적용**|
-|:--:|:--:|:--:|
-|<img src="https://i.imgur.com/lv84Bvd.gif" width=220> | <img src="https://i.imgur.com/h3xn3i7.gif" >|<img src="https://i.imgur.com/sOTkGBo.gif" >|
+|**HealthCheck**|<img width = 100, src = "https://i.imgur.com/gYPRWVK.png">|
+|:---:|:---|
+|**ProductList**|<img width = 7000, src = "https://i.imgur.com/OCWXSIH.png">|
+|**ProductDetail**|<img width = 700, src ="https://i.imgur.com/POfRE6k.png">|
 
 </details>
 
@@ -48,7 +50,7 @@
 
 |**기본실행**|**Indicator적용**|**Cache적용**|
 |:--:|:--:|:--:|
-|<img src="https://i.imgur.com/lv84Bvd.gif" width=220>|<img src="https://i.imgur.com/h3xn3i7.gif" width=220>|<img src="https://i.imgur.com/sOTkGBo.gif" width=220>|
+|<img src="https://i.imgur.com/sYKmYBJ.gif" width=220>|<img src="https://i.imgur.com/h3xn3i7.gif" width=220>|<img src="https://i.imgur.com/GDTosnM.gif" width=220>|
 
 
 ## Diagram
