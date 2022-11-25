@@ -7,6 +7,13 @@
 import UIKit
 
 class ViewController: UIViewController {
+    let indicator: UIActivityIndicatorView = {
+       let indicator = UIActivityIndicatorView()
+        
+        return indicator
+    }()
+    
+    
     enum Section {
         case main
     }
@@ -43,6 +50,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicator.startAnimating()
         
         createCollectionView()
         setCellRegistration()
@@ -61,11 +69,12 @@ class ViewController: UIViewController {
             
             print("2")
             //            DispatchQueue.main.async {
-            print(snapshot.numberOfItems)
             self.gridDataSource?.apply(snapshot, animatingDifferences: false)
-            print(snapshot.numberOfItems)
             self.listDataSource?.apply(snapshot, animatingDifferences: false)
             //            }
+            DispatchQueue.main.async {
+                self.indicator.stopAnimating()
+            }
         }
         
         setupNavBar()
@@ -100,7 +109,7 @@ class ViewController: UIViewController {
                     cell.image.image = picture
                     
                     if itemIdentifier.bargainPrice != itemIdentifier.price {
-                        cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
+                        cell.price.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "") "
                     } else {
                         cell.price.isHidden = true
                     }
@@ -143,7 +152,7 @@ class ViewController: UIViewController {
                 cell.image.image = picture
                 
                 if itemIdentifier.bargainPrice != itemIdentifier.price {
-                    cell.price.text = "\(itemIdentifier.currency.rawValue) \(itemIdentifier.price)"
+                    cell.price.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "")"
                 } else {
                     cell.price.isHidden = true
                 }
@@ -161,12 +170,12 @@ class ViewController: UIViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(10))
+            heightDimension: .estimated(120))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(10))
+            heightDimension: .estimated(120))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
         
         let section = NSCollectionLayoutSection(group: group)
@@ -180,14 +189,16 @@ class ViewController: UIViewController {
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(10))
+            widthDimension: .fractionalWidth(0.9),
+            heightDimension: .estimated(300))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(10))
+            heightDimension: .estimated(300))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 10
@@ -210,6 +221,21 @@ class ViewController: UIViewController {
     private func configure() {
         self.view.backgroundColor = .systemBackground
         self.navSegmentedView.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        
+        self.view.addSubview(indicator)
+        
+        self.indicator.translatesAutoresizingMaskIntoConstraints = false
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            
+            self.indicator.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            self.indicator.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor)
+        ])
     }
     
     func setupNavBar() {
@@ -229,7 +255,8 @@ class ViewController: UIViewController {
 // MARK: - Obj-C Method
 extension ViewController {
     @objc func tappedAddButton() {
-        
+        let addProductVC = AddProductViewController()
+        navigationController?.pushViewController(addProductVC, animated: true)
     }
     
     @objc func segmentChanged(_ sender: UISegmentedControl) {

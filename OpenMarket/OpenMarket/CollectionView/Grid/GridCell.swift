@@ -17,7 +17,6 @@ class GridCell: UICollectionViewCell {
     let productName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -28,7 +27,12 @@ class GridCell: UICollectionViewCell {
     let price: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        
+        let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: " ")
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
+        label.attributedText = attributeString
         label.textColor = .systemRed
+        
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
@@ -52,15 +56,27 @@ class GridCell: UICollectionViewCell {
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
+        label.textColor = .systemGray
         return label
+    }()
+    
+    let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+
+        
+        return stackView
     }()
     
     let containerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .equalSpacing
+        
         return stackView
     }()
     
@@ -75,8 +91,10 @@ class GridCell: UICollectionViewCell {
         self.contentView.layer.cornerRadius = 10
         self.contentView.layer.borderWidth = 2
         
-        self.containerStackView.addArrangedSubview(price)
-        self.containerStackView.addArrangedSubview(bargainPrice)
+        self.containerStackView.addArrangedSubview(priceStackView)
+        
+        self.priceStackView.addArrangedSubview(price)
+        self.priceStackView.addArrangedSubview(bargainPrice)
         
         self.containerStackView.addArrangedSubview(stock)
         setUpUI()
@@ -94,13 +112,13 @@ class GridCell: UICollectionViewCell {
     
     func setUpUI() {
         NSLayoutConstraint.activate([
-            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             
-            image.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            image.heightAnchor.constraint(equalTo: image.widthAnchor)
+            image.widthAnchor.constraint(equalTo: containerStackView.widthAnchor),
+            image.heightAnchor.constraint(equalTo: image.widthAnchor),
         ])
     }
     

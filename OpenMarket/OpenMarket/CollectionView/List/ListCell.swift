@@ -55,6 +55,7 @@ class ListCell: UICollectionViewListCell {
         //        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
+        label.textColor = .systemGray
         return label
     }()
     
