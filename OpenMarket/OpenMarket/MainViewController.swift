@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     enum Section {
         case main
     }
@@ -44,10 +44,12 @@ class ViewController: UIViewController {
         return collectionView
     }()
     
-    let indicator: UIActivityIndicatorView = {
+    lazy var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         
+        indicator.hidesWhenStopped = true
+        indicator.style = UIActivityIndicatorView.Style.large
         return indicator
     }()
     
@@ -59,7 +61,7 @@ class ViewController: UIViewController {
         setupNavBar()
         configureListCell()
         configureGridCell()
-        setUpUI()
+        setupUI()
         loadProductListToCollectionView()
     }
     
@@ -76,6 +78,52 @@ class ViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tappedAddButton))
     }
     
+    private func setupUI() {
+        self.view.backgroundColor = .systemBackground
+        self.navSegmentedView.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        collectionView.dataSource = listDataSource
+        
+        self.view.addSubview(self.indicator)
+        self.view.addSubview(self.collectionView)
+        self.view.bringSubviewToFront(self.indicator)
+        
+        let safeArea = self.view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            self.collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            self.collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            self.collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+
+            self.indicator.widthAnchor.constraint(equalToConstant: 100),
+            self.indicator.heightAnchor.constraint(equalToConstant: 100),
+            self.indicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            self.indicator.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
+        ])
+    }
+    
+    private func loadProductListToCollectionView() {
+        self.indicator.startAnimating()
+        
+        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { list in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(list.products)
+            
+            self.gridDataSource?.apply(snapshot, animatingDifferences: false)
+            self.listDataSource?.apply(snapshot, animatingDifferences: false)
+            DispatchQueue.main.async {
+//                ** show indicator **
+//                DispatchQueue.global().sync {
+//                    Thread.sleep(forTimeInterval: 1)
+//                }
+                self.indicator.stopAnimating()
+            }
+        }
+    }
+}
+
+// MARK: - Cell Registration and DataSource
+extension MainViewController {
     private func configureListCell() {
         self.listCellRegistration = UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, itemIdentifier in
             DispatchQueue.global().async {
@@ -87,6 +135,7 @@ class ViewController: UIViewController {
                 let picture = UIImage(data: data)
                 
                 DispatchQueue.main.async {
+                    
                     cell.productName.text = "\(itemIdentifier.name)"
                     cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
                     cell.image.image = picture
@@ -158,35 +207,19 @@ class ViewController: UIViewController {
             return collectionView.dequeueConfiguredReusableCell(using: gridCellRegis, for: indexPath, item: itemIdentifier)
         })
     }
-    
-    private func setUpUI() {
-        self.view.backgroundColor = .systemBackground
-        self.navSegmentedView.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
-        collectionView.dataSource = listDataSource
-        
-        self.view.addSubview(indicator)
-        self.view.addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            
-            self.indicator.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            self.indicator.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor)
-        ])
-    }
-    
+}
+
+// MARK: - CompositionalLayout
+extension MainViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(120))
+            heightDimension: .estimated(100))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(120))
+            heightDimension: .estimated(100))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
         
         let section = NSCollectionLayoutSection(group: group)
@@ -200,7 +233,7 @@ class ViewController: UIViewController {
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.9),
+            widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(300))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -218,26 +251,10 @@ class ViewController: UIViewController {
         
         return layout
     }
-    
-    private func loadProductListToCollectionView() {
-        indicator.startAnimating()
-        
-        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { list in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(list.products)
-            
-            self.gridDataSource?.apply(snapshot, animatingDifferences: false)
-            self.listDataSource?.apply(snapshot, animatingDifferences: false)
-            DispatchQueue.main.async {
-                self.indicator.stopAnimating()
-            }
-        }
-    }
 }
 
 // MARK: - Obj-C Method
-extension ViewController {
+extension MainViewController {
     @objc func tappedAddButton() {
         let addProductVC = AddProductViewController()
         navigationController?.pushViewController(addProductVC, animated: true)

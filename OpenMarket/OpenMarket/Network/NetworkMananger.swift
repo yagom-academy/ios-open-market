@@ -10,6 +10,12 @@ import Foundation
 struct NetworkManager {
     typealias StatusCode = Int
     let successRange = 200..<300
+    let cache = {
+        let cache = URLCache.shared
+//        cache.memoryCapacity = 100000
+//        cache.diskCapacity = 0
+        return cache
+    }()
     
     enum RequestType {
         case healthChecker
@@ -65,12 +71,33 @@ struct NetworkManager {
             return
         }
         
-        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
-            if isSuccessResponse(response: response, error: error) == false {
-                return
+        var request = URLRequest(url: url)
+        request.cachePolicy = .returnCacheDataElseLoad
+        if cache.cachedResponse(for: request) == nil {
+            let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+                if isSuccessResponse(response: response, error: error) == false {
+                    return
+                }
+                
+                guard let data = data,
+                      let response = response else {
+                    return
+                }
+                
+                let cacheData = CachedURLResponse(response: response, data: data)
+                self.cache.storeCachedResponse(cacheData, for: request)
+                
+                do {
+                    let result = try convertJSON(ProductsList.self, from: data)
+                    completion(result)
+                } catch {
+                    print(error)
+                }
             }
             
-            guard let data = data else {
+            dataTask.resume()
+        } else {
+            guard let data = self.cache.cachedResponse(for: request)?.data else {
                 return
             }
             
@@ -81,8 +108,6 @@ struct NetworkManager {
                 print(error)
             }
         }
-        
-        dataTask.resume()
     }
     
     func getProductDetail(productNumber: Int, completion: @escaping (Product) -> Void) {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCell: UICollectionViewCell {
+final class GridCell: UICollectionViewCell {
     let image: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -100,6 +100,10 @@ class GridCell: UICollectionViewCell {
         setUpUI()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func prepareForReuse() {
         image.image = nil
         productName.text = nil
@@ -110,7 +114,7 @@ class GridCell: UICollectionViewCell {
         price.isHidden = false
     }
     
-    func setUpUI() {
+    private func setUpUI() {
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
@@ -120,11 +124,6 @@ class GridCell: UICollectionViewCell {
             image.widthAnchor.constraint(equalTo: containerStackView.widthAnchor),
             image.heightAnchor.constraint(equalTo: image.widthAnchor),
         ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-        
     }
 }
 

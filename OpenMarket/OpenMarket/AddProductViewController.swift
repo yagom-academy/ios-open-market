@@ -7,10 +7,9 @@
 
 import UIKit
 
-class AddProductViewController: UIViewController {
-
+final class AddProductViewController: UIViewController {
     let text: UILabel = {
-       let text = UILabel()
+        let text = UILabel()
         text.text = "😎"
         text.font = .preferredFont(forTextStyle: .title1)
         
@@ -27,7 +26,6 @@ class AddProductViewController: UIViewController {
             text.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         
         ])
-        
         
         self.view.backgroundColor = .systemBackground
         // Do any additional setup after loading the view.

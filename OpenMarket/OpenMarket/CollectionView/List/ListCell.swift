@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCell: UICollectionViewListCell {
+final class ListCell: UICollectionViewListCell {
     
     let image: UIImageView = {
         let imageView = UIImageView()
@@ -52,7 +52,7 @@ class ListCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
-        //        label.numberOfLines = 0
+        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
         label.textColor = .systemGray
@@ -63,7 +63,8 @@ class ListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+//        stackView.distribution = .fill
+        stackView.alignment = .center
         return stackView
     }()
     
@@ -79,7 +80,8 @@ class ListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.distribution = .fill
+//        stackView.spacing = 8
         return stackView
     }()
     
@@ -88,6 +90,7 @@ class ListCell: UICollectionViewListCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
+        stackView.distribution = .fill
         stackView.spacing = 8
         return stackView
     }()
@@ -125,11 +128,9 @@ class ListCell: UICollectionViewListCell {
     }
     
     func setUpUI() {
-        let priceHugging = bargainPrice.contentHuggingPriority(for: .horizontal) + 1
-        price.setContentHuggingPriority(priceHugging, for: .horizontal)
+        price.setContentHuggingPriority(.defaultHigh - 1, for: .horizontal)
         
-        let stockResistance = productName.contentCompressionResistancePriority(for: .horizontal) - 1
-        stock.setContentCompressionResistancePriority(stockResistance, for: .horizontal)
+//        productName.setContentCompressionResistancePriority(.defaultHigh + 1, for: .vertical)
         
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -140,7 +141,14 @@ class ListCell: UICollectionViewListCell {
             image.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/6),
             image.heightAnchor.constraint(equalTo: image.widthAnchor),
             
-            contentView.widthAnchor.constraint(greaterThanOrEqualTo: image.heightAnchor)
+//            stock.widthAnchor.constraint(lessThanOrEqualTo: nameStockStackView.widthAnchor, multiplier: 0.4),
+//
+//            nameStockStackView.heightAnchor.constraint(greaterThanOrEqualTo: productName.heightAnchor)
+//            stock.heightAnchor.constraint(greaterThanOrEqualTo: productName.heightAnchor),
+//            productName.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6)
+//            contentView.heightAnchor.constraint(greaterThanOrEqualTo: image.heightAnchor)
+//            labelStackView.heightAnchor.constraint(greaterThanOrEqualTo: image.heightAnchor)
+            
         ])
     }
     
