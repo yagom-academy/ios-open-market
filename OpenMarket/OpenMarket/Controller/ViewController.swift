@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     }
     
     let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["List", "Grid"])
-    let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+    lazy var plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                      style: .plain,
                                      target: self,
                                      action: #selector(tapped(sender:)))
@@ -96,7 +96,11 @@ extension ViewController {
     }
     
     @objc private func tapped(sender: UIBarButtonItem) {
-        print("tapped!")
+        let emptyVC = EmptyViewController()
+        
+        emptyVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        
+        self.present(emptyVC, animated: true)
     }
 }
 
