@@ -92,6 +92,7 @@ extension ViewController {
     
     private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
+            cell.configureContent(item: item)
         }
         listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
