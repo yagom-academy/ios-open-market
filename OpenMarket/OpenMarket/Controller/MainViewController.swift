@@ -18,8 +18,8 @@ class MainViewController: UIViewController {
         case main
     }
     
-    let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["List", "Grid"])
-    lazy var plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+    let segmentedControl: UISegmentedControl = UISegmentedControl(items: [OpenMarketCell.list, OpenMarketCell.grid])
+    lazy var plusButton = UIBarButtonItem(image: UIImage(systemName: OpenMarketCell.plus),
                                      style: .plain,
                                      target: self,
                                      action: #selector(tapped(sender:)))

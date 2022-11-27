@@ -66,7 +66,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         spacingView.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
         priceForSaleLabel.textAlignment = .left
         
-        let image = UIImageView(image: UIImage(systemName: "chevron.right"))
+        let image = UIImageView(image: UIImage(systemName: OpenMarketCell.cross))
         accessoryView = image
         accessoryView.tintColor = .systemGray
     }
@@ -120,21 +120,35 @@ class ListCollectionViewCell: UICollectionViewCell {
     func configureContent(item: Item) {
         self.product = item
         
+        var priceForSale: String
+        var priceToString: String
+        var stock: String
+        
+        do {
+            priceToString = try item.price.formatDouble
+            priceForSale = try item.discountedPrice.formatDouble
+            stock = try item.stock.formatInt
+        } catch {
+            priceToString = OpenMarketCell.noneError
+            priceForSale = OpenMarketCell.noneError
+            stock = OpenMarketCell.noneError
+        }
+        
         spacingView.isHidden = true
         productNameLabel.text = "\(item.name)"
         priceLabel.text = .none
         priceLabel.attributedText = .none
-        stockLabel.text = "잔여수량: \(item.stock)"
+        stockLabel.text = OpenMarketCell.stock + "\(stock)"
         stockLabel.textColor = .systemGray
-        priceForSaleLabel.text = "\(item.currency) \(item.discountedPrice)"
+        priceForSaleLabel.text = "\(item.currency) \(priceForSale)"
         priceForSaleLabel.textColor = .systemGray
         
         if item.bargainPrice != 0 {
             spacingView.isHidden = false
             priceLabel.isHidden = false
-            priceForSaleLabel.text = "\(item.currency) \(item.discountedPrice)"
+            priceForSaleLabel.text = "\(item.currency) \(priceForSale)"
             priceLabel.textColor = .systemRed
-            priceLabel.text = "\(item.currency) \(item.price)"
+            priceLabel.text = "\(item.currency) \(priceToString)"
             
             guard let priceText = priceLabel.text else { return }
             let attribute = NSMutableAttributedString(string: priceText)
@@ -144,7 +158,7 @@ class ListCollectionViewCell: UICollectionViewCell {
         }
         
         if item.stock == 0 {
-            stockLabel.text = "품절"
+            stockLabel.text = OpenMarketCell.soldOut
             stockLabel.textColor = .systemYellow
         }
         
