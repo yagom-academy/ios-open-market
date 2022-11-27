@@ -66,7 +66,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var labelStackView: UIStackView = {
+    private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productPriceLabel,
                                                        productSalePriceLabel])
         stackView.axis = .vertical
@@ -77,7 +77,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    lazy var productStackView: UIStackView = {
+    private lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productNameLabel,
                                                        labelStackView,
                                                        productStockLabel])
@@ -102,7 +102,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         productSalePriceLabel.text = String(productData.currencyBargainPrice)
         productStockLabel.text = productData.stockDescription
         
-        setupStockLabel()
+        setupStockLabelText()
         setupPriceLabel()
     }
     
@@ -120,7 +120,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Constraints
 extension GridCollectionViewCell {
-    func setupUI() {
+    private func setupUI() {
         contentView.layer.borderWidth = 1
         contentView.layer.cornerRadius = 10
         contentView.layer.borderColor = UIColor.gray.cgColor
@@ -135,7 +135,7 @@ extension GridCollectionViewCell {
         setupIndicatorConstraints()
     }
     
-    private func setupStockLabel() {
+    private func setupStockLabelText() {
         if productStockLabel.text == "품절" {
             productStockLabel.textColor = .systemOrange
         } else {
@@ -164,21 +164,21 @@ extension GridCollectionViewCell {
     
     private func setupStackViewConstraints() {
         NSLayoutConstraint.activate([
-            productImageView.widthAnchor.constraint(
-                equalTo: contentView.widthAnchor, multiplier: 0.4),
-            productImageView.heightAnchor.constraint(
-                equalTo: contentView.heightAnchor, multiplier: 0.4),
+            productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                    multiplier: 0.4),
+            productImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor,
+                                                     multiplier: 0.4),
             
-            productNameLabel.widthAnchor.constraint(
-                equalTo: contentView.widthAnchor, multiplier: 0.9),
+            productNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                    multiplier: 0.9),
             
             productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             productImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            productImageView.bottomAnchor.constraint(
-                equalTo: productStackView.topAnchor, constant: -10),
+            productImageView.bottomAnchor.constraint(equalTo: productStackView.topAnchor,
+                                                     constant: -10),
             
-            productStackView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor, constant: -10),
+            productStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                     constant: -10),
             productStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
