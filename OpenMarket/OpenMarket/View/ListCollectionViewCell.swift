@@ -150,12 +150,13 @@ class ListCollectionViewCell: UICollectionViewCell {
         
         DispatchQueue.global().async {
             guard let url = URL(string: item.thumbnail) else { return }
-            
-            DispatchQueue.main.async {
-                if item == self.product {
-//                    self.productImage.image = image
-                    self.loadingView.stopAnimating()
-                    self.loadingView.isHidden = true
+            NetworkManager.publicNetworkManager.getImageData(url: url) { image in
+                DispatchQueue.main.async {
+                    if item == self.product {
+                        self.productImage.image = image
+                        self.loadingView.stopAnimating()
+                        self.loadingView.isHidden = true
+                    }
                 }
             }
         }

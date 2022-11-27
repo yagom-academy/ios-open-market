@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26445A7629334724009F1838 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26445A7529334724009F1838 /* ImageCacheManager.swift */; };
 		2646F306292C903E0069F078 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2646F305292C903E0069F078 /* ListCollectionViewCell.swift */; };
 		2646F308292C9A810069F078 /* ListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2646F307292C9A810069F078 /* ListCollectionView.swift */; };
 		2646F30A292C9BEA0069F078 /* GridCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2646F309292C9BEA0069F078 /* GridCollectionView.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		26445A7529334724009F1838 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		2646F305292C903E0069F078 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		2646F307292C9A810069F078 /* ListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionView.swift; sourceTree = "<group>"; };
 		2646F309292C9BEA0069F078 /* GridCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				AEDAFCCA292482D500CB238B /* HTTPManager.swift */,
 				AEDAFCCC2924851C00CB238B /* JSONConverter.swift */,
 				AEDAFCCE2924865F00CB238B /* NetworkManager.swift */,
+				26445A7529334724009F1838 /* ImageCacheManager.swift */,
 				264E4500292470AD00787F86 /* Namespace.swift */,
 				AE5A90B329231EBB00E3B588 /* ItemList.swift */,
 				AE5A90B529231F5A00E3B588 /* Item.swift */,
@@ -260,6 +263,7 @@
 			files = (
 				2646F306292C903E0069F078 /* ListCollectionViewCell.swift in Sources */,
 				AE5A90B429231EBB00E3B588 /* ItemList.swift in Sources */,
+				26445A7629334724009F1838 /* ImageCacheManager.swift in Sources */,
 				2646F308292C9A810069F078 /* ListCollectionView.swift in Sources */,
 				AE5A90B829231F8300E3B588 /* Currency.swift in Sources */,
 				AECBCDF0293335BE00626EB5 /* GridCollectionViewCell.swift in Sources */,
