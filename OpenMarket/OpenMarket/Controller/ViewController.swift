@@ -6,11 +6,13 @@
 
 import UIKit
 
+@available(iOS 15.0, *)
 class ViewController: UIViewController {
     var product: Item?
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     var listDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
     var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
+    var collectionView: UICollectionView! = nil
     
     enum Section {
         case main
@@ -44,7 +46,7 @@ class ViewController: UIViewController {
         NetworkManager.publicNetworkManager.getJSONData(
             url: url,
             type: ItemList.self) { itemData in
-                //self.makeSnapshot(itemData: itemData)
+                self.makeSnapshot(itemData: itemData)
             }
     }
     
@@ -62,5 +64,39 @@ class ViewController: UIViewController {
     
     @objc private func tapped(sender: UIBarButtonItem) {
         print("tapped!")
+    }
+}
+
+@available(iOS 15.0, *)
+extension ViewController {
+    private func createListLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(0.09))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }
+    
+    private func configureListHierarchy() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    private func configureListDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
+        }
+        listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
+            
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        }
     }
 }
