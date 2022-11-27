@@ -7,7 +7,7 @@
 import UIKit
 
 @available(iOS 15.0, *)
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     var product: Item?
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     var listDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
@@ -33,11 +33,6 @@ class ViewController: UIViewController {
         addSubView()
         configureGridDataSource()
         configureListDataSource()
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         getItemList()
     }
     
@@ -64,7 +59,7 @@ class ViewController: UIViewController {
 }
 
 @available(iOS 15.0, *)
-extension ViewController {
+extension MainViewController {
     private func configureSegment() {
         self.navigationItem.titleView = segmentedControl
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
@@ -105,7 +100,7 @@ extension ViewController {
 }
 
 @available(iOS 15.0, *)
-extension ViewController {
+extension MainViewController {
     private func createListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
@@ -131,16 +126,16 @@ extension ViewController {
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
             cell.configureContent(item: item)
         }
+        
         listDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
-            
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }
 }
 
 @available(iOS 15.0, *)
-extension ViewController {
+extension MainViewController {
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
@@ -170,7 +165,8 @@ extension ViewController {
             cell.configureContent(item: item)
         }
         
-        gridDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
+        gridDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
     }

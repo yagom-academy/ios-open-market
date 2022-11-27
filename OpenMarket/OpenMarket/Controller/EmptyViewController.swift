@@ -2,7 +2,7 @@
 //  EmptyViewController.swift
 //  OpenMarket
 //
-//  Created by 정선아 on 2022/11/27.
+//  Created by Ash and som on 2022/11/27.
 //
 
 import UIKit
