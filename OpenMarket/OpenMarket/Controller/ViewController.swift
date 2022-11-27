@@ -130,6 +130,7 @@ extension ViewController {
     
     private func configureGridDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { (cell, indexPath, item) in
+            cell.configureContent(item: item)
         }
         
         gridDataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in

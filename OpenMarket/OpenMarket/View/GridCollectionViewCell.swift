@@ -78,4 +78,50 @@ class GridCollectionViewCell: UICollectionViewCell {
         loadingView.startAnimating()
         loadingView.isHidden = false
     }
+    
+    func configureContent(item: Item) {
+        self.product = item
+        
+        productNameLabel.text = "\(item.name)"
+        priceLabel.text = .none
+        priceLabel.attributedText = .none
+        stockLabel.text = "잔여수량: \(item.stock)"
+        stockLabel.textColor = .systemGray
+        priceForSaleLabel.text = "\(item.currency) \(item.discountedPrice)"
+        priceForSaleLabel.textColor = .systemGray
+        
+        if item.bargainPrice != 0 {
+            priceLabel.isHidden = false
+            priceForSaleLabel.text = "\(item.currency) \(item.discountedPrice)"
+            priceLabel.textColor = .systemRed
+            priceLabel.text = "\(item.currency) \(item.price)"
+            
+            guard let priceText = priceLabel.text else { return }
+            let attribute = NSMutableAttributedString(string: priceText)
+            attribute.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attribute.length))
+            priceLabel.attributedText = attribute
+            priceForSaleLabel.textColor = .systemGray
+        }
+        
+        if item.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
+        }
+        
+        DispatchQueue.global().async {
+            guard let url = URL(string: item.thumbnail) else { return }
+            
+            DispatchQueue.main.async {
+                if item == self.product {
+                    // self.productImage.image = image
+                    self.loadingView.stopAnimating()
+                    self.loadingView.isHidden = true
+                }
+            }
+        }
+        
+        layer.cornerRadius = 10.0
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.borderWidth = 1
+    }
 }
