@@ -18,17 +18,7 @@ class ViewController: UIViewController {
         case main
     }
     
-    let segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["List", "Grid"])
-        
-        control.selectedSegmentIndex = 0
-        control.autoresizingMask = .flexibleWidth
-        control.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
-        control.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
-        
-        return control
-    }()
-    
+    let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["List", "Grid"])
     let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                      style: .plain,
                                      target: self,
@@ -36,8 +26,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.titleView = segmentedControl
-        self.navigationItem.rightBarButtonItem = plusButton
+        configureSegment()
+        configurePlusButton()
+        configureGridHierarchy()
+        configureListHierarchy()
+        addSubView()
+        configureGridDataSource()
+        configureListDataSource()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getItemList()
     }
     
     private func getItemList() {
@@ -57,9 +58,41 @@ class ViewController: UIViewController {
         gridDataSource.apply(snapshot, animatingDifferences: false)
     }
     
+    private func addSubView() {
+        self.view.addSubview(collectionView)
+    }
+}
+
+@available(iOS 15.0, *)
+extension ViewController {
+    private func configureSegment() {
+        self.navigationItem.titleView = segmentedControl
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.systemBlue], for: .normal)
+        segmentedControl.selectedSegmentTintColor = .systemBlue
+        segmentedControl.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
+        segmentedControl.layer.borderWidth = 1.0
+        segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
+    }
+    
+    private func configurePlusButton() {
+        self.navigationItem.rightBarButtonItem = plusButton
+    }
     
     @objc private func didChangeValue(segment: UISegmentedControl) {
-        print("얍!")
+        let selection = segment.selectedSegmentIndex
+        switch selection {
+        case 0:
+            collectionView.dataSource = listDataSource
+            collectionView.setCollectionViewLayout(createListLayout(), animated: true)
+        case 1:
+            collectionView.dataSource = gridDataSource
+            collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
+        default:
+            break
+        }
     }
     
     @objc private func tapped(sender: UIBarButtonItem) {
