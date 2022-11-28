@@ -4,7 +4,7 @@
 
 enum OpenMarketAPI {
     case healthChecker
-    case productList(pageNumber: Int, itemsPerPage: Int)
+    case productList(pageNumber: Int)
     case product(id: Int)
 }
 
@@ -13,17 +13,18 @@ extension OpenMarketAPI: Endpointable {
         switch self {
         case .healthChecker:
             return "/healthChecker"
-        case .productList(_, _):
+        case .productList(_):
             return "/api/products"
         case .product(id: let id):
             return "/api/products/\(id)"
         }
     }
     
+    
     var queries: [String : String] {
         switch self {
-        case .productList(pageNumber: let pageNumber, itemsPerPage: let itemsPerPage):
-            return ["page_no": "\(pageNumber)", "items_per_page": "\(itemsPerPage)"]
+        case .productList(pageNumber: let pageNumber):
+            return ["page_no": "\(pageNumber)"]
         default:
             return [:]
         }

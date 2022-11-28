@@ -6,33 +6,34 @@
 
 import UIKit
 
-class OpenMarketViewController: UIViewController {
+final class OpenMarketViewController: UIViewController {
     
     private enum ProductListSection: Int {
         case main
     }
     
-    private let segmentedControl: UISegmentedControl = {
-            let control = UISegmentedControl(items: ["LIST", "GRID"])
-            control.translatesAutoresizingMaskIntoConstraints = false
-            return control
-        }()
+    private enum ViewType: String, CaseIterable {
+        case list = "LIST"
+        case grid = "GRID"
+    }
+    
+//    private let segmentedControl: UISegmentedControl = {
+//        let control = UISegmentedControl(items: [ViewType.list.rawValue, ViewType.grid.rawValue])
+//            control.translatesAutoresizingMaskIntoConstraints = false
+//            return control
+//    }()
     
     private var gridCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product>?
     private var products: [Product] = [] {
         didSet {
-            if segmentedControl.selectedSegmentIndex == 0 {
-                print("configure list!")
-            }
-            configureDataSource()
+            applySnapshot(for: products)
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         fetchData()
         configureGridCollectionView()
         configureDataSource()
@@ -40,15 +41,10 @@ class OpenMarketViewController: UIViewController {
     
     func fetchData() {
         let networkManager = NetworkManager()
-        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: 1, itemsPerPage: 1000), dataType: ProductList.self) { result in
+        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: 1), dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
-                // 현재 호출되는 곳은 글로벌 큐
-                // 글로벌 큐에서 바로 products를 넣는다면?
-                // 굳이 main.async로 넣어야 하는 이유? --> didSet에서 UI를 설정해주고 있기 때문에
-                DispatchQueue.main.async {
-                    self.products = productList.products
-                }
+                self.products = productList.products
             case .failure(let error):
                 print(error)
             }
@@ -87,7 +83,7 @@ extension OpenMarketViewController {
         
         dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
-            cell?.contentView.translatesAutoresizingMaskIntoConstraints = false
+//            cell?.contentView.translatesAutoresizingMaskIntoConstraints = false
             cell?.contentView.backgroundColor = .white
             cell?.contentView.layer.borderColor = UIColor.gray.cgColor
             cell?.contentView.layer.borderWidth = 1.0
@@ -96,13 +92,14 @@ extension OpenMarketViewController {
             cell?.updateContents(product)
             return cell
         }
-        
+    }
+    
+    func applySnapshot(for items: [Product]) {
         var snapshot = NSDiffableDataSourceSnapshot<ProductListSection, Product>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(products)
+        snapshot.appendItems(items)
         
-        guard let dataSource = dataSource else { return }
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 

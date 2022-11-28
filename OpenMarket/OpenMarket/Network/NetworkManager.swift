@@ -19,7 +19,7 @@ final class NetworkManager {
         }
         
         let request = URLRequest(url: requestURL)
-        
+        print(request)
         let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return completion(.failure(.URLError))

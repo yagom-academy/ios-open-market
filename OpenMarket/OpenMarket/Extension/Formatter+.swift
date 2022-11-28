@@ -17,9 +17,9 @@ extension Formatter {
         }
 
         guard let result = formatter.string(from: number as NSNumber) else {
-            return "\(number)"
+            return "\(currency.rawValue) \(number)"
         }
         
-        return result
+        return "\(currency.rawValue) " + result
     }
 }

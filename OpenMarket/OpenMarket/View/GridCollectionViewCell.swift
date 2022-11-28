@@ -5,8 +5,7 @@
 import UIKit
 
 // lazy ㄴㄴ! -> addSubview 하는것들 이동
-//
-class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell {
     static let identifier = "gridCell"
     
     required init?(coder: NSCoder) {
@@ -16,29 +15,22 @@ class GridCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: self.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        ])
-        
         configureUI()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        print("reuse!!")
-        
+
         productImageView.image = .none
         productNameLabel.text = .none
-        priceLabel.text = .none
-        bargainPriceLabel.text = .none
-        priceLabel.attributedText = .none
+        priceLabel.attributedText = nil
+        priceLabel.text = nil
+        bargainPriceLabel.text = nil
+        stockLabel.attributedText = nil
         stockLabel.text = .none
     }
     
-    private lazy var productImageView: UIImageView = {
+    private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -47,7 +39,7 @@ class GridCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .headline)
@@ -55,7 +47,23 @@ class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textAlignment = .center
+        label.textColor = .gray
+        return label
+    }()
+    
+    private let bargainPriceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textAlignment = .center
+        label.textColor = .gray
+        return label
+    }()
+    
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
@@ -64,32 +72,14 @@ class GridCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var bargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .center
-        label.textColor = .gray
-        return label
-    }()
-    
-    private lazy var stockLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .center
-        label.textColor = .gray
-        return label
-    }()
-    
-    private lazy var priceStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         return stack
     }()
     
-    private lazy var stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
@@ -141,15 +131,12 @@ class GridCollectionViewCell: UICollectionViewCell {
     private func updatePriceLabel(_ product: Product) {
         let price: String = Formatter.format(product.price, product.currency)
         let bargainPrice: String = Formatter.format(product.bargainPrice, product.currency)
-        priceLabel.text = product.currency.rawValue + " \(price)"
-        bargainPriceLabel.text = product.currency.rawValue + " \(bargainPrice)"
-        
-        if product.price == product.bargainPrice {
-            print("equal", product.name, product.price, product.bargainPrice)
-            bargainPriceLabel.text = ""
-        } else {
-            print("else", product.name, product.price, product.bargainPrice)
-            priceLabel.attributedText = priceLabel.text?.invalidatePrice()
+        priceLabel.attributedText = NSAttributedString(string: price)
+        bargainPriceLabel.attributedText = NSAttributedString(string: bargainPrice)
+        bargainPriceLabel.isHidden = product.price == product.bargainPrice
+
+        if product.price != product.bargainPrice {
+            priceLabel.attributedText = price.invalidatePrice()
         }
     }
     
@@ -163,3 +150,5 @@ class GridCollectionViewCell: UICollectionViewCell {
         stockLabel.text = "잔여수량 : \(product.stock)"
     }
 }
+
+
