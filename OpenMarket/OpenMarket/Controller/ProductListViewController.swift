@@ -26,8 +26,8 @@ final class ProductListViewController: UIViewController {
             case .success(let data):
                 self?.productData = data
                 DispatchQueue.main.async {
-                    self?.configureHierarchy()
-                    self?.configureDataSource()
+                    self?.configureListHierarchy()
+                    self?.configureListDataSource()
                 }
             default :
                 return
@@ -68,8 +68,8 @@ private extension ProductListViewController {
     @objc private func segControlChanged(segcon: UISegmentedControl) {
         switch segcon.selectedSegmentIndex {
         case 0:
-            self.configureHierarchy()
-            self.configureDataSource()
+            self.configureListHierarchy()
+            self.configureListDataSource()
         case 1:
             self.createGridCollectionView()
             self.configureGridDataSource()
@@ -95,7 +95,7 @@ private extension ProductListViewController {
         if let collectionView {
             collectionView.removeFromSuperview()
         }
-        self.collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        self.collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         self.collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(self.collectionView)
     }
