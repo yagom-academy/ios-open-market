@@ -9,8 +9,8 @@ final class ProductListCell: UICollectionViewListCell {
     private var customViewConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
     
     func update(with newProduct: Product) {
-        guard productData != newProduct else { return }
-        productData = newProduct
+        guard self.productData != newProduct else { return }
+        self.productData = newProduct
         setNeedsUpdateConfiguration()
     }
     
@@ -45,32 +45,32 @@ private extension UICellConfigurationState {
 extension ProductListCell {
     
     func setupViewsIfNeeded() {
-        guard customViewConstraints == nil else {
+        guard self.customViewConstraints == nil else {
             return
         }
         
-        [productListContentView, productPriceLabel].forEach {
-            contentView.addSubview($0)
+        [self.productListContentView, self.productPriceLabel].forEach {
+            self.contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         let constraints = (leading:
-                            productPriceLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productListContentView.trailingAnchor),
+                            self.productPriceLabel.leadingAnchor.constraint(greaterThanOrEqualTo: self.productListContentView.trailingAnchor),
                            trailing:
-                            productPriceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
+                            self.productPriceLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor))
         
         NSLayoutConstraint.activate([
-            productListContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            productListContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            productListContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            productPriceLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            self.productListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            self.productListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            self.productListContentView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            self.productPriceLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             constraints.leading,
             constraints.trailing
         ])
         
-        productListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        self.productListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
-        customViewConstraints = constraints
+        self.customViewConstraints = constraints
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
@@ -105,10 +105,10 @@ extension ProductListCell {
             }
         }
         
-        productListContentView.configuration = content
+        self.productListContentView.configuration = content
         
-        productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
-        productPriceLabel.textColor = .gray
-        productPriceLabel.attributedText = productData.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(productData.stock)".attributed
+        self.productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
+        self.productPriceLabel.textColor = .gray
+        self.productPriceLabel.attributedText = productData.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(productData.stock)".attributed
     }
 }

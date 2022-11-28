@@ -16,7 +16,7 @@ final class ProductListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        self.view.backgroundColor = .white
         configureSegmentedControl()
         configureNavigationBar()
         configureAddButton()
@@ -99,9 +99,9 @@ extension ProductListViewController {
         if let collectionView {
             collectionView.removeFromSuperview()
         }
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(collectionView)
+        self.collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        self.collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(self.collectionView)
     }
     
     private func configureDataSource() {
@@ -110,14 +110,14 @@ extension ProductListViewController {
             cell.accessories = [.disclosureIndicator()]
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+        self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: self.collectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(productData?.pages ?? [])
-        dataSource.apply(snapshot)
+        snapshot.appendItems(self.productData?.pages ?? [])
+        self.dataSource.apply(snapshot)
     }
 }
 
@@ -146,16 +146,16 @@ extension ProductListViewController {
         if let collectionView {
             collectionView.removeFromSuperview()
         }
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
         
-        view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.collectionView)
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            self.collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            self.collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
     
@@ -164,13 +164,13 @@ extension ProductListViewController {
             cell.configureCell(with: product)
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
+        self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: self.collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         })
         
         var snapShot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapShot.appendSections([.main])
-        snapShot.appendItems(productData?.pages ?? [])
-        dataSource.apply(snapShot)
+        snapShot.appendItems(self.productData?.pages ?? [])
+        self.dataSource.apply(snapShot)
     }
 }

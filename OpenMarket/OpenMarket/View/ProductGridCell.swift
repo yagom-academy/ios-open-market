@@ -57,27 +57,27 @@ final class ProductGridCell: UICollectionViewCell {
     }
     
     private func configureStackView() {
-        stackView.addArrangedSubview(productImage)
-        stackView.addArrangedSubview(nameLabel)
-        stackView.addArrangedSubview(priceLabel)
-        stackView.addArrangedSubview(stockLabel)
+        self.stackView.addArrangedSubview(self.productImage)
+        self.stackView.addArrangedSubview(self.nameLabel)
+        self.stackView.addArrangedSubview(self.priceLabel)
+        self.stackView.addArrangedSubview(self.stockLabel)
     }
     
     private func layout() {
         configureStackView()
-        contentView.addSubview(stackView)
+        self.contentView.addSubview(self.stackView)
         
-        layer.masksToBounds = true
-        layer.cornerRadius = 10
-        layer.borderWidth = 1.5
-        layer.borderColor = UIColor.lightGray.cgColor
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 1.5
+        self.layer.borderColor = UIColor.lightGray.cgColor
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            productImage.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.5)
+            self.stackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            self.stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            self.stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            self.productImage.heightAnchor.constraint(equalTo: self.stackView.heightAnchor, multiplier: 0.5)
         ])
     }
     

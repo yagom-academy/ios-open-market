@@ -49,7 +49,7 @@ extension NetworkAPIProvider {
     func fetch(path: NetworkAPI, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = path.urlComponents.url else { return }
         
-        session.dataTask(with: url) { data, response, error in
+        self.session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
