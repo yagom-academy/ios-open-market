@@ -5,7 +5,6 @@
 //  Created by 써니쿠키, 메네 on 2022/11/15.
 //
 
-import Foundation
 import UIKit
 
 final class MarketURLSessionProvider {

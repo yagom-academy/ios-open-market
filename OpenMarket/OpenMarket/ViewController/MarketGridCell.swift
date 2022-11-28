@@ -65,8 +65,6 @@ final class MarketGridCell: UICollectionViewCell {
         contentView.addSubview(productStackView)
         
         NSLayoutConstraint.activate([
-            productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                                multiplier: 0.9),
             productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
             
             productStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
