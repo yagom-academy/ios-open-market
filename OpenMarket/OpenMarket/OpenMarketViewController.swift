@@ -31,30 +31,38 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
+    private var pageNumber: Int = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchData()
+        fetchData(for: pageNumber)
         configureGridCollectionView()
         configureDataSource()
     }
     
-    func fetchData() {
+    var isLoading: Bool = false
+    
+    func fetchData(for page: Int) {
+        guard !isLoading else { return }
         let networkManager = NetworkManager()
-        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: 1), dataType: ProductList.self) { result in
+        isLoading = true
+        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 10), dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
-                self.products = productList.products
+                var refinedProducts: [Product] = []
+                for product in productList.products {
+                    if self.products.contains(product) { continue }
+                    refinedProducts.append(product)
+                }
+                self.products += refinedProducts
+                self.isLoading = false
             case .failure(let error):
                 print(error)
             }
         }
     }
-}
-
-extension OpenMarketViewController: UICollectionViewDelegate { }
-
-extension OpenMarketViewController {
+    
     func configureGridCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
@@ -83,7 +91,6 @@ extension OpenMarketViewController {
         
         dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
-//            cell?.contentView.translatesAutoresizingMaskIntoConstraints = false
             cell?.contentView.backgroundColor = .white
             cell?.contentView.layer.borderColor = UIColor.gray.cgColor
             cell?.contentView.layer.borderWidth = 1.0
@@ -100,6 +107,15 @@ extension OpenMarketViewController {
         snapshot.appendItems(items)
         
         dataSource?.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+extension OpenMarketViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == products.count - 1 {
+            pageNumber += 1
+            fetchData(for: pageNumber)
+        }
     }
 }
 
