@@ -124,7 +124,7 @@ extension ProductsViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        guard let products = productsData?.products else { return 0 }
+        return productsData?.products.count ?? 0
         return products.count
     }
 
