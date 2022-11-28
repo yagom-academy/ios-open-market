@@ -12,6 +12,7 @@ final class ProductsViewController: UIViewController {
         static let edgeInsetValue: CGFloat = 8
         static let listCellHeightRatio: Double = 0.1
         static let gridCellHeightRatio: Double = 0.3
+        static let productsRowCount: Int = 200
     }
     
     enum LayoutType: Int {
@@ -125,7 +126,6 @@ extension ProductsViewController: UICollectionViewDataSource {
         numberOfItemsInSection section: Int
     ) -> Int {
         return productsData?.products.count ?? 0
-        return products.count
     }
 
     func collectionView(
@@ -184,7 +184,7 @@ private extension ProductsViewController {
 // MARK: Business Login
 private extension ProductsViewController {
     func fetchData() {
-        let endPoint = OpenMarketAPI.productsList(pageNumber: currentPage, rowCount: 200)
+        let endPoint = OpenMarketAPI.productsList(pageNumber: currentPage, rowCount: Constant.productsRowCount)
         productResponseNetworkManager.fetchData(endPoint: endPoint) { result in
             switch result {
             case .success(let data):
