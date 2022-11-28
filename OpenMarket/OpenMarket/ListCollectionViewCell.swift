@@ -71,10 +71,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    override var reuseIdentifier: String? {
-        return "ListCell"
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.borderWidth = 0.2
@@ -144,17 +140,19 @@ final class ListCollectionViewCell: UICollectionViewCell {
         DispatchQueue.global().async {
             guard let url = URL(string: product.thumbnail),
                   let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data) else {
+                  let image = UIImage(data: data)
+            else {
                 return
             }
             ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+            
             DispatchQueue.main.async { [weak self] in
-                if product == self?.product {
-                    self?.productImage.image = image
-                    self?.loadingView.stopAnimating()
-                    self?.loadingView.isHidden = true
-                    self?.productImage.isHidden = false
-                }
+                guard product == self?.product else { return }
+                
+                self?.productImage.image = image
+                self?.loadingView.stopAnimating()
+                self?.loadingView.isHidden = true
+                self?.productImage.isHidden = false
             }
         }
     }

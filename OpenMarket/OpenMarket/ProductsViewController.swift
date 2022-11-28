@@ -7,21 +7,21 @@
 import UIKit
 
 final class ProductsViewController: UIViewController {
-    private enum LayoutType {
-        case list
+    private enum LayoutType: Int, CaseIterable {
+        case list = 0
         case grid
         
-        var index: Int {
+        var text: String {
             switch self {
             case .list:
-                return 0
+                return "LIST"
             case .grid:
-                return 1
+                return "GRID"
             }
         }
     }
     
-    private var networkManager = NetworkManager()
+    private let networkManager = NetworkManager()
     private var productLists: [ProductList] = []
     private var pageNumber: Int = 1
     private var isInfiniteScroll: Bool = true
@@ -43,9 +43,9 @@ final class ProductsViewController: UIViewController {
     }()
     
     private let segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: ["LIST", "GRID"])
+        let segmentedControl = UISegmentedControl(items: LayoutType.allCases.compactMap { $0.text })
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.selectedSegmentIndex = LayoutType.list.index
+        segmentedControl.selectedSegmentIndex = LayoutType.list.rawValue
         segmentedControl.backgroundColor = .systemGray6
         return segmentedControl
     }()
@@ -146,11 +146,11 @@ final class ProductsViewController: UIViewController {
     
     @objc private func changeLayout(_ segmentedControl: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
-        case LayoutType.list.index:
+        case LayoutType.list.rawValue:
             gridCollectionView.isHidden = true
             listCollectionView.isHidden = false
             listCollectionView.reloadData()
-        case LayoutType.grid.index:
+        case LayoutType.grid.rawValue:
             listCollectionView.isHidden = true
             gridCollectionView.isHidden = false
             gridCollectionView.reloadData()
@@ -175,7 +175,7 @@ extension ProductsViewController: UICollectionViewDataSource {
         let productList = productLists[indexPath.section]
         
         switch segmentedControl.selectedSegmentIndex {
-        case LayoutType.list.index:
+        case LayoutType.list.rawValue:
             guard let cell = listCollectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
                                                                     for: indexPath) as? ListCollectionViewCell
             else {
@@ -185,7 +185,7 @@ extension ProductsViewController: UICollectionViewDataSource {
             cell.configureCell(from: productList.pages[indexPath.item])
             return cell
             
-        case LayoutType.grid.index:
+        case LayoutType.grid.rawValue:
             guard let cell = gridCollectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
                                                                     for: indexPath) as? GridCollectionViewCell
             else {

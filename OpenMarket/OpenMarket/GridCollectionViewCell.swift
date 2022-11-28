@@ -54,10 +54,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    override var reuseIdentifier: String? {
-        return "GridCell"
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.borderWidth = 0.5
@@ -112,7 +108,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     func configureCell(from product: Product) {
         self.product = product
         loadingView.startAnimating()
-        productName.text = product.name
+        productName.text = product.name.isEmpty ? " " : product.name
         setupPrice(from: product)
         setupStock(from: product)
         setupImage(from: product)
@@ -133,17 +129,19 @@ final class GridCollectionViewCell: UICollectionViewCell {
         DispatchQueue.global().async {
             guard let url = URL(string: product.thumbnail),
                   let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data) else {
+                  let image = UIImage(data: data)
+            else {
                 return
             }
             ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+            
             DispatchQueue.main.async { [weak self] in
-                if product == self?.product {
-                    self?.productImage.image = image
-                    self?.loadingView.stopAnimating()
-                    self?.loadingView.isHidden = true
-                    self?.productImage.isHidden = false
-                }
+                guard product == self?.product else { return }
+                
+                self?.productImage.image = image
+                self?.loadingView.stopAnimating()
+                self?.loadingView.isHidden = true
+                self?.productImage.isHidden = false
             }
         }
     }
