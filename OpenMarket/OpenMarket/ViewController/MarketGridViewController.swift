@@ -27,7 +27,7 @@ final class MarketGridViewController: UIViewController {
             case .success(let market):
                 self.pageData = market.pages
                 DispatchQueue.main.async {
-                    self.setupGridFrameLayout()
+                    self.setupGridLayout()
                     self.configureDataSource()
                 }
             case .failure(let error):
@@ -36,7 +36,7 @@ final class MarketGridViewController: UIViewController {
         }
     }
     
-    private func setupGridLayout() -> UICollectionViewCompositionalLayout {
+    private func generateGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -58,9 +58,9 @@ final class MarketGridViewController: UIViewController {
         return layout
     }
     
-    private func setupGridFrameLayout() {
+    private func setupGridLayout() {
         gridView = UICollectionView(frame: view.bounds,
-                                    collectionViewLayout: setupGridLayout())
+                                    collectionViewLayout: generateGridLayout())
         view.addSubview(gridView)
         gridView.translatesAutoresizingMaskIntoConstraints = false
         

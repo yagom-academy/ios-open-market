@@ -27,14 +27,22 @@ final class MainViewController: UIViewController {
                                               for: .normal)
     }
     
-    @IBAction private func changeView(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
+    @IBAction private func switchLayout(_ sender: UISegmentedControl) {
+        guard let selectedIndex = SegmentedItemState(rawValue: sender.selectedSegmentIndex) else { return }
+        switch selectedIndex {
+        case .list:
             listView.isHidden = false
             gridView.isHidden = true
-            
-        } else {
+        case .grid:
             listView.isHidden = true
             gridView.isHidden = false
         }
+    }
+}
+
+extension MainViewController {
+    enum SegmentedItemState: Int {
+        case list = 0
+        case grid = 1
     }
 }
