@@ -179,7 +179,7 @@ private extension ProductsViewController {
 
 // MARK: Configure UI
 private extension ProductsViewController {
-    func configureNavbar() {
+    func configureNavigationbar() {
         let addButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
