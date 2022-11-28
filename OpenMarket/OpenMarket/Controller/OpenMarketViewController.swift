@@ -11,7 +11,7 @@ final class OpenMarketViewController: UIViewController {
         case main
     }
     
-    private enum ViewType: Int {
+    private enum ViewType {
         case list
         case grid
     }
