@@ -40,7 +40,6 @@ final class ListCell: UICollectionViewListCell {
         _ layoutAttributes: UICollectionViewLayoutAttributes
     ) -> UICollectionViewLayoutAttributes {
         super.preferredLayoutAttributesFitting(layoutAttributes)
-        layoutIfNeeded()
         
         let size = self.frame.width * 0.2
         var frame = layoutAttributes.frame

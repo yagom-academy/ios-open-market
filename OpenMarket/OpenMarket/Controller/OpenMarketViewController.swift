@@ -1,12 +1,12 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - OpenMarketViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class OpenMarketViewController: UIViewController {
     private enum Section {
         case main
     }
@@ -240,7 +240,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension OpenMarketViewController {
     @objc private func showProductRegistrationView() {
         let viewController = ProductRegistrationViewController()
         
@@ -257,11 +257,12 @@ extension ViewController {
             productCollectionView.removeFromSuperview()
             configureProductCollectionView(type: .grid)
         }
+        productCollectionView.delegate = self
         configureSnapshot(with: productList.pages)
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension OpenMarketViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
