@@ -151,45 +151,6 @@ final class OpenMarketViewController: UIViewController {
         isPaging = false
     }
     
-    private func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
-        let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> {
-            cell, indexPath, product in
-            cell.nameLabel.text = product.name
-            cell.imageView.image = UIImage(named: "loading")
-            if product.stock == .zero {
-                cell.stockLabel.text = "품절"
-                cell.stockLabel.textColor = .systemYellow
-            } else {
-                cell.stockLabel.text = "잔여수량: " + product.stock.description
-                cell.stockLabel.textColor = .systemGray2
-            }
-            
-            if product.price == product.bargainPrice {
-                cell.priceLabel.text = product.currencyAndPrice
-            } else {
-                cell.priceLabel.attributedText = product.fetchCurrencyAndDiscountedPrice()
-            }
-            
-            self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
-                switch result {
-                case .success(let image):
-                    DispatchQueue.main.async {
-                        if indexPath == self.productCollectionView.indexPath(for: cell) {
-                            cell.imageView.image = image
-                        }
-                    }
-                case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.async {
-                        cell.imageView.image = self.errorManager.showFailedImage()
-                    }
-                }
-            }
-        }
-        
-        return gridCellRegistration
-    }
-    
     private func createListCellRegistration() -> UICollectionView.CellRegistration<ListCell, ProductData> {
         let listCellRegistration = UICollectionView.CellRegistration<ListCell, ProductData> {
             cell, indexPath, product in
@@ -237,6 +198,45 @@ final class OpenMarketViewController: UIViewController {
         }
         
         return listCellRegistration
+    }
+    
+    private func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
+        let gridCellRegistration = UICollectionView.CellRegistration<GridCell, ProductData> {
+            cell, indexPath, product in
+            cell.nameLabel.text = product.name
+            cell.imageView.image = UIImage(named: "loading")
+            if product.stock == .zero {
+                cell.stockLabel.text = "품절"
+                cell.stockLabel.textColor = .systemYellow
+            } else {
+                cell.stockLabel.text = "잔여수량: " + product.stock.description
+                cell.stockLabel.textColor = .systemGray2
+            }
+            
+            if product.price == product.bargainPrice {
+                cell.priceLabel.text = product.currencyAndPrice
+            } else {
+                cell.priceLabel.attributedText = product.fetchCurrencyAndDiscountedPrice()
+            }
+            
+            self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        if indexPath == self.productCollectionView.indexPath(for: cell) {
+                            cell.imageView.image = image
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+                    DispatchQueue.main.async {
+                        cell.imageView.image = self.errorManager.showFailedImage()
+                    }
+                }
+            }
+        }
+        
+        return gridCellRegistration
     }
 }
 
