@@ -92,23 +92,23 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     private func setupCellConstraints() {
         NSLayoutConstraint.activate([
-            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
             loadingView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            loadingView.heightAnchor.constraint(equalToConstant: bounds.height * 0.8),
+            loadingView.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.8),
             loadingView.widthAnchor.constraint(equalTo: loadingView.heightAnchor),
             
-            productImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            productImage.leadingAnchor.constraint(equalTo: leadingAnchor),
             productImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            productImage.heightAnchor.constraint(equalToConstant: bounds.height * 0.8),
+            productImage.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.8),
             productImage.widthAnchor.constraint(equalTo: productImage.heightAnchor),
             
             productStackView.leadingAnchor.constraint(equalTo: loadingView.trailingAnchor, constant: 10),
             productStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            productName.widthAnchor.constraint(equalToConstant: bounds.width * 0.48),
+            productName.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.48),
             
             stockStackView.topAnchor.constraint(equalTo: productStackView.topAnchor),
-            stockStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            stockStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             disclosureImage.heightAnchor.constraint(equalTo: stock.heightAnchor),
             disclosureImage.widthAnchor.constraint(equalTo: disclosureImage.heightAnchor),
