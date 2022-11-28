@@ -8,6 +8,7 @@
 import UIKit
 
 final class ProductListItemCell: ProductItemCell {
+    static let identifier = String(describing: ProductListItemCell.self)
     override func configureLayout() {
         super.configureLayout()
         

@@ -7,7 +7,6 @@
 import UIKit
 
 class ProductItemCell: UICollectionViewCell {
-    static let identifier = String(describing: ProductItemCell.self)
     var task: URLSessionDataTask? {
         didSet {
             if task != nil {
