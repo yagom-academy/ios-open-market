@@ -35,6 +35,15 @@ final class ProductsViewController: UIViewController {
                 return Constant.gridCellHeightRatio
             }
         }
+        
+        var identifier: String {
+            switch self {
+            case .list:
+                return ProductListItemCell.identifier
+            case .grid:
+                return ProductGridItemCell.identifier
+            }
+        }
     }
     
     private let productResponseNetworkManager = NetworkManager<ProductListResponse>()
@@ -137,64 +146,34 @@ extension ProductsViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
+        
         guard let products = productsData?.products else { return UICollectionViewCell() }
         
-        let product = products[indexPath.row]
-        switch selectedLayout {
-        case .list:
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ProductListItemCell.identifier,
-                for: indexPath
-            ) as? ProductListItemCell else {
-                return UICollectionViewCell()
-            }
-            cell.configureStyle()
-            cell.configureLayout()
-            cell.titleLabel.text = product.name
-            cell.setPriceLabel(
-                originPrice: product.originPriceStringValue,
-                bargainPrice: product.bargainPriceStringValue,
-                segment: selectedLayout.rawValue
-            )
-            cell.setStockLabelValue(stock: product.stock)
-            
-            guard let url = URL(string: product.thumbnail) else { return cell }
-            let imageTask = URLSession.createTask(url: url) { image in
-                DispatchQueue.main.async {
-                    cell.thumbnailImageView.image = image
-                }
-            }
-            
-            cell.task = imageTask
-            return cell
-            
-        case .grid:
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ProductGridItemCell.identifier,
-                for: indexPath
-            ) as? ProductGridItemCell else {
-                return UICollectionViewCell()
-            }
-            cell.configureStyle()
-            cell.configureLayout()
-            cell.titleLabel.text = product.name
-            cell.setPriceLabel(
-                originPrice: product.originPriceStringValue,
-                bargainPrice: product.bargainPriceStringValue,
-                segment: selectedLayout.rawValue
-            )
-            cell.setStockLabelValue(stock: product.stock)
-            
-            guard let url = URL(string: product.thumbnail) else { return cell }
-            let imageTask = URLSession.createTask(url: url) { image in
-                DispatchQueue.main.async {
-                    cell.thumbnailImageView.image = image
-                }
-            }
-            
-            cell.task = imageTask
-            return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: selectedLayout.identifier, for: indexPath) as? ProductItemCell else {
+            return UICollectionViewCell()
         }
+        
+        let product = products[indexPath.row]
+        
+        cell.configureStyle()
+        cell.configureLayout()
+        cell.titleLabel.text = product.name
+        cell.setPriceLabel(
+            originPrice: product.originPriceStringValue,
+            bargainPrice: product.bargainPriceStringValue,
+            segment: selectedLayout.rawValue
+        )
+        cell.setStockLabelValue(stock: product.stock)
+        
+        guard let url = URL(string: product.thumbnail) else { return cell }
+        let imageTask = URLSession.createTask(url: url) { image in
+            DispatchQueue.main.async {
+                cell.thumbnailImageView.image = image
+            }
+        }
+        
+        cell.task = imageTask
+        return cell
     }
 }
 
