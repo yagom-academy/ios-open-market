@@ -12,9 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     var networkCommunication = NetworkCommunication()
-    var searchListProducts: SearchListProducts?
     var searchListPages: [SearchListPage] = []
-    var detailProduct: DetailProduct?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +21,6 @@ class ViewController: UIViewController {
         
         getResponseAboutHealChecker()
         getProductsListData()
-        getProductDetailData(productNumber: "31")
         getCollectionViewCellNib()
         settingCollectionViewLayoutList()
         settingSegmentedControll()
@@ -65,27 +62,12 @@ class ViewController: UIViewController {
         ) { data in
             switch data {
             case .success(let data):
-                self.searchListProducts = data
                 self.searchListPages = data.pages
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func getProductDetailData(productNumber: String) {
-        networkCommunication.requestProductsInformation(
-            url: ApiUrl.Path.detailProduct + productNumber,
-            type: DetailProduct.self
-        ) { data in
-            switch data {
-            case .success(let data):
-                self.detailProduct = data
-            case .failure(let error):
-                print(error.rawValue)
             }
         }
     }
