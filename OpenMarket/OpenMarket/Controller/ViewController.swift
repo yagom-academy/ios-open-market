@@ -14,11 +14,11 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewsIfNeeded()
+        setUpViewsIfNeeded()
         applySnapshotOfFetchedPage()
     }
     //MARK: - set Up View Method
-    private func setupViewsIfNeeded() {
+    private func setUpViewsIfNeeded() {
         setSegmentedControl()
         setRightBarButton()
         setCollectionView()

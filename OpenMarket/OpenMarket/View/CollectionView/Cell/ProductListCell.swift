@@ -56,13 +56,13 @@ final class ProductListCell: UICollectionViewListCell {
     
     private var product: Product? {
         didSet {
-            setupDataIfNeeded()
+            setUpDataIfNeeded()
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViewsIfNeeded()
+        setUpViewsIfNeeded()
     }
     
     required init?(coder: NSCoder) {
@@ -73,7 +73,7 @@ final class ProductListCell: UICollectionViewListCell {
         self.product = newProduct
     }
     
-    private func setupViewsIfNeeded() {
+    private func setUpViewsIfNeeded() {
         contentStackView.addArrangedSubview(thumbnailImageView)
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(priceLabel)
@@ -101,7 +101,7 @@ final class ProductListCell: UICollectionViewListCell {
         ])
     }
     
-    private func setupDataIfNeeded() {
+    private func setUpDataIfNeeded() {
         guard let product: Product = product else {
             return
         }

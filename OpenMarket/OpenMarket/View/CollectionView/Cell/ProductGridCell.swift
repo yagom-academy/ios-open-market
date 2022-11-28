@@ -46,7 +46,7 @@ final class ProductGridCell: UICollectionViewCell {
     
     private var product: Product? {
         didSet {
-            setupDataIfNeeded()
+            setUpDataIfNeeded()
         }
     }
     
@@ -66,7 +66,7 @@ final class ProductGridCell: UICollectionViewCell {
     private func configure() {
         setUpLayer()
         setUpTextAlignment()
-        setupViewsIfNeeded()
+        setUpViewsIfNeeded()
     }
     
     private func setUpLayer() {
@@ -80,7 +80,7 @@ final class ProductGridCell: UICollectionViewCell {
         priceLabel.textAlignment = .center
         stockLabel.textAlignment = .center
     }
-    private func setupViewsIfNeeded() {
+    private func setUpViewsIfNeeded() {
         let spacing: CGFloat = 10
         stackView.addArrangedSubview(thumbnailImageView)
         stackView.addArrangedSubview(nameLabel)
@@ -108,7 +108,7 @@ final class ProductGridCell: UICollectionViewCell {
         ])
     }
     
-    private func setupDataIfNeeded() {
+    private func setUpDataIfNeeded() {
         guard let product: Product = product else {
             return
         }

@@ -12,7 +12,7 @@ extension URLSession: OpenMarketURLSessionProtocol {
                                  completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask? {
         guard let hostURL: URL = URL(string: host),
               let url: URL = URL(string: query, relativeTo: hostURL) else {
-            completion(nil, OpenMarketError.invalidURL(file: #file, line: #line))
+            completion(nil, OpenMarketError.invalidURL())
             return nil
         }
         
@@ -20,7 +20,7 @@ extension URLSession: OpenMarketURLSessionProtocol {
             if let error: Error = error {
                 completion(nil, error)
             } else if (response as? HTTPURLResponse)?.statusCode != 200 {
-                completion(nil, OpenMarketError.badStatus(file: #file, line: #line))
+                completion(nil, OpenMarketError.badStatus())
             } else if let data: Data = data {
                 completion(data, nil)
             } else {

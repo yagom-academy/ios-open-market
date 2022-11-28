@@ -8,8 +8,8 @@
 import Foundation
 
 enum OpenMarketError: Error, LocalizedError {
-    case badStatus(file: StaticString, line: UInt)
-    case invalidURL(file: StaticString, line: UInt)
+    case badStatus(file: StaticString = #file, line: UInt = #line)
+    case invalidURL(file: StaticString = #file, line: UInt = #line)
     
     var errorDescription: String? {
         switch self {
