@@ -71,7 +71,7 @@ extension ProductItemCell {
         
         if bargainPrice != originPrice {
             let text = originPrice + bargainPriceString
-            subTitleLabel.attributedText = text.convertAttributedString(target: originPrice)
+            subTitleLabel.attributedText = text.convertCancelLineString(target: originPrice)
         } else {
             subTitleLabel.text = originPrice
         }
@@ -161,7 +161,7 @@ private extension ProductItemCell {
 
 // MARK: String +
 private extension String {
-    func convertAttributedString(target: String) -> NSMutableAttributedString {
+    func convertCancelLineString(target: String) -> NSMutableAttributedString {
         let font = UIFont.preferredFont(forTextStyle: .subheadline)
         let range = (self as NSString).range(of: target)
         let attributeString = NSMutableAttributedString(string: self)
