@@ -9,9 +9,9 @@ enum Section: Hashable {
 
 final class ProductListViewController: UIViewController {
     
-    var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
-    var productData: ProductList?
+    private var productData: ProductList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +20,8 @@ final class ProductListViewController: UIViewController {
         configureSegmentedControl()
         configureNavigationBar()
         configureAddButton()
-        
-        let networkProvider = NetworkAPIProvider()
-        
-        networkProvider.fetchProductList(query: [.itemsPerPage: "200"]) { [weak self] result in
+            
+        ProductNetworkManager.shared.fetchProductList() { [weak self] result in
             switch result {
             case .success(let data):
                 self?.productData = data
