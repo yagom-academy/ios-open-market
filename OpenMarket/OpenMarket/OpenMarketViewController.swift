@@ -24,6 +24,7 @@ final class OpenMarketViewController: UIViewController {
 //    }()
     
     private var gridCollectionView: UICollectionView?
+    private var listCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product>?
     private var products: [Product] = [] {
         didSet {
@@ -37,16 +38,18 @@ final class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
         
         fetchData(for: pageNumber)
+        
+        configureListCollectionView()
         configureGridCollectionView()
-        configureDataSource()
+        configureGridDataSource()
     }
     
-    var isLoading: Bool = false
+//    var isLoading: Bool = false
     
     func fetchData(for page: Int) {
-        guard !isLoading else { return }
+//        guard !isLoading else { return }
         let networkManager = NetworkManager()
-        isLoading = true
+//        isLoading = true
         networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 10), dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
@@ -56,7 +59,7 @@ final class OpenMarketViewController: UIViewController {
                     refinedProducts.append(product)
                 }
                 self.products += refinedProducts
-                self.isLoading = false
+//                self.isLoading = false
             case .failure(let error):
                 print(error)
             }
@@ -84,7 +87,7 @@ final class OpenMarketViewController: UIViewController {
         ])
     }
     
-    func configureDataSource() {
+    func configureGridDataSource() {
         guard let gridCollectionView = gridCollectionView else { return }
 
         gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
@@ -97,6 +100,32 @@ final class OpenMarketViewController: UIViewController {
             cell?.contentView.layer.cornerRadius = 10.0
             cell?.contentView.layer.masksToBounds = true
             cell?.updateContents(product)
+            return cell
+        }
+    }
+    
+    private func configureListCollectionView() {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.1))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }
+    
+    private func configureListDataSource() {
+        guard let listCollectionView = listCollectionView else { return }
+        
+        listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+        
+        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: listCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell
+            cell?.updateContents(product)
+            
             return cell
         }
     }
