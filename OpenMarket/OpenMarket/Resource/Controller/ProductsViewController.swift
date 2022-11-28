@@ -10,10 +10,30 @@ import UIKit
 final class ProductsViewController: UIViewController {
     enum Constant {
         static let edgeInsetValue: CGFloat = 8
+        static let listCellHeightRatio: Double = 0.1
+        static let gridCellHeightRatio: Double = 0.3
     }
     
     enum LayoutType: Int {
         case list, grid
+        
+        var divideRatio: CGFloat {
+            switch self {
+            case .list:
+                return 1
+            case .grid:
+                return 2
+            }
+        }
+        
+        var heightRatio: CGFloat {
+            switch self {
+            case .list:
+                return Constant.listCellHeightRatio
+            case .grid:
+                return Constant.gridCellHeightRatio
+            }
+        }
     }
     
     private let productResponseNetworkManager = NetworkManager<ProductListResponse>()
@@ -61,7 +81,7 @@ final class ProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavbar()
+        configureNavigationbar()
         view = collectionView
         fetchData()
     }
@@ -75,11 +95,10 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let size = collectionView.bounds.size
-        let index = (selectedLayout.rawValue + 1)
-        let contentsWidth = (size.width / CGFloat(index)) - (2 * Constant.edgeInsetValue)
-        let contentsHeight = index == 1 ? size.height * 0.1 : size.height * 0.3
+        let contentWidth = (size.width / selectedLayout.divideRatio) - (2 * Constant.edgeInsetValue)
+        let contentHeight = (size.height * selectedLayout.heightRatio)
          
-        return CGSize(width: contentsWidth, height: contentsHeight)
+        return CGSize(width: contentWidth, height: contentHeight)
     }
     
     func collectionView(
