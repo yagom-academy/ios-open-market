@@ -149,7 +149,10 @@ extension ProductsViewController: UICollectionViewDataSource {
         
         guard let products = productsData?.products else { return UICollectionViewCell() }
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: selectedLayout.identifier, for: indexPath) as? ProductItemCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: selectedLayout.identifier,
+            for: indexPath
+        ) as? ProductItemCell else {
             return UICollectionViewCell()
         }
         
@@ -171,8 +174,8 @@ extension ProductsViewController: UICollectionViewDataSource {
                 cell.thumbnailImageView.image = image
             }
         }
-        
         cell.task = imageTask
+        
         return cell
     }
 }
@@ -189,6 +192,7 @@ private extension ProductsViewController {
     }
     
     @objc func didTappedAddButton() {
+        // TODO: - 새로운 뷰 컨트롤러로 변경
         let viewController = UIViewController()
         
         viewController.view.backgroundColor = .systemPink

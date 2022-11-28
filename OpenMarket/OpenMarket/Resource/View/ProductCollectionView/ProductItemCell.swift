@@ -56,8 +56,8 @@ class ProductItemCell: UICollectionViewCell {
         thumbnailImageView.image = UIImage(systemName: "circle")
         task?.cancel()
         task = nil
-        
         super.prepareForReuse()
+
     }
     
     func configureLayout() {
