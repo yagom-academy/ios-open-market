@@ -71,10 +71,13 @@ final class ViewController: UIViewController {
     //MARK: - objc Method
     @objc
     private func layoutSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        let list: Int = 0
+        let grid: Int = 1
+        
         switch sender.selectedSegmentIndex {
-        case 0:
+        case list:
             collectionView.updateLayout(of: .list)
-        case 1:
+        case grid:
             collectionView.updateLayout(of: .grid)
         default:
             return
