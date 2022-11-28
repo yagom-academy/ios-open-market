@@ -86,12 +86,12 @@ private extension ProductListViewController {
 
 private extension ProductListViewController {
     
-    private func createLayout() -> UICollectionViewLayout {
+    private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
-    private func configureHierarchy() {
+    private func configureListHierarchy() {
         if let collectionView {
             collectionView.removeFromSuperview()
         }
@@ -100,7 +100,7 @@ private extension ProductListViewController {
         self.view.addSubview(self.collectionView)
     }
     
-    private func configureDataSource() {
+    private func configureListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
             cell.update(with: product)
             cell.accessories = [.disclosureIndicator()]
