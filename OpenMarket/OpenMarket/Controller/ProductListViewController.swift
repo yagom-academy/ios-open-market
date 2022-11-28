@@ -50,8 +50,7 @@ extension ProductListViewController {
     }
     
     private func configureSegmentedControl() {
-        let segmentTextContent = [NSLocalizedString("LIST", comment: ""),
-                                  NSLocalizedString("GRID", comment: "")]
+        let segmentTextContent = ["LIST", "GRID"]
         let segmentedControl = UISegmentedControl(items: segmentTextContent)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = .systemBackground
