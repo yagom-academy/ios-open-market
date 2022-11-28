@@ -73,8 +73,11 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.borderWidth = 0.2
-        layer.borderColor = UIColor.systemGray.cgColor
+        let border = CALayer()
+        border.frame = CGRect(x: -10, y: frame.height - 0.4, width: frame.width + 20, height: 0.4)
+        border.backgroundColor = UIColor.systemGray.cgColor
+        layer.addSublayer(border)
+
         [loadingView, productImage, productStackView, stockStackView].forEach { contentView.addSubview($0) }
     }
     

@@ -135,7 +135,7 @@ final class ProductsViewController: UIViewController {
             index = visiblePath.count == 8 ? visiblePath[2] : visiblePath[0]
             collectionView.collectionViewLayout = listLayout
         case LayoutType.grid.rawValue:
-            index = visiblePath[2]
+            index = collectionView.contentOffset.y > 0 ? visiblePath[2] : visiblePath[0]
             collectionView.collectionViewLayout = gridLayout
         default:
             break
