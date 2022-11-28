@@ -59,12 +59,12 @@ class ViewController: UIViewController {
             ApiUrl.Query.itemsPerPage +
             itemPerPage,
             type: SearchListProducts.self
-        ) { data in
+        ) { [weak self] data in
             switch data {
             case .success(let data):
-                self.searchListPages = data.pages
+                self?.searchListPages = data.pages
                 DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+                    self?.collectionView.reloadData()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
