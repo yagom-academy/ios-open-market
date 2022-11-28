@@ -15,9 +15,7 @@ final class MarketURLSessionProvider {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(url: URL,
-                                 type: T.Type,
-                                 completionHandler: @escaping (Result<T, NetworkError>) -> Void) {
+    func fetchData(url: URL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         let dataTask = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 return completionHandler(.failure(.requestFailError))
@@ -27,51 +25,15 @@ final class MarketURLSessionProvider {
                   (200...299).contains(httpResponse.statusCode) else {
                 return completionHandler(.failure(.httpResponseError(
                     code: (response as? HTTPURLResponse)?.statusCode ?? 0)))
-            }
-            
-            guard let mimeType = httpResponse.mimeType,
-                  mimeType == "application/json" else {
-                return completionHandler(.failure(.mimeTypeError))
             }
             
             guard let data = data else {
                 return completionHandler(.failure(.noDataError))
             }
             
-            guard let decodedData = JSONDecoder.decodeFromSnakeCase(type: type, from: data) else {
-                return completionHandler(.failure(.decodingError))
-            }
-            
-            completionHandler(.success(decodedData))
-        }
-        
-        dataTask.resume()
-    }
-    
-    func fetchImage(url: String,
-                    completionHandler: @escaping (Result<UIImage, NetworkError>) -> Void) {
-        guard let url = URL(string: url) else { return }
-        
-        let dataTask = session.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                return completionHandler(.failure(.requestFailError))
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                return completionHandler(.failure(.httpResponseError(
-                    code: (response as? HTTPURLResponse)?.statusCode ?? 0)))
-            }
-            
-            guard let data = data,
-                  let image = UIImage(data: data)else {
-                return completionHandler(.failure(.noDataError))
-            }
-            
-            completionHandler(.success(image))
+            completionHandler(.success(data))
         }
         
         dataTask.resume()
     }
 }
-

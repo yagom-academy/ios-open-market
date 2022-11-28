@@ -79,10 +79,12 @@ final class MarketListCell: UICollectionViewListCell {
         if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
             content.image = cachedImage
         } else {
-            session.fetchImage(url: thumbnailUrl) { result in
+            guard let imageUrl = URL(string: thumbnailUrl) else { return }
+            session.fetchData(url: imageUrl) { result in
                 switch result {
-                case .success(let image):
+                case .success(let data):
                     DispatchQueue.main.async {
+                        guard let image = UIImage(data: data) else { return }
                         ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
                         content.image = image
                         let updateConfiguration = {

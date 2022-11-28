@@ -22,10 +22,12 @@ final class MarketListViewController: UIViewController {
         
         guard let url = Request.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
         
-        marketURLSessionProvider.fetchData(url: url, type: Market.self) { result in
+        marketURLSessionProvider.fetchData(url: url) { result in
             switch result {
-            case .success(let market):
-                self.pageData = market.pages
+            case .success(let data):
+                guard let marketData = JSONDecoder.decodeFromSnakeCase(type: Market.self,
+                                                                       from: data) else { return }
+                self.pageData = marketData.pages
                 DispatchQueue.main.async {
                     self.configureListView()
                     self.configureDataSource()
