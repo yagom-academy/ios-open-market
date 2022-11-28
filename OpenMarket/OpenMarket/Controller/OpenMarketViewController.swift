@@ -79,6 +79,21 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
+    private func configureProductCollectionView(type: ViewType) {
+        let layout = configureLayout(of: type)
+        productCollectionView = UICollectionView(frame: .zero,
+                                                 collectionViewLayout: layout)
+        
+        productCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(productCollectionView)
+        NSLayoutConstraint.activate([
+            productCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            productCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            productCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            productCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
     private func configureLayout(of type: ViewType) -> UICollectionViewCompositionalLayout {
         switch type {
         case .list:
@@ -110,21 +125,6 @@ final class OpenMarketViewController: UIViewController {
             
             return layout
         }
-    }
-    
-    private func configureProductCollectionView(type: ViewType) {
-        let layout = configureLayout(of: type)
-        productCollectionView = UICollectionView(frame: .zero,
-                                                 collectionViewLayout: layout)
-        
-        productCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(productCollectionView)
-        NSLayoutConstraint.activate([
-            productCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            productCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            productCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            productCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
     
     private func configureDataSource() {
