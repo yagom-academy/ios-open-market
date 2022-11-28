@@ -141,7 +141,7 @@ extension ProductsViewController: UICollectionViewDataSource {
         }
         let product = products[indexPath.row]
         
-        cell.configureLayout(index: selectedLayout.rawValue)
+//        cell.configureLayout(index: selectedLayout.rawValue)
         cell.titleLabel.text = product.name
         cell.setPriceLabel(
             originPrice: product.originPriceStringValue,
