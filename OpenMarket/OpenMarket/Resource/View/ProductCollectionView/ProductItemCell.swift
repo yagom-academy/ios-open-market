@@ -19,17 +19,44 @@ class ProductItemCell: UICollectionViewCell {
     let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
+        imageView.layer.borderColor = UIColor.gray.cgColor
+        imageView.layer.borderWidth = 0.1
         return imageView
     }()
-    let titleLabel = UILabel()
-    let subTitleLabel = UILabel()
-    let stockLabel = UILabel()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.textColor = .label
+        label.numberOfLines = 2
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    let subTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryLabel
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let stockLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 2
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
     
     override func prepareForReuse() {
         thumbnailImageView.image = UIImage(systemName: "circle")
         task?.cancel()
         task = nil
-        contentView.subviews.forEach { $0.removeFromSuperview() }
         
         super.prepareForReuse()
     }

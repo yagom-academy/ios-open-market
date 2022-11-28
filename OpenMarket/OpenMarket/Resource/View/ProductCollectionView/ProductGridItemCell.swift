@@ -39,32 +39,12 @@ final class ProductGridItemCell: ProductItemCell {
     }
     
     override func configureStyle() {
-            titleLabel.font = .preferredFont(forTextStyle: .headline)
-            titleLabel.numberOfLines = 2
-            titleLabel.textColor = .label
-            titleLabel.adjustsFontForContentSizeCategory = true
-            
-            titleLabel.textAlignment = .center
-            
-            subTitleLabel.textColor = .secondaryLabel
-            subTitleLabel.font = .preferredFont(forTextStyle: .subheadline)
-            subTitleLabel.adjustsFontForContentSizeCategory = true
-            subTitleLabel.textAlignment = .center
-            subTitleLabel.numberOfLines = 0
-
-            stockLabel.textAlignment = .center
-            stockLabel.textColor = .secondaryLabel
-            stockLabel.numberOfLines = 2
-            stockLabel.font = .preferredFont(forTextStyle: .subheadline)
-            stockLabel.adjustsFontForContentSizeCategory = true
-            
-            thumbnailImageView.layer.cornerRadius = 20
-            thumbnailImageView.clipsToBounds = true
-            thumbnailImageView.layer.borderColor = UIColor.gray.cgColor
-            thumbnailImageView.layer.borderWidth = 0.1
-            
-            layer.cornerRadius = 20
-            layer.borderWidth = 2
-            layer.borderColor = UIColor.gray.cgColor
+        titleLabel.textAlignment = .center
+        subTitleLabel.textAlignment = .center
+        stockLabel.textAlignment = .center
+        
+        layer.cornerRadius = 20
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.gray.cgColor
     }
 }
