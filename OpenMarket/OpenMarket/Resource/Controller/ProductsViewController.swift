@@ -28,12 +28,10 @@ final class ProductsViewController: UIViewController {
         }
     }
     
-    
-
     private lazy var segment: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
         segment.translatesAutoresizingMaskIntoConstraints = false
-        segment.selectedSegmentIndex = 0
+        segment.selectedSegmentIndex = selectedLayout.rawValue
         segment.addTarget(self, action: #selector(didChangedSegmentIndex(_:)), for: .valueChanged)
 
         return segment
@@ -124,7 +122,7 @@ extension ProductsViewController: UICollectionViewDataSource {
         }
         let product = products[indexPath.row]
         
-//        cell.configureLayout(index: segmentIndex.rawValue)
+        cell.configureLayout(index: selectedLayout.rawValue)
         cell.titleLabel.text = product.name
         cell.setPriceLabel(
             originPrice: product.originPriceStringValue,
