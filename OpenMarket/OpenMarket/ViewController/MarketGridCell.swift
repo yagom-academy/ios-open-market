@@ -54,6 +54,16 @@ final class MarketGridCell: UICollectionViewCell {
         return stackView
     }()
     
+    func configureCell(page: Page,
+                       completionHandler: @escaping (() -> Void) -> Void) {
+        setupLayout()
+        nameLabel.text = page.name
+        productImage.image = UIImage(named: "loading")
+        updateImage(page: page, completionHandler: completionHandler)
+        updatePriceLabel(page: page)
+        updateStockLabel(page: page)
+    }
+    
     private func setupLayout() {
         [productImage, nameLabel, priceLabel, stockLabel].forEach {
             productStackView.addArrangedSubview($0)
@@ -78,45 +88,25 @@ final class MarketGridCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(page: Page,
-                       completionHandler: @escaping (() -> Void) -> Void) {
-        setupLayout()
-        
+    private func updateImage(page: Page,
+                     completionHandler: @escaping (() -> Void) -> Void) {
         let thumbnailUrl = page.thumbnail
         let cacheKey = NSString(string: thumbnailUrl)
         let session = MarketURLSessionProvider()
-        
-        productImage.image = UIImage(named: "loading")
-        
-        if page.bargainPrice > 0  {
-            priceLabel.attributedText = NSMutableAttributedString()
-                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
-                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
-        } else {
-            priceLabel.attributedText = NSMutableAttributedString()
-                .normal(string: "\(page.currency.rawValue) \(page.price)")
-        }
-        
-        nameLabel.text = page.name
-        
-        if page.stock == 0 {
-            stockLabel.attributedText = NSMutableAttributedString()
-                .orangeColor(string: "품절")
-        } else {
-            stockLabel.attributedText = NSMutableAttributedString()
-                .normal(string: "잔여수량: \(page.stock)")
-        }
         
         if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
             productImage.image = cachedImage
         } else {
             guard let imageUrl = URL(string: thumbnailUrl) else { return }
+            
             session.fetchData(url: imageUrl) { result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async {
                         guard let image = UIImage(data: data) else { return }
+                        
                         ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
+                        
                         let updateImage = {
                             self.productImage.image = image
                         }
@@ -126,6 +116,27 @@ final class MarketGridCell: UICollectionViewCell {
                     print(error)
                 }
             }
+        }
+    }
+
+    private func updatePriceLabel(page: Page) {
+        if page.bargainPrice > 0  {
+            priceLabel.attributedText = NSMutableAttributedString()
+                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
+                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
+        } else {
+            priceLabel.attributedText = NSMutableAttributedString()
+                .normal(string: "\(page.currency.rawValue) \(page.price)")
+        }
+    }
+    
+    private func updateStockLabel(page: Page) {
+        if page.stock == 0 {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .orangeColor(string: "품절")
+        } else {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .normal(string: "잔여수량: \(page.stock)")
         }
     }
 }
