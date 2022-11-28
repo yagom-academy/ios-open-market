@@ -11,10 +11,14 @@ final class ProductsViewController: UIViewController {
     enum Constant {
         static let edgeInsetValue: CGFloat = 8
     }
-
+    
+    enum LayoutType: Int {
+        case list, grid
+    }
+    
     private let productResponseNetworkManager = NetworkManager<ProductListResponse>()
     private var currentPage: Int = 1
-    private var segmentIndex = 0
+    private var selectedLayout: LayoutType = .list
 
     private var productsData: ProductListResponse? {
         didSet {
@@ -23,6 +27,8 @@ final class ProductsViewController: UIViewController {
             }
         }
     }
+    
+    
 
     private lazy var segment: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["LIST", "GRID"])
@@ -71,7 +77,7 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let size = collectionView.bounds.size
-        let index = (segmentIndex + 1)
+        let index = (selectedLayout.rawValue + 1)
         let contentsWidth = (size.width / CGFloat(index)) - (2 * Constant.edgeInsetValue)
         let contentsHeight = index == 1 ? size.height * 0.1 : size.height * 0.3
          
@@ -118,12 +124,12 @@ extension ProductsViewController: UICollectionViewDataSource {
         }
         let product = products[indexPath.row]
         
-        cell.configureLayout(index: segmentIndex)
+//        cell.configureLayout(index: segmentIndex.rawValue)
         cell.titleLabel.text = product.name
         cell.setPriceLabel(
             originPrice: product.originPriceStringValue,
             bargainPrice: product.bargainPriceStringValue,
-            segment: segmentIndex
+            segment: selectedLayout.rawValue
         )
         cell.setStockLabelValue(stock: product.stock)
         
@@ -142,9 +148,11 @@ extension ProductsViewController: UICollectionViewDataSource {
 // MARK: Objc Method
 private extension ProductsViewController {
     @objc func didChangedSegmentIndex(_ sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
+        guard let type = LayoutType(rawValue: sender.selectedSegmentIndex) else {
+            return
+        }
         
-        segmentIndex = index
+        selectedLayout = type
         collectionView.reloadData()
     }
     
