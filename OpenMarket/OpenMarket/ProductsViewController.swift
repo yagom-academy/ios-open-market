@@ -127,16 +127,21 @@ final class ProductsViewController: UIViewController {
     }
     
     @objc private func changeLayout(_ segmentedControl: UISegmentedControl) {
+        let visiblePath: [IndexPath] = collectionView.indexPathsForVisibleItems.sorted()
+        var index: IndexPath = IndexPath()
+        
         switch segmentedControl.selectedSegmentIndex {
         case LayoutType.list.rawValue:
+            index = visiblePath.count == 8 ? visiblePath[2] : visiblePath[0]
             collectionView.collectionViewLayout = listLayout
-            collectionView.reloadData()
         case LayoutType.grid.rawValue:
+            index = visiblePath[2]
             collectionView.collectionViewLayout = gridLayout
-            collectionView.reloadData()
         default:
             break
         }
+        collectionView.reloadData()
+        collectionView.scrollToItem(at: index, at: .top, animated: false)
     }
 }
 
