@@ -7,32 +7,48 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-    let networkManager = NetworkManager()
-    let mainView = MainView()
-    var productData: [Product] = []
+    private let networkManager = NetworkManager()
+    private let mainView = MainView()
+    
+    private var productData: [Product] = []
+    private var itemsPerPage = Constant.firstItemCount.rawValue
+    private var scrollState = ScrollState.idle
+    
+    enum Constant: Int {
+        case firstItemCount = 30
+        case firstPageCount = 1
+        case appendItemCount = 5
+    }
+    
+    enum ScrollState {
+        case idle
+        case isLoading
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainView
         setupNavigationBar()
         setupSegmentedControlTarget()
-        setupData()
+        
+        setupData(pageNo: Constant.firstPageCount.rawValue, itemsPerPage: itemsPerPage)
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
     }
     
-    private func setupData() {
-        guard let productListURL = NetworkRequest.productList.requestURL else {
-            return
-        }
+    private func setupData(pageNo: Int, itemsPerPage: Int) {
+        guard scrollState == .idle else { return }
+        scrollState = .isLoading
+        guard let productListURL = NetworkRequest.productList(
+            pageNo: pageNo, itemsPerPage: itemsPerPage).requestURL else { return }
         
         networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
             switch result {
             case .success(let data):
                 self.productData = data.pages
-                
                 DispatchQueue.main.async {
                     self.mainView.collectionView.reloadData()
+                    self.scrollState = .idle
                 }
             case .failure(let error):
                 print(error.description)
@@ -79,7 +95,17 @@ extension MainViewController {
 
 // MARK: - Extension UICollectionView
 extension MainViewController: UICollectionViewDelegate {
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let collectionViewContentSizeY = scrollView.contentSize.height
+        let contentOffsetY = scrollView.contentOffset.y
+        let heightRemainBottomHeight = collectionViewContentSizeY - contentOffsetY
+        let frameHeight = scrollView.frame.size.height
+        
+        if heightRemainBottomHeight < frameHeight {
+            itemsPerPage += Constant.appendItemCount.rawValue
+            self.setupData(pageNo: Constant.firstPageCount.rawValue, itemsPerPage: itemsPerPage)
+        }
+    }
 }
 
 extension MainViewController: UICollectionViewDataSource {

@@ -9,7 +9,7 @@ import Foundation
 
 enum NetworkRequest {
     case checkHealth
-    case productList
+    case productList(pageNo: Int, itemsPerPage: Int)
     case productDetail
     
     var requestURL: URL? {
@@ -17,12 +17,12 @@ enum NetworkRequest {
         case .checkHealth:
             return URLComponents.createURL(path: "/healthChecker",
                                          queryItem: nil)
-        case .productList:
+        case .productList(pageNo: let pageNo, itemsPerPage: let itemsPerPage):
             return URLComponents.createURL(path: "/api/products",
                                          queryItem: [URLQueryItem(name: "page_no",
-                                                                  value: String(1)),
+                                                                  value: String(pageNo)),
                                                      URLQueryItem(name: "items_per_page",
-                                                                  value: String(1000))
+                                                                  value: String(itemsPerPage))
                                          ])
         case .productDetail:
             return URLComponents.createURL(path: "/api/products/32",
