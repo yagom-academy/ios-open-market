@@ -15,7 +15,7 @@ struct FormatConverter {
         return formatter
     }
     
-    static func date(from string: String) -> Date? {
+    static func convertToDate(from string: String) -> Date? {
         if let result = dateFormatter.date(from: string) {
             return result
         }
@@ -28,7 +28,7 @@ struct FormatConverter {
         return formatter
     }
     
-    static func number(from double: Double) -> String {
+    static func convertToDecimal(from double: Double) -> String {
         if let result = numberFormatter.string(for: double) {
             return result
         }

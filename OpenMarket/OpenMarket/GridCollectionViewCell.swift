@@ -8,7 +8,7 @@
 import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
-    private var product: Product?
+    private var identifier: String?
     
     private let loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
@@ -67,7 +67,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        product = nil
+        identifier = nil
         productImage.image = nil
         [productName, price, stock].forEach { $0?.text = nil }
         loadingView.isHidden = false
@@ -106,7 +106,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(from product: Product) {
-        self.product = product
+        self.identifier = product.identifier
         loadingView.startAnimating()
         productName.text = product.name.isEmpty ? " " : product.name
         setupPrice(from: product)
@@ -136,7 +136,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
             ImageCacheManager.shared.setObject(image, forKey: cacheKey)
             
             DispatchQueue.main.async { [weak self] in
-                guard product == self?.product else { return }
+                guard product.identifier == self?.identifier else { return }
                 
                 self?.productImage.image = image
                 self?.loadingView.stopAnimating()
@@ -149,8 +149,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
     private func setupPrice(from product: Product) {
         let text: String
         let currency = product.currency.rawValue
-        let price = FormatConverter.number(from: product.price)
-        let bargainPrice = FormatConverter.number(from: product.bargainPrice)
+        let price = FormatConverter.convertToDecimal(from: product.price)
+        let bargainPrice = FormatConverter.convertToDecimal(from: product.bargainPrice)
         
         if product.discountedPrice.isZero {
             text = "\(currency) \(price)"
@@ -171,9 +171,9 @@ final class GridCollectionViewCell: UICollectionViewCell {
         if product.stock.isZero {
             stock.textColor = .systemOrange
             stock.text = "품절"
-        } else if product.stock.decimal >= 4 {
+        } else if product.stock >= 1000 {
             stock.textColor = .systemGray
-            let stock = FormatConverter.number(from: Double(product.stock / 1000))
+            let stock = FormatConverter.convertToDecimal(from: Double(product.stock / 1000))
             self.stock.text = "잔여수량 : \(stock.components(separatedBy: ".")[0])k"
         } else {
             stock.textColor = .systemGray

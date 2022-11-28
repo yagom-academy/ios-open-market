@@ -20,11 +20,13 @@ struct Product: Codable, Hashable {
     let createdAt: String
     let issuedAt: String
     
+    let identifier: String = UUID().uuidString
+    
     var createdDate: Date? {
-        FormatConverter.date(from: createdAt)
+        FormatConverter.convertToDate(from: createdAt)
     }
     var issuedDate: Date? {
-        FormatConverter.date(from: issuedAt)
+        FormatConverter.convertToDate(from: issuedAt)
     }
     
     enum CodingKeys: String, CodingKey {

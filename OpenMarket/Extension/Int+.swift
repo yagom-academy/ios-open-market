@@ -9,8 +9,4 @@ extension Int {
     var isZero: Bool {
         return self == 0
     }
-    
-    var decimal: Int {
-        return String(self).count
-    }
 }
