@@ -153,7 +153,7 @@ extension ProductsViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let product = products[indexPath.row]
+        let product = products[safe :indexPath.row]
         
         cell.configureStyle()
         cell.configureLayout()
