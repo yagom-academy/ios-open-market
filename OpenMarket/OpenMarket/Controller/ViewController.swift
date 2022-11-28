@@ -19,21 +19,30 @@ final class ViewController: UIViewController {
     private let networkManager: NetworkManager = .init()
     private let errorManager: ErrorManager = .init()
     private var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
-    private var productCollectionView: UICollectionView!
+    private var productCollectionView: UICollectionView! {
+        didSet {
+            guard productCollectionView != nil else { return }
+            
+            self.configureDataSource()
+        }
+    }
     private var productList: ProductListData?
-    
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
     private let segmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["list", "grid"])
         segment.selectedSegmentIndex = 0
         return segment
     }()
+    private var isPaging = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureNavigationBar()
         configureProductCollectionView(type: .list)
-        loadProductData(pageNumber: 1, itemsPerPage: 100)
+        loadProductData(pageNumber: 1, itemsPerPage: 20)
+        productCollectionView.delegate = self
+        snapshot.appendSections([.main])
     }
     
     private func configureNavigationBar() {
@@ -48,10 +57,18 @@ final class ViewController: UIViewController {
         networkManager.loadData(of: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage),
                                 dataType: ProductListData.self) { result in
             switch result {
-            case .success(let productList):
-                self.productList = productList
+            case .success(let productListData):
+                if let productList = self.productList {
+                    let newList = productList.pages + productListData.pages
+                    
+                    self.productList = productListData
+                    self.productList?.pages = newList
+                } else {
+                    self.productList = productListData
+                }
+                
                 DispatchQueue.main.async {
-                    self.configureDataSource()
+                    self.configureSnapshot(with: productListData.pages)
                 }
             case .failure(let error):
                 guard let error = error as? NetworkError else { return }
@@ -126,15 +143,12 @@ final class ViewController: UIViewController {
                                                                     item: product)
             }
         }
-        
-        guard let product = productList?.pages else {
-            return
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(product)
+    }
+    
+    func configureSnapshot(with products: [ProductData]) {
+        snapshot.appendItems(products)
         dataSource.apply(snapshot, animatingDifferences: false)
+        isPaging = false
     }
     
     private func createGridCellRegistration() -> UICollectionView.CellRegistration<GridCell, ProductData> {
@@ -234,14 +248,36 @@ extension ViewController {
     }
     
     @objc private func switchView(_ sender: UISegmentedControl) {
+        guard let productList = productList else { return }
+        
         if sender.selectedSegmentIndex == 0 {
             productCollectionView.removeFromSuperview()
             configureProductCollectionView(type: .list)
-            configureDataSource()
         } else {
             productCollectionView.removeFromSuperview()
             configureProductCollectionView(type: .grid)
-            configureDataSource()
+        }
+        configureSnapshot(with: productList.pages)
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let productList = productList,
+              !isPaging
+        else {
+            return
+        }
+        
+        let paginationHeight = (scrollView.contentSize.height - scrollView.bounds.height) * 0.9
+
+        if paginationHeight <= scrollView.contentOffset.y && productList.hasNext {
+            isPaging = true
+            loadProductData(pageNumber: productList.pageNumber + 1, itemsPerPage: 20)
         }
     }
 }
