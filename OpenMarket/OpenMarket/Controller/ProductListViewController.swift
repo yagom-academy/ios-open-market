@@ -41,7 +41,7 @@ final class ProductListViewController: UIViewController {
     }
 }
 
-extension ProductListViewController {
+private extension ProductListViewController {
     
     private func configureNavigationBar() {
         let navigationBarAppearance = UINavigationBarAppearance()
@@ -65,7 +65,7 @@ extension ProductListViewController {
         self.navigationItem.titleView = segmentedControl
     }
     
-    @objc func segControlChanged(segcon: UISegmentedControl) {
+    @objc private func segControlChanged(segcon: UISegmentedControl) {
         switch segcon.selectedSegmentIndex {
         case 0:
             self.configureHierarchy()
@@ -84,15 +84,12 @@ extension ProductListViewController {
     }
 }
 
-extension ProductListViewController {
+private extension ProductListViewController {
     
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
-}
-
-extension ProductListViewController {
     
     private func configureHierarchy() {
         if let collectionView {

@@ -44,7 +44,7 @@ private extension UICellConfigurationState {
 
 extension ProductListCell {
     
-    func setupViewsIfNeeded() {
+    private func setupViewsIfNeeded() {
         guard self.customViewConstraints == nil else {
             return
         }
