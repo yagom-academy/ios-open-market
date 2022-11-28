@@ -94,7 +94,7 @@ class ViewController: UIViewController {
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         let compositionalLayout = UICollectionViewCompositionalLayout(section: layoutSection)
         collectionView.collectionViewLayout = compositionalLayout
-        self.collectionView.reloadData()
+        collectionView.reloadData()
     }
     
     private func settingCollectionViewLayoutGrid() {
@@ -108,13 +108,13 @@ class ViewController: UIViewController {
         let layoutSection = NSCollectionLayoutSection(group: layoutGruop)
         let compositionalLayout = UICollectionViewCompositionalLayout(section: layoutSection)
         collectionView.collectionViewLayout = compositionalLayout
-        self.collectionView.reloadData()
+        collectionView.reloadData()
     }
 }
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.searchListPages.count
+        return searchListPages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -130,12 +130,12 @@ extension ViewController: UICollectionViewDataSource {
             customCell.layer.borderColor = UIColor.systemGray3.cgColor
         }
         
-        customCell.configureCell(imageSource: self.searchListPages[indexPath.item].thumbnail,
-                                 name: self.searchListPages[indexPath.item].name,
-                                 currency: self.searchListPages[indexPath.item].currency,
-                                 price: self.searchListPages[indexPath.item].price,
-                                 bargainPrice: self.searchListPages[indexPath.item].bargainPrice,
-                                 stock: self.searchListPages[indexPath.item].stock)
+        customCell.configureCell(imageSource: searchListPages[indexPath.item].thumbnail,
+                                 name: searchListPages[indexPath.item].name,
+                                 currency: searchListPages[indexPath.item].currency,
+                                 price: searchListPages[indexPath.item].price,
+                                 bargainPrice: searchListPages[indexPath.item].bargainPrice,
+                                 stock: searchListPages[indexPath.item].stock)
         return customCell
     }
 }

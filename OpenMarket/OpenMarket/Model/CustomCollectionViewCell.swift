@@ -17,12 +17,12 @@ class CustomCollectionViewCell: UICollectionViewCell {
     let networkCommunication = NetworkCommunication()
     
     override func prepareForReuse() {
-        self.thumbnail.image = nil
-        self.name.text = nil
-        self.price.attributedText = nil
-        self.price.text = nil
-        self.bargainPrice.text = nil
-        self.stock.text = nil
+        thumbnail.image = nil
+        name.text = nil
+        price.attributedText = nil
+        price.text = nil
+        bargainPrice.text = nil
+        stock.text = nil
     }
     
     func configureCell(imageSource: String,
@@ -77,11 +77,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
         filePath.appendPathComponent(imageUrl.lastPathComponent)
         
         if fileManager.fileExists(atPath: filePath.path) != true {
-            networkCommunication.requestImageData(url: imageUrl) { data in
+            networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
                 switch data {
                 case .success(let data):
                     DispatchQueue.main.async {
-                        self.thumbnail.image = UIImage(data: data)
+                        self?.thumbnail.image = UIImage(data: data)
                     }
                     fileManager.createFile(atPath: filePath.path,
                                            contents: data,
@@ -92,7 +92,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
             }
         } else {
             guard let loadedImageData = try? Data(contentsOf: filePath) else { return }
-            self.thumbnail.image = UIImage(data: loadedImageData)
+            thumbnail.image = UIImage(data: loadedImageData)
         }
     }
 }
