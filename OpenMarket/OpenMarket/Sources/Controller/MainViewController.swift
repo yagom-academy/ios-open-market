@@ -178,7 +178,7 @@ extension MainViewController: UICollectionViewDataSource {
                                            for: indexPath) as? GridCollectionViewCell else {
             return UICollectionViewCell()
         }
-        guard let productItem = product?.pages[indexPath.item] else {
+        guard let productItem = product?.pages[safe: indexPath.item] else {
             return cell
         }
         

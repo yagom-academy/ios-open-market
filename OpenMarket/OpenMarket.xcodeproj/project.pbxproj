@@ -36,6 +36,7 @@
 		D0225B052935CF5E00343411 /* CellIdentifierInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B042935CF5E00343411 /* CellIdentifierInfo.swift */; };
 		D0225B072935D07A00343411 /* CellIdentifierInfo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B062935D07A00343411 /* CellIdentifierInfo+Extension.swift */; };
 		D0225B092935D97100343411 /* CellMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B082935D97100343411 /* CellMode.swift */; };
+		D0225B0B2936038100343411 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B0A2936038100343411 /* Array+Extension.swift */; };
 		D03ED9D029224DBD005F30A8 /* JSONDecode+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9CF29224DBD005F30A8 /* JSONDecode+Extension.swift */; };
 		D03ED9D229225712005F30A8 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9D129225712005F30A8 /* ProductList.swift */; };
 		D03ED9DA29234F24005F30A8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9D929234F24005F30A8 /* Currency.swift */; };
@@ -96,6 +97,7 @@
 		D0225B042935CF5E00343411 /* CellIdentifierInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifierInfo.swift; sourceTree = "<group>"; };
 		D0225B062935D07A00343411 /* CellIdentifierInfo+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellIdentifierInfo+Extension.swift"; sourceTree = "<group>"; };
 		D0225B082935D97100343411 /* CellMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellMode.swift; sourceTree = "<group>"; };
+		D0225B0A2936038100343411 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		D03ED9CF29224DBD005F30A8 /* JSONDecode+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JSONDecode+Extension.swift"; path = "OpenMarket/Sources/Extension/JSONDecode+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		D03ED9D129225712005F30A8 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		D03ED9D929234F24005F30A8 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				B4DEADC7292DC0E80068F5E3 /* String+Extension.swift */,
 				D0225B012930572E00343411 /* Double+Extension.swift */,
 				D0225B062935D07A00343411 /* CellIdentifierInfo+Extension.swift */,
+				D0225B0A2936038100343411 /* Array+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				D0F39F712925D6AC00645529 /* URLSession+Extension.swift in Sources */,
 				B4412F552924A101001FA318 /* HttpMethod.swift in Sources */,
 				D022548D292C9EC10010F13A /* ListCollectionViewCell.swift in Sources */,
+				D0225B0B2936038100343411 /* Array+Extension.swift in Sources */,
 				D03ED9DA29234F24005F30A8 /* Currency.swift in Sources */,
 				B41502502925D015006780CF /* MockURLSessionDataTask.swift in Sources */,
 				B4DEADC6292DBC520068F5E3 /* UIImageView+Extension.swift in Sources */,
