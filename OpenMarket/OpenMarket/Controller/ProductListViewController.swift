@@ -159,14 +159,18 @@ private extension ProductListViewController {
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(self.productData?.pages ?? [])
+        if let product = self.productData?.pages {
+            snapshot.appendItems(product)
+        }
         self.dataSource.apply(snapshot)
     }
     
     private func applySnapshotUsingReloadData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(self.productData?.pages ?? [])
+        if let product = self.productData?.pages {
+            snapshot.appendItems(product)
+        }
         snapshot.reloadSections([.main])
         self.dataSource.apply(snapshot, animatingDifferences: false)
     }
