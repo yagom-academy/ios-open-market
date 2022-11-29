@@ -12,23 +12,34 @@ final class OpenMarketViewController: UIViewController {
         case main
     }
     
-    private enum ViewType: String, CaseIterable {
-        case list = "LIST"
-        case grid = "GRID"
+    private enum ViewType: Int {
+        case list
+        case grid
+        
+        var typeName: String {
+            switch self {
+            case .list:
+                return "LIST"
+            case .grid:
+                return "GRID"
+            }
+        }
     }
     
-//    private let segmentedControl: UISegmentedControl = {
-//        let control = UISegmentedControl(items: [ViewType.list.rawValue, ViewType.grid.rawValue])
-//            control.translatesAutoresizingMaskIntoConstraints = false
-//            return control
-//    }()
+    private let segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: [ViewType.list.typeName, ViewType.grid.typeName])
+            control.translatesAutoresizingMaskIntoConstraints = false
+            return control
+    }()
     
     private var gridCollectionView: UICollectionView?
     private var listCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product>?
     private var products: [Product] = [] {
         didSet {
-            applySnapshot(for: products)
+            DispatchQueue.main.async {
+                self.applySnapshot(for: self.products)
+            }
         }
     }
     
@@ -37,11 +48,47 @@ final class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchData(for: pageNumber)
+        view.backgroundColor = .white
+        navigationItem.titleView = segmentedControl
         
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        navigationItem.standardAppearance = appearance
+        
+        segmentedControl.addTarget(self, action: #selector(self.segmentValueChanged(_:)), for: .valueChanged)
+        segmentedControl.selectedSegmentIndex = ViewType.list.rawValue
+        segmentValueChanged(segmentedControl)
+
+        
+        // fetchData가 끝나면 실행되도록 변경해주면 될듯????
         configureListCollectionView()
-        configureGridCollectionView()
-        configureGridDataSource()
+        configureListDataSource()
+        
+        fetchData(for: pageNumber)
+    }
+    
+    @objc func segmentValueChanged(_ sender: UISegmentedControl) {
+        print(sender.selectedSegmentIndex)
+        switch sender.selectedSegmentIndex {
+        case ViewType.list.rawValue:
+            configureListCollectionView()
+            configureListDataSource()
+            applySnapshot(for: products)
+            listCollectionView?.isHidden = false
+            gridCollectionView?.isHidden = true
+        case ViewType.grid.rawValue:
+            configureGridCollectionView()
+            configureGridDataSource()
+            applySnapshot(for: products)
+            gridCollectionView?.isHidden = false
+            listCollectionView?.isHidden = true
+        default:
+            configureListCollectionView()
+            configureListDataSource()
+            applySnapshot(for: products)
+            listCollectionView?.isHidden = false
+            gridCollectionView?.isHidden = true
+        }
     }
     
 //    var isLoading: Bool = false
@@ -115,26 +162,45 @@ final class OpenMarketViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        guard let listCollectionView = listCollectionView else { return }
+        
+        view.addSubview(listCollectionView)
+        
+        listCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            listCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            listCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            listCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ])
     }
     
     private func configureListDataSource() {
         guard let listCollectionView = listCollectionView else { return }
         
-        listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
-        
-        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: listCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell
-            cell?.updateContents(product)
-            
-            return cell
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Product> { (cell, indexPath, product) in
+            cell.updateContents(product)
         }
+        
+        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: listCollectionView) { (colllectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
+            
+            return listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        }
+//        listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
+//
+//        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: listCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell
+//            cell?.updateContents(product)
+//
+//            return cell
+//        }
     }
     
     func applySnapshot(for items: [Product]) {
         var snapshot = NSDiffableDataSourceSnapshot<ProductListSection, Product>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
-        
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }

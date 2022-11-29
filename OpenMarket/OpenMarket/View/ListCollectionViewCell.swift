@@ -16,6 +16,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        configureUI()
     }
     
     override func prepareForReuse() {
