@@ -22,7 +22,8 @@ final class MainViewController: UIViewController {
     }
     
     private var product: ProductList?
-    private let networkManager: NetworkRequestable = NetworkManager(session: URLSession.shared)
+    private let session: URLSessionProtocol = URLSession.shared
+    private lazy var networkManager: NetworkRequestable = NetworkManager(session: session)
     private var cellIdentifier: String = cellType.list.identifier
     
     @IBOutlet weak var collectionView: UICollectionView!
