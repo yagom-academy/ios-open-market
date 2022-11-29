@@ -8,17 +8,30 @@
 import Foundation
 
 struct FormatConverter {
-    private var dateFormatter: DateFormatter {
+    static private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         formatter.timeZone = TimeZone(abbreviation: "UTC")
         return formatter
     }
     
-    func date(from string: String) -> Date? {
+    static func convertToDate(from string: String) -> Date? {
         if let result = dateFormatter.date(from: string) {
             return result
         }
         return nil
+    }
+    
+    static private var numberFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }
+    
+    static func convertToDecimal(from double: Double) -> String {
+        if let result = numberFormatter.string(for: double) {
+            return result
+        }
+        return String(double)
     }
 }
