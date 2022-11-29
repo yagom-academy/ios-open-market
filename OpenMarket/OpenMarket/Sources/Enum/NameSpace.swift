@@ -5,16 +5,10 @@
 //
 
 enum NameSpace {
-    case whiteSpace
-    case doubleWhiteSpace
     case nextLine
     
     var text: String {
         switch self {
-        case .whiteSpace:
-            return " "
-        case .doubleWhiteSpace:
-            return "  "
         case .nextLine:
             return "\n"
         }

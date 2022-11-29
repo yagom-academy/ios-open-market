@@ -7,4 +7,13 @@
 enum CellMode {
     case listType
     case gridType
+    
+    var index: Int {
+        switch self {
+        case .listType:
+            return 0
+        case .gridType:
+            return 1
+        }
+    }
 }

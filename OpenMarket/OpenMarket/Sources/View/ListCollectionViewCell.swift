@@ -7,11 +7,11 @@
 import UIKit
 import Foundation
 
-class ListCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
-    @IBOutlet weak var productImage: UIImageView!
-    @IBOutlet weak var productNameLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var stockLabel: UILabel!
+final class ListCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
+    @IBOutlet private weak var productImage: UIImageView!
+    @IBOutlet private weak var productNameLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var stockLabel: UILabel!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -26,19 +26,15 @@ class ListCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
     }
     
     func configurationCell(item: Product) {
-        let priceText: String = item.currency.symbol +
-                                NameSpace.whiteSpace.text +
-                                item.price.convertNumberFormat()
-        let bargainText: String = item.currency.symbol +
-                                  NameSpace.whiteSpace.text +
-                                  item.bargainPrice.convertNumberFormat()
+        let priceText: String = item.currency.symbol + " " + item.price.convertNumberFormat()
+        let bargainText: String = item.currency.symbol + " " + item.bargainPrice.convertNumberFormat()
         
         productNameLabel.text = item.name
         
         if priceText == bargainText {
             priceLabel.text = priceText
         } else {
-            priceLabel.text = priceText + NameSpace.doubleWhiteSpace.text + bargainText
+            priceLabel.text = priceText + "  " + bargainText
             priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceText.count, color: .red)
         }
         
