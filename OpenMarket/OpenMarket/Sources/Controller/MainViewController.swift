@@ -9,6 +9,7 @@ import UIKit
 final class MainViewController: UIViewController {
     private var product: ProductList?
     private var cellMode: CellMode = .listType
+    private var flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var viewModeController: UISegmentedControl!
@@ -73,10 +74,10 @@ final class MainViewController: UIViewController {
         switch cellMode {
         case .listType:
             registerCellNib(cellIdentifier: ListCollectionViewCell.stringIdentifier())
-            listCollectionViewFlowLayout()
+            collectionViewFlowLayout(type: .listType)
         case .gridType:
             registerCellNib(cellIdentifier: GridCollectionViewCell.stringIdentifier())
-            gridCollectionViewFlowLayout()
+            collectionViewFlowLayout(type: .gridType)
         }
     }
     
@@ -108,24 +109,26 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func gridCollectionViewFlowLayout() {
-        let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        let oneProductWidth: CGFloat = UIScreen.main.bounds.width / 2.2
-        let oneProductHeight: CGFloat = UIScreen.main.bounds.height / 3
+    private func collectionViewFlowLayout(type: CellMode) {
+        var productWidth: CGFloat
+        var productHeight: CGFloat
         
-        flowLayout.itemSize = CGSize(width: oneProductWidth, height: oneProductHeight)
-        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        
-        collectionView.collectionViewLayout = flowLayout
-    }
-    
-    private func listCollectionViewFlowLayout() {
-        let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        let oneProductWidth: CGFloat = UIScreen.main.bounds.width
-        let oneProductHeight: CGFloat = UIScreen.main.bounds.height / 12
-        
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.itemSize = CGSize(width: oneProductWidth, height: oneProductHeight)
+        switch type {
+        case .listType:
+            productWidth = UIScreen.main.bounds.width
+            productHeight = UIScreen.main.bounds.height / 12
+            
+            flowLayout.minimumLineSpacing = 0
+            flowLayout.itemSize = CGSize(width: productWidth, height: productHeight)
+            flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        case .gridType:
+            productWidth = UIScreen.main.bounds.width / 2.2
+            productHeight = UIScreen.main.bounds.height / 3
+            
+            flowLayout.minimumLineSpacing = 10
+            flowLayout.itemSize = CGSize(width: productWidth, height: productHeight)
+            flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        }
         
         collectionView.collectionViewLayout = flowLayout
     }
