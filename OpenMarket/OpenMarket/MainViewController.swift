@@ -127,7 +127,7 @@ extension MainViewController {
     private func configureListCell() {
         self.listCellRegistration = UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, itemIdentifier in
             DispatchQueue.global().async {
-                guard let url = URL(string: itemIdentifier.thumbnail),
+                guard let url = URL(string: itemIdentifier.thumbnail ?? ""),
                       let data = try? Data(contentsOf: url)  else {
                           return
                       }
@@ -169,7 +169,7 @@ extension MainViewController {
     private func configureGridCell() {
         self.gridCellRegistration = UICollectionView.CellRegistration<GridCell, Product> { cell, indexPath, itemIdentifier in
             DispatchQueue.global().async {
-                guard let url = URL(string: itemIdentifier.thumbnail),
+                guard let url = URL(string: itemIdentifier.thumbnail ?? ""),
                       let data = try? Data(contentsOf: url)  else {
                           return
                       }

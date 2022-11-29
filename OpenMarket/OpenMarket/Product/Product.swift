@@ -9,21 +9,22 @@ import Foundation
 struct Product: Codable, Hashable {
     let identifier = UUID()
     
-    let id: Int
-    let vendorId: Int
+    let id: Int?
+    let vendorId: Int?
     let vendorName: String?
     let name: String
     let description: String
-    let thumbnail: String
+    let thumbnail: String?
     let currency: Currency
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let createdAt: Date
-    let issuedAt: Date
+    let createdAt: Date?
+    let issuedAt: Date?
     let images: [Image]?
     let vendor: Vendor?
+    let secret: String?
     
     enum Currency: String, Codable {
         case KRW = "KRW"
@@ -46,6 +47,7 @@ struct Product: Codable, Hashable {
         case issuedAt = "issued_at"
         case images
         case vendor = "vendors"
+        case secret
     }
     
     static func == (lhs: Product, rhs: Product) -> Bool {

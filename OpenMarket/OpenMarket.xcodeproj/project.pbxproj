@@ -18,6 +18,9 @@
 		AC4F65542923AF9300CCCDE7 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F65532923AF9300CCCDE7 /* Vendor.swift */; };
 		AC504802292CDD8000723F0A /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC504801292CDD8000723F0A /* ListCell.swift */; };
 		AC504806292F85D800723F0A /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC504805292F85D800723F0A /* GridCell.swift */; };
+		AC5048292935E48100723F0A /* NetworkMananger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1109F8EC29226A2800C9E176 /* NetworkMananger.swift */; };
+		AC50482A2935E52100723F0A /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F65512923AEC600CCCDE7 /* Image.swift */; };
+		AC50482B2935E56200723F0A /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F65532923AF9300CCCDE7 /* Vendor.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
@@ -262,6 +265,9 @@
 				AC4F65492922624000CCCDE7 /* ParsingTests.swift in Sources */,
 				AC4F654F2922624F00CCCDE7 /* ProductsList.swift in Sources */,
 				AC4F65502922625000CCCDE7 /* Product.swift in Sources */,
+				AC50482B2935E56200723F0A /* Vendor.swift in Sources */,
+				AC5048292935E48100723F0A /* NetworkMananger.swift in Sources */,
+				AC50482A2935E52100723F0A /* Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

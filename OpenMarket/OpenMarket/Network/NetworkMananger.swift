@@ -5,7 +5,7 @@
 //  Created by Aaron, Jpush on 2022/11/14.
 //
 
-import Foundation
+import UIKit
 
 struct NetworkManager {
     typealias StatusCode = Int
@@ -48,6 +48,72 @@ struct NetworkManager {
         }
     }
     
+    func postProductLists(params: Product, images: [UIImage],completion: @escaping () -> Void) {
+        /**
+         identifier : e475cf3c-6941-11ed-a917-6513cbde46ea
+         password : 966j8xcwknjhh7wj
+         **/
+        guard let url = URL(string: "https://openmarket.yagom-academy.kr/api/products") else {
+            return
+        }
+        let boundary = UUID().uuidString
+        print("바운더리 ",boundary)
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        var request = URLRequest(url: url)
+        // 헤더 작성
+        request.httpMethod = "POST"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.addValue("e475cf3c-6941-11ed-a917-6513cbde46ea", forHTTPHeaderField: "identifier")
+        
+        var data = Data()
+        
+        // json형식으로 encode
+        let encoder = JSONEncoder()
+        
+        do {
+            let productJSON = try encoder.encode(params)
+            let jsonString = String(data: productJSON, encoding: .utf8)
+            print("--------------1----------")
+            print(jsonString ?? "nil")
+            
+            // params 넣기
+            data.append(boundaryPrefix.data(using: .utf8)!)
+            data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
+            data.append("\(String(describing: jsonString))\r\n".data(using: .utf8)!)
+            print("--------------2----------")
+            print(String(data: data, encoding: .utf8)!)
+            
+            // image 넣기
+            print("--------------이미지 넣기----------")
+            data.append(boundaryPrefix.data(using: .utf8)!)
+            print(String(data: data, encoding: .utf8)!)
+            data.append(("Content-Disposition: form-data; name=\"images\"; filename=\"stone_holy_shit\r\n\r\n".data(using: .utf8)!))
+            data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+            data.append(images[0].pngData()!) // 여기서 문제 발생함 이미지가 들어가면 Nil
+            
+            // 마지막 끝나는 바운더리
+            data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+            
+            print("--------------3----------")
+            print("웨 Nil? ",String(data: data, encoding: .utf8) ?? "nilz")
+            
+        } catch {
+            
+            print(error)
+        }
+        
+        
+        
+        
+        
+//        // 이미지 넣는거
+//        data.append(boundaryPrefix.data(using: .utf8)!)
+//        data.append("Content-Disposition: form-data; name=\"\(paramName)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
+//        data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+//        data.append(image.pngData()!)
+    }
+    
     func getHealthChecker(completion: @escaping (StatusCode) -> Void) {
         guard let url = generateURL(type: .healthChecker) else {
             return
@@ -71,8 +137,8 @@ struct NetworkManager {
             return
         }
         
-        var request = URLRequest(url: url)
-        request.cachePolicy = .returnCacheDataElseLoad
+        let request = URLRequest(url: url)
+//        request.cachePolicy = .returnCacheDataElseLoad
         if cache.cachedResponse(for: request) == nil {
             let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
                 if isSuccessResponse(response: response, error: error) == false {
