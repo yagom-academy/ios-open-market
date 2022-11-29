@@ -11,6 +11,8 @@ struct DecodeManager<T: Decodable> {
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .formatted(Formatter.customDateFormat)
+        
         return decoder
     }()
 

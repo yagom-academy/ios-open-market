@@ -28,7 +28,6 @@
 		90D331A629226E98001C2B46 /* DecodeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D331A529226E98001C2B46 /* DecodeManagerTests.swift */; };
 		90D331AF29237BC6001C2B46 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D331AE29237BC6001C2B46 /* NetworkRequest.swift */; };
 		90D331B129247FD3001C2B46 /* Formatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D331B029247FD3001C2B46 /* Formatter+Extension.swift */; };
-		90D331B329248007001C2B46 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D331B229248007001C2B46 /* String+Extension.swift */; };
 		90FF0AB7292B08D600D5A0C7 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FF0AB6292B08D600D5A0C7 /* MainView.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
@@ -78,7 +77,6 @@
 		90D331A529226E98001C2B46 /* DecodeManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManagerTests.swift; sourceTree = "<group>"; };
 		90D331AE29237BC6001C2B46 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		90D331B029247FD3001C2B46 /* Formatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatter+Extension.swift"; sourceTree = "<group>"; };
-		90D331B229248007001C2B46 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		90FF0AB6292B08D600D5A0C7 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 			children = (
 				3CA35E292923BC1F00C47E06 /* URLComponents+Extension.swift */,
 				90D331B029247FD3001C2B46 /* Formatter+Extension.swift */,
-				90D331B229248007001C2B46 /* String+Extension.swift */,
 				3C093204292BE7EC00F96865 /* UILabel+Extension.swift */,
 			);
 			path = Extensions;
@@ -422,7 +419,6 @@
 				3C0931FE292B655D00F96865 /* ListCollectionViewCell.swift in Sources */,
 				3C093203292B68C800F96865 /* ReuseIdentifierProtocol+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				90D331B329248007001C2B46 /* String+Extension.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				3C84EB2A2924BE9000E667A3 /* URLSessionDataTaskProtocol.swift in Sources */,
 			);

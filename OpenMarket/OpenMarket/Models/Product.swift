@@ -18,8 +18,8 @@ struct Product: Decodable {
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let createdAt: String
-    let issuedAt: String
+    let createdAt: Date
+    let issuedAt: Date
     
     enum CurrencyUnit: String, Decodable {
         case KRW
@@ -27,14 +27,6 @@ struct Product: Decodable {
         case JPY
         case HKD
         case dollar = "$"
-    }
-    
-    var createdAtByFormatter: Date {
-        return createdAt.stringWithFormatter() ?? Date()
-    }
-    
-    var issuedAtByFormatter: Date {
-        return issuedAt.stringWithFormatter() ?? Date()
     }
     
     var stockDescription: String {
