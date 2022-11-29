@@ -87,7 +87,7 @@ final class ViewController: UIViewController {
     
     @objc
     private func tappedAddProductButton(_ sender: UIBarButtonItem) {
-        navigationController?.pushViewController(UIViewController(), animated: false)
+        navigationController?.pushViewController(UpdateViewController(), animated: false)
     }
     //MARK: - Snapshot Apply Method
     private func applySnapshotOfFetchedPage() {

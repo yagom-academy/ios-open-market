@@ -8,50 +8,11 @@
 import UIKit
 
 final class ProductInformationView: UIView {
-    private let nameTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        
-        textField.backgroundColor = .white
-        textField.placeholder = "상품명"
-        textField.keyboardType = .default
-        
-        return textField
-    }()
-    private let priceTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        
-        textField.backgroundColor = .white
-        textField.placeholder = "상품가격"
-        textField.keyboardType = .numberPad
-        
-        return textField
-    }()
-    private let bargainPriceTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        
-        textField.backgroundColor = .white
-        textField.placeholder = "할인금액"
-        textField.keyboardType = .numberPad
-        
-        return textField
-    }()
-    private let stockTextField: UITextField = {
-        let textField: UITextField = UITextField()
-        
-        textField.backgroundColor = .white
-        textField.placeholder = "재고수량"
-        textField.keyboardType = .numberPad
-        
-        return textField
-    }()
-    private let descriptionTextView: UITextView = {
-        let textView: UITextView = UITextView()
-        
-        textView.backgroundColor = .white
-        textView.keyboardType = .default
-        
-        return textView
-    }()
+    private let nameTextField: NameTextField = NameTextField(minimumLength: 3, maximumLength: 100)
+    private let priceTextField: NumberTextField = NumberTextField(placeholder: "상품가격")
+    private let discountedPriceTextField: NumberTextField = NumberTextField(placeholder: "할인금액")
+    private let stockTextField: NumberTextField = NumberTextField(placeholder: "재고수량")
+    private let descriptionTextView: DescriptionTextView = DescriptionTextView(minimumLength: 10, maximumLength: 1000)
     private let currencySegmentedControl: UISegmentedControl = {
         let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["KRW", "USD"])
         
@@ -82,22 +43,49 @@ final class ProductInformationView: UIView {
         return stackView
     }()
     
+    weak var textFieldDelegate: UITextFieldDelegate? {
+        didSet { setUpTextFieldDelegate() }
+    }
+    weak var descriptionTextViewDelegate: UITextViewDelegate? {
+        get { return descriptionTextView.delegate }
+        set { descriptionTextView.delegate = newValue }
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        setUpViewsIfNeeded()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func setUpViewsIfNeeded() {
+        backgroundColor = .white
         priceAndCurrencyStackView.addArrangedSubview(priceTextField)
         priceAndCurrencyStackView.addArrangedSubview(currencySegmentedControl)
         contentStackView.addArrangedSubview(nameTextField)
         contentStackView.addArrangedSubview(priceAndCurrencyStackView)
-        contentStackView.addArrangedSubview(bargainPriceTextField)
+        contentStackView.addArrangedSubview(discountedPriceTextField)
         contentStackView.addArrangedSubview(stockTextField)
         contentStackView.addArrangedSubview(descriptionTextView)
         addSubview(contentStackView)
         
         let spacing: CGFloat = 10
+        let safeArea: UILayoutGuide = safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: spacing),
-            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -spacing),
-            contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
-            contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing)
+            contentStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: spacing),
+            contentStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -spacing),
+            contentStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: spacing),
+            contentStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -spacing)
         ])
+    }
+    
+    private func setUpTextFieldDelegate() {
+        nameTextField.delegate = textFieldDelegate
+        priceTextField.delegate = textFieldDelegate
+        discountedPriceTextField.delegate = textFieldDelegate
+        stockTextField.delegate = textFieldDelegate
     }
 }
