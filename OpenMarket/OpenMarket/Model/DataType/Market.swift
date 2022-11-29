@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Market: Decodable {
+struct Market: Decodable, Hashable {
     let pageNo: Int
     let itemsPerPage: Int
     let totalCount: Int
