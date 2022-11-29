@@ -5,7 +5,7 @@
 //  Created by Ayaan, junho on 2022/11/14.
 //
 
-struct Product: Decodable {
+struct Product: Decodable, Hashable {    
     let id, vendorID: Int
     let name, thumbnail: String
     let description: String?

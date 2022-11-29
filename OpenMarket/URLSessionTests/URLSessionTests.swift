@@ -48,7 +48,7 @@ class URLSessionTests: XCTestCase {
     
     func test_GivenOnlyBadStatusError_WhenFetchedHealth_ThenResultIsBad() {
         let promise = expectation(description: "OpenMarketHealthChecker")
-        let dummyData = RequestedDummyData(data: nil, response: nil, error: OpenMarketError.badStatus(file: #file, line: #line))
+        let dummyData = RequestedDummyData(data: nil, response: nil, error: OpenMarketError.badStatus())
         
         sut.stubURLSession = StubURLSession(dummy: dummyData)
         
@@ -105,7 +105,7 @@ class URLSessionTests: XCTestCase {
     func test_GivenOnlyBadStatusError_WhenFetchedPage_ThenResultIsNil() {
         //given
         let promise = expectation(description: "OpenMarketFetchPage")
-        let dummyData = RequestedDummyData(data: nil, response: nil, error: OpenMarketError.badStatus(file: #file, line: #line))
+        let dummyData = RequestedDummyData(data: nil, response: nil, error: OpenMarketError.badStatus())
         
         sut.stubURLSession = StubURLSession(dummy: dummyData)
         
@@ -167,7 +167,7 @@ class URLSessionTests: XCTestCase {
     func test_GivenOnlyBadStatusError_WhenFetchedProduct_ThenResultIsNil() {
         //given
         let promise = expectation(description: "OpenMarketFetchProduct")
-        let dummyData = RequestedDummyData(data: nil, response: nil, error: OpenMarketError.badStatus(file: #file, line: #line))
+        let dummyData = RequestedDummyData(data: nil, response: nil, error: OpenMarketError.badStatus())
         
         sut.stubURLSession = StubURLSession(dummy: dummyData)
         

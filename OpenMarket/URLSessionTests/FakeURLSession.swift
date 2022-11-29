@@ -16,7 +16,7 @@ final class FakeURLSession: OpenMarketURLSessionProtocol {
             if let error = error {
                 completion(nil, error)
             } else if (response as? HTTPURLResponse)?.statusCode != 200 {
-                completion(nil, OpenMarketError.badStatus(file: #file, line: #line))
+                completion(nil, OpenMarketError.badStatus())
             } else if let data = data {
                 completion(data, nil)
             } else {
