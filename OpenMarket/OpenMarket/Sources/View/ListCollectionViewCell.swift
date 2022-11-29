@@ -27,28 +27,11 @@ final class ListCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
         priceLabel.text = nil
         stockLabel.text = nil
         
-        let priceText: String = item.currency.symbol + " " + item.price.convertNumberFormat()
-        let bargainText: String = item.currency.symbol + " " + item.bargainPrice.convertNumberFormat()
-        
         productNameLabel.text = item.name
         
-        if priceText == bargainText {
-            priceLabel.text = priceText
-        } else {
-            priceLabel.text = priceText + "  " + bargainText
-            priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceText.count, color: .red)
-        }
-        
-        if item.stock > 0 {
-            stockLabel.text = "잔여수량 : \(item.stock)"
-        } else {
-            stockLabel.text = "품절"
-            stockLabel.textColor = .systemOrange
-        }
-        
-        if let url = URL(string: item.thumbnail) {
-            productImage.load(url: url)
-        }
+        showPrice(currency: item.currency, price: item.price, bargainPrice: item.bargainPrice)
+        showStock(stock: item.stock)
+        showImage(thumbnail: item.thumbnail)
     }
     
     func addBottomLine(color: UIColor, width: CGFloat) {
@@ -58,5 +41,32 @@ final class ListCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
         bottomLine.backgroundColor = color.cgColor
         
         self.layer.addSublayer(bottomLine)
+    }
+    
+    private func showPrice(currency: Currency, price: Double, bargainPrice: Double) {
+        let priceText: String = currency.symbol + " " + price.convertNumberFormat()
+        let bargainText: String = currency.symbol + " " + bargainPrice.convertNumberFormat()
+        
+        if priceText == bargainText {
+            priceLabel.text = priceText
+        } else {
+            priceLabel.text = priceText + "  " + bargainText
+            priceLabel.attributedText = priceLabel.text?.strikeThrough(length: priceText.count, color: .red)
+        }
+    }
+    
+    private func showStock(stock: Int) {
+        if stock > 0 {
+            stockLabel.text = "잔여수량 : \(stock)"
+        } else {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemOrange
+        }
+    }
+    
+    private func showImage(thumbnail: String) {
+        if let url = URL(string: thumbnail) {
+            productImage.load(url: url)
+        }
     }
 }
