@@ -16,16 +16,17 @@ final class ListCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        productImage.image = nil
-        productNameLabel.text = nil
         priceLabel.attributedText = nil
-        priceLabel.text = nil
         priceLabel.textColor = .gray
-        stockLabel.text = nil
         stockLabel.textColor = .gray
     }
     
     func configurationCell(item: Product) {
+        productImage.image = nil
+        productNameLabel.text = nil
+        priceLabel.text = nil
+        stockLabel.text = nil
+        
         let priceText: String = item.currency.symbol + " " + item.price.convertNumberFormat()
         let bargainText: String = item.currency.symbol + " " + item.bargainPrice.convertNumberFormat()
         

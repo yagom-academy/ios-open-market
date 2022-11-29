@@ -33,8 +33,8 @@
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="UUv-eB-rjF">
-                                <rect key="frame" x="22.666666666666671" y="9.0000000000000071" width="125.00000000000001" height="125.66666666666669"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UUv-eB-rjF">
+                                <rect key="frame" x="22.666666666666671" y="10" width="125.00000000000001" height="125"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="UUv-eB-rjF" secondAttribute="height" multiplier="1:1" id="0fZ-k4-00f"/>
                                 </constraints>
@@ -83,7 +83,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
