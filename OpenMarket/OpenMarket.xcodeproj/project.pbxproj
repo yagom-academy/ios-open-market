@@ -12,6 +12,7 @@
 		3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5EF2923649F00D0E45E /* ProductList.swift */; };
 		3C77A91F292EFFB700280ACC /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77A91E292EFFB700280ACC /* Double+Extension.swift */; };
 		3C77A9232934BA6900280ACC /* ProductNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77A9222934BA6900280ACC /* ProductNetworkManager.swift */; };
+		3C77A9252935F44C00280ACC /* NSAttributeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77A9242935F44C00280ACC /* NSAttributeProtocol.swift */; };
 		3C8B1389292C742D00E3756E /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8B1388292C742D00E3756E /* AddProductViewController.swift */; };
 		3CE5CC89292662A100F8DD61 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE5CC88292662A100F8DD61 /* NetworkTests.swift */; };
 		5743DFE22923659100D2442D /* NetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFE12923659100D2442D /* NetworkAPI.swift */; };
@@ -47,6 +48,7 @@
 		3C62E5EF2923649F00D0E45E /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		3C77A91E292EFFB700280ACC /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		3C77A9222934BA6900280ACC /* ProductNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductNetworkManager.swift; sourceTree = "<group>"; };
+		3C77A9242935F44C00280ACC /* NSAttributeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributeProtocol.swift; sourceTree = "<group>"; };
 		3C8B1388292C742D00E3756E /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		3CE5CC86292662A100F8DD61 /* NetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE5CC88292662A100F8DD61 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				5743DFEA2925D6A000D2442D /* URLSessionProtocol.swift */,
+				3C77A9242935F44C00280ACC /* NSAttributeProtocol.swift */,
 				5743DFE92925D46A00D2442D /* Errors */,
 				5743DFE62925D3FD00D2442D /* Extensions */,
 				5743DFE52925D3EA00D2442D /* Utilities */,
@@ -311,6 +314,7 @@
 				3C458B352925CA9600E43838 /* NetworkAPIProvider.swift in Sources */,
 				57D3E2AC292DCE6D00D1BAB7 /* ProductGridCell.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ProductListViewController.swift in Sources */,
+				3C77A9252935F44C00280ACC /* NSAttributeProtocol.swift in Sources */,
 				3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */,
 				3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

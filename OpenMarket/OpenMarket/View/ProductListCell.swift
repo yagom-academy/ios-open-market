@@ -39,7 +39,9 @@ final class ProductListCell: UICollectionViewListCell {
         
         self.productListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
-    
+}
+
+extension ProductListCell: NSAttributeProtocol {
     func updateConfiguration(with product: Product) {
         var content = self.defaultProductConfiguration()
         content.imageProperties.reservedLayoutSize = CGSize(width: 50, height: 50)
@@ -49,7 +51,7 @@ final class ProductListCell: UICollectionViewListCell {
         content.textProperties.font = .boldSystemFont(ofSize: 18)
         content.secondaryTextProperties.color = .gray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .footnote)
-        content.secondaryAttributedText = product.attributedPriceString
+        content.secondaryAttributedText = fetchPriceNSAttributedString(from: product)
         
         let networkProvider = NetworkAPIProvider()
         networkProvider.fetchImage(url: product.thumbnail) { result in

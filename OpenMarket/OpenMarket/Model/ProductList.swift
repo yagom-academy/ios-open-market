@@ -48,34 +48,6 @@ struct Product: Decodable, Hashable {
         case createdAt = "created_at"
         case issuedAt = "issued_at"
     }
-    
-    var attributedPriceString: NSAttributedString {
-        var priceText = "\(self.currency) \(self.price.decimalInt) "
-        var attributedStr = NSMutableAttributedString(string: priceText)
-        if self.bargainPrice != self.price {
-            priceText += "\(self.currency) \(self.bargainPrice.decimalInt)"
-            attributedStr = NSMutableAttributedString(string: priceText)
-            attributedStr.addAttributes([.strikethroughStyle: 1,
-                                         .foregroundColor: UIColor.systemRed],
-                                        range: (priceText as NSString).range(of: "\(self.currency) \(self.price.decimalInt)"))
-        }
-        
-        return attributedStr
-    }
-    
-    var attributedLineBreakedPriceString: NSAttributedString {
-        var priceText = "\(self.currency) \(self.price.decimalInt)\n"
-        var attributedStr = NSMutableAttributedString(string: priceText)
-        if self.bargainPrice != self.price {
-            priceText += "\(self.currency) \(self.bargainPrice.decimalInt)"
-            attributedStr = NSMutableAttributedString(string: priceText)
-            attributedStr.addAttributes([.strikethroughStyle: 1,
-                                         .foregroundColor: UIColor.systemRed],
-                                        range: (priceText as NSString).range(of: "\(self.currency) \(self.price.decimalInt)"))
-        }
-        
-        return attributedStr
-    }
 }
 
 struct Image: Decodable, Hashable {

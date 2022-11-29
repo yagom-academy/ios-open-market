@@ -97,7 +97,8 @@ final class ProductGridCell: UICollectionViewCell {
             }
         }
         self.nameLabel.text = product.name
-        self.priceLabel.attributedText = product.attributedLineBreakedPriceString
+        self.priceLabel.attributedText = fetchLineBreakedPriceNSAttributedString(from: product)
         self.stockLabel.attributedText = product.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(product.stock)".attributed
     }
 }
+extension ProductGridCell: NSAttributeProtocol {}
