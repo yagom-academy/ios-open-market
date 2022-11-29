@@ -12,6 +12,8 @@ protocol NetworkRequest {
     var urlHost: String { get }
     var urlPath: String { get }
     var queryParameters: [String: String] { get }
+    var httpHeader: [String: String]? { get }
+    var httpBody: Data? { get }
 }
 
 extension NetworkRequest {
@@ -33,6 +35,8 @@ extension NetworkRequest {
         }
         var request = URLRequest(url: url)
         request.httpMethod = self.httpMethod.description
+        request.allHTTPHeaderFields = self.httpHeader
+        request.httpBody = self.httpBody
         return request
     }
 }

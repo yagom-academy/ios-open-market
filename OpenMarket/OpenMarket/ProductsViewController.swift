@@ -122,8 +122,9 @@ final class ProductsViewController: UIViewController {
     }
     
     @objc private func addNewProduct() {
-        let viewController = AddProductViewController()
-        present(viewController, animated: true)
+        let navigationController = UINavigationController(rootViewController: AddProductViewController())
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
     
     @objc private func changeLayout(_ segmentedControl: UISegmentedControl) {
