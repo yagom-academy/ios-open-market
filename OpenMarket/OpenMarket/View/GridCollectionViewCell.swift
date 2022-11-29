@@ -4,7 +4,6 @@
 
 import UIKit
 
-// lazy ㄴㄴ! -> addSubview 하는것들 이동
 final class GridCollectionViewCell: UICollectionViewCell {
     static let identifier = "gridCell"
     
@@ -142,12 +141,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     private func updateStockLabel(_ product: Product) {
         guard product.stock > 0 else {
-            stockLabel.text = "품절"
-            stockLabel.attributedText = stockLabel.text?.markSoldOut()
+            stockLabel.attributedText = StockStatus.soldOut.rawValue.markSoldOut()
             return
         }
         
-        stockLabel.text = "잔여수량 : \(product.stock)"
+        let remainingStock = StockStatus.remainingStock.rawValue + " : \(product.stock)"
+        
+        stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
 }
 

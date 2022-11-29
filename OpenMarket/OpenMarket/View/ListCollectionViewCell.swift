@@ -2,7 +2,7 @@
 //  ListCollectionViewCell.swift
 //  OpenMarket
 //
-//  Created by Jiyoung Lee on 2022/11/29.
+//  Created by SummerCat on 2022/11/29.
 //
 
 import UIKit
@@ -160,11 +160,14 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     private func updateStockLabel(_ product: Product) {
         guard product.stock > 0 else {
-            stockLabel.text = "품절"
-            stockLabel.attributedText = stockLabel.text?.markSoldOut()
+            stockLabel.attributedText = StockStatus.soldOut.rawValue.markSoldOut()
             return
         }
         
-        stockLabel.text = "잔여수량 : \(product.stock)"
+        let remainingStock = StockStatus.remainingStock.rawValue + " : \(product.stock)"
+        
+        stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
 }
+
+
