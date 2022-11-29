@@ -7,24 +7,10 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-    enum cellType {
-        case list
-        case grid
-        
-        var identifier: String {
-            switch self {
-            case .list:
-                return "ListCollectionViewCell"
-            case .grid:
-                return "GridCollectionViewCell"
-            }
-        }
-    }
-    
     private var product: ProductList?
     private let session: URLSessionProtocol = URLSession.shared
     private lazy var networkManager: NetworkRequestable = NetworkManager(session: session)
-    private var cellIdentifier: String = cellType.list.identifier
+    private var cellMode: CellMode = .listType
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var viewModeController: UISegmentedControl!
@@ -78,32 +64,34 @@ final class MainViewController: UIViewController {
     }
     
     private func configureCollectionView() {
+        switch cellMode {
+        case .listType:
+            registerCellNib(cellIdentifier: ListCollectionViewCell.stringIdentifier())
+            listCollectionViewFlowLayout()
+        case .gridType:
+            registerCellNib(cellIdentifier: GridCollectionViewCell.stringIdentifier())
+            gridCollectionViewFlowLayout()
+        }
+    }
+    
+    private func registerCellNib(cellIdentifier: String) {
         let collectionViewCellNib = UINib(nibName: cellIdentifier, bundle: nil)
         
         self.collectionView.register(collectionViewCellNib,
                                      forCellWithReuseIdentifier: cellIdentifier)
-        
-        switch cellIdentifier {
-        case cellType.list.identifier:
-            listCollectionViewFlowLayout()
-        case cellType.grid.identifier:
-            gridCollectionViewFlowLayout()
-        default:
-            break
-        }
     }
     
     @IBAction func tapViewModeController(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            cellIdentifier = cellType.list.identifier
+            cellMode = .listType
             collectionView.reloadData()
             configureCollectionView()
             collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
                                         at: .top,
                                         animated: false)
         case 1:
-            cellIdentifier = cellType.grid.identifier
+            cellMode = .gridType
             collectionView.reloadData()
             configureCollectionView()
             collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
@@ -151,19 +139,18 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch cellIdentifier {
-        case cellType.list.identifier:
+        switch cellMode {
+        case .listType:
             return makeListCell(cellForItemAt: indexPath)
-        case cellType.grid.identifier:
+        case .gridType:
             return makeGridCell(cellForItemAt: indexPath)
-        default:
-            return makeListCell(cellForItemAt: indexPath)
         }
     }
     
     private func makeListCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ListCollectionViewCell =
-        collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier,
+        collectionView.dequeueReusableCell(withReuseIdentifier:
+                                            ListCollectionViewCell.stringIdentifier(),
                                            for: indexPath) as! ListCollectionViewCell
         guard let productItem = product?.pages[indexPath.item] else {
             return cell
@@ -177,7 +164,8 @@ extension MainViewController: UICollectionViewDataSource {
     
     private func makeGridCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GridCollectionViewCell =
-        collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier,
+        collectionView.dequeueReusableCell(withReuseIdentifier:
+                                            GridCollectionViewCell.stringIdentifier(),
                                            for: indexPath) as! GridCollectionViewCell
         guard let productItem = product?.pages[indexPath.item] else {
             return cell
