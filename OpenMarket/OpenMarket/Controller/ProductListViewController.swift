@@ -20,7 +20,7 @@ final class ProductListViewController: UIViewController {
             case .grid:
                 collectionView.collectionViewLayout = createGridLayout()
             }
-            applySnapshot()
+            applySnapshotUsingReloadData()
         }
     }
     
@@ -163,5 +163,13 @@ private extension ProductListViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(self.productData?.pages ?? [])
         self.dataSource.apply(snapshot)
+    }
+    
+    private func applySnapshotUsingReloadData() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(self.productData?.pages ?? [])
+        snapshot.reloadSections([.main])
+        self.dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
