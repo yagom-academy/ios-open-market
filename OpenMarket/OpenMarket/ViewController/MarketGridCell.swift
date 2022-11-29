@@ -59,9 +59,9 @@ final class MarketGridCell: UICollectionViewCell {
         setupLayout()
         nameLabel.text = page.name
         productImage.image = UIImage(named: "loading")
-        updateImage(page: page, completionHandler: completionHandler)
-        updatePriceLabel(page: page)
-        updateStockLabel(page: page)
+        fetchImage(page: page, completionHandler: completionHandler)
+        generatePriceLabelContent(page: page)
+        generateStockLabelContent(page: page)
     }
     
     private func setupLayout() {
@@ -88,7 +88,7 @@ final class MarketGridCell: UICollectionViewCell {
         ])
     }
     
-    private func updateImage(page: Page,
+    private func fetchImage(page: Page,
                      completionHandler: @escaping (() -> Void) -> Void) {
         let thumbnailUrl = page.thumbnail
         let cacheKey = NSString(string: thumbnailUrl)
@@ -119,7 +119,7 @@ final class MarketGridCell: UICollectionViewCell {
         }
     }
 
-    private func updatePriceLabel(page: Page) {
+    private func generatePriceLabelContent(page: Page) {
         if page.bargainPrice > 0  {
             priceLabel.attributedText = NSMutableAttributedString()
                 .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
@@ -130,7 +130,7 @@ final class MarketGridCell: UICollectionViewCell {
         }
     }
     
-    private func updateStockLabel(page: Page) {
+    private func generateStockLabelContent(page: Page) {
         if page.stock == 0 {
             stockLabel.attributedText = NSMutableAttributedString()
                 .orangeColor(string: "품절")

@@ -31,9 +31,9 @@ struct Page: Decodable, Hashable {
     let description: String?
     let thumbnail: String
     let currency: Currency
-    let price: Int
-    let bargainPrice: Int
-    let discountedPrice: Int
+    let price: Double
+    let bargainPrice: Double
+    let discountedPrice: Double
     let stock: Int
     let createdAt: Date
     let issuedAt: Date

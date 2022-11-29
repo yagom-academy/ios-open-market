@@ -43,10 +43,7 @@ final class MarketListCell: UICollectionViewListCell {
         setupLayout()
         
         var content = UIListContentConfiguration.subtitleCell()
-        let thumbnailUrl = page.thumbnail
-        let cacheKey = NSString(string: thumbnailUrl)
-        let session = MarketURLSessionProvider()
-        
+    
         content.image = UIImage(named: "loading")
         content.imageProperties.reservedLayoutSize = CGSize(width: 70, height: 70)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
@@ -58,46 +55,11 @@ final class MarketListCell: UICollectionViewListCell {
         content.textToSecondaryTextVerticalPadding = 5
         content.secondaryTextProperties.color = .systemGray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
+        content.secondaryAttributedText = generatePriceLabelContent(page: page)
         
-        if page.bargainPrice > 0  {
-            content.secondaryAttributedText = NSMutableAttributedString()
-                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
-                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
-        } else {
-            content.secondaryAttributedText = NSMutableAttributedString()
-                .normal(string: "\(page.currency.rawValue) \(page.price)")
-        }
+        stockLabel.attributedText = generateStockLabelContent(page: page)
         
-        if page.stock == 0 {
-            stockLabel.attributedText = NSMutableAttributedString()
-                .orangeColor(string: "품절")
-        } else {
-            stockLabel.attributedText = NSMutableAttributedString()
-                .normal(string: "잔여수량:\n\(page.stock)")
-        }
-        
-        if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
-            content.image = cachedImage
-        } else {
-            guard let imageUrl = URL(string: thumbnailUrl) else { return }
-            session.fetchData(url: imageUrl) { result in
-                switch result {
-                case .success(let data):
-                    DispatchQueue.main.async {
-                        guard let image = UIImage(data: data) else { return }
-                        ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
-                        content.image = image
-                        let updateConfiguration = {
-                            self.pageListContentView.configuration = content
-                        }
-                        completionHandler(updateConfiguration)
-                    }
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
-        pageListContentView.configuration = content
+        fetchImage(page: page, content: content, completionHandler: completionHandler)
     }
     
     private func setupLayout() {
@@ -125,5 +87,60 @@ final class MarketListCell: UICollectionViewListCell {
             stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                                      constant: -10)
         ])
+    }
+    
+    private func generatePriceLabelContent(page: Page) -> NSAttributedString {
+        if page.bargainPrice > 0  {
+            return NSMutableAttributedString()
+                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
+                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
+        } else {
+            return NSMutableAttributedString()
+                .normal(string: "\(page.currency.rawValue) \(page.price)")
+        }
+    }
+    
+    private func generateStockLabelContent(page: Page) -> NSAttributedString {
+        if page.stock == 0 {
+            return NSMutableAttributedString().orangeColor(string: "품절")
+        } else {
+            return NSMutableAttributedString().normal(string: "잔여수량:\n\(page.stock)")
+        }
+    }
+    
+    private func fetchImage(page: Page,
+                             content: UIListContentConfiguration,
+                             completionHandler: @escaping (() -> Void) -> Void) {
+        let thumbnailUrl = page.thumbnail
+        let cacheKey = NSString(string: thumbnailUrl)
+        let session = MarketURLSessionProvider()
+        var content = content
+        
+        if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
+            content.image = cachedImage
+        } else {
+            guard let imageUrl = URL(string: thumbnailUrl) else { return }
+            
+            session.fetchData(url: imageUrl) { result in
+                switch result {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        guard let image = UIImage(data: data) else { return }
+                        
+                        ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
+                        content.image = image
+                        
+                        let updateConfiguration = {
+                            self.pageListContentView.configuration = content
+                        }
+                        completionHandler(updateConfiguration)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+        
+        pageListContentView.configuration = content
     }
 }
