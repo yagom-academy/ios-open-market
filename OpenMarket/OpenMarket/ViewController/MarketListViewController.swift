@@ -12,6 +12,9 @@ final class MarketListViewController: UIViewController {
     private var listView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
     
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchMarketData()
@@ -31,6 +34,7 @@ final class MarketListViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.configureListView()
                     self.configureDataSource()
+                    self.applySnapshot()
                 }
             case .failure(let error):
                 print(error)
@@ -59,14 +63,16 @@ final class MarketListViewController: UIViewController {
             }
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Page>(collectionView: listView) {
+        dataSource = DataSource(collectionView: listView) {
             (listView, indexPath, page) -> UICollectionViewCell? in
             return listView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                           for: indexPath,
                                                           item: page)
         }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+    }
+    
+    private func applySnapshot() {
+        var snapshot = Snapshot()
         
         snapshot.appendSections([.productList])
         snapshot.appendItems(pageData)

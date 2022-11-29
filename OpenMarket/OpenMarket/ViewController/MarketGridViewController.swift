@@ -9,8 +9,11 @@ import UIKit
 
 final class MarketGridViewController: UIViewController {
     private var gridView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Page>?
+    private var dataSource: DataSource?
     private var pageData: [Page] = []
+    
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Page>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Page>
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +34,7 @@ final class MarketGridViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.setupGridLayout()
                     self.configureDataSource()
+                    self.applySnapshot()
                 }
             case .failure(let error):
                 print(error)
@@ -84,15 +88,16 @@ final class MarketGridViewController: UIViewController {
             }
         }
         
-        dataSource = UICollectionViewDiffableDataSource(collectionView: gridView,
-                                                        cellProvider: {
+        dataSource = DataSource(collectionView: gridView, cellProvider: {
             gridView, indexPath, page in
             return gridView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                           for: indexPath,
                                                           item: page)
         })
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Page>()
+    }
+    
+    private func applySnapshot() {
+        var snapshot = Snapshot()
         
         snapshot.appendSections([.productGrid])
         snapshot.appendItems(pageData)
