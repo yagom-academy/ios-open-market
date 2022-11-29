@@ -68,6 +68,8 @@ final class ProductsViewController: UIViewController {
         return barButton
     }()
     
+    private let refreshControl: UIRefreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -88,6 +90,7 @@ final class ProductsViewController: UIViewController {
         collectionView.collectionViewLayout = listLayout
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.refreshControl = refreshControl
         setupCollectionViewConstraints()
     }
     
@@ -119,6 +122,7 @@ final class ProductsViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(changeLayout(_:)), for: .valueChanged)
         addProductButton.target = self
         addProductButton.action = #selector(addNewProduct)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     @objc private func addNewProduct() {
@@ -143,6 +147,17 @@ final class ProductsViewController: UIViewController {
         }
         collectionView.reloadData()
         collectionView.scrollToItem(at: index, at: .top, animated: false)
+    }
+    
+    @objc private func refresh() {
+        pageNumber = 1
+        productLists = []
+        fetchData() {
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+                self?.refreshControl.endRefreshing()
+            }
+        }
     }
 }
 
