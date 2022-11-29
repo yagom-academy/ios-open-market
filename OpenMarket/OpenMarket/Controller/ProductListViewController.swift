@@ -140,7 +140,7 @@ private extension ProductListViewController {
     
     private func configureDataSource() {
         let listCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
-            cell.update(with: product)
+            cell.updateConfiguration(with: product)
             cell.accessories = [.disclosureIndicator()]
         }
         

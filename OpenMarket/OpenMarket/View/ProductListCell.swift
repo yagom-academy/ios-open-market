@@ -4,22 +4,8 @@ import UIKit
 
 final class ProductListCell: UICollectionViewListCell {
     
-    private var productData: Product?
     private let productPriceLabel = UILabel()
     private var customViewConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
-    
-    func update(with newProduct: Product) {
-        guard self.productData != newProduct else { return }
-        self.productData = newProduct
-        setNeedsUpdateConfiguration()
-    }
-    
-    override var configurationState: UICellConfigurationState {
-        var state = super.configurationState
-        state.productData = self.productData
-        return state
-    }
-    
     private func defaultProductConfiguration() -> UIListContentConfiguration {
         var config = UIListContentConfiguration.subtitleCell()
         config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
@@ -73,23 +59,21 @@ extension ProductListCell {
         self.customViewConstraints = constraints
     }
     
-    override func updateConfiguration(using state: UICellConfigurationState) {
+    func updateConfiguration(with product: Product) {
         setupViewsIfNeeded()
-        
-        guard let productData = state.productData else { return }
-        
-        var content = defaultProductConfiguration().updated(for: state)
+            
+        var content = self.defaultProductConfiguration()
         content.imageProperties.reservedLayoutSize = CGSize(width: 50, height: 50)
         content.image = UIImage(systemName: "timelapse")
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
-        content.text = productData.name
+        content.text = product.name
         content.textProperties.font = .boldSystemFont(ofSize: 18)
         content.secondaryTextProperties.color = .gray
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .footnote)
-        content.secondaryAttributedText = productData.attributedPriceString
+        content.secondaryAttributedText = product.attributedPriceString
         
         let networkProvider = NetworkAPIProvider()
-        networkProvider.fetchImage(url: productData.thumbnail) { result in
+        networkProvider.fetchImage(url: product.thumbnail) { result in
             switch result {
             case .failure(_):
                 DispatchQueue.main.async { [weak self] in
@@ -109,6 +93,6 @@ extension ProductListCell {
         
         self.productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
         self.productPriceLabel.textColor = .gray
-        self.productPriceLabel.attributedText = productData.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(productData.stock)".attributed
+        self.productPriceLabel.attributedText = product.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(product.stock)".attributed
     }
 }
