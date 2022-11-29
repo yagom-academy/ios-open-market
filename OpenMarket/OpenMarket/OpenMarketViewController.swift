@@ -6,6 +6,7 @@
 
 import UIKit
 
+// 로딩중 표시하기
 final class OpenMarketViewController: UIViewController {
     
     private enum ProductListSection: Int {
@@ -26,40 +27,44 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
-    private let segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: [ViewType.list.typeName, ViewType.grid.typeName])
-            control.translatesAutoresizingMaskIntoConstraints = false
-            return control
-    }()
-    
     private var gridCollectionView: UICollectionView?
     private var listCollectionView: UICollectionView?
+    private var productRegisterView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemRed
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product>?
     private var products: [Product] = [] {
         didSet {
-            DispatchQueue.main.async {
-                self.applySnapshot(for: self.products)
+            DispatchQueue.main.async { [weak self] in
+                self?.applySnapshot(for: self?.products)
             }
         }
     }
     
     private var pageNumber: Int = 1
     
+    private let segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: [ViewType.list.typeName, ViewType.grid.typeName])
+            control.translatesAutoresizingMaskIntoConstraints = false
+            return control
+    }()
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        
         navigationItem.titleView = segmentedControl
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemBackground
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        
         segmentedControl.addTarget(self, action: #selector(self.segmentValueChanged(_:)), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = ViewType.list.rawValue
         segmentValueChanged(segmentedControl)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(registerProduct(_:)))
 
         fetchData(for: pageNumber)
         
@@ -67,8 +72,7 @@ final class OpenMarketViewController: UIViewController {
         configureListDataSource()
     }
     
-    @objc func segmentValueChanged(_ sender: UISegmentedControl) {
-        print(sender.selectedSegmentIndex)
+    @objc private func segmentValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case ViewType.list.rawValue:
             configureListCollectionView()
@@ -91,12 +95,19 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
-//    var isLoading: Bool = false
+    @objc private func registerProduct(_ sender: UIBarButtonItem) {
+        view.addSubview(productRegisterView)
+        
+        NSLayoutConstraint.activate([
+            productRegisterView.topAnchor.constraint(equalTo: view.topAnchor),
+            productRegisterView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            productRegisterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            productRegisterView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
     
     func fetchData(for page: Int) {
-//        guard !isLoading else { return }
         let networkManager = NetworkManager()
-//        isLoading = true
         networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20), dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
@@ -106,7 +117,6 @@ final class OpenMarketViewController: UIViewController {
                     refinedProducts.append(product)
                 }
                 self.products += refinedProducts
-//                self.isLoading = false
             case .failure(let error):
                 print(error)
             }
@@ -152,11 +162,11 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func configureListCollectionView() {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.07))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.07))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -189,19 +199,12 @@ final class OpenMarketViewController: UIViewController {
             
             return listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
-//        listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.identifier)
-//
-//        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: listCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.identifier, for: indexPath) as? ListCollectionViewCell
-//            cell?.updateContents(product)
-//
-//            return cell
-//        }
     }
     
-    func applySnapshot(for items: [Product]) {
+    func applySnapshot(for items: [Product]?) {
         var snapshot = NSDiffableDataSourceSnapshot<ProductListSection, Product>()
         snapshot.appendSections([.main])
+        guard let items else { return }
         snapshot.appendItems(items)
         dataSource?.apply(snapshot, animatingDifferences: false)
     }

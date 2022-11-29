@@ -26,10 +26,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
         productImageView.image = .none
         productNameLabel.text = .none
         priceLabel.attributedText = nil
-        priceLabel.text = nil
         bargainPriceLabel.text = nil
         stockLabel.attributedText = nil
-        stockLabel.text = .none
     }
     
     private let productImageView: UIImageView = {
