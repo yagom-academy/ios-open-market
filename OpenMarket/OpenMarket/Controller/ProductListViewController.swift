@@ -31,9 +31,7 @@ final class ProductListViewController: UIViewController {
         configureSegmentedControl()
         configureNavigationBar()
         configureAddButton()
-        
-        configureCollectionViewConstraint() // 컬렉션 뷰 넣어줌
-        configureDataSource() //data source 설정
+        configureCollectionViewConstraint()
         
         ProductNetworkManager.shared.fetchProductList() { [weak self] result in
             switch result {
@@ -53,6 +51,18 @@ final class ProductListViewController: UIViewController {
         let addProductViewController = AddProductViewController()
         self.present(addProductViewController, animated: true, completion: nil)
     }
+    
+    private func configureNavigationBar() {
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .systemGray6
+        self.navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+    }
+    
+    private func configureAddButton() {
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
+                                      action: #selector(addButtonPressed))
+        self.navigationItem.rightBarButtonItem = addItem
+    }
 }
 
 private extension ProductListViewController {
@@ -60,12 +70,6 @@ private extension ProductListViewController {
     enum SegmentItem: Int {
         case list = 0
         case grid = 1
-    }
-    
-    private func configureNavigationBar() {
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.backgroundColor = .systemGray6
-        self.navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
     }
     
     private func configureSegmentedControl() {
@@ -89,12 +93,6 @@ private extension ProductListViewController {
             return
         }
         self.segmentItem = segmentItem
-    }
-    
-    private func configureAddButton() {
-        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
-                                      action: #selector(addButtonPressed))
-        self.navigationItem.rightBarButtonItem = addItem
     }
 }
 
