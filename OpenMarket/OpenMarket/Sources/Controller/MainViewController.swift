@@ -8,8 +8,6 @@ import UIKit
 
 final class MainViewController: UIViewController {
     private var product: ProductList?
-    private let session: URLSessionProtocol = URLSession.shared
-    private lazy var networkManager: NetworkRequestable = NetworkManager(session: session)
     private var cellMode: CellMode = .listType
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -35,6 +33,9 @@ final class MainViewController: UIViewController {
     }
     
     private func loadData() {
+        let session: URLSessionProtocol = URLSession.shared
+        let networkManager: NetworkRequestable = NetworkManager(session: session)
+        
         networkManager.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 200).url,
                                httpMethod: HttpMethod.get,
                                dataType: ProductList.self) { result in
