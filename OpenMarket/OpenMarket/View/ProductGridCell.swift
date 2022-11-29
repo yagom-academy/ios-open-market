@@ -49,7 +49,7 @@ final class ProductGridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layout()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -63,7 +63,7 @@ final class ProductGridCell: UICollectionViewCell {
         self.stackView.addArrangedSubview(self.stockLabel)
     }
     
-    private func layout() {
+    private func configureLayout() {
         configureStackView()
         self.contentView.addSubview(self.stackView)
         

@@ -5,63 +5,42 @@ import UIKit
 final class ProductListCell: UICollectionViewListCell {
     
     private let productPriceLabel = UILabel()
-    private var customViewConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint)?
     private func defaultProductConfiguration() -> UIListContentConfiguration {
         var config = UIListContentConfiguration.subtitleCell()
         config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         return config
     }
-    
+
     private lazy var productListContentView = UIListContentView(configuration: defaultProductConfiguration())
-}
-
-private extension UIConfigurationStateCustomKey {
     
-    static let product = UIConfigurationStateCustomKey("product")
-}
-
-private extension UICellConfigurationState {
-    
-    var productData: Product? {
-        set { self[.product] = newValue }
-        get { return self[.product] as? Product }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureLayout()
     }
-}
-
-extension ProductListCell {
     
-    private func setupViewsIfNeeded() {
-        guard self.customViewConstraints == nil else {
-            return
-        }
-        
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private func configureLayout() {
         [self.productListContentView, self.productPriceLabel].forEach {
             self.contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
-        let constraints = (leading:
-                            self.productPriceLabel.leadingAnchor.constraint(greaterThanOrEqualTo: self.productListContentView.trailingAnchor),
-                           trailing:
-                            self.productPriceLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor))
         
         NSLayoutConstraint.activate([
             self.productListContentView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             self.productListContentView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             self.productListContentView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             self.productPriceLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            constraints.leading,
-            constraints.trailing
+            self.productPriceLabel.leadingAnchor.constraint(greaterThanOrEqualTo: self.productListContentView.trailingAnchor),
+            self.productPriceLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         ])
         
         self.productListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        
-        self.customViewConstraints = constraints
     }
     
     func updateConfiguration(with product: Product) {
-        setupViewsIfNeeded()
-            
         var content = self.defaultProductConfiguration()
         content.imageProperties.reservedLayoutSize = CGSize(width: 50, height: 50)
         content.image = UIImage(systemName: "timelapse")
