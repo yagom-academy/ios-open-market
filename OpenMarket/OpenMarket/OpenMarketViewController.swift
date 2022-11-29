@@ -29,6 +29,15 @@ final class OpenMarketViewController: UIViewController {
     
     private var gridCollectionView: UICollectionView?
     private var listCollectionView: UICollectionView?
+    
+    private let activityIndicator = UIActivityIndicatorView()
+        
+    private let segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: [ViewType.list.typeName, ViewType.grid.typeName])
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
+    }()
+    
     private var productRegisterView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemRed
@@ -41,19 +50,13 @@ final class OpenMarketViewController: UIViewController {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.applySnapshot(for: self?.products)
+                self?.activityIndicator.stopAnimating()
             }
         }
     }
     
     private var pageNumber: Int = 1
     
-    private let segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: [ViewType.list.typeName, ViewType.grid.typeName])
-            control.translatesAutoresizingMaskIntoConstraints = false
-            return control
-    }()
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,11 +68,15 @@ final class OpenMarketViewController: UIViewController {
         segmentValueChanged(segmentedControl)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(registerProduct(_:)))
-
+    
         fetchData(for: pageNumber)
         
         configureListCollectionView()
         configureListDataSource()
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
     }
     
     @objc private func segmentValueChanged(_ sender: UISegmentedControl) {
@@ -107,6 +114,7 @@ final class OpenMarketViewController: UIViewController {
     }
     
     func fetchData(for page: Int) {
+        activityIndicator.startAnimating()
         let networkManager = NetworkManager()
         networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20), dataType: ProductList.self) { result in
             switch result {
@@ -146,7 +154,7 @@ final class OpenMarketViewController: UIViewController {
     
     func configureGridDataSource() {
         guard let gridCollectionView = gridCollectionView else { return }
-
+        
         gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         
         dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
