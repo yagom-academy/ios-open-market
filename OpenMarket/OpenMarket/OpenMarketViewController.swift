@@ -52,19 +52,19 @@ final class OpenMarketViewController: UIViewController {
         navigationItem.titleView = segmentedControl
         
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithDefaultBackground()
-        navigationItem.standardAppearance = appearance
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemBackground
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
         segmentedControl.addTarget(self, action: #selector(self.segmentValueChanged(_:)), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = ViewType.list.rawValue
         segmentValueChanged(segmentedControl)
 
+        fetchData(for: pageNumber)
         
-        // fetchData가 끝나면 실행되도록 변경해주면 될듯????
         configureListCollectionView()
         configureListDataSource()
-        
-        fetchData(for: pageNumber)
     }
     
     @objc func segmentValueChanged(_ sender: UISegmentedControl) {
@@ -97,7 +97,7 @@ final class OpenMarketViewController: UIViewController {
 //        guard !isLoading else { return }
         let networkManager = NetworkManager()
 //        isLoading = true
-        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 10), dataType: ProductList.self) { result in
+        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20), dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
                 var refinedProducts: [Product] = []
@@ -152,10 +152,11 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func configureListCollectionView() {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.07))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.1))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -166,6 +167,7 @@ final class OpenMarketViewController: UIViewController {
         guard let listCollectionView = listCollectionView else { return }
         
         view.addSubview(listCollectionView)
+        listCollectionView.delegate = self
         
         listCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

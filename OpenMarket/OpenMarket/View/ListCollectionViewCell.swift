@@ -46,11 +46,14 @@ final class ListCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
     private let priceLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         label.textColor = .gray
@@ -59,6 +62,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     private let bargainPriceLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         label.textColor = .gray
@@ -71,6 +75,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .right
         label.textColor = .gray
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -79,6 +85,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         let buttonImage = UIImage(systemName: "chevron.forward")
         button.setImage(buttonImage, for: .normal)
         button.tintColor = .gray
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -86,6 +93,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
+        stack.spacing = 5
         return stack
     }()
     
@@ -100,21 +108,27 @@ final class ListCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(disclosureButton)
         
         NSLayoutConstraint.activate([
-            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 3),
+            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 3),
             productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor),
-            productImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            productNameLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 2),
-            productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 3),
-            priceStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 2),
+            
+            productNameLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
+            productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            
+            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.35),
+            bargainPriceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.35),
+            priceStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
             priceStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor),
-            stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productNameLabel.trailingAnchor, constant: 5),
-            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 3),
-            disclosureButton.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 3),
-            disclosureButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 3),
-            disclosureButton.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
-            disclosureButton.widthAnchor.constraint(equalTo: disclosureButton.heightAnchor)
+            
+            stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productNameLabel.trailingAnchor, constant: 8),
+            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            
+            disclosureButton.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
+            disclosureButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            disclosureButton.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
+            disclosureButton.widthAnchor.constraint(equalTo: disclosureButton.heightAnchor),
+            disclosureButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3)
         ])
     }
     

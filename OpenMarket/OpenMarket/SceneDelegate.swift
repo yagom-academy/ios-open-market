@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = scene
         let rootViewController = OpenMarketViewController()
         window?.rootViewController = UINavigationController(rootViewController: rootViewController)
-        window?.rootViewController?.view.backgroundColor = .white
         window?.makeKeyAndVisible()
     }
     
