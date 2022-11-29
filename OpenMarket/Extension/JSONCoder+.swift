@@ -22,3 +22,19 @@ extension JSONDecoder {
         return decodedData
     }
 }
+
+extension JSONEncoder {
+    static func encode<T: Encodable>(from object: T) -> Data? {
+        let encoder: JSONEncoder = JSONEncoder()
+        
+        var encodedData: Data?
+        do {
+            encodedData = try encoder.encode(object)
+        } catch let error as EncodingError {
+            print(error.errorDescription ?? error.localizedDescription)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return encodedData
+    }
+}

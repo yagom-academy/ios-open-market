@@ -16,7 +16,20 @@ struct NewProduct: Encodable {
     let stock: Int
     let secret: String
     
-    init(name: String, description: String, price: Double, currency: Currency, discountedPrice: Double = 0, stock: Int = 0, secret: String) {
+    enum CodingKeys: String, CodingKey {
+        case name, description, price, currency
+        case discountedPrice = "discounted_price"
+        case stock, secret
+    }
+    
+    init(name: String,
+         description: String,
+         price: Double,
+         currency: Currency,
+         discountedPrice: Double = 0,
+         stock: Int = 0,
+         secret: String
+    ) {
         self.name = name
         self.description = description
         self.price = price
