@@ -63,6 +63,18 @@ final class MainViewController: UIViewController {
         configureGridCell()
         setupUI()
         loadProductListToCollectionView()
+        
+        
+        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "스톤", description: "스톤스톤", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
+
+        let image = UIImage(systemName: "a")!
+
+        DispatchQueue.global().sync {
+            manager.postProductLists(params: product, images: [image]) {
+                print("?")
+            }
+        }
+    
     }
     
     func setupNavBar() {
@@ -104,7 +116,7 @@ final class MainViewController: UIViewController {
     private func loadProductListToCollectionView() {
         self.indicator.startAnimating()
         
-        manager.getProductsList(pageNo: 1, itemsPerPage: 30) { list in
+        manager.getProductsList(pageNo: 1, itemsPerPage: 40) { list in
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
             snapshot.appendItems(list.products)
@@ -112,10 +124,6 @@ final class MainViewController: UIViewController {
             self.gridDataSource?.apply(snapshot, animatingDifferences: false)
             self.listDataSource?.apply(snapshot, animatingDifferences: false)
             DispatchQueue.main.async {
-//                ** show indicator **
-//                DispatchQueue.global().sync {
-//                    Thread.sleep(forTimeInterval: 1)
-//                }
                 self.indicator.stopAnimating()
             }
         }
@@ -136,21 +144,21 @@ extension MainViewController {
                 
                 DispatchQueue.main.async {
                     
-                    cell.productName.text = "\(itemIdentifier.name)"
-                    cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
+                    cell.productNameLabel.text = "\(itemIdentifier.name)"
+                    cell.bargainPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
                     cell.image.image = picture
                     
                     if itemIdentifier.bargainPrice != itemIdentifier.price {
-                        cell.price.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "")"
+                        cell.priceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "")"
                     } else {
-                        cell.price.isHidden = true
+                        cell.priceLabel.isHidden = true
                     }
                     
                     if itemIdentifier.stock == 0 {
-                        cell.stock.text = "품절"
-                        cell.stock.textColor = .systemYellow
+                        cell.stockLabel.text = "품절"
+                        cell.stockLabel.textColor = .systemYellow
                     } else {
-                        cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
+                        cell.stockLabel.text = "잔여수량 : \(itemIdentifier.stock)"
                     }
                 }
             }
@@ -177,21 +185,21 @@ extension MainViewController {
                 let picture = UIImage(data: data)
                 
                 DispatchQueue.main.async {
-                    cell.productName.text = "\(itemIdentifier.name)"
-                    cell.bargainPrice.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
+                    cell.productNameLabel.text = "\(itemIdentifier.name)"
+                    cell.bargainPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
                     cell.image.image = picture
                     
                     if itemIdentifier.bargainPrice != itemIdentifier.price {
-                        cell.price.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "") "
+                        cell.priceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "") "
                     } else {
-                        cell.price.isHidden = true
+                        cell.priceLabel.isHidden = true
                     }
                     
                     if itemIdentifier.stock == 0 {
-                        cell.stock.text = "품절"
-                        cell.stock.textColor = .systemYellow
+                        cell.stockLabel.text = "품절"
+                        cell.stockLabel.textColor = .systemYellow
                     } else {
-                        cell.stock.text = "잔여수량 : \(itemIdentifier.stock)"
+                        cell.stockLabel.text = "잔여수량 : \(itemIdentifier.stock)"
                     }
                 }
             }

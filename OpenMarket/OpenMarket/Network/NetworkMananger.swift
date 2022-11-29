@@ -10,10 +10,10 @@ import UIKit
 struct NetworkManager {
     typealias StatusCode = Int
     let successRange = 200..<300
-    let cache = {
+    let cache: URLCache = {
         let cache = URLCache.shared
-//        cache.memoryCapacity = 100000
-//        cache.diskCapacity = 0
+        cache.memoryCapacity = 100000
+        cache.diskCapacity = 0
         return cache
     }()
     
@@ -31,7 +31,7 @@ struct NetworkManager {
         switch type {
         case .healthChecker:
             components.path = "/healthChecker"
-
+            
             return components.url?.absoluteURL
         case .searchProductList(let pageNo, let itemsPerPage):
             components.path = "/api/products/"
@@ -48,7 +48,7 @@ struct NetworkManager {
         }
     }
     
-    func postProductLists(params: Product, images: [UIImage],completion: @escaping () -> Void) {
+    func postProductLists(params: Product, images: [UIImage], completion: @escaping () -> Void) {
         /**
          identifier : e475cf3c-6941-11ed-a917-6513cbde46ea
          password : 966j8xcwknjhh7wj
@@ -74,46 +74,39 @@ struct NetworkManager {
         do {
             let productJSON = try encoder.encode(params)
             let jsonString = String(data: productJSON, encoding: .utf8)
-            print("--------------1----------")
-            print(jsonString ?? "nil")
             
-            // params 넣기
             data.append(boundaryPrefix.data(using: .utf8)!)
             data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
             data.append("\(String(describing: jsonString))\r\n".data(using: .utf8)!)
-            print("--------------2----------")
-            print(String(data: data, encoding: .utf8)!)
             
-            // image 넣기
-            print("--------------이미지 넣기----------")
             data.append(boundaryPrefix.data(using: .utf8)!)
-            print(String(data: data, encoding: .utf8)!)
             data.append(("Content-Disposition: form-data; name=\"images\"; filename=\"stone_holy_shit\r\n\r\n".data(using: .utf8)!))
             data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-            data.append(images[0].pngData()!) // 여기서 문제 발생함 이미지가 들어가면 Nil
             
-            // 마지막 끝나는 바운더리
+            
+            data.append(images[0].pngData()!)
+            print(images[0].pngData()!)
+            
             data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
             
-            print("--------------3----------")
-            print("웨 Nil? ",String(data: data, encoding: .utf8) ?? "nilz")
+            print(data)
+            URLSession.shared.uploadTask(with: request, from: data, completionHandler: { responseData, response, error in
+                
+                if error == nil {
+                    let jsonData = try? JSONSerialization.jsonObject(with: responseData!, options: .allowFragments)
+                    if let json = jsonData as? [String: Any] {
+                        print(json)
+                    }
+                } else {
+                    let statusCode = (response as? HTTPURLResponse)?.statusCode
+                    print(error!, statusCode!)
+                }
+            }).resume()
             
         } catch {
-            
             print(error)
         }
-        
-        
-        
-        
-        
-//        // 이미지 넣는거
-//        data.append(boundaryPrefix.data(using: .utf8)!)
-//        data.append("Content-Disposition: form-data; name=\"\(paramName)\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
-//        data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-//        data.append(image.pngData()!)
     }
-    
     func getHealthChecker(completion: @escaping (StatusCode) -> Void) {
         guard let url = generateURL(type: .healthChecker) else {
             return
@@ -123,8 +116,8 @@ struct NetworkManager {
             guard error == nil,
                   let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   successRange.contains(statusCode) else {
-                return
-            }
+                      return
+                  }
             
             completion(statusCode)
         }
@@ -132,13 +125,13 @@ struct NetworkManager {
         dataTask.resume()
     }
     
+    
     func getProductsList(pageNo: Int, itemsPerPage: Int, completion: @escaping (ProductsList) -> Void) {
         guard let url = generateURL(type: .searchProductList(pageNo: pageNo, itemsPerPage: itemsPerPage)) else {
             return
         }
         
         let request = URLRequest(url: url)
-//        request.cachePolicy = .returnCacheDataElseLoad
         if cache.cachedResponse(for: request) == nil {
             let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
                 if isSuccessResponse(response: response, error: error) == false {
@@ -147,8 +140,8 @@ struct NetworkManager {
                 
                 guard let data = data,
                       let response = response else {
-                    return
-                }
+                          return
+                      }
                 
                 let cacheData = CachedURLResponse(response: response, data: data)
                 self.cache.storeCachedResponse(cacheData, for: request)
@@ -205,8 +198,8 @@ struct NetworkManager {
         guard error == nil,
               let statusCode = (response as? HTTPURLResponse)?.statusCode,
               successRange.contains(statusCode) else {
-            return false
-        }
+                  return false
+              }
         
         return true
     }
@@ -222,3 +215,4 @@ struct NetworkManager {
         return result
     }
 }
+
