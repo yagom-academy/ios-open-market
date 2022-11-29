@@ -248,8 +248,6 @@ extension OpenMarketViewController {
     }
     
     @objc private func switchView(_ sender: UISegmentedControl) {
-        guard let productList = productList else { return }
-        
         if sender.selectedSegmentIndex == 0 {
             productCollectionView.removeFromSuperview()
             configureProductCollectionView(type: .list)
@@ -258,7 +256,7 @@ extension OpenMarketViewController {
             configureProductCollectionView(type: .grid)
         }
         productCollectionView.delegate = self
-        configureSnapshot(with: productList.pages)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 

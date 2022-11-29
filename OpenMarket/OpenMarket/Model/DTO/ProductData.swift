@@ -22,6 +22,7 @@ struct ProductData: Decodable, Hashable {
     let description: String?
     let images: [ImageData]?
     let vendors: VendorData?
+    let uuid: UUID = UUID()
     
     private enum CodingKeys: String, CodingKey {
         case identifier = "id"
