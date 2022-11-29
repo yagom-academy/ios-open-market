@@ -12,6 +12,17 @@ final class ProductListViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     private var productData: ProductList?
+    private var segmentItem: SegmentItem = .list {
+        didSet {
+            switch segmentItem {
+            case .list:
+                collectionView.collectionViewLayout = createListLayout()
+            case .grid:
+                collectionView.collectionViewLayout = createGridLayout()
+            }
+            applySnapshot()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,14 +31,17 @@ final class ProductListViewController: UIViewController {
         configureSegmentedControl()
         configureNavigationBar()
         configureAddButton()
-            
+        
+        configureCollectionViewConstraint() // 컬렉션 뷰 넣어줌
+        configureDataSource() //data source 설정
+        
         ProductNetworkManager.shared.fetchProductList() { [weak self] result in
             switch result {
             case .success(let data):
                 self?.productData = data
                 DispatchQueue.main.async {
-                    self?.configureListHierarchy()
-                    self?.configureListDataSource()
+                    self?.configureDataSource()
+                    self?.applySnapshot()
                 }
             default :
                 return
@@ -42,6 +56,11 @@ final class ProductListViewController: UIViewController {
 }
 
 private extension ProductListViewController {
+    
+    enum SegmentItem: Int {
+        case list = 0
+        case grid = 1
+    }
     
     private func configureNavigationBar() {
         let navigationBarAppearance = UINavigationBarAppearance()
@@ -66,15 +85,10 @@ private extension ProductListViewController {
     }
     
     @objc private func segControlChanged(segcon: UISegmentedControl) {
-        switch segcon.selectedSegmentIndex {
-        case 0:
-            self.configureListHierarchy()
-            self.configureListDataSource()
-        case 1:
-            self.createGridCollectionView()
-            self.configureGridDataSource()
-        default: return
+        guard let segmentItem = SegmentItem.init(rawValue: segcon.selectedSegmentIndex) else {
+            return
         }
+        self.segmentItem = segmentItem
     }
     
     private func configureAddButton() {
@@ -86,38 +100,24 @@ private extension ProductListViewController {
 
 private extension ProductListViewController {
     
+    private func configureCollectionViewConstraint() {
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: createListLayout())
+        
+        self.view.addSubview(self.collectionView)
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            self.collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+    
     private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
     }
-    
-    private func configureListHierarchy() {
-        if let collectionView {
-            collectionView.removeFromSuperview()
-        }
-        self.collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
-        self.collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.view.addSubview(self.collectionView)
-    }
-    
-    private func configureListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
-            cell.update(with: product)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: self.collectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(self.productData?.pages ?? [])
-        self.dataSource.apply(snapshot)
-    }
-}
-
-extension ProductListViewController {
     
     private func createGridLayout() -> UICollectionViewCompositionalLayout{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -138,35 +138,30 @@ extension ProductListViewController {
         return layout
     }
     
-    private func createGridCollectionView() {
-        if let collectionView {
-            collectionView.removeFromSuperview()
+    private func configureDataSource() {
+        let listCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
+            cell.update(with: product)
+            cell.accessories = [.disclosureIndicator()]
         }
-        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: createGridLayout())
         
-        self.view.addSubview(self.collectionView)
-        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            self.collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            self.collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
-    }
-    
-    private func configureGridDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { cell, indexPath, product in
+        let gridCellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { cell, indexPath, product in
             cell.configureCell(with: product)
         }
         
-        self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: self.collectionView, cellProvider: { (collectionView, indexPath, itemIdentifier) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-        })
-        
-        var snapShot = NSDiffableDataSourceSnapshot<Section, Product>()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(self.productData?.pages ?? [])
-        self.dataSource.apply(snapShot)
+        self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: self.collectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+            switch self.segmentItem {
+            case .list:
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
+            case .grid:
+                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: product)
+            }
+        }
+    }
+    
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(self.productData?.pages ?? [])
+        self.dataSource.apply(snapshot)
     }
 }
