@@ -42,15 +42,15 @@ final class MarketListViewController: UIViewController {
         }
     }
     
+    private func configureListView() {
+        listView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        view.addSubview(listView)
+    }
+    
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         
         return UICollectionViewCompositionalLayout.list(using: config)
-    }
-    
-    private func configureListView() {
-        listView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
-        view.addSubview(listView)
     }
     
     private func configureDataSource() {
@@ -85,4 +85,3 @@ extension MarketListViewController {
         case productList
     }
 }
-

@@ -59,9 +59,9 @@ final class MarketGridCell: UICollectionViewCell {
         setupLayout()
         nameLabel.text = page.name
         productImage.image = UIImage(named: "loading")
-        fetchImage(page: page, completionHandler: completionHandler)
         generatePriceLabelContent(page: page)
         generateStockLabelContent(page: page)
+        fetchImage(page: page, completionHandler: completionHandler)
     }
     
     private func setupLayout() {
@@ -88,8 +88,29 @@ final class MarketGridCell: UICollectionViewCell {
         ])
     }
     
+    private func generatePriceLabelContent(page: Page) {
+        if page.bargainPrice > 0  {
+            priceLabel.attributedText = NSMutableAttributedString()
+                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
+                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
+        } else {
+            priceLabel.attributedText = NSMutableAttributedString()
+                .normal(string: "\(page.currency.rawValue) \(page.price)")
+        }
+    }
+    
+    private func generateStockLabelContent(page: Page) {
+        if page.stock == 0 {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .orangeColor(string: "품절")
+        } else {
+            stockLabel.attributedText = NSMutableAttributedString()
+                .normal(string: "잔여수량: \(page.stock)")
+        }
+    }
+    
     private func fetchImage(page: Page,
-                     completionHandler: @escaping (() -> Void) -> Void) {
+                            completionHandler: @escaping (() -> Void) -> Void) {
         let thumbnailUrl = page.thumbnail
         let cacheKey = NSString(string: thumbnailUrl)
         let session = MarketURLSessionProvider()
@@ -116,27 +137,6 @@ final class MarketGridCell: UICollectionViewCell {
                     print(error)
                 }
             }
-        }
-    }
-
-    private func generatePriceLabelContent(page: Page) {
-        if page.bargainPrice > 0  {
-            priceLabel.attributedText = NSMutableAttributedString()
-                .strikethrough(string: "\(page.currency.rawValue) \(page.price)")
-                .normal(string: "\n\(page.currency.rawValue) \(page.bargainPrice)")
-        } else {
-            priceLabel.attributedText = NSMutableAttributedString()
-                .normal(string: "\(page.currency.rawValue) \(page.price)")
-        }
-    }
-    
-    private func generateStockLabelContent(page: Page) {
-        if page.stock == 0 {
-            stockLabel.attributedText = NSMutableAttributedString()
-                .orangeColor(string: "품절")
-        } else {
-            stockLabel.attributedText = NSMutableAttributedString()
-                .normal(string: "잔여수량: \(page.stock)")
         }
     }
 }

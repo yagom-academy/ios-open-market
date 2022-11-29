@@ -35,6 +35,7 @@ final class MarketListCell: UICollectionViewListCell {
         stackView.distribution = .fillProportionally
         stackView.spacing = 10
         stackView.alignment = .top
+        
         return stackView
     }()
     
@@ -43,7 +44,7 @@ final class MarketListCell: UICollectionViewListCell {
         setupLayout()
         
         var content = UIListContentConfiguration.subtitleCell()
-    
+        
         content.image = UIImage(named: "loading")
         content.imageProperties.reservedLayoutSize = CGSize(width: 70, height: 70)
         content.imageProperties.maximumSize = CGSize(width: 70, height: 70)
@@ -109,8 +110,8 @@ final class MarketListCell: UICollectionViewListCell {
     }
     
     private func fetchImage(page: Page,
-                             content: UIListContentConfiguration,
-                             completionHandler: @escaping (() -> Void) -> Void) {
+                            content: UIListContentConfiguration,
+                            completionHandler: @escaping (() -> Void) -> Void) {
         let thumbnailUrl = page.thumbnail
         let cacheKey = NSString(string: thumbnailUrl)
         let session = MarketURLSessionProvider()

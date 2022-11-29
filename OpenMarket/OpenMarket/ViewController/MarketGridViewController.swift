@@ -42,6 +42,20 @@ final class MarketGridViewController: UIViewController {
         }
     }
     
+    private func setupGridLayout() {
+        gridView = UICollectionView(frame: view.bounds,
+                                    collectionViewLayout: generateGridLayout())
+        view.addSubview(gridView)
+        gridView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            gridView.topAnchor.constraint(equalTo: view.topAnchor),
+            gridView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gridView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gridView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
     private func generateGridLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1))
@@ -62,20 +76,6 @@ final class MarketGridViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
-    }
-    
-    private func setupGridLayout() {
-        gridView = UICollectionView(frame: view.bounds,
-                                    collectionViewLayout: generateGridLayout())
-        view.addSubview(gridView)
-        gridView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            gridView.topAnchor.constraint(equalTo: view.topAnchor),
-            gridView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            gridView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            gridView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
     }
     
     private func configureDataSource() {
