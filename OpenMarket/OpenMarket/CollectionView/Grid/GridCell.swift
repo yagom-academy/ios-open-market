@@ -14,7 +14,7 @@ final class GridCell: UICollectionViewCell {
         return imageView
     }()
     
-    let productName: UILabel = {
+    let productNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -24,7 +24,7 @@ final class GridCell: UICollectionViewCell {
         return label
     }()
     
-    let price: UILabel = {
+    let priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -39,7 +39,7 @@ final class GridCell: UICollectionViewCell {
         return label
     }()
     
-    let bargainPrice: UILabel = {
+    let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -49,7 +49,7 @@ final class GridCell: UICollectionViewCell {
         return label
     }()
     
-    let stock: UILabel = {
+    let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -87,16 +87,16 @@ final class GridCell: UICollectionViewCell {
         
         self.containerStackView.addArrangedSubview(image)
     
-        self.containerStackView.addArrangedSubview(productName)
+        self.containerStackView.addArrangedSubview(productNameLabel)
         self.contentView.layer.cornerRadius = 10
         self.contentView.layer.borderWidth = 2
         
         self.containerStackView.addArrangedSubview(priceStackView)
         
-        self.priceStackView.addArrangedSubview(price)
-        self.priceStackView.addArrangedSubview(bargainPrice)
+        self.priceStackView.addArrangedSubview(priceLabel)
+        self.priceStackView.addArrangedSubview(bargainPriceLabel)
         
-        self.containerStackView.addArrangedSubview(stock)
+        self.containerStackView.addArrangedSubview(stockLabel)
         setUpUI()
     }
     
@@ -106,12 +106,12 @@ final class GridCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         image.image = nil
-        productName.text = nil
-        price.text = nil
-        bargainPrice.text = nil
-        stock.text = nil
-        stock.textColor = .systemGray
-        price.isHidden = false
+        productNameLabel.text = nil
+        priceLabel.text = nil
+        bargainPriceLabel.text = nil
+        stockLabel.text = nil
+        stockLabel.textColor = .systemGray
+        priceLabel.isHidden = false
     }
     
     private func setUpUI() {
