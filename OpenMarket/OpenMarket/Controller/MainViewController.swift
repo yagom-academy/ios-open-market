@@ -49,7 +49,7 @@ final class MainViewController: UIViewController {
     }
     
     private func getItemList() {
-        let url = OpenMarketURL.base + OpenMarketURLComponent.itemPageComponent(pageNo: 1, itemPerPage: 100).url
+        let url = OpenMarketURL.itemPageComponent(pageNo: 1, itemPerPage: 100).url
         
         NetworkManager.publicNetworkManager.getJSONData(
             url: url,
