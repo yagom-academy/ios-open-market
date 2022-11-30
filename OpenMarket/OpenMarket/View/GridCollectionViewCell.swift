@@ -142,16 +142,16 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     private func updatePriceLabel(_ product: Product) {
-        let price: String = product.price.formatPrice(product.currency)
-        let bargainPrice: String = product.bargainPrice.formatPrice(product.currency)
+        priceLabel.attributedText = product.price.formatPrice(product.currency)
+            .flatMap { NSAttributedString(string: $0) }
         
-        priceLabel.attributedText = NSAttributedString(string: price)
+        bargainPriceLabel.attributedText = product.bargainPrice.formatPrice(product.currency)
+            .flatMap { NSAttributedString(string: $0) }
         
-        bargainPriceLabel.attributedText = NSAttributedString(string: bargainPrice)
         bargainPriceLabel.isHidden = product.price == product.bargainPrice
 
         if product.price != product.bargainPrice {
-            priceLabel.attributedText = price.invalidatePrice()
+            priceLabel.attributedText = product.price.formatPrice(product.currency)?.invalidatePrice()
         }
     }
     
@@ -161,7 +161,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatToDecimal()
+        if product.stock > 10000 {
+            stockLabel.attributedText = NSAttributedString(string: StockStatus.enoughStock.rawValue)
+            return
+        }
+        
+        let remainingStock = StockStatus.remainingStock.rawValue + " : " + (Double(product.stock).formatToDecimal() ?? StockStatus.stockError.rawValue)
         
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }

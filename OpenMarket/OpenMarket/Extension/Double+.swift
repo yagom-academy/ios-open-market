@@ -5,18 +5,14 @@
 import Foundation
 
 extension Double {
-    func formatToDecimal() -> String {
+    func formatToDecimal() -> String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        
-        guard let result = formatter.string(from: self as NSNumber) else {
-            return "\(self)"
-        }
-        
-        return result
+
+        return formatter.string(from: self as NSNumber)
     }
     
-    func formatPrice(_ currency: Currency) -> String {
+    func formatPrice(_ currency: Currency) -> String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         

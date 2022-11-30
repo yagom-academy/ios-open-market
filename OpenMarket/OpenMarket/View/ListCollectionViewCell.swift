@@ -86,23 +86,19 @@ final class ListCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.textColor = .gray
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
     private let bargainPriceLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         label.textColor = .gray
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
     private let priceStackView: UIStackView = {
         let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.spacing = 8
         return stack
@@ -126,12 +122,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
         stockLabelAndDisclosureButtonStackView.addArrangedSubview(stockLabel)
         stockLabelAndDisclosureButtonStackView.addArrangedSubview(disclosureButton)
         
-        priceStackView.addArrangedSubview(priceLabel)
-        priceStackView.addArrangedSubview(bargainPriceLabel)
-        
         upperLineStackView.addArrangedSubview(productNameLabel)
         upperLineStackView.addArrangedSubview(stockLabelAndDisclosureButtonStackView)
         
+        priceStackView.addArrangedSubview(priceLabel)
+        priceStackView.addArrangedSubview(bargainPriceLabel)
+    
         productDetailStackView.addArrangedSubview(upperLineStackView)
         productDetailStackView.addArrangedSubview(priceStackView)
         
@@ -148,6 +144,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
             
             productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor),
             
+            priceLabel.leadingAnchor.constraint(equalTo: priceStackView.leadingAnchor),
+            priceLabel.trailingAnchor.constraint(lessThanOrEqualTo: priceStackView.trailingAnchor),
             priceLabel.widthAnchor.constraint(lessThanOrEqualTo: priceStackView.widthAnchor, multiplier: 0.5),
             
             disclosureButton.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
@@ -172,16 +170,16 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func updatePriceLabel(_ product: Product) {
-        let price: String = product.price.formatPrice(product.currency)
-        let bargainPrice: String = product.bargainPrice.formatPrice(product.currency)
+        priceLabel.attributedText = product.price.formatPrice(product.currency)
+            .flatMap { NSAttributedString(string: $0) }
         
-        priceLabel.attributedText = NSAttributedString(string: price)
+        bargainPriceLabel.attributedText = product.bargainPrice.formatPrice(product.currency)
+            .flatMap { NSAttributedString(string: $0) }
         
-        bargainPriceLabel.attributedText = NSAttributedString(string: bargainPrice)
         bargainPriceLabel.isHidden = product.price == product.bargainPrice
 
         if product.price != product.bargainPrice {
-            priceLabel.attributedText = price.invalidatePrice()
+            priceLabel.attributedText = product.price.formatPrice(product.currency)?.invalidatePrice()
         }
     }
     
@@ -191,7 +189,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatToDecimal()
+        if product.stock > 10000 {
+            stockLabel.attributedText = NSAttributedString(string: StockStatus.enoughStock.rawValue)
+            return
+        }
+        
+        let remainingStock = StockStatus.remainingStock.rawValue + " : " + (Double(product.stock).formatToDecimal() ?? StockStatus.stockError.rawValue)
         
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
