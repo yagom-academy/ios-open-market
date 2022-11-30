@@ -4,6 +4,9 @@ import UIKit
 
 final class ProductGridCell: UICollectionViewCell {
     
+    let imageNetworkManager = ImageNetworkManager()
+    private var urlSessionDataTask: URLSessionDataTask?
+    
     private let stackView: UIStackView = {
         let stackview = UIStackView()
         stackview.axis = .vertical
@@ -56,6 +59,12 @@ final class ProductGridCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        urlSessionDataTask?.cancel()
+    }
+    
     private func configureStackView() {
         self.stackView.addArrangedSubview(self.productImage)
         self.stackView.addArrangedSubview(self.nameLabel)
@@ -82,20 +91,12 @@ final class ProductGridCell: UICollectionViewCell {
     }
     
     func configureCell(with product: Product) {
-        let networkProvider = NetworkAPIProvider()
-        networkProvider.fetchImage(url: product.thumbnail) { result in
-            switch result {
-            case .failure(_):
-                DispatchQueue.main.async { [weak self] in
-                    self?.productImage.image = UIImage(systemName: "xmark.seal.fill")
-                }
-                return
-            case .success(let image):
-                DispatchQueue.main.async { [weak self] in
-                    self?.productImage.image = image
-                }
+        urlSessionDataTask = imageNetworkManager.fetchImage(url: product.thumbnail) { image in
+            DispatchQueue.main.async { [weak self] in
+                self?.productImage.image = image
             }
         }
+        
         self.nameLabel.text = product.name
         self.priceLabel.attributedText = fetchLineBreakedPriceNSAttributedString(from: product)
         self.stockLabel.attributedText = product.stock == 0 ? "품절".foregroundColor(.orange) : "잔여수량: \(product.stock)".attributed

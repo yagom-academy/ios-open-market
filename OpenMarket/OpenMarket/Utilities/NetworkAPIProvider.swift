@@ -9,7 +9,6 @@ final class NetworkAPIProvider {
         self.session = session
     }
     
-    
     func fetch(url: URL?, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url else { return }
         
@@ -56,5 +55,30 @@ final class NetworkAPIProvider {
             
             completion(.success(data))
         }.resume()
+    }
+    
+    func fetchWithDataTask(url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask {
+        let dataTask = self.session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(NetworkError.serverFailed))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NetworkError.invalidData))
+                return
+            }
+            
+            completion(.success(data))
+        }
+        dataTask.resume()
+        
+        return dataTask
     }
 }

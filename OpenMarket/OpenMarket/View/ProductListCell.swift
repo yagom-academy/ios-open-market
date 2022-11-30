@@ -4,6 +4,8 @@ import UIKit
 
 final class ProductListCell: UICollectionViewListCell {
     
+    let imageNetworkManager = ImageNetworkManager()
+    private var urlSessionDataTask: URLSessionDataTask?
     private let productPriceLabel = UILabel()
     private func defaultProductConfiguration() -> UIListContentConfiguration {
         var config = UIListContentConfiguration.subtitleCell()
@@ -39,6 +41,12 @@ final class ProductListCell: UICollectionViewListCell {
         
         self.productListContentView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        urlSessionDataTask?.cancel()
+    }
 }
 
 extension ProductListCell: NSAttributeProtocol {
@@ -53,23 +61,12 @@ extension ProductListCell: NSAttributeProtocol {
         content.secondaryTextProperties.font = .preferredFont(forTextStyle: .footnote)
         content.secondaryAttributedText = fetchPriceNSAttributedString(from: product)
         
-        let networkProvider = NetworkAPIProvider()
-        networkProvider.fetchImage(url: product.thumbnail) { result in
-            switch result {
-            case .failure(_):
-                DispatchQueue.main.async { [weak self] in
-                    content.image = UIImage(systemName: "xmark.seal.fill")
-                    self?.productListContentView.configuration = content
-                }
-                return
-            case .success(let image):
-                DispatchQueue.main.async { [weak self] in
-                    content.image = image
-                    self?.productListContentView.configuration = content
-                }
+        urlSessionDataTask = imageNetworkManager.fetchImage(url: product.thumbnail) { image in
+            DispatchQueue.main.async { [weak self] in
+                content.image = image
+                self?.productListContentView.configuration = content
             }
         }
-        
         self.productListContentView.configuration = content
         
         self.productPriceLabel.font = .preferredFont(forTextStyle: .subheadline)
