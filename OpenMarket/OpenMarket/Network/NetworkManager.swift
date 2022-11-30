@@ -202,7 +202,6 @@ extension NetworkManager {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpMethod = "DELETE"
 
-
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let _ = response as? HTTPURLResponse else {
                     return
@@ -214,5 +213,26 @@ extension NetworkManager {
 
             task.resume()
         }
+    }
+
+    func editItem(productId: Int, completion: @escaping (String) -> ()) {
+        let jsonData = try? JSONSerialization.data(withJSONObject: ["price": 2000, "secret": "\(NetworkManager.secret)"])
+
+        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/\(productId)")!)
+        request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "PATCH"
+        request.httpBody = jsonData
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let _ = response as? HTTPURLResponse else {
+                return
+            }
+
+            print(String(data: data!, encoding: .utf8)!)
+            completion("data")
+        }
+
+        task.resume()
     }
 }
