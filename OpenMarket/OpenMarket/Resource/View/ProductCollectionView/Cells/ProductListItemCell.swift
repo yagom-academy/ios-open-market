@@ -12,6 +12,8 @@ final class ProductListItemCell: UICollectionViewCell, ProductItemCellContent {
     
     var task: URLSessionDataTask?
     
+    var activityIndicator = UIActivityIndicatorView()
+    
     var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -55,6 +57,7 @@ final class ProductListItemCell: UICollectionViewCell, ProductItemCellContent {
         task?.cancel()
         task = nil
         thumbnailImageView.image = nil
+        activityIndicator.startAnimating()
     }
     
     func configureLayout() {
@@ -62,7 +65,8 @@ final class ProductListItemCell: UICollectionViewCell, ProductItemCellContent {
             thumbnailImageView,
             titleLabel,
             subTitleLabel,
-            stockLabel
+            stockLabel,
+            activityIndicator
         ].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -77,6 +81,9 @@ final class ProductListItemCell: UICollectionViewCell, ProductItemCellContent {
             thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             thumbnailImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: thumbnailImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: thumbnailImageView.centerYAnchor),
             
             titleLabel.topAnchor.constraint(lessThanOrEqualTo: contentView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 8),

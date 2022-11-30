@@ -9,6 +9,7 @@ import UIKit
 // MARK: ProductItemCellContent Protocol
 protocol ProductItemCellContent: AnyObject {
     var task: URLSessionDataTask? { get set }
+    var activityIndicator: UIActivityIndicatorView { get }
     
     var thumbnailImageView: UIImageView { get set }
     var titleLabel: UILabel { get set }
@@ -57,6 +58,7 @@ extension ProductItemCellContent {
         configureStyle()
         configureLayout()
         setupConstraints()
+        activityIndicator.startAnimating()
         
         setImageTask(url: product.thumbnail)
         setTitleLabel(productName: product.name)
@@ -66,8 +68,6 @@ extension ProductItemCellContent {
             bargainPrice: product.bargainPriceStringValue,
             segment: index
         )
-        
-        
     }
     
     func setImageTask(url: String) {
@@ -78,6 +78,7 @@ extension ProductItemCellContent {
         task = URLSession.createTask(url: imageURL) { image in
             DispatchQueue.main.async {
                 self.thumbnailImageView.image = image
+                self.activityIndicator.stopAnimating()
             }
         }
         
