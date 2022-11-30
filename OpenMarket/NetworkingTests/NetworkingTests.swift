@@ -105,10 +105,15 @@ final class NetworkingTest: XCTestCase {
 
     func test_애드테스트 () {
         let promise = expectation(description: "test")
+        let params: [String: Any] = ["name": "눈온다", "description": "간식", "price": 1000, "currency": "KRW", "stock": 1, "secret": "snnq45ezg2tn9amy"]
 
-        sut.addItem { str in
-            print("==================\(str)===============")
-            XCTAssertNotNil(str)
+        sut.addItem(params: params, images: [UIImage()]){ result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual("눈온다", item.name)
+            case .failure(_):
+                XCTFail()
+            }
             promise.fulfill()
         }
 

@@ -6,11 +6,7 @@
 //
 
 import UIKit
-struct ImageFile {
-    let filename: String
-    let data: Data
-    let type: String
-}
+
 struct NetworkManager {
     let baseURL: String
     var session: URLSessionProtocol
@@ -118,56 +114,71 @@ struct NetworkManager {
 }
 
 extension NetworkManager {
-    func addItem(completion: @escaping (String) -> ()) {
-        let boundary = "Boundary-\(UUID().uuidString)"
-        
-        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products")!)
-        
-        
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.setValue(NetworkManager.identifier, forHTTPHeaderField: "identifier")
-        let jsonData = try? JSONSerialization.data(withJSONObject:
-                                                    ["name": "호뻥", "description": "간식", "price": 1000, "currency": "KRW", "stock": 1, "secret": "snnq45ezg2tn9amy"])
-        request.httpBody = createRequestBody(params: ["params" : jsonData!], boundary: boundary)
-        URLSession.shared.dataTask(with: request) { data, rsp, err in
-            print("======================================")
-            print("=========data==========")
-            print(String(data: data!, encoding: .utf8))
-            print("=========rsp==========")
-            print((rsp as! HTTPURLResponse).statusCode)
-            print("=========err==========")
-            print(err)
-            print("======================================")
-        }.resume()
-    }
-    
-    func createRequestBody(params: [String: Data], boundary: String) -> Data {
-        let boundaryPrefix = "--\(boundary)\r\n"
+    func createRequestBody(params: [String: Data], images: [UIImage], boundary: String) -> Data {
+        let newLine = "\r\n"
+        let boundaryPrefix = "--\(boundary + newLine)"
         
         var body = Data()
         
         for (key, value) in params {
-            body.append(boundaryPrefix.data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append(boundaryPrefix)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\(newLine + newLine)")
             body.append(value)
-            body.append("\r\n".data(using: .utf8)!)
+            body.append(newLine)
         }
+        
+        // MARK: 1-2 진행 후 리팩토링할 영역
         let imgDataKey = "images"
         let filename = "ghvkdvjscl12.jpeg"
         let mimeType = "image/jpeg"
+    
         guard let imageData = UIImage(named: "ghvjs12")?.jpegData(compressionQuality: 0.5) else { return Data() }
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"\(imgDataKey)\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+        
+        body.append(boundaryPrefix)
+        body.append("Content-Disposition: form-data; name=\"\(imgDataKey)\"; filename=\"\(filename)\"\(newLine)")
+        body.append("Content-Type: \(mimeType + newLine + newLine)")
         body.append(imageData)
-        body.append("\r\n".data(using: .utf8)!)
-        print(String(data: body, encoding: .utf8))
-        body.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
+        body.append(newLine)
+        body.append("--".appending(boundary.appending("--")))
+        
         return body
     }
+    
+    func addItem(params: [String: Any], images: [UIImage], completion: @escaping (Result<Item, NetworkError>) -> ()) {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        
+        var request = URLRequest(url: URL(string: "\(baseURL)api/products")!)
+        
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue(NetworkManager.identifier, forHTTPHeaderField: "identifier")
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
+        
+        request.httpBody = createRequestBody(params: ["params" : jsonData], images: [UIImage()], boundary: boundary)
+        
+        let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            if error != nil {
+                return completion(.failure(.invalidError))
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode) else {
+                return completion(.failure(.responseError))
+            }
+            
+            guard let data = data else { return completion(.failure(.dataError)) }
+            
+            do {
+                let item: Item = try JSONDecoder().decode(Item.self, from: data)
+                completion(.success(item))
+            } catch {
+                completion(.failure(.parseError))
+            }
+        }
+        dataTask.resume()
+    }
 
-    //삭제 URI
     func deleteURI(productId: Int, completion: @escaping (String) -> ()) {
         let parameters = "{\"secret\": \"\(NetworkManager.secret)\"}"
         let postData = parameters.data(using: .utf8)
@@ -234,5 +245,13 @@ extension NetworkManager {
         }
 
         task.resume()
+    }
+}
+
+extension Data {
+    mutating func append(_ str: String) {
+        if let data = str.data(using: .utf8) {
+            self.append(data)
+        }
     }
 }
