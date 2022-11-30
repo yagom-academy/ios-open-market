@@ -127,4 +127,15 @@ final class NetworkingTest: XCTestCase {
         wait(for: [promise], timeout: 3)
 
     }
+    func test_DELETE테스트 () {
+        let promise = expectation(description: "test")
+
+        sut.deleteItem { str in
+            print(str)
+            promise.fulfill()
+        }
+
+        wait(for: [promise], timeout: 3)
+
+    }
 }
