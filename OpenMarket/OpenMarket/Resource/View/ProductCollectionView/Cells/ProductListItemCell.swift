@@ -7,15 +7,77 @@
 
 import UIKit
 
-final class ProductListItemCell: ProductItemCell {
+final class ProductListItemCell: UICollectionViewCell, ProductItemCellContent {
     static let identifier = String(describing: ProductListItemCell.self)
-    override func configureLayout() {
-        super.configureLayout()
-        
-        setupLayoutListCell()
+    
+    var task: URLSessionDataTask? {
+        didSet {
+            if task != nil {
+                task?.resume()
+            }
+        }
     }
     
-    func setupLayoutListCell() {
+    var thumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
+        imageView.layer.borderColor = UIColor.gray.cgColor
+        imageView.layer.borderWidth = 0.1
+        return imageView
+    }()
+    
+    var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.textColor = .label
+        label.numberOfLines = 2
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    var subTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryLabel
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    var stockLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 2
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        task?.cancel()
+        task = nil
+        thumbnailImageView.image = nil
+    }
+    
+    func configureLayout() {
+        [
+            thumbnailImageView,
+            titleLabel,
+            subTitleLabel,
+            stockLabel
+        ].forEach {
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        setupConstraints()
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -39,7 +101,7 @@ final class ProductListItemCell: ProductItemCell {
         ])
     }
     
-    override func configureStyle() {
+    func configureStyle() {
         titleLabel.textAlignment = .left
         subTitleLabel.textAlignment = .left
         stockLabel.textAlignment = .right

@@ -152,11 +152,11 @@ extension ProductsViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: selectedLayout.identifier,
             for: indexPath
-        ) as? ProductItemCell else {
+        ) as? ProductItemCellContent else {
             return UICollectionViewCell()
         }
         
-        let product = products[safe :indexPath.row]
+        let product = products[indexPath.row]
         
         cell.configureStyle()
         cell.configureLayout()
@@ -249,3 +249,4 @@ private extension URLSession {
         }
     }
 }
+
