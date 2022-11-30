@@ -103,7 +103,7 @@ final class NetworkingTest: XCTestCase {
         wait(for: [promise], timeout: 3)
     }
 
-    func test_애드테스트 () {
+    func test_addItem메서드_테스트 () {
         let promise = expectation(description: "test")
         let params: [String: Any] = ["name": "눈온다", "description": "간식", "price": 1000, "currency": "KRW", "stock": 1, "secret": "snnq45ezg2tn9amy"]
 
@@ -118,25 +118,35 @@ final class NetworkingTest: XCTestCase {
         }
 
         wait(for: [promise], timeout: 3)
-        
     }
 
     func test_URI테스트 () {
         let promise = expectation(description: "test")
 
-        sut.deleteURI(productId: 411) { response in
-            print(response)
+        sut.deleteURI(productId: 463, password: NetworkManager.secret) { result in
+            switch result {
+            case .success(let uri):
+                XCTAssertNotNil(uri)
+            case .failure(_):
+                XCTFail()
+            }
+
             promise.fulfill()
         }
 
         wait(for: [promise], timeout: 3)
     }
 
-    func test_DELETE테스트 () {
+    func test_deleteItem테스트 () {
         let promise = expectation(description: "test")
 
-        sut.deleteItem(productId: 412) { str in
-            print(str)
+        sut.deleteItem(productId: 457, password: NetworkManager.secret) { result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual(457, item.id)
+            case .failure(_):
+                XCTFail()
+            }
             promise.fulfill()
         }
 

@@ -179,50 +179,70 @@ extension NetworkManager {
         dataTask.resume()
     }
 
-    func deleteURI(productId: Int, completion: @escaping (String) -> ()) {
-        let parameters = "{\"secret\": \"\(NetworkManager.secret)\"}"
-        let postData = parameters.data(using: .utf8)
+    func deleteURI(productId: Int, password: String,  completion: @escaping (Result<String, NetworkError>) -> ()) {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: ["secret": password]) else { return }
 
         var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/\(productId)/archived")!)
         request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-        request.httpBody = postData
-        print(String(data: request.httpBody!, encoding: .utf8)!)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.httpBody = jsonData
 
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let _ = response as? HTTPURLResponse,
-                  let data = data,
-                  let dataString = String(data: data, encoding: .utf8),
-                  let URI = dataString.components(separatedBy: "/").last else {
-                return
+        let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            if error != nil {
+                return completion(.failure(.invalidError))
             }
 
-            completion(URI)
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode) else {
+                return completion(.failure(.responseError))
+            }
+
+            guard let data = data else { return completion(.failure(.dataError)) }
+            guard let stringData = String(data: data, encoding: .utf8),
+                  let uri = stringData.components(separatedBy: "/").last else { return completion(.failure(.parseError)) }
+
+            completion(.success(uri))
         }
 
-        task.resume()
+        dataTask.resume()
     }
     
     //삭제
-    func deleteItem(productId: Int, completion: @escaping (String) -> ()) {
-        deleteURI(productId: productId) { deleteURI in
-            var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(deleteURI)")!)
+    func deleteItem(productId: Int, password: String, completion: @escaping (Result<Item, NetworkError>) -> ()) {
+        deleteURI(productId: productId, password: password) { result in
+            switch result {
+            case .success(let deleteURI):
+                var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(deleteURI)")!)
 
-            request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpMethod = "DELETE"
+                request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpMethod = HTTPMethod.delete.rawValue
 
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let _ = response as? HTTPURLResponse else {
-                    return
+                let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+                    if error != nil {
+                        return completion(.failure(.invalidError))
+                    }
+
+                    guard let httpResponse = response as? HTTPURLResponse,
+                          (200..<300).contains(httpResponse.statusCode) else {
+                        return completion(.failure(.responseError))
+                    }
+
+                    guard let data = data else { return completion(.failure(.dataError)) }
+
+                    do {
+                        let item: Item = try JSONDecoder().decode(Item.self, from: data)
+                        completion(.success(item))
+                    } catch {
+                        completion(.failure(.parseError))
+                    }
                 }
 
-                print(String(data: data!, encoding: .utf8)!)
-                completion("data")
+                dataTask.resume()
+            case .failure(let error):
+                completion(.failure(error))
             }
-
-            task.resume()
         }
     }
 
