@@ -106,7 +106,9 @@ final class GridCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             productImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.95),
             productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.6),
+            
             productNameLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1),
+            
             stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1)
         ])
     }
@@ -128,7 +130,9 @@ final class GridCollectionViewCell: UICollectionViewCell {
     private func updatePriceLabel(_ product: Product) {
         let price: String = Formatter.format(product.price, product.currency)
         let bargainPrice: String = Formatter.format(product.bargainPrice, product.currency)
+        
         priceLabel.attributedText = NSAttributedString(string: price)
+        
         bargainPriceLabel.attributedText = NSAttributedString(string: bargainPrice)
         bargainPriceLabel.isHidden = product.price == product.bargainPrice
 

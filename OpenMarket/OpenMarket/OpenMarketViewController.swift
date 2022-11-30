@@ -6,7 +6,6 @@
 
 import UIKit
 
-// 로딩중 표시하기
 final class OpenMarketViewController: UIViewController {
     
     private enum ProductListSection: Int {
@@ -29,9 +28,7 @@ final class OpenMarketViewController: UIViewController {
     
     private var gridCollectionView: UICollectionView?
     private var listCollectionView: UICollectionView?
-    
-    private let activityIndicator = UIActivityIndicatorView()
-        
+            
     private let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [ViewType.list.typeName, ViewType.grid.typeName])
         control.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +41,8 @@ final class OpenMarketViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    private let activityIndicator = UIActivityIndicatorView()
     
     private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product>?
     private var products: [Product] = [] {
@@ -60,6 +59,17 @@ final class OpenMarketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavigationBar()
+    
+        fetchData(for: pageNumber)
+        
+        configureListCollectionView()
+        configureListDataSource()
+        
+        configureActivityIndicator()
+    }
+    
+    private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
         navigationItem.titleView = segmentedControl
@@ -68,37 +78,24 @@ final class OpenMarketViewController: UIViewController {
         segmentValueChanged(segmentedControl)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(registerProduct(_:)))
-    
-        fetchData(for: pageNumber)
-        
-        configureListCollectionView()
-        configureListDataSource()
-        
-        view.addSubview(activityIndicator)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicator.center = view.center
     }
     
     @objc private func segmentValueChanged(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case ViewType.list.rawValue:
+        guard let viewType: ViewType = ViewType(rawValue: sender.selectedSegmentIndex) else { return }
+
+        switch viewType {
+        case ViewType.list:
             configureListCollectionView()
             configureListDataSource()
             applySnapshot(for: products)
             listCollectionView?.isHidden = false
             gridCollectionView?.isHidden = true
-        case ViewType.grid.rawValue:
+        case ViewType.grid:
             configureGridCollectionView()
             configureGridDataSource()
             applySnapshot(for: products)
             gridCollectionView?.isHidden = false
             listCollectionView?.isHidden = true
-        default:
-            configureListCollectionView()
-            configureListDataSource()
-            applySnapshot(for: products)
-            listCollectionView?.isHidden = false
-            gridCollectionView?.isHidden = true
         }
     }
     
@@ -113,7 +110,13 @@ final class OpenMarketViewController: UIViewController {
         ])
     }
     
-    func fetchData(for page: Int) {
+    private func configureActivityIndicator() {
+        view.addSubview(activityIndicator)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
+    }
+
+    private func fetchData(for page: Int) {
         activityIndicator.startAnimating()
         let networkManager = NetworkManager()
         networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20), dataType: ProductList.self) { result in
@@ -128,44 +131,6 @@ final class OpenMarketViewController: UIViewController {
             case .failure(let error):
                 print(error)
             }
-        }
-    }
-    
-    func configureGridCollectionView() {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        guard let gridCollectionView = gridCollectionView else { return }
-        view.addSubview(gridCollectionView)
-        
-        gridCollectionView.delegate = self
-        
-        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            gridCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
-    }
-    
-    func configureGridDataSource() {
-        guard let gridCollectionView = gridCollectionView else { return }
-        
-        gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
-        
-        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
-            cell?.contentView.backgroundColor = .white
-            cell?.contentView.layer.borderColor = UIColor.gray.cgColor
-            cell?.contentView.layer.borderWidth = 1.0
-            cell?.contentView.layer.cornerRadius = 10.0
-            cell?.contentView.layer.masksToBounds = true
-            cell?.updateContents(product)
-            return cell
         }
     }
     
@@ -209,13 +174,52 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
-    func applySnapshot(for items: [Product]?) {
+    private func applySnapshot(for items: [Product]?) {
         var snapshot = NSDiffableDataSourceSnapshot<ProductListSection, Product>()
         snapshot.appendSections([.main])
         guard let items else { return }
         snapshot.appendItems(items)
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
+    
+    private func configureGridCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 5
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        guard let gridCollectionView = gridCollectionView else { return }
+        view.addSubview(gridCollectionView)
+        
+        gridCollectionView.delegate = self
+        
+        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            gridCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ])
+    }
+    
+    private func configureGridDataSource() {
+        guard let gridCollectionView = gridCollectionView else { return }
+        
+        gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
+        
+        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
+            cell?.contentView.backgroundColor = .white
+            cell?.contentView.layer.borderColor = UIColor.gray.cgColor
+            cell?.contentView.layer.borderWidth = 1.0
+            cell?.contentView.layer.cornerRadius = 10.0
+            cell?.contentView.layer.masksToBounds = true
+            cell?.updateContents(product)
+            return cell
+        }
+    }
+
 }
 
 extension OpenMarketViewController: UICollectionViewDelegate {

@@ -1,9 +1,6 @@
-//
 //  StockStatus.swift
 //  OpenMarket
-//
 //  Created by SummerCat on 2022/11/29.
-//
 
 enum StockStatus: String {
     case soldOut = "품절"

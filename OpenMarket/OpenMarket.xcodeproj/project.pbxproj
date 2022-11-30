@@ -121,7 +121,6 @@
 			children = (
 				04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */,
 				57CDFE3F293505DB00B09300 /* ListCollectionViewCell.swift */,
-				57CDFE412935E9C800B09300 /* StockStatus.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -186,9 +185,10 @@
 				04E6438A2930DF92001CAEF2 /* View */,
 				0422A9472923959F00BD97CD /* Network */,
 				0422A93E29237D6600BD97CD /* Model */,
+				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
+				57CDFE412935E9C800B09300 /* StockStatus.swift */,
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10825BEF61D00C9924E /* Info.plist */,

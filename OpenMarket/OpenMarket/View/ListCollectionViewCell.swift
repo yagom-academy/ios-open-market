@@ -1,9 +1,6 @@
-//
 //  ListCollectionViewCell.swift
 //  OpenMarket
-//
 //  Created by SummerCat on 2022/11/29.
-//
 
 import UIKit
 
@@ -95,6 +92,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
+    // TODO: - 역할 분리하기
     private func configureUI() {
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(bargainPriceLabel)
@@ -147,7 +145,9 @@ final class ListCollectionViewCell: UICollectionViewCell {
     private func updatePriceLabel(_ product: Product) {
         let price: String = Formatter.format(product.price, product.currency)
         let bargainPrice: String = Formatter.format(product.bargainPrice, product.currency)
+        
         priceLabel.attributedText = NSAttributedString(string: price)
+        
         bargainPriceLabel.attributedText = NSAttributedString(string: bargainPrice)
         bargainPriceLabel.isHidden = product.price == product.bargainPrice
 
