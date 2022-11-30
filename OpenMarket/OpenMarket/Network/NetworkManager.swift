@@ -166,4 +166,27 @@ extension NetworkManager {
         body.append("--".appending(boundary.appending("--")).data(using: .utf8)!)
         return body
     }
+
+    func deleteURI(completion: @escaping (String) -> ()) {
+        let parameters = "{\"secret\": \"\(NetworkManager.secret)\"}"
+        let postData = parameters.data(using: .utf8)
+
+        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/384/archived")!)
+        request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = postData
+        print(String(data: request.httpBody!, encoding: .utf8)!)
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return
+            }
+
+            print(String(data: data!, encoding: .utf8)!)
+            completion("data")
+        }
+
+        task.resume()
+    }
 }

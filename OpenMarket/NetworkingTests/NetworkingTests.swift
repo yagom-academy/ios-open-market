@@ -102,6 +102,7 @@ final class NetworkingTest: XCTestCase {
         
         wait(for: [promise], timeout: 3)
     }
+
     func test_애드테스트 () {
         let promise = expectation(description: "test")
 
@@ -113,5 +114,17 @@ final class NetworkingTest: XCTestCase {
 
         wait(for: [promise], timeout: 3)
         
+    }
+
+    func test_URI테스트 () {
+        let promise = expectation(description: "test")
+
+        sut.deleteURI() { response in
+            print(response)
+            promise.fulfill()
+        }
+
+        wait(for: [promise], timeout: 3)
+
     }
 }
