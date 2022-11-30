@@ -35,6 +35,9 @@
 		D3697B782924D50B008D4017 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB52338929235C8600FF1573 /* ProductImage.swift */; };
 		D3697B792924D50D008D4017 /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB52338B29235D0F00FF1573 /* Vendor.swift */; };
 		D3697B7B2924E073008D4017 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
+		D36FAE932936C69600C3645D /* ImagePickerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE922936C69600C3645D /* ImagePickerCollectionView.swift */; };
+		D36FAE952936C72D00C3645D /* ImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE942936C72D00C3645D /* ImagePickerCell.swift */; };
+		D36FAE972936C84500C3645D /* ViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE962936C84500C3645D /* ViewContainer.swift */; };
 		D375015C292C5A04005031AC /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D375015B292C5A04005031AC /* ProductListCell.swift */; };
 		D375015E292C5ED8005031AC /* StockLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D375015D292C5ED8005031AC /* StockLabel.swift */; };
 		D3750160292C633C005031AC /* PriceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D375015F292C633C005031AC /* PriceLabel.swift */; };
@@ -107,6 +110,9 @@
 		D3697B692924C966008D4017 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		D3697B6F2924CAA7008D4017 /* StubURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionDataTask.swift; sourceTree = "<group>"; };
 		D3697B712924D0A1008D4017 /* FakeURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeURLSession.swift; sourceTree = "<group>"; };
+		D36FAE922936C69600C3645D /* ImagePickerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionView.swift; sourceTree = "<group>"; };
+		D36FAE942936C72D00C3645D /* ImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCell.swift; sourceTree = "<group>"; };
+		D36FAE962936C84500C3645D /* ViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewContainer.swift; sourceTree = "<group>"; };
 		D375015B292C5A04005031AC /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		D375015D292C5ED8005031AC /* StockLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockLabel.swift; sourceTree = "<group>"; };
 		D375015F292C633C005031AC /* PriceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceLabel.swift; sourceTree = "<group>"; };
@@ -218,6 +224,7 @@
 				D3424057292DFB67002B6F38 /* ImageCache.swift */,
 				EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */,
 				D3D6B62D2935C40B0000FAD4 /* String+.swift */,
+				D36FAE962936C84500C3645D /* ViewContainer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -254,6 +261,23 @@
 			path = URLSessionTests;
 			sourceTree = "<group>";
 		};
+		D36FAE982936F5A600C3645D /* CustomCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				EB9E8890292DB92900FC1EF5 /* OpenMarketCollectionView.swift */,
+				D36FAE922936C69600C3645D /* ImagePickerCollectionView.swift */,
+			);
+			path = CustomCollectionView;
+			sourceTree = "<group>";
+		};
+		D36FAE992936F5BF00C3645D /* Section */ = {
+			isa = PBXGroup;
+			children = (
+				EB9E8894292DC32C00FC1EF5 /* Section.swift */,
+			);
+			path = Section;
+			sourceTree = "<group>";
+		};
 		D375015A292C59AA005031AC /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,10 +311,10 @@
 		EB9E8896292DC34400FC1EF5 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				EB9E8890292DB92900FC1EF5 /* OpenMarketCollectionView.swift */,
-				EB9E8894292DC32C00FC1EF5 /* Section.swift */,
+				D36FAE982936F5A600C3645D /* CustomCollectionView */,
 				EB9E8897292DC35C00FC1EF5 /* Cell */,
 				EB9E8899292DC39B00FC1EF5 /* Layout */,
+				D36FAE992936F5BF00C3645D /* Section */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -300,6 +324,7 @@
 			children = (
 				D375015B292C5A04005031AC /* ProductListCell.swift */,
 				D3750163292CC1E8005031AC /* ProductGridCell.swift */,
+				D36FAE942936C72D00C3645D /* ImagePickerCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -486,12 +511,14 @@
 				D3D6B6302935D72E0000FAD4 /* NameTextField.swift in Sources */,
 				EB9E8895292DC32D00FC1EF5 /* Section.swift in Sources */,
 				EB9E8891292DB92900FC1EF5 /* OpenMarketCollectionView.swift in Sources */,
+				D36FAE972936C84500C3645D /* ViewContainer.swift in Sources */,
 				EBEC414F292D079400CDBE6A /* LayoutSegmentedControl.swift in Sources */,
 				EBD82F4829249C9A0061732A /* OpenMarketURLSessionProtocol.swift in Sources */,
 				EBD82F4C2924BC570061732A /* OpenMarketPageFetchable.swift in Sources */,
 				D342405A292DFE2E002B6F38 /* ImageParser.swift in Sources */,
 				EB52338C29235D0F00FF1573 /* Vendor.swift in Sources */,
 				EB59760529359D6600B1FF98 /* ProductInformationView.swift in Sources */,
+				D36FAE932936C69600C3645D /* ImagePickerCollectionView.swift in Sources */,
 				D3750164292CC1E8005031AC /* ProductGridCell.swift in Sources */,
 				EB9E889C292F0D6900FC1EF5 /* DecimalConverter.swift in Sources */,
 				D3D6B62E2935C40B0000FAD4 /* String+.swift in Sources */,
@@ -511,6 +538,7 @@
 				EB9E8893292DC31A00FC1EF5 /* CollectionViewLayout.swift in Sources */,
 				D3697B5629247B2E008D4017 /* Error.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				D36FAE952936C72D00C3645D /* ImagePickerCell.swift in Sources */,
 				D375015E292C5ED8005031AC /* StockLabel.swift in Sources */,
 				D3D6B62C2935B0F50000FAD4 /* NumberTextField.swift in Sources */,
 				D3D6B6332935E23F0000FAD4 /* DescriptionTextView.swift in Sources */,

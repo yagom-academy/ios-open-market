@@ -8,7 +8,21 @@
 import UIKit
 
 final class UpdateViewController: UIViewController {
-    private var productInformationView: ProductInformationView = ProductInformationView()
+    private let productInformationView: ProductInformationView = ProductInformationView()
+    private let imagePickerButton: UIButton = {
+        let button: UIButton = UIButton()
+        
+        button.setTitle("+", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.backgroundColor = .systemGray4
+        
+        return button
+    }()
+    private var viewContainers: [ViewContainer] = [] {
+        didSet {
+            applyViews()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +31,18 @@ final class UpdateViewController: UIViewController {
 
         productInformationView.textFieldDelegate = self
         productInformationView.descriptionTextViewDelegate = self
+        applyViews()
+    }
+    
+    private func applyViews() {
+        var snapshot: NSDiffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, ViewContainer>()
+        var temporaryViewContainers = viewContainers
+        if temporaryViewContainers.count < 5 {
+            temporaryViewContainers.append(ViewContainer(view: imagePickerButton))
+        }
+        snapshot.appendSections([.main])
+        snapshot.appendItems(temporaryViewContainers)
+        productInformationView.applySnapshot(snapshot)
     }
 }
 

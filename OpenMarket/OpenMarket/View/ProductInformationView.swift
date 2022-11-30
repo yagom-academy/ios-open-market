@@ -8,6 +8,7 @@
 import UIKit
 
 final class ProductInformationView: UIView {
+    private let imagePickerCollectionView: ImagePickerCollectionView = ImagePickerCollectionView(frame: .zero, collectionViewLayout: .imagePicker)
     private let nameTextField: NameTextField = NameTextField(minimumLength: 3, maximumLength: 100)
     private let priceTextField: NumberTextField = NumberTextField(placeholder: "상품가격")
     private let discountedPriceTextField: NumberTextField = NumberTextField(placeholder: "할인금액")
@@ -60,8 +61,13 @@ final class ProductInformationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func applySnapshot(_ snapshot: NSDiffableDataSourceSnapshot<Section, ViewContainer>) {
+        imagePickerCollectionView.applySnapshot(snapshot)
+    }
+    
     private func setUpViewsIfNeeded() {
         backgroundColor = .white
+        contentStackView.addArrangedSubview(imagePickerCollectionView)
         priceAndCurrencyStackView.addArrangedSubview(priceTextField)
         priceAndCurrencyStackView.addArrangedSubview(currencySegmentedControl)
         contentStackView.addArrangedSubview(nameTextField)
@@ -75,6 +81,7 @@ final class ProductInformationView: UIView {
         let safeArea: UILayoutGuide = safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
+            imagePickerCollectionView.heightAnchor.constraint(equalToConstant: 160),
             contentStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: spacing),
             contentStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -spacing),
             contentStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: spacing),

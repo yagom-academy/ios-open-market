@@ -58,6 +58,8 @@ final class OpenMarketCollectionView: UICollectionView {
                 return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
             case .grid:
                 return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: product)
+            case .imagePicker:
+                return UICollectionViewCell()
             }
         }
     }
