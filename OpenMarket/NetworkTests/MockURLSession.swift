@@ -1,6 +1,7 @@
 //  Created by Aejong, Tottale on 2022/11/17.
 
 import UIKit
+@testable import OpenMarket
 
 final class MockURLSession: URLSessionProtocol {
     

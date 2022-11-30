@@ -26,11 +26,13 @@ enum NetworkAPI {
         case .healthCheck:
             urlComponents.path = "/healthChecker"
         }
+        
         return urlComponents
     }
 }
 
 enum Query: CustomStringConvertible {
+    
     case pageNumber
     case itemsPerPage
     case searchFilter

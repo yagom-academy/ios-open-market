@@ -1,5 +1,7 @@
 //  Created by Aejong, Tottale on 2022/11/15.
 
+import UIKit
+
 struct ProductList: Decodable {
     
     let pageNumber: Int
@@ -19,9 +21,9 @@ struct ProductList: Decodable {
     }
 }
 
-struct Product: Decodable {
+struct Product: Decodable, Hashable {
     
-    let productID: Int
+    let id: Int
     let vendorID: Int
     let vendorName: String
     let name: String
@@ -39,8 +41,7 @@ struct Product: Decodable {
     
     enum CodingKeys: String, CodingKey {
         
-        case images, vendors, name, currency, thumbnail, price, stock, vendorName, description
-        case productID = "id"
+        case images, vendors, name, currency, thumbnail, price, stock, vendorName, description, id
         case vendorID = "vendor_id"
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
@@ -49,18 +50,22 @@ struct Product: Decodable {
     }
 }
 
-struct Image: Decodable {
+struct Image: Decodable, Hashable {
+    
     let id: Int?
     let url, thumbnailURL: String?
     let issuedAt: String?
+    
     enum CodingKeys: String, CodingKey {
+        
         case id, url
         case thumbnailURL = "thumbnail_url"
         case issuedAt = "issued_at"
     }
 }
 
-struct Vendors: Decodable {
+struct Vendors: Decodable, Hashable {
+    
     let id: Int?
     let name: String?
 }
