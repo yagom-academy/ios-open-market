@@ -17,18 +17,16 @@ enum HTTPMethod {
 enum OpenMarketURL {
     static let base: String = "https://openmarket.yagom-academy.kr"
     static let heathChecker: String = "/healthChecker"
-}
-
-enum OpenMarketURLComponent {
+    
     case itemPageComponent(pageNo: Int, itemPerPage: Int)
     case productComponent(productID: Int)
     
     var url: String {
         switch self {
         case .itemPageComponent(let pageNo, let itemPerPage):
-            return "/api/products?page_no=\(pageNo)&items_per_page=\(itemPerPage)"
+            return OpenMarketURL.base + "/api/products?page_no=\(pageNo)&items_per_page=\(itemPerPage)"
         case .productComponent(let productID):
-            return "/api/products/\(productID)"
+            return OpenMarketURL.base + "/api/products/\(productID)"
         }
     }
 }
