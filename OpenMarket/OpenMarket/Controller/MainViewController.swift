@@ -18,6 +18,20 @@ final class MainViewController: UIViewController {
         case main
     }
     
+    enum Menu {
+        case list
+        case grid
+        
+        var option: Int {
+            switch self {
+            case .list:
+                return 0
+            case .grid:
+                return 1
+            }
+        }
+    }
+    
     let segmentedControl: UISegmentedControl = UISegmentedControl(items: [OpenMarketCell.list, OpenMarketCell.grid])
     lazy var plusButton = UIBarButtonItem(image: UIImage(systemName: OpenMarketCell.plus),
                                      style: .plain,
@@ -87,10 +101,10 @@ extension MainViewController {
     @objc private func didChangeValue(segment: UISegmentedControl) {
         let selection = segment.selectedSegmentIndex
         switch selection {
-        case 0:
+        case Menu.list.option:
             collectionView.dataSource = listDataSource
             collectionView.setCollectionViewLayout(createListLayout(), animated: true)
-        case 1:
+        case Menu.grid.option:
             collectionView.dataSource = gridDataSource
             collectionView.setCollectionViewLayout(createGridLayout(), animated: true)
         default:
