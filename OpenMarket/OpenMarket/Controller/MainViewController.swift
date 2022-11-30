@@ -107,11 +107,11 @@ extension MainViewController {
     }
     
     @objc private func tapped(sender: UIBarButtonItem) {
-        let emptyVC = EmptyViewController()
+        let emptyViewController = EmptyViewController()
         
-        emptyVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        emptyViewController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         
-        self.present(emptyVC, animated: true)
+        self.present(emptyViewController, animated: true)
     }
 }
 
