@@ -61,8 +61,7 @@ final class GridCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
     }
     
     private func showImage(thumbnail: String) {
-        if let url = URL(string: thumbnail) {
-            productImage.load(url: url)
-        }
+        let url = URL(string: thumbnail)
+        productImage.load(url: url)
     }
 }
