@@ -18,6 +18,11 @@ protocol ProductItemCellContent {
     func configureLayout()
     func setupConstraints()
     func configureStyle()
+    
+    func setTitleLabel(productName: String)
+    func setStockLabelValue(stock: Int)
+    func setPriceLabel(originPrice: String, bargainPrice: String, segment: Int)
+    func setupCellData(product: Product, index: Int)
 }
 
 // MARK: Configure Item Data
@@ -41,6 +46,20 @@ extension ProductItemCellContent {
         } else {
             subTitleLabel.text = originPrice
         }
+    }
+    
+    func setTitleLabel(productName: String) {
+        titleLabel.text = productName
+    }
+    
+    func setupCellData(product: Product, index: Int) {
+        configureStyle()
+        configureLayout()
+        setupConstraints()
+        
+        setTitleLabel(productName: product.name)
+        setStockLabelValue(stock: product.stock)
+        setPriceLabel(originPrice: product.originPriceStringValue, bargainPrice: product.bargainPriceStringValue, segment: index)
     }
 }
 
