@@ -77,14 +77,14 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    private let priceHStackView: UIStackView = {
+    private let parentPriceStackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         return stack
     }()
     
-    private let stackView: UIStackView = {
+    private let cellStackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
@@ -94,34 +94,34 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }()
     
     private func configureUI() {
-        contentView.addSubview(stackView)
+        contentView.addSubview(cellStackView)
         
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(bargainPriceLabel)
         
-        priceHStackView.addArrangedSubview(priceStackView)
+        parentPriceStackView.addArrangedSubview(priceStackView)
         
-        stackView.addArrangedSubview(productImageView)
-        stackView.addArrangedSubview(productNameLabel)
-        stackView.addArrangedSubview(priceHStackView)
-        stackView.addArrangedSubview(stockLabel)
+        cellStackView.addArrangedSubview(productImageView)
+        cellStackView.addArrangedSubview(productNameLabel)
+        cellStackView.addArrangedSubview(parentPriceStackView)
+        cellStackView.addArrangedSubview(stockLabel)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
+            cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
         
         NSLayoutConstraint.activate([
-            productImageView.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.95),
-            productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.6),
+            productImageView.widthAnchor.constraint(equalTo: cellStackView.widthAnchor, multiplier: 0.95),
+            productImageView.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, multiplier: 0.6),
             
-            productNameLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1),
+            productNameLabel.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, multiplier: 0.1),
             
-            priceHStackView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.2),
+            parentPriceStackView.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, multiplier: 0.2),
             
-            stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1)
+            stockLabel.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, multiplier: 0.1)
         ])
     }
     
@@ -161,7 +161,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatDecimal()
+        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatToDecimal()
         
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }

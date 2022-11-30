@@ -45,30 +45,13 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .left
-        label.textColor = .gray
-        return label
-    }()
-    
-    private let bargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .left
-        label.textColor = .gray
-        return label
-    }()
-    
     private let stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .right
         label.textColor = .gray
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
@@ -81,48 +64,94 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    private let stockLabelAndDisclosureButtonStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 8
+        stack.alignment = .center
+        return stack
+    }()
+    
+    private let upperLineStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 8
+        return stack
+    }()
+    
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textAlignment = .left
+        label.textColor = .gray
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        return label
+    }()
+    
+    private let bargainPriceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textAlignment = .left
+        label.textColor = .gray
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        return label
+    }()
+    
     private let priceStackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
-        stack.spacing = 5
+        stack.spacing = 8
+        return stack
+    }()
+    
+    private let productDetailStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        return stack
+    }()
+    
+    private let cellStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 4
         return stack
     }()
     
     private func configureUI() {
+        stockLabelAndDisclosureButtonStackView.addArrangedSubview(stockLabel)
+        stockLabelAndDisclosureButtonStackView.addArrangedSubview(disclosureButton)
+        
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(bargainPriceLabel)
         
-        contentView.addSubview(productImageView)
-        contentView.addSubview(productNameLabel)
-        contentView.addSubview(priceStackView)
-        contentView.addSubview(stockLabel)
-        contentView.addSubview(disclosureButton)
+        upperLineStackView.addArrangedSubview(productNameLabel)
+        upperLineStackView.addArrangedSubview(stockLabelAndDisclosureButtonStackView)
+        
+        productDetailStackView.addArrangedSubview(upperLineStackView)
+        productDetailStackView.addArrangedSubview(priceStackView)
+        
+        cellStackView.addArrangedSubview(productImageView)
+        cellStackView.addArrangedSubview(productDetailStackView)
+        
+        contentView.addSubview(cellStackView)
         
         NSLayoutConstraint.activate([
-            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 3),
+            cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8),
+            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            
             productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor),
             
-            productNameLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
-            productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            productNameLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
+            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: priceStackView.widthAnchor, multiplier: 0.5),
             
-            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
-            bargainPriceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
-            priceStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
-            priceStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor),
-            
-            stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productNameLabel.trailingAnchor, constant: 8),
-            stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            stockLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.35),
-            
-            disclosureButton.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
-            disclosureButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             disclosureButton.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
-            disclosureButton.widthAnchor.constraint(equalTo: disclosureButton.heightAnchor),
-            disclosureButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3)
+            disclosureButton.widthAnchor.constraint(equalTo: disclosureButton.heightAnchor)
         ])
     }
     
@@ -162,7 +191,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatDecimal()
+        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatToDecimal()
         
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }

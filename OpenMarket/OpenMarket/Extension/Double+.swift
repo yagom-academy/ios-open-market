@@ -5,7 +5,7 @@
 import Foundation
 
 extension Double {
-    func formatDecimal() -> String {
+    func formatToDecimal() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         
