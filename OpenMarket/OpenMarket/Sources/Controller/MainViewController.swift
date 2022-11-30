@@ -10,23 +10,15 @@ final class MainViewController: UIViewController {
     private var product: ProductList?
     private var cellMode: CellMode = .listType
     private var flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    private var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var viewModeController: UISegmentedControl!
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        
-        activityIndicator.center = view.center
-        activityIndicator.style = UIActivityIndicatorView.Style.large
-        
-        return activityIndicator
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(self.activityIndicator)
         
+        configureActivityIndicator()
         configureCollectionViewDelegate()
         configureCollectionView()
         loadData()
@@ -36,6 +28,12 @@ final class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         
         activityIndicator.startAnimating()
+    }
+    
+    private func configureActivityIndicator() {
+        activityIndicator.center = view.center
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        view.addSubview(self.activityIndicator)
     }
     
     private func loadData() {
