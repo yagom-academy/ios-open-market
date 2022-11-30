@@ -66,8 +66,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         spacingView.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
         priceForSaleLabel.textAlignment = .left
         
-        let image = UIImageView(image: UIImage(systemName: OpenMarketImage.cross))
-        accessoryView = image
+        accessoryView.image = UIImage(systemName: OpenMarketImage.cross)
         accessoryView.tintColor = .systemGray
     }
     
