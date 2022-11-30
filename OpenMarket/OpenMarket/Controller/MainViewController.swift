@@ -30,10 +30,19 @@ final class MainViewController: UIViewController {
                 return 1
             }
         }
+        
+        var description: String {
+            switch self {
+            case .list:
+                return "List"
+            case .grid:
+                return "Grid"
+            }
+        }
     }
     
-    let segmentedControl: UISegmentedControl = UISegmentedControl(items: [OpenMarketCell.list, OpenMarketCell.grid])
-    lazy var plusButton = UIBarButtonItem(image: UIImage(systemName: OpenMarketCell.plus),
+    let segmentedControl: UISegmentedControl = UISegmentedControl(items: [Menu.list.description, Menu.grid.description])
+    lazy var plusButton = UIBarButtonItem(image: UIImage(systemName: OpenMarketImage.plus),
                                      style: .plain,
                                      target: self,
                                      action: #selector(tapped(sender:)))

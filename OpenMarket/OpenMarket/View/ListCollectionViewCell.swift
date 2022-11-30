@@ -66,7 +66,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         spacingView.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
         priceForSaleLabel.textAlignment = .left
         
-        let image = UIImageView(image: UIImage(systemName: OpenMarketCell.cross))
+        let image = UIImageView(image: UIImage(systemName: OpenMarketImage.cross))
         accessoryView = image
         accessoryView.tintColor = .systemGray
     }
@@ -129,16 +129,16 @@ final class ListCollectionViewCell: UICollectionViewCell {
             priceForSale = try item.discountedPrice.formatDouble
             stock = try item.stock.formatInt
         } catch {
-            priceToString = OpenMarketCell.noneError
-            priceForSale = OpenMarketCell.noneError
-            stock = OpenMarketCell.noneError
+            priceToString = OpenMarketStatus.noneError
+            priceForSale = OpenMarketStatus.noneError
+            stock = OpenMarketStatus.noneError
         }
         
         spacingView.isHidden = true
         productNameLabel.text = "\(item.name)"
         priceLabel.text = .none
         priceLabel.attributedText = .none
-        stockLabel.text = OpenMarketCell.stock + "\(stock)"
+        stockLabel.text = OpenMarketDataText.stock + "\(stock)"
         stockLabel.textColor = .systemGray
         priceForSaleLabel.text = "\(item.currency) \(priceForSale)"
         priceForSaleLabel.textColor = .systemGray
@@ -158,7 +158,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         }
         
         if item.stock == 0 {
-            stockLabel.text = OpenMarketCell.soldOut
+            stockLabel.text = OpenMarketDataText.soldOut
             stockLabel.textColor = .systemYellow
         }
         

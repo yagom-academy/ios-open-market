@@ -31,12 +31,16 @@ enum OpenMarketURL {
     }
 }
 
-enum OpenMarketCell {
-    static let noneError = "확인 불가"
-    static let soldOut = "품절"
+enum OpenMarketDataText {
     static let stock = "잔여수량: "
-    static let list = "List"
-    static let grid = "Grid"
+    static let soldOut = "품절"
+}
+
+enum OpenMarketStatus {
+    static let noneError = "확인 불가"
+}
+
+enum OpenMarketImage {
     static let plus = "plus"
     static let cross = "chevron.right"
 }

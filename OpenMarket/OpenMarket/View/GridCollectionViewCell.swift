@@ -91,15 +91,15 @@ final class GridCollectionViewCell: UICollectionViewCell {
             priceForSale = try item.discountedPrice.formatDouble
             stock = try item.stock.formatInt
         } catch {
-            priceToString = OpenMarketCell.noneError
-            priceForSale = OpenMarketCell.noneError
-            stock = OpenMarketCell.noneError
+            priceToString = OpenMarketStatus.noneError
+            priceForSale = OpenMarketStatus.noneError
+            stock = OpenMarketStatus.noneError
         }
         
         productNameLabel.text = "\(item.name)"
         priceLabel.text = .none
         priceLabel.attributedText = .none
-        stockLabel.text = OpenMarketCell.stock + "\(stock)"
+        stockLabel.text = OpenMarketDataText.stock + "\(stock)"
         stockLabel.textColor = .systemGray
         priceForSaleLabel.text = "\(item.currency) \(priceForSale)"
         priceForSaleLabel.textColor = .systemGray
@@ -118,8 +118,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
         }
         
         if item.stock == 0 {
-            stockLabel.text = OpenMarketCell.soldOut
-            stockLabel.textColor = .systemYellow
+            stockLabel.text = OpenMarketDataText.soldOut
+            stockLabel.text"Co"lor = .systemYellow
         }
         
         DispatchQueue.global().async {
