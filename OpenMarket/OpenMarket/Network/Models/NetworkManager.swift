@@ -240,31 +240,43 @@ extension NetworkManager {
                 }
 
                 dataTask.resume()
+
             case .failure(let error):
                 completion(.failure(error))
             }
         }
     }
 
-    func editItem(productId: Int, completion: @escaping (String) -> ()) {
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["price": 2000, "secret": "\(NetworkManager.secret)"])
+    func editItem(productId: Int, params: [String: Any], completion: @escaping (Result<Item, NetworkError>) -> ()) {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
 
-        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/\(productId)")!)
+        var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(productId)")!)
         request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "PATCH"
+        request.httpMethod = HTTPMethod.patch.rawValue
         request.httpBody = jsonData
 
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let _ = response as? HTTPURLResponse else {
-                return
+        let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            if error != nil {
+                return completion(.failure(.invalidError))
             }
 
-            print(String(data: data!, encoding: .utf8)!)
-            completion("data")
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode) else {
+                return completion(.failure(.responseError))
+            }
+
+            guard let data = data else { return completion(.failure(.dataError)) }
+
+            do {
+                let item: Item = try JSONDecoder().decode(Item.self, from: data)
+                completion(.success(item))
+            } catch {
+                completion(.failure(.parseError))
+            }
         }
 
-        task.resume()
+        dataTask.resume()
     }
 }
 

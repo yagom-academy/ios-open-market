@@ -155,9 +155,15 @@ final class NetworkingTest: XCTestCase {
 
     func test_상품수정테스트 () {
         let promise = expectation(description: "test")
+        let params: [String: Any] = ["price": 7777, "secret": "\(NetworkManager.secret)"]
 
-        sut.editItem(productId: 383) { str in
-            print(str)
+        sut.editItem(productId: 465, params: params) { result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual(7777, item.price)
+            case .failure(_):
+                XCTFail()
+            }
             promise.fulfill()
         }
 
