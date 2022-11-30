@@ -76,6 +76,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
+    private let priceHStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        return stack
+    }()
+    
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -91,9 +98,11 @@ final class GridCollectionViewCell: UICollectionViewCell {
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(bargainPriceLabel)
         
+        priceHStackView.addArrangedSubview(priceStackView)
+        
         stackView.addArrangedSubview(productImageView)
         stackView.addArrangedSubview(productNameLabel)
-        stackView.addArrangedSubview(priceStackView)
+        stackView.addArrangedSubview(priceHStackView)
         stackView.addArrangedSubview(stockLabel)
         
         NSLayoutConstraint.activate([
@@ -108,6 +117,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
             productImageView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.6),
             
             productNameLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1),
+            
+            priceHStackView.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.2),
             
             stockLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor, multiplier: 0.1)
         ])

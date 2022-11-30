@@ -119,8 +119,8 @@
 		04E6438A2930DF92001CAEF2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */,
 				57CDFE3F293505DB00B09300 /* ListCollectionViewCell.swift */,
+				04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
