@@ -120,6 +120,26 @@ final class ListCollectionViewCell: UICollectionViewCell {
     func configureContent(item: Item) {
         self.product = item
         
+        configureItemLabel(item: item)
+        configureItemImage(item: item)
+    }
+    
+    private func configureItemImage(item: Item) {
+        DispatchQueue.global().async {
+            guard let url = URL(string: item.thumbnail) else { return }
+            NetworkManager.publicNetworkManager.getImageData(url: url) { image in
+                DispatchQueue.main.async { [weak self] in
+                    if item == self?.product {
+                        self?.productImage.image = image
+                        self?.loadingView.stopAnimating()
+                        self?.loadingView.isHidden = true
+                    }
+                }
+            }
+        }
+    }
+    
+    private func configureItemLabel(item: Item) {
         var priceForSale: String
         var priceToString: String
         var stock: String
@@ -134,7 +154,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
             stock = OpenMarketStatus.noneError
         }
         
-        spacingView.isHidden = true
         productNameLabel.text = "\(item.name)"
         priceLabel.text = .none
         priceLabel.attributedText = .none
@@ -144,7 +163,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         priceForSaleLabel.textColor = .systemGray
         
         if item.bargainPrice != 0 {
-            spacingView.isHidden = false
             priceLabel.isHidden = false
             priceForSaleLabel.text = "\(item.currency) \(priceForSale)"
             priceLabel.textColor = .systemRed
@@ -160,19 +178,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         if item.stock == 0 {
             stockLabel.text = OpenMarketDataText.soldOut
             stockLabel.textColor = .systemYellow
-        }
-        
-        DispatchQueue.global().async {
-            guard let url = URL(string: item.thumbnail) else { return }
-            NetworkManager.publicNetworkManager.getImageData(url: url) { image in
-                DispatchQueue.main.async {
-                    if item == self.product {
-                        self.productImage.image = image
-                        self.loadingView.stopAnimating()
-                        self.loadingView.isHidden = true
-                    }
-                }
-            }
         }
     }
 }

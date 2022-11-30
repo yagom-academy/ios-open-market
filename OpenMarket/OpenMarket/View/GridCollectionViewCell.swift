@@ -82,6 +82,26 @@ final class GridCollectionViewCell: UICollectionViewCell {
     func configureContent(item: Item) {
         self.product = item
         
+        configureItemLabel(item: item)
+        configureItemImage(item: item)
+    }
+    
+    private func configureItemImage(item: Item) {
+        DispatchQueue.global().async {
+            guard let url = URL(string: item.thumbnail) else { return }
+            NetworkManager.publicNetworkManager.getImageData(url: url) { image in
+                DispatchQueue.main.async { [weak self] in
+                    if item == self?.product {
+                        self?.productImage.image = image
+                        self?.loadingView.stopAnimating()
+                        self?.loadingView.isHidden = true
+                    }
+                }
+            }
+        }
+    }
+    
+    private func configureItemLabel(item: Item) {
         var priceForSale: String
         var priceToString: String
         var stock: String
@@ -119,24 +139,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
         
         if item.stock == 0 {
             stockLabel.text = OpenMarketDataText.soldOut
-            stockLabel.text"Co"lor = .systemYellow
-        }
-        
-        DispatchQueue.global().async {
-            guard let url = URL(string: item.thumbnail) else { return }
-            NetworkManager.publicNetworkManager.getImageData(url: url) { image in
-                DispatchQueue.main.async {
-                    if item == self.product {
-                        self.productImage.image = image
-                        self.loadingView.stopAnimating()
-                        self.loadingView.isHidden = true
-                    }
-                }
-            }
+            stockLabel.textColor = .systemYellow
         }
         
         layer.cornerRadius = 10.0
         layer.borderColor = UIColor.systemGray.cgColor
         layer.borderWidth = 1
+        
     }
 }
