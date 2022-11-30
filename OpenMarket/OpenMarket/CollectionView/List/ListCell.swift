@@ -130,8 +130,6 @@ final class ListCell: UICollectionViewListCell {
     func setUpUI() {
         priceLabel.setContentHuggingPriority(.defaultHigh - 1, for: .horizontal)
         
-//        productName.setContentCompressionResistancePriority(.defaultHigh + 1, for: .vertical)
-        
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

@@ -63,18 +63,17 @@ final class MainViewController: UIViewController {
         configureGridCell()
         setupUI()
         loadProductListToCollectionView()
+        print(collectionView.visibleCells)
         
-        
-        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "스톤", description: "스톤스톤", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
-
-        let image = UIImage(systemName: "a")!
-
-        DispatchQueue.global().sync {
-            manager.postProductLists(params: product, images: [image]) {
-                print("?")
-            }
-        }
-    
+//        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "스톤", description: "스톤스톤", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
+//
+//        let image = UIImage(systemName: "a")!
+//
+//        DispatchQueue.global().sync {
+//            manager.postProductLists(params: product, images: [image]) {
+//                print("?")
+//            }
+//        }
     }
     
     func setupNavBar() {
@@ -121,8 +120,8 @@ final class MainViewController: UIViewController {
             snapshot.appendSections([.main])
             snapshot.appendItems(list.products)
             
-            self.gridDataSource?.apply(snapshot, animatingDifferences: false)
-            self.listDataSource?.apply(snapshot, animatingDifferences: false)
+            self.listDataSource?.apply(snapshot)
+            self.gridDataSource?.apply(snapshot)
             DispatchQueue.main.async {
                 self.indicator.stopAnimating()
             }
@@ -190,7 +189,7 @@ extension MainViewController {
                     cell.image.image = picture
                     
                     if itemIdentifier.bargainPrice != itemIdentifier.price {
-                        cell.priceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "") "
+                        cell.priceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.price) ?? "")"
                     } else {
                         cell.priceLabel.isHidden = true
                     }
@@ -222,7 +221,7 @@ extension MainViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(100))
+            heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
@@ -277,8 +276,7 @@ extension MainViewController {
             }
             collectionView.setCollectionViewLayout(layout, animated: true)
             collectionView.dataSource = listDataSource
-            
-            
+            print(collectionView.visibleCells)
         case 1:
             let layout = createGridLayout()
             guard let gridDataSource = gridDataSource else {
@@ -286,8 +284,15 @@ extension MainViewController {
             }
             collectionView.setCollectionViewLayout(layout, animated: true)
             collectionView.dataSource = gridDataSource
+            print(collectionView.visibleCells)
         default:
             return
         }
     }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, canFocusItemAt indexPath: IndexPath) -> Bool {
+//        <#code#>
+//    }
 }
