@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell {
     var product: Item?
     
     private let mainStackView = UIStackView()

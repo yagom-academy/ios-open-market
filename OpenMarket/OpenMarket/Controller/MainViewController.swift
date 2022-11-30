@@ -7,7 +7,7 @@
 import UIKit
 
 @available(iOS 14.0, *)
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     var product: Item?
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     var listDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
@@ -26,14 +26,26 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNaviBarItem()
+        configureHierarchy()
+        configureDataSource()
+        getItemList()
+    }
+    
+    private func configureNaviBarItem() {
         configureSegment()
         configurePlusButton()
+    }
+    
+    private func configureHierarchy() {
         configureGridHierarchy()
         configureListHierarchy()
-        addSubView()
+        self.view.addSubview(collectionView)
+    }
+    
+    private func configureDataSource() {
         configureGridDataSource()
         configureListDataSource()
-        getItemList()
     }
     
     private func getItemList() {
@@ -51,10 +63,6 @@ class MainViewController: UIViewController {
         snapshot.appendItems(itemData.pages)
         listDataSource.apply(snapshot, animatingDifferences: false)
         gridDataSource.apply(snapshot, animatingDifferences: false)
-    }
-    
-    private func addSubView() {
-        self.view.addSubview(collectionView)
     }
 }
 

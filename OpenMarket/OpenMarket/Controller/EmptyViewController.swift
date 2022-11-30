@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EmptyViewController: UIViewController {
+final class EmptyViewController: UIViewController {
     lazy var cancelButton = UIButton()
 
     override func viewDidLoad() {
