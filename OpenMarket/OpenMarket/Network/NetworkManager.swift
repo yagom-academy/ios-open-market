@@ -90,7 +90,7 @@ final class NetworkManager {
         }
     }
     
-    func postData() {
+    func postData(to url: URL) {
         let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "Kyochon123",
                                                                     "description": "Kyochon JMT",
                                                                     "price": 21000,
@@ -101,7 +101,7 @@ final class NetworkManager {
         
         let boundary = generateBoundaryString()
 
-        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products")!)
+        var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.POST
         request.setValue("0574c520-6942-11ed-a917-43299f97bee6",
                          forHTTPHeaderField: "identifier")
@@ -130,8 +130,8 @@ final class NetworkManager {
         }.resume()
     }
     
-    func patchData() {
-        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/545")!)
+    func patchData(to url: URL) {
+        var request = URLRequest(url: url)
         
         request.httpMethod = HttpMethod.PATCH
         request.setValue("0574c520-6942-11ed-a917-43299f97bee6", forHTTPHeaderField: "identifier")
@@ -152,8 +152,8 @@ final class NetworkManager {
         }.resume()
     }
         
-    private func fetchDeleteDataURI(completionHandler: @escaping (String)-> Void) {
-        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/432/archived")!)
+    private func fetchDeleteDataURI(to url: URL, completionHandler: @escaping (String)-> Void) {
+        var request = URLRequest(url: url)
         
         request.httpMethod = HttpMethod.POST
         request.setValue("0574c520-6942-11ed-a917-43299f97bee6", forHTTPHeaderField: "identifier")
@@ -168,16 +168,15 @@ final class NetworkManager {
                 return
             }
             
-            guard let deleteItemURI = String(data: data, encoding: .utf8) else { return }
-            completionHandler(deleteItemURI)
+            guard let deleteURI = String(data: data, encoding: .utf8) else { return }
+            completionHandler(deleteURI)
         }.resume()
     }
     
-    func deleteProduct() {
-        var deleteProductURI = ""
-        fetchDeleteDataURI { uri in
-            deleteProductURI = uri
-            var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr" + deleteProductURI)!)
+    func deleteProduct(to url: URL) {
+        fetchDeleteDataURI(to: url) { deleteURI in
+            guard let deleteURL = NetworkRequest.deleteData(uri: deleteURI).requestURL else { return }
+            var request = URLRequest(url: deleteURL)
             request.httpMethod = HttpMethod.DELETE
             request.setValue("0574c520-6942-11ed-a917-43299f97bee6",
                              forHTTPHeaderField: "identifier")
