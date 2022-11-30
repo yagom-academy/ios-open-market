@@ -23,6 +23,7 @@ final class UpdateViewController: UIViewController {
             applyViews()
         }
     }
+    private var imagePickerAlertController: UIAlertController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,27 @@ final class UpdateViewController: UIViewController {
         productInformationView.textFieldDelegate = self
         productInformationView.descriptionTextViewDelegate = self
         applyViews()
+        setUpAlertController()
+        setUpButton()
+    }
+    
+    private func setUpAlertController() {
+        imagePickerAlertController = {
+            let alertController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let albumAlertAction: UIAlertAction = UIAlertAction(title: "앨범", style: .default) { [weak self] (_) in
+                self?.presentAlbum()
+            }
+            let cancelAlertAction: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
+            alertController.addAction(albumAlertAction)
+            alertController.addAction(cancelAlertAction)
+            
+            return alertController
+        }()
+    }
+    
+    private func setUpButton() {
+        imagePickerButton.addTarget(self, action: #selector(presentImagePickerAlertController), for: .touchUpInside)
     }
     
     private func applyViews() {
@@ -43,6 +65,24 @@ final class UpdateViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(temporaryViewContainers)
         productInformationView.applySnapshot(snapshot)
+    }
+       
+    private func presentAlbum() {
+        let imagePickerController: UIImagePickerController = UIImagePickerController()
+        
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
+        imagePickerController.delegate = self
+        
+        present(imagePickerController, animated: true)
+    }
+    
+    @objc
+    private func presentImagePickerAlertController(_ sender: UIButton) {
+        guard let imagePickerAlertController = imagePickerAlertController else {
+            return
+        }
+        present(imagePickerAlertController, animated: true)
     }
 }
 
@@ -70,7 +110,19 @@ extension UpdateViewController: UITextViewDelegate {
             
             return descriptionTextView.isLessThanOrEqualMaximumLength(addedTextLength)
         }
-
         return true
+    }
+}
+
+extension UpdateViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.editedImage] as? UIImage {
+            viewContainers.append(ViewContainer(view: UIImageView(image: image)))
+        }
+        dismiss(animated: true)
     }
 }

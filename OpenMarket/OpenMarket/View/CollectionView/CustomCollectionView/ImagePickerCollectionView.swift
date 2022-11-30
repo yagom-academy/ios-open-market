@@ -23,7 +23,7 @@ final class ImagePickerCollectionView: UICollectionView {
     }
     //MARK: - Snapshot
     func applySnapshot(_ snapshot: NSDiffableDataSourceSnapshot<Section, ViewContainer>) {
-        imagePickerDataSource?.apply(snapshot, animatingDifferences: false)
+        imagePickerDataSource?.apply(snapshot, animatingDifferences: true)
     }
     //MARK: - Cell
     private func registerCell() {
