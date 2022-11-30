@@ -170,7 +170,10 @@ final class OpenMarketViewController: UIViewController {
         
         dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: listCollectionView) { (colllectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
             
-            return listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+            let cell = listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+            cell.product = identifier
+            
+            return cell
         }
     }
     
@@ -215,6 +218,7 @@ final class OpenMarketViewController: UIViewController {
             cell?.contentView.layer.borderWidth = 1.0
             cell?.contentView.layer.cornerRadius = 10.0
             cell?.contentView.layer.masksToBounds = true
+            cell?.product = product
             cell?.updateContents(product)
             return cell
         }

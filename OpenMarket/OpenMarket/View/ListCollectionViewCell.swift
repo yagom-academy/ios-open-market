@@ -6,6 +6,7 @@ import UIKit
 
 final class ListCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "listCell"
+    var product: Product?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -92,7 +93,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    // TODO: - 역할 분리하기
     private func configureUI() {
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(bargainPriceLabel)
@@ -134,10 +134,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data) else { return }
             DispatchQueue.main.async {
-                self.productImageView.image = image
-                self.productNameLabel.text = product.name
-                self.updatePriceLabel(product)
-                self.updateStockLabel(product)
+                if product == self.product {
+                    self.productImageView.image = image
+                    self.productNameLabel.text = product.name
+                    self.updatePriceLabel(product)
+                    self.updateStockLabel(product)
+                }
             }
         }
     }

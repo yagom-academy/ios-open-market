@@ -6,6 +6,7 @@ import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
     static let identifier = "gridCell"
+    var product: Product?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -130,10 +131,12 @@ final class GridCollectionViewCell: UICollectionViewCell {
                   let data = try? Data(contentsOf: url),
                   let image = UIImage(data: data) else { return }
             DispatchQueue.main.async {
-                self.productImageView.image = image
-                self.productNameLabel.text = product.name
-                self.updatePriceLabel(product)
-                self.updateStockLabel(product)
+                if product == self.product {
+                    self.productImageView.image = image
+                    self.productNameLabel.text = product.name
+                    self.updatePriceLabel(product)
+                    self.updateStockLabel(product)
+                }
             }
         }
     }
