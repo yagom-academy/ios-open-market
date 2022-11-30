@@ -44,6 +44,8 @@ final class ProductsViewController: UIViewController {
     private var productsData: ProductListResponse? {
         didSet {
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.view = self.collectionView
                 self.collectionView.reloadData()
             }
         }
@@ -57,6 +59,8 @@ final class ProductsViewController: UIViewController {
 
         return segment
     }()
+    
+    private var activityIndicator = UIActivityIndicatorView()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -88,7 +92,9 @@ final class ProductsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationbar()
-        view = collectionView
+        view = activityIndicator
+        activityIndicator.startAnimating()
+        
         fetchData()
     }
 }
