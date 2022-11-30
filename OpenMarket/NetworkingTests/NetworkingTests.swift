@@ -119,23 +119,22 @@ final class NetworkingTest: XCTestCase {
     func test_URI테스트 () {
         let promise = expectation(description: "test")
 
-        sut.deleteURI() { response in
+        sut.deleteURI(productId: 411) { response in
             print(response)
             promise.fulfill()
         }
 
         wait(for: [promise], timeout: 3)
-
     }
+
     func test_DELETE테스트 () {
         let promise = expectation(description: "test")
 
-        sut.deleteItem { str in
+        sut.deleteItem(productId: 412) { str in
             print(str)
             promise.fulfill()
         }
 
         wait(for: [promise], timeout: 3)
-
     }
 }

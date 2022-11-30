@@ -168,11 +168,11 @@ extension NetworkManager {
     }
 
     //삭제 URI
-    func deleteURI(completion: @escaping (String) -> ()) {
+    func deleteURI(productId: Int, completion: @escaping (String) -> ()) {
         let parameters = "{\"secret\": \"\(NetworkManager.secret)\"}"
         let postData = parameters.data(using: .utf8)
 
-        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/409/archived")!)
+        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/\(productId)/archived")!)
         request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
@@ -180,37 +180,39 @@ extension NetworkManager {
         print(String(data: request.httpBody!, encoding: .utf8)!)
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let httpResponse = response as? HTTPURLResponse else {
+            guard let _ = response as? HTTPURLResponse,
+                  let data = data,
+                  let dataString = String(data: data, encoding: .utf8),
+                  let URI = dataString.components(separatedBy: "/").last else {
                 return
             }
 
-            print(String(data: data!, encoding: .utf8)!)
-            completion("data")
+            completion(URI)
         }
 
         task.resume()
     }
     
     //삭제
-    func deleteItem(completion: @escaping (String) -> ()) {
-        let deleteURI = "NDA5fDVkODQzMDdjLTcwNjctMTFlZC1hOTE3LWFiNWI2MTFjMGIyMg=="
-        
-        var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(deleteURI)")!)
-        
-        request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "DELETE"
+    func deleteItem(productId: Int, completion: @escaping (String) -> ()) {
+        deleteURI(productId: productId) { deleteURI in
+            var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(deleteURI)")!)
 
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let httpResponse = response as? HTTPURLResponse else {
-                return
+            request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpMethod = "DELETE"
+
+
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = response as? HTTPURLResponse else {
+                    return
+                }
+
+                print(String(data: data!, encoding: .utf8)!)
+                completion("data")
             }
 
-            print(String(data: data!, encoding: .utf8)!)
-            completion("data")
+            task.resume()
         }
-
-        task.resume()
     }
 }
