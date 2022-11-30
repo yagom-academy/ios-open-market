@@ -9,20 +9,15 @@ import UIKit
 
 struct NetworkManager {
     typealias StatusCode = Int
+    let jsonParser = JSONParser()
     
-    let successRange = 200..<300
+    
     let cache: URLCache = {
         let cache = URLCache.shared
         cache.memoryCapacity = 100000
         cache.diskCapacity = 0
         return cache
     }()
-    
-    enum RequestType {
-        case healthChecker
-        case searchProductList(pageNo: Int, itemsPerPage: Int)
-        case searchProductDetail(productNumber: Int)
-    }
     
     private func generateURL(type: RequestType) -> URL? {
         var components = URLComponents()
@@ -50,6 +45,7 @@ struct NetworkManager {
     }
     
     private func isSuccessResponse(response: URLResponse?, error: Error?) -> Bool {
+        let successRange = 200..<300
         guard error == nil,
               let statusCode = (response as? HTTPURLResponse)?.statusCode,
               successRange.contains(statusCode) else {
@@ -57,17 +53,6 @@ struct NetworkManager {
               }
         
         return true
-    }
-    
-    private func convertJSON<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable  {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(formatter)
-        
-        let result = try decoder.decode(type, from: data)
-        return result
     }
 }
 
@@ -79,6 +64,7 @@ extension NetworkManager {
         }
         
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+            let successRange = 200..<300
             guard error == nil,
                   let statusCode = (response as? HTTPURLResponse)?.statusCode,
                   successRange.contains(statusCode) else {
@@ -112,7 +98,7 @@ extension NetworkManager {
                 self.cache.storeCachedResponse(cacheData, for: request)
                 
                 do {
-                    let result = try convertJSON(ProductsList.self, from: data)
+                    let result = try jsonParser.decodeJSON(ProductsList.self, from: data)
                     completion(result)
                 } catch {
                     print(error)
@@ -126,7 +112,7 @@ extension NetworkManager {
             }
             
             do {
-                let result = try convertJSON(ProductsList.self, from: data)
+                let result = try jsonParser.decodeJSON(ProductsList.self, from: data)
                 completion(result)
             } catch {
                 print(error)
@@ -149,7 +135,7 @@ extension NetworkManager {
             }
             
             do {
-                let result = try convertJSON(Product.self, from: data)
+                let result = try jsonParser.decodeJSON(Product.self, from: data)
                 completion(result)
             } catch {
                 print(error)
@@ -183,12 +169,8 @@ extension NetworkManager {
         
         var data = Data()
         
-        // json형식으로 encode
-        let encoder = JSONEncoder()
-        
         do {
-            let productJSON = try encoder.encode(params)
-            let jsonString = String(data: productJSON, encoding: .utf8)
+            let productJSON = try jsonParser.encodeJSON(params)
             
             data.append(boundaryPrefix.data(using: .utf8)!)
             data.append("Content-Disposition: form-data; name=\"params\"\r\n\r\n".data(using: .utf8)!)
