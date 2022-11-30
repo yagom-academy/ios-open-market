@@ -14,7 +14,7 @@ struct NetworkManager {
     
     let cache: URLCache = {
         let cache = URLCache.shared
-        cache.memoryCapacity = 100000
+        cache.memoryCapacity = 10000000000000
         cache.diskCapacity = 0
         return cache
     }()
@@ -37,10 +37,13 @@ struct NetworkManager {
             ]
             
             return components.url?.absoluteURL
+        
+        case .patchProduct(let productNumber): fallthrough
         case .searchProductDetail(let productNumber):
             components.path = "/api/products/\(productNumber)"
             
             return components.url?.absoluteURL
+        
         }
     }
     
@@ -165,7 +168,7 @@ extension NetworkManager {
         // 헤더 작성
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.addValue("e475cf3c-6941-11ed-a917-6513cbde46ea", forHTTPHeaderField: "identifier")
+        request.addValue("\(Constant.identifier)", forHTTPHeaderField: "identifier")
         
         var data = Data()
         
@@ -206,4 +209,44 @@ extension NetworkManager {
             print(error)
         }
     }
+}
+
+// MARK: - PATCH Method
+extension NetworkManager {
+    func patchProduct(number: Int, completion: @escaping () -> Void) {
+        guard let url = generateURL(type: .patchProduct(number: number)) else {
+            return
+        }
+        print(url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(Constant.identifier, forHTTPHeaderField: "identifier")
+        
+        do {
+//            let json = try jsonParser.encodeJSON(product)
+//            print(String(data: json, encoding: .utf8)!)
+            let product = "{\"name\": \"logo\", \"secret\":\"\(Constant.password)\"}".data(using: .utf8)!
+            
+            request.httpBody = product
+            
+            let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+                print(String(data: data!, encoding: .utf8)!)
+                if isSuccessResponse(response: response, error: error) == false {
+                    return
+                }
+                
+                completion()
+            }
+            
+            dataTask.resume()
+        } catch {
+            print(error)
+        }
+    }
+}
+
+// MARK: - DELETE MEthod
+extension NetworkManager {
+    
 }

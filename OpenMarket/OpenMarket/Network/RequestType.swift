@@ -9,5 +9,6 @@ enum RequestType {
     case healthChecker
     case searchProductList(pageNo: Int, itemsPerPage: Int)
     case searchProductDetail(productNumber: Int)
+    case patchProduct(number: Int)
 }
 

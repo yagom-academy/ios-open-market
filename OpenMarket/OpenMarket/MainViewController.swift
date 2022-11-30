@@ -63,17 +63,17 @@ final class MainViewController: UIViewController {
         configureGridCell()
         setupUI()
         loadProductListToCollectionView()
-        print(collectionView.visibleCells)
         
-        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "스톤", description: "스톤스톤", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
+        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "AA", description: "AAAAA", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
 
         let image = UIImage(systemName: "a")!
 
-        DispatchQueue.global().sync {
-            manager.postProductLists(params: product, images: [image]) {
-                print("?")
-            }
-        }
+//        manager.postProductLists(params: product, images: [image]) {
+//            print("?")
+//        }
+//        manager.patchProduct(number: 521) {
+//            print("수정끝")
+//        }
     }
     
     func setupNavBar() {
@@ -221,7 +221,7 @@ extension MainViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1.0))
+            heightDimension: .estimated(100))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
