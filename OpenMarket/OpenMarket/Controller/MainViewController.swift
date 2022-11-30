@@ -51,12 +51,6 @@ final class MainViewController: UIViewController {
         configurePlusButton()
     }
     
-    private func configureHierarchy() {
-        configureGridHierarchy()
-        configureListHierarchy()
-        self.view.addSubview(collectionView)
-    }
-    
     private func configureDataSource() {
         configureGridDataSource()
         configureListDataSource()
@@ -139,9 +133,10 @@ extension MainViewController {
         return layout
     }
     
-    private func configureListHierarchy() {
+    private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(collectionView)
     }
     
     private func configureListDataSource() {
@@ -175,11 +170,6 @@ extension MainViewController {
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
-    }
-    
-    private func configureGridHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     private func configureGridDataSource() {
