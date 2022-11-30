@@ -7,6 +7,11 @@
 import UIKit
 
 final class MainViewController: UIViewController {
+    enum CellMode: Int {
+        case listType = 0
+        case gridType = 1
+    }
+
     private var product: ProductList?
     private var cellMode: CellMode = .listType
     private var flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -88,14 +93,14 @@ final class MainViewController: UIViewController {
     
     @IBAction private func tapViewModeController(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case CellMode.listType.index:
+        case CellMode.listType.rawValue:
             cellMode = .listType
             collectionView.reloadData()
             configureCollectionView()
             collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
                                         at: .top,
                                         animated: false)
-        case CellMode.gridType.index:
+        case CellMode.gridType.rawValue:
             cellMode = .gridType
             collectionView.reloadData()
             configureCollectionView()

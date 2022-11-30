@@ -35,7 +35,6 @@
 		D0225B022930572E00343411 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B012930572E00343411 /* Double+Extension.swift */; };
 		D0225B052935CF5E00343411 /* CellIdentifierInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B042935CF5E00343411 /* CellIdentifierInfo.swift */; };
 		D0225B072935D07A00343411 /* CellIdentifierInfo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B062935D07A00343411 /* CellIdentifierInfo+Extension.swift */; };
-		D0225B092935D97100343411 /* CellMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B082935D97100343411 /* CellMode.swift */; };
 		D0225B0B2936038100343411 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B0A2936038100343411 /* Array+Extension.swift */; };
 		D03ED9D029224DBD005F30A8 /* JSONDecode+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9CF29224DBD005F30A8 /* JSONDecode+Extension.swift */; };
 		D03ED9D229225712005F30A8 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03ED9D129225712005F30A8 /* ProductList.swift */; };
@@ -96,7 +95,6 @@
 		D0225B012930572E00343411 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		D0225B042935CF5E00343411 /* CellIdentifierInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifierInfo.swift; sourceTree = "<group>"; };
 		D0225B062935D07A00343411 /* CellIdentifierInfo+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellIdentifierInfo+Extension.swift"; sourceTree = "<group>"; };
-		D0225B082935D97100343411 /* CellMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellMode.swift; sourceTree = "<group>"; };
 		D0225B0A2936038100343411 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		D03ED9CF29224DBD005F30A8 /* JSONDecode+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JSONDecode+Extension.swift"; path = "OpenMarket/Sources/Extension/JSONDecode+Extension.swift"; sourceTree = SOURCE_ROOT; };
 		D03ED9D129225712005F30A8 /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
@@ -136,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				B453348029306A4C008C43D0 /* NameSpace.swift */,
-				D0225B082935D97100343411 /* CellMode.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -479,7 +476,6 @@
 				B4A18BA5292F09C40066279E /* GridCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D0225B052935CF5E00343411 /* CellIdentifierInfo.swift in Sources */,
-				D0225B092935D97100343411 /* CellMode.swift in Sources */,
 				D03ED9E929236322005F30A8 /* Vendor.swift in Sources */,
 				D0F39F712925D6AC00645529 /* URLSession+Extension.swift in Sources */,
 				B4412F552924A101001FA318 /* HttpMethod.swift in Sources */,
