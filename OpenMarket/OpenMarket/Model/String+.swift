@@ -5,6 +5,8 @@
 //  Created by Ayaan, junho on 2022/11/29.
 //
 
+import Foundation
+
 extension String {
     func isNumber() -> Bool {
         for character in self {
