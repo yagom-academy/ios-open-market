@@ -142,8 +142,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
     }
     
     private func updatePriceLabel(_ product: Product) {
-        let price: String = Formatter.format(product.price, product.currency)
-        let bargainPrice: String = Formatter.format(product.bargainPrice, product.currency)
+        let price: String = product.price.formatPrice(product.currency)
+        let bargainPrice: String = product.bargainPrice.formatPrice(product.currency)
         
         priceLabel.attributedText = NSAttributedString(string: price)
         
@@ -161,7 +161,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        let remainingStock = StockStatus.remainingStock.rawValue + " : \(product.stock)"
+        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatDecimal()
         
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }

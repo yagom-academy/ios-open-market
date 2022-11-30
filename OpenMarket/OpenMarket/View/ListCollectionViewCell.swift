@@ -42,8 +42,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -71,8 +69,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .right
         label.textColor = .gray
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -111,6 +107,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
             
             productNameLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
             productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            productNameLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
             
             priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
             bargainPriceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
@@ -119,6 +116,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
             
             stockLabel.leadingAnchor.constraint(greaterThanOrEqualTo: productNameLabel.trailingAnchor, constant: 8),
             stockLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            stockLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.35),
             
             disclosureButton.leadingAnchor.constraint(equalTo: stockLabel.trailingAnchor, constant: 5),
             disclosureButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
@@ -145,8 +143,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }
     
     private func updatePriceLabel(_ product: Product) {
-        let price: String = Formatter.format(product.price, product.currency)
-        let bargainPrice: String = Formatter.format(product.bargainPrice, product.currency)
+        let price: String = product.price.formatPrice(product.currency)
+        let bargainPrice: String = product.bargainPrice.formatPrice(product.currency)
         
         priceLabel.attributedText = NSAttributedString(string: price)
         
@@ -164,7 +162,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        let remainingStock = StockStatus.remainingStock.rawValue + " : \(product.stock)"
+        let remainingStock = StockStatus.remainingStock.rawValue + " : " + Double(product.stock).formatDecimal()
         
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
