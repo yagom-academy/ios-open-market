@@ -45,13 +45,15 @@ extension URLManager {
     private func configureOpenMarketAPIURL(path: String, query: [String: String] = [:]) -> URL? {
         let hostURL: String = "https://openmarket.yagom-academy.kr"
         var components: URLComponents? = URLComponents(string: hostURL)
+        var queries: [URLQueryItem] = []
         
         components?.path.append(path)
         
         for item in query {
             let queryItem: URLQueryItem = URLQueryItem(name: item.key, value: item.value)
-            components?.queryItems?.append(queryItem)
+            queries.append(queryItem)
         }
+        components?.queryItems = queries
         
         return components?.url
     }
