@@ -89,4 +89,139 @@ final class NetworkManager {
             completionHandler(image)
         }
     }
+    
+    func postData() {
+        let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "Kyochon123",
+                                                                    "description": "Kyochon JMT",
+                                                                    "price": 21000,
+                                                                    "currency": "KRW",
+                                                                    "discounted_price": 500,
+                                                                    "stock": 8000,
+                                                                    "secret": "dk9r294wvfwkgvhn" ])
+        
+        let boundary = generateBoundaryString()
+
+        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products")!)
+        request.httpMethod = HttpMethod.POST
+        request.setValue("0574c520-6942-11ed-a917-43299f97bee6",
+                         forHTTPHeaderField: "identifier")
+        request.addValue("multipart/form-data; boundary=\(boundary)",
+                         forHTTPHeaderField: "Content-Type")
+        
+        let jsonString = String(data: fakeData!, encoding: .utf8)!
+        
+        var httpBody = Data()
+        httpBody.append(convertDataForm(named: "params", value: fakeData!, boundary: boundary))
+        
+        let image = UIImage(named: "Kyochon.jpg")
+        guard let imageData = image!.jpegData(compressionQuality: 0.5) else { return }
+        
+        httpBody.append(convertFileDataForm(fieldName: "images",
+                                            fileName: "Kyochon.jpg",
+                                            mimeType: "multipart/form-data",
+                                            fileData: imageData,
+                                            boundary: boundary))
+
+        httpBody.appendStringData("--\(boundary)--")
+        request.httpBody = httpBody
+
+        session.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8))
+        }.resume()
+    }
+    
+    func patchData() {
+        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/545")!)
+        
+        request.httpMethod = HttpMethod.PATCH
+        request.setValue("0574c520-6942-11ed-a917-43299f97bee6", forHTTPHeaderField: "identifier")
+        request.addValue("application/json",
+                         forHTTPHeaderField: "Content-Type")
+        let bodyData = try? JSONSerialization.data(withJSONObject: ["stock": 777,
+                                                                    "product_id": 999,
+                                                                    "name": "치킨999",
+                                                                    "description": "JMT999",
+                                                                    "discounted_price": 0,
+                                                                    "price": 99999,
+                                                                    "currency": "KRW",
+                                                                    "secret":"dk9r294wvfwkgvhn"])
+        
+        request.httpBody = bodyData
+        session.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8))
+        }.resume()
+    }
+        
+    private func fetchDeleteDataURI(completionHandler: @escaping (String)-> Void) {
+        var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/432/archived")!)
+        
+        request.httpMethod = HttpMethod.POST
+        request.setValue("0574c520-6942-11ed-a917-43299f97bee6", forHTTPHeaderField: "identifier")
+        request.addValue("application/json",
+                         forHTTPHeaderField: "Content-Type")
+        
+        let bodyData = try? JSONSerialization.data(withJSONObject: ["secret": "dk9r294wvfwkgvhn"])
+        request.httpBody = bodyData
+
+        session.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                return
+            }
+            
+            guard let deleteItemURI = String(data: data, encoding: .utf8) else { return }
+            completionHandler(deleteItemURI)
+        }.resume()
+    }
+    
+    func deleteProduct() {
+        var deleteProductURI = ""
+        fetchDeleteDataURI { uri in
+            deleteProductURI = uri
+            var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr" + deleteProductURI)!)
+            request.httpMethod = HttpMethod.DELETE
+            request.setValue("0574c520-6942-11ed-a917-43299f97bee6",
+                             forHTTPHeaderField: "identifier")
+               
+            self.session.dataTask(with: request) { data, response, error in
+                print(String(data: data!, encoding: .utf8))
+            }.resume()
+        }
+    }
+}
+
+extension NetworkManager {
+    private func generateBoundaryString() -> String {
+            return "Boundary-\(UUID().uuidString)"
+        }
+    
+    private func convertDataForm(named name: String, value: Data, boundary: String) -> Data {
+        var data = Data()
+        data.appendStringData("--\(boundary)\r\n")
+        data.appendStringData("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+        data.appendStringData("\r\n")
+        data.append(value)
+        data.appendStringData("\r\n")
+        return data
+    }
+     
+    private func convertFileDataForm(fieldName: String,
+                                     fileName: String,
+                                     mimeType: String,
+                                     fileData: Data,
+                                     boundary: String) -> Data {
+        var data = Data()
+        data.appendStringData("--\(boundary)\r\n")
+        data.appendStringData("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+        data.appendStringData("Content-Type: \(mimeType)\r\n\r\n")
+        data.append(fileData)
+        data.appendStringData("\r\n")
+        return data
+    }
+}
+
+extension Data {
+    mutating func appendStringData(_ string: String) {
+        guard let data = string.data(using: .utf8) else { return }
+        self.append(data)
+    }
 }

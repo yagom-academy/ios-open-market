@@ -36,4 +36,5 @@ enum HttpMethod {
     static let POST = "POST"
     static let DELETE = "DELETE"
     static let PUT = "PUT"
+    static let PATCH = "PATCH"
 }
