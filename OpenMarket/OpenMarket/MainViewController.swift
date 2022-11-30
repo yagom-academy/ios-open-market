@@ -58,19 +58,26 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "좋아요 감사합니다!", description: "AAAAA", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
+
+        let image = UIImage(named: "qrcode")!
+
+//        manager.deleteData(productNumber: 555) {
+//            print("목표물 처리 완료")
+//        }
+        
+//        manager.postProductLists(params: product, images: [image]) {
+//            print("?")
+//        }
+        
+        
         setupNavBar()
         configureListCell()
         configureGridCell()
         setupUI()
         loadProductListToCollectionView()
         
-        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "AA", description: "AAAAA", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
-
-        let image = UIImage(systemName: "a")!
-
-//        manager.postProductLists(params: product, images: [image]) {
-//            print("?")
-//        }
+        
 //        manager.patchProduct(number: 521) {
 //            print("수정끝")
 //        }

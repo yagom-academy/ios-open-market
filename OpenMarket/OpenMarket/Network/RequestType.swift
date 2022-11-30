@@ -10,5 +10,7 @@ enum RequestType {
     case searchProductList(pageNo: Int, itemsPerPage: Int)
     case searchProductDetail(productNumber: Int)
     case patchProduct(number: Int)
+    case searchForDeleteURI(productNumber: Int)
+    case deleteProduct(path: String)
 }
 

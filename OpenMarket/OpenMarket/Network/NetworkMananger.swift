@@ -43,7 +43,14 @@ struct NetworkManager {
             components.path = "/api/products/\(productNumber)"
             
             return components.url?.absoluteURL
-        
+        case .searchForDeleteURI(let productNumber):
+            components.path = "/api/products/\(productNumber)/archived"
+            
+            return components.url?.absoluteURL
+        case .deleteProduct(path: let path):
+            components.path = "\(path)"
+            
+            return components.url?.absoluteURL
         }
     }
     
@@ -223,7 +230,7 @@ extension NetworkManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(Constant.identifier, forHTTPHeaderField: "identifier")
         
-        do {
+        
 //            let json = try jsonParser.encodeJSON(product)
 //            print(String(data: json, encoding: .utf8)!)
             let product = "{\"name\": \"logo\", \"secret\":\"\(Constant.password)\"}".data(using: .utf8)!
@@ -240,13 +247,55 @@ extension NetworkManager {
             }
             
             dataTask.resume()
-        } catch {
-            print(error)
-        }
+        
     }
 }
 
 // MARK: - DELETE MEthod
 extension NetworkManager {
+    func searchDeleteURI(number: Int, completion: @escaping (Data) -> Void) {
+        guard let url = generateURL(type: .searchForDeleteURI(productNumber: number)) else {
+            return
+        }
+        print(url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(Constant.identifier, forHTTPHeaderField: "identifier")
+        request.httpBody = "{\"secret\": \"\(Constant.password)\"}".data(using: .utf8)!
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8)!)
+            if isSuccessResponse(response: response, error: error) == false {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            completion(data)
+        }.resume()
+    }
     
+    func deleteData(productNumber: Int, completion: @escaping () -> Void) {
+        searchDeleteURI(number: productNumber) { data in
+            guard let url = generateURL(type: .deleteProduct(path: String(data: data, encoding: .utf8)!)) else {
+                return
+            }
+            var request = URLRequest(url: url)
+            
+            request.httpMethod = "DELETE"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue(Constant.identifier, forHTTPHeaderField: "identifier")
+
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                print(String(data: data!, encoding: .utf8)!)
+                if isSuccessResponse(response: response, error: error) == false {
+                    return
+                }
+                
+                completion()
+            }.resume()
+        }
+    }
 }
