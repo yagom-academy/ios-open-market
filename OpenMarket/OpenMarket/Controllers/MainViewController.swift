@@ -11,16 +11,15 @@ final class MainViewController: UIViewController {
     private let mainView = MainView()
     
     private var productData: [Product] = []
-    private var itemsPerPage = Constant.firstItemCount.rawValue
+    private var pageCount = Constant.pageNumberUnit.rawValue
     private var scrollState = ScrollState.idle
     
-    enum Constant: Int {
-        case firstItemCount = 30
-        case firstPageCount = 1
-        case appendItemCount = 5
+    private enum Constant: Int {
+        case pageNumberUnit = 1
+        case itemsPerPage = 10
     }
     
-    enum ScrollState {
+    private enum ScrollState {
         case idle
         case isLoading
     }
@@ -31,7 +30,7 @@ final class MainViewController: UIViewController {
         setupNavigationBar()
         setupSegmentedControlTarget()
         
-        setupData(pageNo: Constant.firstPageCount.rawValue, itemsPerPage: itemsPerPage)
+        setupData(pageNo: pageCount, itemsPerPage: Constant.itemsPerPage.rawValue)
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
     }
@@ -102,8 +101,8 @@ extension MainViewController: UICollectionViewDelegate {
         let frameHeight = scrollView.frame.size.height
         
         if heightRemainBottomHeight < frameHeight {
-            itemsPerPage += Constant.appendItemCount.rawValue
-            self.setupData(pageNo: Constant.firstPageCount.rawValue, itemsPerPage: itemsPerPage)
+            pageCount += Constant.pageNumberUnit.rawValue
+            self.setupData(pageNo: pageCount, itemsPerPage: Constant.itemsPerPage.rawValue)
         }
     }
 }
