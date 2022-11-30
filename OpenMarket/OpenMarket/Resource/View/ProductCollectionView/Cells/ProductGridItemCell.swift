@@ -10,13 +10,7 @@ import UIKit
 final class ProductGridItemCell: UICollectionViewCell, ProductItemCellContent {
     static let identifier = String(describing: ProductGridItemCell.self)
 
-    var task: URLSessionDataTask? {
-        didSet {
-            if task != nil {
-                task?.resume()
-            }
-        }
-    }
+    var task: URLSessionDataTask?
     
     var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()

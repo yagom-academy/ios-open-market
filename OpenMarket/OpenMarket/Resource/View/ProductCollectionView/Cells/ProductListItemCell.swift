@@ -10,13 +10,7 @@ import UIKit
 final class ProductListItemCell: UICollectionViewCell, ProductItemCellContent {
     static let identifier = String(describing: ProductListItemCell.self)
     
-    var task: URLSessionDataTask? {
-        didSet {
-            if task != nil {
-                task?.resume()
-            }
-        }
-    }
+    var task: URLSessionDataTask?
     
     var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()

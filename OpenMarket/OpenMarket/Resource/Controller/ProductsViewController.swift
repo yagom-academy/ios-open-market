@@ -35,15 +35,6 @@ final class ProductsViewController: UIViewController {
                 return Constant.gridCellHeightRatio
             }
         }
-        
-        var identifier: String {
-            switch self {
-            case .list:
-                return ProductListItemCell.identifier
-            case .grid:
-                return ProductGridItemCell.identifier
-            }
-        }
     }
     
     private let productResponseNetworkManager = NetworkManager<ProductListResponse>()
@@ -153,7 +144,7 @@ extension ProductsViewController: UICollectionViewDataSource {
         switch selectedLayout {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: selectedLayout.identifier,
+                withReuseIdentifier: ProductListItemCell.identifier,
                 for: indexPath
             ) as? ProductListItemCell else {
                 return UICollectionViewCell()
@@ -163,7 +154,7 @@ extension ProductsViewController: UICollectionViewDataSource {
             return cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: selectedLayout.identifier,
+                withReuseIdentifier: ProductGridItemCell.identifier,
                 for: indexPath
             ) as? ProductGridItemCell else {
                 return UICollectionViewCell()
@@ -198,7 +189,11 @@ private extension ProductsViewController {
 // MARK: Business Login
 private extension ProductsViewController {
     func fetchData() {
-        let endPoint = OpenMarketAPI.productsList(pageNumber: currentPage, rowCount: Constant.productsRowCount)
+        let endPoint = OpenMarketAPI.productsList(
+            pageNumber: currentPage,
+            rowCount: Constant.productsRowCount
+        )
+        
         productResponseNetworkManager.fetchData(endPoint: endPoint) { result in
             switch result {
             case .success(let data):
@@ -222,26 +217,3 @@ private extension ProductsViewController {
         self.navigationItem.titleView = segment
     }
 }
-
-// MARK: URLSession +
-private extension URLSession {
-    static func createTask(
-        url: URL,
-        completion: @escaping (UIImage?) -> Void
-    ) -> URLSessionDataTask {
-        Self.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print(error)
-            }
-            
-            guard let response = response as? HTTPURLResponse,
-                  response.statusCode == 200 else { return }
-            
-            if let data = data {
-                let image = UIImage(data: data)
-                completion(image)
-            }
-        }
-    }
-}
-

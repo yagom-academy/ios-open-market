@@ -7,8 +7,8 @@
 import UIKit
 
 // MARK: ProductItemCellContent Protocol
-protocol ProductItemCellContent {
-    var task: URLSessionDataTask? { get }
+protocol ProductItemCellContent: AnyObject {
+    var task: URLSessionDataTask? { get set }
     
     var thumbnailImageView: UIImageView { get set }
     var titleLabel: UILabel { get set }
@@ -22,6 +22,7 @@ protocol ProductItemCellContent {
     func setTitleLabel(productName: String)
     func setStockLabelValue(stock: Int)
     func setPriceLabel(originPrice: String, bargainPrice: String, segment: Int)
+    func setImageTask(url: String)
     func setupCellData(product: Product, index: Int)
 }
 
@@ -57,9 +58,30 @@ extension ProductItemCellContent {
         configureLayout()
         setupConstraints()
         
+        setImageTask(url: product.thumbnail)
         setTitleLabel(productName: product.name)
         setStockLabelValue(stock: product.stock)
-        setPriceLabel(originPrice: product.originPriceStringValue, bargainPrice: product.bargainPriceStringValue, segment: index)
+        setPriceLabel(
+            originPrice: product.originPriceStringValue,
+            bargainPrice: product.bargainPriceStringValue,
+            segment: index
+        )
+        
+        
+    }
+    
+    func setImageTask(url: String) {
+        guard let imageURL = URL(string: url) else {
+            return
+        }
+        
+        task = URLSession.createTask(url: imageURL) { image in
+            DispatchQueue.main.async {
+                self.thumbnailImageView.image = image
+            }
+        }
+        
+        task?.resume()
     }
 }
 
@@ -76,5 +98,27 @@ private extension String {
         attributeString.addAttribute(.font, value: font, range: range)
         
         return attributeString
+    }
+}
+
+// MARK: URLSession +
+extension URLSession {
+    static func createTask(
+        url: URL,
+        completion: @escaping (UIImage?) -> Void
+    ) -> URLSessionDataTask {
+        Self.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error)
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 200 else { return }
+            
+            if let data = data {
+                let image = UIImage(data: data)
+                completion(image)
+            }
+        }
     }
 }
