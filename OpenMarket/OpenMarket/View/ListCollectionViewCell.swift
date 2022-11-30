@@ -112,8 +112,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
             productNameLabel.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
             productNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             
-            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.35),
-            bargainPriceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.35),
+            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
+            bargainPriceLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.4),
             priceStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 8),
             priceStackView.topAnchor.constraint(equalTo: productNameLabel.bottomAnchor),
             

@@ -118,6 +118,7 @@ final class OpenMarketViewController: UIViewController {
 
     private func fetchData(for page: Int) {
         activityIndicator.startAnimating()
+        
         let networkManager = NetworkManager()
         networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20), dataType: ProductList.self) { result in
             switch result {
