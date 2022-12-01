@@ -139,3 +139,36 @@ extension NetworkManager: NetworkPostable {
         return data
     }
 }
+
+extension NetworkManager: NetworkPatchable {
+    func patch(to url: URL?) {
+        guard let targetURL: URL = url else { return }
+        var request: URLRequest = URLRequest(url: targetURL)
+        
+        request.httpMethod = HttpMethod.patch.name
+        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = buildData()
+        
+        session.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8)!)
+        }.resume()
+    }
+    
+    private func buildData() -> Data {
+        var data = Data()
+        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["stock": 1,
+                                                                          "name": "두부",
+                                                                          "description": "질리네강아지",
+                                                                          "price": 9999999999,
+                                                                          "currency": "USD",
+                                                                          "discounted_price": 0,
+                                                                          "secret": "rzeyxdwzmjynnj3f" ]) else {
+            return Data()
+        }
+        
+        data.append(fakeData)
+        
+        return data
+    }
+}
