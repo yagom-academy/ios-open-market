@@ -12,7 +12,6 @@ struct NewProduct {
     let description: String
     let currency: CurrencyUnit
     let price: Double
-    let bargainPrice: Double
     let discountedPrice: Double? = 0
     let stock: Int? = 0
     

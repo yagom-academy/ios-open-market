@@ -38,7 +38,6 @@ final class AddProductView: UIView {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -76,17 +75,19 @@ final class AddProductView: UIView {
     let currencySegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ["KRW", "USD"])
         segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self,
+                                   action: #selector(segmentedControlValueChanged),
+                                   for: .valueChanged)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
     
     lazy var priceStackView: UIStackView = {
-       let stackView = UIStackView(arrangedSubviews: [priceTextField, currencySegmentedControl])
+        let stackView = UIStackView(arrangedSubviews: [priceTextField, currencySegmentedControl])
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -103,6 +104,18 @@ final class AddProductView: UIView {
     private func registerCell() {
         collectionView.register(ImageCollectionViewCell.self,
                                 forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+    }
+    
+    
+}
+
+extension AddProductView {
+    @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            
+        } else {
+            
+        }
     }
 }
 
@@ -121,27 +134,27 @@ extension AddProductView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-        collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
-                                            constant: 10),
-        collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+            collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
                                                 constant: 10),
-        collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                 constant: -10),
-        collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor,
-                                               multiplier: 0.2),
-        
-        productStackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 5),
-        productStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                                  constant: 10),
-        productStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                   constant: -10),
-        
-        descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor,
-                                                 constant: 10),
-        descriptionTextView.leadingAnchor.constraint(equalTo: productStackView.leadingAnchor),
-        descriptionTextView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor),
-        descriptionTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
-                                                    constant: -10)
+            collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                    constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                     constant: -10),
+            collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor,
+                                                   multiplier: 0.2),
+            
+            productStackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 5),
+            productStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                      constant: 10),
+            productStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                       constant: -10),
+            
+            descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor,
+                                                     constant: 10),
+            descriptionTextView.leadingAnchor.constraint(equalTo: productStackView.leadingAnchor),
+            descriptionTextView.trailingAnchor.constraint(equalTo: productStackView.trailingAnchor),
+            descriptionTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
+                                                        constant: -10)
         ])
     }
 }

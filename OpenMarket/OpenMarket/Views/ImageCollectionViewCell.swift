@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol ImageCollectionViewCellDelegate: AnyObject {
+    func imageCollectionViewCell(_ isShowPicker: Bool)
+}
+
 final class ImageCollectionViewCell: UICollectionViewCell {
+    weak var buttonDelegate: ImageCollectionViewCellDelegate?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -17,48 +23,56 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let addImageButton: UIButton = {
+    let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    func createButton() -> UIButton {
         let button = UIButton()
         button.backgroundColor = .systemGray5
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(addImageButtonTapped), for: .touchUpInside)
         return button
-    }()
-   
-    private let productImageView: UIImageView = {
+    }
+    
+    func createImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }()
+    }
+
+    override func prepareForReuse() {
+        self.stackView.arrangedSubviews.forEach { view in
+            view.removeFromSuperview()
+        }
+    }
+}
+
+// MARK: - Action
+extension ImageCollectionViewCell {
+    @objc func addImageButtonTapped() {
+        buttonDelegate?.imageCollectionViewCell(true)
+    }
 }
 
 // MARK: - Constraints
 extension ImageCollectionViewCell {
     private func setupUI() {
-        setupView()
+        contentView.addSubview(stackView)
+        setupStackViewConstraints()
     }
     
-    private func setupView() {
-        contentView.addSubview(addImageButton)
-        setupConstraints()
-    }
-    
-    private func setupConstraints() {
+    private func setupStackViewConstraints() {
         NSLayoutConstraint.activate([
-            addImageButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            addImageButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            addImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            addImageButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-    }
-    
-    private func setupAddImageConstraints() {
-        NSLayoutConstraint.activate([
-            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }
