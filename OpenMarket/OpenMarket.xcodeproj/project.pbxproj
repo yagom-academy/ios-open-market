@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		410573C4293836B7000D01EE /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410573C3293836B7000D01EE /* Product.swift */; };
+		410573C6293836EE000D01EE /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410573C5293836EE000D01EE /* Currency.swift */; };
 		411376E9292DB3A900AB6D55 /* MarketGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411376E8292DB3A900AB6D55 /* MarketGridCell.swift */; };
 		411376EB292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411376EA292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift */; };
 		416AF3972924B476002CD10C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416AF3962924B476002CD10C /* MockURLSession.swift */; };
@@ -54,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		410573C3293836B7000D01EE /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		410573C5293836EE000D01EE /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		411376E8292DB3A900AB6D55 /* MarketGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGridCell.swift; sourceTree = "<group>"; };
 		411376EA292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		416AF3962924B476002CD10C /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -187,6 +191,8 @@
 			children = (
 				86F0E0272923245600188086 /* Market.swift */,
 				86F0E0542925115000188086 /* Page.swift */,
+				410573C3293836B7000D01EE /* Product.swift */,
+				410573C5293836EE000D01EE /* Currency.swift */,
 			);
 			path = DataType;
 			sourceTree = "<group>";
@@ -420,6 +426,8 @@
 				41B6E8A82923BDD900CBF91D /* DateFormatter+Extension.swift in Sources */,
 				86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */,
 				4171DE0F292DAAB10071F5CE /* MarketGridViewController.swift in Sources */,
+				410573C6293836EE000D01EE /* Currency.swift in Sources */,
+				410573C4293836B7000D01EE /* Product.swift in Sources */,
 				41B6E8A2292325F100CBF91D /* Decodable+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				41BA5BF7292C9BF100EAED05 /* MarketListViewController.swift in Sources */,
