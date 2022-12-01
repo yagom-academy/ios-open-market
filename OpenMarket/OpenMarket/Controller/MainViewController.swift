@@ -9,8 +9,8 @@ import UIKit
 final class MainViewController: UIViewController {
     var product: Item?
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-    var listDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
-    var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
+    var listDataSource: UICollectionViewDiffableDataSource<Section, Item>? = nil
+    var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>? = nil
     var collectionView: UICollectionView! = nil
     
     enum Section {
@@ -77,8 +77,8 @@ final class MainViewController: UIViewController {
     private func makeSnapshot(itemData: ItemList) {
         snapshot.appendSections([.main])
         snapshot.appendItems(itemData.pages)
-        listDataSource.apply(snapshot, animatingDifferences: false)
-        gridDataSource.apply(snapshot, animatingDifferences: false)
+        listDataSource?.apply(snapshot, animatingDifferences: false)
+        gridDataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 
