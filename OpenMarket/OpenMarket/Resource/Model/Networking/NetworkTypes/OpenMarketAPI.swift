@@ -10,6 +10,7 @@ enum OpenMarketAPI: APIType {
     case healthChecker
     case productsList(pageNumber: Int, rowCount: Int, searchValue: String = "")
     case productSearch(productId: Int)
+    case addProduct
     
     var baseURL: String {
         return "https://openmarket.yagom-academy.kr"
@@ -23,6 +24,8 @@ enum OpenMarketAPI: APIType {
             return "/api/products"
         case .productSearch(let productId):
             return "/api/products/\(productId)"
+        case .addProduct:
+            return "/api/products"
         }
     }
     
