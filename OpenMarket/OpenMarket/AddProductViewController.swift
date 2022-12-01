@@ -174,12 +174,14 @@ final class AddProductViewController: UIViewController {
     
     @objc
     func tappedPlusButton(_ sender: Any) {
-        let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
-        picker.allowsEditing = true
-        picker.delegate = self
-        
-        self.present(picker, animated: true)
+        if self.imageStackView.subviews.count != 5 {
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = true
+            picker.delegate = self
+            
+            self.present(picker, animated: true)
+        }
     }
 }
 
@@ -195,6 +197,13 @@ extension AddProductViewController: UIImagePickerControllerDelegate {
                 let imageView = UIImageView(image: img)
                 imageView.translatesAutoresizingMaskIntoConstraints = false
                 self.imageStackView.addArrangedSubview(imageView)
+                
+                if self.imageStackView.subviews.count == 5 {
+                    self.addProductButton.isHidden = true
+                    
+                    imageView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor, constant: 4).isActive = true
+                }
+                
                 imageView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2).isActive = true
                 imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
             } else {
