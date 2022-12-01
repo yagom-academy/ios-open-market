@@ -24,7 +24,7 @@ final class AddProductViewController: UIViewController {
         return stackView
     }()
     
-    lazy var addProductButton: UIButton = {
+    let addProductButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -74,14 +74,14 @@ final class AddProductViewController: UIViewController {
     }()
     
     let productPriceTextField: UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .clear
         textField.textColor = .systemGray
         textField.tintColor = .black
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품가격"
-
+        
         return textField
     }()
     
@@ -134,12 +134,13 @@ final class AddProductViewController: UIViewController {
             
             imageStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             imageStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            imageStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             imageStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             
             addProductButton.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2),
             addProductButton.widthAnchor.constraint(equalTo: addProductButton.heightAnchor),
-            
+            addProductButton.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: 4),
+            addProductButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 4),
+
             productNameTextField.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 4),
             productNameTextField.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 4),
             productNameTextField.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -4),
@@ -173,23 +174,36 @@ final class AddProductViewController: UIViewController {
     
     @objc
     func tappedPlusButton(_ sender: Any) {
-        print("버튼 누름")
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        picker.delegate = self
+        
+        self.present(picker, animated: true)
     }
 }
-//
-//class addProductButton: UIButton {
-//    let symbol: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.image = UIImage(systemName: "plus")
-//
-//        return imageView
-//    }()
-//
-//    init() {
-//        super.init()
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//}
+
+extension AddProductViewController: UIImagePickerControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true) {
+            if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                let imageView = UIImageView(image: img)
+                imageView.translatesAutoresizingMaskIntoConstraints = false
+                self.imageStackView.addArrangedSubview(imageView)
+                imageView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2).isActive = true
+                imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+            } else {
+                print("image nil")
+            }
+        }
+    }
+}
+
+extension AddProductViewController: UINavigationControllerDelegate {
+    
+}

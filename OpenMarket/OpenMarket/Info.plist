@@ -4,8 +4,6 @@
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>앨범 접근 허용</string>
-	<key>NSCameraUsageDescription</key>
-	<string>카메라 접근 허용</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
