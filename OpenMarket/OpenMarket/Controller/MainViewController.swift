@@ -41,10 +41,6 @@ final class MainViewController: UIViewController {
     }
     
     let segmentedControl: UISegmentedControl = UISegmentedControl(items: [Menu.list.description, Menu.grid.description])
-    lazy var plusButton = UIBarButtonItem(image: UIImage(systemName: OpenMarketImage.plus),
-                                     style: .plain,
-                                     target: self,
-                                     action: #selector(tapped(sender:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +92,11 @@ extension MainViewController {
     }
     
     private func configurePlusButton() {
+        let plusButton = UIBarButtonItem(image: UIImage(systemName: OpenMarketImage.plus),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(tapped(sender:)))
+        
         self.navigationItem.rightBarButtonItem = plusButton
     }
     
