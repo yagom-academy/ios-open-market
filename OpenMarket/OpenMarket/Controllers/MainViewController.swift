@@ -44,7 +44,7 @@ final class MainViewController: UIViewController {
         networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
             switch result {
             case .success(let data):
-                self.productData = data.pages
+                self.productData += data.pages
                 DispatchQueue.main.async {
                     self.mainView.collectionView.reloadData()
                     self.scrollState = .idle
