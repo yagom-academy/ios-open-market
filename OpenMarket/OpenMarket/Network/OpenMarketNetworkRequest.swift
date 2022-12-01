@@ -11,27 +11,30 @@ struct HealthCheckerRequest: NetworkRequest {
     let httpMethod: HttpMethod = .get
     let urlHost: String = "https://openmarket.yagom-academy.kr"
     let urlPath: String = "/healthChecker"
-    var queryParameters: [String: String] = [:]
-    var httpHeader: [String: String]?
-    var httpBody: Data?
+    let queryParameters: [String: String] = [:]
+    let httpHeader: [String: String]?
+    let httpBody: Data?
 }
 
 struct ProductListRequest: NetworkRequest {
     let httpMethod: HttpMethod = .get
     let urlHost: String = "https://openmarket.yagom-academy.kr"
     let urlPath: String = "/api/products"
-    var queryParameters: [String: String]
-    var httpHeader: [String: String]?
-    var httpBody: Data?
+    let queryParameters: [String: String]
+    let httpHeader: [String: String]? = nil
+    let httpBody: Data? = nil
     
     init(pageNo: Int, itemsPerPage: Int, searchValue: String = "") {
-        self.queryParameters = [
+        var queryParameters: [String: String] = [:]
+        
+        queryParameters = [
             "page_no": String(pageNo),
             "items_per_page": String(itemsPerPage)
         ]
         if !searchValue.isEmpty {
-            self.queryParameters["search_value"] = String(searchValue)
+            queryParameters["search_value"] = String(searchValue)
         }
+        self.queryParameters = queryParameters
     }
 }
 
@@ -39,9 +42,9 @@ struct ProductDetailRequest: NetworkRequest {
     let httpMethod: HttpMethod = .get
     let urlHost: String = "https://openmarket.yagom-academy.kr"
     let urlPath: String
-    var queryParameters: [String: String] = [:]
-    var httpHeader: [String: String]?
-    var httpBody: Data?
+    let queryParameters: [String: String] = [:]
+    let httpHeader: [String: String]? = nil
+    let httpBody: Data? = nil
     
     init(productID: Int) {
         self.urlPath = "/api/products/\(productID)"
@@ -49,20 +52,21 @@ struct ProductDetailRequest: NetworkRequest {
 }
 
 struct GenerateProductRequest: NetworkRequest {
-    var httpMethod: HttpMethod = .post
-    var urlHost: String = "https://openmarket.yagom-academy.kr"
-    var urlPath: String = "/api/products"
-    var queryParameters: [String: String] = [:]
-    var httpHeader: [String: String]? = [:]
-    var httpBody: Data?
+    let httpMethod: HttpMethod = .post
+    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlPath: String = "/api/products"
+    let queryParameters: [String: String] = [:]
+    let httpHeader: [String: String]?
+    let httpBody: Data?
     
     init(identifier: String, params: Data, images: Data) {
         var body = Data()
+        var header: [String: String] = [:]
         let boundary = "----\(UUID().uuidString)"
         let lineBreak = "\r\n"
     
-        self.httpHeader?["identifier"] = identifier
-        self.httpHeader?["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
+        header["identifier"] = identifier
+        header["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
         
         body.append("--" + boundary + lineBreak, using: .utf8)
         body.append("Content-Disposition:form-data; name=\"params\"" + lineBreak, using: .utf8)
@@ -77,6 +81,28 @@ struct GenerateProductRequest: NetworkRequest {
         body.append(images)
         body.append(lineBreak, using: .utf8)
         body.append("--" + boundary + "--", using: .utf8)
+        
+        self.httpHeader = header
         self.httpBody = body
+    }
+}
+
+struct EditProductRequest: NetworkRequest {
+    let httpMethod: HttpMethod = .patch
+    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlPath: String
+    let queryParameters: [String : String] = [:]
+    let httpHeader: [String : String]?
+    let httpBody: Data?
+    
+    init(identifier: String,
+         editProduct: EditProduct,
+         secret: String) {
+        var header: [String: String] = [:]
+        header["identifier"] = identifier
+        
+        self.urlPath = "/api/products/\(editProduct.productID)"
+        self.httpHeader = header
+        self.httpBody = editProduct.makeParams()
     }
 }
