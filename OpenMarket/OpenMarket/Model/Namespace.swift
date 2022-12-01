@@ -34,6 +34,8 @@ enum OpenMarketURL {
 enum OpenMarketDataText {
     static let stock = "잔여수량: "
     static let soldOut = "품절"
+    static let first = 1
+    static let last = 100
 }
 
 enum OpenMarketStatus {

@@ -61,7 +61,7 @@ final class MainViewController: UIViewController {
     }
     
     private func getItemList() {
-        let url = OpenMarketURL.itemPageComponent(pageNo: 1, itemPerPage: 100).url
+        let url = OpenMarketURL.itemPageComponent(pageNo: OpenMarketDataText.first, itemPerPage: OpenMarketDataText.last).url
         
         NetworkManager.publicNetworkManager.getJSONData(
             url: url,
