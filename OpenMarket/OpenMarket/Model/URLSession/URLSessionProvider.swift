@@ -52,6 +52,27 @@ final class MarketURLSessionProvider {
         
         return body
     }
+    
+    func createImageBodyData(key: String,
+                             images: [(imageName: String, image: UIImage)],
+                             boundary: String) -> Data {
+        let lineBreak = "\r\n"
+        var body = Data()
+        
+        for (imageName, image) in images {
+            if let data = image.jpegData(compressionQuality: 0.5) {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(imageName)\"")
+                body.append(lineBreak)
+                body.append("Content-Type: \"multipart/form-data\"")
+                body.append(lineBreak + lineBreak)
+                body.append(data)
+                body.append(lineBreak)
+            }
+        }
+        
+        return body
+    }
 }
 
 extension Data {
