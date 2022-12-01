@@ -37,8 +37,29 @@ final class MarketURLSessionProvider {
         dataTask.resume()
     }
     
-    func uploadData() {
+    func generateRequest(textParameters: [String : String], imageKey: String, images: [(imageName: String, image: UIImage)]) -> URLRequest? {
+        let lineBreak = "\r\n"
+        let boundary = "Boundary-\(UUID().uuidString)"
         
+        guard let url = Request.productRegistration.url else { return nil }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.addValue("b7069a7d-6940-11ed-a917-1f26f7cfa9c9", forHTTPHeaderField: "identifier")
+        
+        let stringBodyData = createTextBodyData(parameters: textParameters, boundary: boundary)
+        let imageBodyData = createImageBodyData(key: imageKey, images: images, boundary: boundary)
+        var bodyData = Data()
+        
+        bodyData.append(stringBodyData)
+        bodyData.append(imageBodyData)
+        bodyData.append("--\(boundary)--\(lineBreak)")
+        
+        request.httpBody = bodyData
+        
+        return request
     }
     
     func createTextBodyData(parameters: [String : String], boundary: String) -> Data {
