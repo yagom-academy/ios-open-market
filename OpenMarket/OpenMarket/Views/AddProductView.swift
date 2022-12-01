@@ -84,7 +84,7 @@ final class AddProductView: UIView {
        let stackView = UIStackView(arrangedSubviews: [priceTextField, currencySegmentedControl])
         stackView.axis = .horizontal
         stackView.spacing = 10
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -94,7 +94,7 @@ final class AddProductView: UIView {
         let stackView = UIStackView(arrangedSubviews: [nameTextField, priceStackView, salePriceTextField, stockTextField])
         stackView.axis = .vertical
         stackView.spacing = 10
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -135,8 +135,6 @@ extension AddProductView {
                                                   constant: 10),
         productStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
                                                    constant: -10),
-        productStackView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor,
-                                                 multiplier: 0.3),
         
         descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor,
                                                  constant: 10),

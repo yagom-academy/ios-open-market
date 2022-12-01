@@ -18,12 +18,33 @@ final class AddViewController: UIViewController {
         addProductView.collectionView.delegate = self
         addProductView.collectionView.dataSource = self
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }
 
 // MARK: - UI & UIAction
 extension AddViewController {
     private func setupNavigationBar() {
         self.title = "상품등록"
+        let cancelButtonItem = UIBarButtonItem(title: "Cancel",
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(cancelButtonTapped))
+        let doneButtonItem = UIBarButtonItem(title: "Done",
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(doneButtonTapped))
+        self.navigationItem.leftBarButtonItem = cancelButtonItem
+        self.navigationItem.rightBarButtonItem = doneButtonItem
+    }
+    
+    @objc func cancelButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func doneButtonTapped() {
+        print("tapped")
     }
 }
 
