@@ -37,6 +37,38 @@ final class MarketURLSessionProvider {
         dataTask.resume()
     }
     
+    func uploadProduct(textParameters: [String : String],
+                       imageKey: String,
+                       images: [(imageName: String, image: UIImage)]) {
+        guard let request = generateRequest(textParameters: textParameters,
+                                            imageKey: imageKey,
+                                            images: images) else { return }
+        
+        guard let session = session as? URLSession else { return }
+        
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                print(NetworkError.requestFailError)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return  print(NetworkError.httpResponseError(
+                    code: (response as? HTTPURLResponse)?.statusCode ?? 0))
+            }
+            
+            guard data != nil else {
+                print(NetworkError.noDataError)
+                return
+            }
+        }
+        
+        dataTask.resume()
+    }
+}
+
+extension MarketURLSessionProvider {
     func generateRequest(textParameters: [String : String], imageKey: String, images: [(imageName: String, image: UIImage)]) -> URLRequest? {
         let lineBreak = "\r\n"
         let boundary = "Boundary-\(UUID().uuidString)"
