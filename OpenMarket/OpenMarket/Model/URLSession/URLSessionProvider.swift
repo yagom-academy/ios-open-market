@@ -37,13 +37,8 @@ final class MarketURLSessionProvider {
         dataTask.resume()
     }
     
-    func uploadProduct(textParameters: [String : String],
-                       imageKey: String,
-                       images: [(imageName: String, image: UIImage)]) {
-        guard let request = generateRequest(textParameters: textParameters,
-                                            imageKey: imageKey,
-                                            images: images) else { return }
-        
+    func uploadProduct(request: URLRequest) {
+       
         guard let session = session as? URLSession else { return }
         
         let dataTask = session.dataTask(with: request) { data, response, error in
@@ -69,20 +64,25 @@ final class MarketURLSessionProvider {
 }
 
 extension MarketURLSessionProvider {
-    func generateRequest(textParameters: [String : String], imageKey: String, images: [(imageName: String, image: UIImage)]) -> URLRequest? {
+    func generateRequest(textParameters: [String : String],
+                         imageKey: String, images: [ImageData]) -> URLRequest? {
         let lineBreak = "\r\n"
         let boundary = "Boundary-\(UUID().uuidString)"
         
         guard let url = Request.productRegistration.url else { return nil }
         var request = URLRequest(url: url)
         
-        request.httpMethod = "POST"
+        request.httpMethod = HttpMethod.post.name
+        request.addValue("multipart/form-data; boundary=\(boundary)",
+                         forHTTPHeaderField: "Content-Type")
+        request.addValue("b7069a7d-6940-11ed-a917-1f26f7cfa9c9",
+                         forHTTPHeaderField: "identifier")
         
-        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.addValue("b7069a7d-6940-11ed-a917-1f26f7cfa9c9", forHTTPHeaderField: "identifier")
-        
-        let stringBodyData = createTextBodyData(parameters: textParameters, boundary: boundary)
-        let imageBodyData = createImageBodyData(key: imageKey, images: images, boundary: boundary)
+        let stringBodyData = createTextBodyData(parameters: textParameters,
+                                                boundary: boundary)
+        let imageBodyData = createImageBodyData(key: imageKey,
+                                                images: images,
+                                                boundary: boundary)
         var bodyData = Data()
         
         bodyData.append(stringBodyData)
@@ -94,9 +94,11 @@ extension MarketURLSessionProvider {
         return request
     }
     
-    func createTextBodyData(parameters: [String : String], boundary: String) -> Data {
+    func createTextBodyData(parameters: [String : String],
+                            boundary: String) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
+        
         for (key, value) in parameters {
             body.append("--\(boundary + lineBreak)")
             body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
@@ -107,24 +109,44 @@ extension MarketURLSessionProvider {
     }
     
     func createImageBodyData(key: String,
-                             images: [(imageName: String, image: UIImage)],
+                             images: [ImageData],
                              boundary: String) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
         
-        for (imageName, image) in images {
-            if let data = image.jpegData(compressionQuality: 0.5) {
-                body.append("--\(boundary + lineBreak)")
-                body.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(imageName)\"")
-                body.append(lineBreak)
-                body.append("Content-Type: \"multipart/form-data\"")
-                body.append(lineBreak + lineBreak)
-                body.append(data)
-                body.append(lineBreak)
-            }
+        for image in images {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(image.fileName)\"")
+            body.append(lineBreak)
+            body.append("Content-Type: \"multipart/form-data\"")
+            body.append(lineBreak + lineBreak)
+            body.append(image.data)
+            body.append(lineBreak)
         }
         
         return body
+    }
+}
+
+extension MarketURLSessionProvider {
+    enum HttpMethod {
+        case get
+        case post
+        case patch
+        case delete
+        
+        var name: String {
+            switch self {
+            case .get:
+                return "GET"
+            case .post:
+                return "POST"
+            case .patch:
+                return "PATCH"
+            case .delete:
+                return "DEL"
+            }
+        }
     }
 }
 
