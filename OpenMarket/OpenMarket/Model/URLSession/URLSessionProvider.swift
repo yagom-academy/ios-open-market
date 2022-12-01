@@ -36,4 +36,28 @@ final class MarketURLSessionProvider {
         
         dataTask.resume()
     }
+    
+    func uploadData() {
+        
+    }
+    
+    func createTextBodyData(parameters: [String : String], boundary: String) -> Data {
+        let lineBreak = "\r\n"
+        var body = Data()
+        for (key, value) in parameters {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+            body.append("\(value + lineBreak)")
+        }
+        
+        return body
+    }
+}
+
+extension Data {
+    public mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            self.append(data)
+        }
+    }
 }
