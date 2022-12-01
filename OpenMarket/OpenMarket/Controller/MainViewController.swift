@@ -6,7 +6,6 @@
 
 import UIKit
 
-@available(iOS 14.0, *)
 final class MainViewController: UIViewController {
     var product: Item?
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
@@ -83,7 +82,6 @@ final class MainViewController: UIViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension MainViewController {
     private func configureSegment() {
         self.navigationItem.titleView = segmentedControl
@@ -124,7 +122,6 @@ extension MainViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension MainViewController {
     private func createListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -160,7 +157,6 @@ extension MainViewController {
     }
 }
 
-@available(iOS 14.0, *)
 extension MainViewController {
     private func createGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
