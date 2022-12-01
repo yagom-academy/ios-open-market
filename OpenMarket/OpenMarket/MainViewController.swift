@@ -70,13 +70,11 @@ final class MainViewController: UIViewController {
 //            print("?")
 //        }
         
-        
         setupNavBar()
         configureListCell()
         configureGridCell()
         setupUI()
         loadProductListToCollectionView()
-        
         
 //        manager.patchProduct(number: 521) {
 //            print("수정끝")
@@ -271,6 +269,8 @@ extension MainViewController {
 extension MainViewController {
     @objc func tappedAddButton() {
         let addProductVC = AddProductViewController()
+//        addProductVC.navigationController?.navigationBar.topItem?.title = "상품등록"
+        addProductVC.title = "상품등록"
         navigationController?.pushViewController(addProductVC, animated: true)
     }
     

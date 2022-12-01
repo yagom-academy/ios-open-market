@@ -10,8 +10,6 @@ import UIKit
 struct NetworkManager {
     typealias StatusCode = Int
     let jsonParser = JSONParser()
-    
-    
     let cache: URLCache = {
         let cache = URLCache.shared
         cache.memoryCapacity = 10000000000000

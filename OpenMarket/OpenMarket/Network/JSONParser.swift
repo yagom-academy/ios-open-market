@@ -21,7 +21,6 @@ struct JSONParser {
     
     func encodeJSON<T>(_ value: T) throws -> Data where T : Encodable {
         let encoder = JSONEncoder()
-//        encoder.outputFormatting = .utf8
         let result = try encoder.encode(value)
         
         return result
