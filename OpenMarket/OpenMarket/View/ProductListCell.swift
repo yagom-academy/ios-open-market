@@ -21,7 +21,7 @@ final class ProductListCell: UICollectionViewListCell {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func configureLayout() {
