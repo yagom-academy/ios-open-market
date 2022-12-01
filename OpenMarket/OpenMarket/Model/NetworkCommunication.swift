@@ -102,10 +102,27 @@ struct NetworkCommunication {
 
 // MARK: -PostRequest
 extension NetworkCommunication {
-    func requestPostData(url: String) {
+    func requestPostData(url: String,
+                         images: [UIImage],
+                         name: String,
+                         description: String,
+                         price: Int,
+                         currency: Currency,
+                         discountPrice: Int,
+                         stock: Int,
+                         secret: String) {
         guard let url: URL = URL(string: url) else { return }
-        let urlRequest = generatePostRequest(url: url)
-        let task: URLSessionDataTask = session.dataTask(with: urlRequest) { data, response, error in
+        let urlRequest = generatePostRequest(url: url,
+                                             images: images,
+                                             name: name,
+                                             description: description,
+                                             price: price,
+                                             currency: currency,
+                                             discountPrice: discountPrice,
+                                             stock: stock,
+                                             secret: secret)
+        
+        let task: URLSessionDataTask = session.dataTask(with: urlRequest) { _, response, error in
             if error != nil { return }
             
             if let response = response as? HTTPURLResponse {
@@ -115,45 +132,68 @@ extension NetworkCommunication {
         task.resume()
     }
     
-    func generatePostRequest(url: URL) -> URLRequest {
-        var urlRequest = URLRequest(url: url)
+    func generatePostRequest(url: URL,
+                             images: [UIImage],
+                             name: String,
+                             description: String,
+                             price: Int,
+                             currency: Currency,
+                             discountPrice: Int,
+                             stock: Int,
+                             secret: String) -> URLRequest {
         
+        let bodyData = multipartFormDataBody(images: images,
+                                             name: name,
+                                             description: description,
+                                             price: price,
+                                             currency: currency,
+                                             discountPrice: discountPrice,
+                                             stock: stock,
+                                             secret: secret)
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("0d3776e1-6942-11ed-a917-1925ee1c13db", forHTTPHeaderField: "identifier")
-        urlRequest.httpBody = multipartFormDataBody()
-        
-        let str = String(decoding: multipartFormDataBody(), as: UTF8.self)
-        print(str) // 수정요망!!<<<<--------
-        
+        urlRequest.addValue("70e4e3d7-6942-11ed-a917-6d2a7e9f7538", forHTTPHeaderField: "identifier")
+        urlRequest.httpBody = bodyData
+  
         return urlRequest
     }
     
-    private func multipartFormDataBody() -> Data {
-        let cloudImage: UIImage = UIImage(systemName: "cloud")!
-        let carImage: UIImage = UIImage(systemName: "car")!
+    private func multipartFormDataBody(images: [UIImage],
+                                       name: String,
+                                       description: String,
+                                       price: Int,
+                                       currency: Currency,
+                                       discountPrice: Int,
+                                       stock: Int,
+                                       secret: String) -> Data? {
+        
+        let postRequestParams = PostRequestParams(name: name,
+                            description: description,
+                            secret: secret,
+                            price: price,
+                            discountedPrice: discountPrice,
+                            stock: stock,
+                            currency: currency)
+        guard let jsonParams = try? JSONEncoder().encode(postRequestParams) else { return nil }
+        
         let lineBreak = "\r\n"
         var body = Data()
         
         body.append("--\(boundary + lineBreak)")
         body.append("Content-Disposition: form-data; name=\"params\" \(lineBreak + lineBreak)")
-        body.append("{ \"name\": \"testtest\", \"description\": \"t1t1t1\", \"price\": 10000, \"currency\": \"KRW\", \"discounted_price\": 500, \"stock\": 1, \"secret\": \"pdb9mscczgcyt7wr\" }")
+        body.append(jsonParams)
         body.append("\(lineBreak)")
         
-        body.append("--\(boundary + lineBreak)")
-        body.append("Content-Disposition: form-data; name=\"images\"; filename=\"one.jpeg\" \(lineBreak)")
-        body.append("Content-Type: image/jpeg")
-        body.append("\(lineBreak + lineBreak)")
-        body.append(cloudImage.jpegData(compressionQuality: 0.99)!)
-        body.append("\(lineBreak)")
-        
-        body.append("--\(boundary + lineBreak)")
-        body.append("Content-Disposition: form-data; name=\"images\"; filename=\"two.jpeg\" \(lineBreak)")
-        body.append("Content-Type: image/jpeg")
-        body.append("\(lineBreak + lineBreak)")
-        body.append(carImage.jpegData(compressionQuality: 0.99)!)
-        body.append("\(lineBreak)")
-        
+        for image in images {
+            if let imageData = image.jpegData(compressionQuality: 0.99) {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(arc4random()).jpeg\" \(lineBreak)")
+                body.append("Content-Type: image/jpeg \(lineBreak + lineBreak)")
+                body.append(imageData)
+                body.append("\(lineBreak)")
+            }
+        }
         body.append("--\(boundary)--")
         
         return body

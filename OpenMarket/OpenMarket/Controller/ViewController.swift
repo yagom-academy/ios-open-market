@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     var networkCommunication = NetworkCommunication()
     var searchListPages: [SearchListPage] = []
+    let testImages = [UIImage(systemName: "cloud")!, UIImage(systemName: "hammer")!]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +21,20 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         
         getResponseAboutHealChecker()
+        networkCommunication.requestPostData(url: ApiUrl.Path.products,
+                                             images: testImages,
+                                             name: "testName",
+                                             description: "testDesc",
+                                             price: 10,
+                                             currency: .KRW,
+                                             discountPrice: 100,
+                                             stock: 10,
+                                             secret: "fne3fgu2k6a4r9wu")
         getProductsListData()
         getCollectionViewCellNib()
         settingCollectionViewLayoutList()
         settingSegmentedControll()
+        
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
