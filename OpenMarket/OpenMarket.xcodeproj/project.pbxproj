@@ -17,6 +17,7 @@
 		B25ABE892923CC180032FF1D /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25ABE882923CC180032FF1D /* NetworkRequest.swift */; };
 		B25ABE8F29252A640032FF1D /* StubURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25ABE8E29252A640032FF1D /* StubURLSessionDataTask.swift */; };
 		B25ABE912925BA260032FF1D /* StubURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25ABE902925BA260032FF1D /* StubURLSessionTest.swift */; };
+		B27503872938D5A40072E24A /* PostProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27503862938D5A40072E24A /* PostProduct.swift */; };
 		B2B9C2B5292CB391006E6869 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B9C2B4292CB391006E6869 /* ListCell.swift */; };
 		B2B9C2B7292E16DD006E6869 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B9C2B6292E16DD006E6869 /* GridCell.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
@@ -54,6 +55,7 @@
 		B25ABE882923CC180032FF1D /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		B25ABE8E29252A640032FF1D /* StubURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionDataTask.swift; sourceTree = "<group>"; };
 		B25ABE902925BA260032FF1D /* StubURLSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSessionTest.swift; sourceTree = "<group>"; };
+		B27503862938D5A40072E24A /* PostProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProduct.swift; sourceTree = "<group>"; };
 		B2B9C2B4292CB391006E6869 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		B2B9C2B6292E16DD006E6869 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +120,7 @@
 				B21E63DE29233488001CA04A /* ProductData.swift */,
 				DFDCA5292923BDD800655B05 /* VendorData.swift */,
 				DFDCA5272923BC6A00655B05 /* ImageData.swift */,
+				B27503862938D5A40072E24A /* PostProduct.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				0C892A4129250B8B00109AB8 /* NetworkError.swift in Sources */,
 				B25ABE8F29252A640032FF1D /* StubURLSessionDataTask.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				B27503872938D5A40072E24A /* PostProduct.swift in Sources */,
 				DFDCA52A2923BDD800655B05 /* VendorData.swift in Sources */,
 				0C892A4329252E6900109AB8 /* URLSessionProtocol.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
