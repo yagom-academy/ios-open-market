@@ -38,7 +38,7 @@ enum URLManager {
             let path: String = "/api/products/\(id)"
             return configureOpenMarketAPIURL(path: path)
             
-        case.post:
+        case .post:
             let path: String = "/api/products"
             return configureOpenMarketAPIURL(path: path)
         }

@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct NetworkManager {
     private let session: URLSessionProtocol
@@ -70,60 +71,71 @@ extension NetworkManager: NetworkRequestable {
 }
 
 extension NetworkManager {
-    func post(from url: URL?) {
-        //
-    }
-    
-    func buildBody(with fileURL: URL?, fieldName: String) -> Data? {
-        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "Smile",
-                                                                          "description": "smile smile smile",
-                                                                          "price": 18,
-                                                                          "currency": "KRW",
-                                                                          "discounted_price": 0,
-                                                                          "stock": 8000,
-                                                                          "secret": "rzeyxdwzmjynnj3f" ]) else { return Data() }
+    func post(to url: URL?) {
+        let boundary: String = "Boundary-\(UUID().uuidString)"
+        guard let targetURL: URL = url else { return }
+        var request: URLRequest = URLRequest(url: targetURL)
         
-        let boundary = "Boundary-\(UUID().uuidString)"
-        var body = convertDataForm(named: "Smile", value: fakeData, boundary: boundary)
-        body.append(convertFileDataForm(boundary: boundary,
-                                                    fieldName: "images",
-                                                    fileName: "Smile.png",
-                                                    mimeType: "multipart/form-data",
-                                                    fileData: fakeData))
-        var data = body
-        data.append(contentsOf: "\r\n--\(boundary)--".data(using:.utf8)!)
-        print(String(data: data, encoding: .utf8)!)
-        return data
+        request.httpMethod = HttpMethod.post.name
+        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = buildBody(boundary: boundary)
+        
+        session.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8)!)
+        }.resume()
     }
     
-    func convertDataForm(named name: String, value: Data, boundary: String) -> Data {
+    private func buildBody(boundary: String) -> Data {
+        var httpBody = Data()
+        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "두부",
+                                                                          "description": "질리네강아지",
+                                                                          "price": 999999999,
+                                                                          "currency": "USD",
+                                                                          "discounted_price": 0,
+                                                                          "stock": 1,
+                                                                          "secret": "rzeyxdwzmjynnj3f" ]) else {
+            return Data()
+        }
+        let image = UIImage(named: "Dooboo.jpg")
+        guard let imageData = image!.jpegData(compressionQuality: 0.1) else { return Data() }
+        
+        httpBody.append(convertDataForm(named: "params", value: fakeData, boundary: boundary))
+        httpBody.append(convertFileDataForm(boundary: boundary,
+                                            fieldName: "images",
+                                            fileName: "Dooboo.png",
+                                            mimeType: "multipart/form-data",
+                                            fileData: imageData))
+        httpBody.appendString("--\(boundary)--")
+        
+        return httpBody
+    }
+    
+    private func convertDataForm(named name: String, value: Data, boundary: String) -> Data {
         var data = Data()
+        
         data.appendString("--\(boundary)\r\n")
         data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n")
         data.appendString("\r\n")
         data.append(value)
         data.appendString("\r\n")
+        
         return data
     }
     
-    func convertFileDataForm(boundary: String,
-                             fieldName: String,
-                             fileName: String,
-                             mimeType: String,
-                             fileData: Data) -> Data {
+    private func convertFileDataForm(boundary: String,
+                                     fieldName: String,
+                                     fileName: String,
+                                     mimeType: String,
+                                     fileData: Data) -> Data {
         var data = Data()
+        
         data.appendString("--\(boundary)\r\n")
         data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
         data.appendString("Content-Type: \(mimeType)\r\n\r\n")
         data.append(fileData)
         data.appendString("\r\n")
+        
         return data
-    }
-}
-
-extension Data {
-    mutating func appendString(_ value: String) {
-        guard let value = value.data(using: .utf8) else { return }
-        self.append(value)
     }
 }

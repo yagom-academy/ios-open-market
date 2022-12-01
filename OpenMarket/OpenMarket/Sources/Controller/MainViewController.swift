@@ -46,8 +46,7 @@ final class MainViewController: UIViewController {
         let networkManager = NetworkManager(session: session)
         
         DispatchQueue.global().async {
-            networkManager.buildBody(with: URLManager.post.url, fieldName: "data")
-
+//            networkManager.post(to: URLManager.post.url)
         }
         
         networkManager.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 200).url,
