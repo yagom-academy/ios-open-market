@@ -14,8 +14,18 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        makeBarButton()
         setUpSegmentControl()
         gridView.isHidden = true
+    }
+    
+    private func makeBarButton() {
+        let button = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(touchUpRegisterButton))
+        
+        self.navigationItem.rightBarButtonItem  = button
     }
     
     private func setUpSegmentControl() {
@@ -37,6 +47,10 @@ final class MainViewController: UIViewController {
             listView.isHidden = true
             gridView.isHidden = false
         }
+    }
+    
+    @objc func touchUpRegisterButton(_ sender: UIBarButtonItem) {
+        self.navigationController?.pushViewController(RegitrationViewController(), animated: true)
     }
 }
 
