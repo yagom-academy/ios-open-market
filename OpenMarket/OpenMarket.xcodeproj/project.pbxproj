@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09987EB629248D48006B9922 /* NetworkCommunication.swift */; };
+		09D2BC212938A21F009E0895 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D2BC202938A21F009E0895 /* Data+Extensions.swift */; };
 		09D39AF0292DBF020039F1B9 /* CustomCollectionViewListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D39AEF292DBF020039F1B9 /* CustomCollectionViewListCell.xib */; };
 		09D432ED292C6B04003C51A7 /* CustomCollectionViewGridCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib */; };
 		09D8602D2928BF8E008FBE56 /* ApiUrl.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D8602C2928BF8E008FBE56 /* ApiUrl.swift.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		09987EB629248D48006B9922 /* NetworkCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCommunication.swift; sourceTree = "<group>"; };
+		09D2BC202938A21F009E0895 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		09D39AEF292DBF020039F1B9 /* CustomCollectionViewListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewListCell.xib; sourceTree = "<group>"; };
 		09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewGridCell.xib; sourceTree = "<group>"; };
 		09D8602C2928BF8E008FBE56 /* ApiUrl.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUrl.swift.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				09D8602C2928BF8E008FBE56 /* ApiUrl.swift.swift */,
 				09D8602E2928C3AF008FBE56 /* APIError.swift.swift */,
 				D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */,
+				09D2BC202938A21F009E0895 /* Data+Extensions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */,
 				09D8602D2928BF8E008FBE56 /* ApiUrl.swift.swift in Sources */,
+				09D2BC212938A21F009E0895 /* Data+Extensions.swift in Sources */,
 				09DB0F8A292333C10038DE45 /* TestJsonProducts.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
