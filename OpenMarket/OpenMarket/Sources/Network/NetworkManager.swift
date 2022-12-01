@@ -70,7 +70,7 @@ extension NetworkManager: NetworkRequestable {
     }
 }
 
-extension NetworkManager {
+extension NetworkManager: NetworkPostable {
     func post(to url: URL?) {
         let boundary: String = "Boundary-\(UUID().uuidString)"
         guard let targetURL: URL = url else { return }
