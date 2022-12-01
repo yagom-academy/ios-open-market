@@ -10,6 +10,7 @@ enum URLManager {
     case healthChecker
     case productList(pageNumber: Int, itemsPerPage: Int, searchValue: String? = nil)
     case product(id: Int)
+    case post
     
     var url: URL? {
         switch self {
@@ -33,9 +34,12 @@ enum URLManager {
             }
             return configureOpenMarketAPIURL(path: path, query: queryDictionary)
     
-            
         case .product(id: let id):
             let path: String = "/api/products/\(id)"
+            return configureOpenMarketAPIURL(path: path)
+            
+        case.post:
+            let path: String = "/api/products"
             return configureOpenMarketAPIURL(path: path)
         }
     }
