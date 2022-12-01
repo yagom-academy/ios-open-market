@@ -63,11 +63,9 @@ final class MainViewController: UIViewController {
     private func getItemList() {
         let url = OpenMarketURL.itemPageComponent(pageNo: OpenMarketDataText.first, itemPerPage: OpenMarketDataText.last).url
         
-        NetworkManager.publicNetworkManager.getJSONData(
-            url: url,
-            type: ItemList.self) { itemData in
-                self.makeSnapshot(itemData: itemData)
-            }
+        NetworkManager.publicNetworkManager.getJSONData(url: url, type: ItemList.self) { itemData in
+            self.makeSnapshot(itemData: itemData)
+        }
     }
     
     private func makeSnapshot(itemData: ItemList) {
