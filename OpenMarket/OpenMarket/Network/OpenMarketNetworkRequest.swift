@@ -51,7 +51,7 @@ struct ProductDetailRequest: NetworkRequest {
     }
 }
 
-struct GenerateProductRequest: NetworkRequest {
+struct ProductAddRequest: NetworkRequest {
     let httpMethod: HttpMethod = .post
     let urlHost: String = "https://openmarket.yagom-academy.kr"
     let urlPath: String = "/api/products"
@@ -87,7 +87,7 @@ struct GenerateProductRequest: NetworkRequest {
     }
 }
 
-struct EditProductRequest: NetworkRequest {
+struct ProductEditRequest: NetworkRequest {
     let httpMethod: HttpMethod = .patch
     let urlHost: String = "https://openmarket.yagom-academy.kr"
     let urlPath: String
@@ -96,13 +96,49 @@ struct EditProductRequest: NetworkRequest {
     let httpBody: Data?
     
     init(identifier: String,
-         editProduct: EditProduct,
-         secret: String) {
+         editProduct: EditProduct) {
+        let data = JSONEncoder.encode(from: editProduct)
         var header: [String: String] = [:]
         header["identifier"] = identifier
         
         self.urlPath = "/api/products/\(editProduct.productID)"
         self.httpHeader = header
-        self.httpBody = editProduct.makeParams()
+        self.httpBody = data
+    }
+}
+
+struct URISearchRequest: NetworkRequest {
+    let httpMethod: HttpMethod = .post
+    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlPath: String
+    let queryParameters: [String : String] = [:]
+    let httpHeader: [String : String]?
+    let httpBody: Data?
+    
+    init(productID: Int, identifier: String, secret: String) {
+        let body: String = "{\"secret\":\"\(secret)\"}"
+        var header: [String: String] = [:]
+        header["identifier"] = identifier
+        
+        self.urlPath = "/api/products/\(productID)/archived"
+        self.httpHeader = header
+        self.httpBody = body.data(using: .utf8)
+    }
+}
+
+struct ProductDeleteRequest: NetworkRequest {
+    let httpMethod: HttpMethod = .delete
+    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlPath: String
+    let queryParameters: [String : String] = [:]
+    let httpHeader: [String : String]?
+    let httpBody: Data? = nil
+    
+    init(identifier: String, uri: String) {
+        var header: [String: String] = [:]
+        header["identifier"] = identifier
+        
+        self.urlPath = "/api/products/\(uri)"
+        self.httpHeader = header
     }
 }

@@ -7,32 +7,31 @@
 
 import Foundation
 
-struct EditProduct {
+struct EditProduct: Codable {
     let productID: Int
-    let secret: String
-    let stock: String?
-    let thumbnailID: String?
     let name, description: String?
-    let discountedPrice, price: String?
-    let currency: String?
-
-    enum SnakeCase: String {
+    let stock, thumbnailID: Int?
+    let discountedPrice, price: Double?
+    let currency: Currency?
+    let secret: String
+    
+    enum CodingKeys: String, CodingKey {
         case stock
-        case product_id = "productID"
-        case thumbnail_id = "thumbnailID"
+        case productID = "product_id"
         case name, description
-        case discounted_price = "discountedPrice"
+        case thumbnailID = "thumbnail_id"
+        case discountedPrice = "discounted_price"
         case price, currency, secret
     }
-
+    
     init(productID: Int,
          secret: String,
-         stock: String? = nil,
+         stock: Int? = nil,
          name: String? = nil,
          description: String? = nil,
-         thumbnailID: String? = nil,
-         discountedPrice: String? = nil,
-         price: String? = nil,
+         thumbnailID: Int? = nil,
+         discountedPrice: Double? = nil,
+         price: Double? = nil,
          currency: Currency? = nil
     ) {
         self.productID = productID
@@ -43,25 +42,6 @@ struct EditProduct {
         self.thumbnailID = thumbnailID
         self.discountedPrice = discountedPrice
         self.price = price
-        self.currency = currency?.rawValue
-    }
-    
-    func makeParams() -> Data {
-        var params = "\"product_id\": \(productID), "
-        
-        let mirror = Mirror(reflecting: self)
-        mirror.children.forEach { children in
-            guard let label = children.label,
-                  let key = SnakeCase(rawValue: label),
-                  let value = children.value as? String else { return }
-            if ["name", "description", "currency", "secret"].contains(key.rawValue) {
-                params += "\"\(key)\": \"\(value)\", "
-                return
-            }
-            params += "\"\(key)\": \(value), "
-        }
-        params.removeLast(2)
-        
-        return ("{" + params + "}").data(using: .utf8) ?? Data()
+        self.currency = currency
     }
 }
