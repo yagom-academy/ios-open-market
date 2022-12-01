@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		410573C4293836B7000D01EE /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410573C3293836B7000D01EE /* Product.swift */; };
 		410573C6293836EE000D01EE /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410573C5293836EE000D01EE /* Currency.swift */; };
-		410573CE2938E1C7000D01EE /* RegitrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410573CD2938E1C7000D01EE /* RegitrationViewController.swift */; };
+		410573CE2938E1C7000D01EE /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410573CD2938E1C7000D01EE /* RegistrationViewController.swift */; };
 		411376E9292DB3A900AB6D55 /* MarketGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411376E8292DB3A900AB6D55 /* MarketGridCell.swift */; };
 		411376EB292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411376EA292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift */; };
 		416AF3972924B476002CD10C /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416AF3962924B476002CD10C /* MockURLSession.swift */; };
@@ -60,7 +60,7 @@
 /* Begin PBXFileReference section */
 		410573C3293836B7000D01EE /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		410573C5293836EE000D01EE /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
-		410573CD2938E1C7000D01EE /* RegitrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegitrationViewController.swift; sourceTree = "<group>"; };
+		410573CD2938E1C7000D01EE /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		411376E8292DB3A900AB6D55 /* MarketGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketGridCell.swift; sourceTree = "<group>"; };
 		411376EA292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		416AF3962924B476002CD10C /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 		410573CA2938E170000D01EE /* RegisterView */ = {
 			isa = PBXGroup;
 			children = (
-				410573CD2938E1C7000D01EE /* RegitrationViewController.swift */,
+				410573CD2938E1C7000D01EE /* RegistrationViewController.swift */,
 			);
 			path = RegisterView;
 			sourceTree = "<group>";
@@ -437,7 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				864DE0392926300C0025547E /* MockHTTPURLResponse.swift in Sources */,
-				410573CE2938E1C7000D01EE /* RegitrationViewController.swift in Sources */,
+				410573CE2938E1C7000D01EE /* RegistrationViewController.swift in Sources */,
 				416AF3972924B476002CD10C /* MockURLSession.swift in Sources */,
 				411376E9292DB3A900AB6D55 /* MarketGridCell.swift in Sources */,
 				86F0E04029247DFA00188086 /* URLSessionProtocol.swift in Sources */,

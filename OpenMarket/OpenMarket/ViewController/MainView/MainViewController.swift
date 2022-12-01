@@ -25,7 +25,8 @@ final class MainViewController: UIViewController {
                                      target: self,
                                      action: #selector(touchUpRegisterButton))
         
-        self.navigationItem.rightBarButtonItem  = button
+        navigationItem.rightBarButtonItem  = button
+        navigationItem.backButtonTitle = "Cancel"
     }
     
     private func setUpSegmentControl() {
@@ -50,7 +51,7 @@ final class MainViewController: UIViewController {
     }
     
     @objc func touchUpRegisterButton(_ sender: UIBarButtonItem) {
-        self.navigationController?.pushViewController(RegitrationViewController(), animated: true)
+        self.navigationController?.pushViewController(RegistrationViewController(), animated: true)
     }
 }
 
