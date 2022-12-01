@@ -9,9 +9,9 @@ import UIKit
 final class MainViewController: UIViewController {
     var product: Item?
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-    var listDataSource: UICollectionViewDiffableDataSource<Section, Item>? = nil
-    var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>? = nil
-    var collectionView: UICollectionView! = nil
+    var listDataSource: UICollectionViewDiffableDataSource<Section, Item>?
+    var gridDataSource: UICollectionViewDiffableDataSource<Section, Item>?
+    var collectionView: UICollectionView?
     
     enum Section {
         case main
@@ -100,6 +100,10 @@ extension MainViewController {
     }
     
     @objc private func didChangeValue(segment: UISegmentedControl) {
+        guard let collectionView = collectionView else {
+            return
+        }
+        
         let selection = segment.selectedSegmentIndex
         switch selection {
         case Menu.list.option:
@@ -141,11 +145,18 @@ extension MainViewController {
     
     private func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        guard let collectionView = collectionView else {
+            return
+        }
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(collectionView)
     }
     
     private func configureListDataSource() {
+        guard let collectionView = collectionView else {
+            return
+        }
+        
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Item> { (cell, indexPath, item) in
             cell.configureContent(item: item)
         }
@@ -178,6 +189,10 @@ extension MainViewController {
     }
     
     private func configureGridDataSource() {
+        guard let collectionView = collectionView else {
+            return
+        }
+        
         let cellRegistration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { (cell, indexPath, item) in
             cell.configureContent(item: item)
         }
