@@ -6,22 +6,25 @@
 //
 import Foundation
 
-struct Product: Codable {
-    let id: Int
-    let vendorId: Int
+struct Product: Codable, Hashable {
+    let identifier = UUID()
+    
+    let id: Int?
+    let vendorId: Int?
     let vendorName: String?
     let name: String
     let description: String
-    let thumbnail: String
+    let thumbnail: String?
     let currency: Currency
     let price: Double
     let bargainPrice: Double
     let discountedPrice: Double
     let stock: Int
-    let createdAt: Date
-    let issuedAt: Date
+    let createdAt: Date?
+    let issuedAt: Date?
     let images: [Image]?
     let vendor: Vendor?
+    let secret: String?
     
     enum Currency: String, Codable {
         case KRW = "KRW"
@@ -44,5 +47,14 @@ struct Product: Codable {
         case issuedAt = "issued_at"
         case images
         case vendor = "vendors"
+        case secret
+    }
+    
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        lhs.identifier == rhs.identifier
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
     }
 }

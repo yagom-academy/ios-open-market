@@ -31,4 +31,17 @@ final class ParsingTests: XCTestCase {
         // then
         XCTAssertNotNil(result)
     }
+    
+    func test_ttt() {
+        let network = NetworkManager()
+        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "스톤", description: "스톤스톤", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
+        
+        let image = UIImage(systemName: "a")!
+
+        DispatchQueue.global().sync {
+            network.postProductLists(params: product, images: [image]) {
+                print("?")
+            }
+        }
+    }
 }
