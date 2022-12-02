@@ -50,7 +50,6 @@ final class AddProductViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .clear
-        textField.textColor = .systemGray
         textField.tintColor = .black
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품가격"
@@ -111,6 +110,11 @@ final class AddProductViewController: UIViewController {
     func configure() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(tappedCancelButton))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(tappedDoneButton))
+        
+        productPriceTextField.delegate = self
+        bargainPriceTextField.delegate = self
+        stockTextField.delegate = self
+        descriptionTextView.delegate = self
         
         self.view.addSubview(scrollView)
         self.view.addSubview(productNameTextField)
@@ -228,10 +232,6 @@ final class AddProductViewController: UIViewController {
 }
 
 extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true)
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         picker.dismiss(animated: true) {
@@ -255,6 +255,18 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
                 print("image nil")
             }
         }
+    }
+}
+
+extension AddProductViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return Double(string) != nil
+    }
+}
+
+extension AddProductViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return textView.text.count <= 1000
     }
 }
 
