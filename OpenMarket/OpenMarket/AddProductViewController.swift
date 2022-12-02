@@ -22,8 +22,74 @@ final class AddProductViewController: UIViewController {
     
     private let imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        collectionView.isScrollEnabled = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()
+    
+    private let nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "상품명"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    private let priceTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "상품가격"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    private let discountedPriceTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "할인금액"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    private let stockTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "재고수량"
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+    
+    private let segmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: Currency.allCases.compactMap { $0.rawValue })
+        segmentedControl.selectedSegmentIndex = Currency.allCases.startIndex
+        segmentedControl.backgroundColor = .systemGray6
+        return segmentedControl
+    }()
+    
+    private lazy var priceStackView: UIStackView = {
+        var stackView = UIStackView(arrangedSubviews: [priceTextField, segmentedControl])
+        stackView.spacing = 10
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    private lazy var productStackView: UIStackView = {
+        var stackView = UIStackView(arrangedSubviews: [nameTextField, priceStackView, discountedPriceTextField, stockTextField])
+        stackView.spacing = 10
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private lazy var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.text = "상세정보 입력"
+        textView.textColor = .systemGray3
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.adjustsFontForContentSizeCategory = true
+        textView.delegate = self
+        return textView
     }()
     
     private var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
@@ -32,7 +98,7 @@ final class AddProductViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        configureCollectionView()
+        configureSubViews()
         configureHierarchy()
         configureDataSource()
         configureNavigationBar()
@@ -60,14 +126,25 @@ final class AddProductViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    private func configureCollectionView() {
-        imageCollectionView.isScrollEnabled = false
+    private func configureSubViews() {
         view.addSubview(imageCollectionView)
+        view.addSubview(productStackView)
+        view.addSubview(descriptionTextView)
         NSLayoutConstraint.activate([
             imageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             imageCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             imageCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            imageCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.4)
+            imageCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.4),
+            
+            productStackView.topAnchor.constraint(equalTo: imageCollectionView.bottomAnchor, constant: 10),
+            productStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            productStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            segmentedControl.widthAnchor.constraint(equalToConstant: 90),
+            
+            descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 10),
+            descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            descriptionTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     
@@ -124,7 +201,7 @@ extension AddProductViewController {
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
         snapshot.appendSections([0])
-        snapshot.appendItems([0, 1, 2, 3, 4])
+        snapshot.appendItems([0])
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -139,5 +216,21 @@ extension AddProductViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         addImageForCell(indexPath: indexPath)
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+extension AddProductViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if descriptionTextView.text == "상세정보 입력" {
+            descriptionTextView.text = nil
+            descriptionTextView.textColor = .black
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            descriptionTextView.text = "상세정보 입력"
+            descriptionTextView.textColor = .systemGray3
+            }
     }
 }

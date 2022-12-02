@@ -41,7 +41,7 @@ struct Product: Codable, Hashable {
     }
 }
 
-enum Currency: String, Codable {
+enum Currency: String, Codable, CaseIterable {
     case krw = "KRW"
     case usd = "USD"
 }
