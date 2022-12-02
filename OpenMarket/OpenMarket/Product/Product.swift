@@ -6,6 +6,11 @@
 //
 import Foundation
 
+enum Currency: String, Codable {
+    case KRW = "KRW"
+    case USD = "USD"
+}
+
 struct Product: Codable, Hashable {
     let identifier = UUID()
     
@@ -26,9 +31,23 @@ struct Product: Codable, Hashable {
     let vendor: Vendor?
     let secret: String?
     
-    enum Currency: String, Codable {
-        case KRW = "KRW"
-        case USD = "USD"
+    init(id: Int? = nil, vendorId: Int? = nil, vendorName: String? = nil, name: String, description: String, thumbnail: String? = nil, currency: Currency, price: Double, bargainPrice: Double, discountedPrice: Double, stock: Int, createdAt: Date?  = nil, issuedAt: Date?  = nil, images: [Image]? = nil, vendor: Vendor?  = nil, secret: String) {
+        self.id = id
+        self.vendorId = vendorId
+        self.vendorName = vendorName
+        self.name = name
+        self.description = description
+        self.thumbnail = thumbnail
+        self.currency = currency
+        self.price = price
+        self.bargainPrice = bargainPrice
+        self.discountedPrice = discountedPrice
+        self.stock = stock
+        self.createdAt = createdAt
+        self.issuedAt = issuedAt
+        self.images = images
+        self.vendor = vendor
+        self.secret = secret
     }
     
     enum CodingKeys: String, CodingKey {

@@ -58,7 +58,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let product = Product(id: nil, vendorId: nil, vendorName: nil, name: "좋아요 감사합니다!", description: "AAAAA", thumbnail: nil, currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, createdAt: nil, issuedAt: nil, images: nil, vendor: nil, secret: "966j8xcwknjhh7wj")
+        let product = Product(name: "좋아요 감사합니다!", description: "AAAAA", currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, secret: "966j8xcwknjhh7wj")
 
         let image = UIImage(named: "qrcode")!
 
@@ -269,9 +269,14 @@ extension MainViewController {
 extension MainViewController {
     @objc func tappedAddButton() {
         let addProductVC = AddProductViewController()
-//        addProductVC.navigationController?.navigationBar.topItem?.title = "상품등록"
+        let navBarOnModal: UINavigationController = UINavigationController(rootViewController: addProductVC)
+        
+        addProductVC.updateDelegate = self
         addProductVC.title = "상품등록"
-        navigationController?.pushViewController(addProductVC, animated: true)
+        navBarOnModal.modalPresentationStyle = .fullScreen
+        navBarOnModal.modalTransitionStyle = .crossDissolve
+        
+        self.present(navBarOnModal, animated: true)
     }
     
     @objc func segmentChanged(_ sender: UISegmentedControl) {
@@ -298,8 +303,20 @@ extension MainViewController {
     }
 }
 
-extension MainViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, canFocusItemAt indexPath: IndexPath) -> Bool {
-//        <#code#>
-//    }
+extension MainViewController: CollectionViewUpdateDelegate {
+    func updateCollectionView() {
+        let manager = NetworkManager()
+        manager.getProductsList(pageNo: 1, itemsPerPage: 40) { productList in
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(productList.products)
+            
+            self.listDataSource?.apply(snapshot)
+            self.gridDataSource?.apply(snapshot)
+        }
+    }
+}
+
+protocol CollectionViewUpdateDelegate {
+    func updateCollectionView()
 }

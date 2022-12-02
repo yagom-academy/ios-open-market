@@ -12,7 +12,7 @@ struct NetworkManager {
     let jsonParser = JSONParser()
     let cache: URLCache = {
         let cache = URLCache.shared
-        cache.memoryCapacity = 10000000000000
+        cache.memoryCapacity = 0
         cache.diskCapacity = 0
         return cache
     }()
@@ -198,7 +198,7 @@ extension NetworkManager {
             
             print(data)
             URLSession.shared.uploadTask(with: request, from: data, completionHandler: { responseData, response, error in
-                
+                print(String(data: responseData!, encoding: .utf8))
                 if error == nil {
                     let jsonData = try? JSONSerialization.jsonObject(with: responseData!, options: .allowFragments)
                     if let json = jsonData as? [String: Any] {
@@ -208,6 +208,8 @@ extension NetworkManager {
                     let statusCode = (response as? HTTPURLResponse)?.statusCode
                     print(error!, statusCode!)
                 }
+                
+                completion()
             }).resume()
             
         } catch {
