@@ -8,11 +8,16 @@
 import UIKit
 
 class RegistrationViewController: UIViewController {
+    let registrationView: RegistrationView = RegistrationView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
         setupNavigationBar()
+        
+        registrationView.ImageCollectionView.delegate = self
+        registrationView.ImageCollectionView.dataSource = self
+        
+        self.view = registrationView
     }
     
     func setupNavigationBar() {
@@ -29,3 +34,15 @@ class RegistrationViewController: UIViewController {
     }
     
 }
+
+extension RegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = UICollectionViewCell()
+        return cell
+    }
+}
+
