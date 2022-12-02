@@ -86,6 +86,22 @@ extension NetworkManager: NetworkPostable {
         }.resume()
     }
     
+    func checkDeleteURI(to url: URL?, completion: @escaping (String) -> Void) {
+        guard let targetURL: URL = url else { return }
+        var request: URLRequest = URLRequest(url: targetURL)
+        
+        request.httpMethod = HttpMethod.post.name
+        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = convertToJSONData()
+        
+        session.dataTask(with: request) { data, response, error in            
+            if let data = data, let url = String(data: data, encoding: .utf8) {
+                completion(url)
+            }
+        }.resume()
+    }
+    
     private func buildBody(boundary: String) -> Data {
         var httpBody = Data()
         guard let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "두부",
@@ -135,6 +151,17 @@ extension NetworkManager: NetworkPostable {
         data.appendString("Content-Type: \(mimeType)\r\n\r\n")
         data.append(fileData)
         data.appendString("\r\n")
+        
+        return data
+    }
+    
+    private func convertToJSONData() -> Data {
+        var data = Data()
+        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["secret": "rzeyxdwzmjynnj3f"]) else {
+            return Data()
+        }
+        
+        data.append(fakeData)
         
         return data
     }
