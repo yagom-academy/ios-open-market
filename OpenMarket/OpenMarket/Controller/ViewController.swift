@@ -21,15 +21,15 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         
         getResponseAboutHealChecker()
-        networkCommunication.requestPostData(url: ApiUrl.Path.products,
-                                             images: testImages,
-                                             name: "testName",
-                                             description: "testDesc",
-                                             price: 10,
-                                             currency: .KRW,
-                                             discountPrice: 100,
-                                             stock: 10,
-                                             secret: "fne3fgu2k6a4r9wu")
+//        networkCommunication.requestPostData(url: ApiUrl.Path.products,
+//                                             images: testImages,
+//                                             name: "testName",
+//                                             description: "testDesc",
+//                                             price: 10,
+//                                             currency: .KRW,
+//                                             discountPrice: 100,
+//                                             stock: 10,
+//                                             secret: "fne3fgu2k6a4r9wu")
         getProductsListData()
         getCollectionViewCellNib()
         settingCollectionViewLayoutList()

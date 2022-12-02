@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -42,7 +42,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8OE-DE-cya">
-                                        <rect key="frame" x="359.5" y="49" width="46.5" height="34"/>
+                                        <rect key="frame" x="362.5" y="50.5" width="43.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
                                         <connections>
@@ -95,11 +95,11 @@
             <objects>
                 <viewController id="AOr-IO-2Z8" customClass="RegisterProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kd8-Qa-rrm">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVa-QY-cqJ">
-                                <rect key="frame" x="0.0" y="48" width="414" height="56"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="56"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <items>
                                     <navigationItem title="상품등록" id="rUu-JD-lQU">
@@ -116,16 +116,41 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="u1C-mJ-fF9">
-                                <rect key="frame" x="10" y="284" width="394" height="574"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non psunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civi</mutableString>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc5-5U-yx3">
+                                <rect key="frame" x="10" y="110" width="394" height="119.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-wg-qQg">
+                                        <rect key="frame" x="0.0" y="0.0" width="119.5" height="119.5"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Y1-Os-tRY">
+                                                <rect key="frame" x="0.0" y="0.0" width="119.5" height="119.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="0Y1-Os-tRY" secondAttribute="height" multiplier="1:1" id="zb0-fT-fPF"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system">
+                                                    <color key="baseForegroundColor" systemColor="systemBlueColor"/>
+                                                    <color key="baseBackgroundColor" systemColor="systemGray5Color"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="touchUpImagePlusButton:" destination="AOr-IO-2Z8" eventType="touchUpInside" id="E6W-N3-EPz"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="eVC-wg-qQg" firstAttribute="top" secondItem="oXD-H5-8L6" secondAttribute="top" id="AIO-Y1-DxK"/>
+                                    <constraint firstItem="eVC-wg-qQg" firstAttribute="bottom" secondItem="oXD-H5-8L6" secondAttribute="bottom" id="WS4-WU-kCh"/>
+                                    <constraint firstItem="eVC-wg-qQg" firstAttribute="height" secondItem="dWO-et-Yhk" secondAttribute="height" id="dOA-oZ-KYf"/>
+                                    <constraint firstItem="eVC-wg-qQg" firstAttribute="trailing" secondItem="oXD-H5-8L6" secondAttribute="trailing" id="iTd-7M-t8k"/>
+                                    <constraint firstItem="eVC-wg-qQg" firstAttribute="leading" secondItem="oXD-H5-8L6" secondAttribute="leading" id="yyd-Vs-z3Q"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="oXD-H5-8L6"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="dWO-et-Yhk"/>
+                            </scrollView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vh1-EO-9Nd">
-                                <rect key="frame" x="10" y="114" width="394" height="160"/>
+                                <rect key="frame" x="10" y="239.5" width="394" height="160"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j87-S8-zQP">
                                         <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
@@ -161,31 +186,46 @@
                                     </textField>
                                 </subviews>
                             </stackView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NAL-HZ-RjB">
+                                <rect key="frame" x="10" y="409.5" width="394" height="422.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="M5x-nH-cvu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="NAL-HZ-RjB" firstAttribute="top" secondItem="Vh1-EO-9Nd" secondAttribute="bottom" constant="10" id="3Uc-as-yzf"/>
+                            <constraint firstItem="NAL-HZ-RjB" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="BOt-TR-gHk"/>
                             <constraint firstItem="pVa-QY-cqJ" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" id="NTh-Tp-osz"/>
                             <constraint firstItem="Vh1-EO-9Nd" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="SsK-YE-Jnb"/>
-                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="trailing" secondItem="M5x-nH-cvu" secondAttribute="trailing" constant="-10" id="WpF-DF-IYZ"/>
-                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="f6F-lB-t8J"/>
+                            <constraint firstItem="M5x-nH-cvu" firstAttribute="trailing" secondItem="NAL-HZ-RjB" secondAttribute="trailing" constant="10" id="UA1-DK-xyi"/>
+                            <constraint firstItem="0Y1-Os-tRY" firstAttribute="height" secondItem="M5x-nH-cvu" secondAttribute="height" multiplier="0.15" id="VRJ-bH-R9S"/>
+                            <constraint firstItem="M5x-nH-cvu" firstAttribute="bottom" secondItem="NAL-HZ-RjB" secondAttribute="bottom" constant="10" id="cjy-L0-Hqm"/>
+                            <constraint firstItem="Vh1-EO-9Nd" firstAttribute="top" secondItem="vc5-5U-yx3" secondAttribute="bottom" constant="10" id="ePe-3l-hcE"/>
                             <constraint firstItem="pVa-QY-cqJ" firstAttribute="top" secondItem="M5x-nH-cvu" secondAttribute="top" id="hL0-8w-d78"/>
                             <constraint firstItem="pVa-QY-cqJ" firstAttribute="trailing" secondItem="M5x-nH-cvu" secondAttribute="trailing" id="ibk-SU-NaL"/>
-                            <constraint firstItem="Vh1-EO-9Nd" firstAttribute="top" secondItem="pVa-QY-cqJ" secondAttribute="bottom" constant="10" id="kjF-dc-1bn"/>
                             <constraint firstItem="M5x-nH-cvu" firstAttribute="trailing" secondItem="Vh1-EO-9Nd" secondAttribute="trailing" constant="10" id="ngy-Wt-iFi"/>
-                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="top" secondItem="Vh1-EO-9Nd" secondAttribute="bottom" constant="10" id="zJN-Sm-P4f"/>
-                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="bottom" secondItem="M5x-nH-cvu" secondAttribute="bottom" constant="20" id="ze0-bf-0f8"/>
+                            <constraint firstItem="M5x-nH-cvu" firstAttribute="trailing" secondItem="vc5-5U-yx3" secondAttribute="trailing" constant="10" id="p2o-HC-3Jt"/>
+                            <constraint firstItem="vc5-5U-yx3" firstAttribute="top" secondItem="pVa-QY-cqJ" secondAttribute="bottom" constant="10" id="pIr-bM-sTG"/>
+                            <constraint firstItem="vc5-5U-yx3" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="uHr-oJ-t49"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cancelBarButtonItem" destination="KCK-d4-50u" id="WAr-kJ-MFz"/>
                         <outlet property="doneBarButtonItem" destination="t1B-yL-M7v" id="qrs-Cp-fGk"/>
+                        <outlet property="imagePlusButton" destination="0Y1-Os-tRY" id="45t-nC-g8c"/>
+                        <outlet property="imageStackView" destination="eVC-wg-qQg" id="wYh-Kf-SQZ"/>
                         <outlet property="productCurrencySegmentedControl" destination="gfU-9z-pRp" id="nXF-hz-BQZ"/>
-                        <outlet property="productDescriptionTextView" destination="u1C-mJ-fF9" id="5Zw-V5-5IA"/>
+                        <outlet property="productDescriptionTextView" destination="NAL-HZ-RjB" id="6l6-Gb-UXr"/>
                         <outlet property="productDiscountedPriceTextField" destination="SS8-rv-iXo" id="XBq-MY-xnn"/>
                         <outlet property="productNameTextField" destination="j87-S8-zQP" id="cLF-Yj-LZk"/>
                         <outlet property="productPriceTextField" destination="674-SV-anw" id="3NT-tx-Ocs"/>
                         <outlet property="productStockTextField" destination="jId-FK-d4p" id="7Xu-L0-Kad"/>
+                        <outlet property="scrollView" destination="vc5-5U-yx3" id="P7I-kd-ra1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q5r-tu-hWo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -196,10 +236,16 @@
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
