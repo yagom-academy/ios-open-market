@@ -185,7 +185,7 @@ final class AddProductViewController: UIViewController {
         let imageViewArray = imageStackView.subviews as? [UIImageView] ?? []
         imageViewArray.forEach { imageView in
             if let picture: UIImage = imageView.image {
-                let transSize = CGSize(width: picture.size.width / 5, height: picture.size.height / 5)
+                let transSize = CGSize(width: picture.size.width / 10, height: picture.size.height / 10)
                 let resizeImage = picture.resizeImageTo(size: transSize)
                 imageArray.append(resizeImage)
             }

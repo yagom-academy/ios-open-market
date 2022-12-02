@@ -185,20 +185,19 @@ extension NetworkManager {
             data.append(productJSON)
             data.append("\r\n\r\n".data(using: .utf8)!)
             
-            data.append(boundaryPrefix.data(using: .utf8)!)
-            data.append(("Content-Disposition: form-data; name=\"images\"; filename=\"stone_holy_shit\"\r\n".data(using: .utf8)!))
-            data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-            
-            print("===============================================")
-            print(String(data: data, encoding: .utf8)!)
-            print("===============================================")
-            data.append(images[0].pngData()!)
-            
+            for image in images {
+                data.append(boundaryPrefix.data(using: .utf8)!)
+                data.append(("Content-Disposition: form-data; name=\"images\"; filename=\"\(UUID.init())\"\r\n".data(using: .utf8)!))
+                data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+                
+                data.append(image.pngData()!)
+                data.append("\r\n".data(using: .utf8)!)
+            }
             data.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
             
-            print(data)
             URLSession.shared.uploadTask(with: request, from: data, completionHandler: { responseData, response, error in
-                print(String(data: responseData!, encoding: .utf8))
+                print(String(data: responseData!, encoding: .utf8)!)
+
                 if error == nil {
                     let jsonData = try? JSONSerialization.jsonObject(with: responseData!, options: .allowFragments)
                     if let json = jsonData as? [String: Any] {
