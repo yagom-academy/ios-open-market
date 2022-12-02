@@ -1,5 +1,5 @@
 //
-//  DataError.swift
+//  Error.swift
 //  OpenMarket
 //
 //  Created by Kyo, LJ on 2022/11/14.
@@ -26,6 +26,20 @@ enum NetworkError: Error {
             return "Data Error"
         case .networking:
             return "Networking Error"
+        }
+    }
+}
+
+enum DataError: Error {
+    case none
+    case unknown
+
+    public var description: String {
+        switch self {
+        case .none:
+            return "None Data Error"
+        case .unknown:
+            return "Unknown Error"
         }
     }
 }

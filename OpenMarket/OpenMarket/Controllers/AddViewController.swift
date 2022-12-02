@@ -10,6 +10,7 @@ import PhotosUI
 
 final class AddViewController: UIViewController {
     let addProductView = AddProductView()
+    let networkManager = NetworkManager()
     
     var cellImages: [UIImage?] = []
         
@@ -46,7 +47,14 @@ extension AddViewController {
     }
     
     @objc func doneButtonTapped() {
-        
+        let result = addProductView.setupData()
+        switch result {
+        case .success(let data):
+            guard let postURL = NetworkRequest.postData.requestURL else { return }
+            networkManager.postData(to: postURL)
+        case .failure(let error):
+            print(error)
+        }
     }
 }
 

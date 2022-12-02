@@ -12,8 +12,8 @@ struct NewProduct {
     let description: String
     let currency: CurrencyUnit
     let price: Double
-    let discountedPrice: Double? = 0
-    let stock: Int? = 0
+    var discountedPrice: Double? = 0
+    var stock: Int? = 0
     
     enum CurrencyUnit: String {
         case KRW
