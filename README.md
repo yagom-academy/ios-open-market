@@ -1,5 +1,5 @@
 # Open Market ReadME
- 
+
 - Kyo와 LJ가 만든 Open Market App입니다.
 
 ## 목차
@@ -48,9 +48,22 @@
 
 ### ▶️ Step-2 실행화면 - CollectionView
 
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
 |**기본실행**|**Indicator적용**|**Cache적용**|
 |:--:|:--:|:--:|
 |<img src="https://i.imgur.com/sYKmYBJ.gif" width=220>|<img src="https://i.imgur.com/h3xn3i7.gif" width=220>|<img src="https://i.imgur.com/GDTosnM.gif" width=220>|
+
+</details>
+
+### ▶️ Step-3 실행화면
+
+|**기본실행**|**상품등록**|
+|:--:|:--:|
+||||
 
 
 ## Diagram
@@ -86,6 +99,7 @@ OpenMarket
     │   └── URLComponents+Extension.swift
     ├── Models
     │   ├── DecodeManager.swift
+    │   ├── NewProduct.swift
     │   ├── Product.swift
     │   └── ProductPage.swift
     ├── Network
@@ -97,10 +111,11 @@ OpenMarket
     │       ├── URLSessionDataTaskProtocol.swift
     │       └── URLSessionProtocol.swift
     └── Views
-        ├── AddProductView.swift
-        ├── GridCollectionViewCell.swift
-        ├── ListCollectionViewCell.swift
-        └── MainView.swift
+        ├── AddProductView.swift
+        ├── GridCollectionViewCell.swift
+        ├── ImageCollectionViewCell.swift
+        ├── ListCollectionViewCell.swift
+        └── MainView.swift
                 
 ```
 
@@ -197,10 +212,31 @@ OpenMarket
     
 </details>
 
+### 👟 Step 3
+- CollectionView
+    - ✅ Collection View의 활용
+    - ✅ Cell 내부 Button Action Delegate 처리 
+- Network
+    -  ✅ multipart/form-data의 구조 파악
+    -  ✅ URLSession을 활용한 multipart/form-data 요청 전송
+    -  ✅ NetworkManager POST, FETCH, DELETE Method 구현
+    
+- 추가 구현 
+    - ✅ Pagination 구현
+    - ✅ PHPickerView 구현
+    - ✅ Image 표기 시 Image가 변경되는 이슈 해결
 
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+    
+</details>
 
 ## 기술적 도전
 ### ⚙️ Network
+
 <details>
 <summary> 
 펼쳐보기
@@ -269,6 +305,35 @@ if indexPath == collectionView.indexPath(for: cell) {
     
 </details>
 
+### ⚙️ Pagination
+<details>
+<summary> 
+펼쳐보기
+</summary>
+- 보여줄 데이터를 처음에 Load해올 때 모두 가져오는 것이 아닌, Scroll이 내려감에 따라 데이터를 가져오는 것을 Pagination이라고 합니다. 페이지 번호를 클릭하여 바뀐 페이지 번호에 대한 새로운 URL에 대한 데이터를 서버에 요청해야합니다. 
+- 💡 앱의 로직 특성상 스크롤을 내리면 자동적으로 pageNo가 추가되면서 정해진 갯수만큼을 서버에서 가지고 올 수 있도록 구현하였습니다. 그리고 스크롤을 내릴 때마다 서버에 요청하게 됩니다.
+- 이때, 스크롤을 내릴때마다 `scrollViewDidScroll(_ scrollView: UIScrollView)` 메서드가 자동으로 호출이 되고 이 메서드 내부에서 바뀐 Page에서 데이터를 가져오도록 구현하였습니다.
+    
+</details>
+
+
+### ⚙️ PHPickerView - 추후 추가
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+</details>
+
+
+### ⚙️ Multipart/form-Data - 추후 추가
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+</details>
+
 
 ## 트러블 슈팅 및 고민
 ### 🔥 멀티 CodingKey ➡️ `keyDecodingStrategy`
@@ -293,6 +358,7 @@ if indexPath == collectionView.indexPath(for: cell) {
 - `json`파일의 항목명을 변환하여 모델타입의 변수와 매칭하는 방법이 더 간단하다 판단했습니다. 
 - 현재 프로젝트에서는 키의 갯수가 많이 없었고, 파일이 snakeCase로 되어있었지만, 만약 `Parsing` 할 데이터의 키값이 조금 더 다양했다면 멀티 CodingKey 방법이 적합할 것이라고 생각됩니다.
 - 멀티 CodingKey를 사용하여 Decode 부분에서 메서드 호출에 따라서 어떤 CodingKey를 사용할지 파라메터값으로 전달해주면 더욱 다양한 Case에서 대응이 가능할것이라고 생각합니다.
+
 </details>
 
 ### 🔥 URLComponent 확장과 NetworkRequest enum으로 URL값 구성 
@@ -502,6 +568,82 @@ private func clearPriceLabel() {
 ```   
 </details>
 
+### 🔥 Pagination 중복 데이터를 로드해오는 이슈
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**문제 👀**
+메인화면에서 스크롤 바를 내리면, 이미 받아온 데이터를 포함하여 다시 전체 데이터를 로드해오는 문제가 있었습니다. 그래서 스크롤이 아래로 내려갈수록, 이전보다 더 많은 양의 데이터를 다시 받아와야 했기때문에 로드시간이 점점 더 길어졌습니다. 
+
+**해결 🔥**
+- `MainViewController`에서 추가로 보여줄 데이터만 받아와서 기존 데이터에 추가하는 방법으로 해결하였습니다.
+- 기존에는 `itemsPerPage`라는 데이터를 몇개 불러올 것인지에 대한 프로퍼티를 스크롤을 내릴때 늘려주었다면 변경 후에는 `pageNo`라는 페이지를 넘겨서 기존에 받은 데이터는 받아오지 않도록 구현하였습니다.
+- 그리고 빠르게 스크롤할 경우에 데이터를 로드해오는 메서드가 매우 여러번 호출되는 문제가 남아있었습니다. 
+- 데이터를 로드해오는 메서드 내부에 `ScrollState`라는 플래그를 구현하여 로드 중인 경우에는 메서드가 호출되지 않도록 구현하고 데이터를 가져오는 비동기처리 부분에서 하나라도 완료가 된다면 idle상태로 변경하여 호출가능하도록 하였습니다.
+- 이렇게 플래그를 사용함으로써 스크롤을 빠르게 내리는 동안에는 데이터를 불러오지 않게 구현하였습니다.
+    
+
+</details>
+
+### 🔥 상품등록 CollectionViewCell 내부 Button의 Action 전달
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**문제 👀**
+- 상품등록하는 화면의 `CollectionViewCell`의 이미지 추가 버튼을 누르게 되면 상품등록`ViewController`의 `PHPickerView`가 나타나야 했습니다.
+- 하지만 Cell객체를 `ViewController`내부에서 가지고 있는 부분은 `UICollectionViewDataSource` 프로토콜을 채택받아 생성해야만하는 메서드들 밖에 없었습니다.
+
+**해결 🔥**
+- Delegate 패턴을 사용하였습니다. Cell 내부에 `buttonDelegate`라는 위임자를 생성해놓았습니다.
+- `AddViewController`의 `cell.buttonDelegate = self`가 여러번 호출되는 문제는 남아있지만 의존성 문제를 피해갈수 있었습니다. 
+    
+```swift
+// ImageCollectionViewCell.swift
+protocol ImageCollectionViewCellDelegate: AnyObject {
+    func imageCollectionViewCell(_ isShowPicker: Bool)
+}
+
+final class ImageCollectionViewCell: UICollectionViewCell {
+    weak var buttonDelegate: ImageCollectionViewCellDelegate?
+    ...
+    @objc func ...() {
+        buttonDelegate?.imageCollectionViewCell(true)
+    }
+}
+    
+// AddViewController.swift
+func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cell = ... {
+    ...
+    }
+    cell.buttonDelegate = self
+    ...
+}
+```
+    
+
+</details>
+
+### 🔥 PHPickerView에서 이미지를 가져오고 스택뷰에 추가하는 로직 - 추후 추가
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**문제 👀**
+
+
+**해결 🔥**
+ 
+
+</details>
 
 
     
