@@ -61,7 +61,8 @@
 ```
 
 ### 📊 Class Diagram
-![](https://i.imgur.com/eumKB4S.jpg)
+
+![](https://i.imgur.com/KmYPYho.jpg)
 
 ## 📌 구현 내용
 ### STEP 1
@@ -241,7 +242,11 @@ extension NetworkAPIProvider {
 위와 같은 구조로 의존성 주입을 해주어 `NetworkAPIProvider`클래스에 대한 Stubs 테스트를 해줄 수 있었다.
 ## STEP 2
 
-### 1. collection view의 state
+### 1. ~~collection view의 state~~
+현재 프로젝트에는 cell상태의 변화가 없기 때문에 변화에 대응하는 state관련 코드는 없애는 것이 맞다고 판단해 state 기능을 삭제했다.
+<details>
+<summary>state에 관한 내용</summary>
+<div markdown="1">       
 configurationState란 셀의 모양에 영향을 미치는 모든 공통 상태(선택됨, 집중 또는 비활성화와 같은 보기 상태 및 편집 또는 스와이프됨과 같은 셀 상태)와 함께 특성 컬렉션을 포함한다. 
  저희는 `configurationState` 프로퍼티를 통해 state가 product를 가지고 있도록 구현했다.
  ```swift
@@ -278,22 +283,29 @@ func update(with newProduct: Product) {
 ```
 2. 프로퍼티에 할당된 `productData`는 위에서 정의한 `configurationState`의 `state.productData`에 할당된다.
 3. 해당 `state`는 `updateConfiguration(using: -->> State <<--)` 의 매개변수로 전해진다. 결론적으로 현재 상태의 `productData`를 토대로 cell을 구성한다. 
+</div>
+</details>
 
 
-### 2. modern collection List view 구현 방법
+
+### 2. modern collection view 구현 방법
+list와 grid `두 가지 형태`의 layout을 생성해 collectionView에서 사용해주었다.
+`UICollectionViewDiffableDataSource`를 채용해 list에 들어갈 cell과 grid에 들어갈 cell을 등록해주고, datasource에서 layout의 변화에 따라 cell을 만들어주도록 구현했다. 
 1. `collectionView` View controller 내에 프로퍼티로 선언
-2. `CollectionViewListCell` 생성
-    2-1. `UIConfigurationStateCustomKey` 생성
-    2-2. `UIConfigurationState`를 extension하여 state의 데이터 프로퍼티 생성
-    2-3. `ConfigurationState`를 재정의하여 현재 상태의 cell이 가지고 있는 새로운 값을 위 프로퍼티에 넣어줘 `configurationState`을 새롭게 정의해준다.
-    2-4. cell에서 사용할 `UIListContentView`를 생성한다.
-    2-5. cell내의 Layout을 잡아준다.
-    2-6. updateConfiguration(using state: UICellConfigurationState) 재정의하여 만들어준 `UIListContentView`의 configuration을 설정해준다.
-3. collectionView의 layout 생성 (`UICollectionViewCompositionalLayout`)
+
+2. `CollectionViewListCell` 생성 (`gridCell`도 같은 방법으로 생성)
+    2-1. cell에서 사용할 `UIListContentView`를 생성한다.
+    2-2. cell내의 Layout을 잡아준다.
+    2-3. updateConfiguration(with: Product) 에서 configuration을 사용해 Cell을 구성해준다. 
+    
+3. collectionView의 layout 생성 (첫화면은 list형태이기 때문에`UICollectionViewLayout`)
+    - list는 `UICollectionViewLayout`타입, grid는 `UICollectionViewCompositionalLayout`타입이다.
+    - `UICollectionViewCompositionalLayout` 은 `UICollectionViewLayout`를 상속받기 때문에 `UICollecionView`의 layout으로 할당 가능하다.
 4. 레이아웃 생성하여 collectionView 프로퍼티에 주입
-5. dataSource에 CellRegistration, UICollectionViewDiffableDataSource 할당
+5. dataSource에 CellRegistration, UICollectionViewDiffableDataSource(layout에 따라 분기처리) 할당 <- ***해당 내용은 아래에서 구체적으로 설명***
 6. snapshot을 dataSource에 apply
     6-1. 모델에 Hashable 프로토콜 채택
+    - snapshot의 모델에 `Hashable을 채택`하는 이유: snapshot을 apply해주면 `각 hash value를 비교`하여 추가 or 삭제된 부분을 인지하고 변경점이 있는 경우에 바뀐 부분에 해당하는 UI를 자연스럽게 업데이트 해준다.
 
 ### 3. translateAutoResizingIntoConstraint = false 
 왜 코드로 구현시에 이 부분을 false로 지정해 주어야 하는지 의문이 들어 공부해 보았다.
@@ -301,12 +313,25 @@ func update(with newProduct: Product) {
 autoresizing mask constraints는 뷰의 크기와 위치를 지정해버리기 때문에, 이후에 추가적인 constraints를 추가할 수 없습니다. 그렇기 때문에 constraints를 추가해 주기 위해서는 false로 지정해 주어야 한다.
 
 ### 4. segmented control로 화면 전환 구현
-
-segment가 바뀔 때마다, 기존에 있던 view는 `removeFromSuperview`를 통해 지워준 후, view controller가 프로퍼티로 가지고 있는 datasource와 collectionview 프로퍼티에 새롭게 만들어준 datasource와 colection view를 넣어주었다. 그 이후 바뀐 collectionview를 `addSubview`를 통해 넣어주었다!
+`collectionView`의 `collectionViewLayout`을 바꾸어 주면, `UICollectionViewDiffableDataSource`에 분기처리를 해 주어 특정 분기에 따라 다른 cell을 dequeue하도록 처리했다. 
+```swift
+self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: self.collectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+            switch self.segmentItem {
+            case .list:
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
+            case .grid:
+                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: product)
+            }
+        }
+```
+특정 트리거가 발생하면 collectionView의 viewLayout을 바꾸어 주어서 List 형태가 Grid형태로 바뀔 수 있도록 해주었다. 여기서 중요한 점은 SnapShot의 관점에서 데이터는 변하지 않았기 때문에 reloadData를 해주어야 한다는 점이다.
 
 
 ## 📕 프로젝트에서 배운 점 wiki
 [바로가기](https://github.com/jonghancha/ios-open-market/wiki/1.-STEP-1-%EC%97%90%EC%84%9C-%EB%B0%B0%EC%9A%B4-%EC%A0%90)
+1. @testable은 왜 사용해주는 걸까?
+2. Test Double - Mocks, Stubs
+3. URLSession에 데이터 주입
 
 ## 📖 참고 링크
 - [URLSession.dataTask를 통해 데이터 Fetching하기(공식문서)](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
