@@ -244,15 +244,6 @@ cache의 저장 용량을 0으로 해서 매번 업데이트 하도록 진행했
 
 ----
 
-
-안녕하세요 태태 @uuu1101
-오픈마켓 2 스텝 1 구현이 완료 되어 PR 보내드립니다
-
-## 🤔고민했던점
-
-## 🙏조언을 얻고 싶은 부분
-
-
 ## 💻 개발환경 및 라이브러리
 [![swift](https://img.shields.io/badge/swift-5.6-orange)]()
 [![xcode](https://img.shields.io/badge/Xcode-13.4.1-blue)]()
