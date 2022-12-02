@@ -8,6 +8,7 @@
 import UIKit
 
 class ItemAddViewController: UIViewController {
+    let networkManager = NetworkManager()
     var itemImages: [UIImage] = []
     
     lazy var addView: UIView = {
@@ -96,8 +97,7 @@ class ItemAddViewController: UIViewController {
         textView.backgroundColor = .systemGray6
         return textView
     }()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -125,7 +125,36 @@ class ItemAddViewController: UIViewController {
     }
     
     @objc func doneButtonTapped() {
-        print("Button Tapped")
+        guard itemImages.count > 0 else {
+            return
+        }
+
+        guard let itemNameText =  itemNameTextField.text,
+              itemNameText.count > 2 else {
+            return
+        }
+
+        guard let desciptionText = desciptionTextView.text,
+              desciptionText.count < 1000 else {
+            return
+        }
+
+        let params: [String: Any] = ["name": itemNameText,
+                                     "price": Double(priceTextField.text!) ?? 0,
+                                     "currency": currencySegmentedControl.selectedSegmentIndex == 0 ? "KRW" : "USD",
+                                     "discounted_price": Double(discountedPriceTextField.text!) ?? 0,
+                                     "stock": Int(stockTextField.text!) ?? 0,
+                                     "description": desciptionText,
+                                     "secret": NetworkManager.secret]
+
+        networkManager.addItem(params: params, images: itemImages) { result in
+            switch result {
+            case .success(let item):
+                print(item)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func configureAddView() {

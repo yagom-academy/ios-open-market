@@ -161,14 +161,15 @@ extension NetworkManager {
             if error != nil {
                 return completion(.failure(.invalidError))
             }
-            
+
+            print(String(data: data!, encoding: .utf8)!)
+
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
                 return completion(.failure(.responseError))
             }
-            
+
             guard let data = data else { return completion(.failure(.dataError)) }
-            
             do {
                 let item: Item = try JSONDecoder().decode(Item.self, from: data)
                 completion(.success(item))
