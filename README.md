@@ -23,7 +23,7 @@
 ## 🛠 프로젝트 구조
 
 ### 📊 UML
-### STEP2 구현 이후 추가예정입니다.
+### 오픈마켓 STEP2 구현 이후 추가예정입니다.
 
 
 ### 🌲 Tree
@@ -66,13 +66,13 @@
     └── MockTests.swift
 ```
 ## 📌 구현 내용
-### Model
+## Model
 - **Item**, **ItemList**
     - `URLSession`을 통해 서버에서 데이터를 받을 때, JSON데이터에 따라 설계된 모델
 - **Currency**
     - `Item`모델의 currency타입에 맞는 화폐단위의 `enum`타입
 
-### Network
+## Network
 ### NetworkManager
 ```swift
 func checkAPIHealth(completion: @escaping (Bool) -> Void)
@@ -91,11 +91,38 @@ func fetchItem(productId: Int,
 ```
 - `GET`요청에 보낼 파라미터 `productId` 값을 받아 서버에서 `Item` 값을 받아오면 `completion`을 통해 데이터를 전달하는 함수입니다.
     - 네트워크 통신시 `error`, 200번 대를 제외한 `statusCode`, `JSONDecode` 실패시 그에 맞는 NetworkError타입의 에러를 `completion`을 통해 전달합니다.
-
+    
+```swift
+func createRequestBody(params: [String: Data], images: [UIImage], boundary: String) -> Data 
+```
+- `POST`요청을 통해 상품을 등록하는 과정에서 `request.body` 내부의 값을 생성하는 함수입니다.
+    - `params` : 상품 등록에 필요한 정보를 받는 인자입니다.
+    - `images` : 상품 등록시 상품의 이미지를 받는 인자입니다. 배열의 형태로 여러 개의 이미지를 받습니다.
+```swift
+func addItem(params: [String: Any], images: [UIImage], completion: @escaping (Result<Item, NetworkError>) -> ())
+```
+- `POST`요청을 통해 상품을 등록하는 함수입니다. `completion`을 통하여 결과 값을 전달합니다. 
+    - 성공시 `response`값으로 온 `Item`을 전달하고, 에러 가 발생하면 에러 타입을 전달합니다.
+```swift
+func deleteURI(productId: Int, password: String,  completion: @escaping (Result<String, NetworkError>) -> ())
+```
+- 상품 삭제에 필요한 URL를 생성하는 함수입니다. `completion`을 통하여 결과 값을 전달합니다. 
+    - 성공시 상품 삭제에 필요한 URI를 전달하고, 에러가 발생하면 에러 타입을 전달합니다.
+```swift
+func deleteItem(productId: Int, password: String, completion: @escaping (Result<Item, NetworkError>) -> ()) 
+```
+- `DELETE`요청을 보냄으로써 상품을 삭제하는 함수입니다. `completion`을 통하여 결과 값을 전달합니다. 
+    - 삭제 성공시 삭제한 `itme`을 전달하고, 에러가 발생하면 에러 타입을 전달합니다.
+```swift
+func editItem(productId: Int, params: [String: Any], completion: @escaping (Result<Item, NetworkError>) -> ())
+```
+- 아이템의 Id값인 `producId` 값과 수정될 값이 담긴 `params`값을 받아서 `PATCH`요청을 보내 상품을 수정하는 메서드입니다.`completion`을 통하여 결과 값을 전달합니다.
+    - 성공시 수정된 `Item`값을 전달하고, 에러가 발생하면 에러 타입을 전달합니다.
 ### NetworkError
 - DataSessionTask 에서 전달한 Error확인을 위한 enum 타입
 
-### Controller
+
+## Controller
 ### ImageCacheManager
 ```swift
 final class ImageCacheManager {
@@ -171,11 +198,11 @@ private func showCollectionType(segmentIndex: Int) {
 - 상품 목록을 그리드 형태로 보여주는 콜렉션 뷰 입니다.
 
 ## 📱 실행 화면
-| 로딩 후 ListView | `+`버튼 클릭시 빈 페이지 |
-| ----- | ----- |
-|![](https://i.imgur.com/GaGWjXO.gif)|![](https://i.imgur.com/huerEUY.gif)|
-| **List View** | **Grid View** |
-|![](https://i.imgur.com/djQk4nV.gif)|![](https://i.imgur.com/FLAcAuJ.gif)|
+|           로딩 후 ListView           |       `+`버튼 클릭시 빈 페이지       |
+|:------------------------------------:|:------------------------------------:|
+| ![](https://i.imgur.com/GaGWjXO.gif) | ![](https://i.imgur.com/huerEUY.gif) |
+|            **List View**             |            **Grid View**             |
+| ![](https://i.imgur.com/djQk4nV.gif) | ![](https://i.imgur.com/FLAcAuJ.gif) |
 
 
 
@@ -187,7 +214,7 @@ private func showCollectionType(segmentIndex: Int) {
 
 
 <details>
-<summary>Step1 타임라인</summary>
+<summary>OpenMarket1 Step1 타임라인</summary>
 <div markdown="1">       
 
 - **2022.11.15**
@@ -204,7 +231,6 @@ private func showCollectionType(segmentIndex: Int) {
     - 코드, 네이밍, 프로젝트 디렉토리 구조 수정
     - Step1 PR 작성
     
-    
 - **2022.11.17**
     - 네이밍, 코드 컨벤션 수정
     - Step1 Merged
@@ -213,7 +239,7 @@ private func showCollectionType(segmentIndex: Int) {
 </details>
 
 <details>
-<summary>Step2 타임라인</summary>
+<summary>OpenMarket1 Step2 타임라인</summary>
 <div markdown="1">       
     
 - **2022.11.20**
@@ -233,6 +259,27 @@ private func showCollectionType(segmentIndex: Int) {
 - **2022.11.25**
     - `NumberFormatter`리턴 타입 변경
     - 데이터 `fetch`시 실패경우와 Loading Spinner에 관한 로직 수정
+    
+</div>
+</details>
+
+<details>
+<summary>OpenMarket2 Step1-2 타임라인</summary>
+<div markdown="1">       
+    
+- **2022.11.29**
+    - 상품 등록을 위한 Post메서드 `addItem` 메서드구현
+    - 상품 등록에 필요한 httpBody를 구성하는 `createBody` 메서드구현
+- **2022.11.30**
+    - 상품 삭제를 위한 Delete메서드 `deleteItem` 메서드구현
+    - 상품 삭제에 필요한 URI를 받아오는 메서드 `deleteURI` 메서드 구현
+    - 상품 수정을 위한 Patch메서드 `editItem` 메서드 구현
+    - HTTPMethod enum 타입 구현
+    - `deleteURI`, `deleteItem` 메서드 리팩토링
+- **2022.12.02**
+    - `imagePickerController` 를 통한 이미지 가져오기 구현
+    - 상품 등록화면 구현 및 화면 전환 방식 수정
+
     
 </div>
 </details>
@@ -303,7 +350,43 @@ private func showCollectionType(segmentIndex: Int) {
 ```
 #### 해결방안
 - 샘플 JSON 데이터의 page_no, items_per_page, total_count와 같이 Snake case로 정의되어 있는 부분을 Codingkeys프로토콜을 사용해 Camel case로 매핑했었는데, 해당 매핑하는 부분을 지움으로써 모델의 프로퍼티 네이밍과 통신시 데이터 네이밍을 동일하게하여 해결했습니다.
-- 
+---
+### 서버에 multipart/form 데이터 POST시 400번 에러발생한 문제
+- 상품 등록을 위한 상품 이미지 및 정보를 multipart/form 데이터를 만들어 서버에 POST 하였을 때 HTTP Response가 400번 에러가 발생하여 POST가 되지 않았던 문제가 있었습니다.
+
+#### 해결방안
+- 기존 코드는 `params`의 key와 value를 http body에 각각 추가해주었습니다.
+```swift
+func createRequestBody(params: [String: Any], images: [UIImage], boundary: String) -> Data {
+        let newLine = "\r\n"
+        let boundaryPrefix = "--\(boundary + newLine)"
+        
+        var body = Data()
+        
+        for (key, value) in params {
+            body.append(boundaryPrefix)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\(newLine + newLine)")
+            body.append(value)
+            body.append(newLine)
+        }
+    
+    // image 파일추가 부분
+}
+       
+let params: [String: Any] = ["name": "눈온다", "description": "간식", "price": 1000, "currency": "KRW", "stock": 1, "secret": "snnq45ezg2tn9amy"]
+request.httpBody = createRequestBody(params: ["params" : jsonData], images: [UIImage()], boundary: boundary)
+       
+```
+
+- 서버에서 POST 요청시 `prams` 타입이 jsonObject여서, `params`를 jsonData로 변환해주어 해결하였습니다.
+![](https://i.imgur.com/kETIfME.png)
+```swift
+let params: [String: Any] = ["name": "눈온다", "description": "간식", "price": 1000, "currency": "KRW", "stock": 1, "secret": "snnq45ezg2tn9amy"]
+guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
+request.httpBody = createRequestBody(params: ["params" : jsonData], images: [UIImage()], boundary: boundary)
+```
+
+
 ---
 
 ## 📖 참고 링크
