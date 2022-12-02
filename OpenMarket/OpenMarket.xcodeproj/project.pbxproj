@@ -187,9 +187,9 @@
 		18E853C52925EFAE00EDCE2A /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				189123802939E1D300FD5690 /* Common */,
 				18E853C62925EFE200EDCE2A /* APIType.swift */,
 				18509BF92924B90100C6B9AC /* NetworkManager.swift */,
+				189123802939E1D300FD5690 /* Common */,
 				F6833682292733B200ADB02B /* TestDouble */,
 				18E853CB2925F04300EDCE2A /* DTO */,
 				18E853C82925EFFC00EDCE2A /* NetworkTypes */,
