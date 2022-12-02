@@ -14,6 +14,10 @@ class BaseProductView: UIView {
     var delegate: ProductDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var productNameTextField: UITextField!
+    @IBOutlet weak var productPriceTextField: UITextField!
+    @IBOutlet weak var productBargainTextField: UITextField!
+    @IBOutlet weak var productStockTextField: UITextField!
     
     override init(frame:CGRect) {
         super.init(frame:frame)
@@ -40,6 +44,9 @@ class BaseProductView: UIView {
     
     @IBAction func tapCancelButton(_ sender: UIButton) {
         delegate?.tappedDismissButton()
+    }
+    
+    @IBAction func tapDoneButton(_ sender: UIButton) {
     }
 }
 
