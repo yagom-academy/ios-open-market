@@ -46,7 +46,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
                                         <connections>
-                                            <segue destination="AOr-IO-2Z8" kind="show" id="8de-Fc-UI9"/>
+                                            <segue destination="AOr-IO-2Z8" kind="presentation" modalPresentationStyle="automatic" id="8de-Fc-UI9"/>
                                         </connections>
                                     </button>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="bJH-1T-XiE">
@@ -90,17 +90,37 @@
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="-34.151785714285715"/>
         </scene>
-        <!--View Controller-->
+        <!--Register Product View Controller-->
         <scene sceneID="xXI-Vl-qpu">
             <objects>
-                <viewController id="AOr-IO-2Z8" sceneMemberID="viewController">
+                <viewController id="AOr-IO-2Z8" customClass="RegisterProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kd8-Qa-rrm">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVa-QY-cqJ">
+                                <rect key="frame" x="0.0" y="44" width="414" height="56"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <items>
+                                    <navigationItem title="상품등록" id="rUu-JD-lQU">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="KCK-d4-50u"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="t1B-yL-M7v"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="M5x-nH-cvu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="pVa-QY-cqJ" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" id="NTh-Tp-osz"/>
+                            <constraint firstItem="pVa-QY-cqJ" firstAttribute="top" secondItem="M5x-nH-cvu" secondAttribute="top" id="hL0-8w-d78"/>
+                            <constraint firstItem="pVa-QY-cqJ" firstAttribute="trailing" secondItem="M5x-nH-cvu" secondAttribute="trailing" id="ibk-SU-NaL"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="xAQ-qw-hSz"/>
+                    <connections>
+                        <outlet property="cancelBarButtonItem" destination="KCK-d4-50u" id="WAr-kJ-MFz"/>
+                        <outlet property="doneBarButtonItem" destination="t1B-yL-M7v" id="qrs-Cp-fGk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q5r-tu-hWo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09940CA829398F1100562037 /* RegisterProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09940CA729398F1100562037 /* RegisterProductViewController.swift */; };
 		09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09987EB629248D48006B9922 /* NetworkCommunication.swift */; };
 		09D2BC212938A21F009E0895 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D2BC202938A21F009E0895 /* Data+Extensions.swift */; };
 		09D39AF0292DBF020039F1B9 /* CustomCollectionViewListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D39AEF292DBF020039F1B9 /* CustomCollectionViewListCell.xib */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09940CA729398F1100562037 /* RegisterProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductViewController.swift; sourceTree = "<group>"; };
 		09987EB629248D48006B9922 /* NetworkCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCommunication.swift; sourceTree = "<group>"; };
 		09D2BC202938A21F009E0895 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		09D39AEF292DBF020039F1B9 /* CustomCollectionViewListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewListCell.xib; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ViewController.swift */,
+				09940CA729398F1100562037 /* RegisterProductViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D27FA642292483F9004E3B38 /* DetailProduct.swift in Sources */,
+				09940CA829398F1100562037 /* RegisterProductViewController.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				D27FA6402924839D004E3B38 /* SearchListProducts.swift in Sources */,
 				D2C0A4CF2938A84D00AB3D2D /* PostRequestParams.swift in Sources */,
