@@ -108,7 +108,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="EbL-zW-9d4"/>
                     <connections>
-                        <outlet property="customView" destination="jx0-ea-8Zp" id="XN3-YR-E3s"/>
+                        <outlet property="mainView" destination="jx0-ea-8Zp" id="zch-2o-kbd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pHO-dq-uHO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

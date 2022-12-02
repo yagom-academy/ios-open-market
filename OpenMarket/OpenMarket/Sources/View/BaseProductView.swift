@@ -14,6 +14,7 @@ class BaseProductView: UIView {
     var delegate: ProductDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var productBargainTextField: UITextField!

@@ -7,11 +7,19 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
-    @IBOutlet weak var customView: ProductRegisterView!
+    var productView: ProductRegisterView = ProductRegisterView()
+    
+    @IBOutlet weak var mainView: ProductRegisterView!
+    
+    override func loadView() {
+        super.loadView()
+        mainView = productView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        customView.delegate = self
+        productView.delegate = self
+        productView.collectionView.delegate = self
     }
 }
 
@@ -20,3 +28,16 @@ extension ProductRegisterViewController: ProductDelegate {
         self.dismiss(animated: true)
     }
 }
+
+extension ProductRegisterViewController: UICollectionViewDelegate {
+}
+
+//extension ProductRegisterViewController: UICollectionViewDataSource {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//
+//    }
+//}

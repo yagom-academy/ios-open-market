@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BaseProductView" customModule="OpenMarket" customModuleProvider="target">
             <connections>
+                <outlet property="collectionView" destination="APu-r3-qbX" id="YkX-vn-aBE"/>
                 <outlet property="productBargainTextField" destination="rZh-i2-lur" id="2qP-Fm-T1i"/>
                 <outlet property="productNameTextField" destination="WpX-fZ-h8b" id="V2e-ZE-xZ5"/>
                 <outlet property="productPriceTextField" destination="fcD-fa-gtp" id="aG1-RN-78R"/>
@@ -31,7 +32,7 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
                             <connections>
-                                <action selector="tapCancelButton:" destination="-1" eventType="touchUpInside" id="Yyg-En-ZfW"/>
+                                <action selector="tapCancelButton:" destination="-1" eventType="touchUpInside" id="dIE-qb-kID"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상품등록" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIr-zo-LwF">
@@ -107,10 +108,10 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="450" id="iav-Ft-Ijn"/>
                             </constraints>
-                            <mutableString key="text">아름답고 열정적인 사람들이 모인 야곰 아카데미는 측정 불가한 가격 이지만, 일단 오픈마켓에 내놓아 봅니다. 이 상품설명은 저 쪼 아래까 지 연결될 가능성이 있으며, 다이나믹 타입에 완벽히 반응해야합니 다. 또, 1000글자 제한이 있습니다만, 누가 천글자를 쓰겠어요?
+                            <string key="text">아름답고 열정적인 사람들이 모인 야곰 아카데미는 측정 불가한 가격 이지만, 일단 오픈마켓에 내놓아 봅니다. 이 상품설명은 저 쪼 아래까 지 연결될 가능성이 있으며, 다이나믹 타입에 완벽히 반응해야합니 다. 또, 1000글자 제한이 있습니다만, 누가 천글자를 쓰겠어요?
 또, 제목도 세 글자 이상 입력되어야 합니다. 위의 값 중 할인가격과 재고수량은 선택적 입력값입니다. 둘 다 기본값은 0이에요.
 할인 가격은 할인된 가격이 아니라 할인하고 싶은 만큼의 가격을 입 력하면 됩니다. 100원에서 10원 할인하고 싶다면 할인 가격에 10을 입력하면 됩니다.
-모두모두 화이팅이에요 :D</mutableString>
+모두모두 화이팅이에요 :D</string>
                             <color key="textColor" systemColor="labelColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
