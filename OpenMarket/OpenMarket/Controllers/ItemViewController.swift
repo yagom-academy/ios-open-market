@@ -8,7 +8,7 @@
 import UIKit
 
 class ItemViewController: UIViewController {
-    
+    // MARK: - Property
     var networkManager = NetworkManager()
     var itemImages: [UIImage] = []
     var isPost: Bool = false
@@ -158,9 +158,8 @@ extension ItemViewController {
 }
 
 extension ItemViewController {
-    // MARK: - private Method
-    func configureNavigation() {
-        self.navigationItem.title = ""
+    // MARK: - Method
+    @objc func configureNavigation() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonTapped))    }
 
@@ -168,66 +167,7 @@ extension ItemViewController {
         dismiss(animated: true)
     }
 
-    @objc func doneButtonTapped() {
-        let priceText = priceTextField.text ?? "0"
-        let discountedPriceText = discountedPriceTextField.text ?? "0"
-        let stockText = stockTextField.text ?? "0"
-
-        guard !isPost else {
-            showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
-            return
-        }
-        guard itemImages.count > 0 else {
-            showAlert(title: "경고", message: "이미지를 등록해주세요.", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-        guard let itemNameText =  itemNameTextField.text,
-              itemNameText.count > 2 else {
-            showAlert(title: "경고", message: "제목을 3글자 이상 입력해주세요.", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-
-        guard let price = Double(priceText),
-              let discountPrice = Double(discountedPriceText),
-              let stock = Int(stockText) else {
-            showAlert(title: "경고", message: "유효한 숫자를 입력해주세요", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-        guard let desciptionText = desciptionTextView.text,
-              desciptionText.count <= 1000 else {
-            showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-        let params: [String: Any] = ["name": itemNameText,
-                                     "price": price,
-                                     "currency": currencySegmentedControl.selectedSegmentIndex == 0
-                                                    ? Currency.krw.rawValue: Currency.usd.rawValue,
-                                     "discounted_price": discountPrice,
-                                     "stock": stock,
-                                     "description": desciptionText,
-                                     "secret": NetworkManager.secret]
-        self.isPost = true
-        LoadingController.showLoading()
-        networkManager.addItem(params: params, images: itemImages) { result in
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                    LoadingController.hideLoading()
-                    self.showAlert(title: "성공", message: "등록에 성공했습니다", actionTitle: "확인", dismiss: true)
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                    LoadingController.hideLoading()
-                    self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
-                }
-            }
-            self.isPost = false
-        }
-    }
+    @objc func doneButtonTapped() { }
 
     func showAlert(title: String, message: String, actionTitle: String, dismiss: Bool){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

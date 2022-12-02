@@ -8,7 +8,7 @@
 import UIKit
 
 class ItemAddViewController: ItemViewController {
-    // MARK: - Private property
+    // MARK: - Property
     private lazy var registerationImageView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,10 +28,7 @@ class ItemAddViewController: ItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        configureNavigation()
-        configureImageScrollView()
         configureImage()
-        configureTextFieldAndTextView()
     }
 }
 
@@ -53,9 +50,76 @@ extension ItemAddViewController {
     }
     
 }
+extension ItemAddViewController {
+    // MARK: - Method
+    override func configureNavigation() {
+        super.configureNavigation()
+        self.navigationItem.title = "상품생성"
+    }
+    
+    override func doneButtonTapped() {
+        let priceText = priceTextField.text ?? "0"
+        let discountedPriceText = discountedPriceTextField.text ?? "0"
+        let stockText = stockTextField.text ?? "0"
+
+        guard !isPost else {
+            showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
+            return
+        }
+        guard itemImages.count > 0 else {
+            showAlert(title: "경고", message: "이미지를 등록해주세요.", actionTitle: "확인", dismiss: false)
+            return
+        }
+
+        guard let itemNameText =  itemNameTextField.text,
+              itemNameText.count > 2 else {
+            showAlert(title: "경고", message: "제목을 3글자 이상 입력해주세요.", actionTitle: "확인", dismiss: false)
+            return
+        }
+
+
+        guard let price = Double(priceText),
+              let discountPrice = Double(discountedPriceText),
+              let stock = Int(stockText) else {
+            showAlert(title: "경고", message: "유효한 숫자를 입력해주세요", actionTitle: "확인", dismiss: false)
+            return
+        }
+
+        guard let desciptionText = desciptionTextView.text,
+              desciptionText.count <= 1000 else {
+            showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
+            return
+        }
+
+        let params: [String: Any] = ["name": itemNameText,
+                                     "price": price,
+                                     "currency": currencySegmentedControl.selectedSegmentIndex == 0
+                                                    ? Currency.krw.rawValue: Currency.usd.rawValue,
+                                     "discounted_price": discountPrice,
+                                     "stock": stock,
+                                     "description": desciptionText,
+                                     "secret": NetworkManager.secret]
+        self.isPost = true
+        LoadingController.showLoading()
+        networkManager.addItem(params: params, images: itemImages) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    LoadingController.hideLoading()
+                    self.showAlert(title: "성공", message: "등록에 성공했습니다", actionTitle: "확인", dismiss: true)
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    LoadingController.hideLoading()
+                    self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
+                }
+            }
+            self.isPost = false
+        }
+    }
+}
 
 extension ItemAddViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     @objc private func presentAlbum(){
         guard itemImages.count < 5 else {
             return showAlert(title: "경고", message: "5개 이하의 이미지만 등록할 수 있습니다.", actionTitle: "확인", dismiss: false)
@@ -69,11 +133,11 @@ extension ItemAddViewController: UIImagePickerControllerDelegate, UINavigationCo
         present(imagePicker, animated: true, completion: nil)
     }
     
-    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
     }
     
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage {
             self.itemImages.append(image)
             self.imageStackView.insertArrangedSubview(UIImageView(image: image), at: 0)
