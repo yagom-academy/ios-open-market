@@ -7,19 +7,26 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
-    var productView: ProductRegisterView = ProductRegisterView()
-    
     @IBOutlet weak var mainView: ProductRegisterView!
     
     override func loadView() {
         super.loadView()
-        mainView = productView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productView.delegate = self
-        productView.collectionView.delegate = self
+        mainView.delegate = self
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
+        
+        registerCellNib()
+    }
+    
+    private func registerCellNib() {
+        let collectionViewCellNib = UINib(nibName: ImageCollectionViewCell.stringIdentifier(), bundle: nil)
+        
+        mainView.collectionView.register(collectionViewCellNib,
+                                         forCellWithReuseIdentifier: ImageCollectionViewCell.stringIdentifier())
     }
 }
 
@@ -32,12 +39,18 @@ extension ProductRegisterViewController: ProductDelegate {
 extension ProductRegisterViewController: UICollectionViewDelegate {
 }
 
-//extension ProductRegisterViewController: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//
-//    }
-//}
+extension ProductRegisterViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell: ImageCollectionViewCell =
+        collectionView.dequeueReusableCell(withReuseIdentifier:
+                                            ImageCollectionViewCell.stringIdentifier(),
+                                           for: indexPath) as? ImageCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        return cell
+    }
+}
