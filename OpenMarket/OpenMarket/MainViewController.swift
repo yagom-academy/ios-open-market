@@ -149,7 +149,7 @@ extension MainViewController {
                 DispatchQueue.main.async {
                     
                     cell.productNameLabel.text = "\(itemIdentifier.name)"
-                    cell.bargainPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
+                    cell.discountedPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.discountedPrice) ?? "")"
                     cell.image.image = picture
                     
                     if itemIdentifier.bargainPrice != itemIdentifier.price {
@@ -190,7 +190,7 @@ extension MainViewController {
                 
                 DispatchQueue.main.async {
                     cell.productNameLabel.text = "\(itemIdentifier.name)"
-                    cell.bargainPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.bargainPrice) ?? "")"
+                    cell.discountedPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.discountedPrice) ?? "")"
                     cell.image.image = picture
                     
                     if itemIdentifier.bargainPrice != itemIdentifier.price {

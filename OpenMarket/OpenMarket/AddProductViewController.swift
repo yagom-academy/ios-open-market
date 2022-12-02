@@ -184,14 +184,10 @@ final class AddProductViewController: UIViewController {
         var imageArray: [UIImage] = []
         let imageViewArray = imageStackView.subviews as? [UIImageView] ?? []
         imageViewArray.forEach { imageView in
-            if let picture: UIImage = imageView.image {
-                let transSize = CGSize(width: picture.size.width / 10, height: picture.size.height / 10)
-                let resizeImage = picture.resizeImageTo(size: transSize)
-                imageArray.append(resizeImage)
+            if let postImage = imageView.image {
+                imageArray.append(postImage)
             }
         }
-
-        print(imageArray)
         
         let product = Product(name: name,
                               description: description,
@@ -203,17 +199,14 @@ final class AddProductViewController: UIViewController {
                               secret: Constant.password
         )
         
+        // post
         let manager = NetworkManager()
         manager.postProductLists(params: product, images: imageArray) {
-            print("보냄")
             DispatchQueue.main.sync {
                 self.updateDelegate?.updateCollectionView()
                 self.dismiss(animated: true)
             }
         }
-
-        print("?")
-        // post
     }
     
     @objc
@@ -234,7 +227,7 @@ final class AddProductViewController: UIViewController {
     }
 }
 
-extension AddProductViewController: UIImagePickerControllerDelegate {
+extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true)
     }
@@ -243,14 +236,17 @@ extension AddProductViewController: UIImagePickerControllerDelegate {
         
         picker.dismiss(animated: true) {
             if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-                let imageView = UIImageView(image: img)
-                imageView.translatesAutoresizingMaskIntoConstraints = false
+                let transSize = CGSize(width: img.size.width / 10, height: img.size.height / 10)
+                let resizeImage = img.resizeImageTo(size: transSize)
+                
+                let imageView = UIImageView(image: resizeImage)
+                
                 self.imageStackView.addArrangedSubview(imageView)
                 
                 if self.imageStackView.subviews.count == 5 {
                     self.addProductButton.isHidden = true
                     
-                    imageView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor, constant: 4).isActive = true
+                    self.imageStackView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor, constant: 4).isActive = true
                 }
                 
                 imageView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2).isActive = true
@@ -262,19 +258,13 @@ extension AddProductViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension AddProductViewController: UINavigationControllerDelegate {
-    
-}
-
-
 extension UIImage {
-    
     func resizeImageTo(size: CGSize) -> UIImage {
-        
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         self.draw(in: CGRect(origin: CGPoint.zero, size: size))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
+        
         return resizedImage
     }
 }

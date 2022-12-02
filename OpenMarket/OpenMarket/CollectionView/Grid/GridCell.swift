@@ -39,7 +39,7 @@ final class GridCell: UICollectionViewCell {
         return label
     }()
     
-    let bargainPriceLabel: UILabel = {
+    let discountedPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -66,7 +66,6 @@ final class GridCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.alignment = .center
 
-        
         return stackView
     }()
     
@@ -94,7 +93,7 @@ final class GridCell: UICollectionViewCell {
         self.containerStackView.addArrangedSubview(priceStackView)
         
         self.priceStackView.addArrangedSubview(priceLabel)
-        self.priceStackView.addArrangedSubview(bargainPriceLabel)
+        self.priceStackView.addArrangedSubview(discountedPriceLabel)
         
         self.containerStackView.addArrangedSubview(stockLabel)
         setUpUI()
@@ -108,7 +107,7 @@ final class GridCell: UICollectionViewCell {
         image.image = nil
         productNameLabel.text = nil
         priceLabel.text = nil
-        bargainPriceLabel.text = nil
+        discountedPriceLabel.text = nil
         stockLabel.text = nil
         stockLabel.textColor = .systemGray
         priceLabel.isHidden = false

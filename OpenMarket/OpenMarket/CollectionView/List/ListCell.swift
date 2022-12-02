@@ -39,7 +39,7 @@ final class ListCell: UICollectionViewListCell {
         return label
     }()
     
-    let bargainPriceLabel: UILabel = {
+    let discountedPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -112,7 +112,7 @@ final class ListCell: UICollectionViewListCell {
         self.nameStockStackView.addArrangedSubview(stockLabel)
         
         self.priceStackView.addArrangedSubview(priceLabel)
-        self.priceStackView.addArrangedSubview(bargainPriceLabel)
+        self.priceStackView.addArrangedSubview(discountedPriceLabel)
         
         setUpUI()
     }
@@ -121,7 +121,7 @@ final class ListCell: UICollectionViewListCell {
         image.image = nil
         productNameLabel.text = nil
         priceLabel.text = nil
-        bargainPriceLabel.text = nil
+        discountedPriceLabel.text = nil
         stockLabel.text = nil
         stockLabel.textColor = .systemGray
         priceLabel.isHidden = false
