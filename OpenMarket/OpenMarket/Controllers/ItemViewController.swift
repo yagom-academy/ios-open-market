@@ -78,7 +78,7 @@ class ItemViewController: UIViewController {
         return textField
     }()
 
-    let desciptionTextView: UITextView = {
+    let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .systemGray6
@@ -120,7 +120,7 @@ extension ItemViewController {
         self.view.addSubview(priceStackView)
         self.view.addSubview(discountedPriceTextField)
         self.view.addSubview(stockTextField)
-        self.view.addSubview(desciptionTextView)
+        self.view.addSubview(descriptionTextView)
         self.priceStackView.addSubview(priceTextField)
         self.priceStackView.addSubview(currencySegmentedControl)
 
@@ -149,10 +149,10 @@ extension ItemViewController {
             self.stockTextField.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
             self.stockTextField.heightAnchor.constraint(equalToConstant: 35),
 
-            self.desciptionTextView.topAnchor.constraint(equalTo: self.stockTextField.bottomAnchor, constant: 10),
-            self.desciptionTextView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
-            self.desciptionTextView.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
-            self.desciptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.descriptionTextView.topAnchor.constraint(equalTo: self.stockTextField.bottomAnchor, constant: 10),
+            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
+            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
+            self.descriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 }

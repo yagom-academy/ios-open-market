@@ -52,7 +52,7 @@ extension ItemEditViewController {
         itemNameTextField.text = item.name
         priceTextField.text = String(item.price)
         discountedPriceTextField.text = String(item.discountedPrice)
-        desciptionTextView.text = item.pageDescription
+        descriptionTextView.text = item.pageDescription
         stockTextField.text = String(item.stock)
         currencySegmentedControl.selectedSegmentIndex = (item.currency == .krw ? 0 : 1)
 
@@ -100,8 +100,8 @@ extension ItemEditViewController {
             return
         }
 
-        guard let desciptionText = desciptionTextView.text,
-              desciptionText.count <= 1000 else {
+        guard let descriptionText = descriptionTextView.text,
+              descriptionText.count <= 1000 else {
             showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
             return
         }
@@ -112,7 +112,7 @@ extension ItemEditViewController {
                                                     ? Currency.krw.rawValue: Currency.usd.rawValue,
                                      "discounted_price": discountPrice,
                                      "stock": stock,
-                                     "description": desciptionText,
+                                     "description": descriptionText,
                                      "secret": NetworkManager.secret]
         self.isPost = true
         LoadingController.showLoading()

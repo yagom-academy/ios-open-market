@@ -9,7 +9,7 @@ import UIKit
 
 class ItemAddViewController: ItemViewController {
     // MARK: - Property
-    private lazy var registerationImageView: UIView = {
+    private lazy var registrationImageView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemGray
@@ -35,17 +35,17 @@ class ItemAddViewController: ItemViewController {
 extension ItemAddViewController {
     // MARK: - View Constraint
     private func configureImage() {
-        self.imageStackView.addArrangedSubview(registerationImageView)
-        self.registerationImageView.addSubview(registrationButton)
+        self.imageStackView.addArrangedSubview(registrationImageView)
+        self.registrationImageView.addSubview(registrationButton)
         
         NSLayoutConstraint.activate([
-            self.registerationImageView.widthAnchor.constraint(equalToConstant: 130),
-            self.registerationImageView.heightAnchor.constraint(equalToConstant: 130),
+            self.registrationImageView.widthAnchor.constraint(equalToConstant: 130),
+            self.registrationImageView.heightAnchor.constraint(equalToConstant: 130),
             
-            self.registrationButton.topAnchor.constraint(equalTo: self.registerationImageView.topAnchor),
-            self.registrationButton.bottomAnchor.constraint(equalTo: self.registerationImageView.bottomAnchor),
-            self.registrationButton.leadingAnchor.constraint(equalTo: self.registerationImageView.leadingAnchor),
-            self.registrationButton.trailingAnchor.constraint(equalTo: self.registerationImageView.trailingAnchor)
+            self.registrationButton.topAnchor.constraint(equalTo: self.registrationImageView.topAnchor),
+            self.registrationButton.bottomAnchor.constraint(equalTo: self.registrationImageView.bottomAnchor),
+            self.registrationButton.leadingAnchor.constraint(equalTo: self.registrationImageView.leadingAnchor),
+            self.registrationButton.trailingAnchor.constraint(equalTo: self.registrationImageView.trailingAnchor)
         ])
     }
     
@@ -85,8 +85,8 @@ extension ItemAddViewController {
             return
         }
 
-        guard let desciptionText = desciptionTextView.text,
-              desciptionText.count <= 1000 else {
+        guard let descriptionText = descriptionTextView.text,
+              descriptionText.count <= 1000 else {
             showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
             return
         }
@@ -97,7 +97,7 @@ extension ItemAddViewController {
                                                     ? Currency.krw.rawValue: Currency.usd.rawValue,
                                      "discounted_price": discountPrice,
                                      "stock": stock,
-                                     "description": desciptionText,
+                                     "description": descriptionText,
                                      "secret": NetworkManager.secret]
         self.isPost = true
         LoadingController.showLoading()
