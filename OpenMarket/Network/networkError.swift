@@ -1,5 +1,5 @@
 //
-//  networkError.swift
+//  NetworkError.swift
 //  OpenMarket
 //
 //  Created by Gundy, Wonbi on 2022/11/29.
@@ -11,8 +11,8 @@ enum NetworkError: Error {
     case invalidRequest
     case requestFailed(description: String)
     case responseFailed(code: Int)
-    case invaildData
-    case invaildURL
+    case invalidData
+    case invalidURL
     
     var errorDescription: String {
         switch self {
@@ -22,10 +22,10 @@ enum NetworkError: Error {
             return description
         case .responseFailed(let code):
             return "statusCode: \(code)"
-        case .invaildData:
-            return "invaildData"
-        case .invaildURL:
-            return "invaildURL"
+        case .invalidData:
+            return "invalidData"
+        case .invalidURL:
+            return "invalidURL"
         }
     }
 }

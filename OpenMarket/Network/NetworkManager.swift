@@ -32,7 +32,7 @@ final class NetworkManager {
             
             guard let data = data,
                   let data = JSONDecoder.decode(T.self, from: data) else {
-                completion(.failure(NetworkError.invaildData))
+                completion(.failure(NetworkError.invalidData))
                 return
             }
             completion(.success(data))
@@ -55,7 +55,7 @@ final class NetworkManager {
             }
             
             guard let data = data else {
-                completion(.failure(NetworkError.invaildData))
+                completion(.failure(NetworkError.invalidData))
                 return
             }
             

@@ -1,13 +1,13 @@
 //
-//  ListCollectionViewCell.swift
+//  GridCell.swift
 //  OpenMarket
 //
-//  Created by Gundy, Wonbi on 2022/11/21.
+//  Created by Gundy, Wonbi on 2022/11/22.
 //
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewCell {
+final class GridCell: UICollectionViewCell {
     private var identifier: String?
     
     private let loadingView: UIActivityIndicatorView = {
@@ -32,7 +32,9 @@ final class ListCollectionViewCell: UICollectionViewCell {
     private let price: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         return label
     }()
     
@@ -43,42 +45,21 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let disclosureImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "chevron.compact.right")
-        imageView.tintColor = .systemGray4
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private lazy var stockStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [stock, disclosureImage])
-        stackView.spacing = 5
-        stackView.axis = .horizontal
-        stackView.alignment = .top
-        stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private lazy var productStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [productName, price])
-        stackView.spacing = 5
+    private lazy var labelStackView: UIStackView = {
+        var stackView = UIStackView(arrangedSubviews: [productName, price, stock])
         stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let border = CALayer()
-        border.frame = CGRect(x: -10, y: frame.height - 0.4, width: frame.width + 20, height: 0.4)
-        border.backgroundColor = UIColor.systemGray.cgColor
-        layer.addSublayer(border)
-
-        [loadingView, productImage, productStackView, stockStackView].forEach { contentView.addSubview($0) }
+        layer.borderWidth = 0.5
+        layer.borderColor = UIColor.systemGray.cgColor
+        layer.cornerRadius = 10
+        [loadingView, productImage, labelStackView].forEach { contentView.addSubview($0) }
     }
     
     required init?(coder: NSCoder) {
@@ -91,34 +72,41 @@ final class ListCollectionViewCell: UICollectionViewCell {
         [productName, price, stock].forEach { $0?.text = nil }
         loadingView.isHidden = false
         productImage.isHidden = true
+        loadingView.startAnimating()
     }
     
     private func setupCellConstraints() {
+        let imageConstraints = (width: productImage.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                                           constant: -20),
+                                height: productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor))
+        let loadingConstraints = (width: loadingView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                                            constant: -20),
+                                  height: loadingView.heightAnchor.constraint(equalTo: loadingView.widthAnchor))
+        imageConstraints.width.priority = UILayoutPriority(rawValue: 1000)
+        imageConstraints.height.priority = UILayoutPriority(rawValue: 751)
+        loadingConstraints.width.priority = UILayoutPriority(rawValue: 1000)
+        loadingConstraints.height.priority = UILayoutPriority(rawValue: 751)
+        
         NSLayoutConstraint.activate([
-            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            loadingView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            loadingView.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.8),
-            loadingView.widthAnchor.constraint(equalTo: loadingView.heightAnchor),
+            loadingConstraints.height,
+            loadingConstraints.width,
+            loadingView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            loadingView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            productImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            productImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            productImage.heightAnchor.constraint(equalToConstant: contentView.bounds.height * 0.8),
-            productImage.widthAnchor.constraint(equalTo: productImage.heightAnchor),
+            productImage.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            imageConstraints.height,
+            imageConstraints.width,
+            productImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            productStackView.leadingAnchor.constraint(equalTo: loadingView.trailingAnchor, constant: 10),
-            productStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            productName.widthAnchor.constraint(equalToConstant: contentView.bounds.width * 0.48),
-            
-            stockStackView.topAnchor.constraint(equalTo: productStackView.topAnchor),
-            stockStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            disclosureImage.heightAnchor.constraint(equalTo: stock.heightAnchor),
-            disclosureImage.widthAnchor.constraint(equalTo: disclosureImage.heightAnchor),
+            labelStackView.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant:  10),
+            labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            labelStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
         ])
     }
     
-    func configureCell(from product: Product) {
+    func configureCell(from product: Product?) {
+        guard let product = product else { return }
         self.identifier = product.identifier
         loadingView.startAnimating()
         productName.text = product.name.isEmpty ? " " : product.name
@@ -170,7 +158,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
             self.price.textColor = .systemGray
             self.price.text = text
         } else {
-            text = "\(currency) \(price) \(currency) \(bargainPrice)"
+            text = "\(currency) \(price)\n\(currency) \(bargainPrice)"
             let attributedString = NSMutableAttributedString(string: text)
             attributedString.addAttributes([.foregroundColor: UIColor.systemRed, .strikethroughStyle: 1],
                                            range: (text as NSString).range(of: "\(currency) \(price)"))

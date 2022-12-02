@@ -30,7 +30,7 @@ extension NetworkRequest {
     
     var request: URLRequest? {
         guard let url = url else {
-            print(NetworkError.invaildURL.errorDescription)
+            print(NetworkError.invalidURL.errorDescription)
             return nil
         }
         var request = URLRequest(url: url)

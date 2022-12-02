@@ -45,8 +45,8 @@ final class ProductsViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "ListCell")
-        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "GridCell")
+        collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
+        collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
         collectionView.contentInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -153,9 +153,10 @@ final class ProductsViewController: UIViewController {
         pageNumber = 1
         productLists = []
         fetchData() {
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 self?.collectionView.reloadData()
                 self?.refreshControl.endRefreshing()
+                self?.isInfiniteScroll = true
             }
         }
     }
@@ -173,27 +174,27 @@ extension ProductsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let productList = productLists[indexPath.section]
+        let productList = productLists[valid: indexPath.section]
         
         switch segmentedControl.selectedSegmentIndex {
         case LayoutType.list.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
-                                                                    for: indexPath) as? ListCollectionViewCell
+                                                                    for: indexPath) as? ListCell
             else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(from: productList.pages[indexPath.item])
+            cell.configureCell(from: productList?.pages[indexPath.item])
             return cell
             
         case LayoutType.grid.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
-                                                                    for: indexPath) as? GridCollectionViewCell
+                                                                    for: indexPath) as? GridCell
             else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(from: productList.pages[indexPath.item])
+            cell.configureCell(from: productList?.pages[indexPath.item])
             return cell
             
         default:
