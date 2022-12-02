@@ -117,6 +117,8 @@ extension NetworkManager {
     func createRequestBody(params: [String: Data], images: [UIImage], boundary: String) -> Data {
         let newLine = "\r\n"
         let boundaryPrefix = "--\(boundary + newLine)"
+        let imgDataKey = "images"
+        let mimeType = "image/jpeg"
         
         var body = Data()
         
@@ -127,18 +129,14 @@ extension NetworkManager {
             body.append(newLine)
         }
         
-        // MARK: 1-2 진행 후 리팩토링할 영역
-        let imgDataKey = "images"
-        let filename = "ghvkdvjscl12.jpeg"
-        let mimeType = "image/jpeg"
-    
-        guard let imageData = UIImage(named: "ghvjs12")?.jpegData(compressionQuality: 0.5) else { return Data() }
-        
-        body.append(boundaryPrefix)
-        body.append("Content-Disposition: form-data; name=\"\(imgDataKey)\"; filename=\"\(filename)\"\(newLine)")
-        body.append("Content-Type: \(mimeType + newLine + newLine)")
-        body.append(imageData)
-        body.append(newLine)
+        for image in images {
+            guard let imageData = image.compressTo(expectedSizeInKb: 300) else { return Data() }
+            body.append(boundaryPrefix)
+            body.append("Content-Disposition: form-data; name=\"\(imgDataKey)\"; filename=\"\(UUID())\"\(newLine)")
+            body.append("Content-Type: \(mimeType + newLine + newLine)")
+            body.append(imageData)
+            body.append(newLine)
+        }
         body.append("--".appending(boundary.appending("--")))
         
         return body
@@ -155,20 +153,18 @@ extension NetworkManager {
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
         
-        request.httpBody = createRequestBody(params: ["params" : jsonData], images: [UIImage()], boundary: boundary)
+        request.httpBody = createRequestBody(params: ["params" : jsonData], images: images, boundary: boundary)
         
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {
                 return completion(.failure(.invalidError))
             }
-
-            print(String(data: data!, encoding: .utf8)!)
-
+    
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
                 return completion(.failure(.responseError))
             }
-
+            
             guard let data = data else { return completion(.failure(.dataError)) }
             do {
                 let item: Item = try JSONDecoder().decode(Item.self, from: data)
@@ -179,59 +175,58 @@ extension NetworkManager {
         }
         dataTask.resume()
     }
-
+    
     func deleteURI(productId: Int, password: String,  completion: @escaping (Result<String, NetworkError>) -> ()) {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: ["secret": password]) else { return }
-
+        
         var request = URLRequest(url: URL(string: "https://openmarket.yagom-academy.kr/api/products/\(productId)/archived")!)
         request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = HTTPMethod.post.rawValue
         request.httpBody = jsonData
-
+        
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {
                 return completion(.failure(.invalidError))
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
                 return completion(.failure(.responseError))
             }
-
+            
             guard let data = data else { return completion(.failure(.dataError)) }
             guard let stringData = String(data: data, encoding: .utf8),
                   let uri = stringData.components(separatedBy: "/").last else { return completion(.failure(.parseError)) }
-
+            
             completion(.success(uri))
         }
-
+        
         dataTask.resume()
     }
     
-    //삭제
     func deleteItem(productId: Int, password: String, completion: @escaping (Result<Item, NetworkError>) -> ()) {
         deleteURI(productId: productId, password: password) { result in
             switch result {
             case .success(let deleteURI):
                 var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(deleteURI)")!)
-
+                
                 request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.httpMethod = HTTPMethod.delete.rawValue
-
+                
                 let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
                     if error != nil {
                         return completion(.failure(.invalidError))
                     }
-
+                    
                     guard let httpResponse = response as? HTTPURLResponse,
                           (200..<300).contains(httpResponse.statusCode) else {
                         return completion(.failure(.responseError))
                     }
-
+                    
                     guard let data = data else { return completion(.failure(.dataError)) }
-
+                    
                     do {
                         let item: Item = try JSONDecoder().decode(Item.self, from: data)
                         completion(.success(item))
@@ -239,36 +234,36 @@ extension NetworkManager {
                         completion(.failure(.parseError))
                     }
                 }
-
+                
                 dataTask.resume()
-
+                
             case .failure(let error):
                 completion(.failure(error))
             }
         }
     }
-
+    
     func editItem(productId: Int, params: [String: Any], completion: @escaping (Result<Item, NetworkError>) -> ()) {
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
-
+        
         var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(productId)")!)
         request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = HTTPMethod.patch.rawValue
         request.httpBody = jsonData
-
+        
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {
                 return completion(.failure(.invalidError))
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
                 return completion(.failure(.responseError))
             }
-
+            
             guard let data = data else { return completion(.failure(.dataError)) }
-
+            
             do {
                 let item: Item = try JSONDecoder().decode(Item.self, from: data)
                 completion(.success(item))
@@ -276,15 +271,8 @@ extension NetworkManager {
                 completion(.failure(.parseError))
             }
         }
-
+        
         dataTask.resume()
     }
 }
 
-extension Data {
-    mutating func append(_ str: String) {
-        if let data = str.data(using: .utf8) {
-            self.append(data)
-        }
-    }
-}

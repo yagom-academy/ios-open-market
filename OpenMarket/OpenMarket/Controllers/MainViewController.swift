@@ -19,6 +19,7 @@ final class MainViewController: UIViewController {
         return segmentedControl
     }()
 
+    private let networkManager = NetworkManager()
     private var gridCollectionView: GridUICollectionView!
     private var listCollectionView: ListUICollectionView!
     
@@ -29,56 +30,10 @@ final class MainViewController: UIViewController {
         configureNavigation()
         configureFetchItemList()
     }
-
-    @objc private func addItem() {
-        let itemAddVC = ItemAddViewController()
-        let itemAddNavVC = UINavigationController(rootViewController: itemAddVC)
-        itemAddNavVC.modalPresentationStyle = .fullScreen
-        itemAddNavVC.modalTransitionStyle = .crossDissolve
-        present(itemAddNavVC, animated: true)
-    }
-    
-    @objc private func changeItemView(_ sender: UISegmentedControl) {
-        showCollectionType(segmentIndex: sender.selectedSegmentIndex)
-    }
-    
-    private func showCollectionType(segmentIndex: Int) {
-        if segmentIndex == 0 {
-            self.gridCollectionView.isHidden = true
-            self.listCollectionView.isHidden = false
-        } else {
-            self.listCollectionView.isHidden = true
-            self.gridCollectionView.isHidden = false
-        }
-    }
-
-    private func configureNavigation() {
-        self.navigationItem.titleView = segmentedControl
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
-        self.segmentedControl.addTarget(self, action: #selector(changeItemView(_:)), for: .valueChanged)
-    }
-    
-    private func configureFetchItemList() {
-        LoadingController.showLoading()
-        NetworkManager().fetchItemList(pageNo: 1, pageCount: 100) { result in
-            switch result {
-            case .success(let success):
-                LoadingController.hideLoading()
-                self.itemList = success.pages
-                DispatchQueue.main.async {
-                    self.configureCollectionView()
-                    self.gridCollectionView.configureGridDataSource(self.itemList)
-                    self.listCollectionView.configureListDataSource(self.itemList)
-                }
-            case .failure(_):
-                LoadingController.hideLoading()
-                self.configureFetchItemList()
-            }
-        }
-    }
 }
 
 extension MainViewController {
+    // MARK: - View Layout & Constraints
     private func createListLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: configuration)
@@ -125,5 +80,54 @@ extension MainViewController {
             self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.gridCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+}
+extension MainViewController {
+    // MARK: - Private Method
+    @objc private func addItem() {
+        let itemAddVC = ItemAddViewController()
+        let itemAddNavVC = UINavigationController(rootViewController: itemAddVC)
+        itemAddNavVC.modalPresentationStyle = .fullScreen
+        itemAddNavVC.modalTransitionStyle = .crossDissolve
+        present(itemAddNavVC, animated: true)
+    }
+    
+    @objc private func changeItemView(_ sender: UISegmentedControl) {
+        showCollectionType(segmentIndex: sender.selectedSegmentIndex)
+    }
+    
+    private func showCollectionType(segmentIndex: Int) {
+        if segmentIndex == 0 {
+            self.gridCollectionView.isHidden = true
+            self.listCollectionView.isHidden = false
+        } else {
+            self.listCollectionView.isHidden = true
+            self.gridCollectionView.isHidden = false
+        }
+    }
+
+    private func configureNavigation() {
+        self.navigationItem.titleView = segmentedControl
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
+        self.segmentedControl.addTarget(self, action: #selector(changeItemView(_:)), for: .valueChanged)
+    }
+    
+    private func configureFetchItemList() {
+        LoadingController.showLoading()
+        networkManager.fetchItemList(pageNo: 1, pageCount: 100) { result in
+            switch result {
+            case .success(let success):
+                LoadingController.hideLoading()
+                self.itemList = success.pages
+                DispatchQueue.main.async {
+                    self.configureCollectionView()
+                    self.gridCollectionView.configureGridDataSource(self.itemList)
+                    self.listCollectionView.configureListDataSource(self.itemList)
+                }
+            case .failure(_):
+                LoadingController.hideLoading()
+                self.configureFetchItemList()
+            }
+        }
     }
 }
