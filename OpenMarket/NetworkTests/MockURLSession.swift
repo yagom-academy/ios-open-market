@@ -17,7 +17,7 @@ final class MockURLSession: URLSessionProtocol {
     
     func dataTask(with url: URL,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        guard let url: URL = NetworkAPI.productList(query: nil).urlComponents.url else {
+        guard let url: URL = NetworkAPI.products(query: nil).urlComponents.url else {
             return MockURLSessionDataTask()
         }
         

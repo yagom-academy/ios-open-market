@@ -7,7 +7,7 @@ enum NetworkAPI {
     static let scheme = "https"
     static let host = "openmarket.yagom-academy.kr"
     
-    case productList(query: [Query: String]?)
+    case products(query: [Query: String]?)
     case product(productID: Int)
     case healthCheck
     
@@ -16,7 +16,7 @@ enum NetworkAPI {
         urlComponents.scheme = NetworkAPI.scheme
         urlComponents.host = NetworkAPI.host
         switch self {
-        case .productList(let query):
+        case .products(let query):
             urlComponents.path = "/api/products"
             if let query {
                 urlComponents.setQueryItems(with: query)

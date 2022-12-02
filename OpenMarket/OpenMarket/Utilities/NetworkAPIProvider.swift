@@ -81,4 +81,29 @@ final class NetworkAPIProvider {
         
         return dataTask
     }
+    
+    func post(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let session = self.session as? URLSession else { return }
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(NetworkError.serverFailed))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NetworkError.invalidData))
+                return
+            }
+            
+            completion(.success(data))
+        }
+        dataTask.resume()
+    }
+    
 }

@@ -25,7 +25,7 @@ struct Product: Decodable, Hashable {
     
     let id: Int
     let vendorID: Int
-    let vendorName: String
+    let vendorName: String?
     let name: String
     let description: String
     let thumbnail: String
