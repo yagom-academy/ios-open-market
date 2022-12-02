@@ -103,20 +103,11 @@ class ItemAddViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = .systemBackground
         configureNavigation()
         configureImageScrollView()
         configureTextFieldAndTextView()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.view.backgroundColor = .systemBackground
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.view.backgroundColor = .systemBackground
-    }
-    
 }
 
 extension ItemAddViewController {
