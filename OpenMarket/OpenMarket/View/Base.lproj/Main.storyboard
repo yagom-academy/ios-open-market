@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -42,7 +42,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8OE-DE-cya">
-                                        <rect key="frame" x="362.5" y="50.5" width="43.5" height="31"/>
+                                        <rect key="frame" x="359.5" y="49" width="46.5" height="34"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
                                         <connections>
@@ -95,40 +95,109 @@
             <objects>
                 <viewController id="AOr-IO-2Z8" customClass="RegisterProductViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kd8-Qa-rrm">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="838"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVa-QY-cqJ">
-                                <rect key="frame" x="0.0" y="44" width="414" height="56"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="56"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <items>
                                     <navigationItem title="상품등록" id="rUu-JD-lQU">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="KCK-d4-50u"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="t1B-yL-M7v"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="KCK-d4-50u">
+                                            <connections>
+                                                <action selector="touchUpCancelBarButtonItem:" destination="AOr-IO-2Z8" id="cmK-Lk-oaE"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="t1B-yL-M7v">
+                                            <connections>
+                                                <action selector="touchUpDoneBarButtonItem:" destination="AOr-IO-2Z8" id="yKy-jg-gDj"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="u1C-mJ-fF9">
+                                <rect key="frame" x="10" y="284" width="394" height="574"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non psunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civi</mutableString>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vh1-EO-9Nd">
+                                <rect key="frame" x="10" y="114" width="394" height="160"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j87-S8-zQP">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9pB-jt-4jP">
+                                        <rect key="frame" x="0.0" y="42" width="394" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="674-SV-anw">
+                                                <rect key="frame" x="0.0" y="0.0" width="287" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gfU-9z-pRp">
+                                                <rect key="frame" x="297" y="0.0" width="97" height="35"/>
+                                                <segments>
+                                                    <segment title="KRW"/>
+                                                    <segment title="USD"/>
+                                                </segments>
+                                            </segmentedControl>
+                                        </subviews>
+                                    </stackView>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SS8-rv-iXo">
+                                        <rect key="frame" x="0.0" y="84" width="394" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jId-FK-d4p">
+                                        <rect key="frame" x="0.0" y="126" width="394" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="M5x-nH-cvu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="pVa-QY-cqJ" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" id="NTh-Tp-osz"/>
+                            <constraint firstItem="Vh1-EO-9Nd" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="SsK-YE-Jnb"/>
+                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="trailing" secondItem="M5x-nH-cvu" secondAttribute="trailing" constant="-10" id="WpF-DF-IYZ"/>
+                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="f6F-lB-t8J"/>
                             <constraint firstItem="pVa-QY-cqJ" firstAttribute="top" secondItem="M5x-nH-cvu" secondAttribute="top" id="hL0-8w-d78"/>
                             <constraint firstItem="pVa-QY-cqJ" firstAttribute="trailing" secondItem="M5x-nH-cvu" secondAttribute="trailing" id="ibk-SU-NaL"/>
+                            <constraint firstItem="Vh1-EO-9Nd" firstAttribute="top" secondItem="pVa-QY-cqJ" secondAttribute="bottom" constant="10" id="kjF-dc-1bn"/>
+                            <constraint firstItem="M5x-nH-cvu" firstAttribute="trailing" secondItem="Vh1-EO-9Nd" secondAttribute="trailing" constant="10" id="ngy-Wt-iFi"/>
+                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="top" secondItem="Vh1-EO-9Nd" secondAttribute="bottom" constant="10" id="zJN-Sm-P4f"/>
+                            <constraint firstItem="u1C-mJ-fF9" firstAttribute="bottom" secondItem="M5x-nH-cvu" secondAttribute="bottom" constant="20" id="ze0-bf-0f8"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cancelBarButtonItem" destination="KCK-d4-50u" id="WAr-kJ-MFz"/>
                         <outlet property="doneBarButtonItem" destination="t1B-yL-M7v" id="qrs-Cp-fGk"/>
+                        <outlet property="productCurrencySegmentedControl" destination="gfU-9z-pRp" id="nXF-hz-BQZ"/>
+                        <outlet property="productDescriptionTextView" destination="u1C-mJ-fF9" id="5Zw-V5-5IA"/>
+                        <outlet property="productDiscountedPriceTextField" destination="SS8-rv-iXo" id="XBq-MY-xnn"/>
+                        <outlet property="productNameTextField" destination="j87-S8-zQP" id="cLF-Yj-LZk"/>
+                        <outlet property="productPriceTextField" destination="674-SV-anw" id="3NT-tx-Ocs"/>
+                        <outlet property="productStockTextField" destination="jId-FK-d4p" id="7Xu-L0-Kad"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q5r-tu-hWo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="897" y="-34"/>
+            <point key="canvasLocation" x="895.6521739130435" y="-34.151785714285715"/>
         </scene>
     </scenes>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
