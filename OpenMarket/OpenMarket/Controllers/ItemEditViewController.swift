@@ -10,10 +10,10 @@ import UIKit
 class ItemEditViewController: UIViewController {
     var itemId: Int?
     var item: Item?
-    var isPost: Bool = false
-    var itemImages: [UIImage] = []
     var networkManager = NetworkManager()
-
+    var itemImages: [UIImage] = []
+    var isPost: Bool = false
+    
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -102,7 +102,6 @@ extension ItemEditViewController {
         self.imageScrollView.addSubview(imageStackView)
 
         NSLayoutConstraint.activate([
-
             self.imageScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.imageScrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             self.imageScrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
@@ -166,7 +165,6 @@ extension ItemEditViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonTapped))    }
 
     @objc private func cancelButtonTapped() {
-        print("디스미스")
         dismiss(animated: true)
     }
 
@@ -279,7 +277,13 @@ extension ItemEditViewController {
             networkManager.fetchImage(url: url) { image in
                 self.itemImages.append(image)
                 DispatchQueue.main.async {
-                    self.imageStackView.insertArrangedSubview(UIImageView(image: image), at: 0)
+                    let imageView = UIImageView()
+                    imageView.image = image
+                    imageView.translatesAutoresizingMaskIntoConstraints = false
+                    imageView.widthAnchor.constraint(equalToConstant: 130).isActive = true
+                    imageView.heightAnchor.constraint(equalToConstant: 130).isActive = true
+                    
+                    self.imageStackView.addArrangedSubview(imageView)
                 }
             }
         }
