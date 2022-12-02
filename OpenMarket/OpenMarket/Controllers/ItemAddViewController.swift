@@ -8,31 +8,54 @@
 import UIKit
 
 class ItemAddViewController: UIViewController {
-    
-    let imageAddButton: UIButton = {
+    var itemImages: [UIImage] = []
+
+    lazy var addView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray
+        return view
+    }()
+
+    lazy var addButton: UIButton = {
         let button = UIButton()
-        button.setTitle("이미지 클릭ㅋ르릭", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.addTarget(self, action: #selector(presentAlbum), for: .touchUpInside)
         return button
     }()
+
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
+    let imageStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.contentMode = .scaleToFill
+        stackView.distribution = .fillEqually
+        stackView.spacing = 2
+        return stackView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
         configureNavigation()
-        self.view.addSubview(imageAddButton)
-        imageAddButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        imageAddButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        imageAddButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-        imageAddButton.addTarget(self, action: #selector(presentAlbum), for: .touchUpInside)
+        configureScrollView()
+        configureAddView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.view.backgroundColor = .systemBackground
     }
+
     override func viewDidDisappear(_ animated: Bool) {
         self.view.backgroundColor = .systemBackground
     }
-    
     
     private func configureNavigation() {
         self.navigationItem.title = "상품등록"
@@ -45,6 +68,34 @@ class ItemAddViewController: UIViewController {
     
     @objc func doneButtonTapped() {
         print("Button Tapped")
+    }
+
+    func configureAddView() {
+        self.addView.addSubview(addButton)
+
+        self.addView.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        self.addView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+
+        self.addButton.topAnchor.constraint(equalTo: self.addView.topAnchor).isActive = true
+        self.addButton.bottomAnchor.constraint(equalTo: self.addView.bottomAnchor).isActive = true
+        self.addButton.leadingAnchor.constraint(equalTo: self.addView.leadingAnchor).isActive = true
+        self.addButton.trailingAnchor.constraint(equalTo: self.addView.trailingAnchor).isActive = true
+    }
+
+    func configureScrollView() {
+        self.view.addSubview(scrollView)
+        self.scrollView.addSubview(imageStackView)
+        self.scrollView.addSubview(addView)
+
+        self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        self.scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        self.scrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        self.scrollView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+
+        self.imageStackView.topAnchor.constraint(equalTo: self.scrollView.topAnchor).isActive = true
+        self.imageStackView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor).isActive = true
+        self.imageStackView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor).isActive = true
+        self.imageStackView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor).isActive = true
     }
 }
 
@@ -64,7 +115,7 @@ extension ItemAddViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let image = info[.editedImage] as? UIImage {
-            
+            self.imageStackView.addArrangedSubview(UIImageView(image: image))
         }
         dismiss(animated: true, completion: nil)
     }
