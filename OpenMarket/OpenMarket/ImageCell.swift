@@ -2,13 +2,13 @@
 //  ImageCell.swift
 //  OpenMarket
 //
-//  Created by Wonbi on 2022/12/01.
+//  Created by Gundy, Wonbi on 2022/12/01.
 //
 
 import UIKit
 
-class ImageCell: UICollectionViewCell {
-    let plusImageView: UIImageView = {
+final class ImageCell: UICollectionViewCell {
+    private let plusImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "plus")
         imageView.tintColor = .systemBlue
@@ -16,7 +16,7 @@ class ImageCell: UICollectionViewCell {
         return imageView
     }()
     
-    let productImageView = UIImageView()
+    private let productImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +27,7 @@ class ImageCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    private func configure() {
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(productImageView)
         contentView.addSubview(plusImageView)
@@ -42,5 +42,10 @@ class ImageCell: UICollectionViewCell {
             plusImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2),
             plusImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2),
             ])
+    }
+    
+    func updateImage(image: UIImage?) {
+        plusImageView.isHidden = true
+        productImageView.image = image
     }
 }

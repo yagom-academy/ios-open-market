@@ -60,7 +60,7 @@ final class AddProductViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    func configureCollectionView() {
+    private func configureCollectionView() {
         imageCollectionView.isScrollEnabled = false
         view.addSubview(imageCollectionView)
         NSLayoutConstraint.activate([
@@ -71,7 +71,7 @@ final class AddProductViewController: UIViewController {
         ])
     }
     
-    func createLayout() -> UICollectionViewLayout {
+    private func createLayout() -> UICollectionViewLayout {
         let section: NSCollectionLayoutSection = {
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
@@ -102,13 +102,13 @@ final class AddProductViewController: UIViewController {
 }
 
 extension AddProductViewController {
-    func configureHierarchy() {
+    private func configureHierarchy() {
         imageCollectionView.collectionViewLayout = createLayout()
         view.addSubview(imageCollectionView)
         imageCollectionView.delegate = self
     }
     
-    func configureDataSource() {
+    private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ImageCell, Int> { (cell, indexPath, identifier) in
             cell.contentView.backgroundColor = .systemGray3
         }
@@ -129,10 +129,9 @@ extension AddProductViewController {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    func addImageForCell(indexPath: IndexPath) {
+    private func addImageForCell(indexPath: IndexPath) {
         guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
-        cell.plusImageView.isHidden = true
-        cell.productImageView.image = UIImage(systemName: "signature")
+        cell.updateImage(image: UIImage(systemName: "signature"))
     }
 }
 
