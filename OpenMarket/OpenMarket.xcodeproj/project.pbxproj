@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		18509BFA2924B90100C6B9AC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18509BF92924B90100C6B9AC /* NetworkManager.swift */; };
 		185EA4D7292DE652004B4545 /* ProductItemCellContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EA4D6292DE652004B4545 /* ProductItemCellContent.swift */; };
+		189123822939E1DD00FD5690 /* PostParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189123812939E1DD00FD5690 /* PostParameter.swift */; };
+		189123842939E20700FD5690 /* NSMutableData +.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189123832939E20700FD5690 /* NSMutableData +.swift */; };
+		189123862939E27A00FD5690 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189123852939E27A00FD5690 /* HTTPMethod.swift */; };
+		189123882939E28800FD5690 /* HTTPBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189123872939E28700FD5690 /* HTTPBody.swift */; };
 		18E3B685292B6C2C00B25B84 /* Mockable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E3B684292B6C2C00B25B84 /* Mockable+.swift */; };
 		18E853C32925EF8B00EDCE2A /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853C22925EF8B00EDCE2A /* Dictionary+.swift */; };
 		18E853C72925EFE200EDCE2A /* APIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853C62925EFE200EDCE2A /* APIType.swift */; };
@@ -42,6 +46,10 @@
 /* Begin PBXFileReference section */
 		18509BF92924B90100C6B9AC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		185EA4D6292DE652004B4545 /* ProductItemCellContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductItemCellContent.swift; sourceTree = "<group>"; };
+		189123812939E1DD00FD5690 /* PostParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostParameter.swift; sourceTree = "<group>"; };
+		189123832939E20700FD5690 /* NSMutableData +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableData +.swift"; sourceTree = "<group>"; };
+		189123852939E27A00FD5690 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		189123872939E28700FD5690 /* HTTPBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPBody.swift; sourceTree = "<group>"; };
 		18E3B684292B6C2C00B25B84 /* Mockable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mockable+.swift"; sourceTree = "<group>"; };
 		18E853C22925EF8B00EDCE2A /* Dictionary+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+.swift"; sourceTree = "<group>"; };
 		18E853C62925EFE200EDCE2A /* APIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIType.swift; sourceTree = "<group>"; };
@@ -99,6 +107,16 @@
 				185EA4D6292DE652004B4545 /* ProductItemCellContent.swift */,
 			);
 			path = ProductCollectionView;
+			sourceTree = "<group>";
+		};
+		189123802939E1D300FD5690 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				189123812939E1DD00FD5690 /* PostParameter.swift */,
+				189123852939E27A00FD5690 /* HTTPMethod.swift */,
+				189123872939E28700FD5690 /* HTTPBody.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		18E853BB2925EEDA00EDCE2A /* Source */ = {
@@ -161,6 +179,7 @@
 			children = (
 				18E853C22925EF8B00EDCE2A /* Dictionary+.swift */,
 				18E3B684292B6C2C00B25B84 /* Mockable+.swift */,
+				189123832939E20700FD5690 /* NSMutableData +.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -168,6 +187,7 @@
 		18E853C52925EFAE00EDCE2A /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				189123802939E1D300FD5690 /* Common */,
 				18E853C62925EFE200EDCE2A /* APIType.swift */,
 				18509BF92924B90100C6B9AC /* NetworkManager.swift */,
 				F6833682292733B200ADB02B /* TestDouble */,
@@ -345,7 +365,10 @@
 				FCBEE6322934C547005D74F7 /* ProductGridItemCell.swift in Sources */,
 				F683946129223E11001BCCBC /* Currency.swift in Sources */,
 				18E3B685292B6C2C00B25B84 /* Mockable+.swift in Sources */,
+				189123882939E28800FD5690 /* HTTPBody.swift in Sources */,
 				F683945B29223B91001BCCBC /* ProductListResponse.swift in Sources */,
+				189123822939E1DD00FD5690 /* PostParameter.swift in Sources */,
+				189123862939E27A00FD5690 /* HTTPMethod.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */,
 				18509BFA2924B90100C6B9AC /* NetworkManager.swift in Sources */,
 				F683945D29223D14001BCCBC /* Product.swift in Sources */,
@@ -355,6 +378,7 @@
 				18E853CA2925F01800EDCE2A /* OpenMarketAPI.swift in Sources */,
 				18E853CD2925F10800EDCE2A /* NetworkError.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
+				189123842939E20700FD5690 /* NSMutableData +.swift in Sources */,
 				185EA4D7292DE652004B4545 /* ProductItemCellContent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

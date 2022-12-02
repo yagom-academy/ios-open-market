@@ -14,8 +14,11 @@ class StubURLSession<T: Mockable>: URLSessionProtocol {
         self.isSuccess = isSuccess
     }
     
-    func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
+    func dataTask(with request: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
         let sessionDataTask = StubURLSessionDataTask()
+        guard let url = request.url else {
+            return sessionDataTask
+        }
         
         if isSuccess {
             let response = HTTPURLResponse(

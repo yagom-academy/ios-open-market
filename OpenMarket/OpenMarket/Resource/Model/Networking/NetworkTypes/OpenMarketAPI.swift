@@ -6,62 +6,6 @@
 
 import Foundation
 
-struct Parameters: Encodable {
-    let name: String
-    let description: String
-    let price: Double
-    let currency: Currency
-    let discounted_price: Double
-    let stock: Int
-    let secret: String
-}
-
-
-enum ContentType: String {
-    case json = "application/json"
-    case image = "image/jpg"
-}
-
-enum HTTPMethod: String {
-    case GET = "GET"
-    case POST = "POST"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-}
-
-struct HttpBody {
-    var key: String
-    var contentType: ContentType
-    var data: Data
-    
-    func createBody(_ id: String) -> Data {
-        let boundary = "--Boundary-\(id)\r\n"
-        let data = NSMutableData()
-        data.appendString(boundary)
-        
-        if contentType == .json {
-            data.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n")
-        } else {
-            data.appendString("Content-Disposition: form-data; name=\"\(key)\"; filename=\"minii.jpg\"\r\n")
-        }
-        
-        data.appendString("Content-Type: \(contentType.rawValue)\r\n\r\n")
-        
-        data.append(self.data)
-        
-        data.appendString("\r\n")
-        return data as Data
-    }
-}
-
-extension NSMutableData {
-    func appendString(_ value: String) {
-        if let data = value.data(using: .utf8) {
-            self.append(data)
-        }
-    }
-}
-
 enum OpenMarketAPI: APIType {
     case healthChecker
     case productsList(pageNumber: Int, rowCount: Int, searchValue: String = "")
@@ -124,11 +68,14 @@ enum OpenMarketAPI: APIType {
         var value: Data = Data()
         switch self {
         case .addProduct(let id, let bodies):
-            bodies.forEach {
-                value.append($0.createBody(id.uuidString))
+            let boundary = "--\(id.uuidString)"
+            guard let endBoundaryData = "\(boundary)--".data(using: .utf8) else {
+                return value
             }
-            
-            value.append("--Boundary-\(id.uuidString)--".data(using: .utf8)!)
+            bodies.forEach {
+                value.append($0.createBody(boundary: boundary))
+            }
+            value.append(endBoundaryData)
             
             return value
         default:
@@ -146,7 +93,22 @@ enum OpenMarketAPI: APIType {
         if let parameters = parameters {
             baseComponents.queryItems = parameters.asParameters()
         }
-        
         return baseComponents.url
+    }
+    
+    func generateRequest() -> URLRequest? {
+        guard let requestURL = generateURL() else {
+            return nil
+        }
+        
+        var request = URLRequest(url: requestURL)
+        
+        headers.forEach {
+            request.setValue($0.value, forHTTPHeaderField: $0.key)
+        }
+        request.httpBody = body
+        request.httpMethod = method.rawValue
+        
+        return request
     }
 }

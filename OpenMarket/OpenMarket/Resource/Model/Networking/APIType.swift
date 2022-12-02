@@ -15,4 +15,5 @@ protocol APIType {
     var body: Data { get }
     
     func generateURL() -> URL?
+    func generateRequest() -> URLRequest?
 }

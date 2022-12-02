@@ -11,37 +11,12 @@ class NetworkManager<T: Decodable> {
     var testData: Data?
     
     func fetchData(endPoint: APIType, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        guard let url = endPoint.generateURL() else {
+        guard let request = endPoint.generateRequest() else {
             completion(.failure(.invalidURL))
             return
         }
         
-        var request = URLRequest(url: url)
-        request.httpBody = endPoint.body
-        
-        endPoint.headers.forEach {
-            request.addValue($0.value, forHTTPHeaderField: $0.key)
-        }
-        request.httpMethod = endPoint.method.rawValue
-        
-        
-//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//            self.testData = data
-//            if let error = error {
-//                completion(.failure(.requestError(error: error)))
-//                return
-//            }
-//
-//            guard let response = response as? HTTPURLResponse,
-//                  let data = data else {
-//                completion(.failure(.invalidStatusCode))
-//                return
-//            }
-//
-//            print(response)
-//        }
-        
-        let task = session.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             self.testData = data
             if let error = error {
                 completion(.failure(.requestError(error: error)))
@@ -55,8 +30,6 @@ class NetworkManager<T: Decodable> {
                 return
             }
 
-            print(response)
-
             let decoder = JSONDecoder()
 
             do {
@@ -65,6 +38,31 @@ class NetworkManager<T: Decodable> {
             } catch {
                 completion(.failure(.decodeError))
             }
+        }
+        
+        task.resume()
+    }
+    
+    func postProduct(endPoint: APIType, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let request = endPoint.generateRequest() else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            self.testData = data
+            if let error = error {
+                completion(.failure(.requestError(error: error)))
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                  let data = data else {
+                completion(.failure(.invalidStatusCode))
+                return
+            }
+
+            print(String(data: data, encoding: .utf8)!)
         }
         
         task.resume()
