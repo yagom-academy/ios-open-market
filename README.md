@@ -170,7 +170,7 @@
 
 ## 📱 실행 화면
 
-<img src= https://i.imgur.com/jPYR6Oc.gif width=200>
+<img src= "https://i.imgur.com/6nwbq2c.gif" width=200>
 
 ## ❓ 트러블 슈팅 및 어려웠던 점
 
