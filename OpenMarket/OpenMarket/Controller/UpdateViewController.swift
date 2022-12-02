@@ -23,22 +23,33 @@ final class UpdateViewController: UIViewController {
             applyViews()
         }
     }
-    private var imagePickerAlertController: UIAlertController?
+    private var imagePickerActionSheetController: UIAlertController?
+    private var isUploading: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view = productInformationView
-
-        productInformationView.textFieldDelegate = self
-        productInformationView.descriptionTextViewDelegate = self
-        applyViews()
-        setUpAlertController()
-        setUpButton()
+        configure()
     }
     
-    private func setUpAlertController() {
-        imagePickerAlertController = {
+    private func configure() {
+        view = productInformationView
+        applyViews()
+        setUpDelegate()
+        setUpActionSheetController()
+        setUpButton()
+        setUpNavigationBarButton()
+    }
+    
+    private func setUpDelegate() {
+        productInformationView.nameTextField.delegate = self
+        productInformationView.priceTextField.delegate = self
+        productInformationView.discountedPriceTextField.delegate = self
+        productInformationView.stockTextField.delegate = self
+        productInformationView.descriptionTextView.delegate = self
+    }
+    
+    private func setUpActionSheetController() {
+        imagePickerActionSheetController = {
             let alertController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
             let albumAlertAction: UIAlertAction = UIAlertAction(title: "앨범", style: .default) { [weak self] (_) in
@@ -54,6 +65,21 @@ final class UpdateViewController: UIViewController {
     
     private func setUpButton() {
         imagePickerButton.addTarget(self, action: #selector(presentImagePickerAlertController), for: .touchUpInside)
+    }
+    
+    private func setUpNavigationBarButton() {
+        let rightBarButton: UIBarButtonItem = UIBarButtonItem(title: "done",
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: #selector(tappedDoneButton))
+        let leftBarButton: UIBarButtonItem = UIBarButtonItem(title: "Cancel",
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: #selector(tappedCancelButton))
+        
+        navigationItem.setRightBarButton(rightBarButton, animated: false)
+        navigationItem.setLeftBarButton(leftBarButton, animated: false)
+        navigationItem.leftBarButtonItem?.title = "Cancel"
     }
     
     private func applyViews() {
@@ -77,12 +103,73 @@ final class UpdateViewController: UIViewController {
         present(imagePickerController, animated: true)
     }
     
+    private func makeProductByInputedData() -> Product? {
+        guard let name: String = productInformationView.nameTextField.text,
+              let priceText: String = productInformationView.priceTextField.text,
+              let price: Double = Double(priceText),
+              let description: String = productInformationView.descriptionTextView.text,
+              let currency: Currency = .init(productInformationView.currencySegmentedControl.selectedSegmentIndex) else {
+            return nil
+        }
+        
+        let discountedPrice: Double = Double(productInformationView.discountedPriceTextField.text ?? "") ?? 0
+        let stock: Int = Int(productInformationView.stockTextField.text ?? "") ?? 0
+        
+        return Product(name: name, description: description, currency: currency, price: price, discountedPrice: discountedPrice, stock: stock)
+    }
+    
+    private func makeImagesByInputedData() -> [UIImage] {
+        var images: [UIImage] = []
+        let itemCount: Int =  productInformationView.imagePickerCollectionView.numberOfItems(inSection: 0)
+        for item in 0..<itemCount {
+            if let cell: ImagePickerCell = productInformationView.imagePickerCollectionView.cellForItem(at: IndexPath(item: item, section: 0)) as? ImagePickerCell,
+               let imageView: UIImageView = cell.content as? UIImageView,
+               let image: UIImage = imageView.image {
+                if image.size.width > 300,
+                   let resizeImage: UIImage = image.resized(newWidth: 300) {
+                    images.append(resizeImage)
+                } else {
+                    images.append(image)
+                }
+            }
+        }
+        return images
+    }
+    
     @objc
     private func presentImagePickerAlertController(_ sender: UIButton) {
-        guard let imagePickerAlertController = imagePickerAlertController else {
+        guard let imagePickerAlertController = imagePickerActionSheetController else {
             return
         }
         present(imagePickerAlertController, animated: true)
+    }
+    
+    @objc
+    private func tappedCancelButton(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: false)
+    }
+    
+    @objc
+    private func tappedDoneButton(_ sender: UIBarButtonItem) {
+        guard isUploading == false,
+              let product: Product = makeProductByInputedData() else {
+            return
+        }
+        let images: [UIImage] = makeImagesByInputedData()
+        if images.isEmpty == false {
+            let registrationManager = NetworkManager(openMarketAPI: .registration(product: product, images: images))
+            registrationManager.network { [weak self] data, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    self?.isUploading = false
+                } else if let _ = data {
+                    DispatchQueue.main.async {
+                        self?.navigationController?.popViewController(animated: false)
+                    }
+                }
+            }
+            isUploading = true
+        }
     }
 }
 

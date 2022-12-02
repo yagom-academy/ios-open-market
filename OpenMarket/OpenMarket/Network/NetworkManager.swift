@@ -26,7 +26,8 @@ struct NetworkManager {
         URLSession.shared.dataTask(with: request) {data, response, error in
             if let error: Error = error {
                 completionHandler(nil, error)
-            } else if (response as? HTTPURLResponse)?.statusCode != 200 {
+            } else if let httpResponse: HTTPURLResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) == false {
                 completionHandler(nil, OpenMarketError.badStatus())
             } else if let data: Data = data {
                 completionHandler(data, nil)

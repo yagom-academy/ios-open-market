@@ -8,13 +8,13 @@
 import UIKit
 
 final class ProductInformationView: UIView {
-    private let imagePickerCollectionView: ImagePickerCollectionView = ImagePickerCollectionView(frame: .zero, collectionViewLayout: .imagePicker)
-    private let nameTextField: NameTextField = NameTextField(minimumLength: 3, maximumLength: 100)
-    private let priceTextField: NumberTextField = NumberTextField(placeholder: "상품가격")
-    private let discountedPriceTextField: NumberTextField = NumberTextField(placeholder: "할인금액")
-    private let stockTextField: NumberTextField = NumberTextField(placeholder: "재고수량")
-    private let descriptionTextView: DescriptionTextView = DescriptionTextView(minimumLength: 10, maximumLength: 1000)
-    private let currencySegmentedControl: UISegmentedControl = {
+    let imagePickerCollectionView: ImagePickerCollectionView = ImagePickerCollectionView(frame: .zero, collectionViewLayout: .imagePicker)
+    let nameTextField: NameTextField = NameTextField(minimumLength: 3, maximumLength: 100)
+    let priceTextField: NumberTextField = NumberTextField(placeholder: "상품가격")
+    let discountedPriceTextField: NumberTextField = NumberTextField(placeholder: "할인금액")
+    let stockTextField: NumberTextField = NumberTextField(placeholder: "재고수량")
+    let descriptionTextView: DescriptionTextView = DescriptionTextView(minimumLength: 10, maximumLength: 1000)
+    let currencySegmentedControl: UISegmentedControl = {
         let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["KRW", "USD"])
         
         segmentedControl.selectedSegmentIndex = 0
@@ -43,14 +43,6 @@ final class ProductInformationView: UIView {
         
         return stackView
     }()
-    
-    weak var textFieldDelegate: UITextFieldDelegate? {
-        didSet { setUpTextFieldDelegate() }
-    }
-    weak var descriptionTextViewDelegate: UITextViewDelegate? {
-        get { return descriptionTextView.delegate }
-        set { descriptionTextView.delegate = newValue }
-    }
     
     init() {
         super.init(frame: .zero)
@@ -87,12 +79,5 @@ final class ProductInformationView: UIView {
             contentStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: spacing),
             contentStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -spacing)
         ])
-    }
-    
-    private func setUpTextFieldDelegate() {
-        nameTextField.delegate = textFieldDelegate
-        priceTextField.delegate = textFieldDelegate
-        discountedPriceTextField.delegate = textFieldDelegate
-        stockTextField.delegate = textFieldDelegate
     }
 }

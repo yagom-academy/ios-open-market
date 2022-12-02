@@ -15,6 +15,7 @@
 		C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */; };
 		D3424058292DFB67002B6F38 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3424057292DFB67002B6F38 /* ImageCache.swift */; };
 		D342405A292DFE2E002B6F38 /* ImageParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3424059292DFE2E002B6F38 /* ImageParser.swift */; };
+		D34633F22939F47200570715 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34633F12939F47200570715 /* UIImage+.swift */; };
 		D35C5D642923207F005BD21A /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35C5D632923207F005BD21A /* URLSession.swift */; };
 		D3697B5629247B2E008D4017 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B5529247B2E008D4017 /* Error.swift */; };
 		D3697B5829247B40008D4017 /* OpenMarketHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B5729247B40008D4017 /* OpenMarketHealth.swift */; };
@@ -106,6 +107,7 @@
 		C70FB10825BEF61D00C9924E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3424057292DFB67002B6F38 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		D3424059292DFE2E002B6F38 /* ImageParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageParser.swift; sourceTree = "<group>"; };
+		D34633F12939F47200570715 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		D35C5D632923207F005BD21A /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		D3697B5529247B2E008D4017 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		D3697B5729247B40008D4017 /* OpenMarketHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketHealth.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 			children = (
 				D3D6B62D2935C40B0000FAD4 /* String+.swift */,
 				EBB0CD3B2939A6E4004CE6E2 /* Data+.swift */,
+				D34633F12939F47200570715 /* UIImage+.swift */,
 			);
 			path = TypeExtension;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3D6B6302935D72E0000FAD4 /* NameTextField.swift in Sources */,
+				D34633F22939F47200570715 /* UIImage+.swift in Sources */,
 				EBB0CD3A2939A1E4004CE6E2 /* Secret.swift in Sources */,
 				EB9E8895292DC32D00FC1EF5 /* Section.swift in Sources */,
 				EB9E8891292DB92900FC1EF5 /* OpenMarketCollectionView.swift in Sources */,

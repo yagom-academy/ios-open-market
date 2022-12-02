@@ -19,6 +19,10 @@ final class ImagePickerCell: UICollectionViewCell {
         return stackView
     }()
     
+    var content: UIView? {
+        return contentStackView.subviews.first
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
