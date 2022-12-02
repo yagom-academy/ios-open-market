@@ -7,10 +7,6 @@
 
 import UIKit
 
-class CustomImagePickerCollectionCell: UICollectionViewCell {
-    static let identifier = String(describing: CustomImagePickerCollectionCell.self)
-}
-
 class RegisterProductViewController: UIViewController {
     var selectedImage = [UIImage?].init(repeating: nil, count: 5)
     
@@ -24,8 +20,8 @@ class RegisterProductViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(
-            CustomImagePickerCollectionCell.self,
-            forCellWithReuseIdentifier: CustomImagePickerCollectionCell.identifier
+            RegisterCollectionImageCell.self,
+            forCellWithReuseIdentifier: RegisterCollectionImageCell.identifier
         )
         return collectionView
     }()
@@ -161,11 +157,17 @@ extension RegisterProductViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomImagePickerCollectionCell.identifier, for: indexPath) as? CustomImagePickerCollectionCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegisterCollectionImageCell.identifier, for: indexPath) as? RegisterCollectionImageCell else {
             return UICollectionViewCell()
         }
         
-        cell.backgroundColor = .brown
+        let filteredImage = selectedImage.filter { $0 != nil }
+        
+        if indexPath.item == filteredImage.count {
+            cell.configureButtonStyle()
+        } else {
+            cell.backgroundColor = .green
+        }
         
         return cell
     }
@@ -184,7 +186,15 @@ extension RegisterProductViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedImage[indexPath.item] = UIImage(systemName: "applelogo")
-        collectionView.reloadData()
+        let filteredImages = selectedImage.filter { $0 != nil }
+        
+        if filteredImages.count == 5 {
+            return
+        }
+        
+        if indexPath.item == filteredImages.count {
+            selectedImage[indexPath.item] = UIImage(systemName: "applelogo")
+            collectionView.reloadData()
+        }
     }
 }
