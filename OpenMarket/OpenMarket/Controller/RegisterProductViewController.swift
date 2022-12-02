@@ -16,7 +16,7 @@ class RegisterProductViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imagePlusButton: UIButton!
     @IBOutlet weak var imageStackView: UIStackView!
-
+    
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var productDiscountedPriceTextField: UITextField!
@@ -35,14 +35,21 @@ class RegisterProductViewController: UIViewController {
     }
     
     @IBAction func touchUpDoneBarButtonItem(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true)
+        let productCurrency = productCurrencySegmentedControl.selectedSegmentIndex
+        if productNameTextField.text == "" ||
+            productPriceTextField.text == "" ||
+            productDescriptionTextView.text == "" {
+            resisterProductAlert(message: "입력되지 않은 필드가 있습니다.\n 확인해주세요.", success: false)
+        } else {
+            resisterProductAlert(message: "상품이 성공적으로 등록되었습니다.", success: true)
+        }
     }
     
     @IBAction func touchUpImagePlusButton(_ sender: UIButton) {
         presentAlbum()
     }
     
-    func presentAlbum() {
+    private func presentAlbum() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
@@ -61,6 +68,17 @@ class RegisterProductViewController: UIViewController {
         }()
         return imageView
     }
+    
+    private func resisterProductAlert(message: String, success: Bool) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "닫기", style: .default) { [weak self] _ in
+            self?.dismiss(animated: true)}
+        let noAction = UIAlertAction(title: "닫기", style: .default)
+        
+        alert.addAction(success ? okAction : noAction)
+        present(alert, animated: true)
+    }
+    
 }
 
 extension RegisterProductViewController: UIImagePickerControllerDelegate,
@@ -75,7 +93,7 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate,
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor,
                                              multiplier: 1).isActive = true
             imageStackView.insertArrangedSubview(imagePlusButton,
-                                            at: imageStackView.arrangedSubviews.endIndex)
+                                                 at: imageStackView.arrangedSubviews.endIndex)
         }
         
         if imageStackView.arrangedSubviews.count >= 6 {
