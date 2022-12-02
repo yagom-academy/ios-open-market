@@ -85,11 +85,11 @@ OpenMarket
 
 ## ⏰ 타임라인
 
-### 📣 오픈마켓 I
+### 🅰️ 오픈마켓 I
 <details>
 <summary>펼쳐보기</summary>
 
-### 👟 Step 1
+#### 👟 Step 1
 - JSONParsing
     - ✅ DTO 생성
 - Networking 구현
@@ -104,7 +104,7 @@ OpenMarket
 펼쳐보기
 </summary>
     
-#### 1️⃣ Network
+1️⃣ **Network**
 - HttpMethod 
     - HttpMethod를 나타내는 열거형 타입입니다.
 - NetworkRequest
@@ -118,13 +118,13 @@ OpenMarket
     - `URLSessionProtocol`의 `dataTask`메서드에서 반환하는 타입을 지정하는 프로토콜입니다.
     - 이 프로토콜을 채택하면 `resume`메서드의 로직을 구현해주어야 합니다.
      
-#### 2️⃣ Extension
+2️⃣ **Extension**
 - JSONDecoder
     - 제네릭 타입과 데이터를 받아 디코딩하는 타입 메서드를 추가하였습니다.
 - String
     - `"yyyy-MM-dd'T'HH:mm:ss"`의 형식의 문자열을 `Date`타입의 값으로 변경시켜주는 메서드를 추가하였습니다.
 
-#### 3️⃣ OpenMarket
+3️⃣ **OpenMarket**
 - Product
     - `Codable`을 채택하는 DTO입니다.
 - ProductList
@@ -136,7 +136,8 @@ OpenMarket
 - ProductDetailRequest
     - NetworkRequest를 채택하고, 상품 상세 조회를 리퀘스트하기위한 프로퍼티를 갖고 있는 구조체입니다.
     
-#### 4️⃣ Test Double
+    
+4️⃣ **Test Double**
 - products
     - 테스트를 위한 Mock JSON데이터입니다.
 - DataLoader
@@ -148,7 +149,7 @@ OpenMarket
 - MockURLSessionDataTask
     - 테스트를 위해 실제 네트워킹 테스트가 아닌 `DummyData`를 반환하는 클래스 입니다.
     
-#### 5️⃣ Unit Test
+5️⃣ **Unit Test**
 - JSONDecoder, DTO
     - JSONParsingTests
 - NetworkManager
@@ -157,7 +158,7 @@ OpenMarket
     - NetworkRequestTests
 </details>
 
-### 👟 Step 2
+#### 👟 Step 2
 - 컬렉션 뷰 사용하기
     - ✅ 커스터마이징 셀 구현하기
     - ✅ 리스트와 그리드 모양의 컬렉션 뷰 구현하기
@@ -173,7 +174,7 @@ OpenMarket
 펼쳐보기
 </summary>
 
-#### 1️⃣ Extension
+1️⃣ **Extension**
 - DecodingError
     - `errorDescription`을 사용해 상황에 맞는 에러 메세지를 출력하도록 하였습니다.
 - Collection
@@ -186,7 +187,7 @@ OpenMarket
     - ImageCacheManager
         - 이미지를 캐싱하기 위한 싱글톤 객체입니다.
 
-#### 2️⃣ Controller
+2️⃣ **Controller**
 - ProductsViewController
     - 앱 실행시 나오는 첫 화면을 컨트롤 합니다.
     - 데이터를 파싱하고 이를 각 컬렉션 뷰에 전달합니다.
@@ -194,7 +195,7 @@ OpenMarket
 - AddProductViewController
     - 다음 스텝에서 추가될 새로운 상품을 등록하는 화면을 컨트롤합니다.
 
-#### 3️⃣ View
+3️⃣ **View**
 - ListCollectionViewCell
     - 리스트 형태의 컬렉션 뷰에서 사용하는 셀입니다.
     - 리스트 형태로 커스터마이징 된 셀을 그립니다.
@@ -205,11 +206,11 @@ OpenMarket
     
 </details>
 
-### 📣 오픈마켓 II
+### 🅱️ 오픈마켓 II
 <details open>
 <summary>펼쳐보기</summary>
 
-### 👟 Step 1
+#### 👟 Step 1
 - 컬렉션 뷰 사용하기
     - ✅ 하나의 컬렉션 뷰에 여러개의 FlowLayout적용하기
 - 모던 컬렉션 뷰 사용하기
@@ -226,20 +227,20 @@ OpenMarket
 펼쳐보기
 </summary>
 
-#### 1️⃣ Extension
+1️⃣ **Extension**
 - Data
     - `append(_:using:)`을 사용해 문자열을 Data 타입으로 변환시켜 추가하도록 하였습니다.
 
-#### 2️⃣ Controller
+2️⃣ **Controller**
 - AddProductViewController
     - 상품의 등록과 수정을 담당하는 뷰 컨트롤러입니다.
     - 이미지가 추가될 때마다 이미지 컬렉션뷰의 아이템도 추가됩니다.
 
-#### 3️⃣ AddProductViewController
+3️⃣ **AddProductViewController**
 - ImageCell
     - AddProductViewController에서 상품의 이미지를 담당하는 셀입니다.
 
-#### 4️⃣ OpenMarket
+4️⃣ **OpenMarket**
 - EditProduct
     - Codable을 채택하는 DTO입니다.
     - 상품 수정시 변경될 값을 갖습니다.
@@ -260,11 +261,11 @@ OpenMarket
 
 ## 🏃🏻 기술적 도전
 
-### 📣 오픈마켓 I
+### 🅰️ 오픈마켓 I
 <details>
 <summary>펼쳐보기</summary>
     
-### ⚙️ URLSession 
+#### ⚙️ URLSession 
 <details>
 <summary>펼쳐보기</summary>
     
@@ -274,7 +275,7 @@ OpenMarket
 
 </details> 
 
-### ⚙️ Test Double
+#### ⚙️ Test Double
 <details>
 <summary>펼쳐보기</summary>
     
@@ -284,7 +285,7 @@ OpenMarket
 
 </details>
 
-### ⚙️ Segmented Control
+#### ⚙️ Segmented Control
 <details>
 <summary>펼쳐보기</summary>
     
@@ -294,7 +295,7 @@ OpenMarket
 
 </details>
 
-### ⚙️ UIActivityIndicatorView
+#### ⚙️ UIActivityIndicatorView
 <details>
 <summary>펼쳐보기</summary>
     
@@ -304,7 +305,7 @@ OpenMarket
 
 </details>
 
-### ⚙️ NSCache
+#### ⚙️ NSCache
 <details>
 <summary>펼쳐보기</summary>
     
@@ -317,11 +318,11 @@ OpenMarket
 
 </details> 
 
-### 📣 오픈마켓 II
+### 🅱️ 오픈마켓 II
 <details open>
 <summary>펼쳐보기</summary>
     
-### ⚙️ UIRefreshControl
+#### ⚙️ UIRefreshControl
 <details>
 <summary>펼쳐보기</summary>
     
@@ -334,7 +335,7 @@ OpenMarket
     
 </details>
 
-### ⚙️ UICollectionViewDiffableDataSource
+#### ⚙️ UICollectionViewDiffableDataSource
 <details>
 <summary>펼쳐보기</summary>
     
@@ -352,11 +353,11 @@ OpenMarket
 
 ## 🏔 트러블 슈팅 및 고민
     
-### 📣 오픈마켓 I
+### 🅰️ 오픈마켓 I
 <details>
 <summary>펼쳐보기</summary>
     
-### 🚀 테스트용 JSON 파일과 서버 API 문서
+#### 🚀 테스트용 JSON 파일과 서버 API 문서
     
 <details>
 <summary> 
@@ -394,7 +395,7 @@ OpenMarket
 
 </details>
 
-### 🚀 Deprecated Initializer
+#### 🚀 Deprecated Initializer
 
 <details>
 <summary> 
@@ -430,7 +431,7 @@ protocol URLSessionDataTaskProtocol {
 
 </details>
 
-### 💭 재사용이 가능한 Request객체 구현하기
+#### 💭 재사용이 가능한 Request객체 구현하기
     
 <details>
 <summary> 
@@ -468,7 +469,7 @@ extension NetworkRequest {
 
 </details>
     
-### 💭 BoringSSL
+#### 💭 BoringSSL
     
 <details>
 <summary> 
@@ -483,7 +484,7 @@ extension NetworkRequest {
 
 </details>
 
-### 🚀 투명한 네비게이션 바 문제 해결하기
+#### 🚀 투명한 네비게이션 바 문제 해결하기
 
 <details>
 <summary> 
@@ -512,7 +513,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     
 </details>
 
-### 🚀 비동기로 인한 race-condition발생 문제 해결
+#### 🚀 비동기로 인한 race-condition발생 문제 해결
 
 <details>
 <summary> 
@@ -542,7 +543,7 @@ DispatchQueue.main.async { [weak self] in
     
 </details>
 
-### 💭 코드로만 화면 구현하기
+#### 💭 코드로만 화면 구현하기
 
 <details>
 <summary> 
@@ -568,7 +569,7 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
 
 </details>
 
-### 💭 안전한 Collection 사용을 위한 extension
+#### 💭 안전한 Collection 사용을 위한 extension
 
 <details>
 <summary> 
@@ -599,11 +600,11 @@ Int) -> Int {
     
 </details> 
 
-### 📣 오픈마켓 II
+### 🅱️ 오픈마켓 II
 <details open>
 <summary>펼쳐보기</summary>
 
-### 🚀 multipart/form-data httpBody
+#### 🚀 multipart/form-data httpBody
     
 <details>
 <summary> 
@@ -658,7 +659,7 @@ image Data
 
 </details>
 
-### 🚀 모던 컬렉션뷰 가로 스크롤
+#### 🚀 모던 컬렉션뷰 가로 스크롤
     
 <details>
 <summary> 
@@ -680,7 +681,7 @@ private func configureCollectionView() {
 
 </details>
     
-### 💭 하나의 CollectionView 사용하기
+#### 💭 하나의 CollectionView 사용하기
 
 <details>
 <summary> 
@@ -723,7 +724,7 @@ UICollectionViewLayout())
 
 </details>
         
-### 💭 레이아웃 변경시 스크롤 동기화하기
+#### 💭 레이아웃 변경시 스크롤 동기화하기
 
 <details>
 <summary> 
