@@ -159,7 +159,6 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				1A576AC729305540004C9CCF /* LoadingController.swift */,
-				1A576AC3292DC3C6004C9CCF /* ImageCacheManager.swift */,
 				546EB2BF29305F46006DA0CD /* ItemAddViewController.swift */,
 			);
 			path = Controllers;
@@ -180,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				1AEA46AE2923261A00213A87 /* Item.swift */,
+				1A576AC3292DC3C6004C9CCF /* ImageCacheManager.swift */,
 				54D0B0E8292328940061BB15 /* ItemList.swift */,
 				54D0B0EA29232A110061BB15 /* Currency.swift */,
 			);
