@@ -4,4 +4,7 @@ disabled_rules: # 실행에서 제외할 룰 식별자들
 - unused_optional_binding
 - deployment_target
 - trailing_whitespace
+- function_body_length
+- function_parameter_count
+- legacy_constructor
 opt_in_rules: # 일부 룰은 옵트 인 형태로 제공

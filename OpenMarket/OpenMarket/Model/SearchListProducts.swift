@@ -38,6 +38,6 @@ struct SearchListPage: Codable {
 }
 
 enum Currency: String, Codable {
-    case krw = "KRW"
-    case usd = "USD"
+    case KRW
+    case USD
 }

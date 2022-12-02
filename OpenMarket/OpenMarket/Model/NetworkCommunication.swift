@@ -72,4 +72,28 @@ struct NetworkCommunication {
         }
         task.resume()
     }
+    
+    func requestImageData(url: URL, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+        let task: URLSessionDataTask = session.dataTask(with: url) { data, response, error in
+            if error != nil {
+                completionHandler(.failure(.unkownError))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    print("URL요청 실패 : 코드\(response.statusCode)")
+                    completionHandler(.failure(.statusCodeError))
+                    return
+                }
+            }
+            
+            if let data = data {
+                completionHandler(.success(data))
+            } else {
+                completionHandler(.failure(.imageDataConvertError))
+            }
+        }
+        task.resume()
+    }
 }
