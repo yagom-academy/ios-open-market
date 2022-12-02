@@ -8,22 +8,34 @@
 import UIKit
 
 class RegistrationView: UIView {
-    var ImageCollectionView: UICollectionView = {
+    var imageCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        view.backgroundColor = .systemBackground
-
+        view.showsHorizontalScrollIndicator = false
+        
         return view
     }()
     
     override init(frame: CGRect) {
         super .init(frame: frame)
         self.backgroundColor = .systemBackground
+        self.addSubview(imageCollectionView)
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupLayout() {
+        imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            imageCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            imageCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            imageCollectionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2),
+        ])
     }
 }

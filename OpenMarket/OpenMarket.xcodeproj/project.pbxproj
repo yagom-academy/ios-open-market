@@ -25,6 +25,7 @@
 		41D3D7772924814B00C86A9A /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D3D7762924814B00C86A9A /* SampleData.swift */; };
 		86208A67292F5FEA00DD7C1C /* ImageCacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86208A66292F5FEA00DD7C1C /* ImageCacheProvider.swift */; };
 		864048972938DAED001F00B8 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864048962938DAED001F00B8 /* ImageData.swift */; };
+		8640489B29399119001F00B8 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8640489A29399119001F00B8 /* ImageCollectionViewCell.swift */; };
 		864DE0392926300C0025547E /* MockHTTPURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DE0382926300C0025547E /* MockHTTPURLResponse.swift */; };
 		86F0E0282923245600188086 /* Market.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0272923245600188086 /* Market.swift */; };
 		86F0E03029232AEA00188086 /* DecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E02F29232AEA00188086 /* DecodeTests.swift */; };
@@ -78,6 +79,7 @@
 		41D3D7762924814B00C86A9A /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		86208A66292F5FEA00DD7C1C /* ImageCacheProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheProvider.swift; sourceTree = "<group>"; };
 		864048962938DAED001F00B8 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		8640489A29399119001F00B8 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		864DE0382926300C0025547E /* MockHTTPURLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTPURLResponse.swift; sourceTree = "<group>"; };
 		86F0E0272923245600188086 /* Market.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Market.swift; sourceTree = "<group>"; };
 		86F0E02D29232AEA00188086 /* DecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +177,7 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				413CA8752939876E004F9D46 /* RegistrationView.swift */,
+				8640489A29399119001F00B8 /* ImageCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				411376EB292DE16E00AB6D55 /* NSMutableAttributedString+Extension.swift in Sources */,
 				86208A67292F5FEA00DD7C1C /* ImageCacheProvider.swift in Sources */,
 				41D3D7772924814B00C86A9A /* SampleData.swift in Sources */,
+				8640489B29399119001F00B8 /* ImageCollectionViewCell.swift in Sources */,
 				41B6E8A82923BDD900CBF91D /* DateFormatter+Extension.swift in Sources */,
 				86F0E0422924B35A00188086 /* MockURLSessionDataTask.swift in Sources */,
 				413CA8762939876E004F9D46 /* RegistrationView.swift in Sources */,

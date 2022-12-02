@@ -14,10 +14,11 @@ class RegistrationViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         
-        registrationView.ImageCollectionView.delegate = self
-        registrationView.ImageCollectionView.dataSource = self
-        
+        registrationView.imageCollectionView.delegate = self
+        registrationView.imageCollectionView.dataSource = self
+        registrationView.imageCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
         self.view = registrationView
+        
     }
     
     func setupNavigationBar() {
@@ -35,14 +36,25 @@ class RegistrationViewController: UIViewController {
     
 }
 
-extension RegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension RegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
+        if let image = UIImage(named: "loading") {
+            cell.imageView.image = image
+        }
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width / 3, height: view.frame.width / 3)
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        3
+    }
+    
 }
-
