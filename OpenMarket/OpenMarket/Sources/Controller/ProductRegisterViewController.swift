@@ -1,16 +1,22 @@
 //
-//  ProductRegisterViewController.swift
-//  OpenMarket
-//
-//  Created by 최지혁 on 2022/12/02.
+//  OpenMarket - ProductRegisterViewController.swift
+//  Created by Zhilly, Dragon. 22/12/02
+//  Copyright © yagom. All rights reserved.
 //
 
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
-
+    @IBOutlet weak var customView: ProductRegisterView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        customView.delegate = self
+    }
+}
 
+extension ProductRegisterViewController: ProductDelegate {
+    func tappedDismissButton() {
+        self.dismiss(animated: true)
     }
 }

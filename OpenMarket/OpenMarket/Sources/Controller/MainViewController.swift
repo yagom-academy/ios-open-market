@@ -26,13 +26,12 @@ final class MainViewController: UIViewController {
         configureActivityIndicator()
         configureCollectionViewDelegate()
         configureCollectionView()
-        loadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         activityIndicator.startAnimating()
+        loadData()
     }
     
     private func configureActivityIndicator() {

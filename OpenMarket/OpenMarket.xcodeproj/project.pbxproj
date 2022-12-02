@@ -230,7 +230,6 @@
 				B48C5ADF292B816D0090F23D /* URLManager.swift */,
 				D0F39F702925D6AC00645529 /* URLSession+Extension.swift */,
 				D00F80A5292512EB001F6C03 /* URLSessionProtocol.swift */,
-				B4412F542924A101001FA318 /* HttpMethod.swift */,
 			);
 			path = URL;
 			sourceTree = "<group>";
@@ -238,11 +237,12 @@
 		D0225486292BBB850010F13A /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				B44353FD2923723100F165B5 /* NetworkManager.swift */,
 				B43BD14B292C708E00C9EA69 /* NetworkRequestable.swift */,
 				B4A825552938E42700055F41 /* NetworkPostable.swift */,
 				D0225B122938EFB400343411 /* NetworkPatchable.swift */,
 				D0225B1429399BF800343411 /* NetworkDeletable.swift */,
-				B44353FD2923723100F165B5 /* NetworkManager.swift */,
+				B4412F542924A101001FA318 /* HttpMethod.swift */,
 				D0225485292BBB360010F13A /* URL */,
 			);
 			path = Network;

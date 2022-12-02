@@ -6,19 +6,40 @@
 
 import UIKit
 
+protocol ProductDelegate {
+    func tappedDismissButton()
+}
+
 class BaseProductView: UIView {
+    var delegate: ProductDelegate?
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
     override init(frame:CGRect) {
         super.init(frame:frame)
-        self.prepareView()
+        prepareView()
+        loadXib()
     }
     
     required init?(coder:NSCoder) {
         super.init(coder:coder)
         prepareView()
+        loadXib()
     }
     
-    func prepareView() {
+    func prepareView() {}
+    
+    private func loadXib() {
+        let identifier = "BaseProductView"
+        let nibs = Bundle.main.loadNibNamed(identifier, owner: self, options: nil)
+        guard let view = nibs?.first as? UIView else { return }
         
+        view.frame = self.bounds
+        self.addSubview(view)
+    }
+    
+    @IBAction func tapCancelButton(_ sender: UIButton) {
+        delegate?.tappedDismissButton()
     }
 }
 
