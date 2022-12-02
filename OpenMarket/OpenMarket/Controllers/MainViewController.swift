@@ -24,6 +24,12 @@ final class MainViewController: UIViewController {
         case isLoading
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        clearAll()
+        setupData(pageNo: pageCount, itemsPerPage: Constant.itemsPerPage.rawValue)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainView
@@ -33,6 +39,12 @@ final class MainViewController: UIViewController {
         setupData(pageNo: pageCount, itemsPerPage: Constant.itemsPerPage.rawValue)
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
+    }
+    
+    private func clearAll() {
+        productData.removeAll()
+        pageCount = Constant.pageNumberUnit.rawValue
+        scrollState = ScrollState.idle
     }
     
     private func setupData(pageNo: Int, itemsPerPage: Int) {

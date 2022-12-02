@@ -13,6 +13,7 @@ final class NetworkManager {
         self.session = session
     }
     
+    // MARK: - checkHealth
     func checkHealth(to url: URL, completion: @escaping (Result<Int, NetworkError>) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.GET
@@ -24,7 +25,7 @@ final class NetworkManager {
                 return
             }
             
-            guard let safeData = data else {
+            guard data != nil else {
                 print(NetworkError.data.description)
                 completion(.failure(.data))
                 return
@@ -42,6 +43,7 @@ final class NetworkManager {
         }.resume()
     }
     
+    // MARK: - Fetch Data
     func fetchData<T: Decodable>(to url: URL,
                                  dataType: T.Type,
                                  completion: @escaping (Result<T, NetworkError>) -> Void) {
@@ -90,51 +92,62 @@ final class NetworkManager {
         }
     }
     
-    func postData(to url: URL) {
-        let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "Kyochon123",
-                                                                    "description": "Kyochon JMT",
-                                                                    "price": 21000,
-                                                                    "currency": "KRW",
-                                                                    "discounted_price": 500,
-                                                                    "stock": 8000,
-                                                                    "secret": "dk9r294wvfwkgvhn" ])
-        
+    // MARK: - Post NewData
+    func postData(to url: URL,
+                  newData: (productData: NewProduct, images: [UIImage?]),
+                  completion: @escaping (Result<Bool, NetworkError>) -> Void)  {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(newData.productData) else { return }
         let boundary = generateBoundaryString()
 
         var request = URLRequest(url: url)
         request.httpMethod = HttpMethod.POST
-        request.setValue("0574c520-6942-11ed-a917-43299f97bee6",
-                         forHTTPHeaderField: "identifier")
+        request.settingIdentifier()
         request.addValue("multipart/form-data; boundary=\(boundary)",
                          forHTTPHeaderField: "Content-Type")
         
-        let jsonString = String(data: fakeData!, encoding: .utf8)!
-        
         var httpBody = Data()
-        httpBody.append(convertDataForm(named: "params", value: fakeData!, boundary: boundary))
+        httpBody.append(convertDataForm(named: "params", value: data, boundary: boundary))
         
-        let image = UIImage(named: "Kyochon.jpg")
-        guard let imageData = image!.jpegData(compressionQuality: 0.5) else { return }
+        for image in newData.images {
+            guard let image = image, let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+            httpBody.append(convertFileDataForm(fieldName: "images",
+                                                fileName: "imagesName",
+                                                mimeType: "multipart/form-data",
+                                                fileData: imageData,
+                                                boundary: boundary))
+        }
         
-        httpBody.append(convertFileDataForm(fieldName: "images",
-                                            fileName: "Kyochon.jpg",
-                                            mimeType: "multipart/form-data",
-                                            fileData: imageData,
-                                            boundary: boundary))
-
         httpBody.appendStringData("--\(boundary)--")
         request.httpBody = httpBody
-
+        
         session.dataTask(with: request) { data, response, error in
-            print(String(data: data!, encoding: .utf8))
+            guard error == nil else {
+                completion(.failure(.networking))
+                return
+            }
+            
+            guard data != nil else {
+                completion(.failure(.data))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200 ..< 299) ~= response.statusCode else {
+                completion(.failure(.networking))
+                return
+            }
+            
+            completion(.success(true))
         }.resume()
     }
     
+    // MARK: - Patch Data
     func patchData(to url: URL) {
         var request = URLRequest(url: url)
         
         request.httpMethod = HttpMethod.PATCH
-        request.setValue("0574c520-6942-11ed-a917-43299f97bee6", forHTTPHeaderField: "identifier")
+        request.settingIdentifier()
         request.addValue("application/json",
                          forHTTPHeaderField: "Content-Type")
         let bodyData = try? JSONSerialization.data(withJSONObject: ["stock": 777,
@@ -152,11 +165,12 @@ final class NetworkManager {
         }.resume()
     }
         
+    // MARK: - Fetch Delete Item URI
     private func fetchDeleteDataURI(to url: URL, completionHandler: @escaping (String)-> Void) {
         var request = URLRequest(url: url)
         
         request.httpMethod = HttpMethod.POST
-        request.setValue("0574c520-6942-11ed-a917-43299f97bee6", forHTTPHeaderField: "identifier")
+        request.settingIdentifier()
         request.addValue("application/json",
                          forHTTPHeaderField: "Content-Type")
         
@@ -173,13 +187,13 @@ final class NetworkManager {
         }.resume()
     }
     
+    // MARK: - Delete Item Using URI
     func deleteProduct(to url: URL) {
         fetchDeleteDataURI(to: url) { deleteURI in
             guard let deleteURL = NetworkRequest.deleteData(uri: deleteURI).requestURL else { return }
             var request = URLRequest(url: deleteURL)
             request.httpMethod = HttpMethod.DELETE
-            request.setValue("0574c520-6942-11ed-a917-43299f97bee6",
-                             forHTTPHeaderField: "identifier")
+            request.settingIdentifier()
                
             self.session.dataTask(with: request) { data, response, error in
                 print(String(data: data!, encoding: .utf8))
@@ -188,6 +202,8 @@ final class NetworkManager {
     }
 }
 
+
+// MARK: - Assist Make Multipart Data Form
 extension NetworkManager {
     private func generateBoundaryString() -> String {
             return "Boundary-\(UUID().uuidString)"
@@ -218,9 +234,17 @@ extension NetworkManager {
     }
 }
 
+// MARK: - Extension
 extension Data {
     mutating func appendStringData(_ string: String) {
         guard let data = string.data(using: .utf8) else { return }
         self.append(data)
+    }
+}
+
+extension URLRequest {
+    mutating func settingIdentifier() {
+        self.setValue("0574c520-6942-11ed-a917-43299f97bee6",
+                      forHTTPHeaderField: "identifier")
     }
 }

@@ -7,15 +7,16 @@
 
 import Foundation
 
-struct NewProduct {
+struct NewProduct: Encodable {
     let name: String
     let description: String
     let currency: CurrencyUnit
     let price: Double
     var discountedPrice: Double? = 0
     var stock: Int? = 0
+    let secret: String = "dk9r294wvfwkgvhn"
     
-    enum CurrencyUnit: String {
+    enum CurrencyUnit: String, Encodable {
         case KRW
         case USD
     }

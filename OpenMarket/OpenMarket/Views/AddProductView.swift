@@ -8,7 +8,7 @@
 import UIKit
 
 final class AddProductView: UIView {
-    var currency = NewProduct.CurrencyUnit.KRW
+    private var currency = NewProduct.CurrencyUnit.KRW
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -109,6 +109,7 @@ final class AddProductView: UIView {
     }
 }
 
+// MARK: - Data Setting
 extension AddProductView {
     @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
@@ -119,14 +120,16 @@ extension AddProductView {
     }
     
     func setupData() -> Result<NewProduct, DataError> {
-        guard let name = nameTextField.text else { return Result.failure(.none) }
-        guard let description = descriptionTextView.text else { return Result.failure(.none) }
-        guard let priceString = priceTextField.text,
-                let price = Double(priceString) else { return Result.failure(.none) }
+        guard let name = nameTextField.text,
+            let description = descriptionTextView.text,
+            let priceString = priceTextField.text,
+            let price = Double(priceString) else { return Result.failure(.none) }
+        
         var newProduct = NewProduct(name: name,
                                     description: description,
                                     currency: currency,
                                     price: price)
+        
         if salePriceTextField.text != nil {
             guard let salePriceString = salePriceTextField.text else { return Result.failure(.none) }
             newProduct.discountedPrice = Double(salePriceString)

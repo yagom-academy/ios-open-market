@@ -9,10 +9,10 @@ import UIKit
 import PhotosUI
 
 final class AddViewController: UIViewController {
-    let addProductView = AddProductView()
-    let networkManager = NetworkManager()
+    private let addProductView = AddProductView()
+    private let networkManager = NetworkManager()
     
-    var cellImages: [UIImage?] = []
+    private var cellImages: [UIImage?] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,13 +51,24 @@ extension AddViewController {
         switch result {
         case .success(let data):
             guard let postURL = NetworkRequest.postData.requestURL else { return }
-            networkManager.postData(to: postURL)
+            networkManager.postData(to: postURL,
+                                    newData: (productData: data, images: cellImages)) { result in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
         case .failure(let error):
             print(error)
         }
     }
 }
 
+// MARK: - ImageCollectionViewCellDelegate
 extension AddViewController: ImageCollectionViewCellDelegate {
     func imageCollectionViewCell(_ isShowPicker: Bool) {
         var configuration = PHPickerConfiguration()
@@ -71,6 +82,7 @@ extension AddViewController: ImageCollectionViewCellDelegate {
     }
 }
 
+// MARK: - Extension UICollectionView
 extension AddViewController: UICollectionViewDelegate {
     
 }
@@ -100,6 +112,7 @@ extension AddViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - PHPickerViewControllerDelegate
 extension AddViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
