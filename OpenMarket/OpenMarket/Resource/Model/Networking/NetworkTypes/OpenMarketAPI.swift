@@ -6,16 +6,27 @@
 
 import Foundation
 
+struct Parameters: Encodable {
+    let name: String
+    let description: String
+    let price: Double
+    let currency: Currency
+    let discounted_price: Double
+    let stock: Int
+    let secret: String
+}
+
+
 enum ContentType: String {
     case json = "application/json"
-    case image = "image/png"
+    case image = "image/jpg"
 }
 
 enum HTTPMethod: String {
-    case GET = "Get"
-    case POST = "Post"
-    case PATCH = "Patch"
-    case DELETE = "Delete"
+    case GET = "GET"
+    case POST = "POST"
+    case PATCH = "PATCH"
+    case DELETE = "DELETE"
 }
 
 struct HttpBody {
@@ -25,14 +36,20 @@ struct HttpBody {
     
     func createBody(_ id: String) -> Data {
         let boundary = "--Boundary-\(id)\r\n"
-        let contentDataString = contentType == .json ? "Content-Disposition:form-data; name=\"\(key)\"\r\n" : "Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(Date().description).png\"\r\n"
         let data = NSMutableData()
         data.appendString(boundary)
-        data.appendString(contentDataString)
-        data.appendString("Content-Type: \(contentType.rawValue)\r\n")
-        data.append(self.data)
-        data.appendString("\r\n")
         
+        if contentType == .json {
+            data.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n")
+        } else {
+            data.appendString("Content-Disposition: form-data; name=\"\(key)\"; filename=\"minii.jpg\"\r\n")
+        }
+        
+        data.appendString("Content-Type: \(contentType.rawValue)\r\n\r\n")
+        
+        data.append(self.data)
+        
+        data.appendString("\r\n")
         return data as Data
     }
 }
@@ -46,7 +63,6 @@ extension NSMutableData {
 }
 
 enum OpenMarketAPI: APIType {
-
     case healthChecker
     case productsList(pageNumber: Int, rowCount: Int, searchValue: String = "")
     case productSearch(productId: Int)
@@ -79,7 +95,7 @@ enum OpenMarketAPI: APIType {
         }
     }
     
-    var parameters: [String : String] {
+    var parameters: [String : String]? {
         switch self {
         case .productsList(let pageNumber, let rowCount, let searchValue):
             return [
@@ -88,7 +104,7 @@ enum OpenMarketAPI: APIType {
                 "search_value": searchValue
             ]
         default:
-            return [:]
+            return nil
         }
     }
     
@@ -96,7 +112,7 @@ enum OpenMarketAPI: APIType {
         switch self {
         case .addProduct(let id, _):
             return [
-                "identifier": "d94a4ffb-6941-11ed-a917-a7e99e3bb892",
+                "identifier": "5fcfb895-6942-11ed-a917-1385e44824d5",
                 "Content-Type": "multipart/form-data; boundary=\(id.uuidString)"
             ]
         default:
@@ -112,6 +128,8 @@ enum OpenMarketAPI: APIType {
                 value.append($0.createBody(id.uuidString))
             }
             
+            value.append("--Boundary-\(id.uuidString)--".data(using: .utf8)!)
+            
             return value
         default:
             return Data()
@@ -124,7 +142,10 @@ enum OpenMarketAPI: APIType {
         }
         
         baseComponents.path = path
-        baseComponents.queryItems = parameters.asParameters()
+        
+        if let parameters = parameters {
+            baseComponents.queryItems = parameters.asParameters()
+        }
         
         return baseComponents.url
     }

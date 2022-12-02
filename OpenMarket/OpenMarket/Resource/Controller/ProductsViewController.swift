@@ -6,6 +6,7 @@
 
 import UIKit
 
+
 // MARK: ProductsViewController
 final class ProductsViewController: UIViewController {
     enum Constant {
@@ -96,13 +97,6 @@ final class ProductsViewController: UIViewController {
         activityIndicator.startAnimating()
         
         fetchData()
-        
-        let bodies: [HttpBody] = [
-            .init(key: "params", contentType: .json, data: Data()),
-            .init(key: "images", contentType: .image, data: Data())
-        ]
-        let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: bodies)
-        print(String(data: postPoint.body, encoding: .utf8)!)
     }
 }
 
