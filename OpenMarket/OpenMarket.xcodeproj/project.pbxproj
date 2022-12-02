@@ -28,6 +28,7 @@
 		F683945B29223B91001BCCBC /* ProductListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F683945A29223B91001BCCBC /* ProductListResponse.swift */; };
 		F683945D29223D14001BCCBC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = F683945C29223D14001BCCBC /* Product.swift */; };
 		F683946129223E11001BCCBC /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F683946029223E11001BCCBC /* Currency.swift */; };
+		FC9A12A12939D606004A4C7E /* RegisterProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9A12A02939D606004A4C7E /* RegisterProductViewController.swift */; };
 		FCBEE6302934C517005D74F7 /* ProductListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE62F2934C517005D74F7 /* ProductListItemCell.swift */; };
 		FCBEE6322934C547005D74F7 /* ProductGridItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE6312934C547005D74F7 /* ProductGridItemCell.swift */; };
 		FCE9056129236CAE0031F857 /* NetworkUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE9056029236CAE0031F857 /* NetworkUnitTest.swift */; };
@@ -67,6 +68,7 @@
 		F683945A29223B91001BCCBC /* ProductListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListResponse.swift; sourceTree = "<group>"; };
 		F683945C29223D14001BCCBC /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		F683946029223E11001BCCBC /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		FC9A12A02939D606004A4C7E /* RegisterProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductViewController.swift; sourceTree = "<group>"; };
 		FCBEE62F2934C517005D74F7 /* ProductListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListItemCell.swift; sourceTree = "<group>"; };
 		FCBEE6312934C547005D74F7 /* ProductGridItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridItemCell.swift; sourceTree = "<group>"; };
 		FCE9055E29236CAE0031F857 /* NetworkUnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkUnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */,
+				FC9A12A02939D606004A4C7E /* RegisterProductViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				F6833686292733E800ADB02B /* StubURLSession.swift in Sources */,
 				FCBEE6322934C547005D74F7 /* ProductGridItemCell.swift in Sources */,
 				F683946129223E11001BCCBC /* Currency.swift in Sources */,
+				FC9A12A12939D606004A4C7E /* RegisterProductViewController.swift in Sources */,
 				18E3B685292B6C2C00B25B84 /* Mockable+.swift in Sources */,
 				189123882939E28800FD5690 /* HTTPBody.swift in Sources */,
 				F683945B29223B91001BCCBC /* ProductListResponse.swift in Sources */,

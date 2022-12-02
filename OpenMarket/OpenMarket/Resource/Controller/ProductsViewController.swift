@@ -217,8 +217,7 @@ private extension ProductsViewController {
     }
     
     @objc func didTappedAddButton() {
-        // TODO: - 새로운 뷰 컨트롤러로 변경
-        let viewController = UIViewController()
+        let viewController = RegisterProductViewController()
         
         viewController.view.backgroundColor = .systemPink
         navigationController?.pushViewController(viewController, animated: true)
