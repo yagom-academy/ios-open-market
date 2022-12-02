@@ -7,7 +7,28 @@
 
 import UIKit
 
+class CustomImagePickerCollectionCell: UICollectionViewCell {
+    static let identifier = String(describing: CustomImagePickerCollectionCell.self)
+}
+
 class RegisterProductViewController: UIViewController {
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(
+            CustomImagePickerCollectionCell.self,
+            forCellWithReuseIdentifier: CustomImagePickerCollectionCell.identifier
+        )
+        return collectionView
+    }()
+    
     
     let productNameTextField: UITextField = {
         let textField = UITextField()
@@ -56,33 +77,33 @@ class RegisterProductViewController: UIViewController {
     }()
     
     lazy var segmentStackview: UIStackView = {
-        let stackview = UIStackView()
-        stackview.axis = .horizontal
-        stackview.distribution = .fill
-        stackview.addArrangedSubview(productPriceTextField)
-        stackview.addArrangedSubview(currencySegment)
-        stackview.spacing = 8
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.addArrangedSubview(productPriceTextField)
+        stackView.addArrangedSubview(currencySegment)
+        stackView.spacing = 8
         currencySegment.widthAnchor.constraint(equalTo: productPriceTextField.widthAnchor, multiplier: 0.30).isActive = true
         
-        return stackview
+        return stackView
     }()
     
-    lazy var totalStackview: UIStackView = {
-        let stackview = UIStackView()
-        stackview.axis = .vertical
-        stackview.distribution = .equalSpacing
-        stackview.spacing = 8
+    lazy var totalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 8
         [
             productNameTextField,
             segmentStackview,
             discountPriceTextField,
             stockTextField
         ].forEach {
-            stackview.addArrangedSubview($0)
+            stackView.addArrangedSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        return stackview
+        return stackView
     }()
     
     override func viewDidLoad() {
@@ -90,28 +111,68 @@ class RegisterProductViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
-            action: #selector(didtappedDoneButton)
+            action: #selector(didTappedDoneButton)
         )
         navigationController?.title = "상품등록"
         
-        view.addSubview(totalStackview)
+        [collectionView, totalStackView, descriptionTextView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
+        
+        view.addSubview(totalStackView)
         view.addSubview(descriptionTextView)
-        totalStackview.translatesAutoresizingMaskIntoConstraints = false
+        totalStackView.translatesAutoresizingMaskIntoConstraints = false
         descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
         
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            totalStackview.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            totalStackview.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            totalStackview.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            descriptionTextView.topAnchor.constraint(equalTo: totalStackview.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
+            
+            totalStackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            totalStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            totalStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            
+            descriptionTextView.topAnchor.constraint(equalTo: totalStackView.bottomAnchor),
             descriptionTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
             descriptionTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             descriptionTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
     
-    @objc func didtappedDoneButton() {
+    @objc func didTappedDoneButton() {
         
+    }
+}
+
+extension RegisterProductViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomImagePickerCollectionCell.identifier, for: indexPath) as? CustomImagePickerCollectionCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.backgroundColor = .brown
+        
+        return cell
+    }
+}
+
+extension RegisterProductViewController: UICollectionViewDelegateFlowLayout {
+    
+}
+
+extension RegisterProductViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let viewSize = view.frame.size
+        let contentWidth = viewSize.width / 3 - 10
+        
+        return CGSize(width: contentWidth, height: contentWidth)
     }
 }
