@@ -31,7 +31,11 @@ final class MainViewController: UIViewController {
     }
 
     @objc private func addItem() {
-        navigationController?.pushViewController(ItemAddViewController(), animated: false)
+        let itemAddVC = ItemAddViewController()
+        let itemAddNavVC = UINavigationController(rootViewController: itemAddVC)
+        itemAddNavVC.modalPresentationStyle = .fullScreen
+        itemAddNavVC.modalTransitionStyle = .crossDissolve
+        present(itemAddNavVC, animated: true)
     }
     
     @objc private func changeItemView(_ sender: UISegmentedControl) {
