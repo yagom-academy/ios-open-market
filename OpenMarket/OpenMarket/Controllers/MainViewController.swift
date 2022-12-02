@@ -27,7 +27,7 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         clearAll()
-        setupData(pageNo: pageCount, itemsPerPage: Constant.itemsPerPage.rawValue)
+        setupData()
     }
     
     override func viewDidLoad() {
@@ -35,8 +35,6 @@ final class MainViewController: UIViewController {
         self.view = mainView
         setupNavigationBar()
         setupSegmentedControlTarget()
-        
-        setupData(pageNo: pageCount, itemsPerPage: Constant.itemsPerPage.rawValue)
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
     }
@@ -47,11 +45,14 @@ final class MainViewController: UIViewController {
         scrollState = ScrollState.idle
     }
     
-    private func setupData(pageNo: Int, itemsPerPage: Int) {
+    private func setupData() {
         guard scrollState == .idle else { return }
         scrollState = .isLoading
-        guard let productListURL = NetworkRequest.productList(
-            pageNo: pageNo, itemsPerPage: itemsPerPage).requestURL else { return }
+        
+        pageCount += Constant.pageNumberUnit.rawValue
+        let itemsPerPage = Constant.itemsPerPage.rawValue
+        guard let productListURL = NetworkRequest.productList(pageNo: pageCount,
+            itemsPerPage: itemsPerPage).requestURL else { return }
         
         networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
             switch result {
@@ -113,8 +114,7 @@ extension MainViewController: UICollectionViewDelegate {
         let frameHeight = scrollView.frame.size.height
         
         if heightRemainBottomHeight < frameHeight {
-            pageCount += Constant.pageNumberUnit.rawValue
-            self.setupData(pageNo: pageCount, itemsPerPage: Constant.itemsPerPage.rawValue)
+            self.setupData()
         }
     }
 }
