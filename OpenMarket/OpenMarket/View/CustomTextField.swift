@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomTextField: UITextField {
+final class CustomTextField: UITextField {
     init(placeHolder: String) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false

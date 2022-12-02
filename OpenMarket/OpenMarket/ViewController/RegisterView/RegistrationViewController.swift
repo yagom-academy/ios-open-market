@@ -16,7 +16,10 @@ class RegistrationViewController: UIViewController {
         
         registrationView.imageCollectionView.delegate = self
         registrationView.imageCollectionView.dataSource = self
-        registrationView.imageCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
+        registrationView.imageCollectionView.register(
+            ImageCollectionViewCell.self,
+            forCellWithReuseIdentifier: ImageCollectionViewCell.identifier
+        )
         self.view = registrationView
         
     }
@@ -36,25 +39,33 @@ class RegistrationViewController: UIViewController {
     
 }
 
-extension RegistrationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+extension RegistrationViewController: UICollectionViewDelegate,
+                                      UICollectionViewDataSource,
+                                      UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+       return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ImageCollectionViewCell.identifier,
+            for: indexPath
+        ) as? ImageCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         if let image = UIImage(named: "loading") {
             cell.imageView.image = image
         }
+        
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width / 3, height: view.frame.width / 3)
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.height * 0.8,
+                      height: collectionView.frame.height * 0.8)
     }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        3
-    }
-    
 }
