@@ -11,6 +11,7 @@ class ItemAddViewController: UIViewController {
     // MARK: - Private property
     private let networkManager = NetworkManager()
     private var itemImages: [UIImage] = []
+    private var isPost: Bool = false
     
     private lazy var registerationImageView: UIView = {
         let view = UIView()
@@ -206,6 +207,10 @@ extension ItemAddViewController {
         let discountedPriceText = discountedPriceTextField.text ?? "0"
         let stockText = stockTextField.text ?? "0"
         
+        guard !isPost else {
+            showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
+            return
+        }
         guard itemImages.count > 0 else {
             showAlert(title: "경고", message: "이미지를 등록해주세요.", actionTitle: "확인", dismiss: false)
             return
@@ -239,18 +244,22 @@ extension ItemAddViewController {
                                      "stock": stock,
                                      "description": desciptionText,
                                      "secret": NetworkManager.secret]
-        
+        self.isPost = true
+        LoadingController.showLoading()
         networkManager.addItem(params: params, images: itemImages) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
+                    LoadingController.hideLoading()
                     self.showAlert(title: "성공", message: "등록에 성공했습니다", actionTitle: "확인", dismiss: true)
                 }
             case .failure(_):
                 DispatchQueue.main.async {
+                    LoadingController.hideLoading()
                     self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
                 }
             }
+            self.isPost = false
         }
     }
     
