@@ -15,6 +15,7 @@ final class AddProductView: UIView {
         self.backgroundColor = .white
         setupUI()
         registerCell()
+        registerTextFieldDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -40,6 +41,8 @@ final class AddProductView: UIView {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = UIKeyboardType.default
+        textField.returnKeyType = .done
         return textField
     }()
     
@@ -47,7 +50,8 @@ final class AddProductView: UIView {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.returnKeyType = .done
+        textField.keyboardType = UIKeyboardType.numberPad
         return textField
     }()
     
@@ -55,7 +59,7 @@ final class AddProductView: UIView {
         let textField = UITextField()
         textField.placeholder = "할인가격"
         textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.keyboardType = UIKeyboardType.numberPad
         return textField
     }()
     
@@ -63,13 +67,17 @@ final class AddProductView: UIView {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.keyboardType = UIKeyboardType.numberPad
         return textField
     }()
     
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.systemGray4.cgColor
+        textView.layer.cornerRadius = 10
+        textView.keyboardType = UIKeyboardType.default
+        textView.returnKeyType = .done
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -106,6 +114,43 @@ final class AddProductView: UIView {
     private func registerCell() {
         collectionView.register(ImageCollectionViewCell.self,
                                 forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+    }
+}
+
+// MARK: - UITextFieldDelegate & UITextViewDelegate
+extension AddProductView: UITextFieldDelegate, UITextViewDelegate {
+    private func registerTextFieldDelegate() {
+        nameTextField.delegate = self
+        priceTextField.delegate = self
+        salePriceTextField.delegate = self
+        stockTextField.delegate = self
+        descriptionTextView.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if nameTextField.text != "" {
+            priceTextField.becomeFirstResponder()
+            return true
+        }
+        return false
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        nameTextField.resignFirstResponder()
+        priceTextField.resignFirstResponder()
+        salePriceTextField.resignFirstResponder()
+        stockTextField.resignFirstResponder()
+        descriptionTextView.resignFirstResponder()
+    }
+    
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        if descriptionTextView.text.count >= 1000 && text != "" {
+            return false
+        }
+        print(descriptionTextView.text.count)
+        return true
     }
 }
 
