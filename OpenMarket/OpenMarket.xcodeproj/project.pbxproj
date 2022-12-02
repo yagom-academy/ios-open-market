@@ -18,6 +18,9 @@
 		B4A18BA5292F09C40066279E /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A18BA3292F09C40066279E /* GridCollectionViewCell.swift */; };
 		B4A18BA6292F09C40066279E /* GridCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A18BA4292F09C40066279E /* GridCollectionViewCell.xib */; };
 		B4A825562938E42700055F41 /* NetworkPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A825552938E42700055F41 /* NetworkPostable.swift */; };
+		B4A825582939D5E200055F41 /* BaseProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A825572939D5E200055F41 /* BaseProductView.swift */; };
+		B4A8255A2939D5F600055F41 /* BaseProductView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A825592939D5F600055F41 /* BaseProductView.xib */; };
+		B4A8255C2939D8E900055F41 /* ProductRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A8255B2939D8E900055F41 /* ProductRegisterViewController.swift */; };
 		B4AF346C29225E8000DF99C7 /* JSONDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */; };
 		B4DEADC6292DBC520068F5E3 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DEADC5292DBC520068F5E3 /* UIImageView+Extension.swift */; };
 		B4DEADC8292DC0E80068F5E3 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DEADC7292DC0E80068F5E3 /* String+Extension.swift */; };
@@ -79,6 +82,9 @@
 		B4A18BA3292F09C40066279E /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		B4A18BA4292F09C40066279E /* GridCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCollectionViewCell.xib; sourceTree = "<group>"; };
 		B4A825552938E42700055F41 /* NetworkPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPostable.swift; sourceTree = "<group>"; };
+		B4A825572939D5E200055F41 /* BaseProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseProductView.swift; sourceTree = "<group>"; };
+		B4A825592939D5F600055F41 /* BaseProductView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseProductView.xib; sourceTree = "<group>"; };
+		B4A8255B2939D8E900055F41 /* ProductRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterViewController.swift; sourceTree = "<group>"; };
 		B4AF346929225E8000DF99C7 /* JSONDecodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONDecodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4AF346B29225E8000DF99C7 /* JSONDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodeTests.swift; sourceTree = "<group>"; };
 		B4DEADC5292DBC520068F5E3 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -266,6 +272,8 @@
 				D022548B292C9EC10010F13A /* ListCollectionViewCell.swift */,
 				B4A18BA4292F09C40066279E /* GridCollectionViewCell.xib */,
 				B4A18BA3292F09C40066279E /* GridCollectionViewCell.swift */,
+				B4A825592939D5F600055F41 /* BaseProductView.xib */,
+				B4A825572939D5E200055F41 /* BaseProductView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				B4A8255B2939D8E900055F41 /* ProductRegisterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -446,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
+				B4A8255A2939D5F600055F41 /* BaseProductView.xib in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				D022548E292C9EC10010F13A /* ListCollectionViewCell.xib in Resources */,
 				B4A18BA6292F09C40066279E /* GridCollectionViewCell.xib in Resources */,
@@ -486,11 +496,13 @@
 				D0225B132938EFB400343411 /* NetworkPatchable.swift in Sources */,
 				D03ED9E729236261005F30A8 /* Image.swift in Sources */,
 				D03ED9D029224DBD005F30A8 /* JSONDecode+Extension.swift in Sources */,
+				B4A8255C2939D8E900055F41 /* ProductRegisterViewController.swift in Sources */,
 				B48C5AE0292B816D0090F23D /* URLManager.swift in Sources */,
 				D03ED9E229235FB6005F30A8 /* Product.swift in Sources */,
 				B44353FE2923723100F165B5 /* NetworkManager.swift in Sources */,
 				D03ED9D229225712005F30A8 /* ProductList.swift in Sources */,
 				D0225488292BBC7C0010F13A /* JSONDecodeError.swift in Sources */,
+				B4A825582939D5E200055F41 /* BaseProductView.swift in Sources */,
 				D0225B072935D07A00343411 /* CellIdentifierInfo+Extension.swift in Sources */,
 				B4A18BA5292F09C40066279E /* GridCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

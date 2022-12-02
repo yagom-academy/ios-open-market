@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BaseProductView" customModule="OpenMarket" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DXQ-Hf-2Ak">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="34.333333333333336"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RcC-Ac-7Rc">
+                            <rect key="frame" x="0.0" y="0.0" width="76.666666666666671" height="34.333333333333336"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상품등록" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIr-zo-LwF">
+                            <rect key="frame" x="173.33333333333334" y="6.9999999999999982" width="59" height="20.333333333333329"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eag-eX-II2">
+                            <rect key="frame" x="328.66666666666669" y="0.0" width="64.333333333333314" height="34.333333333333336"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Done"/>
+                        </button>
+                    </subviews>
+                </stackView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="tin-09-sSf">
+                    <rect key="frame" x="10" y="182" width="373" height="169"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WpX-fZ-h8b">
+                            <rect key="frame" x="0.0" y="0.0" width="373" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="JH1-T1-WTf">
+                            <rect key="frame" x="0.0" y="45" width="373" height="34"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcD-fa-gtp">
+                                    <rect key="frame" x="0.0" y="0.0" width="265" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gXV-Mf-qwp">
+                                    <rect key="frame" x="276" y="0.0" width="97" height="35"/>
+                                    <segments>
+                                        <segment title="KRW"/>
+                                        <segment title="USD"/>
+                                    </segments>
+                                </segmentedControl>
+                            </subviews>
+                        </stackView>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rZh-i2-lur">
+                            <rect key="frame" x="0.0" y="90" width="373" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M85-8y-hca">
+                            <rect key="frame" x="0.0" y="135" width="373" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                </stackView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rdf-YM-nQQ">
+                    <rect key="frame" x="10" y="361" width="373" height="447"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                    <color key="textColor" systemColor="labelColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="APu-r3-qbX">
+                    <rect key="frame" x="10" y="44.333333333333336" width="373" height="127.66666666666666"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4CX-hR-LfM">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells/>
+                </collectionView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="aCP-OM-hBa"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="aCP-OM-hBa" firstAttribute="trailing" secondItem="rdf-YM-nQQ" secondAttribute="trailing" constant="10" id="2Kp-5M-Kbs"/>
+                <constraint firstItem="APu-r3-qbX" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.15" id="61H-cQ-xVx"/>
+                <constraint firstItem="aCP-OM-hBa" firstAttribute="bottom" secondItem="rdf-YM-nQQ" secondAttribute="bottom" constant="10" id="ChT-F9-UWW"/>
+                <constraint firstItem="rdf-YM-nQQ" firstAttribute="leading" secondItem="aCP-OM-hBa" secondAttribute="leading" constant="10" id="Cqk-Ps-Lyo"/>
+                <constraint firstItem="tin-09-sSf" firstAttribute="top" secondItem="APu-r3-qbX" secondAttribute="bottom" constant="10" id="Ied-hM-cWN"/>
+                <constraint firstItem="DXQ-Hf-2Ak" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JOh-xw-CLf"/>
+                <constraint firstItem="rdf-YM-nQQ" firstAttribute="top" secondItem="tin-09-sSf" secondAttribute="bottom" constant="10" id="K8a-vY-I4D"/>
+                <constraint firstItem="APu-r3-qbX" firstAttribute="leading" secondItem="aCP-OM-hBa" secondAttribute="leading" constant="10" id="Ni4-wE-VOD"/>
+                <constraint firstItem="aCP-OM-hBa" firstAttribute="trailing" secondItem="APu-r3-qbX" secondAttribute="trailing" constant="10" id="Ra6-Nb-ccy"/>
+                <constraint firstAttribute="trailing" secondItem="DXQ-Hf-2Ak" secondAttribute="trailing" id="S5U-eO-WOm"/>
+                <constraint firstItem="aCP-OM-hBa" firstAttribute="trailing" secondItem="tin-09-sSf" secondAttribute="trailing" constant="10" id="eQv-PQ-NfL"/>
+                <constraint firstItem="DXQ-Hf-2Ak" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fOq-Io-gE7"/>
+                <constraint firstItem="tin-09-sSf" firstAttribute="leading" secondItem="aCP-OM-hBa" secondAttribute="leading" constant="10" id="mNt-3u-3fX"/>
+                <constraint firstItem="APu-r3-qbX" firstAttribute="top" secondItem="DXQ-Hf-2Ak" secondAttribute="bottom" constant="10" id="mdf-xU-Tcq"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="descriptionTextView" destination="rdf-YM-nQQ" id="iCI-TD-1hf"/>
+            </connections>
+            <point key="canvasLocation" x="83" y="32"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

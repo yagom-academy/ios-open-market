@@ -44,11 +44,6 @@ final class MainViewController: UIViewController {
     private func loadData() {
         let session: URLSessionProtocol = URLSession.shared
         let networkManager: NetworkRequestable = NetworkManager(session: session)
-        let test = NetworkManager(session: session)
-                
-        DispatchQueue.global().async {
-//            test.delete(id: 607)
-        }
         
         networkManager.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 200).url,
                                httpMethod: HttpMethod.get,
