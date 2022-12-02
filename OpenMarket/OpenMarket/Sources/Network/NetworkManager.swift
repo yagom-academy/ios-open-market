@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct NetworkManager {
     private let session: URLSessionProtocol
@@ -14,8 +15,8 @@ struct NetworkManager {
     }
     
     private func dataTask<T: Decodable>(request: URLRequest,
-                          dataType: T.Type,
-                          completion: @escaping (Result<T, NetworkError>) -> Void) {
+                                        dataType: T.Type,
+                                        completion: @escaping (Result<T, NetworkError>) -> Void) {
         let task: URLSessionDataTask = session.dataTask(with: request) { data, response, error in
             if error != nil {
                 completion(.failure(.dataTaskError))
@@ -57,14 +58,160 @@ struct NetworkManager {
 
 extension NetworkManager: NetworkRequestable {
     func request<T: Decodable>(from url: URL?,
-                 httpMethod: HttpMethod,
-                 dataType: T.Type,
-                 completion: @escaping (Result<T,NetworkError>) -> Void) {
+                               httpMethod: HttpMethod,
+                               dataType: T.Type,
+                               completion: @escaping (Result<T,NetworkError>) -> Void) {
         if let targetURL = url {
             var request: URLRequest = URLRequest(url: targetURL,timeoutInterval: Double.infinity)
             request.httpMethod = httpMethod.name
             
             dataTask(request: request, dataType: dataType, completion: completion)
         }
+    }
+}
+
+extension NetworkManager: NetworkPostable {
+    func post(to url: URL?) {
+        let boundary: String = "Boundary-\(UUID().uuidString)"
+        guard let targetURL: URL = url else { return }
+        var request: URLRequest = URLRequest(url: targetURL)
+        
+        request.httpMethod = HttpMethod.post.name
+        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = buildBody(boundary: boundary)
+        
+        session.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8)!)
+        }.resume()
+    }
+    
+    private func buildBody(boundary: String) -> Data {
+        var httpBody = Data()
+        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "두부",
+                                                                          "description": "질리네강아지",
+                                                                          "price": 999999999,
+                                                                          "currency": "USD",
+                                                                          "discounted_price": 0,
+                                                                          "stock": 1,
+                                                                          "secret": "rzeyxdwzmjynnj3f" ]) else {
+            return Data()
+        }
+        let image = UIImage(named: "Dooboo.jpg")
+        guard let imageData = image!.jpegData(compressionQuality: 0.1) else { return Data() }
+        
+        httpBody.append(convertDataForm(named: "params", value: fakeData, boundary: boundary))
+        httpBody.append(convertFileDataForm(boundary: boundary,
+                                            fieldName: "images",
+                                            fileName: "Dooboo.png",
+                                            mimeType: "multipart/form-data",
+                                            fileData: imageData))
+        httpBody.appendString("--\(boundary)--")
+        
+        return httpBody
+    }
+    
+    private func convertDataForm(named name: String, value: Data, boundary: String) -> Data {
+        var data = Data()
+        
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+        data.appendString("\r\n")
+        data.append(value)
+        data.appendString("\r\n")
+        
+        return data
+    }
+    
+    private func convertFileDataForm(boundary: String,
+                                     fieldName: String,
+                                     fileName: String,
+                                     mimeType: String,
+                                     fileData: Data) -> Data {
+        var data = Data()
+        
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        data.append(fileData)
+        data.appendString("\r\n")
+        
+        return data
+    }
+}
+
+extension NetworkManager: NetworkPatchable {
+    func patch(to url: URL?) {
+        guard let targetURL: URL = url else { return }
+        var request: URLRequest = URLRequest(url: targetURL)
+        
+        request.httpMethod = HttpMethod.patch.name
+        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = buildData()
+        
+        session.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8)!)
+        }.resume()
+    }
+    
+    private func buildData() -> Data {
+        var data = Data()
+        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["stock": 1,
+                                                                          "name": "두부",
+                                                                          "description": "질리네강아지",
+                                                                          "price": 9999999999,
+                                                                          "currency": "USD",
+                                                                          "discounted_price": 0,
+                                                                          "secret": "rzeyxdwzmjynnj3f" ]) else {
+            return Data()
+        }
+        
+        data.append(fakeData)
+        
+        return data
+    }
+}
+
+extension NetworkManager: NetworkDeletable {
+    func delete(id: Int) {
+        checkDeleteURI(to: URLManager.checkDeleteURI(id: id).url) { url in
+            guard let targetURL: URL = URLManager.delete(path: url).url else { return }
+            var request: URLRequest = URLRequest(url: targetURL)
+            
+            request.httpMethod = HttpMethod.delete.name
+            request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+            
+            session.dataTask(with: request) { data, response, error in
+                print(String(data: data!, encoding: .utf8)!)
+            }.resume()
+        }
+    }
+    
+    private func checkDeleteURI(to url: URL?, completion: @escaping (String) -> Void) {
+        guard let targetURL: URL = url else { return }
+        var request: URLRequest = URLRequest(url: targetURL)
+        
+        request.httpMethod = HttpMethod.post.name
+        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = convertToJSONData()
+        
+        session.dataTask(with: request) { data, response, error in
+            if let data = data, let url = String(data: data, encoding: .utf8) {
+                completion(url)
+            }
+        }.resume()
+    }
+    
+    private func convertToJSONData() -> Data {
+        var data = Data()
+        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["secret": "rzeyxdwzmjynnj3f"]) else {
+            return Data()
+        }
+        
+        data.append(fakeData)
+        
+        return data
     }
 }
