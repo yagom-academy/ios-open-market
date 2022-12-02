@@ -28,6 +28,10 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
+        configureCollectionView()
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
         configureFetchItemList()
     }
 }
@@ -120,7 +124,6 @@ extension MainViewController {
                 LoadingController.hideLoading()
                 self.itemList = success.pages
                 DispatchQueue.main.async {
-                    self.configureCollectionView()
                     self.gridCollectionView.configureGridDataSource(self.itemList)
                     self.listCollectionView.configureListDataSource(self.itemList)
                 }
