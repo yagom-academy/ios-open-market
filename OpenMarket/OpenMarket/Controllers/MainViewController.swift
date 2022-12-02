@@ -18,7 +18,7 @@ final class MainViewController: UIViewController {
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
-
+    
     private let networkManager = NetworkManager()
     private var gridCollectionView: GridUICollectionView!
     private var listCollectionView: ListUICollectionView!
@@ -29,7 +29,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureNavigation()
         configureCollectionView()
-
+        
         gridCollectionView.delegate = self
         listCollectionView.delegate = self
         
@@ -50,17 +50,17 @@ extension MainViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalHeight(0.35))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let spacing = CGFloat(10)
         group.interItemSpacing = .fixed(spacing)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = spacing
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
@@ -72,16 +72,16 @@ extension MainViewController {
         self.view.addSubview(self.gridCollectionView)
         
         showCollectionType(segmentIndex: self.segmentedControl.selectedSegmentIndex)
-
+        
         self.listCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             self.listCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             self.listCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             self.listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.listCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-
+            
             self.gridCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             self.gridCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -112,7 +112,7 @@ extension MainViewController {
             self.gridCollectionView.isHidden = false
         }
     }
-
+    
     private func configureNavigation() {
         self.navigationItem.titleView = segmentedControl
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
@@ -132,9 +132,22 @@ extension MainViewController {
                 }
             case .failure(_):
                 LoadingController.hideLoading()
-                self.configureFetchItemList()
+                DispatchQueue.main.async {
+                    self.retryAlert()
+                }
             }
         }
+    }
+    
+    private func retryAlert() {
+        let alert = UIAlertController(title: "통신 실패", message: "데이터를 받아오지 못했습니다", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "다시 시도", style: .default, handler: { _ in
+            self.configureFetchItemList()
+        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: { _ in
+            exit(0)
+        }))
+        self.present(alert, animated: false)
     }
 }
 

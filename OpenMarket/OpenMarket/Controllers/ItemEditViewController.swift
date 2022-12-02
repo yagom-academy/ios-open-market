@@ -11,7 +11,7 @@ class ItemEditViewController: ItemViewController {
     // MARK: - Property
     var itemId: Int?
     var item: Item?
-
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,34 +28,46 @@ extension ItemEditViewController {
     
     private func fetchItem() {
         guard let itemId = itemId else { return }
-
+        
         LoadingController.showLoading()
         networkManager.fetchItem(productId: itemId) { result in
             switch result {
             case .success(let item):
                 LoadingController.hideLoading()
                 self.item = item
-
+                
                 DispatchQueue.main.async {
                     self.configureData()
                 }
-            case .failure(let error):
+            case .failure(_):
                 LoadingController.hideLoading()
-                print(error)
+                
+                DispatchQueue.main.async {
+                    self.retryAlert()
+                }
             }
         }
     }
-
+    private func retryAlert() {
+        let alert = UIAlertController(title: "통신 실패", message: "데이터를 받아오지 못했습니다", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "다시 시도", style: .default, handler: { _ in
+            self.fetchItem()
+        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: { _ in
+            self.dismiss(animated: false)
+        }))
+        self.present(alert, animated: false)
+    }
     private func configureData() {
         guard let item = item else { return }
-
+        
         itemNameTextField.text = item.name
         priceTextField.text = String(item.price)
         discountedPriceTextField.text = String(item.discountedPrice)
         descriptionTextView.text = item.pageDescription
         stockTextField.text = String(item.stock)
         currencySegmentedControl.selectedSegmentIndex = (item.currency == .krw ? 0 : 1)
-
+        
         item.images?.forEach {
             guard let url = URL(string: $0.url) else { return }
             networkManager.fetchImage(url: url) { image in
@@ -76,7 +88,7 @@ extension ItemEditViewController {
         let priceText = priceTextField.text ?? "0"
         let discountedPriceText = discountedPriceTextField.text ?? "0"
         let stockText = stockTextField.text ?? "0"
-
+        
         guard !isPost else {
             showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
             return
@@ -85,31 +97,31 @@ extension ItemEditViewController {
             showAlert(title: "경고", message: "이미지를 등록해주세요.", actionTitle: "확인", dismiss: false)
             return
         }
-
+        
         guard let itemNameText =  itemNameTextField.text,
               itemNameText.count > 2 else {
             showAlert(title: "경고", message: "제목을 3글자 이상 입력해주세요.", actionTitle: "확인", dismiss: false)
             return
         }
-
-
+        
+        
         guard let price = Double(priceText),
               let discountPrice = Double(discountedPriceText),
               let stock = Int(stockText) else {
             showAlert(title: "경고", message: "유효한 숫자를 입력해주세요", actionTitle: "확인", dismiss: false)
             return
         }
-
+        
         guard let descriptionText = descriptionTextView.text,
               descriptionText.count <= 1000 else {
             showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
             return
         }
-
+        
         let params: [String: Any] = ["name": itemNameText,
                                      "price": price,
                                      "currency": currencySegmentedControl.selectedSegmentIndex == 0
-                                                    ? Currency.krw.rawValue: Currency.usd.rawValue,
+                                     ? Currency.krw.rawValue: Currency.usd.rawValue,
                                      "discounted_price": discountPrice,
                                      "stock": stock,
                                      "description": descriptionText,
