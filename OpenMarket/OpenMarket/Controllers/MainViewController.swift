@@ -46,10 +46,11 @@ final class MainViewController: UIViewController {
     }
     
     private func setupData() {
+        defer { pageCount += Constant.pageNumberUnit.rawValue }
+        
         guard scrollState == .idle else { return }
         scrollState = .isLoading
         
-        pageCount += Constant.pageNumberUnit.rawValue
         let itemsPerPage = Constant.itemsPerPage.rawValue
         guard let productListURL = NetworkRequest.productList(pageNo: pageCount,
             itemsPerPage: itemsPerPage).requestURL else { return }

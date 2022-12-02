@@ -21,9 +21,6 @@ final class AddViewController: UIViewController {
         addProductView.collectionView.delegate = self
         addProductView.collectionView.dataSource = self
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
 }
 
 // MARK: - UI & UIAction

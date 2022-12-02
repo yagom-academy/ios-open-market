@@ -110,7 +110,7 @@ final class NetworkManager {
         httpBody.append(convertDataForm(named: "params", value: data, boundary: boundary))
         
         for image in newData.images {
-            guard let image = image, let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+            guard let image = image, let imageData = image.jpegData(compressionQuality: 0.1) else { return }
             httpBody.append(convertFileDataForm(fieldName: "images",
                                                 fileName: "imagesName",
                                                 mimeType: "multipart/form-data",
@@ -135,6 +135,7 @@ final class NetworkManager {
             guard let response = response as? HTTPURLResponse,
                   (200 ..< 299) ~= response.statusCode else {
                 completion(.failure(.networking))
+                print(response)
                 return
             }
             
