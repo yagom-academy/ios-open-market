@@ -219,7 +219,7 @@ private extension ProductsViewController {
     @objc func didTappedAddButton() {
         let viewController = RegisterProductViewController()
         
-        viewController.view.backgroundColor = .systemPink
+        viewController.view.backgroundColor = .systemBackground
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
