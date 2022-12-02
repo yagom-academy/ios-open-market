@@ -89,12 +89,19 @@ class ProductAddView: UIView {
         return textField
     }()
     
+    let descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
         configureViews()
         configureStackView()
         configureImageScrollView()
+        configureTextView()
     }
     
     required init?(coder: NSCoder) {
@@ -111,6 +118,7 @@ class ProductAddView: UIView {
         self.imageScrollView.addSubview(imageStackView)
         self.addSubview(textFieldStackView)
         self.addSubview(imageScrollView)
+        self.addSubview(descriptionTextView)
     }
     
     private func configureImageScrollView() {
@@ -118,7 +126,8 @@ class ProductAddView: UIView {
             self.imageScrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             self.imageScrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.imageScrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            self.imageScrollView.bottomAnchor.constraint(equalTo: self.textFieldStackView.topAnchor)
+            self.imageScrollView.bottomAnchor.constraint(equalTo: self.textFieldStackView.topAnchor),
+            self.imageScrollView.heightAnchor.constraint(equalTo: self.textFieldStackView.heightAnchor, multiplier: 1)
         ])
         
         NSLayoutConstraint.activate([
@@ -135,7 +144,16 @@ class ProductAddView: UIView {
             self.productPriceTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
             self.textFieldStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             self.textFieldStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
-            self.textFieldStackView.heightAnchor.constraint(equalToConstant: 120)
+            self.textFieldStackView.heightAnchor.constraint(equalTo: self.descriptionTextView.heightAnchor, multiplier: 0.5)
+        ])
+    }
+    
+    private func configureTextView() {
+        NSLayoutConstraint.activate([
+            self.descriptionTextView.topAnchor.constraint(equalTo: self.textFieldStackView.bottomAnchor),
+            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
+            self.descriptionTextView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5)
         ])
     }
 }
