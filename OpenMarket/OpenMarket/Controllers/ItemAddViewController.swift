@@ -37,7 +37,7 @@ class ItemAddViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.contentMode = .scaleToFill
         stackView.distribution = .fillEqually
-        stackView.spacing = 2
+        stackView.spacing = 10
         return stackView
     }()
 
@@ -85,7 +85,6 @@ class ItemAddViewController: UIViewController {
     func configureScrollView() {
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(imageStackView)
-        self.scrollView.addSubview(addView)
 
         self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -96,6 +95,10 @@ class ItemAddViewController: UIViewController {
         self.imageStackView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor).isActive = true
         self.imageStackView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor).isActive = true
         self.imageStackView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor).isActive = true
+        self.imageStackView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor).isActive = true
+
+        self.imageStackView.addArrangedSubview(addView)
+
     }
 }
 
@@ -115,7 +118,7 @@ extension ItemAddViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let image = info[.editedImage] as? UIImage {
-            self.imageStackView.addArrangedSubview(UIImageView(image: image))
+            self.imageStackView.insertArrangedSubview(UIImageView(image: image), at: 0)
         }
         dismiss(animated: true, completion: nil)
     }
