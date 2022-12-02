@@ -151,7 +151,6 @@
 			children = (
 				C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */,
 				C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */,
-				C70FB10825BEF61D00C9924E /* Info.plist */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				C70FB10325BEF61D00C9924E /* Assets.xcassets */,
 				BF2266222923357F001D777C /* Extension */,
@@ -180,6 +179,7 @@
 				E337FF63292BB9E00098F945 /* ListCell.swift */,
 				E337FF67292CB7300098F945 /* GridCell.swift */,
 				E335D11B2938CE41001CD2BE /* ImageCell.swift */,
+				C70FB10825BEF61D00C9924E /* Info.plist */,
 				E3D3396B29232FDA006325AB /* Model */,
 				BF2266252923580F001D777C /* Network */,
 			);
