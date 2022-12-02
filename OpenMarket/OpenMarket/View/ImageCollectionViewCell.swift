@@ -8,14 +8,10 @@
 import UIKit
 
 class ImageCollectionViewCell: UICollectionViewCell {
-    
     static let identifier = "imageCell"
-    
     let imageView: UIImageView = {
         let imageView = UIImageView()
-//        if let image = UIImage(named: "loading") {
-//            imageView.image = image
-//        }
+
         return imageView
     }()
     
