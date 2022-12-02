@@ -27,7 +27,6 @@
 		D3697B6E2924C9AF008D4017 /* OpenMarketProductFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD82F4D2924BC710061732A /* OpenMarketProductFetchable.swift */; };
 		D3697B702924CAA7008D4017 /* StubURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B6F2924CAA7008D4017 /* StubURLSessionDataTask.swift */; };
 		D3697B722924D0A1008D4017 /* FakeURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B712924D0A1008D4017 /* FakeURLSession.swift */; };
-		D3697B732924D46A008D4017 /* OpenMarketHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B5729247B40008D4017 /* OpenMarketHealth.swift */; };
 		D3697B742924D4D0008D4017 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D382743429226F0200A51A0A /* Page.swift */; };
 		D3697B752924D4D3008D4017 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDB2292292269AE0072AE13 /* Product.swift */; };
 		D3697B762924D4F1008D4017 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3697B5529247B2E008D4017 /* Error.swift */; };
@@ -61,6 +60,9 @@
 		EB9E8893292DC31A00FC1EF5 /* CollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E8892292DC31A00FC1EF5 /* CollectionViewLayout.swift */; };
 		EB9E8895292DC32D00FC1EF5 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E8894292DC32C00FC1EF5 /* Section.swift */; };
 		EB9E889C292F0D6900FC1EF5 /* DecimalConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */; };
+		EBB0CD38293988F8004CE6E2 /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB0CD37293988F8004CE6E2 /* OpenMarketAPI.swift */; };
+		EBB0CD3A2939A1E4004CE6E2 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB0CD392939A1E4004CE6E2 /* Secret.swift */; };
+		EBB0CD3C2939A6E4004CE6E2 /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB0CD3B2939A6E4004CE6E2 /* Data+.swift */; };
 		EBD82F4829249C9A0061732A /* OpenMarketURLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD82F4729249C9A0061732A /* OpenMarketURLSessionProtocol.swift */; };
 		EBD82F4A2924BC330061732A /* OpenMarketHealthFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD82F492924BC330061732A /* OpenMarketHealthFetchable.swift */; };
 		EBD82F4C2924BC570061732A /* OpenMarketPageFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD82F4B2924BC570061732A /* OpenMarketPageFetchable.swift */; };
@@ -138,6 +140,9 @@
 		EB9E8892292DC31A00FC1EF5 /* CollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewLayout.swift; sourceTree = "<group>"; };
 		EB9E8894292DC32C00FC1EF5 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalConverter.swift; sourceTree = "<group>"; };
+		EBB0CD37293988F8004CE6E2 /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
+		EBB0CD392939A1E4004CE6E2 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		EBB0CD3B2939A6E4004CE6E2 /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		EBD82F4729249C9A0061732A /* OpenMarketURLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketURLSessionProtocol.swift; sourceTree = "<group>"; };
 		EBD82F492924BC330061732A /* OpenMarketHealthFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketHealthFetchable.swift; sourceTree = "<group>"; };
 		EBD82F4B2924BC570061732A /* OpenMarketPageFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketPageFetchable.swift; sourceTree = "<group>"; };
@@ -197,6 +202,8 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				EBB0CD3E2939A73F004CE6E2 /* Common */,
+				EBB0CD3D2939A6F7004CE6E2 /* TypeExtension */,
 				D36FAE9A29373D7C00C3645D /* Network */,
 				D3697B5B2924C6B3008D4017 /* Error */,
 				D3697B5A2924C66C008D4017 /* URLSession */,
@@ -217,6 +224,7 @@
 				EBDB229429226B460072AE13 /* Currency.swift */,
 				EB52338929235C8600FF1573 /* ProductImage.swift */,
 				EB52338B29235D0F00FF1573 /* Vendor.swift */,
+				EBB0CD392939A1E4004CE6E2 /* Secret.swift */,
 			);
 			path = JSONDataModel;
 			sourceTree = "<group>";
@@ -225,12 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				D342405B292E350E002B6F38 /* JSONDataModel */,
-				D3697B5729247B40008D4017 /* OpenMarketHealth.swift */,
-				D3750161292C645E005031AC /* PositiveNumber.swift */,
-				D3424059292DFE2E002B6F38 /* ImageParser.swift */,
-				D3424057292DFB67002B6F38 /* ImageCache.swift */,
-				EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */,
-				D3D6B62D2935C40B0000FAD4 /* String+.swift */,
 				D36FAE962936C84500C3645D /* ViewContainer.swift */,
 			);
 			path = Model;
@@ -291,6 +293,8 @@
 				D36FAE9B29373DA300C3645D /* Requestable.swift */,
 				D36FAE9D2937406200C3645D /* HttpMethod.swift */,
 				D36FAE9F2937408B00C3645D /* NetworkManager.swift */,
+				EBB0CD37293988F8004CE6E2 /* OpenMarketAPI.swift */,
+				D3697B5729247B40008D4017 /* OpenMarketHealth.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -372,6 +376,26 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		EBB0CD3D2939A6F7004CE6E2 /* TypeExtension */ = {
+			isa = PBXGroup;
+			children = (
+				D3D6B62D2935C40B0000FAD4 /* String+.swift */,
+				EBB0CD3B2939A6E4004CE6E2 /* Data+.swift */,
+			);
+			path = TypeExtension;
+			sourceTree = "<group>";
+		};
+		EBB0CD3E2939A73F004CE6E2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D3750161292C645E005031AC /* PositiveNumber.swift */,
+				D3424059292DFE2E002B6F38 /* ImageParser.swift */,
+				D3424057292DFB67002B6F38 /* ImageCache.swift */,
+				EB9E889B292F0D6900FC1EF5 /* DecimalConverter.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		EBDB22B92922818A0072AE13 /* PageTests */ = {
@@ -526,12 +550,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3D6B6302935D72E0000FAD4 /* NameTextField.swift in Sources */,
+				EBB0CD3A2939A1E4004CE6E2 /* Secret.swift in Sources */,
 				EB9E8895292DC32D00FC1EF5 /* Section.swift in Sources */,
 				EB9E8891292DB92900FC1EF5 /* OpenMarketCollectionView.swift in Sources */,
 				D36FAE972936C84500C3645D /* ViewContainer.swift in Sources */,
 				EBEC414F292D079400CDBE6A /* LayoutSegmentedControl.swift in Sources */,
 				EBD82F4829249C9A0061732A /* OpenMarketURLSessionProtocol.swift in Sources */,
 				EBD82F4C2924BC570061732A /* OpenMarketPageFetchable.swift in Sources */,
+				EBB0CD3C2939A6E4004CE6E2 /* Data+.swift in Sources */,
 				D342405A292DFE2E002B6F38 /* ImageParser.swift in Sources */,
 				EB52338C29235D0F00FF1573 /* Vendor.swift in Sources */,
 				EB59760529359D6600B1FF98 /* ProductInformationView.swift in Sources */,
@@ -562,6 +588,7 @@
 				D375015E292C5ED8005031AC /* StockLabel.swift in Sources */,
 				D3D6B62C2935B0F50000FAD4 /* NumberTextField.swift in Sources */,
 				D3D6B6332935E23F0000FAD4 /* DescriptionTextView.swift in Sources */,
+				EBB0CD38293988F8004CE6E2 /* OpenMarketAPI.swift in Sources */,
 				D3424058292DFB67002B6F38 /* ImageCache.swift in Sources */,
 				D3750162292C645E005031AC /* PositiveNumber.swift in Sources */,
 				D3697B5829247B40008D4017 /* OpenMarketHealth.swift in Sources */,
@@ -584,7 +611,6 @@
 				D3697B682924C761008D4017 /* RequestedDummyData.swift in Sources */,
 				D3697B742924D4D0008D4017 /* Page.swift in Sources */,
 				D3697B6D2924C9AC008D4017 /* OpenMarketPageFetchable.swift in Sources */,
-				D3697B732924D46A008D4017 /* OpenMarketHealth.swift in Sources */,
 				D3697B702924CAA7008D4017 /* StubURLSessionDataTask.swift in Sources */,
 				D3697B772924D506008D4017 /* Currency.swift in Sources */,
 				D3697B6E2924C9AF008D4017 /* OpenMarketProductFetchable.swift in Sources */,

@@ -23,8 +23,6 @@ final class ViewController: UIViewController {
         setRightBarButton()
         setCollectionView()
         setIndicatorView()
-//        var nm: NetworkManager = NetworkManager(path: "??", method: HttpMethod.post)
-//        nm.session()
     }
     
     private func setSegmentedControl() {
