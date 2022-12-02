@@ -1,39 +1,25 @@
 //
-//  ItemAddViewController.swift
+//  ItemEditViewController.swift
 //  OpenMarket
 //
-//  Created by leewonseok on 2022/11/25.
+//  Created by 노유빈 on 2022/12/02.
 //
 
 import UIKit
 
-class ItemAddViewController: UIViewController {
-    // MARK: - Private property
-    private let networkManager = NetworkManager()
-    private var itemImages: [UIImage] = []
-    private var isPost: Bool = false
-    
-    private lazy var registerationImageView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray
-        return view
-    }()
-    
-    private lazy var registrationButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.addTarget(self, action: #selector(presentAlbum), for: .touchUpInside)
-        return button
-    }()
-    
+class ItemEditViewController: UIViewController {
+    var itemId: Int?
+    var item: Item?
+    var isPost: Bool = false
+    var itemImages: [UIImage] = []
+    var networkManager = NetworkManager()
+
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-    
+
     private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +29,7 @@ class ItemAddViewController: UIViewController {
         stackView.spacing = 10
         return stackView
     }()
-    
+
     private let itemNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +37,7 @@ class ItemAddViewController: UIViewController {
         textField.borderStyle = .roundedRect
         return textField
     }()
-    
+
     private let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,16 +45,16 @@ class ItemAddViewController: UIViewController {
         stackView.alignment = .fill
         return stackView
     }()
-    
+
     private let priceTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
         return textField
-        
+
     }()
-    
+
     private let currencySegmentedControl: UISegmentedControl = {
         let item = ["KRW", "USD"]
         let segmentedControl = UISegmentedControl(items: item)
@@ -76,7 +62,7 @@ class ItemAddViewController: UIViewController {
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
-    
+
     private let discountedPriceTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +70,7 @@ class ItemAddViewController: UIViewController {
         textField.borderStyle = .roundedRect
         return textField
     }()
-    
+
     private let stockTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -92,46 +78,36 @@ class ItemAddViewController: UIViewController {
         textField.borderStyle = .roundedRect
         return textField
     }()
-    
+
     private let desciptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .systemGray6
         return textView
     }()
-    
-    // MARK: - Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
         configureNavigation()
         configureImageScrollView()
         configureTextFieldAndTextView()
+        fetchItem()
     }
 }
 
-extension ItemAddViewController {
+extension ItemEditViewController {
     // MARK: - View Constraint
     private func configureImageScrollView() {
         self.view.addSubview(imageScrollView)
         self.imageScrollView.addSubview(imageStackView)
-        self.imageStackView.addArrangedSubview(registerationImageView)
-        self.registerationImageView.addSubview(registrationButton)
-        
+
         NSLayoutConstraint.activate([
-            self.registerationImageView.widthAnchor.constraint(equalToConstant: 130),
-            self.registerationImageView.heightAnchor.constraint(equalToConstant: 130),
-            
-            self.registrationButton.topAnchor.constraint(equalTo: self.registerationImageView.topAnchor),
-            self.registrationButton.bottomAnchor.constraint(equalTo: self.registerationImageView.bottomAnchor),
-            self.registrationButton.leadingAnchor.constraint(equalTo: self.registerationImageView.leadingAnchor),
-            self.registrationButton.trailingAnchor.constraint(equalTo: self.registerationImageView.trailingAnchor),
-            
+
             self.imageScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.imageScrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             self.imageScrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             self.imageScrollView.heightAnchor.constraint(equalToConstant: 130),
-            
+
             self.imageStackView.topAnchor.constraint(equalTo: self.imageScrollView.topAnchor),
             self.imageStackView.bottomAnchor.constraint(equalTo: self.imageScrollView.bottomAnchor),
             self.imageStackView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor, constant: 5),
@@ -139,7 +115,7 @@ extension ItemAddViewController {
             self.imageStackView.heightAnchor.constraint(equalTo: self.imageScrollView.heightAnchor),
         ])
     }
-    
+
     private func configureTextFieldAndTextView() {
         self.view.addSubview(itemNameTextField)
         self.view.addSubview(priceStackView)
@@ -148,32 +124,32 @@ extension ItemAddViewController {
         self.view.addSubview(desciptionTextView)
         self.priceStackView.addSubview(priceTextField)
         self.priceStackView.addSubview(currencySegmentedControl)
-        
+
         NSLayoutConstraint.activate([
             self.itemNameTextField.topAnchor.constraint(equalTo: self.imageScrollView.bottomAnchor, constant: 15),
             self.itemNameTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
             self.itemNameTextField.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
             self.itemNameTextField.heightAnchor.constraint(equalToConstant: 35),
-            
+
             self.priceStackView.topAnchor.constraint(equalTo: self.itemNameTextField.bottomAnchor, constant: 10),
             self.priceStackView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
             self.priceStackView.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
             self.priceStackView.heightAnchor.constraint(equalToConstant: 35),
-            
+
             self.currencySegmentedControl.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
             self.priceTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
             self.priceTextField.trailingAnchor.constraint(equalTo: self.currencySegmentedControl.leadingAnchor),
-            
+
             self.discountedPriceTextField.topAnchor.constraint(equalTo: self.priceStackView.bottomAnchor, constant: 10),
             self.discountedPriceTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
             self.discountedPriceTextField.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
             self.discountedPriceTextField.heightAnchor.constraint(equalToConstant: 35),
-            
+
             self.stockTextField.topAnchor.constraint(equalTo: self.discountedPriceTextField.bottomAnchor, constant: 10),
             self.stockTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
             self.stockTextField.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
             self.stockTextField.heightAnchor.constraint(equalToConstant: 35),
-            
+
             self.desciptionTextView.topAnchor.constraint(equalTo: self.stockTextField.bottomAnchor, constant: 10),
             self.desciptionTextView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
             self.desciptionTextView.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
@@ -182,22 +158,23 @@ extension ItemAddViewController {
     }
 }
 
-extension ItemAddViewController {
+extension ItemEditViewController {
     // MARK: - private Method
     private func configureNavigation() {
-        self.navigationItem.title = "상품등록"
+        self.navigationItem.title = "상품수정"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonTapped))    }
-    
+
     @objc private func cancelButtonTapped() {
+        print("디스미스")
         dismiss(animated: true)
     }
-    
+
     @objc private func doneButtonTapped() {
         let priceText = priceTextField.text ?? "0"
         let discountedPriceText = discountedPriceTextField.text ?? "0"
         let stockText = stockTextField.text ?? "0"
-        
+
         guard !isPost else {
             showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
             return
@@ -206,12 +183,13 @@ extension ItemAddViewController {
             showAlert(title: "경고", message: "이미지를 등록해주세요.", actionTitle: "확인", dismiss: false)
             return
         }
-        
+
         guard let itemNameText =  itemNameTextField.text,
               itemNameText.count > 2 else {
             showAlert(title: "경고", message: "제목을 3글자 이상 입력해주세요.", actionTitle: "확인", dismiss: false)
             return
         }
+
 
         guard let price = Double(priceText),
               let discountPrice = Double(discountedPriceText),
@@ -219,13 +197,13 @@ extension ItemAddViewController {
             showAlert(title: "경고", message: "유효한 숫자를 입력해주세요", actionTitle: "확인", dismiss: false)
             return
         }
-        
+
         guard let desciptionText = desciptionTextView.text,
               desciptionText.count <= 1000 else {
             showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
             return
         }
-        
+
         let params: [String: Any] = ["name": itemNameText,
                                      "price": price,
                                      "currency": currencySegmentedControl.selectedSegmentIndex == 0
@@ -252,7 +230,7 @@ extension ItemAddViewController {
             self.isPost = false
         }
     }
-    
+
     private func showAlert(title: String, message: String, actionTitle: String, dismiss: Bool){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         if dismiss {
@@ -262,37 +240,48 @@ extension ItemAddViewController {
         } else {
             alert.addAction(UIAlertAction(title: actionTitle, style: .default))
         }
-        
+
         present(alert, animated: true)
     }
-}
 
-extension ItemAddViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    @objc private func presentAlbum(){
-        guard itemImages.count < 5 else {
-            return showAlert(title: "경고", message: "5개 이하의 이미지만 등록할 수 있습니다.", actionTitle: "확인", dismiss: false)
+    private func fetchItem() {
+        guard let itemId = itemId else { return }
+
+        LoadingController.showLoading()
+        networkManager.fetchItem(productId: itemId) { result in
+            switch result {
+            case .success(let item):
+                LoadingController.hideLoading()
+                self.item = item
+
+                DispatchQueue.main.async {
+                    self.configureData()
+                }
+            case .failure(let error):
+                LoadingController.hideLoading()
+                print(error)
+            }
         }
-        
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        
-        present(imagePicker, animated: true, completion: nil)
     }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.editedImage] as? UIImage {
-            self.itemImages.append(image)
-            self.imageStackView.insertArrangedSubview(UIImageView(image: image), at: 0)
+
+    private func configureData() {
+        guard let item = item else { return }
+
+        itemNameTextField.text = item.name
+        priceTextField.text = String(item.price)
+        discountedPriceTextField.text = String(item.discountedPrice)
+        desciptionTextView.text = item.pageDescription
+        stockTextField.text = String(item.stock)
+        currencySegmentedControl.selectedSegmentIndex = (item.currency == .krw ? 0 : 1)
+
+        item.images?.forEach {
+            guard let url = URL(string: $0.url) else { return }
+            networkManager.fetchImage(url: url) { image in
+                self.itemImages.append(image)
+                DispatchQueue.main.async {
+                    self.imageStackView.insertArrangedSubview(UIImageView(image: image), at: 0)
+                }
+            }
         }
-        
-        dismiss(animated: true)
     }
 }
-

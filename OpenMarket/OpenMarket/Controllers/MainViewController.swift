@@ -29,6 +29,9 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         configureNavigation()
         configureCollectionView()
+
+        gridCollectionView.delegate = self
+        listCollectionView.delegate = self
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -132,5 +135,16 @@ extension MainViewController {
                 self.configureFetchItemList()
             }
         }
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let itemEditVC = ItemEditViewController()
+        itemEditVC.itemId = (itemList[indexPath.item] as Item).id
+        let itemEditNavVC = UINavigationController(rootViewController: itemEditVC)
+        itemEditNavVC.modalPresentationStyle = .fullScreen
+        itemEditNavVC.modalTransitionStyle = .crossDissolve
+        present(itemEditNavVC, animated: false)
     }
 }

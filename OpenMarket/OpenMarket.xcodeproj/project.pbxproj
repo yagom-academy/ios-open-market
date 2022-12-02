@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A463D6F293A07CC00A186F8 /* ItemEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A463D6E293A07CC00A186F8 /* ItemEditViewController.swift */; };
 		1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */; };
 		1A576ABE292C5D9B004C9CCF /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */; };
 		1A576AC0292CB2AE004C9CCF /* GridUICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A463D6E293A07CC00A186F8 /* ItemEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditViewController.swift; sourceTree = "<group>"; };
 		1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridUICollectionView.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				1A576AC729305540004C9CCF /* LoadingController.swift */,
 				546EB2BF29305F46006DA0CD /* ItemAddViewController.swift */,
+				1A463D6E293A07CC00A186F8 /* ItemEditViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				1AEA46BE2923318400213A87 /* NetworkManager.swift in Sources */,
 				54B280BB2939EBAE002A041D /* UIImage+Extension.swift in Sources */,
 				54941D17292CB8FC003D63DA /* ListUICollectionView.swift in Sources */,
+				1A463D6F293A07CC00A186F8 /* ItemEditViewController.swift in Sources */,
 				5463B7D4292C669D00F2AA58 /* String+Extension.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				54B280BD2939EBC4002A041D /* Data+Extension.swift in Sources */,
