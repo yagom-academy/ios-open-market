@@ -8,7 +8,7 @@
 import UIKit
 
 final class AddProductViewController: UIViewController {
-    private var imageCellidentifiers: [Int] = [0]
+    private var imageCellIdentifiers: [Int] = [0]
     private let defaultIdentifier: Set<Int> = [0, 1, 2, 3, 4]
     
     private lazy var imagePicker: UIImagePickerController = {
@@ -49,6 +49,7 @@ final class AddProductViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -56,6 +57,7 @@ final class AddProductViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -63,6 +65,7 @@ final class AddProductViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         return textField
     }()
     
@@ -145,6 +148,9 @@ final class AddProductViewController: UIViewController {
         view.addSubview(imageCollectionView)
         view.addSubview(productStackView)
         view.addSubview(descriptionTextView)
+        
+        nameTextField.delegate = self
+        
         NSLayoutConstraint.activate([
             imageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
                                                      constant: 10),
@@ -236,10 +242,11 @@ extension AddProductViewController {
 
 extension AddProductViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        view.endEditing(true)
         guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
         
         if cell.isGetImage {
-            let removedIndex = imageCellidentifiers.remove(at: indexPath.item)
+            let removedIndex = imageCellIdentifiers.remove(at: indexPath.item)
             snapshot.deleteItems([removedIndex])
             dataSource.apply(snapshot, animatingDifferences: true) { [weak cell, weak self] in
                 cell?.resetCell()
@@ -267,11 +274,11 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     }
     
     private func addNewCell() {
-        let lastIndex = IndexPath(item: imageCellidentifiers.count - 1, section: 0)
+        let lastIndex = IndexPath(item: imageCellIdentifiers.count - 1, section: 0)
         guard let lastCell = imageCollectionView.cellForItem(at: lastIndex) as? ImageCell,
               lastCell.isGetImage,
-              let newCellIdentifier = defaultIdentifier.subtracting(imageCellidentifiers).first else { return }
-        imageCellidentifiers.append(newCellIdentifier)
+              let newCellIdentifier = defaultIdentifier.subtracting(imageCellIdentifiers).first else { return }
+        imageCellIdentifiers.append(newCellIdentifier)
         snapshot.appendItems([newCellIdentifier])
         dataSource.apply(snapshot, animatingDifferences: true)
         imageCollectionView.scrollToItem(at: lastIndex, at: .left, animated: true)
@@ -291,5 +298,12 @@ extension AddProductViewController: UITextViewDelegate {
             descriptionTextView.text = "상세정보 입력"
             descriptionTextView.textColor = .systemGray3
         }
+    }
+}
+
+extension AddProductViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
     }
 }
