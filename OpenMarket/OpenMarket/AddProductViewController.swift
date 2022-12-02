@@ -141,7 +141,27 @@ final class AddProductViewController: UIViewController {
     }
     
     @objc private func tapDoneButton() {
-        dismiss(animated: true)
+        if imageCellIdentifiers.count == 1 {
+            showAlert(message: "이미지를 추가해 주세요.")
+            return
+        }
+        
+        if !checkCanAddProduct() {
+            showAlert(message: "입력값이 잘못되었습니다.")
+            return
+        }
+        
+        showAlert(message: "등록 성공!")
+    }
+    
+    private func showAlert(message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default) { _ in
+            if alert.message == "등록 성공!" { self.dismiss(animated: true) }
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true)
     }
     
     private func configureSubViews() {
@@ -149,7 +169,7 @@ final class AddProductViewController: UIViewController {
         view.addSubview(productStackView)
         view.addSubview(descriptionTextView)
         
-        nameTextField.delegate = self
+        [nameTextField, priceTextField, discountedPriceTextField, stockTextField].forEach { $0.delegate = self }
         
         NSLayoutConstraint.activate([
             imageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
@@ -173,7 +193,8 @@ final class AddProductViewController: UIViewController {
                                                          constant: 10),
             descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                                                           constant: -10),
-            descriptionTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            descriptionTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                                        constant: -10),
         ])
     }
     
@@ -238,6 +259,38 @@ extension AddProductViewController {
         guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
         cell.updateImage(image: image)
     }
+    
+    @discardableResult
+    private func checkCanAddProduct() -> Bool {
+        if let nameCount = nameTextField.text?.count,
+           !((3...100) ~= nameCount) {
+            nameTextField.layer.borderWidth = 1.0
+            nameTextField.layer.borderColor = UIColor.systemRed.cgColor
+            nameTextField.layer.cornerRadius = 5
+        } else {
+            nameTextField.layer.borderWidth = 0.0
+        }
+        
+        if let textCount = descriptionTextView.text?.count,
+           !((10...1000) ~= textCount) {
+            descriptionTextView.layer.borderWidth = 1.0
+            descriptionTextView.layer.borderColor = UIColor.systemRed.cgColor
+            descriptionTextView.layer.cornerRadius = 5
+        } else {
+            descriptionTextView.layer.borderWidth = 0.0
+        }
+        
+        if let price = Double(priceTextField.text ?? ""),
+           !price.isZero {
+            priceTextField.layer.borderWidth = 0.0
+        } else {
+            priceTextField.layer.borderWidth = 1.0
+            priceTextField.layer.borderColor = UIColor.systemRed.cgColor
+            priceTextField.layer.cornerRadius = 5
+        }
+        
+        return [nameTextField, priceTextField, descriptionTextView].filter { $0.layer.borderWidth == 0 }.count == 3
+    }
 }
 
 extension AddProductViewController: UICollectionViewDelegate {
@@ -287,6 +340,8 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
 
 extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
+        descriptionTextView.layer.borderWidth = 0.0
+        
         if descriptionTextView.text == "상세정보 입력" {
             descriptionTextView.text = nil
             descriptionTextView.textColor = .black
@@ -298,10 +353,20 @@ extension AddProductViewController: UITextViewDelegate {
             descriptionTextView.text = "상세정보 입력"
             descriptionTextView.textColor = .systemGray3
         }
+        
+        checkCanAddProduct()
     }
 }
 
 extension AddProductViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.layer.borderWidth = 0.0
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        checkCanAddProduct()
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return true
