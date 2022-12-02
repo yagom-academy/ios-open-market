@@ -11,6 +11,8 @@ enum URLManager {
     case productList(pageNumber: Int, itemsPerPage: Int, searchValue: String? = nil)
     case product(id: Int)
     case post
+    case checkDeleteURI(id: Int)
+    case delete(path: String)
     
     var url: URL? {
         switch self {
@@ -33,13 +35,20 @@ enum URLManager {
                 queryDictionary.updateValue(searchValue, forKey: "search_value")
             }
             return configureOpenMarketAPIURL(path: path, query: queryDictionary)
-    
+            
         case .product(id: let id):
             let path: String = "/api/products/\(id)"
             return configureOpenMarketAPIURL(path: path)
             
         case .post:
             let path: String = "/api/products"
+            return configureOpenMarketAPIURL(path: path)
+            
+        case .checkDeleteURI(id: let id):
+            let path: String = "/api/products/\(id)/archived"
+            return configureOpenMarketAPIURL(path: path)
+            
+        case .delete(path: let path):
             return configureOpenMarketAPIURL(path: path)
         }
     }

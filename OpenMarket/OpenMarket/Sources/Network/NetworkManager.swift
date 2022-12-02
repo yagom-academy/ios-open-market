@@ -86,22 +86,6 @@ extension NetworkManager: NetworkPostable {
         }.resume()
     }
     
-    func checkDeleteURI(to url: URL?, completion: @escaping (String) -> Void) {
-        guard let targetURL: URL = url else { return }
-        var request: URLRequest = URLRequest(url: targetURL)
-        
-        request.httpMethod = HttpMethod.post.name
-        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = convertToJSONData()
-        
-        session.dataTask(with: request) { data, response, error in            
-            if let data = data, let url = String(data: data, encoding: .utf8) {
-                completion(url)
-            }
-        }.resume()
-    }
-    
     private func buildBody(boundary: String) -> Data {
         var httpBody = Data()
         guard let fakeData = try? JSONSerialization.data(withJSONObject: ["name": "두부",
@@ -154,17 +138,6 @@ extension NetworkManager: NetworkPostable {
         
         return data
     }
-    
-    private func convertToJSONData() -> Data {
-        var data = Data()
-        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["secret": "rzeyxdwzmjynnj3f"]) else {
-            return Data()
-        }
-        
-        data.append(fakeData)
-        
-        return data
-    }
 }
 
 extension NetworkManager: NetworkPatchable {
@@ -191,6 +164,49 @@ extension NetworkManager: NetworkPatchable {
                                                                           "currency": "USD",
                                                                           "discounted_price": 0,
                                                                           "secret": "rzeyxdwzmjynnj3f" ]) else {
+            return Data()
+        }
+        
+        data.append(fakeData)
+        
+        return data
+    }
+}
+
+extension NetworkManager: NetworkDeletable {
+    func delete(id: Int) {
+        checkDeleteURI(to: URLManager.checkDeleteURI(id: id).url) { url in
+            guard let targetURL: URL = URLManager.delete(path: url).url else { return }
+            var request: URLRequest = URLRequest(url: targetURL)
+            
+            request.httpMethod = HttpMethod.delete.name
+            request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+            
+            session.dataTask(with: request) { data, response, error in
+                print(String(data: data!, encoding: .utf8)!)
+            }.resume()
+        }
+    }
+    
+    private func checkDeleteURI(to url: URL?, completion: @escaping (String) -> Void) {
+        guard let targetURL: URL = url else { return }
+        var request: URLRequest = URLRequest(url: targetURL)
+        
+        request.httpMethod = HttpMethod.post.name
+        request.setValue("f44cfc3e-6941-11ed-a917-47bc2e8f559b", forHTTPHeaderField: "identifier")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = convertToJSONData()
+        
+        session.dataTask(with: request) { data, response, error in
+            if let data = data, let url = String(data: data, encoding: .utf8) {
+                completion(url)
+            }
+        }.resume()
+    }
+    
+    private func convertToJSONData() -> Data {
+        var data = Data()
+        guard let fakeData = try? JSONSerialization.data(withJSONObject: ["secret": "rzeyxdwzmjynnj3f"]) else {
             return Data()
         }
         

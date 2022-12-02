@@ -8,5 +8,4 @@ import Foundation
 
 protocol NetworkPostable {
     func post(to url: URL?)
-    func checkDeleteURI(to url: URL?, completion: @escaping (String) -> Void)
 }
