@@ -12,6 +12,7 @@ class CustomImagePickerCollectionCell: UICollectionViewCell {
 }
 
 class RegisterProductViewController: UIViewController {
+    var selectedImage = [UIImage?].init(repeating: nil, count: 5)
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -150,7 +151,13 @@ class RegisterProductViewController: UIViewController {
 
 extension RegisterProductViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        let filteredImage = selectedImage.filter { $0 != nil }
+        
+        if filteredImage.count < 5 {
+            return filteredImage.count + 1
+        }
+        
+        return filteredImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -174,5 +181,10 @@ extension RegisterProductViewController: UICollectionViewDelegate {
         let contentWidth = viewSize.width / 3 - 10
         
         return CGSize(width: contentWidth, height: contentWidth)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedImage[indexPath.item] = UIImage(systemName: "applelogo")
+        collectionView.reloadData()
     }
 }
