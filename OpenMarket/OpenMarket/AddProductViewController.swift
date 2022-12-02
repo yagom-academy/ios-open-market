@@ -8,6 +8,17 @@
 import UIKit
 
 final class AddProductViewController: UIViewController {
+    private var imageCellidentifiers: [Int] = [0]
+    private let defaultIdentifier: Set<Int> = [0, 1, 2, 3, 4]
+    
+    private lazy var imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        return picker
+    }()
+    
     private let leftButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem()
         barButton.title = "Cancel"
@@ -72,7 +83,10 @@ final class AddProductViewController: UIViewController {
     }()
     
     private lazy var productStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [nameTextField, priceStackView, discountedPriceTextField, stockTextField])
+        var stackView = UIStackView(arrangedSubviews: [nameTextField,
+                                                       priceStackView,
+                                                       discountedPriceTextField,
+                                                       stockTextField])
         stackView.spacing = 10
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -93,6 +107,7 @@ final class AddProductViewController: UIViewController {
     }()
     
     private var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
+    private var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,19 +146,27 @@ final class AddProductViewController: UIViewController {
         view.addSubview(productStackView)
         view.addSubview(descriptionTextView)
         NSLayoutConstraint.activate([
-            imageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            imageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                                     constant: 10),
             imageCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             imageCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            imageCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.4),
+            imageCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
+                                                        multiplier: 0.4),
             
-            productStackView.topAnchor.constraint(equalTo: imageCollectionView.bottomAnchor, constant: 10),
-            productStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            productStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            productStackView.topAnchor.constraint(equalTo: imageCollectionView.bottomAnchor,
+                                                  constant: 10),
+            productStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                      constant: 10),
+            productStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                       constant: -10),
             segmentedControl.widthAnchor.constraint(equalToConstant: 90),
             
-            descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 10),
-            descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor,
+                                                     constant: 10),
+            descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                         constant: 10),
+            descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                          constant: -10),
             descriptionTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
@@ -171,7 +194,7 @@ final class AddProductViewController: UIViewController {
             
             return section
         }()
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .continuous
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -199,23 +222,59 @@ extension AddProductViewController {
                                                                 item: identifier)
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
         snapshot.appendSections([0])
         snapshot.appendItems([0])
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    private func addImageForCell(indexPath: IndexPath) {
+    private func addImageForCell(indexPath: IndexPath, image: UIImage) {
         guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
-        cell.updateImage(image: UIImage(systemName: "signature"))
+        cell.updateImage(image: image)
     }
 }
 
 extension AddProductViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        addImageForCell(indexPath: indexPath)
+        guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
+        
+        if cell.isGetImage {
+            let removedIndex = imageCellidentifiers.remove(at: indexPath.item)
+            snapshot.deleteItems([removedIndex])
+            dataSource.apply(snapshot, animatingDifferences: true) { [weak cell, weak self] in
+                cell?.resetCell()
+                self?.addNewCell()
+            }
+        } else if snapshot.numberOfItems(inSection: .zero) <= 5 {
+            present(imagePicker, animated: true)
+        }
+        
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        let numberOfCells = imageCollectionView.numberOfItems(inSection: 0)
+        let cellIndex = IndexPath(item: numberOfCells - 1, section: 0)
+        
+        addImageForCell(indexPath: cellIndex, image: newImage)
+        picker.dismiss(animated: true, completion: nil)
+        
+        addNewCell()
+    }
+    
+    private func addNewCell() {
+        let lastIndex = IndexPath(item: imageCellidentifiers.count - 1, section: 0)
+        guard let lastCell = imageCollectionView.cellForItem(at: lastIndex) as? ImageCell,
+              lastCell.isGetImage,
+              let newCellIdentifier = defaultIdentifier.subtracting(imageCellidentifiers).first else { return }
+        imageCellidentifiers.append(newCellIdentifier)
+        snapshot.appendItems([newCellIdentifier])
+        dataSource.apply(snapshot, animatingDifferences: true)
+        imageCollectionView.scrollToItem(at: lastIndex, at: .left, animated: true)
     }
 }
 
@@ -226,11 +285,11 @@ extension AddProductViewController: UITextViewDelegate {
             descriptionTextView.textColor = .black
         }
     }
-
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         if descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             descriptionTextView.text = "상세정보 입력"
             descriptionTextView.textColor = .systemGray3
-            }
+        }
     }
 }

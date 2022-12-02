@@ -8,6 +8,10 @@
 import UIKit
 
 final class ImageCell: UICollectionViewCell {
+    var isGetImage: Bool {
+        return productImageView.image != nil
+    }
+    
     private let plusImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "plus")
@@ -47,5 +51,10 @@ final class ImageCell: UICollectionViewCell {
     func updateImage(image: UIImage?) {
         plusImageView.isHidden = true
         productImageView.image = image
+    }
+    
+    func resetCell() {
+        plusImageView.isHidden = false
+        productImageView.image = nil
     }
 }
