@@ -30,11 +30,16 @@ class ViewController: UIViewController {
 //                                             discountPrice: 100,
 //                                             stock: 10,
 //                                             secret: "fne3fgu2k6a4r9wu")
-        getProductsListData()
         getCollectionViewCellNib()
         settingCollectionViewLayoutList()
         settingSegmentedControll()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        getProductsListData()
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
@@ -62,7 +67,7 @@ class ViewController: UIViewController {
             }
     }
     
-    private func getProductsListData(pageNumber: String = "1", itemPerPage: String = "100") {
+    func getProductsListData(pageNumber: String = "1", itemPerPage: String = "100") {
         networkCommunication.requestProductsInformation(
             url: ApiUrl.Path.products +
             ApiUrl.Query.pageNumber +

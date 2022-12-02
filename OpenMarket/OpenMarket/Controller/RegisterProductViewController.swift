@@ -9,6 +9,7 @@ import UIKit
 
 class RegisterProductViewController: UIViewController {
     let networkCommunication = NetworkCommunication()
+    var imageSet: [UIImage] = []
     
     @IBOutlet weak var cancelBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
@@ -35,12 +36,48 @@ class RegisterProductViewController: UIViewController {
     }
     
     @IBAction func touchUpDoneBarButtonItem(_ sender: UIBarButtonItem) {
-        let productCurrency = productCurrencySegmentedControl.selectedSegmentIndex
-        if productNameTextField.text == "" ||
-            productPriceTextField.text == "" ||
-            productDescriptionTextView.text == "" {
+        guard let productName = productNameTextField.text,
+              let priceText = productPriceTextField.text,
+              let productDescription = productDescriptionTextView.text,
+              let discountedPriceText = productDiscountedPriceTextField.text,
+              let stockText = productStockTextField.text else { return }
+        
+        let productCurrency: Currency
+        if productCurrencySegmentedControl.selectedSegmentIndex == 0 {
+            productCurrency = .KRW
+        } else {
+            productCurrency = .USD
+        }
+        
+        let stackFirstView = imageStackView.arrangedSubviews.first
+        guard let _ = stackFirstView as? UIImageView else {
+            resisterProductAlert(message: "이미지가 등록되지 않았습니다.\n 확인해주세요.", success: false)
+            return
+        }
+        
+        if productName == "" || priceText == "" || productDescription == "" {
             resisterProductAlert(message: "입력되지 않은 필드가 있습니다.\n 확인해주세요.", success: false)
         } else {
+            for subView in imageStackView.arrangedSubviews {
+                if let imageView = subView as? UIImageView,
+                   let image = imageView.image {
+                    imageSet.append(image)
+                }
+            }
+            
+            guard let productPrice = Int(priceText) else { return }
+            let productDiscountedPrice = Int(discountedPriceText) ?? 0
+            let productStock = Int(stockText) ?? 0
+            
+            networkCommunication.requestPostData(url: ApiUrl.Path.products,
+                                                 images: imageSet,
+                                                 name: productName,
+                                                 description: productDescription,
+                                                 price: productPrice,
+                                                 currency: productCurrency,
+                                                 discountPrice: productDiscountedPrice,
+                                                 stock: productStock,
+                                                 secret: "fne3fgu2k6a4r9wu")
             resisterProductAlert(message: "상품이 성공적으로 등록되었습니다.", success: true)
         }
     }
@@ -72,7 +109,11 @@ class RegisterProductViewController: UIViewController {
     private func resisterProductAlert(message: String, success: Bool) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "닫기", style: .default) { [weak self] _ in
-            self?.dismiss(animated: true)}
+            self?.dismiss(animated: true)
+//            self?.dismiss(animated: true, completion: {
+//                ViewController.getProductsListData()
+//            })
+        }
         let noAction = UIAlertAction(title: "닫기", style: .default)
         
         alert.addAction(success ? okAction : noAction)
