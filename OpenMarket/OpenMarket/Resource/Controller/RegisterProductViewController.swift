@@ -166,7 +166,7 @@ extension RegisterProductViewController: UICollectionViewDataSource {
         if indexPath.item == filteredImage.count {
             cell.configureButtonStyle()
         } else {
-            cell.backgroundColor = .green
+            cell.itemImageView.image = selectedImage[indexPath.item]
         }
         
         return cell
@@ -193,8 +193,24 @@ extension RegisterProductViewController: UICollectionViewDelegate {
         }
         
         if indexPath.item == filteredImages.count {
-            selectedImage[indexPath.item] = UIImage(systemName: "applelogo")
-            collectionView.reloadData()
+            let imagePicker = UIImagePickerController()
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            
+            present(imagePicker, animated: true, completion: nil)
         }
     }
+}
+
+extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            let index = selectedImage.filter { $0 != nil }.count
+            selectedImage[index] = image
+        }
+        collectionView.reloadData()
+        picker.dismiss(animated: true)
+    }
+    
 }
