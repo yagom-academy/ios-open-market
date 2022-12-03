@@ -1,13 +1,13 @@
 //
-//  AddProductView.swift
+//  ModifyProductView.swift
 //  OpenMarket
 //
-//  Created by Kyo, LJ on 2022/11/24.
+//  Created by Kyo, LJ on 2022/12/03.
 //
 
 import UIKit
 
-final class AddProductView: RootProductView {
+final class ModifyProductView: RootProductView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
