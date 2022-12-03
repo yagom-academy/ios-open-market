@@ -152,6 +152,7 @@ final class OpenMarketViewController: UIViewController {
         
         view.addSubview(listCollectionView)
         listCollectionView.delegate = self
+        listCollectionView.backgroundColor = .systemBackground
         
         listCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -197,6 +198,7 @@ final class OpenMarketViewController: UIViewController {
         view.addSubview(gridCollectionView)
         
         gridCollectionView.delegate = self
+        gridCollectionView.backgroundColor = .systemBackground
         
         gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -214,7 +216,7 @@ final class OpenMarketViewController: UIViewController {
         
         dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
-            cell?.contentView.backgroundColor = .white
+            cell?.contentView.backgroundColor = .systemBackground
             cell?.contentView.layer.borderColor = UIColor.gray.cgColor
             cell?.contentView.layer.borderWidth = 1.0
             cell?.contentView.layer.cornerRadius = 10.0
