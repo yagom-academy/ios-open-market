@@ -102,17 +102,19 @@ final class ProductListCell: UICollectionViewListCell {
     }
     
     private func setUpDataIfNeeded() {
-        guard let product: Product = product else {
+        guard let product: Product = product,
+              let thumbnail: String = product.thumbnail,
+              let bargainPrice: Double = product.bargainPrice else {
             return
         }
         
-        ImageParser.parse(product.thumbnail) { (thumbnailImage) in
+        ImageParser.parse(thumbnail) { (thumbnailImage) in
             self.thumbnailImageView.image = thumbnailImage
         }
         nameLabel.text = product.name
         stockLabel.stock = product.stock
         priceLabel.setPrice(product.price,
-                            bargainPrice: product.bargainPrice,
+                            bargainPrice: bargainPrice,
                             currency: product.currency,
                             style: .list)
     }
