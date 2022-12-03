@@ -14,6 +14,7 @@
 		3C16B8DC292DF8E10049AF55 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */; };
 		3C16B8E2292F0E110049AF55 /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8E1292F0E110049AF55 /* AddProductView.swift */; };
 		3C16B8E4292F0E360049AF55 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8E3292F0E360049AF55 /* AddViewController.swift */; };
+		3C2A5B7F293B94A500BC6E3D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2A5B7E293B94A500BC6E3D /* UIImage+Extension.swift */; };
 		3C5518092938B431000FBE60 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5518082938B431000FBE60 /* ImageCollectionViewCell.swift */; };
 		3C84EB282924BE5200E667A3 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB272924BE5200E667A3 /* URLSessionProtocol.swift */; };
 		3C84EB2A2924BE9000E667A3 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB292924BE9000E667A3 /* URLSessionDataTaskProtocol.swift */; };
@@ -68,6 +69,7 @@
 		3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		3C16B8E1292F0E110049AF55 /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
 		3C16B8E3292F0E360049AF55 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		3C2A5B7E293B94A500BC6E3D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		3C5518082938B431000FBE60 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		3C84EB272924BE5200E667A3 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		3C84EB292924BE9000E667A3 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				3CA35E292923BC1F00C47E06 /* URLComponents+Extension.swift */,
 				90D331B029247FD3001C2B46 /* Formatter+Extension.swift */,
 				3C093204292BE7EC00F96865 /* UILabel+Extension.swift */,
+				3C2A5B7E293B94A500BC6E3D /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				3C093203292B68C800F96865 /* ReuseIdentifierProtocol+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				3CB07366293B7DA900881AE6 /* RootProductViewController.swift in Sources */,
+				3C2A5B7F293B94A500BC6E3D /* UIImage+Extension.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				3C84EB2A2924BE9000E667A3 /* URLSessionDataTaskProtocol.swift in Sources */,
 			);
