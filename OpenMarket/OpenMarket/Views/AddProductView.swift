@@ -149,7 +149,6 @@ extension AddProductView: UITextFieldDelegate, UITextViewDelegate {
         if descriptionTextView.text.count >= 1000 && text != "" {
             return false
         }
-        print(descriptionTextView.text.count)
         return true
     }
 }

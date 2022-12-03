@@ -64,7 +64,9 @@ final class MainViewController: UIViewController {
                     self.scrollState = .idle
                 }
             case .failure(let error):
-                print(error.description)
+                self.showAlert(alertText: error.description,
+                               alertMessage: "오류가 발생했습니다.",
+                               completion: nil)
             }
         }
     }
@@ -134,6 +136,9 @@ extension MainViewController: UICollectionViewDataSource {
                 withReuseIdentifier: ListCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? ListCollectionViewCell
             else {
+                self.showAlert(alertText: NetworkError.data.description,
+                               alertMessage: "오류가 발생했습니다.",
+                               completion: nil)
                 let errorCell = UICollectionViewCell()
                 return errorCell
             }
@@ -163,6 +168,9 @@ extension MainViewController: UICollectionViewDataSource {
                 withReuseIdentifier: GridCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? GridCollectionViewCell
             else {
+                self.showAlert(alertText: NetworkError.data.description,
+                               alertMessage: "오류가 발생했습니다.",
+                               completion: nil)
                 let errorCell = UICollectionViewCell()
                 return errorCell
             }

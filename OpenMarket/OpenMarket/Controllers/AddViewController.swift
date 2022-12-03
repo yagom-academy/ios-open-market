@@ -35,6 +35,7 @@ extension AddViewController {
                                              style: .plain,
                                              target: self,
                                              action: #selector(doneButtonTapped))
+        
         self.navigationItem.leftBarButtonItem = cancelButtonItem
         self.navigationItem.rightBarButtonItem = doneButtonItem
     }
@@ -53,14 +54,23 @@ extension AddViewController {
                 switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        self.navigationController?.popViewController(animated: true)
+                        self.showAlert(alertText: "새상품 업로드 성공",
+                                       alertMessage: "등록 성공하였습니다.") {
+                            self.navigationController?.popViewController(animated: true)
+                        }
                     }
                 case .failure(let error):
-                    print(error)
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: error.description,
+                                       alertMessage: "상품 업로드에 실패했습니다.",
+                                       completion: nil)
+                    }
                 }
             }
         case .failure(let error):
-            print(error)
+            self.showAlert(alertText: error.description,
+                           alertMessage: "입력을 확인해주세요.",
+                           completion: nil)
         }
     }
 }
@@ -90,7 +100,13 @@ extension AddViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as? ImageCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier,
+            for: indexPath) as? ImageCollectionViewCell
+        else {
+            self.showAlert(alertText: NetworkError.data.description,
+                           alertMessage: "오류가 발생했습니다.",
+                           completion: nil)
             let errorCell = UICollectionViewCell()
             return errorCell
         }
