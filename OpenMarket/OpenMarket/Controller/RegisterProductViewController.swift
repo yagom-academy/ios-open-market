@@ -69,6 +69,7 @@ class RegisterProductViewController: UIViewController {
             let productDiscountedPrice = Int(discountedPriceText) ?? 0
             let productStock = Int(stockText) ?? 0
             
+            // 이미지5장 안보내지는거 확인!!!
             networkCommunication.requestPostData(url: ApiUrl.Path.products,
                                                  images: imageSet,
                                                  name: productName,
@@ -110,9 +111,6 @@ class RegisterProductViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "닫기", style: .default) { [weak self] _ in
             self?.dismiss(animated: true)
-//            self?.dismiss(animated: true, completion: {
-//                ViewController.getProductsListData()
-//            })
         }
         let noAction = UIAlertAction(title: "닫기", style: .default)
         
@@ -129,6 +127,7 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate,
         if let image = info[.editedImage] as? UIImage {
             let imageView = makeImageView(image: image)
             imageStackView.addArrangedSubview(imageView)
+            // constraints를 stackview에 추가하기전에 써주면 왜 에러가 나는가
             imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,
                                               multiplier: 0.15).isActive = true
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor,

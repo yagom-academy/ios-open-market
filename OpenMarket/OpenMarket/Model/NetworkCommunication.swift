@@ -112,15 +112,10 @@ extension NetworkCommunication {
                          stock: Int,
                          secret: String) {
         guard let url: URL = URL(string: url) else { return }
+        let postRequestParams = PostRequestParams(name: name, description: description, secret: secret, price: price, discountedPrice: discountPrice, stock: stock, currency: currency)
         let urlRequest = generatePostRequest(url: url,
                                              images: images,
-                                             name: name,
-                                             description: description,
-                                             price: price,
-                                             currency: currency,
-                                             discountPrice: discountPrice,
-                                             stock: stock,
-                                             secret: secret)
+                                             params: postRequestParams)
         
         let task: URLSessionDataTask = session.dataTask(with: urlRequest) { _, response, error in
             if error != nil { return }
@@ -134,22 +129,10 @@ extension NetworkCommunication {
     
     func generatePostRequest(url: URL,
                              images: [UIImage],
-                             name: String,
-                             description: String,
-                             price: Int,
-                             currency: Currency,
-                             discountPrice: Int,
-                             stock: Int,
-                             secret: String) -> URLRequest {
+                             params: PostRequestParams) -> URLRequest {
         
         let bodyData = multipartFormDataBody(images: images,
-                                             name: name,
-                                             description: description,
-                                             price: price,
-                                             currency: currency,
-                                             discountPrice: discountPrice,
-                                             stock: stock,
-                                             secret: secret)
+                                             params: params)
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -160,21 +143,9 @@ extension NetworkCommunication {
     }
     
     private func multipartFormDataBody(images: [UIImage],
-                                       name: String,
-                                       description: String,
-                                       price: Int,
-                                       currency: Currency,
-                                       discountPrice: Int,
-                                       stock: Int,
-                                       secret: String) -> Data? {
+                                       params: PostRequestParams) -> Data? {
         
-        let postRequestParams = PostRequestParams(name: name,
-                            description: description,
-                            secret: secret,
-                            price: price,
-                            discountedPrice: discountPrice,
-                            stock: stock,
-                            currency: currency)
+        let postRequestParams = params
         guard let jsonParams = try? JSONEncoder().encode(postRequestParams) else { return nil }
         
         let lineBreak = "\r\n"
@@ -186,12 +157,13 @@ extension NetworkCommunication {
         body.append("\(lineBreak)")
         
         for image in images {
-            if let imageData = image.jpegData(compressionQuality: 0.99) {
+            if let imageData = image.jpegData(compressionQuality: 0.2) {
                 body.append("--\(boundary + lineBreak)")
                 body.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(arc4random()).jpeg\" \(lineBreak)")
                 body.append("Content-Type: image/jpeg \(lineBreak + lineBreak)")
                 body.append(imageData)
                 body.append("\(lineBreak)")
+                print(imageData)
             }
         }
         body.append("--\(boundary)--")
