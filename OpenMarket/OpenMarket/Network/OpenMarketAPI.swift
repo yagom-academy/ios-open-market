@@ -20,8 +20,7 @@ extension OpenMarketAPI: Endpointable {
         }
     }
     
-    
-    var queries: [String : String] {
+    var queries: [String: String] {
         switch self {
         case .productList(pageNumber: let pageNumber, itemsPerPage: let itemsPerPage):
             return ["page_no": "\(pageNumber)", "items_per_page": "\(itemsPerPage)"]
@@ -30,4 +29,3 @@ extension OpenMarketAPI: Endpointable {
         }
     }
 }
-

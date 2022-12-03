@@ -11,11 +11,11 @@ extension Double {
 
         return formatter.string(from: self as NSNumber)
     }
-    
+
     func formatPrice(_ currency: Currency) -> String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        
+    
         switch currency {
         case .krw:
             formatter.maximumFractionDigits = 0
@@ -26,7 +26,7 @@ extension Double {
         guard let result = formatter.string(from: self as NSNumber) else {
             return "\(currency.rawValue) \(self)"
         }
-        
+    
         return "\(currency.rawValue) " + result
     }
 }

@@ -199,5 +199,3 @@ final class ListCollectionViewCell: UICollectionViewCell {
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
 }
-
-

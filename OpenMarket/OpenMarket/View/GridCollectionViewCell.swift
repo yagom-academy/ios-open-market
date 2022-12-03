@@ -171,5 +171,3 @@ final class GridCollectionViewCell: UICollectionViewCell {
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
 }
-
-
