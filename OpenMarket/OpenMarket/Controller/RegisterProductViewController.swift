@@ -78,8 +78,11 @@ class RegisterProductViewController: UIViewController {
                                                  currency: productCurrency,
                                                  discountPrice: productDiscountedPrice,
                                                  stock: productStock,
-                                                 secret: "fne3fgu2k6a4r9wu")
-            resisterProductAlert(message: "상품이 성공적으로 등록되었습니다.", success: true)
+                                                 secret: "fne3fgu2k6a4r9wu") { [weak self] in
+                DispatchQueue.main.async {
+                    self?.resisterProductAlert(message: "상품이 성공적으로 등록되었습니다.", success: true)
+                }
+            }
         }
     }
     

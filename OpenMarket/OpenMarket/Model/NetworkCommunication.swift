@@ -110,7 +110,8 @@ extension NetworkCommunication {
                          currency: Currency,
                          discountPrice: Int,
                          stock: Int,
-                         secret: String) {
+                         secret: String,
+                         completionHandler: @escaping () -> Void) {
         guard let url: URL = URL(string: url) else { return }
         let postRequestParams = PostRequestParams(name: name, description: description, secret: secret, price: price, discountedPrice: discountPrice, stock: stock, currency: currency)
         let urlRequest = generatePostRequest(url: url,
@@ -122,6 +123,7 @@ extension NetworkCommunication {
             
             if let response = response as? HTTPURLResponse {
                 print("POST CODE : <<\(response.statusCode)>>") // 수정요망!!<<<<--------
+                completionHandler()
             }
         }
         task.resume()
@@ -157,17 +159,25 @@ extension NetworkCommunication {
         body.append("\(lineBreak)")
         
         for image in images {
-            if let imageData = image.jpegData(compressionQuality: 0.2) {
+            if let imageData = compressQualityImage(image: image, value: 0.99) {
                 body.append("--\(boundary + lineBreak)")
                 body.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(arc4random()).jpeg\" \(lineBreak)")
                 body.append("Content-Type: image/jpeg \(lineBreak + lineBreak)")
                 body.append(imageData)
                 body.append("\(lineBreak)")
-                print(imageData)
+                print("데이터크기: \(imageData.count)bytes")
             }
         }
         body.append("--\(boundary)--")
         
         return body
+    }
+    
+    private func compressQualityImage(image: UIImage, value: Double) -> Data? {
+        guard let imageData = image.jpegData(compressionQuality: value) else { return nil }
+        if imageData.count >= 307200 {
+            return compressQualityImage(image: image, value: value - 0.01)
+        }
+        return imageData
     }
 }
