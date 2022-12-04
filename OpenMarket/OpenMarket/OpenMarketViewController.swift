@@ -44,7 +44,7 @@ final class OpenMarketViewController: UIViewController {
     
     private let activityIndicator = UIActivityIndicatorView()
     
-    private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product>?
+    private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product.ID>?
     private var products: [Product] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -170,20 +170,28 @@ final class OpenMarketViewController: UIViewController {
             cell.updateContents(product)
         }
         
-        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: listCollectionView) { (colllectionView: UICollectionView, indexPath: IndexPath, identifier: Product) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: listCollectionView) { colllectionView, indexPath, identifier -> UICollectionViewCell? in
             
-            let cell = listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-            cell.product = identifier
+            var product: Product?
+            self.products.forEach {
+                if $0.id == identifier { product = $0 }
+            }
+            let cell = listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+            cell.product = product
             
             return cell
         }
     }
     
     private func applySnapshot(for items: [Product]?) {
-        var snapshot = NSDiffableDataSourceSnapshot<ProductListSection, Product>()
+        var itemIdentifiers: [Product.ID] = []
+        products.forEach {
+            itemIdentifiers.append($0.id)
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<ProductListSection, Product.ID>()
         snapshot.appendSections([.main])
-        guard let items else { return }
-        snapshot.appendItems(items)
+        snapshot.appendItems(itemIdentifiers, toSection: .main)
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
@@ -214,7 +222,13 @@ final class OpenMarketViewController: UIViewController {
         
         gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         
-        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product>(collectionView: gridCollectionView) { (collectionView, indexPath, product) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: gridCollectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
+            
+            var product: Product?
+            self.products.forEach {
+                if $0.id == identifier { product = $0 }
+            }
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
             cell?.contentView.backgroundColor = .systemBackground
             cell?.contentView.layer.borderColor = UIColor.gray.cgColor

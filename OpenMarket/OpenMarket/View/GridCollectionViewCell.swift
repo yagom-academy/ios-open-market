@@ -125,7 +125,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func updateContents(_ product: Product) {
+    func updateContents(_ product: Product?) {
+        guard let product else { return }
         DispatchQueue.global().async {
             guard let url = URL(string: product.thumbnailURL),
                   let data = try? Data(contentsOf: url),
