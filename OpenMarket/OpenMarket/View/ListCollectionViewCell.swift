@@ -5,7 +5,7 @@
 import UIKit
 
 final class ListCollectionViewCell: UICollectionViewCell {
-    static let identifier: String = "listCell"
+    static let identifier: String = String(describing: ListCollectionViewCell.self)
     var product: Product?
     
     required init?(coder: NSCoder) {

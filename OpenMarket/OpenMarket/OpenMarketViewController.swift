@@ -125,7 +125,7 @@ final class OpenMarketViewController: UIViewController {
     
     private func configureActivityIndicator() {
         view.addSubview(activityIndicator)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.style = .large
         activityIndicator.center = view.center
     }
 
@@ -143,6 +143,7 @@ final class OpenMarketViewController: UIViewController {
                 }
                 self.products += refinedProducts
             case .failure(let error):
+                // TODO: - 실패 시 얼럿 보여주는걸로 수정하기
                 print(error)
             }
         }

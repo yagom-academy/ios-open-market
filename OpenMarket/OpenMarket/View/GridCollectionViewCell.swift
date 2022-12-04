@@ -5,7 +5,7 @@
 import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
-    static let identifier = "gridCell"
+    static let identifier: String = String(describing: GridCollectionViewCell.self)
     var product: Product?
     
     required init?(coder: NSCoder) {
