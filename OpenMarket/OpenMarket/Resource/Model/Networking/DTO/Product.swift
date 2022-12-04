@@ -24,4 +24,12 @@ struct Product: Decodable {
         case createdDate = "created_at"
         case issuedDate = "issued_at"
     }
+    
+    var originPriceStringValue: String {
+        return "\(currency.rawValue) \(price.description)"
+    }
+    
+    var bargainPriceStringValue: String {
+        return "\(currency.rawValue) \(bargainPrice.description)"
+    }
 }
