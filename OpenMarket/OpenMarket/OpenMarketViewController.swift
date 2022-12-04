@@ -29,11 +29,7 @@ final class OpenMarketViewController: UIViewController {
     private var gridCollectionView: UICollectionView?
     private var listCollectionView: UICollectionView?
             
-    private let segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: [ViewType.list.typeName, ViewType.grid.typeName])
-        control.translatesAutoresizingMaskIntoConstraints = false
-        return control
-    }()
+    private var segmentedControl: UISegmentedControl?
     
     private var productRegisterView: UIView = {
         let view = UIView()
@@ -60,6 +56,8 @@ final class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
         
         configureNavigationBar()
+        
+        configureSegmentedControl()
     
         fetchData(for: pageNumber)
         
@@ -72,12 +70,27 @@ final class OpenMarketViewController: UIViewController {
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
-        navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(registerProduct(_:)))
+    }
+    
+    private func configureSegmentedControl() {
+        segmentedControl = UISegmentedControl(items: [])
+        
+        guard let segmentedControl = segmentedControl else { return }
+        
+        addSegment(with: ViewType.list.typeName, at: segmentedControl.numberOfSegments)
+        addSegment(with: ViewType.grid.typeName, at: segmentedControl.numberOfSegments)
+        
         segmentedControl.addTarget(self, action: #selector(self.segmentValueChanged(_:)), for: .valueChanged)
+        
         segmentedControl.selectedSegmentIndex = ViewType.list.rawValue
         segmentValueChanged(segmentedControl)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(registerProduct(_:)))
+        navigationItem.titleView = segmentedControl
+    }
+
+    private func addSegment(with title: String?, at index: Int) {
+        segmentedControl?.insertSegment(withTitle: title, at: index, animated: false)
     }
     
     @objc private func segmentValueChanged(_ sender: UISegmentedControl) {
