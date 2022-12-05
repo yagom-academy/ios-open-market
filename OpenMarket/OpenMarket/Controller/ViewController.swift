@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     var networkCommunication = NetworkCommunication()
     var searchListPages: [SearchListPage] = []
-    let testImages = [UIImage(systemName: "cloud")!, UIImage(systemName: "hammer")!]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,16 +26,11 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         getProductsListData()
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            settingCollectionViewLayoutList()
-        } else {
-            settingCollectionViewLayoutGrid()
-        }
+        sender.selectedSegmentIndex == 0 ? settingCollectionViewLayoutList() : settingCollectionViewLayoutGrid()
     }
     
     private func getCollectionViewCellNib() {

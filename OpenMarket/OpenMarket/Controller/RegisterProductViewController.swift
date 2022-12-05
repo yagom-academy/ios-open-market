@@ -2,7 +2,7 @@
 //  RegisterProductViewController.swift
 //  OpenMarket
 //
-//  Created by Mangdi on 2022/12/02.
+//  Created by Mangdi, woong on 2022/12/02.
 //
 
 import UIKit

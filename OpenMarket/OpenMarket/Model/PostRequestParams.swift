@@ -2,7 +2,7 @@
 //  PostRequestParams.swift
 //  OpenMarket
 //
-//  Created by 서현웅 on 2022/12/01.
+//  Created by Mangdi, woong on 2022/12/02.
 //
 
 import Foundation
