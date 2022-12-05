@@ -9,8 +9,15 @@ import UIKit
 
 class RegisterProductViewController: UIViewController {
     let networkCommunication = NetworkCommunication()
+    let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)) as UIActivityIndicatorView
+        indicator.hidesWhenStopped = true
+        indicator.style = .large
+        return indicator
+    }()
     var imageSet: [UIImage] = []
     
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var cancelBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
     
@@ -18,6 +25,7 @@ class RegisterProductViewController: UIViewController {
     @IBOutlet weak var imagePlusButton: UIButton!
     @IBOutlet weak var imageStackView: UIStackView!
     
+    @IBOutlet weak var productInformationStackView: UIStackView!
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var productDiscountedPriceTextField: UITextField!
@@ -31,6 +39,37 @@ class RegisterProductViewController: UIViewController {
         imagePlusButton.setTitle("", for: .normal)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        productNameTextField.resignFirstResponder()
+        productPriceTextField.resignFirstResponder()
+        productDiscountedPriceTextField.resignFirstResponder()
+        productStockTextField.resignFirstResponder()
+        productDescriptionTextView.resignFirstResponder()
+    }
+    
     @IBAction func touchUpCancelBarButtonItem(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }
@@ -42,12 +81,8 @@ class RegisterProductViewController: UIViewController {
               let discountedPriceText = productDiscountedPriceTextField.text,
               let stockText = productStockTextField.text else { return }
         
-        let productCurrency: Currency
-        if productCurrencySegmentedControl.selectedSegmentIndex == 0 {
-            productCurrency = .KRW
-        } else {
-            productCurrency = .USD
-        }
+        let productCurrency: Currency =
+        productCurrencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
         
         let stackFirstView = imageStackView.arrangedSubviews.first
         guard let _ = stackFirstView as? UIImageView else {
@@ -69,7 +104,10 @@ class RegisterProductViewController: UIViewController {
             let productDiscountedPrice = Int(discountedPriceText) ?? 0
             let productStock = Int(stockText) ?? 0
             
-            // 이미지5장 안보내지는거 확인!!!
+            loadingIndicator.center = view.center
+            view.addSubview(loadingIndicator)
+            loadingIndicator.startAnimating()
+
             networkCommunication.requestPostData(url: ApiUrl.Path.products,
                                                  images: imageSet,
                                                  name: productName,
@@ -80,6 +118,7 @@ class RegisterProductViewController: UIViewController {
                                                  stock: productStock,
                                                  secret: "fne3fgu2k6a4r9wu") { [weak self] in
                 DispatchQueue.main.async {
+                    self?.loadingIndicator.stopAnimating()
                     self?.resisterProductAlert(message: "상품이 성공적으로 등록되었습니다.", success: true)
                 }
             }
@@ -87,16 +126,42 @@ class RegisterProductViewController: UIViewController {
     }
     
     @IBAction func touchUpImagePlusButton(_ sender: UIButton) {
-        presentAlbum()
-    }
-    
-    private func presentAlbum() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
         imagePickerController.modalPresentationStyle = .fullScreen
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: NSNotification) {
+        let navigationBarFramePointY = navigationBar.frame.origin.y
+        
+        if productDescriptionTextView.isFirstResponder {
+            guard let keyboardFrame: NSValue =
+                notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+                return
+            }
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            let descriptionTextViewPointY = productDescriptionTextView.frame.origin.y
+            
+            if -descriptionTextViewPointY + navigationBarFramePointY < -keyboardHeight {
+                self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
+            } else {
+                self.view.transform = CGAffineTransform(translationX: 0,
+                                                        y: -descriptionTextViewPointY +
+                                                        navigationBarFramePointY)
+            }
+        } else {
+            let stackViewFramePointY = productInformationStackView.frame.origin.y
+            self.view.transform = CGAffineTransform(translationX: 0,
+                                                    y: -stackViewFramePointY +
+                                                    navigationBarFramePointY)
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: NSNotification) {
+        view.transform = .identity
     }
     
     private func makeImageView(image: UIImage) -> UIImageView {
@@ -120,7 +185,6 @@ class RegisterProductViewController: UIViewController {
         alert.addAction(success ? okAction : noAction)
         present(alert, animated: true)
     }
-    
 }
 
 extension RegisterProductViewController: UIImagePickerControllerDelegate,
@@ -130,7 +194,6 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate,
         if let image = info[.editedImage] as? UIImage {
             let imageView = makeImageView(image: image)
             imageStackView.addArrangedSubview(imageView)
-            // constraints를 stackview에 추가하기전에 써주면 왜 에러가 나는가
             imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,
                                               multiplier: 0.15).isActive = true
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor,

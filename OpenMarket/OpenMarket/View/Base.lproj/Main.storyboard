@@ -116,7 +116,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc5-5U-yx3">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vc5-5U-yx3">
                                 <rect key="frame" x="10" y="98" width="394" height="122.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-wg-qQg">
@@ -219,9 +219,11 @@
                         <outlet property="doneBarButtonItem" destination="t1B-yL-M7v" id="qrs-Cp-fGk"/>
                         <outlet property="imagePlusButton" destination="0Y1-Os-tRY" id="45t-nC-g8c"/>
                         <outlet property="imageStackView" destination="eVC-wg-qQg" id="wYh-Kf-SQZ"/>
+                        <outlet property="navigationBar" destination="pVa-QY-cqJ" id="Sfz-P1-C7I"/>
                         <outlet property="productCurrencySegmentedControl" destination="gfU-9z-pRp" id="nXF-hz-BQZ"/>
                         <outlet property="productDescriptionTextView" destination="NAL-HZ-RjB" id="6l6-Gb-UXr"/>
                         <outlet property="productDiscountedPriceTextField" destination="SS8-rv-iXo" id="XBq-MY-xnn"/>
+                        <outlet property="productInformationStackView" destination="Vh1-EO-9Nd" id="GxN-U3-Uue"/>
                         <outlet property="productNameTextField" destination="j87-S8-zQP" id="cLF-Yj-LZk"/>
                         <outlet property="productPriceTextField" destination="674-SV-anw" id="3NT-tx-Ocs"/>
                         <outlet property="productStockTextField" destination="jId-FK-d4p" id="7Xu-L0-Kad"/>
