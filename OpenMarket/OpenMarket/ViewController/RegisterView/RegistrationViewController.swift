@@ -44,7 +44,7 @@ extension RegistrationViewController: UICollectionViewDelegate,
                                       UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-       return 1
+        return registrationView.selectedImage.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -55,8 +55,19 @@ extension RegistrationViewController: UICollectionViewDelegate,
         ) as? ImageCollectionViewCell else {
             return UICollectionViewCell()
         }
-        if let image = UIImage(named: "loading") {
-            cell.imageView.image = image
+        
+        switch indexPath.item {
+        case registrationView.selectedImage.count:
+            cell.setUpPlusImage()
+        default:
+            var image = registrationView.selectedImage[indexPath.item]
+            
+            if let data = image.jpegData(compressionQuality: 1),
+               Double(NSData(data: data).count) / 1000.0 > 300 {
+                image = image.resize()
+            }
+            
+            cell.setUpImage(image: image)
         }
         
         return cell
@@ -67,5 +78,35 @@ extension RegistrationViewController: UICollectionViewDelegate,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.height * 0.8,
                       height: collectionView.frame.height * 0.8)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard indexPath.item == registrationView.selectedImage.count else { return }
+            showImagePicker()
+    }
+}
+
+extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func showImagePicker() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        
+        present(imagePicker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard registrationView.selectedImage.count < 5 else {
+            dismiss(animated: true)
+            return
+        }
+        
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        registrationView.selectedImage.append(image)
+        dismiss(animated: true)
+        registrationView.imageCollectionView.reloadData()
     }
 }

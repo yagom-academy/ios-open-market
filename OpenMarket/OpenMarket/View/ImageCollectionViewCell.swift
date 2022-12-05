@@ -9,11 +9,29 @@ import UIKit
 
 class ImageCollectionViewCell: UICollectionViewCell {
     static let identifier = "imageCell"
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
+    
+    let addImage: UIImage = {
+         guard let image = UIImage(systemName: "plus") else { return UIImage() }
 
-        return imageView
-    }()
+         return image
+     }()
+     
+     let imageView: UIImageView = {
+         let imageView = UIImageView()
+         imageView.backgroundColor = .systemGray6
+         
+         return imageView
+     }()
+     
+     func setUpPlusImage() {
+         imageView.image = addImage
+         imageView.contentMode = .center
+     }
+     
+     func setUpImage(image: UIImage) {
+         imageView.image = image
+         imageView.contentMode = .scaleAspectFit
+     }
     
     func setupLayout() {
         imageView.translatesAutoresizingMaskIntoConstraints = false

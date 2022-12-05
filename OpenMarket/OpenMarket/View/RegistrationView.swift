@@ -8,6 +8,8 @@
 import UIKit
 
 class RegistrationView: UIView {
+    var selectedImage: [UIImage] = []
+    
     var imageCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
