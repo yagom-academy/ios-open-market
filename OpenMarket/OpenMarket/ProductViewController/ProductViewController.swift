@@ -251,7 +251,14 @@ final class ProductViewController: UIViewController {
     
     private func isValidbargainPrice() -> Bool {
         // 할인가 = default 0, 0~ 상품가
-        guard let textLength = Double(bargainPriceTextField.text)
+        guard let bargainPriceText = bargainPriceTextField.text else {
+            return false
+        }
+        guard let bargainPrice = Double(bargainPriceText) else {
+            return false
+        }
+        
+        return bargainPrice >= 0 
     }
     
     @objc
