@@ -113,7 +113,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
     }()
     
     override init(frame: CGRect) {
-        // 여기서 호출
         super.init(frame: frame)
         configurePriority()
         configureLayout()

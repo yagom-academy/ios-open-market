@@ -117,9 +117,9 @@ extension MainViewController {
     }
     
     @objc private func tapped(sender: UIBarButtonItem) {
-        let emptyViewController = EmptyViewController()
+        let addItemViewController = AddItemViewController()
         
-        self.navigationController?.pushViewController(emptyViewController, animated: true)
+        self.navigationController?.pushViewController(addItemViewController, animated: true)
     }
 }
 

@@ -7,12 +7,16 @@
 
 import UIKit
 
-final class EmptyViewController: UIViewController {
+final class AddItemViewController: UIViewController {
+    let addItemView = AddItemView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         configureNavigationBar()
+        self.view.addSubview(addItemView)
+        configureLayout()
     }
     
     private func configureNavigationBar() {
@@ -31,5 +35,18 @@ final class EmptyViewController: UIViewController {
     
     @objc private func tapped(sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
+    }
+}
+
+extension AddItemViewController {
+    func configureLayout() {
+        addItemView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            addItemView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            addItemView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            addItemView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            addItemView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }
