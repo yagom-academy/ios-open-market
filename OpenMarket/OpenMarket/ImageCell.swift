@@ -45,10 +45,19 @@ final class ImageCell: UICollectionViewCell {
             plusImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             plusImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2),
             plusImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2),
-            ])
+        ])
     }
     
     func updateImage(image: UIImage?) {
+        guard let dataSize = image?.jpegData(compressionQuality: 0.9)?.count else {
+            return
+        }
+        let kbSize = Double(dataSize / 1024)
+        
+        if kbSize > 300 {
+            let scale = floor(sqrt(300 / kbSize) * 10) / 10
+            image?.resize(scale)
+        }
         plusImageView.isHidden = true
         productImageView.image = image
     }
