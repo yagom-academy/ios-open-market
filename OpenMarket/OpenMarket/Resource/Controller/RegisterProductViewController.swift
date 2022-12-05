@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterProductViewController: UIViewController {
+final class RegisterProductViewController: UIViewController {
     var selectedImage: [UIImage?] = []
     
     lazy var collectionView: UICollectionView = {
@@ -26,20 +26,7 @@ class RegisterProductViewController: UIViewController {
         return collectionView
     }()
     
-    let doneToolbar: UIToolbar = {
-        let toolbar = UIToolbar()
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapped))
-        
-        toolbar.setItems([flexSpace, doneButton], animated: true)
-        toolbar.sizeToFit()
-        
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        
-        return toolbar
-    }()
-    
-    lazy var productNameTextField: UITextField = {
+    let productNameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품명"
@@ -47,23 +34,26 @@ class RegisterProductViewController: UIViewController {
         return textField
     }()
     
-    lazy var productPriceTextField: UITextField = {
+    let productPriceTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품가격"
+        // TODO: - Segment에 따른 키보드 타입 변경
+        textField.keyboardType = .numberPad
         
         return textField
     }()
     
-    lazy var discountPriceTextField: UITextField = {
+    let discountPriceTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "할인금액"
+        textField.keyboardType = .numberPad
         
         return textField
     }()
     
-    lazy var stockTextField: UITextField = {
+    let stockTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "재고수량"
@@ -78,23 +68,31 @@ class RegisterProductViewController: UIViewController {
     }()
     
     lazy var descriptionTextView: UITextView = {
+        let toolbar = UIToolbar()
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTappedTextViewDoneButton))
+        
+        toolbar.setItems([flexSpace, doneButton], animated: true)
+        toolbar.sizeToFit()
+        
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        
         let textview = UITextView()
-        textview.text = "국회는 국민의 보통·평등·직접·비밀선거에 의하여 선출된 국회의원으로 구성한다. 법률이 헌법에 위반되는 여부가 재판의 전제가 된 경우에는 법원은 헌법재판소에 제청하여 그 심판에 의하여 재판한다.\n\n법률은 특별한 규정이 없는 한 공포한 날로부터 20일을 경과함으로써 효력을 발생한다. 대통령은 헌법과 법률이 정하는 바에 의하여 국군을 통수한다. 헌법재판소 재판관은 정당에 가입하거나 정치에 관여할 수 없다."
-        textview.font = .preferredFont(forTextStyle: .title3)
-        textview.inputAccessoryView = doneToolbar
+        textview.text = "설명"
+        textview.textColor = .secondaryLabel
+        textview.font = .preferredFont(forTextStyle: .body)
+        textview.inputAccessoryView = toolbar
         textview.autocorrectionType = .no
         textview.keyboardType = .default
         textview.autocapitalizationType = .none
         textview.spellCheckingType = .no
+        textview.contentInset = stockTextField.safeAreaInsets
+        
+        textview.delegate = self
         
         return textview
     }()
     
-    @objc func didTapped() {
-        view.frame.origin.y = .zero
-        view.endEditing(true)
-    }
-     
     lazy var segmentStackview: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -127,16 +125,46 @@ class RegisterProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
+        configureNavigation()
+        setUpDelegate()
+        setUpConstraints()
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
+    }
+}
+
+private extension RegisterProductViewController {
+    @objc func didTappedTextViewDoneButton() {
+        view.frame.origin.y = .zero
+        additionalSafeAreaInsets = .zero
+        descriptionTextView.endEditing(true)
+    }
+    
+    @objc func didTappedNavigationDoneButton() {
+        // TODO: - Navigation Done Button Action 정의하기
+    }
+}
+
+private extension RegisterProductViewController {
+    func configureNavigation() {
+        let rightButton = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
-            action: #selector(didTappedDoneButton)
+            action: #selector(didTappedNavigationDoneButton)
         )
+        
+        navigationItem.rightBarButtonItem = rightButton
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .systemBackground
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationItem.title = "상품등록"
-        
+    }
+    
+    func setUpDelegate() {
         [
             stockTextField,
             productNameTextField,
@@ -147,18 +175,26 @@ class RegisterProductViewController: UIViewController {
         }
         
         descriptionTextView.delegate = self
-        
-        [collectionView, totalStackView, descriptionTextView].forEach {
+    }
+    
+    func addSubViewsOfContent() {
+        [
+            collectionView,
+            totalStackView,
+            descriptionTextView,
+            totalStackView,
+            descriptionTextView
+        ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
         
-        view.addSubview(totalStackView)
-        view.addSubview(descriptionTextView)
-        totalStackView.translatesAutoresizingMaskIntoConstraints = false
-        descriptionTextView.translatesAutoresizingMaskIntoConstraints = false
-        
+    }
+    
+    func setUpConstraints() {
         let safeArea = view.safeAreaLayoutGuide
+        
+        addSubViewsOfContent()
         
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
@@ -175,10 +211,6 @@ class RegisterProductViewController: UIViewController {
             descriptionTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             descriptionTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
-    }
-    
-    @objc func didTappedDoneButton() {
-        
     }
 }
 
@@ -198,7 +230,10 @@ extension RegisterProductViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegisterCollectionImageCell.identifier, for: indexPath) as? RegisterCollectionImageCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: RegisterCollectionImageCell.identifier,
+            for: indexPath
+        ) as? RegisterCollectionImageCell else {
             return UICollectionViewCell()
         }
         
@@ -259,25 +294,41 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
         collectionView.reloadData()
         picker.dismiss(animated: true)
     }
-    
 }
 
 extension RegisterProductViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        view.frame.origin.y = -(textField.frame.origin.y + view.safeAreaInsets.top)
+        view.frame.origin.y = -textField.frame.origin.y
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.frame.origin.y = 0
-        view.endEditing(true)
+        textField.endEditing(true)
         return true
     }
 }
 
 extension RegisterProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        let height = (textView.frame.origin.y - view.safeAreaInsets.top - navigationController!.navigationBar.frame.height)
-        view.frame.origin.y = -(height + doneToolbar.bounds.height + view.safeAreaInsets.bottom)
+        if textView.textColor == .secondaryLabel {
+            textView.text = nil
+            textView.textColor = .label
+        }
+        
+        guard let accessoryView = textView.inputAccessoryView else {
+            return
+        }
+        
+        additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: accessoryView.frame.height, right: 0)
+        
+        view.frame.origin.y = -(textView.frame.origin.y - view.safeAreaInsets.top)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "설명"
+            textView.textColor = .secondaryLabel
+        }
     }
 }
