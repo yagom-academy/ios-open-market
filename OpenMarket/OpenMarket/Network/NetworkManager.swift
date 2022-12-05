@@ -136,7 +136,6 @@ final class NetworkManager {
             guard let response = response as? HTTPURLResponse,
                   (200 ..< 299) ~= response.statusCode else {
                 completion(.failure(.networking))
-                print(response)
                 return
             }
             
@@ -203,7 +202,6 @@ final class NetworkManager {
         }
     }
 }
-
 
 // MARK: - Assist Make Multipart Data Form
 extension NetworkManager {

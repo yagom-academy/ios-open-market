@@ -5,7 +5,7 @@
 //  Created by Kyo, LJ on 2022/11/21.
 //
 
-protocol ReuseIdentifierProtocol {
+protocol ReuseIdentifierProtocol: AnyObject {
     
 }
 

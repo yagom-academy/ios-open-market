@@ -45,7 +45,30 @@ extension AddViewController: ImageCollectionViewCellDelegate {
     }
 }
 
-// MARK: - UICollectionView
+// MARK: - PHPickerViewControllerDelegate
+extension AddViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        let itemProvides = results.compactMap { result in
+            return result.itemProvider
+        }
+        
+        for itemProvider in itemProvides {
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                    DispatchQueue.main.async {
+                        self.cellImages.append(image as? UIImage)
+                        self.addProductView.collectionView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// MARK: - Extension UICollectionView
 extension AddViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cellImages.count < 5 ? cellImages.count + 1 : 5
@@ -74,27 +97,5 @@ extension AddViewController: UICollectionViewDelegate, UICollectionViewDataSourc
         }
 
         return cell
-    }
-}
-
-// MARK: - PHPickerViewControllerDelegate
-extension AddViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-
-        let itemProvides = results.compactMap { result in
-            return result.itemProvider
-        }
-        
-        for itemProvider in itemProvides {
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                    DispatchQueue.main.async {
-                        self.cellImages.append(image as? UIImage)
-                        self.addProductView.collectionView.reloadData()
-                    }
-                }
-            }
-        }
     }
 }

@@ -36,7 +36,7 @@ extension ModifyViewController {
     }
 }
 
-// MARK: - UICollectionView
+// MARK: - Extension UICollectionView
 extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cellImages.count < 5 ? cellImages.count + 1 : 5
