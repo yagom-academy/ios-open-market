@@ -113,27 +113,30 @@ final class ViewController: UIViewController {
     //MARK: - Snapshot Apply Method
     private func applySnapshotOfFetchedPage() {
         guard hasNextPage == true else { return }
-        URLSession.shared.fetchPage(pageNumber: currentPage, productsPerPage: productPerPage) { (page) in
-            guard let page: Page = page,
-                  var currentSnapshot: NSDiffableDataSourceSnapshot = self.collectionView.currentSnapshot else {
-                return
-            }
-            self.hasNextPage = page.hasNextPage
-            if page.hasNextPage {
-                self.currentPage += 1
-            }
-            let products: [Product] = Array(page.products.prefix(self.productPerPage))
-            
-            if currentSnapshot.numberOfSections != 0 {
-                currentSnapshot.appendItems(products)
-            } else {
-                currentSnapshot.appendSections([.main])
-                currentSnapshot.appendItems(products)
-            }
-            DispatchQueue.main.async {
-                self.removeIndicatorView()
-                self.collectionView.applySnapshot(currentSnapshot)
-                self.collectionView.refreshControl?.endRefreshing()
+        let networkManger: NetworkManager = NetworkManager(openMarketAPI: .fetchPage(pageNumber: currentPage, productsPerPage: productPerPage))
+        networkManger.network { (data, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let data = data,
+                      let page = try? JSONDecoder().decode(Page.self, from: data),
+                      var currentSnapshot: NSDiffableDataSourceSnapshot = self.collectionView.currentSnapshot {
+                self.hasNextPage = page.hasNextPage
+                if page.hasNextPage {
+                    self.currentPage += 1
+                }
+                let products: [Product] = Array(page.products.prefix(self.productPerPage))
+                
+                if currentSnapshot.numberOfSections != 0 {
+                    currentSnapshot.appendItems(products)
+                } else {
+                    currentSnapshot.appendSections([.main])
+                    currentSnapshot.appendItems(products)
+                }
+                DispatchQueue.main.async {
+                    self.removeIndicatorView()
+                    self.collectionView.applySnapshot(currentSnapshot)
+                    self.collectionView.refreshControl?.endRefreshing()
+                }
             }
         }
     }

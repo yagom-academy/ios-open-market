@@ -7,7 +7,10 @@
 
 import UIKit.UIImage
 
-enum OpenMarketAPI: Requestable {    
+enum OpenMarketAPI: Requestable {
+    case checkHealth
+    case fetchPage(pageNumber: Int, productsPerPage: Int)
+    case fetchProduct(productNumber: Int)
     case registration(product: Product, images: [UIImage], boundary: String = UUID().uuidString)
     case update(product: Product)
     case inquiryDeregistrationURI(productId: Int)
@@ -15,6 +18,12 @@ enum OpenMarketAPI: Requestable {
     
     var path: String {
         switch self {
+        case .checkHealth:
+            return "/healthChecker"
+        case .fetchPage(let pageNumber, let productsPerPage):
+            return "/api/products?page_no=\(pageNumber)&items_per_page=\(productsPerPage)"
+        case .fetchProduct(let productNumber):
+            return "/api/products/\(productNumber)"
         case .registration:
             return "/api/products"
         case .update(let product):
@@ -27,6 +36,12 @@ enum OpenMarketAPI: Requestable {
     }
     var method: HttpMethod {
         switch self {
+        case .checkHealth:
+            return .get
+        case .fetchPage:
+            return .get
+        case .fetchProduct:
+            return .get
         case .registration:
             return .post
         case .update:
@@ -39,6 +54,12 @@ enum OpenMarketAPI: Requestable {
     }
     var headers: [String : String] {
         switch self {
+        case .checkHealth:
+            return [:]
+        case .fetchPage:
+            return [:]
+        case .fetchProduct:
+            return [:]
         case .registration(_, _, let boundary):
             return ["identifier": "ecae4d3d-6941-11ed-a917-59a39ea07e01", "Content-Type": "multipart/form-data; boundary=\(boundary)"]
         case .update:
@@ -51,6 +72,12 @@ enum OpenMarketAPI: Requestable {
     }
     var body: Data? {
         switch self {
+        case .checkHealth:
+            return nil
+        case .fetchPage:
+            return nil
+        case .fetchProduct:
+            return nil
         case .registration(let product, let images, let boundary):
             var body: Data = Data()
                         
