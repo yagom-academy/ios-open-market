@@ -35,13 +35,11 @@ class RegisterProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         imagePlusButton.setTitle("", for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -107,7 +105,7 @@ class RegisterProductViewController: UIViewController {
             loadingIndicator.center = view.center
             view.addSubview(loadingIndicator)
             loadingIndicator.startAnimating()
-
+            
             networkCommunication.requestPostData(url: ApiUrl.Path.products,
                                                  images: imageSet,
                                                  name: productName,
@@ -116,13 +114,22 @@ class RegisterProductViewController: UIViewController {
                                                  currency: productCurrency,
                                                  discountPrice: productDiscountedPrice,
                                                  stock: productStock,
-                                                 secret: "fne3fgu2k6a4r9wu") { [weak self] in
-                DispatchQueue.main.async {
-                    self?.loadingIndicator.stopAnimating()
-                    self?.resisterProductAlert(message: "상품이 성공적으로 등록되었습니다.", success: true)
+                                                 secret: "fne3fgu2k6a4r9wu") { [weak self] result in
+                switch result {
+                case .success(let statusCode):
+                    DispatchQueue.main.async {
+                        self?.loadingIndicator.stopAnimating()
+                        self?.resisterProductAlert(message: "\(statusCode):\n 상품이 성공적으로 등록되었습니다.", success: true)
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.loadingIndicator.stopAnimating()
+                        self?.resisterProductAlert(message: "\(error.rawValue)", success: false)
+                    }
                 }
             }
         }
+        imageSet = []
     }
     
     @IBAction func touchUpImagePlusButton(_ sender: UIButton) {

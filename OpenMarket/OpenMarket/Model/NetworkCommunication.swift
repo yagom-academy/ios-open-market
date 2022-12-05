@@ -111,9 +111,15 @@ extension NetworkCommunication {
                          discountPrice: Int,
                          stock: Int,
                          secret: String,
-                         completionHandler: @escaping () -> Void) {
+                         completionHandler: @escaping (Result<String, APIError>) -> Void) {
         guard let url: URL = URL(string: url) else { return }
-        let postRequestParams = PostRequestParams(name: name, description: description, secret: secret, price: price, discountedPrice: discountPrice, stock: stock, currency: currency)
+        let postRequestParams = PostRequestParams(name: name,
+                                                  description: description,
+                                                  secret: secret,
+                                                  price: price,
+                                                  discountedPrice: discountPrice,
+                                                  stock: stock,
+                                                  currency: currency)
         let urlRequest = generatePostRequest(url: url,
                                              images: images,
                                              params: postRequestParams)
@@ -122,8 +128,12 @@ extension NetworkCommunication {
             if error != nil { return }
             
             if let response = response as? HTTPURLResponse {
-                print("POST CODE : <<\(response.statusCode)>>") // 수정요망!!<<<<--------
-                completionHandler()
+                if !(200...299).contains(response.statusCode) {
+                    print("POST CODE Error : <<\(response.statusCode)>>")
+                    completionHandler(.failure(.statusCodeError))
+                } else {
+                    completionHandler(.success("POST CODE : \(response.statusCode)"))
+                }
             }
         }
         task.resume()
@@ -175,7 +185,7 @@ extension NetworkCommunication {
     
     private func compressQualityImage(image: UIImage, value: Double) -> Data? {
         guard let imageData = image.jpegData(compressionQuality: value) else { return nil }
-        if imageData.count >= 307200 {
+        if imageData.count >= 300000 {
             return compressQualityImage(image: image, value: value - 0.01)
         }
         return imageData

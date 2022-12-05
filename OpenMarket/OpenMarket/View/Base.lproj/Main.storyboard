@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -42,7 +42,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8OE-DE-cya">
-                                        <rect key="frame" x="362.5" y="50.5" width="43.5" height="31"/>
+                                        <rect key="frame" x="359.5" y="49" width="46.5" height="34"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
                                         <connections>
@@ -99,7 +99,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVa-QY-cqJ">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <items>
                                     <navigationItem title="상품등록" id="rUu-JD-lQU">
@@ -117,13 +117,13 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vc5-5U-yx3">
-                                <rect key="frame" x="10" y="98" width="394" height="122.5"/>
+                                <rect key="frame" x="10" y="102" width="394" height="122"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-wg-qQg">
-                                        <rect key="frame" x="0.0" y="0.0" width="122.5" height="122.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="122" height="122"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Y1-Os-tRY">
-                                                <rect key="frame" x="0.0" y="0.0" width="122.5" height="122.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="122" height="122"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="0Y1-Os-tRY" secondAttribute="height" multiplier="1:1" id="zb0-fT-fPF"/>
                                                 </constraints>
@@ -150,7 +150,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="dWO-et-Yhk"/>
                             </scrollView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vh1-EO-9Nd">
-                                <rect key="frame" x="10" y="230.5" width="394" height="160"/>
+                                <rect key="frame" x="10" y="234" width="394" height="160"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j87-S8-zQP">
                                         <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
@@ -187,7 +187,7 @@
                                 </subviews>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NAL-HZ-RjB">
-                                <rect key="frame" x="10" y="400.5" width="394" height="451.5"/>
+                                <rect key="frame" x="10" y="404" width="404" height="448"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -202,7 +202,7 @@
                             <constraint firstItem="NAL-HZ-RjB" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="BOt-TR-gHk"/>
                             <constraint firstItem="pVa-QY-cqJ" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" id="NTh-Tp-osz"/>
                             <constraint firstItem="Vh1-EO-9Nd" firstAttribute="leading" secondItem="M5x-nH-cvu" secondAttribute="leading" constant="10" id="SsK-YE-Jnb"/>
-                            <constraint firstItem="M5x-nH-cvu" firstAttribute="trailing" secondItem="NAL-HZ-RjB" secondAttribute="trailing" constant="10" id="UA1-DK-xyi"/>
+                            <constraint firstItem="M5x-nH-cvu" firstAttribute="trailing" secondItem="NAL-HZ-RjB" secondAttribute="trailing" id="UA1-DK-xyi"/>
                             <constraint firstItem="0Y1-Os-tRY" firstAttribute="height" secondItem="M5x-nH-cvu" secondAttribute="height" multiplier="0.15" id="VRJ-bH-R9S"/>
                             <constraint firstItem="M5x-nH-cvu" firstAttribute="bottom" secondItem="NAL-HZ-RjB" secondAttribute="bottom" constant="10" id="cjy-L0-Hqm"/>
                             <constraint firstItem="Vh1-EO-9Nd" firstAttribute="top" secondItem="vc5-5U-yx3" secondAttribute="bottom" constant="10" id="ePe-3l-hcE"/>
@@ -238,7 +238,7 @@
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
