@@ -102,32 +102,18 @@ class RegisterProductViewController: UIViewController {
             let productDiscountedPrice = Int(discountedPriceText) ?? 0
             let productStock = Int(stockText) ?? 0
             
+            requestPost(name: productName,
+                        description: productDescription,
+                        price: productPrice,
+                        currency: productCurrency,
+                        discountPrice: productDiscountedPrice,
+                        stock: productStock,
+                        secret: "fne3fgu2k6a4r9wu")
+            
             loadingIndicator.center = view.center
             view.addSubview(loadingIndicator)
             loadingIndicator.startAnimating()
             
-            networkCommunication.requestPostData(url: ApiUrl.Path.products,
-                                                 images: imageSet,
-                                                 name: productName,
-                                                 description: productDescription,
-                                                 price: productPrice,
-                                                 currency: productCurrency,
-                                                 discountPrice: productDiscountedPrice,
-                                                 stock: productStock,
-                                                 secret: "fne3fgu2k6a4r9wu") { [weak self] result in
-                switch result {
-                case .success(let statusCode):
-                    DispatchQueue.main.async {
-                        self?.loadingIndicator.stopAnimating()
-                        self?.resisterProductAlert(message: "\(statusCode):\n 상품이 성공적으로 등록되었습니다.", success: true)
-                    }
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self?.loadingIndicator.stopAnimating()
-                        self?.resisterProductAlert(message: "\(error.rawValue)", success: false)
-                    }
-                }
-            }
         }
         imageSet = []
     }
@@ -146,7 +132,7 @@ class RegisterProductViewController: UIViewController {
         
         if productDescriptionTextView.isFirstResponder {
             guard let keyboardFrame: NSValue =
-                notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+                    notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
                 return
             }
             let keyboardHeight = keyboardFrame.cgRectValue.height
@@ -191,6 +177,37 @@ class RegisterProductViewController: UIViewController {
         
         alert.addAction(success ? okAction : noAction)
         present(alert, animated: true)
+    }
+    
+    private func requestPost(name: String,
+                             description: String,
+                             price: Int,
+                             currency: Currency,
+                             discountPrice: Int,
+                             stock: Int,
+                             secret: String) {
+        networkCommunication.requestPostData(url: ApiUrl.Path.products,
+                                             images: imageSet,
+                                             name: name,
+                                             description: description,
+                                             price: price,
+                                             currency: currency,
+                                             discountPrice: discountPrice,
+                                             stock: stock,
+                                             secret: secret) { [weak self] result in
+            switch result {
+            case .success(let statusCode):
+                DispatchQueue.main.async {
+                    self?.loadingIndicator.stopAnimating()
+                    self?.resisterProductAlert(message: "\(statusCode):\n 상품이 성공적으로 등록되었습니다.", success: true)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.loadingIndicator.stopAnimating()
+                    self?.resisterProductAlert(message: "\(error.rawValue)", success: false)
+                }
+            }
+        }
     }
 }
 
