@@ -46,6 +46,7 @@
 		D3750160292C633C005031AC /* PriceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D375015F292C633C005031AC /* PriceLabel.swift */; };
 		D3750162292C645E005031AC /* PositiveNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3750161292C645E005031AC /* PositiveNumber.swift */; };
 		D3750164292CC1E8005031AC /* ProductGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3750163292CC1E8005031AC /* ProductGridCell.swift */; };
+		D3771F45293D8074000A8761 /* UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3771F44293D8074000A8761 /* UIResponder.swift */; };
 		D382743529226F0200A51A0A /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D382743429226F0200A51A0A /* Page.swift */; };
 		D3D6B6292935A8FF0000FAD4 /* ProductManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D6B6282935A8FF0000FAD4 /* ProductManagementViewController.swift */; };
 		D3D6B62C2935B0F50000FAD4 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D6B62B2935B0F50000FAD4 /* NumberTextField.swift */; };
@@ -128,6 +129,7 @@
 		D375015F292C633C005031AC /* PriceLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceLabel.swift; sourceTree = "<group>"; };
 		D3750161292C645E005031AC /* PositiveNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveNumber.swift; sourceTree = "<group>"; };
 		D3750163292CC1E8005031AC /* ProductGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridCell.swift; sourceTree = "<group>"; };
+		D3771F44293D8074000A8761 /* UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResponder.swift; sourceTree = "<group>"; };
 		D382743429226F0200A51A0A /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		D3D6B6282935A8FF0000FAD4 /* ProductManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManagementViewController.swift; sourceTree = "<group>"; };
 		D3D6B62B2935B0F50000FAD4 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				D3D6B62D2935C40B0000FAD4 /* String+.swift */,
 				EBB0CD3B2939A6E4004CE6E2 /* Data+.swift */,
 				D34633F12939F47200570715 /* UIImage+.swift */,
+				D3771F44293D8074000A8761 /* UIResponder.swift */,
 			);
 			path = TypeExtension;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				D342405A292DFE2E002B6F38 /* ImageParser.swift in Sources */,
 				EB52338C29235D0F00FF1573 /* Vendor.swift in Sources */,
 				D36FAE932936C69600C3645D /* ImageCollectionView.swift in Sources */,
+				D3771F45293D8074000A8761 /* UIResponder.swift in Sources */,
 				D3750164292CC1E8005031AC /* ProductGridCell.swift in Sources */,
 				D36FAEA02937408B00C3645D /* NetworkManager.swift in Sources */,
 				EB9E889C292F0D6900FC1EF5 /* DecimalConverter.swift in Sources */,

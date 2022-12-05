@@ -48,13 +48,34 @@ class ProductManagementViewController: UIViewController {
 
         return stackView
     }()
+    private let scrollView: UIScrollView = {
+        let scrollView: UIScrollView = UIScrollView()
+        
+        scrollView.bounces = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return scrollView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     func setUpViewsIfNeeded() {
+        imageCollectionView.bounces = false
+        descriptionTextView.isScrollEnabled = false
+        descriptionTextView.bounces = false
+        
         contentStackView.addArrangedSubview(imageCollectionView)
         priceAndCurrencyStackView.addArrangedSubview(priceTextField)
         priceAndCurrencyStackView.addArrangedSubview(currencySegmentedControl)
@@ -63,17 +84,27 @@ class ProductManagementViewController: UIViewController {
         contentStackView.addArrangedSubview(discountedPriceTextField)
         contentStackView.addArrangedSubview(stockTextField)
         contentStackView.addArrangedSubview(descriptionTextView)
-        view.addSubview(contentStackView)
+        scrollView.addSubview(contentStackView)
+        view.addSubview(scrollView)
 
         let spacing: CGFloat = 10
         let safeArea: UILayoutGuide = view.safeAreaLayoutGuide
+        
+        let contentStackViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint) = (contentStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor), contentStackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor))
+        
+        contentStackViewSizeConstraints.height.priority = .init(rawValue: 1)
 
         NSLayoutConstraint.activate([
             imageCollectionView.heightAnchor.constraint(equalToConstant: 160),
-            contentStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: spacing),
-            contentStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -spacing),
-            contentStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: spacing),
-            contentStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -spacing)
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: spacing),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -spacing),
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: spacing),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -spacing),
+            contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentStackViewSizeConstraints.height, contentStackViewSizeConstraints.width
         ])
     }
 
@@ -92,6 +123,33 @@ class ProductManagementViewController: UIViewController {
                        price: priceTextField.text,
                        discountedPrice: discountedPriceTextField.text,
                        stock: stockTextField.text)
+    }
+    
+    @objc
+    private func keyboardWillShow(_ sender: Notification) {
+        guard let userinfo = sender.userInfo,
+              let keyboardFrame = userinfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        let keyboardHeight: CGFloat = keyboardFrame.size.height
+        scrollView.contentInset.bottom = keyboardHeight
+        scrollView.verticalScrollIndicatorInsets.bottom = keyboardHeight
+        
+        if let focusedTextView = UIResponder.currentFirstResponder as? UITextView {
+            scrollView.scrollRectToVisible(focusedTextView.frame, animated: false)
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide(_ sender: Notification) {
+        let contentInset = UIEdgeInsets.zero
+        scrollView.contentInset = contentInset
+        scrollView.verticalScrollIndicatorInsets = contentInset
+    }
+    
+    override
+    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
 

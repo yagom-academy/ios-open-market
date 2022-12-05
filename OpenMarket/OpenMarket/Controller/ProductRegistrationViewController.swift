@@ -25,7 +25,7 @@ final class ProductRegistrationViewController: ProductManagementViewController {
             applyRegisteredImages()
         }
     }
-    private let semaphore: DispatchSemaphore = DispatchSemaphore(value: 0)
+    private var doneWorkItem: DispatchWorkItem? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,6 @@ final class ProductRegistrationViewController: ProductManagementViewController {
         
         navigationItem.setRightBarButton(doneBarButtonItem, animated: false)
         navigationItem.setLeftBarButton(cancelBarButtonItem, animated: false)
-        navigationItem.leftBarButtonItem?.title = "Cancel"
     }
     
     private func presentAlbum() {
@@ -81,9 +80,9 @@ final class ProductRegistrationViewController: ProductManagementViewController {
         imageCollectionView.applySnapshot(snapshot)
     }
     
-    private func resizedRegisteredImages() -> [UIImage] {
+    private func resizedRegisteredImages() -> [UIImage]? {
         guard let registeredImages = registeredImages else {
-            return []
+            return nil
         }
         let resizedImages: [UIImage] = registeredImages.compactMap {
             return ($0 as? UIImageView)?.image
@@ -130,25 +129,29 @@ final class ProductRegistrationViewController: ProductManagementViewController {
 
     @objc
     private func tappedDoneButton(_ sender: UIBarButtonItem) {
-        guard let product: Product = makeProductByInputedData() else {
+        guard doneWorkItem == nil,
+              let product: Product = makeProductByInputedData(),
+              let images: [UIImage] = resizedRegisteredImages(), images.isEmpty == false else {
             return
         }
-        let images: [UIImage] = resizedRegisteredImages()
-        if images.isEmpty == false {
+        let workItem: DispatchWorkItem = DispatchWorkItem {
             let registrationManager = NetworkManager(openMarketAPI: .registration(product: product, images: images))
             registrationManager.network { [weak self] data, error in
                 if let error = error {
                     print(error.localizedDescription)
+                    self?.doneWorkItem = nil
                     self?.showResultAlert(isSuccess: false)
                 } else if let _ = data {
                     DispatchQueue.main.async {
+                        self?.doneWorkItem = nil
                         self?.showResultAlert(isSuccess: true)
                     }
                 }
-                self?.semaphore.signal()
             }
-            semaphore.wait()
         }
+        
+        doneWorkItem = workItem
+        DispatchQueue.global().async(execute: workItem)
     }
 }
 
