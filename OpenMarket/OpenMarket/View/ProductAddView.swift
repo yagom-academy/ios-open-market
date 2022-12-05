@@ -7,10 +7,9 @@ class ProductAddView: UIView {
     let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.spacing = 3
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.semanticContentAttribute = .forceRightToLeft
         return stackView
     }()
     
@@ -91,8 +90,15 @@ class ProductAddView: UIView {
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
+        textView.font = .preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
+    }()
+    
+    let photoAddButton: UIButton = {
+        let button = ImageAddButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -102,6 +108,7 @@ class ProductAddView: UIView {
         configureStackView()
         configureImageScrollView()
         configureTextView()
+        configureAddButton()
     }
     
     required init?(coder: NSCoder) {
@@ -119,6 +126,7 @@ class ProductAddView: UIView {
         self.addSubview(textFieldStackView)
         self.addSubview(imageScrollView)
         self.addSubview(descriptionTextView)
+        self.imageStackView.addArrangedSubview(self.photoAddButton)
     }
     
     private func configureImageScrollView() {
@@ -126,7 +134,7 @@ class ProductAddView: UIView {
             self.imageScrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             self.imageScrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.imageScrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            self.imageScrollView.bottomAnchor.constraint(equalTo: self.textFieldStackView.topAnchor),
+            self.imageScrollView.bottomAnchor.constraint(equalTo: self.textFieldStackView.topAnchor, constant: -10),
             self.imageScrollView.heightAnchor.constraint(equalTo: self.textFieldStackView.heightAnchor, multiplier: 1)
         ])
         
@@ -150,10 +158,32 @@ class ProductAddView: UIView {
     
     private func configureTextView() {
         NSLayoutConstraint.activate([
-            self.descriptionTextView.topAnchor.constraint(equalTo: self.textFieldStackView.bottomAnchor),
+            self.descriptionTextView.topAnchor.constraint(equalTo: self.textFieldStackView.bottomAnchor, constant: 10),
             self.descriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             self.descriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
             self.descriptionTextView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.5)
         ])
+    }
+    
+    private func configureAddButton() {
+        NSLayoutConstraint.activate([
+            self.photoAddButton.widthAnchor.constraint(equalTo: self.imageStackView.heightAnchor, multiplier: 1)
+        ])
+    }
+    
+    func addImageView(with image: UIImage) {
+        let imageView = UIImageView()
+        imageView.image = image
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.imageStackView.insertArrangedSubview(imageView, at: self.imageStackView.subviews.count - 1)
+        updateScrollViewToRight()
+    }
+    
+    func updateScrollViewToRight() {
+        imageScrollView.layoutIfNeeded()
+        imageScrollView.setContentOffset(
+            CGPoint(x: imageScrollView.contentSize.width - imageScrollView.bounds.width,
+                    y: 0),
+            animated: true)
     }
 }

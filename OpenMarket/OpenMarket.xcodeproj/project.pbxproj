@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */; };
+		3C45283F293E18BD00E59E94 /* ImageAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C45283E293E18BD00E59E94 /* ImageAddButton.swift */; };
 		3C458B352925CA9600E43838 /* NetworkAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */; };
 		3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5EF2923649F00D0E45E /* ProductList.swift */; };
 		3C77A91F292EFFB700280ACC /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77A91E292EFFB700280ACC /* Double+Extension.swift */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+extension.swift"; sourceTree = "<group>"; };
+		3C45283E293E18BD00E59E94 /* ImageAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAddButton.swift; sourceTree = "<group>"; };
 		3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPIProvider.swift; sourceTree = "<group>"; };
 		3C62E5EF2923649F00D0E45E /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		3C77A91E292EFFB700280ACC /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				57D3E2AB292DCE6D00D1BAB7 /* ProductGridCell.swift */,
 				57D3E2A9292DC5BD00D1BAB7 /* ProductListCell.swift */,
 				3C77A92D2939D22900280ACC /* ProductAddView.swift */,
+				3C45283E293E18BD00E59E94 /* ImageAddButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */,
 				3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */,
 				57D3E2F829372D2800D1BAB7 /* ImageNetworkManager.swift in Sources */,
+				3C45283F293E18BD00E59E94 /* ImageAddButton.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				57D3E2D0292F038200D1BAB7 /* String+Extension.swift in Sources */,
 				3C77A9302939DFB200280ACC /* UITextField+extension.swift in Sources */,

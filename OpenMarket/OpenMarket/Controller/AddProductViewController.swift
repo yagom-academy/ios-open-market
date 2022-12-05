@@ -5,22 +5,25 @@ import UIKit
 final class AddProductViewController: UIViewController {
     
     let addView = ProductAddView()
+    let imagePicker = UIImagePickerController()
+    var imageCount = 0
     
     init() {
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
+        configureImagePicker()
         configureNavigationBar()
         configureDoneButton()
         configureCancelButton()
+        configureAddImageButton()
         configureView()
     }
     
@@ -38,7 +41,7 @@ final class AddProductViewController: UIViewController {
     
     private func configureDoneButton() {
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
-                                      action: nil)
+                                       action: nil)
         self.navigationItem.rightBarButtonItem = doneItem
     }
     
@@ -48,7 +51,33 @@ final class AddProductViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = cancelItem
     }
     
+    private func configureAddImageButton() {
+        self.addView.photoAddButton.addTarget(self, action: #selector(imageAddButtonPressed), for: UIControl.Event.touchUpInside)
+    }
+    
+    private func configureImagePicker() {
+        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.delegate = self
+    }
+    
     @objc private func cancelButtonPressed() {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func imageAddButtonPressed(_ sender: UIButton) {
+        guard imageCount < 5 else { return }
+        self.present(self.imagePicker, animated: true)
+    }
+}
+
+extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.addView.addImageView(with: image)
+        }
+        imageCount += 1
+        dismiss(animated: true, completion: nil)
+    }
+
 }
