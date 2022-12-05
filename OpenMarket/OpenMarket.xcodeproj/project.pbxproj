@@ -37,7 +37,6 @@
 		D3697B7B2924E073008D4017 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C70FB10325BEF61D00C9924E /* Assets.xcassets */; };
 		D36FAE932936C69600C3645D /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE922936C69600C3645D /* ImageCollectionView.swift */; };
 		D36FAE952936C72D00C3645D /* ImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE942936C72D00C3645D /* ImagePickerCell.swift */; };
-		D36FAE972936C84500C3645D /* ViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE962936C84500C3645D /* ViewContainer.swift */; };
 		D36FAE9C29373DA300C3645D /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE9B29373DA300C3645D /* Requestable.swift */; };
 		D36FAE9E2937406200C3645D /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE9D2937406200C3645D /* HttpMethod.swift */; };
 		D36FAEA02937408B00C3645D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36FAE9F2937408B00C3645D /* NetworkManager.swift */; };
@@ -47,6 +46,7 @@
 		D3750162292C645E005031AC /* PositiveNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3750161292C645E005031AC /* PositiveNumber.swift */; };
 		D3750164292CC1E8005031AC /* ProductGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3750163292CC1E8005031AC /* ProductGridCell.swift */; };
 		D3771F45293D8074000A8761 /* UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3771F44293D8074000A8761 /* UIResponder.swift */; };
+		D3771F48293DA552000A8761 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3771F47293DA552000A8761 /* IndicatorView.swift */; };
 		D382743529226F0200A51A0A /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = D382743429226F0200A51A0A /* Page.swift */; };
 		D3D6B6292935A8FF0000FAD4 /* ProductManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D6B6282935A8FF0000FAD4 /* ProductManagementViewController.swift */; };
 		D3D6B62C2935B0F50000FAD4 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D6B62B2935B0F50000FAD4 /* NumberTextField.swift */; };
@@ -120,7 +120,6 @@
 		D3697B712924D0A1008D4017 /* FakeURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeURLSession.swift; sourceTree = "<group>"; };
 		D36FAE922936C69600C3645D /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 		D36FAE942936C72D00C3645D /* ImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCell.swift; sourceTree = "<group>"; };
-		D36FAE962936C84500C3645D /* ViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewContainer.swift; sourceTree = "<group>"; };
 		D36FAE9B29373DA300C3645D /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		D36FAE9D2937406200C3645D /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		D36FAE9F2937408B00C3645D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -130,6 +129,7 @@
 		D3750161292C645E005031AC /* PositiveNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveNumber.swift; sourceTree = "<group>"; };
 		D3750163292CC1E8005031AC /* ProductGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridCell.swift; sourceTree = "<group>"; };
 		D3771F44293D8074000A8761 /* UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResponder.swift; sourceTree = "<group>"; };
+		D3771F47293DA552000A8761 /* IndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
 		D382743429226F0200A51A0A /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		D3D6B6282935A8FF0000FAD4 /* ProductManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductManagementViewController.swift; sourceTree = "<group>"; };
 		D3D6B62B2935B0F50000FAD4 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
@@ -237,7 +237,6 @@
 			isa = PBXGroup;
 			children = (
 				D342405B292E350E002B6F38 /* JSONDataModel */,
-				D36FAE962936C84500C3645D /* ViewContainer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -315,6 +314,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D3771F46293DA52D000A8761 /* ResuableView */ = {
+			isa = PBXGroup;
+			children = (
+				D3771F47293DA552000A8761 /* IndicatorView.swift */,
+			);
+			path = ResuableView;
+			sourceTree = "<group>";
+		};
 		D3D6B62A2935B0D20000FAD4 /* TextField */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +345,7 @@
 				D36FAE982936F5A600C3645D /* CustomCollectionView */,
 				EB9E8897292DC35C00FC1EF5 /* Cell */,
 				EB9E8899292DC39B00FC1EF5 /* Layout */,
+				D3771F46293DA52D000A8761 /* ResuableView */,
 				D36FAE992936F5BF00C3645D /* Section */,
 			);
 			path = CollectionView;
@@ -560,7 +568,6 @@
 				EBB0CD3A2939A1E4004CE6E2 /* Secret.swift in Sources */,
 				EB9E8895292DC32D00FC1EF5 /* Section.swift in Sources */,
 				EB9E8891292DB92900FC1EF5 /* OpenMarketCollectionView.swift in Sources */,
-				D36FAE972936C84500C3645D /* ViewContainer.swift in Sources */,
 				EBEC414F292D079400CDBE6A /* LayoutSegmentedControl.swift in Sources */,
 				EBD82F4829249C9A0061732A /* OpenMarketURLSessionProtocol.swift in Sources */,
 				EBD82F4C2924BC570061732A /* OpenMarketPageFetchable.swift in Sources */,
@@ -585,6 +592,7 @@
 				D3D6B6292935A8FF0000FAD4 /* ProductManagementViewController.swift in Sources */,
 				EBD82F4A2924BC330061732A /* OpenMarketHealthFetchable.swift in Sources */,
 				EBDB2293292269AE0072AE13 /* Product.swift in Sources */,
+				D3771F48293DA552000A8761 /* IndicatorView.swift in Sources */,
 				D3750160292C633C005031AC /* PriceLabel.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				D36FAE9E2937406200C3645D /* HttpMethod.swift in Sources */,

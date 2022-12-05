@@ -10,6 +10,9 @@ final class ViewController: UIViewController {
     //MARK: - Properties
     private let segmentedControl: LayoutSegmentedControl = LayoutSegmentedControl()
     private var collectionView: OpenMarketCollectionView!
+    private var currentPage: Int = 1
+    private let productPerPage: Int = 400
+    private var hasNextPage: Bool = true
     private var indicatorView: UIView?
     
     override func viewDidLoad() {
@@ -57,6 +60,7 @@ final class ViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
+        collectionView.openMarketDelegate = self
         view.addSubview(collectionView)
     }
     
@@ -106,16 +110,27 @@ final class ViewController: UIViewController {
     
     //MARK: - Snapshot Apply Method
     private func applySnapshotOfFetchedPage() {
-        URLSession.shared.fetchPage(pageNumber: 1, productsPerPage: 1000) { (page) in
-            guard let page: Page = page else { return }
+        guard hasNextPage == true else { return }
+        URLSession.shared.fetchPage(pageNumber: currentPage, productsPerPage: productPerPage) { (page) in
+            guard let page: Page = page,
+                  var currentSnapshot: NSDiffableDataSourceSnapshot = self.collectionView.currentSnapshot else {
+                return
+            }
+            self.hasNextPage = page.hasNextPage
+            if page.hasNextPage {
+                self.currentPage += 1
+            }
+            let products: [Product] = Array(page.products.prefix(self.productPerPage))
             
-            var snapshot: NSDiffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(page.products)
-            
+            if currentSnapshot.numberOfSections != 0 {
+                currentSnapshot.appendItems(products)
+            } else {
+                currentSnapshot.appendSections([.main])
+                currentSnapshot.appendItems(products)
+            }
             DispatchQueue.main.async {
                 self.removeIndicatorView()
-                self.collectionView.applySnapshot(snapshot)
+                self.collectionView.applySnapshot(currentSnapshot)
                 self.collectionView.refreshControl?.endRefreshing()
             }
         }
@@ -125,5 +140,11 @@ final class ViewController: UIViewController {
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+extension ViewController: OpenMarketCollectionViewDelegate {
+    func openMarketCollectionView(didRequestNextPage: Bool) -> Bool {
+        applySnapshotOfFetchedPage()
+        return hasNextPage
     }
 }

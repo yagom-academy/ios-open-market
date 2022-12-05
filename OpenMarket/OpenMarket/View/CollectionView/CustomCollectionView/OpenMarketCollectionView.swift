@@ -7,18 +7,29 @@
 
 import UIKit
 
+protocol OpenMarketCollectionViewDelegate: AnyObject {
+    func openMarketCollectionView(didRequestNextPage: Bool) -> Bool
+}
+
 final class OpenMarketCollectionView: UICollectionView {
     //MARK: - Properties
     private var listCellRegistration: UICollectionView.CellRegistration<ProductListCell, Product>?
     private var gridCellRegistration: UICollectionView.CellRegistration<ProductGridCell, Product>?
+    private var indicatorViewRegistration: UICollectionView.SupplementaryRegistration<IndicatorView>?
     private var openMarketDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentLayout: CollectionViewLayout = CollectionViewLayout.defaultLayout
+    private var hasNextPage: Bool? = true
+    weak var openMarketDelegate: OpenMarketCollectionViewDelegate?
+    var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>? {
+        return openMarketDataSource?.snapshot()
+    }
     
     init(frame: CGRect, collectionViewLayout layout: CollectionViewLayout) {
         super.init(frame: frame,
                    collectionViewLayout: LayoutMaker.make(of: layout))
         currentLayout = layout
         registerCell()
+        registerSupplementaryView()
         configureDataSource()
     }
     
@@ -45,10 +56,22 @@ final class OpenMarketCollectionView: UICollectionView {
             cell.updateWithProduct(product)
         }
     }
+    //MARK: - Footer
+    private func registerSupplementaryView() {
+        indicatorViewRegistration = UICollectionView.SupplementaryRegistration<IndicatorView>(elementKind: UICollectionView.elementKindSectionFooter) {supplementaryView, elementKind, indexPath in
+            if elementKind == UICollectionView.elementKindSectionFooter {
+                self.hasNextPage = self.openMarketDelegate?.openMarketCollectionView(didRequestNextPage: true)
+                if self.hasNextPage == true {
+                    supplementaryView.startIndicator()
+                }
+            }
+        }
+    }
     //MARK: - DataSource
     private func configureDataSource() {
         guard let listCellRegistration = listCellRegistration,
-              let gridCellRegistration = gridCellRegistration else {
+              let gridCellRegistration = gridCellRegistration,
+              let footerRegistration = indicatorViewRegistration else {
             return
         }
         
@@ -61,6 +84,10 @@ final class OpenMarketCollectionView: UICollectionView {
             case .imagePicker:
                 return UICollectionViewCell()
             }
+        }
+        
+        openMarketDataSource?.supplementaryViewProvider = { (collectionView, identifier, indexPath) -> UICollectionReusableView in
+            return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
         }
     }
 }
