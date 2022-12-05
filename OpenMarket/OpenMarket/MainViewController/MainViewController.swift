@@ -55,30 +55,14 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let product = Product(name: "좋아요 감사합니다!", description: "AAAAA", currency: .KRW, price: 12345, bargainPrice: 1, discountedPrice: 1, stock: 123, secret: "966j8xcwknjhh7wj")
-
-        let image = UIImage(named: "qrcode")!
-
-//        manager.deleteData(productNumber: 555) {
-//            print("목표물 처리 완료")
-//        }
-        
-//        manager.postProductLists(params: product, images: [image]) {
-//            print("?")
-//        }
-        
         setupNavBar()
         configureListCell()
         configureGridCell()
         setupUI()
         loadProductListToCollectionView()
-        
-//        manager.patchProduct(number: 521) {
-//            print("수정끝")
-//        }
     }
     
-    func setupNavBar() {
+    private func setupNavBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .systemGray6
@@ -95,6 +79,7 @@ final class MainViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         self.navSegmentedView.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         collectionView.dataSource = listDataSource
+        collectionView.delegate = self
         
         self.view.addSubview(self.indicator)
         self.view.addSubview(self.collectionView)
@@ -106,7 +91,7 @@ final class MainViewController: UIViewController {
             self.collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             self.collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             self.collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-
+            
             self.indicator.widthAnchor.constraint(equalToConstant: 100),
             self.indicator.heightAnchor.constraint(equalToConstant: 100),
             self.indicator.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
@@ -118,6 +103,7 @@ final class MainViewController: UIViewController {
         self.indicator.startAnimating()
         
         manager.getProductsList(pageNo: 1, itemsPerPage: 40) { list in
+            print(list.products)
             var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
             snapshot.appendSections([.main])
             snapshot.appendItems(list.products)
@@ -187,6 +173,7 @@ extension MainViewController {
                 let picture = UIImage(data: data)
                 
                 DispatchQueue.main.async {
+                    cell.product = itemIdentifier
                     cell.productNameLabel.text = "\(itemIdentifier.name)"
                     cell.discountedPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.discountedPrice) ?? "")"
                     cell.image.image = picture
@@ -276,11 +263,31 @@ extension MainViewController: UICollectionViewDelegate {
             return
         }
         
-        productVC.productNameTextField.text = product.name
-        productVC.productPriceTextField.text = String(product.price)
-        productVC.bargainPriceTextField.text = String(product.bargainPrice)
-        productVC.stockTextField.text = String(product.stock)
-        productVC.descriptionTextView.text = product.description
+        let manager = NetworkManager()
+        manager.getProductDetail(productNumber: product.id ?? 0) { productDetail in
+            DispatchQueue.main.async {
+                productDetail.images?.forEach({ image in
+                    if let url = URL(string: image.thumbnailUrl),
+                       let data = try? Data(contentsOf: url) {
+                        if let image = UIImage(data: data) {
+                            let imageView = UIImageView(image: image)
+                            imageView.contentMode = .scaleAspectFit
+                            productVC.imageStackView.addArrangedSubview(imageView)
+                            imageView.translatesAutoresizingMaskIntoConstraints = false
+                            
+                            imageView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2).isActive = true
+                            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+                        }
+                    }
+                })
+                
+                productVC.productNameTextField.text = productDetail.name
+                productVC.productPriceTextField.text = String(productDetail.price)
+                productVC.bargainPriceTextField.text = String(productDetail.bargainPrice)
+                productVC.stockTextField.text = String(productDetail.stock)
+                productVC.descriptionTextView.text = productDetail.description
+            }
+        }
         
         navBarOnModal.modalPresentationStyle = .fullScreen
         navBarOnModal.modalTransitionStyle = .crossDissolve

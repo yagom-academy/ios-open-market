@@ -11,6 +11,10 @@ extension ProductViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         picker.dismiss(animated: true) {
+            self.addProductButton.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            self.addProductButton.layer.borderWidth = 0.7
+            self.addProductButton.layer.cornerRadius = 4
+            
             if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
                 let transSize = CGSize(width: img.size.width / 10, height: img.size.height / 10)
                 let resizeImage = img.resizeImageTo(size: transSize)

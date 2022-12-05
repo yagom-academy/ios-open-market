@@ -187,11 +187,34 @@ final class ProductViewController: UIViewController {
     private func tappedDoneButton(_ sender: Any) {
         var validViewArray: [UIView] = []
         
-        if isValidProductName() == false {
+        let name = productNameTextField.text ?? ""
+        let description = descriptionTextView.text ?? ""
+        let currency: Currency = currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
+        let price = Double(productPriceTextField.text ?? "0") ?? 0
+        let bargainPrice = Double(bargainPriceTextField.text ?? "0") ?? 0
+        let stock = Int(stockTextField.text ?? "0") ?? 0
+
+        var imageArray: [UIImage] = []
+        let imageViewArray = imageStackView.subviews as? [UIImageView] ?? []
+        imageViewArray.forEach { imageView in
+            if let postImage = imageView.image {
+                imageArray.append(postImage)
+            }
+        }
+        
+        if isValidImageCount() == false {
+            validViewArray.append(addProductButton)
+        }
+        
+        if isValidProductName(name) == false {
             validViewArray.append(productNameTextField)
         }
         
-        if isValidbargainPrice() == false {
+        if isValidProductPrice() == false {
+            validViewArray.append(productPriceTextField)
+        }
+        
+        if isValidbargainPrice(bargainPrice, price) == false {
             validViewArray.append(bargainPriceTextField)
         }
         
@@ -205,21 +228,6 @@ final class ProductViewController: UIViewController {
             return
         }
         
-        let name = productNameTextField.text ?? ""
-        let description = descriptionTextView.text ?? ""
-        let currency: Currency = currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
-        let price = Double(productPriceTextField.text ?? "0") ?? 0
-        let bargainPrice = Double(bargainPriceTextField.text ?? "0") ?? 0
-        let stock = Int(stockTextField.text ?? "0") ?? 0
-        
-        var imageArray: [UIImage] = []
-        let imageViewArray = imageStackView.subviews as? [UIImageView] ?? []
-        imageViewArray.forEach { imageView in
-            if let postImage = imageView.image {
-                imageArray.append(postImage)
-            }
-        }
-        
         let product = Product(name: name,
                               description: description,
                               currency: currency,
@@ -229,7 +237,6 @@ final class ProductViewController: UIViewController {
                               stock: stock,
                               secret: Constant.password
         )
-        
         
         // post
         let manager = NetworkManager()
@@ -241,24 +248,24 @@ final class ProductViewController: UIViewController {
         }
     }
     
-    private func isValidProductName() -> Bool {
-        guard let textLength = productNameTextField.text?.count else {
-            return false
-        }
-        
-        return 3 <= textLength && textLength <= 100
+    private func isValidImageCount() -> Bool {
+        return imageStackView.subviews.isEmpty == false
     }
     
-    private func isValidbargainPrice() -> Bool {
-        // 할인가 = default 0, 0~ 상품가
-        guard let bargainPriceText = bargainPriceTextField.text else {
-            return false
-        }
-        guard let bargainPrice = Double(bargainPriceText) else {
+    private func isValidProductName(_ name: String) -> Bool {
+        return 3 <= name.count && name.count <= 100
+    }
+    
+    private func isValidbargainPrice(_ bargainPrice: Double, _ price: Double) -> Bool {
+        return 0 <= bargainPrice && bargainPrice <= price
+    }
+    
+    private func isValidProductPrice() -> Bool {
+        guard productPriceTextField.text?.count != 0 else {
             return false
         }
         
-        return bargainPrice >= 0 
+        return true
     }
     
     @objc
@@ -284,7 +291,6 @@ extension ProductViewController: UITextFieldDelegate {
         textField.layer.borderColor = UIColor.systemGray5.cgColor
         textField.layer.cornerRadius = 4
         textField.layer.borderWidth = 0.7
-        
         return true
     }
     
@@ -292,8 +298,9 @@ extension ProductViewController: UITextFieldDelegate {
         if textField == productNameTextField {
             return true
         }
+        let isDelete = (string == "" && range.length == 1)
         
-        return Double(string) != nil
+        return Double(string) != nil || isDelete
     }
 }
 
