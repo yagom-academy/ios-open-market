@@ -37,7 +37,6 @@ final class MainViewController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let layout = createListLayout()
-        
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -47,8 +46,6 @@ final class MainViewController: UIViewController {
     lazy var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        indicator.hidesWhenStopped = true
         indicator.style = UIActivityIndicatorView.Style.large
         return indicator
     }()
@@ -134,7 +131,7 @@ final class MainViewController: UIViewController {
     }
 }
 
-// MARK: - Cell Registration and DataSource
+// MARK: - CollectionView - Cell Registration and DataSource
 extension MainViewController {
     private func configureListCell() {
         self.listCellRegistration = UICollectionView.CellRegistration<ListCell, Product> { cell, indexPath, itemIdentifier in
@@ -148,6 +145,7 @@ extension MainViewController {
                 
                 DispatchQueue.main.async {
                     
+                    cell.product = itemIdentifier
                     cell.productNameLabel.text = "\(itemIdentifier.name)"
                     cell.discountedPriceLabel.text = "\(itemIdentifier.currency.rawValue) \(self.formatter.string(for: itemIdentifier.discountedPrice) ?? "")"
                     cell.image.image = picture
@@ -211,7 +209,6 @@ extension MainViewController {
         
         self.gridDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
-            
             guard let gridCellRegis = self.gridCellRegistration else {
                 return UICollectionViewCell()
             }
@@ -221,7 +218,7 @@ extension MainViewController {
     }
 }
 
-// MARK: - CompositionalLayout
+// MARK: - CollectionView - CompositionalLayout
 extension MainViewController {
     private func createListLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(
@@ -265,13 +262,41 @@ extension MainViewController {
     }
 }
 
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let productVC = ProductViewController()
+        let navBarOnModal: UINavigationController = UINavigationController(rootViewController: productVC)
+        
+        productVC.cellUpdateDelegate = self
+        productVC.title = "상품수정"
+        
+        guard let product = (collectionView.cellForItem(at: indexPath) as? ListCell)?.product else {
+            return
+        }
+        
+        productVC.productNameTextField.text = product.name
+        productVC.productPriceTextField.text = String(product.price)
+        productVC.bargainPriceTextField.text = String(product.bargainPrice)
+        productVC.stockTextField.text = String(product.stock)
+        productVC.descriptionTextView.text = product.description
+        
+        navBarOnModal.modalPresentationStyle = .fullScreen
+        navBarOnModal.modalTransitionStyle = .crossDissolve
+        
+        self.present(navBarOnModal, animated: true)
+    }
+}
+
+
 // MARK: - Obj-C Method
 extension MainViewController {
     @objc func tappedAddButton() {
-        let addProductVC = AddProductViewController()
+        let addProductVC = ProductViewController()
         let navBarOnModal: UINavigationController = UINavigationController(rootViewController: addProductVC)
         
-        addProductVC.updateDelegate = self
+        addProductVC.cellUpdateDelegate = self
         addProductVC.title = "상품등록"
         navBarOnModal.modalPresentationStyle = .fullScreen
         navBarOnModal.modalTransitionStyle = .crossDissolve
@@ -288,7 +313,6 @@ extension MainViewController {
             }
             collectionView.setCollectionViewLayout(layout, animated: true)
             collectionView.dataSource = listDataSource
-            print(collectionView.visibleCells)
         case 1:
             let layout = createGridLayout()
             guard let gridDataSource = gridDataSource else {
@@ -296,27 +320,8 @@ extension MainViewController {
             }
             collectionView.setCollectionViewLayout(layout, animated: true)
             collectionView.dataSource = gridDataSource
-            print(collectionView.visibleCells)
         default:
             return
         }
     }
-}
-
-extension MainViewController: CollectionViewUpdateDelegate {
-    func updateCollectionView() {
-        let manager = NetworkManager()
-        manager.getProductsList(pageNo: 1, itemsPerPage: 40) { productList in
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(productList.products)
-            
-            self.listDataSource?.apply(snapshot)
-            self.gridDataSource?.apply(snapshot)
-        }
-    }
-}
-
-protocol CollectionViewUpdateDelegate {
-    func updateCollectionView()
 }

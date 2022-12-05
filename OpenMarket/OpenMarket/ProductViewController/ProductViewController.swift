@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class AddProductViewController: UIViewController {
-    var updateDelegate: CollectionViewUpdateDelegate?
+final class ProductViewController: UIViewController {
+    var cellUpdateDelegate: CollectionViewUpdateDelegate?
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -43,6 +43,7 @@ final class AddProductViewController: UIViewController {
         textField.tintColor = .black
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품명"
+        
         return textField
     }()
     
@@ -53,6 +54,7 @@ final class AddProductViewController: UIViewController {
         textField.tintColor = .black
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품가격"
+        textField.keyboardType = .decimalPad
         
         return textField
     }()
@@ -74,6 +76,8 @@ final class AddProductViewController: UIViewController {
         textField.tintColor = .black
         textField.borderStyle = .roundedRect
         textField.placeholder = "할인금액"
+        textField.keyboardType = .decimalPad
+        
         return textField
     }()
     
@@ -83,6 +87,8 @@ final class AddProductViewController: UIViewController {
         textField.tintColor = .black
         textField.borderStyle = .roundedRect
         textField.placeholder = "재고수량"
+        textField.keyboardType = .decimalPad
+        
         return textField
     }()
     
@@ -107,10 +113,11 @@ final class AddProductViewController: UIViewController {
         setUpUI()
     }
     
-    func configure() {
+    private func configure() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(tappedCancelButton))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(tappedDoneButton))
         
+        productNameTextField.delegate = self
         productPriceTextField.delegate = self
         bargainPriceTextField.delegate = self
         stockTextField.delegate = self
@@ -132,7 +139,7 @@ final class AddProductViewController: UIViewController {
         self.priceStackView.addArrangedSubview(currencySegmentedControl)
     }
     
-    func setUpUI() {
+    private func setUpUI() {
         let safeArea = self.view.safeAreaLayoutGuide
         let inset: CGFloat = 4
         
@@ -177,7 +184,27 @@ final class AddProductViewController: UIViewController {
     }
     
     @objc
-    func tappedDoneButton(_ sender: Any) {
+    private func tappedDoneButton(_ sender: Any) {
+        var validViewArray: [UIView] = []
+        
+        if isValidProductName() == false {
+            validViewArray.append(productNameTextField)
+        }
+        
+        if isValidbargainPrice() == false {
+            validViewArray.append(bargainPriceTextField)
+        }
+        
+        guard validViewArray.isEmpty else {
+            validViewArray.forEach { view in
+                view.layer.borderColor = UIColor.systemRed.cgColor
+                view.layer.borderWidth = 0.7
+                view.layer.cornerRadius = 4
+            }
+            
+            return
+        }
+        
         let name = productNameTextField.text ?? ""
         let description = descriptionTextView.text ?? ""
         let currency: Currency = currencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
@@ -203,18 +230,32 @@ final class AddProductViewController: UIViewController {
                               secret: Constant.password
         )
         
+        
         // post
         let manager = NetworkManager()
         manager.postProductLists(params: product, images: imageArray) {
             DispatchQueue.main.sync {
-                self.updateDelegate?.updateCollectionView()
+                self.cellUpdateDelegate?.updateCollectionView()
                 self.dismiss(animated: true)
             }
         }
     }
     
+    private func isValidProductName() -> Bool {
+        guard let textLength = productNameTextField.text?.count else {
+            return false
+        }
+        
+        return 3 <= textLength && textLength <= 100
+    }
+    
+    private func isValidbargainPrice() -> Bool {
+        // 할인가 = default 0, 0~ 상품가
+        guard let textLength = Double(bargainPriceTextField.text)
+    }
+    
     @objc
-    func tappedPlusButton(_ sender: Any) {
+    private func tappedPlusButton(_ sender: Any) {
         if self.imageStackView.subviews.count != 5 {
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
@@ -226,57 +267,31 @@ final class AddProductViewController: UIViewController {
     }
     
     @objc
-    func tappedCancelButton(_ sender: Any) {
+    private func tappedCancelButton(_ sender: Any) {
         dismiss(animated: true)
     }
 }
 
-extension AddProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+extension ProductViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.layer.borderColor = UIColor.systemGray5.cgColor
+        textField.layer.cornerRadius = 4
+        textField.layer.borderWidth = 0.7
         
-        picker.dismiss(animated: true) {
-            if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-                let transSize = CGSize(width: img.size.width / 10, height: img.size.height / 10)
-                let resizeImage = img.resizeImageTo(size: transSize)
-                
-                let imageView = UIImageView(image: resizeImage)
-                
-                self.imageStackView.addArrangedSubview(imageView)
-                
-                if self.imageStackView.subviews.count == 5 {
-                    self.addProductButton.isHidden = true
-                    
-                    self.imageStackView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor, constant: 4).isActive = true
-                }
-                
-                imageView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2).isActive = true
-                imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
-            } else {
-                print("image nil")
-            }
-        }
+        return true
     }
-}
-
-extension AddProductViewController: UITextFieldDelegate {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == productNameTextField {
+            return true
+        }
+        
         return Double(string) != nil
     }
 }
 
-extension AddProductViewController: UITextViewDelegate {
+extension ProductViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return textView.text.count <= 1000
-    }
-}
-
-extension UIImage {
-    func resizeImageTo(size: CGSize) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        return resizedImage
     }
 }
