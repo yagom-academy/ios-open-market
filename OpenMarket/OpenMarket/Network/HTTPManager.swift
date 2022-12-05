@@ -48,24 +48,29 @@ class HTTPManager {
     }
     
     func requestPOST(url: String, encodingData: Data, complete: @escaping (Data) -> ()) {
-        guard let validURL = URL(string: url) else { return }
+        guard let validURL = URL(string: url) else {
+            handleError(error: NetworkError.clientError)
+            return
+        }
         
         var urlRequest = URLRequest(url: validURL)
-        urlRequest.httpMethod = HTTPMethod.post.description
+        urlRequest.httpMethod = HTTPMethod.post
         urlRequest.addValue("fdbf32bf-6941-11ed-a917-5fe377d02b55", forHTTPHeaderField: "identifier")
         urlRequest.setValue("multipart/form-data; boundary=\(MultipartFormDataRequest.shared.boundary)", forHTTPHeaderField: "Content-Type")
         MultipartFormDataRequest.shared.addTextField(value: String(data: encodingData, encoding: .utf8) ?? "") // Item <-
         
         print(String(data: MultipartFormDataRequest.shared.httpBody as Data, encoding: .utf8)!)
         
-        //        MultipartFormDataRequest.shared.addDataField(data: image!.pngData()!) // Image
+        // MultipartFormDataRequest.shared.addDataField(data: image!.pngData()!) // Image
         
         urlRequest.httpBody = MultipartFormDataRequest.shared.httpBody as Data
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
-            guard let data = data else { return }
-            let response: HTTPURLResponse = (urlResponse as? HTTPURLResponse)!
-            print(response.statusCode)
+            guard let data = data else {
+                self.handleError(error: NetworkError.missingData)
+                return
+            }
+            
             guard let response = urlResponse as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
                 if let response = urlResponse as? HTTPURLResponse {
                     print(response.statusCode)
@@ -73,20 +78,26 @@ class HTTPManager {
                 return
             }
             
+            guard error == nil else {
+                self.handleError(error: NetworkError.serverError)
+                return
+            }
+            
             complete(data)
         }.resume()
     }
     
-    func requestPATCH(productID: Int, params: [String: Any], completion: @escaping (Data) -> ()) {
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
-        
-        guard let validURL = URL(string: OpenMarketURL.productComponent(productID: productID).url) else { return }
+    func requestPATCH(url: String, encodingData: Data, completion: @escaping (Data) -> ()) {
+        guard let validURL = URL(string: url) else {
+            handleError(error: NetworkError.clientError)
+            return
+        }
         
         var urlRequest = URLRequest(url: validURL)
-        urlRequest.httpMethod = HTTPMethod.patch.description
+        urlRequest.httpMethod = HTTPMethod.patch
         urlRequest.addValue("fdbf32bf-6941-11ed-a917-5fe377d02b55", forHTTPHeaderField: "identifier")
         urlRequest.setValue("application/json", forHTTPHeaderField:"Content-Type")
-        urlRequest.httpBody = jsonData
+        urlRequest.httpBody = encodingData
         
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else {
@@ -107,6 +118,37 @@ class HTTPManager {
             }
             
             completion(data)
+        }.resume()
+    }
+    
+    func requestDELETE(url: String, encodingData: Data, complete: @escaping (Data) -> ()) {
+        guard let validURL = URL(string: url) else {
+            handleError(error: NetworkError.clientError)
+            return
+        }
+        
+        var urlRequest = URLRequest(url: validURL)
+        urlRequest.httpMethod = HTTPMethod.delete
+        urlRequest.addValue("fdbf32bf-6941-11ed-a917-5fe377d02b55", forHTTPHeaderField: "identifier")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = encodingData
+        
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard let data = data else {
+                self.handleError(error: NetworkError.missingData)
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
+                return
+            }
+            
+            guard error == nil else {
+                self.handleError(error: NetworkError.serverError)
+                return
+            }
+            
+            complete(data)
         }.resume()
     }
     
