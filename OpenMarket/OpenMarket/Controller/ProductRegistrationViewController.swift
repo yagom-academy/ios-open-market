@@ -9,8 +9,6 @@ import UIKit
 
 final class ProductRegistrationViewController: ProductManagementViewController {
     private let productRegistrationTitle: String = "상품등록"
-    var cancelBarButtonItem: UIBarButtonItem?
-    var doneBarButtonItem: UIBarButtonItem?
     private let imagePickerButton: UIButton = {
         let button: UIButton = UIButton()
 
@@ -23,7 +21,11 @@ final class ProductRegistrationViewController: ProductManagementViewController {
     private var registeredImages: [UIView]? {
         didSet {
             applyRegisteredImages()
+            checkEnoughContents(nil)
         }
+    }
+    override var hasEnoughContents: Bool {
+        return super.hasEnoughContents && registeredImages?.isEmpty ?? false == false
     }
     private var doneWorkItem: DispatchWorkItem? = nil
     
@@ -43,14 +45,8 @@ final class ProductRegistrationViewController: ProductManagementViewController {
     }
     
     private func setUpNavigationBarButton() {
-        doneBarButtonItem = UIBarButtonItem(title: "done",
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(tappedDoneButton))
-        cancelBarButtonItem = UIBarButtonItem(title: "Cancel",
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(tappedCancelButton))
+        doneBarButtonItem?.action = #selector(tappedDoneButton)
+        cancelBarButtonItem?.action = #selector(tappedCancelButton)
         
         navigationItem.setRightBarButton(doneBarButtonItem, animated: false)
         navigationItem.setLeftBarButton(cancelBarButtonItem, animated: false)
@@ -109,7 +105,8 @@ final class ProductRegistrationViewController: ProductManagementViewController {
         present(resultAlertController, animated: true)
     }
     
-    @objc private func showImagePickerActionSheet() {
+    @objc
+    private func showImagePickerActionSheet() {
         let imagePickerActionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let albumAlertAction: UIAlertAction = UIAlertAction(title: "앨범", style: .default) { [weak self] (_) in

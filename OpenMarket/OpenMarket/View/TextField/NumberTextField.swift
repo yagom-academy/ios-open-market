@@ -8,9 +8,16 @@
 import UIKit
 
 final class NumberTextField: UITextField {
-    init(placeholder: String? = nil) {
+    private let hasDefaultValue: Bool
+    var hasEnoughText: Bool {
+        return hasDefaultValue == false ? hasText : true
+    }
+    
+    init(placeholder: String? = nil, hasDefaultValue: Bool) {
+        self.hasDefaultValue = hasDefaultValue
         super.init(frame: .zero)
         self.placeholder = placeholder
+        
         configure()
     }
     
@@ -24,5 +31,16 @@ final class NumberTextField: UITextField {
         adjustsFontForContentSizeCategory = true
         keyboardType = .numberPad
         borderStyle = .roundedRect
+        layer.cornerRadius = 6
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.systemGray5.cgColor
+    }
+    
+    func checkEnoughText() {
+        if hasDefaultValue == false, hasText == true {
+            layer.borderColor = UIColor.systemBlue.cgColor
+        } else if hasDefaultValue == false, hasText == false {
+            layer.borderColor = UIColor.red.cgColor
+        }
     }
 }

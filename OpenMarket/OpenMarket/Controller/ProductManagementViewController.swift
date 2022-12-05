@@ -15,9 +15,9 @@ protocol ProductManagementNavigationBarButtonProtocol {
 class ProductManagementViewController: UIViewController {
     let imageCollectionView: ImageCollectionView = ImageCollectionView(frame: .zero, collectionViewLayout: .imagePicker)
     let nameTextField: NameTextField = NameTextField(minimumLength: 3, maximumLength: 100)
-    let priceTextField: NumberTextField = NumberTextField(placeholder: "상품가격")
-    let discountedPriceTextField: NumberTextField = NumberTextField(placeholder: "할인금액")
-    let stockTextField: NumberTextField = NumberTextField(placeholder: "재고수량")
+    let priceTextField: NumberTextField = NumberTextField(placeholder: "상품가격", hasDefaultValue: false)
+    let discountedPriceTextField: NumberTextField = NumberTextField(placeholder: "할인금액", hasDefaultValue: true)
+    let stockTextField: NumberTextField = NumberTextField(placeholder: "재고수량", hasDefaultValue: true)
     let descriptionTextView: DescriptionTextView = DescriptionTextView(minimumLength: 10, maximumLength: 1000)
     let currencySegmentedControl: UISegmentedControl = {
         let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["KRW", "USD"])
@@ -56,19 +56,18 @@ class ProductManagementViewController: UIViewController {
         
         return scrollView
     }()
+    var cancelBarButtonItem: UIBarButtonItem?
+    var doneBarButtonItem: UIBarButtonItem?
+    var hasEnoughContents: Bool {
+        return nameTextField.hasEnoughText && priceTextField.hasEnoughText && discountedPriceTextField.hasEnoughText && stockTextField.hasEnoughText && descriptionTextView.hasEnoughText
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        setUpBarButtonItem()
+        setUpNotification()
     }
 
     func setUpViewsIfNeeded() {
@@ -123,6 +122,50 @@ class ProductManagementViewController: UIViewController {
                        price: priceTextField.text,
                        discountedPrice: discountedPriceTextField.text,
                        stock: stockTextField.text)
+    }
+    
+    private func setUpBarButtonItem() {
+        doneBarButtonItem = UIBarButtonItem(title: "done",
+                                            style: .plain,
+                                            target: self,
+                                            action: nil)
+        cancelBarButtonItem = UIBarButtonItem(title: "Cancel",
+                                              style: .plain,
+                                              target: self,
+                                              action: nil)
+        doneBarButtonItem?.isEnabled = false
+    }
+    
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(checkEnoughContents),
+                                               name: UITextField.textDidChangeNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(checkEnoughContents),
+                                               name: UITextView.textDidChangeNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    func checkEnoughContents(_ sender: NSNotification?) {
+        if let nameTextField: NameTextField = sender?.object as? NameTextField {
+            nameTextField.checkEnoughText()
+        } else if let numberTextField: NumberTextField = sender?.object as? NumberTextField {
+            numberTextField.checkEnoughText()
+        } else if let descriptionTextView: DescriptionTextView = sender?.object as? DescriptionTextView {
+            descriptionTextView.checkEnoughText()
+        }
+        
+        doneBarButtonItem?.isEnabled = hasEnoughContents
     }
     
     @objc
