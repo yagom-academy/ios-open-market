@@ -7,16 +7,21 @@
 
 import UIKit.UIImage
 
-enum ImageParser {
-    static func parse(_ urlString: String,
+struct ImageParser {
+    private var fetchImageTask: URLSessionDataTask? = nil
+    
+    mutating func parse(_ urlString: String?,
                       completion: @escaping (UIImage?) -> Void) {
+        guard let urlString: String = urlString else {
+            completion(nil)
+            return
+        }
         if let cacheImage: UIImage = ImageCache.shared.object(forKey: NSString(string: urlString)) {
             completion(cacheImage)
         } else {
             fetchImage(urlString) { (image) in
                 if let image: UIImage = image {
-                    ImageCache.shared.setObject(image,
-                                                forKey: NSString(string: urlString))
+                    ImageCache.shared.setObject(image, forKey: NSString(string: urlString))
                 }
                 DispatchQueue.main.async {
                     completion(image)
@@ -25,20 +30,27 @@ enum ImageParser {
         }
     }
     
-    private static func fetchImage(_ urlString: String,
+    mutating func cancelTask() {
+        fetchImageTask?.cancel()
+        fetchImageTask = nil
+    }
+    
+    private mutating func fetchImage(_ urlString: String,
                                    completion: @escaping (UIImage?) -> Void) {
         guard let url: URL = URL(string: urlString) else {
             completion(nil)
             return
         }
         
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        fetchImageTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data: Data = data,
                let image: UIImage = UIImage(data: data) {
                 completion(image)
             } else {
                 completion(nil)
             }
-        }.resume()
+        }
+        
+        fetchImageTask?.resume()
     }
 }

@@ -43,12 +43,12 @@ final class ProductGridCell: UICollectionViewCell {
         
         return stackView
     }()
-    
     private var product: Product? {
         didSet {
             setUpDataIfNeeded()
         }
     }
+    private var imageParser: ImageParser = ImageParser()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -110,14 +110,10 @@ final class ProductGridCell: UICollectionViewCell {
     
     private func setUpDataIfNeeded() {
         guard let product: Product = product,
-              let thumbnail: String = product.thumbnail,
               let bargainPrice: Double = product.bargainPrice else {
             return
         }
         
-        ImageParser.parse(thumbnail) { (thumbnailImage) in
-            self.thumbnailImageView.image = thumbnailImage
-        }
         nameLabel.text = product.name
         stockLabel.stock = product.stock
         priceLabel.setPrice(product.price,
@@ -126,8 +122,17 @@ final class ProductGridCell: UICollectionViewCell {
                             style: .grid)
     }
     
+    func setUpImage(compareTo cell: UICollectionViewCell) {
+        imageParser.parse(product?.thumbnail) { (thumbnailImage) in
+            if self == cell {
+                self.thumbnailImageView.image = thumbnailImage
+            }
+        }
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageParser.cancelTask()
         thumbnailImageView.image = nil
         nameLabel.text = ""
         stockLabel.stock = 0

@@ -11,7 +11,7 @@ final class ViewController: UIViewController {
     private let segmentedControl: LayoutSegmentedControl = LayoutSegmentedControl()
     private var collectionView: OpenMarketCollectionView!
     private var currentPage: Int = 1
-    private let productPerPage: Int = 400
+    private let productPerPage: Int = 20
     private var hasNextPage: Bool = true
     private var indicatorView: UIView?
     
@@ -105,6 +105,8 @@ final class ViewController: UIViewController {
     
     @objc
     private func refreshData(_ sender: UIRefreshControl) {
+        self.currentPage = 1
+        self.hasNextPage = true
         applySnapshotOfFetchedPage()
     }
     

@@ -49,11 +49,13 @@ final class OpenMarketCollectionView: UICollectionView {
     private func registerCell() {
         listCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
             cell.updateWithProduct(product)
+            cell.setUpImage(compareTo: cell)
             cell.accessories = [.disclosureIndicator()]
         }
         
         gridCellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { (cell, indexPath, product) in
             cell.updateWithProduct(product)
+            cell.setUpImage(compareTo: cell)
         }
     }
     //MARK: - Footer
