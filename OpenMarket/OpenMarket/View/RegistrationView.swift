@@ -10,7 +10,7 @@ import UIKit
 class RegistrationView: UIView {
     var selectedImage: [UIImage] = []
     
-    var imageCollectionView: UICollectionView = {
+    let imageCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
@@ -55,7 +55,13 @@ class RegistrationView: UIView {
                                                           distribution: .fillEqually,
                                                           spacing: 10)
     let mainStackView: CustomStackView = CustomStackView(axis: .vertical, spacing: 10)
-
+    let mainScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        
+        return scrollView
+    }()
 
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -81,28 +87,38 @@ class RegistrationView: UIView {
             fieldStackView.addArrangedSubview($0)
         }
          
-        [fieldStackView,
+        [imageCollectionView,
+         fieldStackView,
          textView].forEach {
             mainStackView.addArrangedSubview($0)
         }
         
-        [imageCollectionView,
-         mainStackView].forEach {
-            self.addSubview($0)
-        }
+        mainScrollView.addSubview(mainStackView)
+        self.addSubview(mainScrollView)
 
         NSLayoutConstraint.activate([
-            imageCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            imageCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            imageCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            imageCollectionView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2),
+            imageCollectionView.topAnchor.constraint(equalTo: mainStackView.topAnchor),
+            imageCollectionView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
+            imageCollectionView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
+            imageCollectionView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor,multiplier: 0.25),
             
-            fieldStackView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.3),
+            fieldStackView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.25),
             
-            mainStackView.topAnchor.constraint(equalTo: imageCollectionView.bottomAnchor, constant: 10),
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40),
+            mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
+            mainStackView.heightAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.heightAnchor),
+            
+            mainScrollView.frameLayoutGuide.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+                                                                     constant: 10),
+            mainScrollView.frameLayoutGuide.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+                                                                      constant: -10),
+            mainScrollView.frameLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            mainScrollView.frameLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            mainScrollView.contentLayoutGuide.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
+            mainScrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor)
         ])
     }
 }
