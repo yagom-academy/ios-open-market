@@ -10,46 +10,81 @@ import UIKit
 final class GridCollectionViewCell: UICollectionViewCell {
     var product: Item?
     
-    private let mainStackView = UIStackView()
-    private let productNameLabel = UILabel()
-    private let productImage = UIImageView()
-    private let priceLabel = UILabel()
-    private let priceForSaleLabel = UILabel()
-    private let stockLabel = UILabel()
-    private let loadingView = UIActivityIndicatorView(style: .large)
+    private let mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        
+        return stackView
+    }()
+    
+    private let productNameLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        return label
+    }()
+    
+    private let productImage: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
+    
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.isHidden = true
+        
+        return label
+    }()
+    
+    private let priceForSaleLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    private let loadingView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentMode = .scaleAspectFill
+        
+        return view
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureAttribute()
         configureLayout()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureAttribute() {
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        productNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        productImage.translatesAutoresizingMaskIntoConstraints = false
-        priceLabel.translatesAutoresizingMaskIntoConstraints = false
-        priceForSaleLabel.translatesAutoresizingMaskIntoConstraints = false
-        stockLabel.translatesAutoresizingMaskIntoConstraints = false
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        
-        mainStackView.distribution = .equalSpacing
-        mainStackView.axis = .vertical
-        mainStackView.spacing = 5
-        loadingView.contentMode = .scaleAspectFill
-        productImage.contentMode = .scaleAspectFit
-        
-        productNameLabel.textAlignment = .center
-        productNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        priceLabel.textAlignment = .center
-        priceLabel.isHidden = true
-        priceForSaleLabel.textAlignment = .center
-        stockLabel.textAlignment = .center
     }
     
     private func configureLayout() {
@@ -88,8 +123,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
     
     private func configureItemImage(item: Item) {
         DispatchQueue.global().async {
-            guard let url = URL(string: item.thumbnail) else { return }
-            NetworkManager.publicNetworkManager.getImageData(url: url) { image in
+            NetworkManager.publicNetworkManager.getImageData(url: item.thumbnail) { image in
                 DispatchQueue.main.async { [weak self] in
                     if item == self?.product {
                         self?.productImage.image = image
@@ -145,6 +179,5 @@ final class GridCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 10.0
         layer.borderColor = UIColor.systemGray.cgColor
         layer.borderWidth = 1
-        
     }
 }

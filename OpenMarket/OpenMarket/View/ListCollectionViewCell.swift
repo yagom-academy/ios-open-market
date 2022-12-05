@@ -10,64 +10,128 @@ import UIKit
 final class ListCollectionViewCell: UICollectionViewCell {
     var product: Item?
     
-    private let mainStackView = UIStackView()
-    private let labelStackView = UIStackView()
-    private let priceStackView = UIStackView()
-    private var accessoryView = UIImageView()
-    private let productImage = UIImageView()
-    private let productNameLabel = UILabel()
-    private let priceLabel = UILabel()
-    private let priceForSaleLabel = UILabel()
-    private let stockLabel = UILabel()
-    private let spacingView = UIView()
-    private let loadingView = UIActivityIndicatorView(style: .large)
+    private let mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private let labelStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+        stackView.axis = .horizontal
+        
+        return stackView
+    }()
+    
+    private let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        
+        return stackView
+    }()
+    
+    private var accessoryView: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: OpenMarketImage.cross)
+        imageView.tintColor = .systemGray
+        
+        return imageView
+    }()
+
+    private let productImage: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    private let productNameLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        return label
+    }()
+    
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        
+        return label
+    }()
+    
+    private let priceForSaleLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        
+        return label
+    }()
+    
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        
+        return label
+    }()
+    
+    private let spacingView: UIView = {
+        let view = UIView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private let loadingView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     
     override init(frame: CGRect) {
+        // 여기서 호출
         super.init(frame: frame)
-        configureAttribute()
+        configurePriority()
         configureLayout()
     }
     
-    @available(*, unavailable)
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureAttribute() {
+    private func configurePriority() {
         let priceHuggingPriority = priceForSaleLabel.contentHuggingPriority(for: .horizontal) + 1
         let stockHuggingPriority = productNameLabel.contentHuggingPriority(for: .horizontal) + 1
         let stockCompressionPriority = productNameLabel.contentCompressionResistancePriority(for: .horizontal) + 1
         
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
-        priceStackView.translatesAutoresizingMaskIntoConstraints = false
-        accessoryView.translatesAutoresizingMaskIntoConstraints = false
-        productImage.translatesAutoresizingMaskIntoConstraints = false
-        productNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        stockLabel.translatesAutoresizingMaskIntoConstraints = false
-        spacingView.translatesAutoresizingMaskIntoConstraints = false
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        
-        mainStackView.distribution = .equalSpacing
-        mainStackView.axis = .vertical
-        mainStackView.spacing = 10
-        labelStackView.distribution = .equalSpacing
-        labelStackView.axis = .horizontal
-        priceStackView.distribution = .fill
-        priceStackView.axis = .horizontal
-        
-        productNameLabel.textAlignment = .left
-        productNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         stockLabel.setContentHuggingPriority(stockHuggingPriority, for: .horizontal)
         stockLabel.setContentCompressionResistancePriority(stockCompressionPriority, for: .horizontal)
-        stockLabel.textAlignment = .right
         priceLabel.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
-        priceLabel.isHidden = true
         spacingView.setContentHuggingPriority(priceHuggingPriority, for: .horizontal)
-        priceForSaleLabel.textAlignment = .left
-        
-        accessoryView.image = UIImage(systemName: OpenMarketImage.cross)
-        accessoryView.tintColor = .systemGray
     }
     
     private func configureLayout() {
@@ -125,8 +189,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     
     private func configureItemImage(item: Item) {
         DispatchQueue.global().async {
-            guard let url = URL(string: item.thumbnail) else { return }
-            NetworkManager.publicNetworkManager.getImageData(url: url) { image in
+            NetworkManager.publicNetworkManager.getImageData(url: item.thumbnail) { image in
                 DispatchQueue.main.async { [weak self] in
                     if item == self?.product {
                         self?.productImage.image = image

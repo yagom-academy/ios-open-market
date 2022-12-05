@@ -21,19 +21,19 @@ struct NetworkManager {
         }
     }
     
-    func getImageData(url: URL, completion: @escaping (UIImage) -> ()) {
+    func getImageData(url: String, completion: @escaping (UIImage) -> ()) {
         let cachedKey = NSString(string: "\(url)")
         
         if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
             return completion(cachedImage)
-        }
+        } 
         
-        DispatchQueue.global(qos: .utility).async {
-            if let data = try? Data(contentsOf: url),
-               let image = UIImage(data: data) {
-                ImageCacheManager.shared.setObject(image, forKey: cachedKey)
-                completion(image)
+        HTTPManager.shared.requestGet(url: url) { data in
+            guard let image = UIImage(data: data) else {
+                return
             }
+            ImageCacheManager.shared.setObject(image, forKey: cachedKey)
+            completion(image)
         }
     }
 }

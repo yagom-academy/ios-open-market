@@ -14,16 +14,11 @@ final class JSONConverter {
         do {
             let result = try JSONDecoder().decode(T.self, from: data)
             return result
+        } catch DecodingError.dataCorrupted(let context) {
+            print(context.codingPath, context.debugDescription, context.underlyingError ?? "", separator: "\n")
+            return nil
         } catch {
-            guard let error = error as? DecodingError else { return nil }
-            
-            switch error {
-            case .dataCorrupted(let context):
-                print(context.codingPath, context.debugDescription, context.underlyingError ?? "", separator: "\n")
-                return nil
-            default :
-                return nil
-            }
+            return nil
         }
     }
 }
