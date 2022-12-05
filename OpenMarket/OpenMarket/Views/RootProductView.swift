@@ -16,6 +16,7 @@ class RootProductView: UIView {
         setupUI()
         registerCell()
         registerTextFieldDelegate()
+        setupNotification()
     }
     
     required init?(coder: NSCoder) {
@@ -125,6 +126,33 @@ class RootProductView: UIView {
     }
 }
 
+// MARK: - KeyBoard Response Notification
+extension RootProductView {
+    func setupNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        keyboardWillHide()
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, descriptionTextView.isFirstResponder {
+                   let keyboardRectangle = keyboardFrame.cgRectValue
+                   let keyboardHeight = keyboardRectangle.height
+               UIView.animate(withDuration: 1) {
+                   self.window?.frame.origin.y -= keyboardHeight
+               }
+           }
+    }
+    
+    @objc func keyboardWillHide() {
+        if self.window?.frame.origin.y != 0 {
+            UIView.animate(withDuration: 1) {
+                self.window?.frame.origin.y = 0
+            }
+        }
+    }
+}
+
 // MARK: - UITextFieldDelegate & UITextViewDelegate
 extension RootProductView: UITextFieldDelegate, UITextViewDelegate {
     func registerTextFieldDelegate() {
@@ -141,6 +169,12 @@ extension RootProductView: UITextFieldDelegate, UITextViewDelegate {
             return true
         }
         return false
+    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        keyboardWillHide()
+        descriptionTextView.resignFirstResponder()
+        return true
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
