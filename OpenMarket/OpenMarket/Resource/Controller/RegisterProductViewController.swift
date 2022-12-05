@@ -8,7 +8,7 @@
 import UIKit
 
 class RegisterProductViewController: UIViewController {
-    var selectedImage = [UIImage?].init(repeating: nil, count: 5)
+    var selectedImage: [UIImage?] = []
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -146,24 +146,26 @@ class RegisterProductViewController: UIViewController {
 }
 
 extension RegisterProductViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let filteredImage = selectedImage.filter { $0 != nil }
-        
-        if filteredImage.count < 5 {
-            return filteredImage.count + 1
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        if selectedImage.count < 5 {
+            return selectedImage.count + 1
         }
         
-        return filteredImage.count
+        return selectedImage.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegisterCollectionImageCell.identifier, for: indexPath) as? RegisterCollectionImageCell else {
             return UICollectionViewCell()
         }
         
-        let filteredImage = selectedImage.filter { $0 != nil }
-        
-        if indexPath.item == filteredImage.count {
+        if indexPath.item == selectedImage.count {
             cell.configureButtonStyle()
         } else {
             cell.itemImageView.image = selectedImage[indexPath.item]
@@ -173,19 +175,24 @@ extension RegisterProductViewController: UICollectionViewDataSource {
     }
 }
 
-extension RegisterProductViewController: UICollectionViewDelegateFlowLayout {
-    
-}
+extension RegisterProductViewController: UICollectionViewDelegateFlowLayout { }
 
 extension RegisterProductViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let viewSize = view.frame.size
         let contentWidth = viewSize.width / 3 - 10
         
         return CGSize(width: contentWidth, height: contentWidth)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
         let filteredImages = selectedImage.filter { $0 != nil }
         
         if filteredImages.count == 5 {
@@ -203,12 +210,15 @@ extension RegisterProductViewController: UICollectionViewDelegate {
 }
 
 extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+    ) {
         
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            let index = selectedImage.filter { $0 != nil }.count
-            selectedImage[index] = image
+            selectedImage.append(image)
         }
+        
         collectionView.reloadData()
         picker.dismiss(animated: true)
     }
