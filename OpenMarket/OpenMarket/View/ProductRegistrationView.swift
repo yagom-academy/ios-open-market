@@ -141,7 +141,6 @@ final class ProductRegistrationView: UIView {
             scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             
-            
             totalStackView.leadingAnchor.constraint(equalTo: contentLayout.leadingAnchor),
             totalStackView.trailingAnchor.constraint(equalTo: contentLayout.trailingAnchor),
             totalStackView.topAnchor.constraint(equalTo: contentLayout.topAnchor),
@@ -155,7 +154,7 @@ final class ProductRegistrationView: UIView {
             descriptionTextView.heightAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor,
                                                         multiplier: 0.55),
             currencySegmentControl.widthAnchor.constraint(equalTo: priceStackView.widthAnchor,
-                                                          multiplier: 0.25),
+                                                          multiplier: 0.25)
         ])
     }
 }

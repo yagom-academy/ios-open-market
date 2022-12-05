@@ -17,6 +17,13 @@ final class ProductRegistrationViewController: UIViewController {
                               discountedPrice: 1,
                               stock: 9999,
                               secret: "9vqf2ysxk8tnhzm9")
+    let imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        return picker
+    }()
+    var images: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +32,9 @@ final class ProductRegistrationViewController: UIViewController {
         configureNavigationBar()
         productRegistrationView.imagesCollectionView.dataSource = self
         productRegistrationView.imagesCollectionView.delegate = self
-        productRegistrationView.imagesCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        productRegistrationView.imagesCollectionView.register(RegistrationImageCell.self,
+                                                              forCellWithReuseIdentifier: RegistrationImageCell.identifier)
+        imagePicker.delegate = self
         
         //        guard let request = configureRequest() else { return }
         //        guard let image = UIImage(named: "sample1") else { return }
@@ -42,7 +51,7 @@ final class ProductRegistrationViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                            style: .plain,
                                                            target: self,
-                                                           action: nil)
+                                                           action: #selector(cancelRegistration))
         navigationItem.title = "상품 등록"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done",
                                                             style: .plain,
@@ -53,12 +62,28 @@ final class ProductRegistrationViewController: UIViewController {
 
 extension ProductRegistrationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        guard images.count != 5 else {
+            return images.count
+        }
+        
+        return images.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .systemPink
+        guard let cell: RegistrationImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistrationImageCell.identifier,
+                                                                                   for: indexPath)
+        as? RegistrationImageCell else {
+            return UICollectionViewCell()
+        }
+        
+        guard indexPath.item != images.count else {
+            cell.addButton(selector: #selector(selectImage))
+            
+            return cell
+        }
+
+        cell.addImage(images[indexPath.item])
+        
         return cell
     }
 }
@@ -69,7 +94,6 @@ extension ProductRegistrationViewController: UICollectionViewDelegateFlowLayout 
         let height: CGFloat = width
         
         return CGSize(width: width, height: height)
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -84,6 +108,16 @@ extension ProductRegistrationViewController: UICollectionViewDelegateFlowLayout 
     }
 }
 
+extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            images.append(editedImage)
+            productRegistrationView.imagesCollectionView.reloadData()
+        }
+        
+        picker.dismiss(animated: true)
+    }
+}
 
 extension ProductRegistrationViewController {
     func configureRequest() -> URLRequest? {
@@ -115,9 +149,7 @@ extension ProductRegistrationViewController {
         data.appendString("\r\n")
         
         images.forEach { image in
-            guard let convertedImage = image.pngData() else {
-                return
-            }
+            guard let convertedImage = image.pngData() else { return }
             
             data.append(convertImageData(convertedImage,
                                          fileName: "inho.png",
@@ -138,6 +170,16 @@ extension ProductRegistrationViewController {
         data.appendString("\r\n")
         
         return data
+    }
+}
+
+extension ProductRegistrationViewController {
+    @objc func cancelRegistration() {
+        dismiss(animated: true)
+    }
+    
+    @objc func selectImage() {
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
