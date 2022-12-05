@@ -17,9 +17,12 @@ final class ProductRegistrationView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    private let imagesCollectionView: UICollectionView = {
+    let imagesCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: UICollectionViewFlowLayout())
+                                              collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -53,12 +56,14 @@ final class ProductRegistrationView: UIView {
     private let currencySegmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl(items: ["KRW", "USD"])
         segmentControl.selectedSegmentIndex = 0
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
     }()
     private let priceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         textField.layer.borderColor = UIColor.systemGray3.cgColor
         textField.layer.cornerRadius = 6
         textField.layer.borderWidth = 1.0
@@ -68,6 +73,7 @@ final class ProductRegistrationView: UIView {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         textField.layer.borderColor = UIColor.systemGray3.cgColor
         textField.layer.cornerRadius = 6
         textField.layer.borderWidth = 1.0
@@ -77,6 +83,7 @@ final class ProductRegistrationView: UIView {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         textField.layer.borderColor = UIColor.systemGray3.cgColor
         textField.layer.cornerRadius = 6
         textField.layer.borderWidth = 1.0
@@ -87,6 +94,7 @@ final class ProductRegistrationView: UIView {
         textView.textColor = .secondaryLabel
         textView.backgroundColor = .secondarySystemBackground
         textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
@@ -144,6 +152,10 @@ final class ProductRegistrationView: UIView {
                                                          multiplier: 0.2),
             textFieldStackView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor,
                                                        multiplier: 0.25),
+            descriptionTextView.heightAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor,
+                                                        multiplier: 0.55),
+            currencySegmentControl.widthAnchor.constraint(equalTo: priceStackView.widthAnchor,
+                                                          multiplier: 0.25),
         ])
     }
 }

@@ -243,8 +243,9 @@ final class OpenMarketViewController: UIViewController {
 extension OpenMarketViewController {
     @objc private func showProductRegistrationView() {
         let viewController = ProductRegistrationViewController()
-        
-        present(viewController, animated: true, completion: nil)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
     
     @objc private func switchView(_ sender: UISegmentedControl) {
