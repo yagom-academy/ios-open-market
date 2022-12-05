@@ -58,7 +58,7 @@ class HTTPManager {
         
         print(String(data: MultipartFormDataRequest.shared.httpBody as Data, encoding: .utf8)!)
         
-//        MultipartFormDataRequest.shared.addDataField(data: image!.pngData()!) // Image
+        //        MultipartFormDataRequest.shared.addDataField(data: image!.pngData()!) // Image
         
         urlRequest.httpBody = MultipartFormDataRequest.shared.httpBody as Data
         
@@ -74,6 +74,39 @@ class HTTPManager {
             }
             
             complete(data)
+        }.resume()
+    }
+    
+    func requestPATCH(productID: Int, params: [String: Any], completion: @escaping (Data) -> ()) {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
+        
+        guard let validURL = URL(string: OpenMarketURL.productComponent(productID: productID).url) else { return }
+        
+        var urlRequest = URLRequest(url: validURL)
+        urlRequest.httpMethod = HTTPMethod.patch.description
+        urlRequest.addValue("fdbf32bf-6941-11ed-a917-5fe377d02b55", forHTTPHeaderField: "identifier")
+        urlRequest.setValue("application/json", forHTTPHeaderField:"Content-Type")
+        urlRequest.httpBody = jsonData
+        
+        URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
+            guard let data = data else {
+                self.handleError(error: NetworkError.missingData)
+                return
+            }
+            
+            guard let response = urlResponse as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
+                if let response = urlResponse as? HTTPURLResponse {
+                    print(response.statusCode)
+                }
+                return
+            }
+            
+            guard error == nil else {
+                self.handleError(error: NetworkError.serverError)
+                return
+            }
+            
+            completion(data)
         }.resume()
     }
     
