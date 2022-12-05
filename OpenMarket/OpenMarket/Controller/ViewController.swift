@@ -23,6 +23,15 @@ final class ViewController: UIViewController {
         setRightBarButton()
         setCollectionView()
         setIndicatorView()
+        setUpRefreshControl()
+    }
+    
+    func setUpRefreshControl() {
+        let refreshControl: UIRefreshControl = UIRefreshControl()
+     
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        
+        collectionView.refreshControl = refreshControl
     }
     
     private func setSegmentedControl() {
@@ -89,6 +98,12 @@ final class ViewController: UIViewController {
     private func tappedAddProductButton(_ sender: UIBarButtonItem) {
         navigationController?.pushViewController(ProductRegistrationViewController(), animated: false)
     }
+    
+    @objc
+    private func refreshData(_ sender: UIRefreshControl) {
+        applySnapshotOfFetchedPage()
+    }
+    
     //MARK: - Snapshot Apply Method
     private func applySnapshotOfFetchedPage() {
         URLSession.shared.fetchPage(pageNumber: 1, productsPerPage: 1000) { (page) in
@@ -101,6 +116,7 @@ final class ViewController: UIViewController {
             DispatchQueue.main.async {
                 self.removeIndicatorView()
                 self.collectionView.applySnapshot(snapshot)
+                self.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
