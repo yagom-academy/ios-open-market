@@ -21,7 +21,7 @@ class RegistrationViewController: UIViewController {
             forCellWithReuseIdentifier: ImageCollectionViewCell.identifier
         )
         self.view = registrationView
-        
+        setViewGesture()
     }
     
     func setupNavigationBar() {
@@ -37,6 +37,14 @@ class RegistrationViewController: UIViewController {
     @objc func registerProduct() {
     }
     
+    private func setViewGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
+        self.view.endEditing(true)
+    }
 }
 
 extension RegistrationViewController: UICollectionViewDelegate,

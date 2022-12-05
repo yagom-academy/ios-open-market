@@ -22,10 +22,13 @@ class RegistrationView: UIView {
         return view
     }()
     
-    let productNameTextField: CustomTextField = CustomTextField(placeHolder: "상품명")
-    let productPriceTextField: CustomTextField = CustomTextField(placeHolder: "상품가격")
-    let productDiscountPriceTextField: CustomTextField = CustomTextField(placeHolder: "할인금액")
-    let stockTextField: CustomTextField = CustomTextField(placeHolder: "재고수량")
+    let productNameTextField: CustomTextField = CustomTextField(placeholder: "상품명")
+    let productPriceTextField: CustomTextField = CustomTextField(placeholder: "상품가격",
+                                                                 keyboardType: .decimalPad )
+    let productDiscountPriceTextField: CustomTextField = CustomTextField(placeholder: "할인금액",
+                                                                         keyboardType: .decimalPad)
+    let stockTextField: CustomTextField = CustomTextField(placeholder: "재고수량",
+                                                          keyboardType: .numberPad)
     let priceStackView: CustomStackView = CustomStackView(spacing: 10)
     let currencySegmentControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
@@ -41,13 +44,18 @@ class RegistrationView: UIView {
         textView.isScrollEnabled = true
         textView.setContentHuggingPriority(.init(1), for: .vertical)
         textView.showsVerticalScrollIndicator = false
-        
+        textView.font = .preferredFont(forTextStyle: .body )
+        textView.layer.cornerRadius = 2
+        textView.layer.borderWidth = 2
+        textView.layer.borderColor = UIColor.systemGray3.cgColor
+      
         return textView
     }()
     let fieldStackView: CustomStackView = CustomStackView(axis: .vertical,
                                                           distribution: .fillEqually,
                                                           spacing: 10)
     let mainStackView: CustomStackView = CustomStackView(axis: .vertical, spacing: 10)
+
 
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -94,7 +102,7 @@ class RegistrationView: UIView {
             mainStackView.topAnchor.constraint(equalTo: imageCollectionView.bottomAnchor, constant: 10),
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40),
         ])
     }
 }
