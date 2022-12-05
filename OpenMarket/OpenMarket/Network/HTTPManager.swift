@@ -47,6 +47,36 @@ class HTTPManager {
         }.resume()
     }
     
+    func requestPOST(url: String, encodingData: Data, complete: @escaping (Data) -> ()) {
+        guard let validURL = URL(string: url) else { return }
+        
+        var urlRequest = URLRequest(url: validURL)
+        urlRequest.httpMethod = HTTPMethod.post.description
+        urlRequest.addValue("fdbf32bf-6941-11ed-a917-5fe377d02b55", forHTTPHeaderField: "identifier")
+        urlRequest.setValue("multipart/form-data; boundary=\(MultipartFormDataRequest.shared.boundary)", forHTTPHeaderField: "Content-Type")
+        MultipartFormDataRequest.shared.addTextField(value: String(data: encodingData, encoding: .utf8) ?? "") // Item <-
+        
+        print(String(data: MultipartFormDataRequest.shared.httpBody as Data, encoding: .utf8)!)
+        
+//        MultipartFormDataRequest.shared.addDataField(data: image!.pngData()!) // Image
+        
+        urlRequest.httpBody = MultipartFormDataRequest.shared.httpBody as Data
+        
+        URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
+            guard let data = data else { return }
+            let response: HTTPURLResponse = (urlResponse as? HTTPURLResponse)!
+            print(response.statusCode)
+            guard let response = urlResponse as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
+                if let response = urlResponse as? HTTPURLResponse {
+                    print(response.statusCode)
+                }
+                return
+            }
+            
+            complete(data)
+        }.resume()
+    }
+    
     func handleError(error: NetworkError) {
         switch error {
         case .clientError:
