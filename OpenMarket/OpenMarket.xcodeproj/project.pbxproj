@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C2F5795293DFA410061D579 /* ProductRegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2F5794293DFA410061D579 /* ProductRegistrationView.swift */; };
 		0C892A4129250B8B00109AB8 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C892A4029250B8B00109AB8 /* NetworkError.swift */; };
 		0C892A4329252E6900109AB8 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C892A4229252E6900109AB8 /* URLSessionProtocol.swift */; };
 		0C892A4529252EA300109AB8 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C892A4429252EA300109AB8 /* StubURLSession.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C2F5794293DFA410061D579 /* ProductRegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegistrationView.swift; sourceTree = "<group>"; };
 		0C892A4029250B8B00109AB8 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		0C892A4229252E6900109AB8 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		0C892A4429252EA300109AB8 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				B2B9C2B4292CB391006E6869 /* ListCell.swift */,
 				B2B9C2B6292E16DD006E6869 /* GridCell.swift */,
+				0C2F5794293DFA410061D579 /* ProductRegistrationView.swift */,
 				C70FB10025BEF61C00C9924E /* Main.storyboard */,
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 			);
@@ -332,6 +335,7 @@
 				DF14E7002930B8E700AEFA91 /* ProductRegistrationViewController.swift in Sources */,
 				DFDCA5282923BC6A00655B05 /* ImageData.swift in Sources */,
 				B2B9C2B7292E16DD006E6869 /* GridCell.swift in Sources */,
+				0C2F5795293DFA410061D579 /* ProductRegistrationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
