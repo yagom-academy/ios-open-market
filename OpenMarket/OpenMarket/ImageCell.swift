@@ -53,13 +53,14 @@ final class ImageCell: UICollectionViewCell {
             return
         }
         let kbSize = Double(dataSize / 1024)
+        plusImageView.isHidden = true
         
         if kbSize > 300 {
             let scale = floor(sqrt(300 / kbSize) * 10) / 10
-            image?.resize(scale)
+            productImageView.image = image?.resize(scale)
+        } else {
+            productImageView.image = image
         }
-        plusImageView.isHidden = true
-        productImageView.image = image
     }
     
     func resetCell() {

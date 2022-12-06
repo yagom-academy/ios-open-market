@@ -8,7 +8,6 @@
 import UIKit
 
 extension UIImage {
-    @discardableResult
     public func resize(_ scale: Double) -> UIImage? {
         let target = CGRect(x: 0, y: 0, width: (self.size.width * scale), height: (self.size.height * scale))
         guard let cgImage = self.cgImage,
