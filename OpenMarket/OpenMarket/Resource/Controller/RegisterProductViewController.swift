@@ -8,6 +8,17 @@
 import UIKit
 
 final class RegisterProductViewController: UIViewController {
+    var isEditingMode: Bool = false {
+        didSet {
+            if isEditingMode {
+                navigationItem.title = "상품수정"
+            } else {
+                navigationItem.title = "상품등록"
+            }
+            
+            collectionView.reloadData()
+        }
+    }
     var selectedImage: [UIImage?] = []
     var selectedCurrency = Currency.KRW {
         didSet {
@@ -250,6 +261,10 @@ extension RegisterProductViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
+        if isEditingMode {
+            return selectedImage.count
+        }
+        
         if selectedImage.count < 5 {
             return selectedImage.count + 1
         }
@@ -296,6 +311,10 @@ extension RegisterProductViewController: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
+        if isEditingMode {
+            return
+        }
+        
         let filteredImages = selectedImage.filter { $0 != nil }
         
         if filteredImages.count == 5 {
