@@ -129,7 +129,7 @@ final class RegisterProductViewController: UIViewController {
         setUpDelegate()
         setUpConstraints()
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
@@ -274,7 +274,9 @@ extension RegisterProductViewController: UICollectionViewDelegate {
         if indexPath.item == filteredImages.count {
             let imagePicker = UIImagePickerController()
             imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
             imagePicker.delegate = self
+            imagePicker.videoQuality = .typeMedium
             
             present(imagePicker, animated: true, completion: nil)
         }
@@ -287,8 +289,25 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
     ) {
         
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            selectedImage.append(image)
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            // 만약에 이미지 비율이 1이 아니면 -> 이미지의 비율을 1로 변경해주는 cropping을 한다.
+            var originImage = image
+            var imageScale = 1.0
+            var imageSize = originImage.compressionSize
+            
+            if originImage.size.height != originImage.size.width {
+                originImage = originImage.resizeOfSquare()
+                imageSize = originImage.compressionSize
+            }
+            
+            
+            while imageSize ?? 0 > 300000 {
+                originImage = originImage.downSampling(scale: imageScale)
+                imageSize = originImage.compressionSize
+                imageScale -= 0.1
+            }
+            
+            selectedImage.append(originImage)
         }
         
         collectionView.reloadData()
@@ -330,5 +349,45 @@ extension RegisterProductViewController: UITextViewDelegate {
             textView.text = "설명"
             textView.textColor = .secondaryLabel
         }
+    }
+}
+
+private extension UIImage {
+    var compressionSize: Int? {
+        return self.jpegData(compressionQuality: 0.5)?.count
+    }
+    func resizeOfSquare() -> UIImage {
+        let minLength = min(self.size.width, self.size.height)
+        let size = CGSize(width: minLength, height: minLength)
+        
+        let render = UIGraphicsImageRenderer(size: size)
+        let renderImage = render.image { context in
+            self.draw(in: CGRect(origin: .zero, size: size))
+        }
+        
+        return renderImage
+    }
+
+    func downSampling(scale: Double) -> UIImage {
+        guard let data = self.jpegData(compressionQuality: 0.5),
+              let imageSource = CGImageSourceCreateWithData(data as CFData, nil) else {
+            return self
+        }
+        
+        let maxPixel = min(self.size.width, self.size.height) * scale
+        let downSampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixel
+        ] as CFDictionary
+        
+        guard let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions) else {
+            return self
+        }
+        
+        let newImage = UIImage(cgImage: downSampledImage)
+        
+        return newImage
     }
 }

@@ -11,7 +11,7 @@ class RegisterCollectionImageCell: UICollectionViewCell {
     
     let itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -24,7 +24,7 @@ class RegisterCollectionImageCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             itemImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             itemImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            itemImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4),
+            itemImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0),
             itemImageView.heightAnchor.constraint(equalTo: itemImageView.widthAnchor)
         ])
     }
