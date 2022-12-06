@@ -30,24 +30,6 @@ final class AddItemView: UIView {
         return stackView
     }()
     
-    private let productImageView: UIImageView = {
-        let imageView = UIImageView()
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .lightGray
-        
-        return imageView
-    }()
-    
-    private let plusButton: UIButton = {
-        let button = UIButton()
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        
-        return button
-    }()
-    
     private let productNameTextField: UITextField = {
         let textField = UITextField()
         
@@ -113,8 +95,7 @@ final class AddItemView: UIView {
     }
     
     private func configureLayout() {
-        self.addSubview(productImageView)
-        self.addSubview(plusButton)
+
         self.addSubview(labelStackView)
         self.addSubview(descTextView)
         
@@ -127,19 +108,9 @@ final class AddItemView: UIView {
         priceStackView.addArrangedSubview(currencySegmentControl)
         
         NSLayoutConstraint.activate([
-            productImageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            productImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
-            productImageView.heightAnchor.constraint(equalToConstant: 150),
-            productImageView.widthAnchor.constraint(equalToConstant: 150),
-            
-            plusButton.leadingAnchor.constraint(equalTo: productImageView.leadingAnchor),
-            plusButton.topAnchor.constraint(equalTo: productImageView.topAnchor),
-            plusButton.heightAnchor.constraint(equalTo: productImageView.heightAnchor),
-            plusButton.widthAnchor.constraint(equalTo: productImageView.widthAnchor),
-            
             labelStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             labelStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            labelStackView.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 10),
+            labelStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             labelStackView.bottomAnchor.constraint(equalTo: descTextView.topAnchor, constant: -10),
             
             descTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
