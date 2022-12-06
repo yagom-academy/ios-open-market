@@ -80,6 +80,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     func configureImage(imageSource: String) {
         let fileManager = FileManager()
+        let imageCacheKey = NSString(string: imageSource)
         
         guard let imageUrl = URL(string: imageSource) else { return }
         guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory,
@@ -88,7 +89,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
         var filePath = URL(fileURLWithPath: path)
         filePath.appendPathComponent(imageUrl.lastPathComponent)
         
-        if fileManager.fileExists(atPath: filePath.path) != true {
+        if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
+            thumbnail.image = imageCacheValue
+        } else if let loadedImageData = try? Data(contentsOf: filePath) {
+            guard let image = UIImage(data: loadedImageData) else { return }
+            ImageCacheManager.shared.setObject(image, forKey: imageCacheKey)
+            thumbnail.image = image
+        } else {
             networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
                 switch data {
                 case .success(let data):
@@ -97,6 +104,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
                         self?.loadingIndicator.removeFromSuperview()
                         self?.thumbnail.image = UIImage(data: data)
                     }
+                    guard let image = UIImage(data: data) else { return }
+                    ImageCacheManager.shared.setObject(image, forKey: imageCacheKey)
                     fileManager.createFile(atPath: filePath.path,
                                            contents: data,
                                            attributes: nil)
@@ -104,9 +113,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
                     print(error.localizedDescription)
                 }
             }
-        } else {
-            guard let loadedImageData = try? Data(contentsOf: filePath) else { return }
-            thumbnail.image = UIImage(data: loadedImageData)
         }
     }
 }

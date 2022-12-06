@@ -26,6 +26,7 @@
 		D27FA6362923293E004E3B38 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D27FA6352923293E004E3B38 /* .swiftlint.yml */; };
 		D27FA6402924839D004E3B38 /* SearchListProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FA63F2924839D004E3B38 /* SearchListProducts.swift */; };
 		D27FA642292483F9004E3B38 /* DetailProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FA641292483F9004E3B38 /* DetailProduct.swift */; };
+		D2AF64A9293F218300CA507F /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AF64A8293F218300CA507F /* ImageCacheManager.swift */; };
 		D2B4188E292C694800874541 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */; };
 		D2C0A4CF2938A84D00AB3D2D /* PostRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C0A4CE2938A84D00AB3D2D /* PostRequestParams.swift */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		D27FA6352923293E004E3B38 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D27FA63F2924839D004E3B38 /* SearchListProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListProducts.swift; sourceTree = "<group>"; };
 		D27FA641292483F9004E3B38 /* DetailProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProduct.swift; sourceTree = "<group>"; };
+		D2AF64A8293F218300CA507F /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		D2C0A4CE2938A84D00AB3D2D /* PostRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequestParams.swift; sourceTree = "<group>"; };
 		E2FDD5EB470EE761553CBF9F /* Pods-OpenMarket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMarket.debug.xcconfig"; path = "Target Support Files/Pods-OpenMarket/Pods-OpenMarket.debug.xcconfig"; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */,
 				09D2BC202938A21F009E0895 /* Data+Extensions.swift */,
 				D2C0A4CE2938A84D00AB3D2D /* PostRequestParams.swift */,
+				D2AF64A8293F218300CA507F /* ImageCacheManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				09D8602F2928C3AF008FBE56 /* APIError.swift.swift in Sources */,
 				D2B4188E292C694800874541 /* CustomCollectionViewCell.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				D2AF64A9293F218300CA507F /* ImageCacheManager.swift in Sources */,
 				09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */,
 				09D8602D2928BF8E008FBE56 /* ApiUrl.swift.swift in Sources */,
 				09D2BC212938A21F009E0895 /* Data+Extensions.swift in Sources */,
