@@ -66,4 +66,8 @@ final class ImageCell: UICollectionViewCell {
         plusImageView.isHidden = false
         productImageView.image = nil
     }
+    
+    func productImageData() -> Data? {
+        return productImageView.image?.jpegData(compressionQuality: 0.9)
+    }
 }

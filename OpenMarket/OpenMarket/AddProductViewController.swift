@@ -11,6 +11,7 @@ final class AddProductViewController: UIViewController {
     private var imageCellIdentifiers: [Int] = [0]
     private let defaultIdentifier: Set<Int> = [0, 1, 2, 3, 4]
     private var navigationBarHeight: CGFloat = .zero
+    private let networkManager = NetworkManager()
     
     private let backgroundScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -166,7 +167,63 @@ final class AddProductViewController: UIViewController {
             return
         }
         
-        showAlert(message: "등록 성공!")
+        postProductData()
+    }
+    
+    private func postProductData() {
+        guard let params = makeNewProductData(),
+              let images = makeImageData(),
+              let request = ProductAddRequest(identifier: "c598a7e9-6941-11ed-a917-8dbc932b3fe4", params: params, images: images).request
+        else { return }
+        
+        networkManager.postData(form: request) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async { [weak self] in
+                    self?.showAlert(message: "등록 성공!")
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func makeNewProductData() -> Data? {
+        checkTextField()
+        guard let name = nameTextField.text,
+              let description = descriptionTextView.text,
+              let price = Double(priceTextField.text ?? ""),
+              let currency = Currency.allCases[valid: segmentedControl.selectedSegmentIndex],
+              let discountedPrice = Double(discountedPriceTextField.text ?? ""),
+              let stock = Int(stockTextField.text ?? "")
+        else { return nil }
+        
+        let newProduct = NewProduct(name: name, description: description, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: "sth4w4p3knfsxqgx")
+        
+        return JSONEncoder.encode(from: newProduct)
+    }
+    
+    private func checkTextField() {
+        guard let discountedPrice = discountedPriceTextField.text,
+              let stock = stockTextField.text else { return }
+        
+        if discountedPrice.isEmpty {
+            discountedPriceTextField.text = "0"
+        }
+        if stock.isEmpty {
+            stockTextField.text = "0"
+        }
+    }
+    
+    private func makeImageData() -> Data? {
+        var data: Data = Data()
+        for item in 0..<imageCellIdentifiers.count {
+            guard let cell = imageCollectionView.cellForItem(at: IndexPath(item: item, section: 0)) as? ImageCell,
+                  let imageData = cell.productImageData()
+            else { break }
+            data.append(imageData)
+        }
+        return data
     }
     
     private func showAlert(message: String, completion: (() -> Void)? = nil) {
@@ -327,7 +384,7 @@ extension AddProductViewController {
         }
     }
     
-    func setKeyboardDoneButton() {
+    private func setKeyboardDoneButton() {
         let keyboardBar = UIToolbar()
         keyboardBar.sizeToFit()
         let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(tapKeyboardDoneButton))
@@ -338,7 +395,7 @@ extension AddProductViewController {
         descriptionTextView.inputAccessoryView = keyboardBar
     }
     
-    @objc func tapKeyboardDoneButton(_ sender: Any) {
+    @objc private func tapKeyboardDoneButton(_ sender: Any) {
         self.view.endEditing(true)
     }
 }

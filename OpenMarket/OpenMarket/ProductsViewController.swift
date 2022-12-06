@@ -85,6 +85,12 @@ final class ProductsViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refresh()
+    }
+    
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.collectionViewLayout = listLayout
