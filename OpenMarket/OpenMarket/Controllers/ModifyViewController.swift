@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ModifyViewController: RootProductViewController {
+final class ModifyViewController: RootProductViewController {
     var modifyProductView = ModifyProductView()
     
     override var showView: RootProductView {

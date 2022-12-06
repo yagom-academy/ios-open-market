@@ -138,7 +138,7 @@ extension RootProductView {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, descriptionTextView.isFirstResponder {
                    let keyboardRectangle = keyboardFrame.cgRectValue
                    let keyboardHeight = keyboardRectangle.height
-               UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.5) {
                    self.window?.frame.origin.y -= keyboardHeight
                }
            }
@@ -146,7 +146,7 @@ extension RootProductView {
     
     @objc func keyboardWillHide() {
         if self.window?.frame.origin.y != 0 {
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.5) {
                 self.window?.frame.origin.y = 0
             }
         }

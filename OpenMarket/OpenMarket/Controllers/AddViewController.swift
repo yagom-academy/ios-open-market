@@ -8,7 +8,10 @@
 import UIKit
 import PhotosUI
 
-class AddViewController: RootProductViewController {
+final class AddViewController: RootProductViewController {
+    
+    let picker = UIImagePickerController()
+    var cnt = 0
     var addProductView = AddProductView()
     
     override var showView: RootProductView {
@@ -28,45 +31,53 @@ class AddViewController: RootProductViewController {
         self.view = showView
         showView.collectionView.delegate = self
         showView.collectionView.dataSource = self
+        picker.delegate = self
     }
 }
 
 // MARK: - ImageCollectionViewCellDelegate
 extension AddViewController: ImageCollectionViewCellDelegate {
     func imageCollectionViewCell(_ isShowPicker: Bool) {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 5
-        configuration.filter = .images
-
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
         
-        self.present(picker, animated: true, completion: nil)
+        let alert = UIAlertController(title: "사진선택",
+                                      message: "업로드할 사진을 선택해주세요.",
+                                      preferredStyle: .actionSheet)
+        let leftAction = UIAlertAction(title: "원본사진", style: .default) { _ in
+            self.picker.allowsEditing = false
+            self.present(self.picker, animated: true, completion: nil)
+        }
+        
+        let rightAction = UIAlertAction(title: "편집사진", style: .default) { _ in
+            self.picker.allowsEditing = true
+            self.present(self.picker, animated: true, completion: nil)
+        }
+        
+        alert.addAction(leftAction)
+        alert.addAction(rightAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
-// MARK: - PHPickerViewControllerDelegate
-extension AddViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-
-        let itemProvides = results.compactMap { result in
-            return result.itemProvider
-        }
+// MARK: - Extension UIImagePickerController
+extension AddViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        for itemProvider in itemProvides {
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                    DispatchQueue.main.async {
-                        self.cellImages.append(image as? UIImage)
-                        self.addProductView.collectionView.reloadData()
-                    }
-                }
+        if let image = info[.editedImage] as? UIImage {
+            cellImages.append(image)
+        } else {
+            if let image = info[.originalImage] as? UIImage {
+                cellImages.append(image)
             }
         }
+        
+        self.addProductView.collectionView.reloadData()
+        dismiss(animated: true, completion: nil)
     }
 }
-
 
 // MARK: - Extension UICollectionView
 extension AddViewController: UICollectionViewDelegate, UICollectionViewDataSource {

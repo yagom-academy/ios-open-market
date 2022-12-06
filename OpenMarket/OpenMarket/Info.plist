@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>사진첩을 사용해도 되겠습니까?</string>
+	<string>앨범 접근을 허용하겠습니까?</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>사진첩을 사용해도 되겠습니까?</string>
+	<string>앨범 접근을 허용하겠습니까?</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
