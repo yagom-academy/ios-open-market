@@ -138,10 +138,16 @@ final class OpenMarketViewController: UIViewController {
                 self.applySnapshot(for: self.products)
                 self.activityIndicator.stopAnimating()
             case .failure(let error):
-                // TODO: - 실패 시 얼럿 보여주는걸로 수정하기
-                print(error)
+                self.showDataRequestFailureAlert(error)
             }
         }
+    }
+    
+    private func showDataRequestFailureAlert(_ error: NetworkError) {
+        let alert = UIAlertController(title: AlertConstants.alertTitle.rawValue, message: error.rawValue, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: AlertConstants.actionTitle.rawValue, style: .default))
+        
+        self.present(alert, animated: true)
     }
     
     private func configureListCollectionView() {

@@ -66,12 +66,12 @@ extension CollectionViewCellType {
     }
     
     private func updateStockLabel(_ product: Product) {
-        guard product.stock > 0 else {
+        guard product.stock > .zero else {
             stockLabel.attributedText = StockStatus.soldOut.rawValue.markSoldOut()
             return
         }
         
-        if product.stock > 10_000 {
+        if product.stock > .thousand {
             stockLabel.attributedText = NSAttributedString(string: StockStatus.enoughStock.rawValue)
             return
         }
