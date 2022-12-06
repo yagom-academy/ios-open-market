@@ -8,7 +8,8 @@
 import UIKit
 
 extension UIImage {
-    func compressTo(expectedSizeInKb:Int) -> Data? {
+    // resizing using CompressingQuility
+    func compressTo(expectedSizeInKb: Int) -> Data? {
         let sizeInBytes = expectedSizeInKb * 1024
         var needCompress:Bool = true
         var imgData:Data?
@@ -31,33 +32,26 @@ extension UIImage {
         }
         return nil
     }
-    
-    func resize(expectedSizeInKb:Int) -> Data? {
-        var needCompress:Bool = true
-        var nowWidth: CGFloat = self.size.width
+
+    // resizing using size
+    func resize(expectedSizeInKb: Int) -> Data? {
+        let nowWidth: CGFloat = self.size.width
+        var ratio: CGFloat = 1
         let sizeInBytes = expectedSizeInKb * 1024
-        
-        guard var data:Data = self.jpegData(compressionQuality: 1.0) else { return nil }
-        
-        while (needCompress && data.count > sizeInBytes) {
-            let scale = nowWidth / self.size.width
-            let nowHeight = self.size.height * scale
-            if data.count < sizeInBytes {
-                needCompress = false
-                
-            } else {
-                nowWidth = nowWidth / 10
-                let size = CGSize(width: nowWidth, height: nowHeight)
-                let render = UIGraphicsImageRenderer(size: size)
-                
-                let renderImage = render.image { context in
-                    self.draw(in: CGRect(origin: .zero, size: size))
-                }
-                
-                data = renderImage.jpegData(compressionQuality: 1.0)!
+        guard var data: Data = self.jpegData(compressionQuality: 1.0) else { return nil }
+
+        while data.count > sizeInBytes {
+            ratio += 3
+            let changeWidth = nowWidth / ratio
+
+            let size = CGSize(width: changeWidth, height: changeWidth)
+            let render = UIGraphicsImageRenderer(size: size)
+            let renderImage = render.image { context in
+                self.draw(in: CGRect(origin: .zero, size: size))
             }
+            data = renderImage.jpegData(compressionQuality: 1.0)!
         }
-        
+
         return data
     }
 }
