@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct NetworkManager {
     public static let publicNetworkManager = NetworkManager()
@@ -17,6 +18,22 @@ struct NetworkManager {
             }
             
             completion(data)
+        }
+    }
+    
+    func getImageData(url: String, completion: @escaping (UIImage) -> ()) {
+        let cachedKey = NSString(string: "\(url)")
+        
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
+            return completion(cachedImage)
+        } 
+        
+        HTTPManager.shared.requestGet(url: url) { data in
+            guard let image = UIImage(data: data) else {
+                return
+            }
+            ImageCacheManager.shared.setObject(image, forKey: cachedKey)
+            completion(image)
         }
     }
 }

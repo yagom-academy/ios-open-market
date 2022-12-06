@@ -17,18 +17,32 @@ enum HTTPMethod {
 enum OpenMarketURL {
     static let base: String = "https://openmarket.yagom-academy.kr"
     static let heathChecker: String = "/healthChecker"
-}
-
-enum OpenMarketURLComponent {
+    
     case itemPageComponent(pageNo: Int, itemPerPage: Int)
     case productComponent(productID: Int)
     
     var url: String {
         switch self {
         case .itemPageComponent(let pageNo, let itemPerPage):
-            return "/api/products?page_no=\(pageNo)&items_per_page=\(itemPerPage)"
+            return OpenMarketURL.base + "/api/products?page_no=\(pageNo)&items_per_page=\(itemPerPage)"
         case .productComponent(let productID):
-            return "/api/products/\(productID)"
+            return OpenMarketURL.base + "/api/products/\(productID)"
         }
     }
+}
+
+enum OpenMarketDataText {
+    static let stock = "잔여수량: "
+    static let soldOut = "품절"
+    static let first = 1
+    static let last = 100
+}
+
+enum OpenMarketStatus {
+    static let noneError = "확인 불가"
+}
+
+enum OpenMarketImage {
+    static let plus = "plus"
+    static let cross = "chevron.right"
 }
