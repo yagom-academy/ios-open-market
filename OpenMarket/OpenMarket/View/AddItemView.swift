@@ -8,6 +8,29 @@
 import UIKit
 
 final class AddItemView: UIView {
+    
+    var itemImages: [UIImage] = []
+    
+    private let imageScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isScrollEnabled = true
+        
+        return scrollView
+    }()
+    
+    var imageStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 5
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        
+        return stackView
+    }()
+    
     private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         
@@ -30,11 +53,28 @@ final class AddItemView: UIView {
         return stackView
     }()
     
+    let productBackgroundView: UIView = {
+        let view = UIView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray5
+        
+        return view
+    }()
+    
+    var registrationButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        return button
+    }()
+    
     private let productNameTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
+        textField.placeholder = "상품명"
         
         return textField
     }()
@@ -44,6 +84,7 @@ final class AddItemView: UIView {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
+        textField.placeholder = "상품가격"
         
         return textField
     }()
@@ -53,6 +94,7 @@ final class AddItemView: UIView {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
+        textField.placeholder = "할인금액"
         
         return textField
     }()
@@ -62,6 +104,7 @@ final class AddItemView: UIView {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
+        textField.placeholder = "재고수량"
         
         return textField
     }()
@@ -95,9 +138,14 @@ final class AddItemView: UIView {
     }
     
     private func configureLayout() {
-
+        self.addSubview(imageScrollView)
         self.addSubview(labelStackView)
         self.addSubview(descTextView)
+        
+        imageScrollView.addSubview(imageStackView)
+        
+        imageStackView.addArrangedSubview(productBackgroundView)
+        imageStackView.addArrangedSubview(registrationButton)
         
         labelStackView.addArrangedSubview(productNameTextField)
         labelStackView.addArrangedSubview(priceStackView)
@@ -108,18 +156,31 @@ final class AddItemView: UIView {
         priceStackView.addArrangedSubview(currencySegmentControl)
         
         NSLayoutConstraint.activate([
+            imageScrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            imageScrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            imageScrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            imageScrollView.bottomAnchor.constraint(equalTo: descTextView.topAnchor, constant: -10),
+            
+            imageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
+            imageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor),
+            imageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
+            imageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor),
+            
+            productBackgroundView.heightAnchor.constraint(equalToConstant: 150),
+            productBackgroundView.widthAnchor.constraint(equalToConstant: 150),
+            
             labelStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             labelStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            labelStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            labelStackView.topAnchor.constraint(equalTo: imageStackView.bottomAnchor, constant: 10),
             labelStackView.bottomAnchor.constraint(equalTo: descTextView.topAnchor, constant: -10),
             
             descTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             descTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             descTextView.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 10),
-            descTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            descTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            
+            registrationButton.centerXAnchor.constraint(equalTo: productBackgroundView.centerXAnchor),
+            registrationButton.centerYAnchor.constraint(equalTo: productBackgroundView.centerYAnchor)
         ])
-        
-        
-        
     }
 }
