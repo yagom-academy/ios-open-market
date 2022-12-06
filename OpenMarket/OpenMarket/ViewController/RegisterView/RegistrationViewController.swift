@@ -38,10 +38,29 @@ class RegistrationViewController: UIViewController {
     }
     
     @objc func registerProduct() {
+        let marketURLSessionProvider = MarketURLSessionProvider()
+        let encoder = JSONEncoder()
+        let product = createProductFromUserInput()
+        let images = registrationView.selectedImages
+        guard let productData = try? encoder.encode(product) else { return }
         
+        guard let request = marketURLSessionProvider.generateRequest(textParameters: ["params": productData],
+                                                                     imageKey: "images",
+                                                                     images: images) else { return }
+        
+        marketURLSessionProvider.uploadProduct(request: request) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            case .failure(_):
+                print("업로드 실패입니다")
+            }
+        }
     }
     
-    func checkValidInput() -> Product? {
+    func createProductFromUserInput() -> Product? {
         guard let name = registrationView.productNameTextField.text,
               name.count >= 3,
               name.count <= 100 else { return nil }
@@ -86,7 +105,7 @@ extension RegistrationViewController: UICollectionViewDelegate,
                                       UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return registrationView.selectedImage.count + 1
+        return registrationView.selectedImages.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -99,15 +118,18 @@ extension RegistrationViewController: UICollectionViewDelegate,
         }
         
         switch indexPath.item {
-        case registrationView.selectedImage.count:
+        case registrationView.selectedImages.count:
             cell.setUpPlusImage()
         default:
-            var image = registrationView.selectedImage[indexPath.item]
+            var image = registrationView.selectedImages[indexPath.item]
             
             if let data = image.jpegData(compressionQuality: 1),
                Double(NSData(data: data).count) / 1000.0 > 300 {
                 image = image.resize()
             }
+            
+            let data = image.jpegData(compressionQuality: 1)!
+               print(Double(NSData(data: data).count) / 1000.0)
             
             cell.setUpImage(image: image)
         }
@@ -123,7 +145,7 @@ extension RegistrationViewController: UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.item == registrationView.selectedImage.count else { return }
+        guard indexPath.item == registrationView.selectedImages.count else { return }
         showImagePicker()
     }
 }
@@ -142,14 +164,14 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard registrationView.selectedImage.count < 5 else {
+        guard registrationView.selectedImages.count < 5 else {
             dismiss(animated: true)
             return
         }
         
         guard let image = info[.editedImage] as? UIImage else { return }
         
-        registrationView.selectedImage.append(image)
+        registrationView.selectedImages.append(image)
         dismiss(animated: true)
         registrationView.imageCollectionView.reloadData()
     }

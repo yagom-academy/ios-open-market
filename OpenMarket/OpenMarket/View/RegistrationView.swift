@@ -8,7 +8,7 @@
 import UIKit
 
 class RegistrationView: UIView {
-    var selectedImage: [UIImage] = []
+    var selectedImages: [UIImage] = []
     
     let imageCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()

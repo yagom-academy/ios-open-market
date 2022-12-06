@@ -37,26 +37,25 @@ final class MarketURLSessionProvider {
         dataTask.resume()
     }
     
-    func uploadProduct(request: URLRequest) {
-       
+    func uploadProduct(request: URLRequest, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let session = session as? URLSession else { return }
         
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print(NetworkError.requestFailError)
-                return
+                return completionHandler(.failure(.requestFailError))
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                return  print(NetworkError.httpResponseError(
-                    code: (response as? HTTPURLResponse)?.statusCode ?? 0))
+                return completionHandler(.failure(.httpResponseError(
+                    code: (response as? HTTPURLResponse)?.statusCode ?? 0)))
             }
             
-            guard data != nil else {
-                print(NetworkError.noDataError)
-                return
+            guard let data = data else {
+                return completionHandler(.failure(.noDataError))
             }
+
+            return completionHandler(.success(data))
         }
         
         dataTask.resume()
@@ -65,7 +64,7 @@ final class MarketURLSessionProvider {
 
 extension MarketURLSessionProvider {
     func generateRequest(textParameters: [String : Data],
-                         imageKey: String, images: [ImageData]) -> URLRequest? {
+                         imageKey: String, images: [UIImage]) -> URLRequest? {
         let lineBreak = "\r\n"
         let boundary = "Boundary-\(UUID().uuidString)"
         
@@ -80,15 +79,15 @@ extension MarketURLSessionProvider {
         
         let stringBodyData = createTextBodyData(parameters: textParameters,
                                                 boundary: boundary)
-        let imageBodyData = createImageBodyData(key: imageKey,
-                                                images: images,
-                                                boundary: boundary)
+        guard let imageBodyData = createImageBodyData(key: imageKey,
+                                                      images: images,
+                                                      boundary: boundary) else { return nil }
         var bodyData = Data()
         
         bodyData.append(stringBodyData)
         bodyData.append(imageBodyData)
         bodyData.append("--\(boundary)--\(lineBreak)")
-        
+
         request.httpBody = bodyData
         
         return request
@@ -110,21 +109,23 @@ extension MarketURLSessionProvider {
     }
     
     func createImageBodyData(key: String,
-                             images: [ImageData],
-                             boundary: String) -> Data {
+                             images: [UIImage],
+                             boundary: String) -> Data? {
         let lineBreak = "\r\n"
         var body = Data()
-        
+    
         for image in images {
+            guard let imageData = image.jpegData(compressionQuality: 1) else { return nil }
+            
             body.append("--\(boundary + lineBreak)")
-            body.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(image.fileName)\"")
+            body.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"image\"")
             body.append(lineBreak)
             body.append("Content-Type: \"multipart/form-data\"")
             body.append(lineBreak + lineBreak)
-            body.append(image.data)
+            body.append(imageData)
             body.append(lineBreak)
         }
-        
+
         return body
     }
 }

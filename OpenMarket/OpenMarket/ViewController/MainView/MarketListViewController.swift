@@ -20,6 +20,11 @@ final class MarketListViewController: UIViewController {
         fetchMarketData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchMarketData()
+    }
+    
     private func fetchMarketData() {
         let marketURLSessionProvider = MarketURLSessionProvider()
         
