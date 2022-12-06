@@ -35,10 +35,4 @@ class RegisterCollectionImageCell: UICollectionViewCell {
         itemImageView.tintColor = .blue
         imageViewConstraint()
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        itemImageView.image = nil
-    }
 }

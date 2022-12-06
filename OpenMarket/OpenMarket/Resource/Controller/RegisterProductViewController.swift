@@ -19,12 +19,14 @@ final class RegisterProductViewController: UIViewController {
             collectionView.reloadData()
         }
     }
-    var selectedImage: [UIImage?] = []
+    var selectedImage = Array<UIImage?>(repeating: nil, count: 5)
     var selectedCurrency = Currency.KRW {
         didSet {
             changeKeyboard()
         }
     }
+    
+    var selectedIndex: Int = 0
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -261,15 +263,17 @@ extension RegisterProductViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
+        let images = selectedImage.compactMap { $0 }
+        
         if isEditingMode {
-            return selectedImage.count
+            return images.count
         }
         
-        if selectedImage.count < 5 {
-            return selectedImage.count + 1
+        if images.count < 5 {
+            return images.count + 1
         }
         
-        return selectedImage.count
+        return images.count
     }
     
     func collectionView(
@@ -283,10 +287,12 @@ extension RegisterProductViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        if indexPath.item == selectedImage.count {
+        let filteredImage = selectedImage.compactMap { $0 }
+        
+        if indexPath.item == filteredImage.count {
             cell.configureButtonStyle()
         } else {
-            cell.itemImageView.image = selectedImage[indexPath.item]
+            cell.itemImageView.image = filteredImage[indexPath.item]
         }
         
         return cell
@@ -315,21 +321,14 @@ extension RegisterProductViewController: UICollectionViewDelegate {
             return
         }
         
-        let filteredImages = selectedImage.filter { $0 != nil }
+        selectedIndex = indexPath.item
         
-        if filteredImages.count == 5 {
-            return
-        }
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
         
-        if indexPath.item == filteredImages.count {
-            let imagePicker = UIImagePickerController()
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
-            imagePicker.delegate = self
-            imagePicker.videoQuality = .typeMedium
-            
-            present(imagePicker, animated: true, completion: nil)
-        }
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
@@ -350,14 +349,13 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
                 imageSize = originImage.compressionSize
             }
             
-            
             while imageSize ?? 0 > 300000 {
                 originImage = originImage.downSampling(scale: imageScale)
                 imageSize = originImage.compressionSize
                 imageScale -= 0.1
             }
             
-            selectedImage.append(originImage)
+            selectedImage[selectedIndex] = originImage
         }
         
         collectionView.reloadData()
