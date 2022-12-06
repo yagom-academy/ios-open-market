@@ -21,7 +21,8 @@ class RegistrationViewController: UIViewController {
             forCellWithReuseIdentifier: ImageCollectionViewCell.identifier
         )
         self.view = registrationView
-        //setViewGesture()
+        addKeyboardNotifications()
+        //        setViewGesture()
     }
     
     func setupNavigationBar() {
@@ -37,14 +38,47 @@ class RegistrationViewController: UIViewController {
     @objc func registerProduct() {
     }
     
-//    private func setViewGesture() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
-//        view.addGestureRecognizer(tapGesture)
-//    }
-//
-//    @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
-//        self.view.endEditing(true)
-//    }
+    func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(setKeyboardShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(setKeyboardHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func setKeyboardShow(_ notification: Notification) {
+        self.registrationView.mainScrollView.contentOffset.y = 0
+        
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]as? NSValue,
+              self.registrationView.textView.isFirstResponder == true else { return }
+        
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        self.registrationView.mainScrollView.contentInset.bottom = keyboardHeight
+        self.registrationView.mainScrollView.contentOffset.y += keyboardHeight
+    }
+    
+    @objc func setKeyboardHide(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              self.registrationView.textView.isFirstResponder == true else { return }
+        
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        self.registrationView.mainScrollView.contentInset.bottom = 0
+        self.registrationView.mainScrollView.contentOffset.y -= keyboardHeight
+    }
+    
+    //    private func setViewGesture() {
+    //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
+    //        view.addGestureRecognizer(tapGesture)
+    //    }
+    //
+    //    @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
+    //        self.view.endEditing(true)
+    //    }
 }
 
 extension RegistrationViewController: UICollectionViewDelegate,
@@ -90,7 +124,7 @@ extension RegistrationViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.item == registrationView.selectedImage.count else { return }
-            showImagePicker()
+        showImagePicker()
     }
 }
 
