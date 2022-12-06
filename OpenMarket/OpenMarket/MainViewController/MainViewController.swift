@@ -290,6 +290,9 @@ extension MainViewController: UICollectionViewDelegate {
                     productVC.bargainPriceTextField.text = String(productDetail.bargainPrice)
                     productVC.stockTextField.text = String(productDetail.stock)
                     productVC.descriptionTextView.text = productDetail.description
+                    productVC.addProductButton.isHidden = true
+                    
+                    productVC.imageStackView.trailingAnchor.constraint(equalTo: productVC.scrollView.trailingAnchor).isActive = true
                 }
             })
         }
