@@ -59,8 +59,8 @@ enum LayoutMaker {
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(100))
         let group: NSCollectionLayoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item,
-                                                       count: itemCountOfColumn)
+                                                                                subitem: item,
+                                                                                count: itemCountOfColumn)
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(spacing)
 
         let section: NSCollectionLayoutSection = NSCollectionLayoutSection(group: group)

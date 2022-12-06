@@ -115,9 +115,9 @@ final class ProductListCell: UICollectionViewListCell {
     }
     
     func setUpImage(compareTo cell: UICollectionViewCell) {
-        imageParser.parse(product?.thumbnail) { (thumbnailImage) in
+        imageParser.parse(product?.thumbnail) { [weak self] (thumbnailImage) in
             if self == cell {
-                self.thumbnailImageView.image = thumbnailImage
+                self?.thumbnailImageView.image = thumbnailImage
             }
         }
     }

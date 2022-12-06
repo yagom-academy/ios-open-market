@@ -11,7 +11,7 @@ struct ImageParser {
     private var fetchImageTask: URLSessionDataTask? = nil
     
     mutating func parse(_ urlString: String?,
-                      completion: @escaping (UIImage?) -> Void) {
+                        completion: @escaping (UIImage?) -> Void) {
         guard let urlString: String = urlString else {
             completion(nil)
             return
@@ -36,7 +36,7 @@ struct ImageParser {
     }
     
     private mutating func fetchImage(_ urlString: String,
-                                   completion: @escaping (UIImage?) -> Void) {
+                                     completion: @escaping (UIImage?) -> Void) {
         guard let url: URL = URL(string: urlString) else {
             completion(nil)
             return

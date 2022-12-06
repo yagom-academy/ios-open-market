@@ -12,7 +12,7 @@ final class NameTextField: UITextField {
         let label: UILabel = UILabel(frame: .zero)
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "0/100"
+        label.text = "0 / 100"
         label.textColor = .systemGray5
         label.font = UIFont.systemFont(ofSize: 10)
         
@@ -60,7 +60,7 @@ final class NameTextField: UITextField {
         ])
     }
     
-    func checkEnoughText() {
+    func setUpStyleIfNeeded() {
         if hasEnoughText {
             layer.borderColor = UIColor.systemBlue.cgColor
             countLabel.textColor = .systemBlue
@@ -68,6 +68,9 @@ final class NameTextField: UITextField {
             layer.borderColor = UIColor.red.cgColor
             countLabel.textColor = .red
         }
+    }
+    
+    func calculateCountIfNeeded() {
         countLabel.text = "\(text?.count ?? 0) / \(maximumLength)"
     }
     

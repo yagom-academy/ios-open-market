@@ -12,7 +12,7 @@ final class DescriptionTextView: UITextView {
         let label: UILabel = UILabel(frame: .zero)
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "0/1000"
+        label.text = "0 / 1000"
         label.textColor = .systemGray5
         label.font = UIFont.systemFont(ofSize: 10)
         
@@ -56,7 +56,7 @@ final class DescriptionTextView: UITextView {
         ])
     }
     
-    func checkEnoughText() {
+    func setUpStyleIfNeeded() {
         if hasEnoughText {
             layer.borderColor = UIColor.systemBlue.cgColor
             countLabel.textColor = .systemBlue
@@ -64,6 +64,9 @@ final class DescriptionTextView: UITextView {
             layer.borderColor = UIColor.red.cgColor
             countLabel.textColor = .red
         }
+    }
+    
+    func calculateCountIfNeeded() {
         countLabel.text = "\(text?.count ?? 0) / \(maximumLength)"
     }
     

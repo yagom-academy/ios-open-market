@@ -18,8 +18,13 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViewsIfNeeded()
-        applySnapshotOfFetchedPage()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refreshData(nil)
+    }
+    
     //MARK: - set Up View Method
     private func setUpViewsIfNeeded() {
         setSegmentedControl()
@@ -104,38 +109,41 @@ final class ViewController: UIViewController {
     }
     
     @objc
-    private func refreshData(_ sender: UIRefreshControl) {
+    private func refreshData(_ sender: UIRefreshControl?) {
         self.currentPage = 1
         self.hasNextPage = true
-        applySnapshotOfFetchedPage()
+        applySnapshotOfFetchedPage(isRefresh: true)
     }
     
     //MARK: - Snapshot Apply Method
-    private func applySnapshotOfFetchedPage() {
+    private func applySnapshotOfFetchedPage(isRefresh: Bool = false) {
         guard hasNextPage == true else { return }
         let networkManger: NetworkManager = NetworkManager(openMarketAPI: .fetchPage(pageNumber: currentPage, productsPerPage: productPerPage))
-        networkManger.network { (data, error) in
+        networkManger.network { [weak self] (data, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else if let data = data,
                       let page = try? JSONDecoder().decode(Page.self, from: data),
-                      var currentSnapshot: NSDiffableDataSourceSnapshot = self.collectionView.currentSnapshot {
-                self.hasNextPage = page.hasNextPage
+                      var currentSnapshot: NSDiffableDataSourceSnapshot = self?.collectionView.currentSnapshot {
+                self?.hasNextPage = page.hasNextPage
                 if page.hasNextPage {
-                    self.currentPage += 1
+                    self?.currentPage += 1
                 }
-                let products: [Product] = Array(page.products.prefix(self.productPerPage))
-                
-                if currentSnapshot.numberOfSections != 0 {
+                let products: [Product] = Array(page.products.prefix(self?.productPerPage ?? 0))
+                if isRefresh {
+                    currentSnapshot.deleteSections([.main])
+                    currentSnapshot.appendSections([.main])
+                    currentSnapshot.appendItems(products)
+                } else if currentSnapshot.numberOfSections != 0 {
                     currentSnapshot.appendItems(products)
                 } else {
                     currentSnapshot.appendSections([.main])
                     currentSnapshot.appendItems(products)
                 }
                 DispatchQueue.main.async {
-                    self.removeIndicatorView()
-                    self.collectionView.applySnapshot(currentSnapshot)
-                    self.collectionView.refreshControl?.endRefreshing()
+                    self?.removeIndicatorView()
+                    self?.collectionView.applySnapshot(currentSnapshot)
+                    self?.collectionView.refreshControl?.endRefreshing()
                 }
             }
         }

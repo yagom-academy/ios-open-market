@@ -60,10 +60,10 @@ final class OpenMarketCollectionView: UICollectionView {
     }
     //MARK: - Footer
     private func registerSupplementaryView() {
-        indicatorViewRegistration = UICollectionView.SupplementaryRegistration<IndicatorView>(elementKind: UICollectionView.elementKindSectionFooter) {supplementaryView, elementKind, indexPath in
+        indicatorViewRegistration = UICollectionView.SupplementaryRegistration<IndicatorView>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] (supplementaryView, elementKind, indexPath) in
             if elementKind == UICollectionView.elementKindSectionFooter {
-                self.hasNextPage = self.openMarketDelegate?.openMarketCollectionView(didRequestNextPage: true)
-                if self.hasNextPage == true {
+                self?.hasNextPage = self?.openMarketDelegate?.openMarketCollectionView(didRequestNextPage: true)
+                if self?.hasNextPage == true {
                     supplementaryView.startIndicator()
                 }
             }

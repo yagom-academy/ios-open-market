@@ -36,7 +36,7 @@ final class NumberTextField: UITextField {
         layer.borderColor = UIColor.systemGray5.cgColor
     }
     
-    func checkEnoughText() {
+    func setUpStyleIfNeeded() {
         if hasDefaultValue == false, hasText == true {
             layer.borderColor = UIColor.systemBlue.cgColor
         } else if hasDefaultValue == false, hasText == false {

@@ -59,7 +59,11 @@ class ProductManagementViewController: UIViewController {
     var cancelBarButtonItem: UIBarButtonItem?
     var doneBarButtonItem: UIBarButtonItem?
     var hasEnoughContents: Bool {
-        return nameTextField.hasEnoughText && priceTextField.hasEnoughText && discountedPriceTextField.hasEnoughText && stockTextField.hasEnoughText && descriptionTextView.hasEnoughText
+        nameTextField.hasEnoughText &&
+        priceTextField.hasEnoughText &&
+        discountedPriceTextField.hasEnoughText &&
+        stockTextField.hasEnoughText &&
+        descriptionTextView.hasEnoughText
     }
     
     override func viewDidLoad() {
@@ -158,11 +162,13 @@ class ProductManagementViewController: UIViewController {
     @objc
     func checkEnoughContents(_ sender: NSNotification?) {
         if let nameTextField: NameTextField = sender?.object as? NameTextField {
-            nameTextField.checkEnoughText()
+            nameTextField.setUpStyleIfNeeded()
+            nameTextField.calculateCountIfNeeded()
         } else if let numberTextField: NumberTextField = sender?.object as? NumberTextField {
-            numberTextField.checkEnoughText()
+            numberTextField.setUpStyleIfNeeded()
         } else if let descriptionTextView: DescriptionTextView = sender?.object as? DescriptionTextView {
-            descriptionTextView.checkEnoughText()
+            descriptionTextView.setUpStyleIfNeeded()
+            descriptionTextView.calculateCountIfNeeded()
         }
         
         doneBarButtonItem?.isEnabled = hasEnoughContents
