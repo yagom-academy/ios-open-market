@@ -10,13 +10,6 @@ final class ProductRegistrationViewController: UIViewController {
     let networkManager = NetworkManager()
     let productRegistrationView = ProductRegistrationView()
     let boundary = "Boundary-\(UUID().uuidString)"
-    let product = PostProduct(name: "아유 하기싫어",
-                              description: "아유 하기싫어",
-                              price: 1.0,
-                              currency: .KRW,
-                              discountedPrice: 1,
-                              stock: 9999,
-                              secret: "9vqf2ysxk8tnhzm9")
     let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
@@ -39,13 +32,8 @@ final class ProductRegistrationViewController: UIViewController {
         productRegistrationView.imagesCollectionView.register(RegistrationImageCell.self,
                                                               forCellWithReuseIdentifier: RegistrationImageCell.identifier)
         imagePicker.delegate = self
-        
-        //        guard let request = configureRequest() else { return }
-        //        guard let image = UIImage(named: "sample1") else { return }
-        //        guard let data = configureRequestBody(product, [image]) else { return }
-        //        networkManager.postData(request: request, data: data)
     }
-
+    
     func configureView() {
         view = productRegistrationView
         view.backgroundColor = .white
@@ -60,7 +48,7 @@ final class ProductRegistrationViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done",
                                                             style: .plain,
                                                             target: self,
-                                                            action: nil)
+                                                            action: #selector(registerProduct))
     }
     
     func configureNotification() {
@@ -217,6 +205,34 @@ extension ProductRegistrationViewController {
         let contentOffset = CGPoint(x: 0, y: 0)
         productRegistrationView.scrollView.setContentOffset(contentOffset,
                                                             animated: true)
+    }
+    
+    @objc func registerProduct() {
+        guard let name = productRegistrationView.nameInput,
+              let price = productRegistrationView.priceInput,
+              let discount = productRegistrationView.discountInput,
+              let stock = productRegistrationView.stockInput,
+              let description = productRegistrationView.descriptionInput,
+              !images.isEmpty
+        else {
+            return
+        }
+        
+        let product = PostProduct(name: name,
+                                  description: description,
+                                  price: price,
+                                  currency: productRegistrationView.currencyInput,
+                                  discountedPrice: discount,
+                                  stock: stock,
+                                  secret: "9vqf2ysxk8tnhzm9")
+        
+        guard let data = configureRequestBody(product, images),
+              let request = configureRequest()
+        else {
+            return
+        }
+        
+        networkManager.postData(request: request, data: data)
     }
 }
 

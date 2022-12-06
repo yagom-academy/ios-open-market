@@ -158,3 +158,39 @@ final class ProductRegistrationView: UIView {
         ])
     }
 }
+
+extension ProductRegistrationView {
+    var nameInput: String? {
+        guard let text = productNameTextField.text,
+              (3...100).contains(text.count) else { return nil }
+        
+        return text
+    }
+    var priceInput: Double? {
+        guard let text = priceTextField.text,
+              let price = Double(text) else { return nil }
+        
+        return price
+    }
+    var discountInput: Double? {
+        guard let text = discountedPriceTextField.text,
+              let discount = Double(text) else { return nil }
+        
+        return discount
+    }
+    var stockInput: Int? {
+        guard let text = stockTextField.text,
+              let stock = Int(text) else { return nil }
+        
+        return stock
+    }
+    var currencyInput: PostProduct.Currency {
+        return currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
+    }
+    var descriptionInput: String? {
+        guard let text = descriptionTextView.text,
+              (10...1000).contains(text.count) else { return nil }
+      
+        return text
+    }
+}
