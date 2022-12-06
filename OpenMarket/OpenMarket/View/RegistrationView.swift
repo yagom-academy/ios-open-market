@@ -48,6 +48,9 @@ class RegistrationView: UIView {
         textView.layer.cornerRadius = 2
         textView.layer.borderWidth = 2
         textView.layer.borderColor = UIColor.systemGray3.cgColor
+        textView.text = "상세내용"
+        textView.textColor = .systemGray3
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
       
         return textView
     }()
