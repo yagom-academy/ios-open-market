@@ -14,9 +14,4 @@ struct PostProduct: Encodable {
     let discountedPrice: Double
     let stock: Int
     let secret: String
-    
-    enum Currency: String, Encodable {
-        case KRW
-        case USD
-    }
 }

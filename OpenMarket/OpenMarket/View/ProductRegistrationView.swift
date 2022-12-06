@@ -103,6 +103,18 @@ final class ProductRegistrationView: UIView {
         configureLayout()
     }
     
+    init(product: PostProduct) {
+        super.init(frame: .zero)
+        
+        productNameTextField.text = product.name
+        priceTextField.text = product.price.description
+        currencySegmentControl.selectedSegmentIndex = product.currency == .KRW ? 0 : 1
+        discountedPriceTextField.text = product.discountedPrice.description
+        stockTextField.text = product.stock.description
+        descriptionTextView.text = product.description
+        configureLayout()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -184,7 +196,7 @@ extension ProductRegistrationView {
         
         return stock
     }
-    var currencyInput: PostProduct.Currency {
+    var currencyInput: Currency {
         return currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
     }
     var descriptionInput: String? {
