@@ -6,7 +6,6 @@
 
 import UIKit
 
-
 // MARK: ProductsViewController
 final class ProductsViewController: UIViewController {
     enum Constant {
@@ -97,38 +96,6 @@ final class ProductsViewController: UIViewController {
         activityIndicator.startAnimating()
         
         fetchData()
-        
-        // TODO: - Test Code -> 삭제 예정
-        /*
-        let params = PostParameter(
-            name: "루이비통 지갑",
-            description: "루이비통 23 S/S 신상 지갑",
-            price: 500000,
-            currency: .KRW,
-            discounted_price: 500000,
-            stock: 1,
-            secret: "4e5jv489csufrgs4"
-        )
-        
-        guard let encodingData = try? JSONEncoder().encode(params) else {
-            return
-        }
-        
-        guard let image = UIImage(named: "lvWallet"),
-              let imageData = image.jpegData(compressionQuality: 0.3) else {
-            return
-        }
-        
-        let bodies: [HttpBody] = [
-            .init(key: "params", contentType: .json, data: encodingData),
-            .init(key: "images", contentType: .image, data: imageData)
-        ]
-        let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: bodies)
-        
-        productResponseNetworkManager.postProduct(endPoint: postPoint) { result in
-            print(result)
-        }
-        */
     }
 }
 

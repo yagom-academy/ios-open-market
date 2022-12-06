@@ -56,7 +56,6 @@ final class RegisterProductViewController: UIViewController {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품가격"
-        // TODO: - Segment에 따른 키보드 타입 변경
         textField.keyboardType = .numberPad
         
         return textField
@@ -165,7 +164,44 @@ private extension RegisterProductViewController {
     }
     
     @objc func didTappedNavigationDoneButton() {
-        // TODO: - Navigation Done Button Action 정의하기
+        guard let name = productNameTextField.text,
+              let description = descriptionTextView.text,
+              let price = Double(productPriceTextField.text ?? "0"),
+              let curreny = Currency.init(rawInt: currencySegment.selectedSegmentIndex),
+              let discounted = Double(discountPriceTextField.text ?? "1"),
+              let stock = Int(stockTextField.text ?? "2") else {
+            return
+        }
+        
+        let params = PostParameter(
+            name: name,
+            description: description,
+            price: price,
+            currency: curreny,
+            discounted_price: discounted,
+            stock: stock,
+            secret: "4e5jv489csufrgs4"
+        )
+        
+        guard let encodingData = try? JSONEncoder().encode(params) else {
+            return
+        }
+        
+        var bodies: [HttpBody] = [
+            .init(key: "params", contentType: .json, data: encodingData)
+        ]
+        
+        selectedImage.compactMap { $0?.pngData() }.map {
+            return HttpBody(key: "images", contentType: .image, data: $0)
+        }.forEach {
+            bodies.append($0)
+        }
+        
+        let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: bodies)
+        print(postPoint)
+        NetworkManager<ProductListResponse>().postProduct(endPoint: postPoint) { result in
+            print(result)
+        }
     }
     
     @objc func changeSegmentValue() {
@@ -349,7 +385,7 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
                 imageSize = originImage.compressionSize
             }
             
-            while imageSize ?? 0 > 300000 {
+            while imageSize ?? 0 > 60000 {
                 originImage = originImage.downSampling(scale: imageScale)
                 imageSize = originImage.compressionSize
                 imageScale -= 0.1
