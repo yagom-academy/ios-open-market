@@ -9,6 +9,11 @@ import UIKit
 
 final class RegisterProductViewController: UIViewController {
     var selectedImage: [UIImage?] = []
+    var selectedCurrency = Currency.KRW {
+        didSet {
+            changeKeyboard()
+        }
+    }
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -61,8 +66,10 @@ final class RegisterProductViewController: UIViewController {
         return textField
     }()
     
-    let currencySegment: UISegmentedControl = {
+    lazy var currencySegment: UISegmentedControl = {
         let segment = UISegmentedControl(items: Currency.allCases.map(\.rawValue))
+        segment.selectedSegmentIndex = 0
+        segment.addTarget(self, action: #selector(changeSegmentValue), for: .valueChanged)
         
         return segment
     }()
@@ -147,6 +154,17 @@ private extension RegisterProductViewController {
     @objc func didTappedNavigationDoneButton() {
         // TODO: - Navigation Done Button Action 정의하기
     }
+    
+    @objc func changeSegmentValue() {
+        switch Currency(rawInt: currencySegment.selectedSegmentIndex) {
+        case .none:
+            return
+        case .some(let currency):
+            self.selectedCurrency = currency
+        }
+        
+        view.endEditing(true)
+    }
 }
 
 private extension RegisterProductViewController {
@@ -211,6 +229,19 @@ private extension RegisterProductViewController {
             descriptionTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             descriptionTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    func changeKeyboard() {
+        if selectedCurrency == Currency.KRW {
+            productPriceTextField.keyboardType = .numberPad
+            discountPriceTextField.keyboardType = .numberPad
+        } else {
+            productPriceTextField.keyboardType = .decimalPad
+            discountPriceTextField.keyboardType = .decimalPad
+        }
+        
+        productPriceTextField.text = nil
+        discountPriceTextField.text = nil
     }
 }
 
