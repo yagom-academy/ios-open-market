@@ -49,7 +49,7 @@ class ViewController: UIViewController {
             }
     }
     
-    func getProductsListData(pageNumber: String = "1", itemPerPage: String = "100") {
+    private func getProductsListData(pageNumber: String = "1", itemPerPage: String = "100") {
         networkCommunication.requestProductsInformation(
             url: ApiUrl.Path.products +
             ApiUrl.Query.pageNumber +
