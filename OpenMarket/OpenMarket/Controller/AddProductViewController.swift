@@ -7,7 +7,7 @@ final class AddProductViewController: UIViewController {
     let addView = ProductAddView()
     let imagePicker = UIImagePickerController()
     var imageCount = 0
-    var textFieldConstraint: NSLayoutConstraint!
+    var textFieldConstraint: NSLayoutConstraint?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -26,6 +26,7 @@ final class AddProductViewController: UIViewController {
         configureCancelButton()
         configureAddImageButton()
         configureView()
+        initializeHideKeyBoard()
     }
     
     private func configureView() {
@@ -88,11 +89,20 @@ extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         self.addView.imageScrollView.isHidden = true
         textFieldConstraint =  self.addView.textFieldStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        textFieldConstraint.isActive = true
+        textFieldConstraint?.isActive = true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        textFieldConstraint.isActive = false
+        textFieldConstraint?.isActive = false
         self.addView.imageScrollView.isHidden = false
+    }
+    
+    func initializeHideKeyBoard() {
+        let tap: UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMyKeyBoard))
+        self.addView.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissMyKeyBoard() {
+        self.addView.endEditing(true)
     }
 }
