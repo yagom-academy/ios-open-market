@@ -30,6 +30,10 @@ final class ProductRegistrationViewController: UIViewController {
         
         configureView()
         configureNavigationBar()
+        configureNotification()
+        
+        productRegistrationView.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                            action: #selector(hideKeyboard)))
         productRegistrationView.imagesCollectionView.dataSource = self
         productRegistrationView.imagesCollectionView.delegate = self
         productRegistrationView.imagesCollectionView.register(RegistrationImageCell.self,
@@ -41,7 +45,7 @@ final class ProductRegistrationViewController: UIViewController {
         //        guard let data = configureRequestBody(product, [image]) else { return }
         //        networkManager.postData(request: request, data: data)
     }
-    
+
     func configureView() {
         view = productRegistrationView
         view.backgroundColor = .white
@@ -57,6 +61,17 @@ final class ProductRegistrationViewController: UIViewController {
                                                             style: .plain,
                                                             target: self,
                                                             action: nil)
+    }
+    
+    func configureNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(moveUpScrollView),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(moveDownScrollView),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 }
 
@@ -180,6 +195,28 @@ extension ProductRegistrationViewController {
     
     @objc func selectImage() {
         present(imagePicker, animated: true, completion: nil)
+    }
+    
+    @objc func moveUpScrollView(_ notification: NSNotification) {
+        if productRegistrationView.descriptionTextView.isFirstResponder,
+           let userInfo = notification.userInfo,
+           let value = userInfo["UIKeyboardFrameEndUserInfoKey"] as? NSValue {
+            let contentOffset = CGPoint(x: 0, y: value.cgRectValue.height)
+            productRegistrationView.scrollView.setContentOffset(contentOffset,
+                                                                animated: true)
+            productRegistrationView.scrollView.contentInset.bottom = value.cgRectValue.height
+        }
+    }
+    
+    @objc func moveDownScrollView(_ notification: NSNotification) {
+        productRegistrationView.scrollView.contentInset.bottom = 0
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+        let contentOffset = CGPoint(x: 0, y: 0)
+        productRegistrationView.scrollView.setContentOffset(contentOffset,
+                                                            animated: true)
     }
 }
 

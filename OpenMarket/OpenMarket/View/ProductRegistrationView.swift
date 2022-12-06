@@ -7,8 +7,8 @@
 import UIKit
 
 final class ProductRegistrationView: UIView {
-    private let scrollView: UIScrollView = .init()
-    private let totalStackView: UIStackView = {
+    let scrollView: UIScrollView = .init()
+    let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -89,7 +89,7 @@ final class ProductRegistrationView: UIView {
         textField.layer.borderWidth = 1.0
         return textField
     }()
-    private let descriptionTextView: UITextView = {
+    let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .secondaryLabel
         textView.backgroundColor = .secondarySystemBackground
