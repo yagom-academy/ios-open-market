@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -42,24 +42,18 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8OE-DE-cya">
-                                        <rect key="frame" x="359.5" y="49" width="46.5" height="34"/>
+                                        <rect key="frame" x="362.5" y="50.5" width="43.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=""/>
                                         <connections>
                                             <segue destination="AOr-IO-2Z8" kind="presentation" modalPresentationStyle="fullScreen" id="8de-Fc-UI9"/>
                                         </connections>
                                     </button>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="bJH-1T-XiE">
-                                        <rect key="frame" x="50" y="56" width="20" height="20"/>
-                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="8OE-DE-cya" secondAttribute="trailing" constant="8" id="0O3-Sx-J6j"/>
-                                    <constraint firstItem="N2f-4M-XSf" firstAttribute="centerY" secondItem="bJH-1T-XiE" secondAttribute="centerY" id="IHe-pU-nEE"/>
-                                    <constraint firstItem="N2f-4M-XSf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bJH-1T-XiE" secondAttribute="trailing" constant="30" id="Jjj-KB-4At"/>
                                     <constraint firstItem="8OE-DE-cya" firstAttribute="centerY" secondItem="N2f-4M-XSf" secondAttribute="centerY" id="N9U-W0-SWz"/>
-                                    <constraint firstItem="bJH-1T-XiE" firstAttribute="leading" secondItem="N0w-K7-nHs" secondAttribute="leading" priority="750" constant="50" id="T1o-zu-mnU"/>
                                     <constraint firstAttribute="bottom" secondItem="N2f-4M-XSf" secondAttribute="bottom" constant="8" id="VE0-6a-tvX"/>
                                     <constraint firstItem="N2f-4M-XSf" firstAttribute="centerX" secondItem="N0w-K7-nHs" secondAttribute="centerX" id="g2E-um-kX3"/>
                                 </constraints>
@@ -81,7 +75,6 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="bJH-1T-XiE" id="pwk-HL-zZV"/>
                         <outlet property="collectionView" destination="Sgw-OQ-JvR" id="oab-S1-gtQ"/>
                         <outlet property="segmentedControl" destination="N2f-4M-XSf" id="2Hf-ro-svZ"/>
                     </connections>
@@ -99,7 +92,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVa-QY-cqJ">
-                                <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <items>
                                     <navigationItem title="상품등록" id="rUu-JD-lQU">
@@ -117,13 +110,13 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vc5-5U-yx3">
-                                <rect key="frame" x="10" y="102" width="394" height="122"/>
+                                <rect key="frame" x="10" y="98" width="394" height="122.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-wg-qQg">
-                                        <rect key="frame" x="0.0" y="0.0" width="122" height="122"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="122.5" height="122.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Y1-Os-tRY">
-                                                <rect key="frame" x="0.0" y="0.0" width="122" height="122"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="122.5" height="122.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="0Y1-Os-tRY" secondAttribute="height" multiplier="1:1" id="zb0-fT-fPF"/>
                                                 </constraints>
@@ -150,7 +143,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="dWO-et-Yhk"/>
                             </scrollView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vh1-EO-9Nd">
-                                <rect key="frame" x="10" y="234" width="394" height="160"/>
+                                <rect key="frame" x="10" y="230.5" width="394" height="160"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j87-S8-zQP">
                                         <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
@@ -187,7 +180,7 @@
                                 </subviews>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NAL-HZ-RjB">
-                                <rect key="frame" x="10" y="404" width="404" height="448"/>
+                                <rect key="frame" x="10" y="400.5" width="404" height="451.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -238,7 +231,7 @@
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

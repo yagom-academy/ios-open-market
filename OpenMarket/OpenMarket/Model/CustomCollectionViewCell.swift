@@ -14,6 +14,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bargainPrice: UILabel!
     @IBOutlet weak var stock: UILabel!
     
+    let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        indicator.style = .medium
+        return indicator
+    }()
     let networkCommunication = NetworkCommunication()
     
     override func prepareForReuse() {
@@ -35,6 +42,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        
+        thumbnail.addSubview(loadingIndicator)
+        loadingIndicator.centerXAnchor.constraint(equalTo: thumbnail.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: thumbnail.centerYAnchor).isActive = true
+        loadingIndicator.startAnimating()
         configureImage(imageSource: imageSource)
         
         guard let priceText = numberFormatter.string(for: price),
@@ -81,6 +93,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
                 switch data {
                 case .success(let data):
                     DispatchQueue.main.async {
+                        self?.loadingIndicator.stopAnimating()
+                        self?.loadingIndicator.removeFromSuperview()
                         self?.thumbnail.image = UIImage(data: data)
                     }
                     fileManager.createFile(atPath: filePath.path,

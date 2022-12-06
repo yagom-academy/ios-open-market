@@ -19,7 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j7K-LV-SCn">
-                        <rect key="frame" x="8" y="8" width="93.5" height="84"/>
+                        <rect key="frame" x="8" y="8" width="84" height="84"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="j7K-LV-SCn" secondAttribute="height" multiplier="1:1" id="4QT-Cc-xxr"/>
+                        </constraints>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="78o-uC-bTj">
                         <rect key="frame" x="520" y="27" width="20" height="16.5"/>
@@ -29,13 +32,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMi-x0-QFB">
-                        <rect key="frame" x="109.5" y="33" width="363.5" height="17"/>
+                        <rect key="frame" x="100" y="33" width="373" height="17"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ebl-8t-U6y">
-                        <rect key="frame" x="109.5" y="50" width="442.5" height="17"/>
+                        <rect key="frame" x="100" y="50" width="452" height="17"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZUi-wh-yCT">
                                 <rect key="frame" x="0.0" y="0.0" width="35.5" height="17"/>
@@ -44,7 +47,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHw-MN-7vC">
-                                <rect key="frame" x="43.5" y="0.0" width="399" height="17"/>
+                                <rect key="frame" x="43.5" y="0.0" width="408.5" height="17"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <color key="textColor" systemColor="systemGray2Color"/>
                                 <nil key="highlightedColor"/>
@@ -82,7 +85,7 @@
                     <constraint firstAttribute="trailing" secondItem="0mu-0q-VCk" secondAttribute="trailing" id="h1g-Tz-3g4"/>
                     <constraint firstItem="0mu-0q-VCk" firstAttribute="leading" secondItem="L9w-Kf-z7I" secondAttribute="leading" constant="8" id="tbp-KE-l67"/>
                     <constraint firstAttribute="trailing" secondItem="78o-uC-bTj" secondAttribute="trailing" constant="20" id="wYp-eg-gKo"/>
-                    <constraint firstItem="j7K-LV-SCn" firstAttribute="width" secondItem="L9w-Kf-z7I" secondAttribute="width" multiplier="1:6" id="wlN-rr-9qu"/>
+                    <constraint firstItem="j7K-LV-SCn" firstAttribute="width" secondItem="L9w-Kf-z7I" secondAttribute="width" multiplier="0.15" id="wlN-rr-9qu"/>
                     <constraint firstItem="ebl-8t-U6y" firstAttribute="top" secondItem="L9w-Kf-z7I" secondAttribute="centerY" id="zsk-qv-nw5"/>
                 </constraints>
             </collectionViewCellContentView>

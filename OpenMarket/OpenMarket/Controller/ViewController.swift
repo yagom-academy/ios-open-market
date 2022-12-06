@@ -10,7 +10,6 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     var networkCommunication = NetworkCommunication()
     var searchListPages: [SearchListPage] = []
     
@@ -117,7 +116,6 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        activityIndicatorView.stopAnimating()
         
         let customCell: CustomCollectionViewCell
         if segmentedControl.selectedSegmentIndex == 0 {
