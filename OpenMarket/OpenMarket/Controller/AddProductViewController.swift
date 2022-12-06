@@ -7,6 +7,7 @@ final class AddProductViewController: UIViewController {
     let addView = ProductAddView()
     let imagePicker = UIImagePickerController()
     var imageCount = 0
+    var textFieldConstraint: NSLayoutConstraint!
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -29,6 +30,7 @@ final class AddProductViewController: UIViewController {
     
     private func configureView() {
         self.view = addView
+        addView.descriptionTextView.delegate = self
     }
     
     private func configureNavigationBar() {
@@ -80,4 +82,17 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         dismiss(animated: true, completion: nil)
     }
 
+}
+
+extension AddProductViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.addView.imageScrollView.isHidden = true
+        textFieldConstraint =  self.addView.textFieldStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        textFieldConstraint.isActive = true
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textFieldConstraint.isActive = false
+        self.addView.imageScrollView.isHidden = false
+    }
 }
