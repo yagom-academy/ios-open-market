@@ -2,7 +2,7 @@
 //  CustomTextField.swift
 //  OpenMarket
 //
-//  Created by 맹선아 on 2022/12/02.
+//  Created by 써니쿠키, 메네 on 2022/12/02.
 //
 
 import UIKit

@@ -1,5 +1,5 @@
 //
-//  URLSessionProvider.swift
+//  MarketURLSessionProvider.swift
 //  OpenMarket
 //
 //  Created by 써니쿠키, 메네 on 2022/11/15.
@@ -64,7 +64,7 @@ final class MarketURLSessionProvider {
 }
 
 extension MarketURLSessionProvider {
-    func generateRequest(textParameters: [String : String],
+    func generateRequest(textParameters: [String : Data],
                          imageKey: String, images: [ImageData]) -> URLRequest? {
         let lineBreak = "\r\n"
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -94,7 +94,7 @@ extension MarketURLSessionProvider {
         return request
     }
     
-    func createTextBodyData(parameters: [String : String],
+    func createTextBodyData(parameters: [String : Data],
                             boundary: String) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
@@ -102,7 +102,8 @@ extension MarketURLSessionProvider {
         for (key, value) in parameters {
             body.append("--\(boundary + lineBreak)")
             body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
-            body.append("\(value + lineBreak)")
+            body.append(value)
+            body.append(lineBreak)
         }
         
         return body

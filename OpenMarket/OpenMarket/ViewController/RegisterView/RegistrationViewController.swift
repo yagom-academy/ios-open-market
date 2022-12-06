@@ -38,6 +38,45 @@ class RegistrationViewController: UIViewController {
     }
     
     @objc func registerProduct() {
+        
+    }
+    
+    func checkValidInput() -> Product? {
+        guard let name = registrationView.productNameTextField.text,
+              name.count >= 3,
+              name.count <= 100 else { return nil }
+        
+        guard let priceInput = registrationView.productPriceTextField.text,
+              let price = Double(priceInput) else { return nil }
+        
+        if registrationView.productDiscountPriceTextField.text == nil {
+            registrationView.productDiscountPriceTextField.text = "0"
+        }
+        
+        guard let discountedPriceInput = registrationView.productDiscountPriceTextField.text,
+              let discountedPrice = Double(discountedPriceInput) else { return nil }
+        
+        if registrationView.stockTextField.text == nil {
+            registrationView.stockTextField.text = "0"
+        }
+        
+        guard let stockInput = registrationView.stockTextField.text,
+              let stock = Int(stockInput) else { return nil }
+        
+        guard let description = registrationView.textView.text,
+              description.count >= 10,
+              description.count <= 1000 else { return nil }
+        
+        let currency = registrationView.currencySegmentControl.selectedSegmentIndex == 0 ? Currency.krw : Currency.usd
+        
+        let product = Product(name: name,
+                              description: description,
+                              price: price,
+                              currency: currency,
+                              discountedPrice: discountedPrice,
+                              stock: stock)
+        
+        return product
     }
 }
 
@@ -181,7 +220,7 @@ extension RegistrationViewController: UIScrollViewDelegate {
         }
         
         registrationView.textView.inputAccessoryView = toolBar
-    }    
+    }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView){
         self.view?.endEditing(true)

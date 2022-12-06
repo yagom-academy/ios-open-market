@@ -11,8 +11,8 @@ struct ImageData {
     let fileName: String
     let data: Data
     
-    init?(fileName:String, image: String) {
-        guard let data = UIImage(named: image)?.jpegData(compressionQuality: 0.5) else { return nil }
+    init?(fileName:String, image: UIImage) {
+        guard let data = image.jpegData(compressionQuality: 1) else { return nil }
         self.data = data
         self.fileName = fileName
     }
