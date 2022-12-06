@@ -16,6 +16,7 @@
                 <outlet property="productNameTextField" destination="WpX-fZ-h8b" id="V2e-ZE-xZ5"/>
                 <outlet property="productPriceTextField" destination="fcD-fa-gtp" id="aG1-RN-78R"/>
                 <outlet property="productStockTextField" destination="M85-8y-hca" id="Jhk-hU-ZZy"/>
+                <outlet property="productsContentTextView" destination="rdf-YM-nQQ" id="bTz-3s-dMb"/>
                 <outlet property="titleLabel" destination="zIr-zo-LwF" id="kCW-zk-bX8"/>
             </connections>
         </placeholder>
@@ -75,7 +76,7 @@
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcD-fa-gtp">
                                     <rect key="frame" x="0.0" y="0.0" width="265" height="34"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                 </textField>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gXV-Mf-qwp">
                                     <rect key="frame" x="276" y="0.0" width="97" height="35"/>
@@ -89,12 +90,12 @@
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rZh-i2-lur">
                             <rect key="frame" x="0.0" y="89.999999999999972" width="373" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M85-8y-hca">
                             <rect key="frame" x="0.0" y="134.99999999999997" width="373" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                         </textField>
                     </subviews>
                 </stackView>

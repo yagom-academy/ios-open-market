@@ -10,6 +10,7 @@ class ProductRegisterViewController: UIViewController {
     var imageArray: [UIImage] = []
     let imagePicker: UIImagePickerController = .init()
     var imageIndex: Int = 0
+    var keyHeight: CGFloat = 0
     @IBOutlet weak var mainView: ProductRegisterView!
     
     override func loadView() {
@@ -22,6 +23,16 @@ class ProductRegisterViewController: UIViewController {
         
         configureCollectionView()
         configureImagePicker()
+        checkKeyboard()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+          view.endEditing(true)
+    }
+    
+    private func checkKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func configureCollectionView() {
@@ -44,6 +55,29 @@ class ProductRegisterViewController: UIViewController {
         imagePicker.allowsEditing = true
         
         imageArray.append(UIImage(named: "PlusImage") ?? UIImage())
+    }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+        guard let senderUserInfo = sender.userInfo else { return }
+        let userInfo:NSDictionary = senderUserInfo as NSDictionary
+        if let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            var keyboardHeight = keyboardRectangle.height
+            
+            if keyHeight == 0 {
+                keyHeight = keyboardHeight
+                view.frame.size.height -= keyboardHeight
+            } else if keyHeight > keyboardHeight {
+                keyboardHeight = keyboardHeight - keyHeight
+                keyHeight = keyHeight + keyboardHeight
+                view.frame.size.height -= keyboardHeight
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(_ sender: Notification) {
+        view.frame.size.height += keyHeight
+        keyHeight = 0
     }
 }
 
@@ -89,12 +123,12 @@ extension ProductRegisterViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageArray.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell: ImageCollectionViewCell =
-        collectionView.dequeueReusableCell(withReuseIdentifier:
-                                            ImageCollectionViewCell.stringIdentifier(),
-                                           for: indexPath) as? ImageCollectionViewCell else {
+                collectionView.dequeueReusableCell(withReuseIdentifier:
+                                                    ImageCollectionViewCell.stringIdentifier(),
+                                                   for: indexPath) as? ImageCollectionViewCell else {
             return UICollectionViewCell()
         }
         

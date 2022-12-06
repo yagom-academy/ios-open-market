@@ -19,6 +19,7 @@ class BaseProductView: UIView {
     @IBOutlet weak var productPriceTextField: UITextField!
     @IBOutlet weak var productBargainTextField: UITextField!
     @IBOutlet weak var productStockTextField: UITextField!
+    @IBOutlet weak var productsContentTextView: UITextView!
     
     override init(frame:CGRect) {
         super.init(frame:frame)
