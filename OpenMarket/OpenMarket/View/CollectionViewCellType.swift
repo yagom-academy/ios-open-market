@@ -11,10 +11,9 @@ protocol CollectionViewCellType: AnyObject {
     
     var productImageView: UIImageView { get set }
     var productNameLabel: UILabel { get }
-    var stockLabel: UILabel { get set }
-    var priceLabel: UILabel { get set }
-    var bargainPriceLabel: UILabel { get set }
-    
+    var stockLabel: UILabel { get }
+    var priceLabel: UILabel { get }
+    var bargainPriceLabel: UILabel { get }
 }
 
 extension CollectionViewCellType {

@@ -7,7 +7,6 @@
 import UIKit
 
 final class OpenMarketViewController: UIViewController {
-    
     private enum ProductListSection: Int {
         case main
     }
@@ -153,7 +152,10 @@ final class OpenMarketViewController: UIViewController {
     private func configureListCollectionView() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        item.contentInsets = NSDirectionalEdgeInsets(top: LayoutConstants.listCellContentInset.value,
+                                                     leading: LayoutConstants.listCellContentInset.value,
+                                                     bottom: LayoutConstants.listCellContentInset.value,
+                                                     trailing: LayoutConstants.listCellContentInset.value)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.07))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -165,17 +167,7 @@ final class OpenMarketViewController: UIViewController {
         
         guard let listCollectionView = listCollectionView else { return }
         
-        view.addSubview(listCollectionView)
-        listCollectionView.delegate = self
-        listCollectionView.backgroundColor = .systemBackground
-        
-        listCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            listCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            listCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            listCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
+        configureCollectionView(listCollectionView)
     }
     
     private func configureListDataSource() {
@@ -213,23 +205,30 @@ final class OpenMarketViewController: UIViewController {
     
     private func configureGridCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.minimumLineSpacing = LayoutConstants.gridCellMinimumLineSpacing.value
+        layout.minimumInteritemSpacing = LayoutConstants.gridCellMinimumInteritemSpacing.value
+        layout.sectionInset = UIEdgeInsets(top: LayoutConstants.gridCellSectionInset.value,
+                                           left: LayoutConstants.gridCellSectionInset.value,
+                                           bottom: LayoutConstants.gridCellSectionInset.value,
+                                           right: LayoutConstants.gridCellSectionInset.value)
         gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         guard let gridCollectionView = gridCollectionView else { return }
-        view.addSubview(gridCollectionView)
+    
+        configureCollectionView(gridCollectionView)
+    }
+    
+    private func configureCollectionView(_ collectionView: UICollectionView) {
+        view.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.backgroundColor = .systemBackground
         
-        gridCollectionView.delegate = self
-        gridCollectionView.backgroundColor = .systemBackground
-        
-        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            gridCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            gridCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            gridCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
     }
     
@@ -248,18 +247,12 @@ final class OpenMarketViewController: UIViewController {
             guard let product else { return UICollectionViewCell() }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
-            cell?.contentView.backgroundColor = .systemBackground
-            cell?.contentView.layer.borderColor = UIColor.gray.cgColor
-            cell?.contentView.layer.borderWidth = 1.0
-            cell?.contentView.layer.cornerRadius = 10.0
-            cell?.contentView.layer.masksToBounds = true
             cell?.product = product
             cell?.updateContents(product)
             cell?.updateImage(product)
             return cell
         }
     }
-
 }
 
 extension OpenMarketViewController: UICollectionViewDelegate {
@@ -273,8 +266,8 @@ extension OpenMarketViewController: UICollectionViewDelegate {
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = collectionView.frame.width / 2 - 15
-        let height: CGFloat = collectionView.frame.height / 3 - 20
+        let width: CGFloat = collectionView.frame.width / (LayoutConstants.gridPerRow.value - LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerRow.value + 1))
+        let height: CGFloat = collectionView.frame.height / (LayoutConstants.gridPerCol.value - LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerCol.value + 1))
         return CGSize(width: width, height: height)
     }
 }
