@@ -8,15 +8,14 @@
 import Foundation
 
 struct Param: Codable {
-    let name, welcomeDescription: String
+    let name, description: String
     let price: Int
-    let currency: String
+    let currency: Currency
     let discountedPrice, stock: Int
     let secret: String
 
     enum CodingKeys: String, CodingKey {
-        case name
-        case welcomeDescription = "description"
+        case name, description
         case price, currency
         case discountedPrice = "discounted_price"
         case stock, secret

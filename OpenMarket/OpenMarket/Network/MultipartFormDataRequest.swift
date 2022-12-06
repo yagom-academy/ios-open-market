@@ -36,11 +36,15 @@ final class MultipartFormDataRequest {
         let fieldData = NSMutableData()
         
         for image in images {
+            guard let imageData = image.compressTo(expectedSizeInKb: 300) else {
+                return Data()
+            }
+            
             fieldData.append("--\(boundary)\r\n")
             fieldData.append("Content-Disposition: form-data; name=\"images\"; filename=\"som1\"\r\n")
             fieldData.append("Content-Type: image/png\r\n")
             fieldData.append("\r\n")
-            fieldData.append(image.pngData()!)
+            fieldData.append(imageData)
             fieldData.append("\r\n")
         }
         
@@ -55,5 +59,31 @@ extension NSMutableData {
         if let data = string.data(using: .utf8) {
             self.append(data)
         }
+    }
+}
+
+extension UIImage {
+    func compressTo(expectedSizeInKb:Int) -> Data? {
+        let sizeInBytes = expectedSizeInKb * 1024
+        var needCompress: Bool = true
+        var imgData: Data?
+        var compressingValue: CGFloat = 1.0
+        
+        while (needCompress && compressingValue > 0.0) {
+            if let data: Data = self.jpegData(compressionQuality: compressingValue) {
+                if data.count < sizeInBytes {
+                    needCompress = false
+                    imgData = data
+                } else {
+                    compressingValue -= 0.1
+                }
+            }
+        }
+        if let data = imgData {
+            if (data.count < sizeInBytes) {
+                return data
+            }
+        }
+        return nil
     }
 }

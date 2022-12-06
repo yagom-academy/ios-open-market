@@ -50,3 +50,7 @@ enum OpenMarketImage {
     static let plus = "plus"
     static let cross = "chevron.right"
 }
+
+enum OpenMarketSecretCode {
+    static let somPassword = "jbb2dy6r65tkgn3q"
+}

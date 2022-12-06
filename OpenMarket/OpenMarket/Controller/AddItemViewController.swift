@@ -10,7 +10,6 @@ import UIKit
 final class AddItemViewController: UIViewController {
     let addItemView = AddItemView()
     var productImages: [UIImage] = []
-    var params: Param?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,19 +57,41 @@ final class AddItemViewController: UIViewController {
               }
         
         
-        postItemImageDatas()
+        postItemDatas()
         
         self.navigationController?.popViewController(animated: true)
     }
     
-    private func postItemImageDatas() {
-        guard let encodingData = JSONConverter.shared.encodeJson(param: params) else {
+    private func postItemDatas() {
+        guard let encodingData = JSONConverter.shared.encodeJson(param: receiveData()) else {
             return
         }
         
         HTTPManager.shared.requestPOST(url: OpenMarketURL.postProductComponent.url, encodingData: encodingData, images: productImages) { data in
             print("성공!")
         }
+    }
+    
+    private func receiveData() -> Param? {
+        guard let itemName = addItemView.productNameTextField.text,
+              let itemDesc = addItemView.descTextView.text,
+              let itemPrice = addItemView.priceTextField.text,
+              let itemDiscountPrice = addItemView.priceForSaleTextField.text,
+              let itemStock = addItemView.stockTextField.text else {
+                  return nil
+              }
+        
+        let itemCurrency = addItemView.currencySegmentControl.selectedSegmentIndex
+        
+        let param = Param(name: itemName,
+                          description: itemDesc,
+                          price: Int(itemPrice) ?? 0,
+                          currency: itemCurrency == 0 ? .krw : .usd,
+                          discountedPrice: Int(itemDiscountPrice) ?? 0,
+                          stock: Int(itemStock) ?? 0,
+                          secret: OpenMarketSecretCode.somPassword)
+        
+        return param
     }
 }
 
