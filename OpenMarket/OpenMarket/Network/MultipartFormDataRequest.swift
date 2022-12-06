@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class MultipartFormDataRequest {
     static let shared = MultipartFormDataRequest()
@@ -27,19 +28,22 @@ final class MultipartFormDataRequest {
         return fieldString
     }
     
-    func addDataField(data: Data) {
-        httpBody.append(dataFormField(data: data))
+    func addDataField(images: [UIImage]) {
+        httpBody.append(dataFormField(images: images))
     }
     
-    private func dataFormField(data: Data) -> Data {
+    private func dataFormField(images: [UIImage]) -> Data {
         let fieldData = NSMutableData()
         
-        fieldData.append("--\(boundary)\r\n")
-        fieldData.append("Content-Disposition: form-data; name=\"images\"; filename=\"som1\"\r\n")
-        fieldData.append("Content-Type: image/png\r\n")
-        fieldData.append("\r\n")
-        fieldData.append(data)
-        fieldData.append("\r\n")
+        for image in images {
+            fieldData.append("--\(boundary)\r\n")
+            fieldData.append("Content-Disposition: form-data; name=\"images\"; filename=\"som1\"\r\n")
+            fieldData.append("Content-Type: image/png\r\n")
+            fieldData.append("\r\n")
+            fieldData.append(image.pngData()!)
+            fieldData.append("\r\n")
+        }
+        
         fieldData.append("--\(boundary)--\r\n")
         
         return fieldData as Data

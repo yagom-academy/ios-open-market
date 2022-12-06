@@ -36,10 +36,4 @@ struct NetworkManager {
             completion(image)
         }
     }
-    
-//    func postImageData(url: String, image: UIImage, completion: @escaping (UIImage) -> ()) {
-//        HTTPManager.shared.requestPOST(url: url, encodingData: image) { image in
-//            MultipartFormDataRequest.shared.addDataField(data: image.pngData())
-//        }
-//    }
 }

@@ -8,9 +8,6 @@
 import UIKit
 
 final class AddItemView: UIView {
-    
-    var itemImages: [UIImage] = []
-    
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
@@ -147,8 +144,7 @@ final class AddItemView: UIView {
         self.addSubview(descTextView)
         
         descTextView.delegate = self
-        
-        
+
         descTextView.text = OpenMarketDataText.textViewPlaceHolder
         
         imageScrollView.addSubview(imageStackView)

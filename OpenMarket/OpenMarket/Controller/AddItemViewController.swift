@@ -10,6 +10,7 @@ import UIKit
 final class AddItemViewController: UIViewController {
     let addItemView = AddItemView()
     var productImages: [UIImage] = []
+    var params: Param?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,20 @@ final class AddItemViewController: UIViewController {
                   return
               }
         
+        
+        postItemImageDatas()
+        
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func postItemImageDatas() {
+        guard let encodingData = JSONConverter.shared.encodeJson(param: params) else {
+            return
+        }
+        
+        HTTPManager.shared.requestPOST(url: OpenMarketURL.postProductComponent.url, encodingData: encodingData, images: productImages) { data in
+            print("성공!")
+        }
     }
 }
 
