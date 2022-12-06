@@ -50,6 +50,8 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
+    private let networkManager = NetworkManager()
+    
     private var pageNumber: Int = 1
     
     override func viewDidLoad() {
@@ -132,7 +134,6 @@ final class OpenMarketViewController: UIViewController {
     private func fetchData(for page: Int) {
         activityIndicator.startAnimating()
         
-        let networkManager = NetworkManager()
         networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20), dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
@@ -182,6 +183,7 @@ final class OpenMarketViewController: UIViewController {
         
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Product> { (cell, indexPath, product) in
             cell.updateContents(product)
+            cell.updateImage(product)
         }
         
         dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: listCollectionView) { colllectionView, indexPath, identifier -> UICollectionViewCell? in
