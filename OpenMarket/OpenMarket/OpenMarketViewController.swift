@@ -40,14 +40,7 @@ final class OpenMarketViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView()
     
     private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product.ID>?
-    private var products: [Product] = [] {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.applySnapshot(for: self?.products)
-                self?.activityIndicator.stopAnimating()
-            }
-        }
-    }
+    private var products: [Product] = []
     
     private let networkManager = NetworkManager()
     
@@ -142,6 +135,8 @@ final class OpenMarketViewController: UIViewController {
                     refinedProducts.append(product)
                 }
                 self.products += refinedProducts
+                self.applySnapshot(for: self.products)
+                self.activityIndicator.stopAnimating()
             case .failure(let error):
                 // TODO: - 실패 시 얼럿 보여주는걸로 수정하기
                 print(error)
