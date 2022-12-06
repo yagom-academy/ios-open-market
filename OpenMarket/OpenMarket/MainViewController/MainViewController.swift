@@ -272,12 +272,13 @@ extension MainViewController: UICollectionViewDelegate {
                         
                         if let image = UIImage(data: data) {
                             DispatchQueue.main.sync {
-                                let height = self.view.safeAreaLayoutGuide.layoutFrame.height * 0.2
-                                
-                                let resizeImage = image.resizeImageTo(size: CGSizeMake(height, height))
-                                let imageView = UIImageView(image: resizeImage)
+                                let imageView = UIImageView(image: image)
+                                imageView.translatesAutoresizingMaskIntoConstraints = false
                                 
                                 productVC.imageStackView.addArrangedSubview(imageView)
+
+                                imageView.heightAnchor.constraint(equalTo: productVC.scrollView.heightAnchor).isActive = true
+                                imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
                             }
                         }
                     }
