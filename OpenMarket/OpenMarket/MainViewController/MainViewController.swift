@@ -124,8 +124,8 @@ extension MainViewController {
             DispatchQueue.global().async {
                 guard let url = URL(string: itemIdentifier.thumbnail ?? ""),
                       let data = try? Data(contentsOf: url)  else {
-                          return
-                      }
+                    return
+                }
                 
                 let picture = UIImage(data: data)
                 
@@ -167,8 +167,8 @@ extension MainViewController {
             DispatchQueue.global().async {
                 guard let url = URL(string: itemIdentifier.thumbnail ?? ""),
                       let data = try? Data(contentsOf: url)  else {
-                          return
-                      }
+                    return
+                }
                 
                 let picture = UIImage(data: data)
                 
@@ -265,28 +265,32 @@ extension MainViewController: UICollectionViewDelegate {
         
         let manager = NetworkManager()
         manager.getProductDetail(productNumber: product.id ?? 0) { productDetail in
-            DispatchQueue.main.async {
-                productDetail.images?.forEach({ image in
+            productDetail.images?.forEach({ image in
+                DispatchQueue.global().async {
                     if let url = URL(string: image.thumbnailUrl),
                        let data = try? Data(contentsOf: url) {
+                        
                         if let image = UIImage(data: data) {
-                            let imageView = UIImageView(image: image)
-                            imageView.contentMode = .scaleAspectFit
-                            productVC.imageStackView.addArrangedSubview(imageView)
-                            imageView.translatesAutoresizingMaskIntoConstraints = false
-                            
-                            imageView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2).isActive = true
-                            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+                            DispatchQueue.main.sync {
+                                let height = self.view.safeAreaLayoutGuide.layoutFrame.height * 0.2
+                                
+                                let resizeImage = image.resizeImageTo(size: CGSizeMake(height, height))
+                                let imageView = UIImageView(image: resizeImage)
+                                
+                                productVC.imageStackView.addArrangedSubview(imageView)
+                            }
                         }
                     }
-                })
-                
-                productVC.productNameTextField.text = productDetail.name
-                productVC.productPriceTextField.text = String(productDetail.price)
-                productVC.bargainPriceTextField.text = String(productDetail.bargainPrice)
-                productVC.stockTextField.text = String(productDetail.stock)
-                productVC.descriptionTextView.text = productDetail.description
-            }
+                    
+                }
+                DispatchQueue.main.sync {
+                    productVC.productNameTextField.text = productDetail.name
+                    productVC.productPriceTextField.text = String(productDetail.price)
+                    productVC.bargainPriceTextField.text = String(productDetail.bargainPrice)
+                    productVC.stockTextField.text = String(productDetail.stock)
+                    productVC.descriptionTextView.text = productDetail.description
+                }
+            })
         }
         
         navBarOnModal.modalPresentationStyle = .fullScreen

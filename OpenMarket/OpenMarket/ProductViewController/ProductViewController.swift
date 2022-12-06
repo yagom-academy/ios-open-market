@@ -153,7 +153,8 @@ final class ProductViewController: UIViewController {
             imageStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             imageStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             
-            addProductButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
+            addProductButton.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            addProductButton.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
             addProductButton.widthAnchor.constraint(equalTo: addProductButton.heightAnchor),
             addProductButton.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: inset),
             addProductButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: inset),
@@ -165,6 +166,7 @@ final class ProductViewController: UIViewController {
             priceStackView.topAnchor.constraint(equalTo: productNameTextField.bottomAnchor, constant: inset),
             priceStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: inset),
             priceStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -inset),
+            priceStackView.heightAnchor.constraint(equalTo: currencySegmentedControl.heightAnchor),
             
             productPriceTextField.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.7),
             
