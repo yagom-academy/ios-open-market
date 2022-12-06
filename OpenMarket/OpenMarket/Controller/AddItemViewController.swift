@@ -39,7 +39,24 @@ final class AddItemViewController: UIViewController {
     }
     
     @objc private func tappedDone(sender: UIBarButtonItem) {
+        guard let productNameText = addItemView.productNameTextField.text,
+              productNameText.count >= 3 else {
+                  showAlertController(title: "상품명 글자수 제한", message: "3자 이상 입력이 되어야 합니다.")
+                  return
+              }
         
+        guard addItemView.descTextView.text.count >= 1 && addItemView.descTextView.text.count <= 1000 else {
+            showAlertController(title: "상품 설명 글자수 제한", message: "1자 이상 1000자 이하 입력이 되어야 합니다.")
+            return
+        }
+        
+        guard let priceText = addItemView.priceTextField.text,
+              !priceText.isEmpty else {
+                  showAlertController(title: "가격 미입력", message: "가격이 입력되지 않았습니다. 다시 입력해주세요.")
+                  return
+              }
+        
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

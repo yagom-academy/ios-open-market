@@ -39,6 +39,7 @@ enum OpenMarketDataText {
     static let soldOut = "품절"
     static let first = 1
     static let last = 100
+    static let textViewPlaceHolder = "텍스트를 입력하세요."
 }
 
 enum OpenMarketStatus {

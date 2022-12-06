@@ -23,7 +23,6 @@
 		AEDDC119293DFC2300995800 /* MultipartFormDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDDC118293DFC2300995800 /* MultipartFormDataRequest.swift */; };
 		AEDDC11B293DFC8200995800 /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDDC11A293DFC8100995800 /* Param.swift */; };
 		AEDDC11E293E092E00995800 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDDC11D293E092E00995800 /* AddItemView.swift */; };
-		AEDDC120293EDA8A00995800 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDDC11F293EDA8A00995800 /* ImageCollectionViewCell.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* MainViewController.swift */; };
@@ -59,7 +58,6 @@
 		AEDDC118293DFC2300995800 /* MultipartFormDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormDataRequest.swift; sourceTree = "<group>"; };
 		AEDDC11A293DFC8100995800 /* Param.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Param.swift; sourceTree = "<group>"; };
 		AEDDC11D293E092E00995800 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
-		AEDDC11F293EDA8A00995800 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 			children = (
 				2646F305292C903E0069F078 /* ListCollectionViewCell.swift */,
 				AECBCDEF293335BE00626EB5 /* GridCollectionViewCell.swift */,
-				AEDDC11F293EDA8A00995800 /* ImageCollectionViewCell.swift */,
 				AEDDC11D293E092E00995800 /* AddItemView.swift */,
 			);
 			path = View;
@@ -293,7 +290,6 @@
 				AEDAFCCD2924851C00CB238B /* JSONConverter.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
-				AEDDC120293EDA8A00995800 /* ImageCollectionViewCell.swift in Sources */,
 				AE385B6329335F980033D27F /* NumberFormatter.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				AE5A90B629231F5A00E3B588 /* Item.swift in Sources */,

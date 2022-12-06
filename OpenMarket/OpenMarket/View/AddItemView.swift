@@ -69,7 +69,7 @@ final class AddItemView: UIView {
         return button
     }()
     
-    private let productNameTextField: UITextField = {
+    let productNameTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    private let priceTextField: UITextField = {
+    let priceTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +89,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    private let priceForSaleTextField: UITextField = {
+    let priceForSaleTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +99,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    private let stockTextField: UITextField = {
+    let stockTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -109,7 +109,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    private let currencySegmentControl: UISegmentedControl = {
+    let currencySegmentControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["KRW", "USD"])
         
         control.translatesAutoresizingMaskIntoConstraints = false
@@ -119,11 +119,15 @@ final class AddItemView: UIView {
         return control
     }()
     
-    private let descTextView: UITextView = {
+    let descTextView: UITextView = {
         let textView = UITextView()
         
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .lightGray
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.systemGray5.cgColor
+        textView.layer.cornerRadius = 5
+        textView.textColor = .systemGray3
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
         
         return textView
     }()
@@ -142,10 +146,15 @@ final class AddItemView: UIView {
         self.addSubview(labelStackView)
         self.addSubview(descTextView)
         
+        descTextView.delegate = self
+        
+        
+        descTextView.text = OpenMarketDataText.textViewPlaceHolder
+        
         imageScrollView.addSubview(imageStackView)
         
         imageStackView.addArrangedSubview(productBackgroundView)
-        imageStackView.addArrangedSubview(registrationButton)
+        productBackgroundView.addSubview(registrationButton)
         
         labelStackView.addArrangedSubview(productNameTextField)
         labelStackView.addArrangedSubview(priceStackView)
@@ -182,5 +191,14 @@ final class AddItemView: UIView {
             registrationButton.centerXAnchor.constraint(equalTo: productBackgroundView.centerXAnchor),
             registrationButton.centerYAnchor.constraint(equalTo: productBackgroundView.centerYAnchor)
         ])
+    }
+}
+
+extension AddItemView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == OpenMarketDataText.textViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
     }
 }
