@@ -4,7 +4,7 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell {
+final class GridCollectionViewCell: UICollectionViewCell, CollectionViewCellType {
     static var identifier: String {
         return String(describing: self)
     }
@@ -34,7 +34,7 @@ final class GridCollectionViewCell: UICollectionViewCell {
         stockLabel.attributedText = nil
     }
     
-    private let productImageView: UIImageView = {
+    var productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -43,38 +43,13 @@ final class GridCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let productNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .headline)
-        label.textAlignment = .center
-        return label
-    }()
+    let productNameLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .headline), textAlignment: .center)
+
+    var priceLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .body), textAlignment: .center, textColor: .gray)
+
+    var bargainPriceLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .body), textAlignment: .center, textColor: .gray)
     
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .center
-        label.textColor = .gray
-        return label
-    }()
-    
-    private let bargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .center
-        label.textColor = .gray
-        return label
-    }()
-    
-    private let stockLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .center
-        label.textColor = .gray
-        return label
-    }()
+    var stockLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .body), textAlignment: .center, textColor: .gray)
     
     private let priceStackView: UIStackView = {
         let stack = UIStackView()

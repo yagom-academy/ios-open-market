@@ -10,7 +10,7 @@ protocol CollectionViewCellType: AnyObject {
     var task: URLSessionDataTask? { get set }
     
     var productImageView: UIImageView { get set }
-    var productNameLabel: UILabel { get set }
+    var productNameLabel: UILabel { get }
     var stockLabel: UILabel { get set }
     var priceLabel: UILabel { get set }
     var bargainPriceLabel: UILabel { get set }
@@ -81,4 +81,5 @@ extension CollectionViewCellType {
         
         stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
+
 }

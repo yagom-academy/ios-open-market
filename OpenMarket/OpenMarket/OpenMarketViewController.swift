@@ -245,6 +245,8 @@ final class OpenMarketViewController: UIViewController {
                 if $0.id == identifier { product = $0 }
             }
             
+            guard let product else { return UICollectionViewCell() }
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
             cell?.contentView.backgroundColor = .systemBackground
             cell?.contentView.layer.borderColor = UIColor.gray.cgColor
@@ -253,6 +255,7 @@ final class OpenMarketViewController: UIViewController {
             cell?.contentView.layer.masksToBounds = true
             cell?.product = product
             cell?.updateContents(product)
+            cell?.updateImage(product)
             return cell
         }
     }

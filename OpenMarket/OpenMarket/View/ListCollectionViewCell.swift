@@ -43,23 +43,9 @@ final class ListCollectionViewCell: UICollectionViewCell, CollectionViewCellType
         return imageView
     }()
     
-    var productNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .headline)
-        label.textAlignment = .left
-        return label
-    }()
+    var productNameLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .headline), textAlignment: .left)
     
-    var stockLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .right
-        label.textColor = .gray
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
-        return label
-    }()
+    var stockLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .body), textAlignment: .right, textColor: .gray)
     
     private let disclosureButton: UIButton = {
         let button = UIButton()
@@ -85,23 +71,9 @@ final class ListCollectionViewCell: UICollectionViewCell, CollectionViewCellType
         return stack
     }()
     
-    var priceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .left
-        label.textColor = .gray
-        label.setContentHuggingPriority(.required, for: .horizontal)
-        return label
-    }()
+    var priceLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .body), textAlignment: .left, textColor: .gray)
     
-    var bargainPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.textAlignment = .left
-        label.textColor = .gray
-        return label
-    }()
+    var bargainPriceLabel = UILabel.createLabel(font: .preferredFont(forTextStyle: .body), textAlignment: .left, textColor: .gray)
     
     private let priceStackView: UIStackView = {
         let stack = UIStackView()
@@ -128,12 +100,15 @@ final class ListCollectionViewCell: UICollectionViewCell, CollectionViewCellType
     private func configureUI() {
         stockLabelAndDisclosureButtonStackView.addArrangedSubview(stockLabel)
         stockLabelAndDisclosureButtonStackView.addArrangedSubview(disclosureButton)
+        stockLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         upperLineStackView.addArrangedSubview(productNameLabel)
         upperLineStackView.addArrangedSubview(stockLabelAndDisclosureButtonStackView)
         
         priceStackView.addArrangedSubview(priceLabel)
         priceStackView.addArrangedSubview(bargainPriceLabel)
+        
+        priceLabel.setContentHuggingPriority(.required, for: .horizontal)
     
         productDetailStackView.addArrangedSubview(upperLineStackView)
         productDetailStackView.addArrangedSubview(priceStackView)
