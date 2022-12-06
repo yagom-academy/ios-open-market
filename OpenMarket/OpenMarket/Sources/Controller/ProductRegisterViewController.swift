@@ -9,6 +9,7 @@ import UIKit
 class ProductRegisterViewController: UIViewController {
     var imageArray: [UIImage] = []
     let imagePicker: UIImagePickerController = .init()
+    var imageIndex: Int = 0
     @IBOutlet weak var mainView: ProductRegisterView!
     
     override func loadView() {
@@ -54,14 +55,32 @@ extension ProductRegisterViewController: ProductDelegate {
 
 extension ProductRegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if imageArray.count < 6 {
-            present(imagePicker, animated: true)
-        } else {
-            let alert = UIAlertController(title: "안내", message: "사진 추가는 최대 5장입니다.", preferredStyle: .alert)
-            let action = UIAlertAction(title: "확인", style: .default)
+        
+        if imageArray.count - 1 != indexPath.item && imageArray.count < 7 {
+            let alert = UIAlertController(title: "이미지 편집", message: nil, preferredStyle: .actionSheet)
+            let edit = UIAlertAction(title: "수정", style: .default) { _ in
+                self.imageIndex = indexPath.item
+                self.imageArray.remove(at: indexPath.item)
+                self.present(self.imagePicker, animated: true)
+            }
+            let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                self.imageArray.remove(at: indexPath.item)
+                self.mainView.collectionView.reloadData()
+            }
             
-            alert.addAction(action)
+            alert.addAction(edit)
+            alert.addAction(delete)
             present(alert, animated: true)
+        } else {
+            if imageArray.count < 6 {
+                present(imagePicker, animated: true)
+            } else {
+                let alert = UIAlertController(title: "안내", message: "사진 추가는 최대 5장입니다.", preferredStyle: .alert)
+                let action = UIAlertAction(title: "확인", style: .default)
+                
+                alert.addAction(action)
+                present(alert, animated: true)
+            }
         }
     }
 }
