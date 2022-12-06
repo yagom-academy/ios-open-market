@@ -10,6 +10,20 @@ import UIKit
 final class AddProductViewController: UIViewController {
     private var imageCellIdentifiers: [Int] = [0]
     private let defaultIdentifier: Set<Int> = [0, 1, 2, 3, 4]
+    private var navigationBarHeight: CGFloat = .zero
+    
+    private let backgroundScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private lazy var backView: UIView = {
+        var view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private lazy var imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
@@ -121,6 +135,7 @@ final class AddProductViewController: UIViewController {
         configureDataSource()
         configureNavigationBar()
         addTarget()
+        setKeyboardDoneButton()
     }
     
     private func configureNavigationBar() {
@@ -165,39 +180,56 @@ final class AddProductViewController: UIViewController {
     }
     
     private func configureSubViews() {
-        view.addSubview(imageCollectionView)
-        view.addSubview(productStackView)
-        view.addSubview(descriptionTextView)
+        view.addSubview(backgroundScrollView)
+        backgroundScrollView.addSubview(backView)
+        backView.addSubview(imageCollectionView)
+        backView.addSubview(productStackView)
+        backView.addSubview(descriptionTextView)
         
         [nameTextField, priceTextField, discountedPriceTextField, stockTextField].forEach { $0.delegate = self }
         
         NSLayoutConstraint.activate([
-            imageCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+            backgroundScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            backView.topAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.topAnchor),
+            backView.leadingAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.leadingAnchor),
+            backView.trailingAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.trailingAnchor),
+            backView.bottomAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.bottomAnchor),
+            backView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor),
+            
+            backView.heightAnchor.constraint(equalTo: backgroundScrollView.frameLayoutGuide.heightAnchor),
+            backView.widthAnchor.constraint(equalTo: backgroundScrollView.frameLayoutGuide.widthAnchor),
+            
+            imageCollectionView.topAnchor.constraint(equalTo: backView.topAnchor,
                                                      constant: 10),
-            imageCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            imageCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            imageCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor,
+            imageCollectionView.leadingAnchor.constraint(equalTo: backView.leadingAnchor),
+            imageCollectionView.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
+            imageCollectionView.heightAnchor.constraint(equalTo: backView.widthAnchor,
                                                         multiplier: 0.4),
             
             productStackView.topAnchor.constraint(equalTo: imageCollectionView.bottomAnchor,
                                                   constant: 10),
-            productStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            productStackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor,
                                                       constant: 10),
-            productStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            productStackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor,
                                                        constant: -10),
             segmentedControl.widthAnchor.constraint(equalToConstant: 90),
             
             descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor,
                                                      constant: 10),
-            descriptionTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            descriptionTextView.leadingAnchor.constraint(equalTo: backView.leadingAnchor,
                                                          constant: 10),
-            descriptionTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            descriptionTextView.trailingAnchor.constraint(equalTo: backView.trailingAnchor,
                                                           constant: -10),
-            descriptionTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                                        constant: -10),
+            descriptionTextView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -10),
         ])
     }
-    
+}
+
+extension AddProductViewController {
     private func createLayout() -> UICollectionViewLayout {
         let section: NSCollectionLayoutSection = {
             let item = NSCollectionLayoutItem(
@@ -226,12 +258,9 @@ final class AddProductViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-}
-
-extension AddProductViewController {
+    
     private func configureHierarchy() {
         imageCollectionView.collectionViewLayout = createLayout()
-        view.addSubview(imageCollectionView)
         imageCollectionView.delegate = self
     }
     
@@ -291,10 +320,32 @@ extension AddProductViewController {
         
         return [nameTextField, priceTextField, descriptionTextView].filter { $0.layer.borderWidth == 0 }.count == 3
     }
+    
+    func setNavigationBarHeight() {
+        if navigationBarHeight.isZero {
+            navigationBarHeight = -(backgroundScrollView.contentOffset.y)
+        }
+    }
+    
+    func setKeyboardDoneButton() {
+        let keyboardBar = UIToolbar()
+        keyboardBar.sizeToFit()
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(tapKeyboardDoneButton))
+        keyboardBar.items = [button]
+        [nameTextField, priceTextField, discountedPriceTextField, stockTextField].forEach {
+            $0.inputAccessoryView = keyboardBar
+        }
+        descriptionTextView.inputAccessoryView = keyboardBar
+    }
+    
+    @objc func tapKeyboardDoneButton(_ sender: Any) {
+        self.view.endEditing(true)
+    }
 }
 
 extension AddProductViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        setNavigationBarHeight()
         view.endEditing(true)
         guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
         
@@ -340,6 +391,10 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
 
 extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
+        setNavigationBarHeight()
+        let contentOffset = CGPoint(x: 0, y: productStackView.frame.maxY - navigationBarHeight)
+        backgroundScrollView.setContentOffset(contentOffset, animated: true)
+        
         descriptionTextView.layer.borderWidth = 0.0
         
         if descriptionTextView.text == "상세정보 입력" {
@@ -349,6 +404,9 @@ extension AddProductViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        let contentOffset = CGPoint(x: 0, y: -navigationBarHeight)
+        backgroundScrollView.setContentOffset(contentOffset, animated: true)
+        
         if descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             descriptionTextView.text = "상세정보 입력"
             descriptionTextView.textColor = .systemGray3
@@ -360,10 +418,16 @@ extension AddProductViewController: UITextViewDelegate {
 
 extension AddProductViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        setNavigationBarHeight()
+        let contentOffset = CGPoint(x: 0, y: imageCollectionView.frame.maxY - navigationBarHeight)
+        backgroundScrollView.setContentOffset(contentOffset, animated: true)
+        
         textField.layer.borderWidth = 0.0
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        let contentOffset = CGPoint(x: 0, y: -navigationBarHeight)
+        backgroundScrollView.setContentOffset(contentOffset, animated: true)
         checkCanAddProduct()
     }
     
