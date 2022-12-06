@@ -5,8 +5,12 @@
 import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell {
-    static let identifier: String = String(describing: GridCollectionViewCell.self)
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     var product: Product?
+    var task: URLSessionDataTask?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -21,6 +25,8 @@ final class GridCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        task?.cancel()
+        task = nil
         productImageView.image = .none
         productNameLabel.text = .none
         priceLabel.attributedText = nil
@@ -123,52 +129,5 @@ final class GridCollectionViewCell: UICollectionViewCell {
             
             stockLabel.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, multiplier: 0.1)
         ])
-    }
-    
-    func updateContents(_ product: Product?) {
-        guard let product else { return }
-        DispatchQueue.global().async {
-            guard let url = URL(string: product.thumbnailURL),
-                  let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                if product == self.product {
-                    self.productImageView.image = image
-                    self.productNameLabel.text = product.name
-                    self.updatePriceLabel(product)
-                    self.updateStockLabel(product)
-                }
-            }
-        }
-    }
-    
-    private func updatePriceLabel(_ product: Product) {
-        priceLabel.attributedText = product.price.formatPrice(product.currency)
-            .flatMap { NSAttributedString(string: $0) }
-        
-        bargainPriceLabel.attributedText = product.bargainPrice.formatPrice(product.currency)
-            .flatMap { NSAttributedString(string: $0) }
-        
-        bargainPriceLabel.isHidden = product.price == product.bargainPrice
-
-        if product.price != product.bargainPrice {
-            priceLabel.attributedText = product.price.formatPrice(product.currency)?.invalidatePrice()
-        }
-    }
-    
-    private func updateStockLabel(_ product: Product) {
-        guard product.stock > 0 else {
-            stockLabel.attributedText = StockStatus.soldOut.rawValue.markSoldOut()
-            return
-        }
-        
-        if product.stock > 10000 {
-            stockLabel.attributedText = NSAttributedString(string: StockStatus.enoughStock.rawValue)
-            return
-        }
-        
-        let remainingStock = StockStatus.remainingStock.rawValue + " : " + (Double(product.stock).formatToDecimal() ?? StockStatus.stockError.rawValue)
-        
-        stockLabel.attributedText = NSAttributedString(string: remainingStock)
     }
 }

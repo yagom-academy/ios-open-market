@@ -4,9 +4,13 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewCell {
-    static let identifier: String = String(describing: ListCollectionViewCell.self)
+final class ListCollectionViewCell: UICollectionViewCell, CollectionViewCellType {
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     var product: Product?
+    var task: URLSessionDataTask?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -21,6 +25,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        task?.cancel()
+        task = nil
         productImageView.image = .none
         productNameLabel.text = .none
         priceLabel.attributedText = nil
@@ -28,7 +34,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         stockLabel.attributedText = nil
     }
     
-    private let productImageView: UIImageView = {
+    var productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -37,7 +43,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let productNameLabel: UILabel = {
+    var productNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .headline)
@@ -45,7 +51,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let stockLabel: UILabel = {
+    var stockLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
@@ -67,8 +73,8 @@ final class ListCollectionViewCell: UICollectionViewCell {
     private let stockLabelAndDisclosureButtonStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 8
         stack.alignment = .center
+        stack.setContentHuggingPriority(.required, for: .horizontal)
         return stack
     }()
     
@@ -79,17 +85,17 @@ final class ListCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    private let priceLabel: UILabel = {
+    var priceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .left
         label.textColor = .gray
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
-    private let bargainPriceLabel: UILabel = {
+    var bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.textAlignment = .left
@@ -100,6 +106,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
     private let priceStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
+        stack.distribution = .fill
         stack.spacing = 8
         return stack
     }()
@@ -144,58 +151,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
             
             productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor),
             
-            priceLabel.leadingAnchor.constraint(equalTo: priceStackView.leadingAnchor),
-            priceLabel.trailingAnchor.constraint(lessThanOrEqualTo: priceStackView.trailingAnchor),
-            priceLabel.widthAnchor.constraint(lessThanOrEqualTo: priceStackView.widthAnchor, multiplier: 0.5),
-            
             disclosureButton.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
             disclosureButton.widthAnchor.constraint(equalTo: disclosureButton.heightAnchor)
         ])
-    }
-    
-    func updateContents(_ product: Product) {
-        DispatchQueue.global().async {
-            guard let url = URL(string: product.thumbnailURL),
-                  let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data) else { return }
-            DispatchQueue.main.async {
-                if product == self.product {
-                    self.productImageView.image = image
-                    self.productNameLabel.text = product.name
-                    self.updatePriceLabel(product)
-                    self.updateStockLabel(product)
-                }
-            }
-        }
-    }
-    
-    private func updatePriceLabel(_ product: Product) {
-        priceLabel.attributedText = product.price.formatPrice(product.currency)
-            .flatMap { NSAttributedString(string: $0) }
         
-        bargainPriceLabel.attributedText = product.bargainPrice.formatPrice(product.currency)
-            .flatMap { NSAttributedString(string: $0) }
-        
-        bargainPriceLabel.isHidden = product.price == product.bargainPrice
-
-        if product.price != product.bargainPrice {
-            priceLabel.attributedText = product.price.formatPrice(product.currency)?.invalidatePrice()
-        }
-    }
-    
-    private func updateStockLabel(_ product: Product) {
-        guard product.stock > 0 else {
-            stockLabel.attributedText = StockStatus.soldOut.rawValue.markSoldOut()
-            return
-        }
-        
-        if product.stock > 10000 {
-            stockLabel.attributedText = NSAttributedString(string: StockStatus.enoughStock.rawValue)
-            return
-        }
-        
-        let remainingStock = StockStatus.remainingStock.rawValue + " : " + (Double(product.stock).formatToDecimal() ?? StockStatus.stockError.rawValue)
-        
-        stockLabel.attributedText = NSAttributedString(string: remainingStock)
+        let priceWidth = priceLabel.widthAnchor.constraint(lessThanOrEqualTo: priceStackView.widthAnchor, multiplier: 0.5)
+        priceWidth.priority = .defaultLow
+        priceWidth.isActive = true
     }
 }
