@@ -1,5 +1,5 @@
 //
-//  RootProductView.swift
+//  ProductView.swift
 //  OpenMarket
 //
 //  Created by Kyo, LJ on 2022/12/03.
@@ -7,8 +7,9 @@
 
 import UIKit
 
-class RootProductView: UIView {
+class ProductView: UIView {
     var currency = NewProduct.CurrencyUnit.KRW
+    let maxTextCount = 1000
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -127,7 +128,7 @@ class RootProductView: UIView {
 }
 
 // MARK: - KeyBoard Response Notification
-extension RootProductView {
+extension ProductView {
     func setupNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -154,7 +155,7 @@ extension RootProductView {
 }
 
 // MARK: - UITextFieldDelegate & UITextViewDelegate
-extension RootProductView: UITextFieldDelegate, UITextViewDelegate {
+extension ProductView: UITextFieldDelegate, UITextViewDelegate {
     func registerTextFieldDelegate() {
         nameTextField.delegate = self
         priceTextField.delegate = self
@@ -188,7 +189,7 @@ extension RootProductView: UITextFieldDelegate, UITextViewDelegate {
     func textView(_ textView: UITextView,
                   shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
-        if descriptionTextView.text.count >= 1000 && text != "" {
+        if descriptionTextView.text.count >= maxTextCount && text != "" {
             return false
         }
         return true
@@ -196,7 +197,7 @@ extension RootProductView: UITextFieldDelegate, UITextViewDelegate {
 }
 
 // MARK: - ProductViewProtocol
-extension RootProductView {
+extension ProductView {
     func setupData() -> Result<NewProduct, DataError> {
         guard let name = nameTextField.text,
             let description = descriptionTextView.text,
@@ -222,7 +223,7 @@ extension RootProductView {
 }
 
 // MARK: - Constraints
-extension RootProductView {
+extension ProductView {
     func setupUI() {
         setupView()
         setupConstraints()

@@ -8,13 +8,13 @@
 import UIKit
 import PhotosUI
 
-final class AddViewController: RootProductViewController {
+final class AddViewController: ProductViewController {
     
     let picker = UIImagePickerController()
     var cnt = 0
     var addProductView = AddProductView()
     
-    override var showView: RootProductView {
+    override var showView: ProductView {
         get {
             return self.addProductView
         }
@@ -82,7 +82,7 @@ extension AddViewController: UINavigationControllerDelegate, UIImagePickerContro
 // MARK: - Extension UICollectionView
 extension AddViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellImages.count < 5 ? cellImages.count + 1 : 5
+        return cellImages.count < maxImageNumber ? cellImages.count + 1 : maxImageNumber
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

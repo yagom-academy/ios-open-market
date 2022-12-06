@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class ModifyViewController: RootProductViewController {
+final class ModifyViewController: ProductViewController {
     var modifyProductView = ModifyProductView()
     
-    override var showView: RootProductView {
+    override var showView: ProductView {
         get {
             return self.modifyProductView
         }
@@ -39,7 +39,7 @@ extension ModifyViewController {
 // MARK: - Extension UICollectionView
 extension ModifyViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellImages.count < 5 ? cellImages.count + 1 : 5
+        return cellImages.count < maxImageNumber ? cellImages.count + 1 : maxImageNumber
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

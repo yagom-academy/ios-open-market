@@ -1,5 +1,5 @@
 //
-//  RootProductViewController.swift
+//  ProductViewController.swift
 //  OpenMarket
 //
 //  Created by Kyo, LJ on 2022/12/03.
@@ -7,10 +7,18 @@
 
 import UIKit
 
-class RootProductViewController: UIViewController {
+class ProductViewController: UIViewController {
     let networkManager = NetworkManager()
-    var showView: RootProductView = RootProductView()
+    var showView: ProductView = ProductView()
     var cellImages: [UIImage?] = []
+    let maxImageNumber = 5
+    
+    private enum Constant: String {
+        case uploadSuccessText = "상품 업로드 성공"
+        case uploadSuccessMessage = "등록 성공하였습니다."
+        case failureMessage = "상품 업로드에 실패했습니다."
+        case confirmMessage = "입력을 확인해주세요."
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +26,7 @@ class RootProductViewController: UIViewController {
 }
 
 // MARK: - Forbid Override 
-extension RootProductViewController {
+extension ProductViewController {
     func setupNavigationBar(title: String) {
         self.title = title
         let cancelButtonItem = UIBarButtonItem(title: "Cancel",
@@ -48,22 +56,22 @@ extension RootProductViewController {
                 switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        self.showAlert(alertText: "상품 업로드 성공",
-                                       alertMessage: "등록 성공하였습니다.") {
+                        self.showAlert(alertText: Constant.uploadSuccessText.rawValue,
+                                       alertMessage: Constant.uploadSuccessMessage.rawValue) {
                             self.navigationController?.popViewController(animated: true)
                         }
                     }
                 case .failure(let error):
                     DispatchQueue.main.async {
                         self.showAlert(alertText: error.description,
-                                       alertMessage: "상품 업로드에 실패했습니다.",
+                                       alertMessage: Constant.failureMessage.rawValue,
                                        completion: nil)
                     }
                 }
             }
         case .failure(let error):
             self.showAlert(alertText: error.description,
-                           alertMessage: "입력을 확인해주세요.",
+                           alertMessage: Constant.confirmMessage.rawValue,
                            completion: nil)
         }
     }
