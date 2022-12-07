@@ -5,11 +5,19 @@
 //  Created by baem, minii on 2022/12/02.
 //
 
+// TODO: - 추가적으로 할일
+/*
+ 1. NameSpace 만들기
+ 2. NetworkError Alert 만들기
+ 3. 업로드 후 데이터 다시 받아오기
+ 4. pagenation 구현하기
+ */
+
 import UIKit
 
 final class RegisterProductViewController: UIViewController {
     // MARK: - Properties
-    var isEditingMode: Bool = false {
+    private var isEditingMode: Bool = false {
         didSet {
             if isEditingMode {
                 navigationItem.title = "상품수정"
@@ -20,67 +28,52 @@ final class RegisterProductViewController: UIViewController {
             collectionView.reloadData()
         }
     }
-    var selectedImage = Array<UIImage?>(repeating: nil, count: 5)
-    var selectedCurrency = Currency.KRW {
+    private var selectedCurrency = Currency.KRW {
         didSet {
             changeKeyboard()
         }
     }
     
-    var selectedIndex: Int = 0
-    let networkManager = NetworkManager<ProductListResponse>()
+    private var selectedImage = Array<UIImage?>(repeating: nil, count: 5)
+    private var selectedIndex: Int = 0
+    private let networkManager = NetworkManager<ProductListResponse>()
     
     // MARK: - View Properties
-    lazy var collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
+
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(
-            RegisterCollectionImageCell.self,
-            forCellWithReuseIdentifier: RegisterCollectionImageCell.identifier
-        )
         return collectionView
     }()
     
-    let productNameTextField = UITextField(placeholder: "상품명")
-    let productPriceTextField = UITextField(placeholder: "상품가격", keyboardType: .numberPad)
-    let discountPriceTextField = UITextField(placeholder: "할인금액", keyboardType: .numberPad)
-    let stockTextField = UITextField(placeholder: "재고수량", keyboardType: .numberPad)
+    private let productNameTextField = UITextField(placeholder: "상품명")
+    private let productPriceTextField = UITextField(placeholder: "상품가격", keyboardType: .numberPad)
+    private let discountPriceTextField = UITextField(placeholder: "할인금액", keyboardType: .numberPad)
+    private let stockTextField = UITextField(placeholder: "재고수량", keyboardType: .numberPad)
     
-    lazy var currencySegment: UISegmentedControl = {
+    private let currencySegment: UISegmentedControl = {
         let segment = UISegmentedControl(items: Currency.allCases.map(\.rawValue))
         segment.selectedSegmentIndex = 0
-        segment.addTarget(self, action: #selector(changeSegmentValue), for: .valueChanged)
-        
         return segment
     }()
     
-    let descriptionTextView = UITextView(text: "설명", textColor: .secondaryLabel, font: .preferredFont(forTextStyle: .body), spellCheckingType: .no)
+    private let descriptionTextView = UITextView(text: "설명", textColor: .secondaryLabel, font: .preferredFont(forTextStyle: .body), spellCheckingType: .no)
     
-    lazy var segmentStackview = UIStackView(
-        subViews: [productPriceTextField, currencySegment],
-        axis: .horizontal,
-        distribution: .fill,
-        spacing: 8
-    )
+    private let segmentStackView = UIStackView(axis: .horizontal, distribution: .fill, spacing: 8)
     
-    lazy var totalStackView = UIStackView(
-        subViews: [productNameTextField, segmentStackview, discountPriceTextField, stockTextField],
-        axis: .vertical,
-        distribution: .equalSpacing,
-        spacing: 8
-    )
+    private let totalStackView = UIStackView(axis: .vertical, distribution: .equalSpacing, spacing: 8)
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        currencySegment.addTarget(self, action: #selector(changeSegmentValue), for: .valueChanged)
         
         setupDescriptionTextViewAccessoryView()
+        setupSubViewInStackViews()
         configureNavigation()
         setUpDelegate()
         setUpConstraints()
@@ -175,6 +168,11 @@ private extension RegisterProductViewController {
         navigationItem.title = "상품등록"
     }
     
+    func setupSubViewInStackViews() {
+        segmentStackView.configureSubViews(subViews: [productPriceTextField, currencySegment])
+        totalStackView.configureSubViews(subViews: [productNameTextField, segmentStackView, discountPriceTextField, stockTextField])
+    }
+    
     func setUpDelegate() {
         [
             stockTextField,
@@ -186,6 +184,21 @@ private extension RegisterProductViewController {
         }
         
         descriptionTextView.delegate = self
+        setupCollectionViewDelegate()
+    }
+    
+    func setupCollectionViewDelegate() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(
+            RegisterCollectionImageCell.self,
+            forCellWithReuseIdentifier: RegisterCollectionImageCell.identifier
+        )
+    }
+    
+    func addTargetSegment() {
+        
     }
     
     func addSubViewsOfContent() {

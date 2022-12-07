@@ -9,14 +9,19 @@ import UIKit
 
 extension UIStackView {
     convenience init(
-        subViews: [UIView],
         axis: NSLayoutConstraint.Axis,
         distribution: UIStackView.Distribution,
         spacing: CGFloat
     ) {
-        self.init(arrangedSubviews: subViews)
+        self.init()
         self.axis = axis
         self.distribution = distribution
         self.spacing = spacing
+    }
+    
+    func configureSubViews(subViews: [UIView]) {
+        subViews.forEach {
+            self.addArrangedSubview($0)
+        }
     }
 }
