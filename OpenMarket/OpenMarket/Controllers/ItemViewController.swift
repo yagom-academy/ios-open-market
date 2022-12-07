@@ -88,7 +88,7 @@ class ItemViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+        configureBackGroundColor()
         configureNavigation()
         configureImageScrollView()
         configureTextFieldAndTextView()
@@ -180,6 +180,10 @@ extension ItemViewController {
         }
 
         present(alert, animated: true)
+    }
+
+    func configureBackGroundColor() {
+        self.view.backgroundColor = .systemBackground
     }
 }
 

@@ -9,7 +9,7 @@ import UIKit
 
 final class ItemAddViewController: ItemViewController {
     // MARK: - Property
-    private lazy var registrationImageView: UIView = {
+    private let registrationImageView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemGray
@@ -27,7 +27,6 @@ final class ItemAddViewController: ItemViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
         configureImage()
     }
 }
@@ -62,7 +61,7 @@ extension ItemAddViewController {
         let discountedPriceText = discountedPriceTextField.text ?? "0"
         let stockText = stockTextField.text ?? "0"
 
-        guard !isPost else {
+        guard isPost == false else {
             showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
             return
         }
@@ -91,7 +90,7 @@ extension ItemAddViewController {
             return
         }
 
-        let params: [String: Any] = ["name": itemNameText,
+        let parameter: [String: Any] = ["name": itemNameText,
                                      "price": price,
                                      "currency": currencySegmentedControl.selectedSegmentIndex == 0
                                                     ? Currency.krw.rawValue: Currency.usd.rawValue,
@@ -101,24 +100,26 @@ extension ItemAddViewController {
                                      "secret": NetworkManager.secret]
         self.isPost = true
         LoadingController.showLoading()
-        networkManager.addItem(params: params, images: itemImages) { result in
+        networkManager.addItem(parameter: parameter, images: itemImages) { result in
+            LoadingController.hideLoading()
+
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    LoadingController.hideLoading()
                     self.showAlert(title: "성공", message: "등록에 성공했습니다", actionTitle: "확인", dismiss: true)
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    LoadingController.hideLoading()
                     self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
                 }
             }
+
             self.isPost = false
         }
     }
 }
 
+// MARK: - UIImagePicker
 extension ItemAddViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @objc private func presentAlbum(){
         guard itemImages.count < 5 else {

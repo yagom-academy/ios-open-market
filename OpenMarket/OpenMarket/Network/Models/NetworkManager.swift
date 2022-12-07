@@ -114,7 +114,7 @@ struct NetworkManager {
 }
 
 extension NetworkManager {
-    func createRequestBody(params: [String: Data], images: [UIImage], boundary: String) -> Data {
+    func createRequestBody(parameter: [String: Data], images: [UIImage], boundary: String) -> Data {
         let newLine = "\r\n"
         let boundaryPrefix = "--\(boundary + newLine)"
         let imgDataKey = "images"
@@ -122,7 +122,7 @@ extension NetworkManager {
         
         var body = Data()
         
-        for (key, value) in params {
+        for (key, value) in parameter {
             body.append(boundaryPrefix)
             body.append("Content-Disposition: form-data; name=\"\(key)\"\(newLine + newLine)")
             body.append(value)
@@ -142,7 +142,7 @@ extension NetworkManager {
         return body
     }
     
-    func addItem(params: [String: Any], images: [UIImage], completion: @escaping (Result<Item, NetworkError>) -> ()) {
+    func addItem(parameter: [String: Any], images: [UIImage], completion: @escaping (Result<Item, NetworkError>) -> ()) {
         let boundary = "Boundary-\(UUID().uuidString)"
         
         var request = URLRequest(url: URL(string: "\(baseURL)api/products")!)
@@ -151,9 +151,9 @@ extension NetworkManager {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.setValue(NetworkManager.identifier, forHTTPHeaderField: "identifier")
         
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameter) else { return }
         
-        request.httpBody = createRequestBody(params: ["params" : jsonData], images: images, boundary: boundary)
+        request.httpBody = createRequestBody(parameter: ["parameter" : jsonData], images: images, boundary: boundary)
         
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {
@@ -243,8 +243,8 @@ extension NetworkManager {
         }
     }
     
-    func editItem(productId: Int, params: [String: Any], completion: @escaping (Result<Item, NetworkError>) -> ()) {
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params) else { return }
+    func editItem(productId: Int, parameter: [String: Any], completion: @escaping (Result<Item, NetworkError>) -> ()) {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameter) else { return }
         
         var request = URLRequest(url: URL(string: "\(baseURL)api/products/\(productId)")!)
         request.addValue("\(NetworkManager.identifier)", forHTTPHeaderField: "identifier")

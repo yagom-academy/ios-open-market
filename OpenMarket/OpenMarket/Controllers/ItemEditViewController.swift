@@ -31,23 +31,24 @@ extension ItemEditViewController {
         
         LoadingController.showLoading()
         networkManager.fetchItem(productId: itemId) { result in
+            LoadingController.hideLoading()
+
             switch result {
             case .success(let item):
-                LoadingController.hideLoading()
                 self.item = item
                 
                 DispatchQueue.main.async {
-                    self.configureData()
+                    self.configureUIValue()
+                    self.configureImageValue()
                 }
             case .failure(_):
-                LoadingController.hideLoading()
-                
                 DispatchQueue.main.async {
                     self.retryAlert()
                 }
             }
         }
     }
+
     private func retryAlert() {
         let alert = UIAlertController(title: "통신 실패", message: "데이터를 받아오지 못했습니다", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "다시 시도", style: .default, handler: { _ in
@@ -58,17 +59,11 @@ extension ItemEditViewController {
         }))
         self.present(alert, animated: false)
     }
-    private func configureData() {
-        guard let item = item else { return }
-        
-        itemNameTextField.text = item.name
-        priceTextField.text = String(item.price)
-        discountedPriceTextField.text = String(item.discountedPrice)
-        descriptionTextView.text = item.pageDescription
-        stockTextField.text = String(item.stock)
-        currencySegmentedControl.selectedSegmentIndex = (item.currency == .krw ? 0 : 1)
-        
-        item.images?.forEach {
+
+    private func configureImageValue() {
+        guard let images = item?.images else { return }
+
+        images.forEach {
             guard let url = URL(string: $0.url) else { return }
             networkManager.fetchImage(url: url) { image in
                 self.itemImages.append(image)
@@ -78,12 +73,24 @@ extension ItemEditViewController {
                     imageView.translatesAutoresizingMaskIntoConstraints = false
                     imageView.widthAnchor.constraint(equalToConstant: 130).isActive = true
                     imageView.heightAnchor.constraint(equalToConstant: 130).isActive = true
-                    
+
                     self.imageStackView.addArrangedSubview(imageView)
                 }
             }
         }
     }
+
+    private func configureUIValue() {
+        guard let item else { return }
+
+        itemNameTextField.text = item.name
+        priceTextField.text = String(item.price)
+        discountedPriceTextField.text = String(item.discountedPrice)
+        descriptionTextView.text = item.pageDescription
+        stockTextField.text = String(item.stock)
+        currencySegmentedControl.selectedSegmentIndex = (item.currency == .krw ? 0 : 1)
+    }
+
     override func doneButtonTapped() {
         let priceText = priceTextField.text ?? "0"
         let discountedPriceText = discountedPriceTextField.text ?? "0"
@@ -118,7 +125,7 @@ extension ItemEditViewController {
             return
         }
         
-        let params: [String: Any] = ["name": itemNameText,
+        let parameter: [String: Any] = ["name": itemNameText,
                                      "price": price,
                                      "currency": currencySegmentedControl.selectedSegmentIndex == 0
                                      ? Currency.krw.rawValue: Currency.usd.rawValue,
@@ -128,19 +135,20 @@ extension ItemEditViewController {
                                      "secret": NetworkManager.secret]
         self.isPost = true
         LoadingController.showLoading()
-        networkManager.editItem(productId: itemId!, params: params) { result in
+        networkManager.editItem(productId: itemId!, parameter: parameter) { result in
+            LoadingController.hideLoading()
+
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
-                    LoadingController.hideLoading()
                     self.showAlert(title: "성공", message: "등록에 성공했습니다", actionTitle: "확인", dismiss: true)
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    LoadingController.hideLoading()
                     self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
                 }
             }
+
             self.isPost = false
         }
     }
