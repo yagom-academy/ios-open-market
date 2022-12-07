@@ -12,13 +12,32 @@ class ItemViewController: UIViewController {
     var networkManager = NetworkManager()
     var itemImages: [UIImage] = []
     var isPost: Bool = false
+    var isTexting: Bool = false
+    
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .white
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
+    let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        return stackView
+    }()
     
     let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-
+    
     let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +47,7 @@ class ItemViewController: UIViewController {
         stackView.spacing = 10
         return stackView
     }()
-
+    
     let itemNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -36,24 +55,24 @@ class ItemViewController: UIViewController {
         textField.borderStyle = .roundedRect
         return textField
     }()
-
+    
     let priceStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         stackView.alignment = .fill
         return stackView
     }()
-
+    
     let priceTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
         return textField
-
+        
     }()
-
+    
     let currencySegmentedControl: UISegmentedControl = {
         let item = ["KRW", "USD"]
         let segmentedControl = UISegmentedControl(items: item)
@@ -61,7 +80,7 @@ class ItemViewController: UIViewController {
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
-
+    
     let discountedPriceTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +88,7 @@ class ItemViewController: UIViewController {
         textField.borderStyle = .roundedRect
         return textField
     }()
-
+    
     let stockTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -77,11 +96,12 @@ class ItemViewController: UIViewController {
         textField.borderStyle = .roundedRect
         return textField
     }()
-
+    
     let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .systemGray6
+        textView.font = .preferredFont(forTextStyle: .headline)
         return textView
     }()
     
@@ -90,69 +110,74 @@ class ItemViewController: UIViewController {
         super.viewDidLoad()
         configureBackGroundColor()
         configureNavigation()
+        configureScrollView()
         configureImageScrollView()
         configureTextFieldAndTextView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.addKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.removeKeyboardNotifications()
+    }
+    
 }
 
 // MARK: - View Constraint
 extension ItemViewController {
-    func configureImageScrollView() {
-        self.view.addSubview(imageScrollView)
-        self.imageScrollView.addSubview(imageStackView)
-
+    func configureScrollView() {
+        self.view.addSubview(scrollView)
+        self.scrollView.addSubview(stackView)
+        
+        let constraint = self.stackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
         NSLayoutConstraint.activate([
-            self.imageScrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.imageScrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            self.imageScrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            self.imageScrollView.heightAnchor.constraint(equalToConstant: 130),
+            self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            self.scrollView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            
+            self.stackView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
+            self.stackView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
+            self.stackView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
+            self.stackView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor),
 
+            self.stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            self.stackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        ])
+    }
+    
+    func configureImageScrollView() {
+        stackView.addArrangedSubview(imageScrollView)
+        imageScrollView.addSubview(imageStackView)
+        
+        NSLayoutConstraint.activate([
+            self.imageScrollView.topAnchor.constraint(equalTo: self.stackView.topAnchor),
+            self.imageScrollView.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor),
+            self.imageScrollView.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor),
+            self.imageScrollView.heightAnchor.constraint(equalToConstant: 130),
+            
             self.imageStackView.topAnchor.constraint(equalTo: self.imageScrollView.topAnchor),
             self.imageStackView.bottomAnchor.constraint(equalTo: self.imageScrollView.bottomAnchor),
             self.imageStackView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor, constant: 5),
             self.imageStackView.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor, constant: -5),
-            self.imageStackView.heightAnchor.constraint(equalTo: self.imageScrollView.heightAnchor),
         ])
+        
     }
-
+    
     func configureTextFieldAndTextView() {
-        self.view.addSubview(itemNameTextField)
-        self.view.addSubview(priceStackView)
-        self.view.addSubview(discountedPriceTextField)
-        self.view.addSubview(stockTextField)
-        self.view.addSubview(descriptionTextView)
-        self.priceStackView.addSubview(priceTextField)
-        self.priceStackView.addSubview(currencySegmentedControl)
-
+        stackView.addArrangedSubview(itemNameTextField)
+        stackView.addArrangedSubview(priceStackView)
+        stackView.addArrangedSubview(discountedPriceTextField)
+        stackView.addArrangedSubview(stockTextField)
+        stackView.addArrangedSubview(descriptionTextView)
+        
+        priceStackView.addArrangedSubview(priceTextField)
+        priceStackView.addArrangedSubview(currencySegmentedControl)
+        
         NSLayoutConstraint.activate([
-            self.itemNameTextField.topAnchor.constraint(equalTo: self.imageScrollView.bottomAnchor, constant: 15),
-            self.itemNameTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
-            self.itemNameTextField.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
-            self.itemNameTextField.heightAnchor.constraint(equalToConstant: 35),
-
-            self.priceStackView.topAnchor.constraint(equalTo: self.itemNameTextField.bottomAnchor, constant: 10),
-            self.priceStackView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
-            self.priceStackView.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
-            self.priceStackView.heightAnchor.constraint(equalToConstant: 35),
-
-            self.currencySegmentedControl.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
-            self.priceTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
-            self.priceTextField.trailingAnchor.constraint(equalTo: self.currencySegmentedControl.leadingAnchor),
-
-            self.discountedPriceTextField.topAnchor.constraint(equalTo: self.priceStackView.bottomAnchor, constant: 10),
-            self.discountedPriceTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
-            self.discountedPriceTextField.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
-            self.discountedPriceTextField.heightAnchor.constraint(equalToConstant: 35),
-
-            self.stockTextField.topAnchor.constraint(equalTo: self.discountedPriceTextField.bottomAnchor, constant: 10),
-            self.stockTextField.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
-            self.stockTextField.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
-            self.stockTextField.heightAnchor.constraint(equalToConstant: 35),
-
-            self.descriptionTextView.topAnchor.constraint(equalTo: self.stockTextField.bottomAnchor, constant: 10),
-            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.imageScrollView.leadingAnchor),
-            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.imageScrollView.trailingAnchor),
-            self.descriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            priceTextField.heightAnchor.constraint(equalTo:itemNameTextField.heightAnchor)
         ])
     }
 }
@@ -162,21 +187,21 @@ extension ItemViewController {
     @objc func configureNavigation() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action:
-            #selector(doneButtonTapped))
+                                                                    #selector(doneButtonTapped))
     }
-
+    
     @objc func cancelButtonTapped() {
         dismiss(animated: true)
     }
-
+    
     @objc func doneButtonTapped() {
         guard let parameter = createParameter() else { return }
-
+        
         self.isPost = true
         LoadingController.showLoading()
         networkManager.addItem(parameter: parameter, images: itemImages) { result in
             LoadingController.hideLoading()
-
+            
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
@@ -187,11 +212,11 @@ extension ItemViewController {
                     self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
                 }
             }
-
+            
             self.isPost = false
         }
     }
-
+    
     func showAlert(title: String, message: String, actionTitle: String, dismiss: Bool){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         if dismiss {
@@ -201,7 +226,7 @@ extension ItemViewController {
         } else {
             alert.addAction(UIAlertAction(title: actionTitle, style: .default))
         }
-
+        
         present(alert, animated: true)
     }
     
@@ -245,14 +270,53 @@ extension ItemViewController {
         }
         
         let parameter: [String: Any] = ["name": itemNameText,
-                                     "price": price,
-                                     "currency": currencySegmentedControl.selectedSegmentIndex == 0
-                                     ? Currency.krw.rawValue: Currency.usd.rawValue,
-                                     "discounted_price": discountPrice,
-                                     "stock": stock,
-                                     "description": descriptionText,
-                                     "secret": NetworkManager.secret]
+                                        "price": price,
+                                        "currency": currencySegmentedControl.selectedSegmentIndex == 0
+                                        ? Currency.krw.rawValue: Currency.usd.rawValue,
+                                        "discounted_price": discountPrice,
+                                        "stock": stock,
+                                        "description": descriptionText,
+                                        "secret": NetworkManager.secret]
         return parameter
     }
 }
 
+extension ItemViewController {
+    func addKeyboardNotifications(){
+        // 키보드가 나타날 때 앱에게 알리는 메서드 추가
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
+        // 키보드가 사라질 때 앱에게 알리는 메서드 추가
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    // 노티피케이션을 제거하는 메서드
+    func removeKeyboardNotifications(){
+        // 키보드가 나타날 때 앱에게 알리는 메서드 제거
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
+        // 키보드가 사라질 때 앱에게 알리는 메서드 제거
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    @objc func keyboardWillShow(_ noti: NSNotification){
+        // 키보드의 높이만큼 화면을 올려준다.
+        if !isTexting  ,let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y -= keyboardHeight
+            isTexting = true
+        }
+    }
+    
+    // 키보드가 사라졌다는 알림을 받으면 실행할 메서드
+    @objc func keyboardWillHide(_ noti: NSNotification){
+        // 키보드의 높이만큼 화면을 내려준다.
+        if isTexting, let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.view.frame.origin.y += keyboardHeight
+            isTexting = false
+        }
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        view.endEditing(true)
+    }
+}
