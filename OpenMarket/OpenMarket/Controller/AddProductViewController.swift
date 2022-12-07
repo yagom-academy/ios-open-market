@@ -87,19 +87,23 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
         imageCount += 1
         dismiss(animated: true, completion: nil)
     }
-
+    
 }
 
 extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        self.addView.imageScrollView.isHidden = true
-        textFieldConstraint =  self.addView.textFieldStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        textFieldConstraint?.isActive = true
+        UIView.animate(withDuration: 0.4) {
+            self.addView.imageScrollView.isHidden = true
+            self.textFieldConstraint =  self.addView.textFieldStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+            self.textFieldConstraint?.isActive = true
+            self.view.layoutIfNeeded()
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        textFieldConstraint?.isActive = false
+        self.textFieldConstraint?.isActive = false
         self.addView.imageScrollView.isHidden = false
+        self.view.layoutIfNeeded()
     }
     
     func initializeHideKeyBoard() {

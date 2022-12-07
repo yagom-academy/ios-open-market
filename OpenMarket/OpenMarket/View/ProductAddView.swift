@@ -134,9 +134,12 @@ class ProductAddView: UIView {
             self.imageScrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             self.imageScrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             self.imageScrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            self.imageScrollView.bottomAnchor.constraint(equalTo: self.textFieldStackView.topAnchor, constant: -10),
             self.imageScrollView.heightAnchor.constraint(equalTo: self.textFieldStackView.heightAnchor, multiplier: 1)
         ])
+        
+        let bottom = self.imageScrollView.bottomAnchor.constraint(lessThanOrEqualTo: self.textFieldStackView.topAnchor, constant: -10)
+        bottom.priority = .defaultLow
+        bottom.isActive = true
         
         NSLayoutConstraint.activate([
             self.imageStackView.topAnchor.constraint(equalTo: self.imageScrollView.topAnchor),
