@@ -91,6 +91,7 @@ extension NetworkManager {
         }
         
         let request = URLRequest(url: url)
+        print(cache.cachedResponse(for: request))
         if cache.cachedResponse(for: request) == nil {
             let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
                 if isSuccessResponse(response: response, error: error) == false {
@@ -229,23 +230,20 @@ extension NetworkManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(Constant.identifier, forHTTPHeaderField: "identifier")
         
+        let product = "{\"name\": \"logo\", \"secret\":\"\(Constant.password)\"}".data(using: .utf8)!
         
-//            let json = try jsonParser.encodeJSON(product)
-//            print(String(data: json, encoding: .utf8)!)
-            let product = "{\"name\": \"logo\", \"secret\":\"\(Constant.password)\"}".data(using: .utf8)!
-            
-            request.httpBody = product
-            
-            let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
-                print(String(data: data!, encoding: .utf8)!)
-                if isSuccessResponse(response: response, error: error) == false {
-                    return
-                }
-                
-                completion()
+        request.httpBody = product
+        
+        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            print(String(data: data!, encoding: .utf8)!)
+            if isSuccessResponse(response: response, error: error) == false {
+                return
             }
             
-            dataTask.resume()
+            completion()
+        }
+        
+        dataTask.resume()
         
     }
 }
