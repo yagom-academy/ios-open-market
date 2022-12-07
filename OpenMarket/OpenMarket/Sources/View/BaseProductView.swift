@@ -8,6 +8,7 @@ import UIKit
 
 protocol ProductDelegate {
     func tappedDismissButton()
+    func tappedDoneButton()
 }
 
 class BaseProductView: UIView {
@@ -49,6 +50,7 @@ class BaseProductView: UIView {
     }
     
     @IBAction func tapDoneButton(_ sender: UIButton) {
+        delegate?.tappedDoneButton()
     }
 }
 

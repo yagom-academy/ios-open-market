@@ -23,6 +23,7 @@ class ProductRegisterViewController: UIViewController {
         
         configureCollectionView()
         configureImagePicker()
+        configureTextComponent()
         checkKeyboard()
     }
     
@@ -33,6 +34,42 @@ class ProductRegisterViewController: UIViewController {
     private func checkKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func checkRequirements() throws {
+        if imageArray.count < 2 {
+            throw ProductPostRequirementError.imageError
+        }
+        
+        if let nameLength = mainView.productNameTextField.text?.count, nameLength < 3 {
+            throw ProductPostRequirementError.productNameError
+        }
+        
+        if mainView.productPriceTextField.hasText == false {
+            throw ProductPostRequirementError.priceError
+        }
+        
+        if let bargainPrice = mainView.productBargainTextField.text,
+           let originPrice = mainView.productPriceTextField.text,
+           bargainPrice > originPrice {
+            throw ProductPostRequirementError.bargainPriceError
+        }
+        
+        if mainView.productsContentTextView.text.count < 10 ||
+            mainView.productsContentTextView.textColor == .lightGray {
+            throw ProductPostRequirementError.descriptionError
+        }
+    }
+    
+    private func configureTextComponent() {
+        mainView.productsContentTextView.delegate = self
+        mainView.productsContentTextView.text = "상품 설명을 입력해주세요.(1000글자 제한)"
+        mainView.productsContentTextView.textColor = .lightGray
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(textFieldDidChange(_:)),
+                                               name: UITextField.textDidChangeNotification,
+                                               object: nil)
     }
     
     private func configureCollectionView() {
@@ -57,9 +94,11 @@ class ProductRegisterViewController: UIViewController {
         imageArray.append(UIImage(named: "PlusImage") ?? UIImage())
     }
     
-    @objc func keyboardWillShow(_ sender: Notification) {
+    @objc
+    func keyboardWillShow(_ sender: Notification) {
         guard let senderUserInfo = sender.userInfo else { return }
         let userInfo:NSDictionary = senderUserInfo as NSDictionary
+        
         if let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             var keyboardHeight = keyboardRectangle.height
@@ -75,15 +114,61 @@ class ProductRegisterViewController: UIViewController {
         }
     }
     
-    @objc func keyboardWillHide(_ sender: Notification) {
+    @objc
+    func keyboardWillHide(_ sender: Notification) {
         view.frame.size.height += keyHeight
         keyHeight = 0
+    }
+    
+    @objc
+    private func textFieldDidChange(_ notification: Notification) {
+        if let textField = notification.object as? UITextField {
+            switch textField {
+            case mainView.productNameTextField:
+                if mainView.productNameTextField.text?.count ?? 0 > 100 {
+                    mainView.productNameTextField.deleteBackward()
+                }
+            default:
+                return
+            }
+        }
     }
 }
 
 extension ProductRegisterViewController: ProductDelegate {
     func tappedDismissButton() {
         self.dismiss(animated: true)
+    }
+    
+    func tappedDoneButton() {
+        do {
+            try checkRequirements()
+        } catch {
+            var errorMessage: String = .init()
+            
+            switch error {
+            case ProductPostRequirementError.imageError:
+                errorMessage = "이미지는 최소 1장, 최대 5장입니다."
+            case ProductPostRequirementError.productNameError:
+                errorMessage = "상품이름은 최소 3자, 최대 100자 입니다."
+            case ProductPostRequirementError.priceError:
+                errorMessage = "상품가격은 필수 입력입니다."
+            case ProductPostRequirementError.descriptionError:
+                errorMessage = "상품설명은 최소 10자, 최대 1000자 입니다."
+            case ProductPostRequirementError.bargainPriceError:
+                errorMessage = "할인가격은 상품가격을 넘을 수 없습니다."
+            default :
+                errorMessage = "\(error.localizedDescription)"
+            }
+            
+            let alert: UIAlertController = UIAlertController(title: "상품등록 정보를 확인해주세요",
+                                                             message: errorMessage,
+                                                             preferredStyle: .alert)
+            let okAction: UIAlertAction = UIAlertAction(title: "확인", style: .default)
+            
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
     }
 }
 
@@ -184,3 +269,28 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate {
 }
 
 extension ProductRegisterViewController: UINavigationControllerDelegate {}
+
+extension ProductRegisterViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if mainView.productsContentTextView.hasText == false {
+            mainView.productsContentTextView.text = "상품 설명을 입력해주세요.(1000글자 제한)"
+            mainView.productsContentTextView.textColor = .lightGray
+        }
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if mainView.productsContentTextView.textColor == .lightGray {
+            mainView.productsContentTextView.text = nil
+            mainView.productsContentTextView.textColor = .black
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = mainView.productsContentTextView.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        
+        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+        
+        return changedText.count <= 1000
+    }
+}
