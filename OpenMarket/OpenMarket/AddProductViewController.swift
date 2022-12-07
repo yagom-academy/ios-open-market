@@ -197,7 +197,13 @@ final class AddProductViewController: UIViewController {
               let stock = Int(stockTextField.text ?? "")
         else { return nil }
         
-        let newProduct = NewProduct(name: name, description: description, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock, secret: "sth4w4p3knfsxqgx")
+        let newProduct = NewProduct(name: name,
+                                    description: description,
+                                    price: price,
+                                    currency: currency,
+                                    discountedPrice: discountedPrice,
+                                    stock: stock,
+                                    secret: "sth4w4p3knfsxqgx")
         
         return JSONEncoder.encode(from: newProduct)
     }
@@ -270,9 +276,8 @@ final class AddProductViewController: UIViewController {
             backView.leadingAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.leadingAnchor),
             backView.trailingAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.trailingAnchor),
             backView.bottomAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.bottomAnchor),
-            backView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor),
             
-            backView.heightAnchor.constraint(equalTo: backgroundScrollView.frameLayoutGuide.heightAnchor),
+            backView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor),
             backView.widthAnchor.constraint(equalTo: backgroundScrollView.frameLayoutGuide.widthAnchor),
             
             imageCollectionView.topAnchor.constraint(equalTo: backView.topAnchor,
@@ -384,7 +389,16 @@ extension AddProductViewController {
             highlightTextBounds(priceTextField)
         }
         
-        return [nameTextField, priceTextField, descriptionTextView].filter { $0.layer.borderWidth == 0 }.count == 3
+        if let price = Double(priceTextField.text ?? ""),
+           let discountPrice = Double(discountedPriceTextField.text ?? ""),
+           discountPrice > price {
+            highlightTextBounds(discountedPriceTextField)
+        } else {
+            discountedPriceTextField.layer.borderWidth = .zero
+        }
+        
+        let components = [nameTextField, priceTextField, discountedPriceTextField, descriptionTextView]
+        return components.filter { $0.layer.borderWidth == 0 }.count == 4
     }
     
     private func highlightTextBounds(_ view: UIView) {
@@ -396,7 +410,7 @@ extension AddProductViewController {
         view.layer.cornerRadius = cornerRadius
     }
     
-    func setNavigationBarHeight() {
+    private func setNavigationBarHeight() {
         if navigationBarHeight.isZero {
             navigationBarHeight = -(backgroundScrollView.contentOffset.y)
         }
@@ -405,7 +419,10 @@ extension AddProductViewController {
     private func setKeyboardDoneButton() {
         let keyboardBar = UIToolbar()
         keyboardBar.sizeToFit()
-        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(tapKeyboardDoneButton))
+        let button = UIBarButtonItem(title: "Done",
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(tapKeyboardDoneButton))
         keyboardBar.items = [button]
         [nameTextField, priceTextField, discountedPriceTextField, stockTextField].forEach {
             $0.inputAccessoryView = keyboardBar

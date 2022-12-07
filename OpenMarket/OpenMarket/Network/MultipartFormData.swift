@@ -29,9 +29,9 @@ struct MultipartFormData {
         let lineBreak = "\r\n"
         
         body.append("--" + boundary + lineBreak, using: .utf8)
-        if let fileName = fileName,
-        let name = name {
-            body.append("Content-Disposition:form-data; name=\"\(name)\"; filename=\"\(fileName)\"" + lineBreak, using: .utf8)
+        if let fileName = fileName, let name = name {
+            body.append("Content-Disposition:form-data; name=\"\(name)\"; filename=\"\(fileName)\"" + lineBreak,
+                        using: .utf8)
         } else if let name = name {
             body.append("Content-Disposition:form-data; name=\"\(name)\"" + lineBreak, using: .utf8)
         } else {
