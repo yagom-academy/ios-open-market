@@ -73,7 +73,6 @@ final class AddItemViewController: UIViewController {
         HTTPManager.shared.requestPOST(url: OpenMarketURL.postProductComponent.url,
                                        encodingData: encodingData,
                                        images: productImages) { data in
-            print("성공!")
         }
     }
     
