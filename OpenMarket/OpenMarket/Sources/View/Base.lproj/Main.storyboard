@@ -115,6 +115,36 @@
             </objects>
             <point key="canvasLocation" x="864.8854961832061" y="-23.239436619718312"/>
         </scene>
+        <!--ProductEditViewController-->
+        <scene sceneID="Jn5-dR-ngQ">
+            <objects>
+                <viewController storyboardIdentifier="ProductEditViewController" title="ProductEditViewController" id="cF3-gH-Va2" customClass="ProductEditViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1S1-og-Gss">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RdS-PB-vnn" customClass="ProductChangeView" customModule="OpenMarket" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Dbw-RN-bxr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Dbw-RN-bxr" firstAttribute="trailing" secondItem="RdS-PB-vnn" secondAttribute="trailing" id="24n-Q1-Skp"/>
+                            <constraint firstItem="RdS-PB-vnn" firstAttribute="leading" secondItem="Dbw-RN-bxr" secondAttribute="leading" id="IkD-pf-2Z4"/>
+                            <constraint firstItem="RdS-PB-vnn" firstAttribute="top" secondItem="Dbw-RN-bxr" secondAttribute="top" id="Sfm-1h-qz8"/>
+                            <constraint firstAttribute="bottom" secondItem="RdS-PB-vnn" secondAttribute="bottom" id="y7S-gi-LrF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mainView" destination="RdS-PB-vnn" id="9rR-6E-cYb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kr0-Kw-xD9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1619" y="-23"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

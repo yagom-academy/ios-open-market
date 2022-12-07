@@ -21,6 +21,7 @@ class BaseProductView: UIView {
     @IBOutlet weak var productBargainTextField: UITextField!
     @IBOutlet weak var productStockTextField: UITextField!
     @IBOutlet weak var productsContentTextView: UITextView!
+    @IBOutlet weak var currencySelector: UISegmentedControl!
     
     override init(frame:CGRect) {
         super.init(frame:frame)

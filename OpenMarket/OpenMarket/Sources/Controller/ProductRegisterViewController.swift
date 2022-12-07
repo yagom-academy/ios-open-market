@@ -45,9 +45,13 @@ class ProductRegisterViewController: UIViewController {
               let description = mainView.productsContentTextView.text,
               let priceString = mainView.productPriceTextField.text,
               let price = Double(priceString) else { return }
+        let currency = mainView.currencySelector.selectedSegmentIndex == 0 ? Currency.KRWString : Currency.USDString
+        
         var param: ParamsProduct = .init(name: name,
                                          description: description,
-                                         price: price, currency: Currency.KRWString, secret: "rzeyxdwzmjynnj3f")
+                                         price: price,
+                                         currency: currency,
+                                         secret: "rzeyxdwzmjynnj3f")
         
         if let bargainPriceString = mainView.productBargainTextField.text,
            let bargainPrice = Double(bargainPriceString),

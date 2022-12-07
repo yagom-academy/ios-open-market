@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BaseProductView" customModule="OpenMarket" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="7Fi-0K-SZ4" id="WqG-fR-swC"/>
+                <outlet property="currencySelector" destination="gXV-Mf-qwp" id="iDN-xw-1Xd"/>
                 <outlet property="productBargainTextField" destination="rZh-i2-lur" id="2qP-Fm-T1i"/>
                 <outlet property="productNameTextField" destination="WpX-fZ-h8b" id="V2e-ZE-xZ5"/>
                 <outlet property="productPriceTextField" destination="fcD-fa-gtp" id="aG1-RN-78R"/>

@@ -11,7 +11,7 @@ final class MainViewController: UIViewController {
         case listType = 0
         case gridType = 1
     }
-
+    
     private var product: ProductList?
     private var cellMode: CellMode = .listType
     private var flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -87,7 +87,7 @@ final class MainViewController: UIViewController {
         let collectionViewCellNib = UINib(nibName: cellIdentifier, bundle: nil)
         
         collectionView.register(collectionViewCellNib,
-                                     forCellWithReuseIdentifier: cellIdentifier)
+                                forCellWithReuseIdentifier: cellIdentifier)
     }
     
     @IBAction private func tapViewModeController(_ sender: UISegmentedControl) {
@@ -136,7 +136,13 @@ final class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UICollectionViewDelegate {}
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let editVC = self.storyboard?.instantiateViewController(identifier: "ProductEditViewController")
+        editVC?.modalPresentationStyle = .fullScreen
+        self.present(editVC!, animated: true, completion: nil)
+    }
+}
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
@@ -157,9 +163,9 @@ extension MainViewController: UICollectionViewDataSource {
     
     private func makeListCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell: ListCollectionViewCell =
-        collectionView.dequeueReusableCell(withReuseIdentifier:
-                                            ListCollectionViewCell.stringIdentifier(),
-                                           for: indexPath) as? ListCollectionViewCell else {
+                collectionView.dequeueReusableCell(withReuseIdentifier:
+                                                    ListCollectionViewCell.stringIdentifier(),
+                                                   for: indexPath) as? ListCollectionViewCell else {
             return UICollectionViewCell()
         }
         guard let productItem = product?.pages[indexPath.item] else {
@@ -170,14 +176,13 @@ extension MainViewController: UICollectionViewDataSource {
         cell.addBottomLine(color: .gray, width: 0.5)
         
         return cell
-            
     }
     
     private func makeGridCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell: GridCollectionViewCell =
-        collectionView.dequeueReusableCell(withReuseIdentifier:
-                                            GridCollectionViewCell.stringIdentifier(),
-                                           for: indexPath) as? GridCollectionViewCell else {
+                collectionView.dequeueReusableCell(withReuseIdentifier:
+                                                    GridCollectionViewCell.stringIdentifier(),
+                                                   for: indexPath) as? GridCollectionViewCell else {
             return UICollectionViewCell()
         }
         guard let productItem = product?.pages[safe: indexPath.item] else {
