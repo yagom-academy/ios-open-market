@@ -160,90 +160,24 @@ final class RegisterProductViewController: UIViewController {
     }
 }
 
-enum ConvertPostError: Error {
-    case wrongImage
-    case wrongName
-    case wrongDescription
-    case wrongPrice
-    case wrongCurrency
-    case wrongDiscount
-    case wrongStock
-}
-
 // MARK: - Business Logic
 private extension RegisterProductViewController {
-    func invalidName() -> String? {
-        guard let name = productNameTextField.text else {
+    func convertPostParameters() -> PostParameter? {
+        let checker = RegisterProductChecker { [weak self] error in
+            self?.presentAlertMessage(error: error)
+        }
+        
+        checker.invalidImage(images: selectedImage)
+        guard let name = checker.invalidName(textField: productNameTextField),
+              let description = checker.invalidDescription(textView: descriptionTextView),
+              let price = checker.invalidPrice(textField: productPriceTextField),
+              let currency = checker.invalidCurrency(segment: currencySegment),
+              let discounted = checker.invalidDiscountedPrice(textField: discountPriceTextField, price: price) else {
             return nil
         }
-        
-        guard (3..<101) ~= name.count else {
-            return nil
-        }
-        
-        return name
-    }
-    
-    func invalidDescription() -> String? {
-        guard let description = descriptionTextView
-            .text else {
-            return nil
-        }
-        
-        guard (10..<1000) ~= description.count else {
-            return nil
-        }
-        
-        return description
-    }
-    
-    func convertPostParameters() throws -> PostParameter {
-        let filteredImage = selectedImage.filter { $0 != nil }
-        
-        if filteredImage.count == 0 {
-            alertErrorMessage("이미지 에러", "이미지 개수는 1개 이상 5개 이하입니다.")
-            throw ConvertPostError.wrongImage
-        }
-        
-        guard let name = invalidName() else {
-            alertErrorMessage("상품명 에러", "상품명의 길이는 3 ~ 100자 입니다.")
-            throw ConvertPostError.wrongName
-        }
-        
-        guard let description = invalidDescription() else {
-            alertErrorMessage("설명 에러", "설명은 10 ~ 1000자 입니다.")
-            throw ConvertPostError.wrongDescription
-        }
-        
-        guard let priceText = productPriceTextField.text,
-              let price = Double(priceText) else {
-            alertErrorMessage("가격 에러", "가격은 숫자만 입력할 수 있습니다.")
-            throw ConvertPostError.wrongPrice
-        }
-        
-        guard let currency = Currency(rawInt: currencySegment.selectedSegmentIndex) else {
-            alertErrorMessage("화폐 단위 에러", "잘못된 입력입니다.")
-            throw ConvertPostError.wrongCurrency
-        }
-        
-        let discounted = Double(discountPriceTextField.text ?? "0") ?? 0
-        
-        guard price > discounted else {
-            alertErrorMessage("할인 가격 에러", "할인 가격은 원래 가격보다 높을 수 없습니다.")
-            throw ConvertPostError.wrongDiscount
-        }
-        
         let stock = Int(stockTextField.text ?? "0")
         
-        return .init(name: name, description: description, price: price, currency: currency, discounted_price: discounted, stock: stock)
-    }
-    
-    func alertErrorMessage(_ title: String, _ message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true, completion: nil)
+        return PostParameter(name: name, description: description, price: price, currency: currency, discounted_price: discounted, stock: stock)
     }
 }
 
@@ -256,14 +190,14 @@ private extension RegisterProductViewController {
     }
     
     @objc func didTappedNavigationDoneButton() {
-        guard let params = try? convertPostParameters() else {
+        guard let params = convertPostParameters() else {
             print("파라미터 에러")
             return
         }
         
         var httpBodies = selectedImage.compactMap { $0?.convertHttpBody() }
         httpBodies.insert(params.convertHttpBody(), at: 0)
-
+        
         let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: httpBodies)
         
         networkManager.postProduct(endPoint: postPoint) { result in
@@ -368,6 +302,14 @@ private extension RegisterProductViewController {
         
         productPriceTextField.text = nil
         discountPriceTextField.text = nil
+    }
+    
+    func presentAlertMessage(error: RegisterError) {
+        let alert = UIAlertController(title: error.rawValue, message: error.description, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 

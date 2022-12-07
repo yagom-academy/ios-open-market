@@ -21,6 +21,8 @@
 		18E853CD2925F10800EDCE2A /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853CC2925F10800EDCE2A /* NetworkError.swift */; };
 		18F503F92940664200BD444F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F503F82940664200BD444F /* UIImage.swift */; };
 		18F503FB294066D900BD444F /* HttpBodyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F503FA294066D900BD444F /* HttpBodyConvertible.swift */; };
+		18F503FD2940848400BD444F /* RegisterProductChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F503FC2940848400BD444F /* RegisterProductChecker.swift */; };
+		18F50402294085A900BD444F /* RegisterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F50401294085A900BD444F /* RegisterError.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */; };
@@ -62,6 +64,8 @@
 		18E853CC2925F10800EDCE2A /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		18F503F82940664200BD444F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		18F503FA294066D900BD444F /* HttpBodyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpBodyConvertible.swift; sourceTree = "<group>"; };
+		18F503FC2940848400BD444F /* RegisterProductChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductChecker.swift; sourceTree = "<group>"; };
+		18F50401294085A900BD444F /* RegisterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterError.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 		18E853BE2925EF5E00EDCE2A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18F503FF294084B300BD444F /* Checker */,
 				18E853C52925EFAE00EDCE2A /* Networking */,
 			);
 			path = Model;
@@ -240,6 +245,23 @@
 			isa = PBXGroup;
 			children = (
 				18F503F82940664200BD444F /* UIImage.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		18F503FF294084B300BD444F /* Checker */ = {
+			isa = PBXGroup;
+			children = (
+				18F50400294085A100BD444F /* Common */,
+				18F503FC2940848400BD444F /* RegisterProductChecker.swift */,
+			);
+			path = Checker;
+			sourceTree = "<group>";
+		};
+		18F50400294085A100BD444F /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				18F50401294085A900BD444F /* RegisterError.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -391,6 +413,7 @@
 				18F503FB294066D900BD444F /* HttpBodyConvertible.swift in Sources */,
 				1898192A293A371C000E43DC /* RegisterCollectionImageCell.swift in Sources */,
 				F6833684292733C900ADB02B /* URLSessionProtocol.swift in Sources */,
+				18F503FD2940848400BD444F /* RegisterProductChecker.swift in Sources */,
 				F6833686292733E800ADB02B /* StubURLSession.swift in Sources */,
 				FCBEE6322934C547005D74F7 /* ProductGridItemCell.swift in Sources */,
 				F683946129223E11001BCCBC /* Currency.swift in Sources */,
@@ -403,6 +426,7 @@
 				189123862939E27A00FD5690 /* HTTPMethod.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */,
 				18509BFA2924B90100C6B9AC /* NetworkManager.swift in Sources */,
+				18F50402294085A900BD444F /* RegisterError.swift in Sources */,
 				F683945D29223D14001BCCBC /* Product.swift in Sources */,
 				18E853C32925EF8B00EDCE2A /* Dictionary+.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
