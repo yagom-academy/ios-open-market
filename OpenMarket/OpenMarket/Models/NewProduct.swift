@@ -15,9 +15,14 @@ struct NewProduct: Encodable {
     var discountedPrice: Double? = 0
     var stock: Int? = 0
     let secret: String = "dk9r294wvfwkgvhn"
-    
+
     enum CurrencyUnit: String, Encodable {
         case KRW
         case USD
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case name, description, currency, price, stock, secret
+        case discountedPrice = "discounted_price"
     }
 }
