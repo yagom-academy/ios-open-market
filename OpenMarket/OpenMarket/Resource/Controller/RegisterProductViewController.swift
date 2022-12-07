@@ -47,39 +47,10 @@ final class RegisterProductViewController: UIViewController {
         return collectionView
     }()
     
-    let productNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "상품명"
-        
-        return textField
-    }()
-    
-    let productPriceTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "상품가격"
-        textField.keyboardType = .numberPad
-        
-        return textField
-    }()
-    
-    let discountPriceTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "할인금액"
-        textField.keyboardType = .numberPad
-        
-        return textField
-    }()
-    
-    let stockTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "재고수량"
-        
-        return textField
-    }()
+    let productNameTextField = UITextField(placeholder: "상품명")
+    let productPriceTextField = UITextField(placeholder: "상품가격", keyboardType: .numberPad)
+    let discountPriceTextField = UITextField(placeholder: "할인금액", keyboardType: .numberPad)
+    let stockTextField = UITextField(placeholder: "재고수량", keyboardType: .numberPad)
     
     lazy var currencySegment: UISegmentedControl = {
         let segment = UISegmentedControl(items: Currency.allCases.map(\.rawValue))
@@ -89,65 +60,27 @@ final class RegisterProductViewController: UIViewController {
         return segment
     }()
     
-    lazy var descriptionTextView: UITextView = {
-        let toolbar = UIToolbar()
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTappedTextViewDoneButton))
-        
-        toolbar.setItems([flexSpace, doneButton], animated: true)
-        toolbar.sizeToFit()
-        
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        
-        let textview = UITextView()
-        textview.text = "설명"
-        textview.textColor = .secondaryLabel
-        textview.font = .preferredFont(forTextStyle: .body)
-        textview.inputAccessoryView = toolbar
-        textview.autocorrectionType = .no
-        textview.keyboardType = .default
-        textview.autocapitalizationType = .none
-        textview.spellCheckingType = .no
-        textview.contentInset = stockTextField.safeAreaInsets
-        
-        textview.delegate = self
-        
-        return textview
-    }()
+    let descriptionTextView = UITextView(text: "설명", textColor: .secondaryLabel, font: .preferredFont(forTextStyle: .body), spellCheckingType: .no)
     
-    lazy var segmentStackview: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.addArrangedSubview(productPriceTextField)
-        stackView.addArrangedSubview(currencySegment)
-        stackView.spacing = 8
-        currencySegment.widthAnchor.constraint(equalTo: productPriceTextField.widthAnchor, multiplier: 0.30).isActive = true
-        
-        return stackView
-    }()
+    lazy var segmentStackview = UIStackView(
+        subViews: [productPriceTextField, currencySegment],
+        axis: .horizontal,
+        distribution: .fill,
+        spacing: 8
+    )
     
-    lazy var totalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 8
-        [
-            productNameTextField,
-            segmentStackview,
-            discountPriceTextField,
-            stockTextField
-        ].forEach {
-            stackView.addArrangedSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        return stackView
-    }()
+    lazy var totalStackView = UIStackView(
+        subViews: [productNameTextField, segmentStackview, discountPriceTextField, stockTextField],
+        axis: .vertical,
+        distribution: .equalSpacing,
+        spacing: 8
+    )
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupDescriptionTextViewAccessoryView()
         configureNavigation()
         setUpDelegate()
         setUpConstraints()
@@ -266,7 +199,6 @@ private extension RegisterProductViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
-        
     }
     
     func setUpConstraints() {
@@ -287,7 +219,9 @@ private extension RegisterProductViewController {
             descriptionTextView.topAnchor.constraint(equalTo: totalStackView.bottomAnchor),
             descriptionTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
             descriptionTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            descriptionTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            descriptionTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            
+            currencySegment.widthAnchor.constraint(equalTo: productPriceTextField.widthAnchor, multiplier: 0.30)
         ])
     }
     
@@ -310,6 +244,20 @@ private extension RegisterProductViewController {
         alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func setupDescriptionTextViewAccessoryView() {
+        let toolbar = UIToolbar()
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTappedTextViewDoneButton))
+        
+        toolbar.setItems([flexSpace, doneButton], animated: true)
+        toolbar.sizeToFit()
+        
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        
+        descriptionTextView.inputAccessoryView = toolbar
+        descriptionTextView.contentInset = stockTextField.safeAreaInsets
     }
 }
 

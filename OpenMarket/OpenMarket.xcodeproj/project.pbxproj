@@ -36,6 +36,9 @@
 		FC9A12A12939D606004A4C7E /* RegisterProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9A12A02939D606004A4C7E /* RegisterProductViewController.swift */; };
 		FCBEE6302934C517005D74F7 /* ProductListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE62F2934C517005D74F7 /* ProductListItemCell.swift */; };
 		FCBEE6322934C547005D74F7 /* ProductGridItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE6312934C547005D74F7 /* ProductGridItemCell.swift */; };
+		FCE0E0102940885E00CBB800 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0E00F2940885E00CBB800 /* UITextField.swift */; };
+		FCE0E01229408DE900CBB800 /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0E01129408DE900CBB800 /* UITextView.swift */; };
+		FCE0E0142940904600CBB800 /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0E0132940904600CBB800 /* UIStackView.swift */; };
 		FCE9056129236CAE0031F857 /* NetworkUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE9056029236CAE0031F857 /* NetworkUnitTest.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +84,9 @@
 		FC9A12A02939D606004A4C7E /* RegisterProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterProductViewController.swift; sourceTree = "<group>"; };
 		FCBEE62F2934C517005D74F7 /* ProductListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListItemCell.swift; sourceTree = "<group>"; };
 		FCBEE6312934C547005D74F7 /* ProductGridItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGridItemCell.swift; sourceTree = "<group>"; };
+		FCE0E00F2940885E00CBB800 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		FCE0E01129408DE900CBB800 /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
+		FCE0E0132940904600CBB800 /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		FCE9055E29236CAE0031F857 /* NetworkUnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkUnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCE9056029236CAE0031F857 /* NetworkUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUnitTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -245,6 +251,9 @@
 			isa = PBXGroup;
 			children = (
 				18F503F82940664200BD444F /* UIImage.swift */,
+				FCE0E00F2940885E00CBB800 /* UITextField.swift */,
+				FCE0E01129408DE900CBB800 /* UITextView.swift */,
+				FCE0E0132940904600CBB800 /* UIStackView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -416,6 +425,8 @@
 				18F503FD2940848400BD444F /* RegisterProductChecker.swift in Sources */,
 				F6833686292733E800ADB02B /* StubURLSession.swift in Sources */,
 				FCBEE6322934C547005D74F7 /* ProductGridItemCell.swift in Sources */,
+				FCE0E0142940904600CBB800 /* UIStackView.swift in Sources */,
+				FCE0E01229408DE900CBB800 /* UITextView.swift in Sources */,
 				F683946129223E11001BCCBC /* Currency.swift in Sources */,
 				FC9A12A12939D606004A4C7E /* RegisterProductViewController.swift in Sources */,
 				18E3B685292B6C2C00B25B84 /* Mockable+.swift in Sources */,
@@ -432,6 +443,7 @@
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				18E853C72925EFE200EDCE2A /* APIType.swift in Sources */,
 				18E853CA2925F01800EDCE2A /* OpenMarketAPI.swift in Sources */,
+				FCE0E0102940885E00CBB800 /* UITextField.swift in Sources */,
 				18E853CD2925F10800EDCE2A /* NetworkError.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				189123842939E20700FD5690 /* NSMutableData +.swift in Sources */,
