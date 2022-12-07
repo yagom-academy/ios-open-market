@@ -95,8 +95,8 @@ class ItemViewController: UIViewController {
     }
 }
 
+// MARK: - View Constraint
 extension ItemViewController {
-    // MARK: - View Constraint
     func configureImageScrollView() {
         self.view.addSubview(imageScrollView)
         self.imageScrollView.addSubview(imageStackView)
@@ -157,11 +157,13 @@ extension ItemViewController {
     }
 }
 
+// MARK: - Method
 extension ItemViewController {
-    // MARK: - Method
     @objc func configureNavigation() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonTapped))    }
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action:
+            #selector(doneButtonTapped))
+    }
 
     @objc func cancelButtonTapped() {
         dismiss(animated: true)
@@ -181,9 +183,55 @@ extension ItemViewController {
 
         present(alert, animated: true)
     }
-
+    
     func configureBackGroundColor() {
         self.view.backgroundColor = .systemBackground
+    }
+    
+    func createParameter() -> [String:Any]? {
+        let priceText = priceTextField.text ?? "0"
+        let discountedPriceText = discountedPriceTextField.text ?? "0"
+        let stockText = stockTextField.text ?? "0"
+        
+        guard isPost == false else {
+            showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
+            return nil
+        }
+        
+        guard itemImages.count > 0 else {
+            showAlert(title: "경고", message: "이미지를 등록해주세요.", actionTitle: "확인", dismiss: false)
+            return nil
+        }
+        
+        guard let itemNameText =  itemNameTextField.text,
+              itemNameText.count > 2 else {
+            showAlert(title: "경고", message: "제목을 3글자 이상 입력해주세요.", actionTitle: "확인", dismiss: false)
+            return nil
+        }
+        
+        
+        guard let price = Double(priceText),
+              let discountPrice = Double(discountedPriceText),
+              let stock = Int(stockText) else {
+            showAlert(title: "경고", message: "유효한 숫자를 입력해주세요", actionTitle: "확인", dismiss: false)
+            return nil
+        }
+        
+        guard let descriptionText = descriptionTextView.text,
+              descriptionText.count <= 1000 else {
+            showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
+            return nil
+        }
+        
+        let parameter: [String: Any] = ["name": itemNameText,
+                                     "price": price,
+                                     "currency": currencySegmentedControl.selectedSegmentIndex == 0
+                                     ? Currency.krw.rawValue: Currency.usd.rawValue,
+                                     "discounted_price": discountPrice,
+                                     "stock": stock,
+                                     "description": descriptionText,
+                                     "secret": NetworkManager.secret]
+        return parameter
     }
 }
 

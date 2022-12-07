@@ -31,8 +31,8 @@ final class ItemAddViewController: ItemViewController {
     }
 }
 
+// MARK: - View Constraint
 extension ItemAddViewController {
-    // MARK: - View Constraint
     private func configureImage() {
         self.imageStackView.addArrangedSubview(registrationImageView)
         self.registrationImageView.addSubview(registrationButton)
@@ -49,55 +49,17 @@ extension ItemAddViewController {
     }
     
 }
+
+// MARK: - Method
 extension ItemAddViewController {
-    // MARK: - Method
     override func configureNavigation() {
         super.configureNavigation()
         self.navigationItem.title = "상품생성"
     }
     
     override func doneButtonTapped() {
-        let priceText = priceTextField.text ?? "0"
-        let discountedPriceText = discountedPriceTextField.text ?? "0"
-        let stockText = stockTextField.text ?? "0"
+        guard let parameter = createParameter() else { return }
 
-        guard isPost == false else {
-            showAlert(title: "경고", message: "처리 중 입니다.", actionTitle: "확인", dismiss: false)
-            return
-        }
-        guard itemImages.count > 0 else {
-            showAlert(title: "경고", message: "이미지를 등록해주세요.", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-        guard let itemNameText =  itemNameTextField.text,
-              itemNameText.count > 2 else {
-            showAlert(title: "경고", message: "제목을 3글자 이상 입력해주세요.", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-
-        guard let price = Double(priceText),
-              let discountPrice = Double(discountedPriceText),
-              let stock = Int(stockText) else {
-            showAlert(title: "경고", message: "유효한 숫자를 입력해주세요", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-        guard let descriptionText = descriptionTextView.text,
-              descriptionText.count <= 1000 else {
-            showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
-            return
-        }
-
-        let parameter: [String: Any] = ["name": itemNameText,
-                                     "price": price,
-                                     "currency": currencySegmentedControl.selectedSegmentIndex == 0
-                                                    ? Currency.krw.rawValue: Currency.usd.rawValue,
-                                     "discounted_price": discountPrice,
-                                     "stock": stock,
-                                     "description": descriptionText,
-                                     "secret": NetworkManager.secret]
         self.isPost = true
         LoadingController.showLoading()
         networkManager.addItem(parameter: parameter, images: itemImages) { result in
