@@ -43,7 +43,7 @@
 		D0225B052935CF5E00343411 /* CellIdentifierInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B042935CF5E00343411 /* CellIdentifierInfo.swift */; };
 		D0225B072935D07A00343411 /* CellIdentifierInfo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B062935D07A00343411 /* CellIdentifierInfo+Extension.swift */; };
 		D0225B0B2936038100343411 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B0A2936038100343411 /* Array+Extension.swift */; };
-		D0225B0D2936FA0B00343411 /* Params.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B0C2936FA0B00343411 /* Params.swift */; };
+		D0225B0D2936FA0B00343411 /* ParamsProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B0C2936FA0B00343411 /* ParamsProduct.swift */; };
 		D0225B112938DDAD00343411 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B102938DDAD00343411 /* Data+Extension.swift */; };
 		D0225B132938EFB400343411 /* NetworkPatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B122938EFB400343411 /* NetworkPatchable.swift */; };
 		D0225B1529399BF800343411 /* NetworkDeletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0225B1429399BF800343411 /* NetworkDeletable.swift */; };
@@ -114,7 +114,7 @@
 		D0225B042935CF5E00343411 /* CellIdentifierInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifierInfo.swift; sourceTree = "<group>"; };
 		D0225B062935D07A00343411 /* CellIdentifierInfo+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellIdentifierInfo+Extension.swift"; sourceTree = "<group>"; };
 		D0225B0A2936038100343411 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
-		D0225B0C2936FA0B00343411 /* Params.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Params.swift; sourceTree = "<group>"; };
+		D0225B0C2936FA0B00343411 /* ParamsProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamsProduct.swift; sourceTree = "<group>"; };
 		D0225B102938DDAD00343411 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		D0225B122938EFB400343411 /* NetworkPatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPatchable.swift; sourceTree = "<group>"; };
 		D0225B1429399BF800343411 /* NetworkDeletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDeletable.swift; sourceTree = "<group>"; };
@@ -338,7 +338,7 @@
 				D03ED9E629236260005F30A8 /* Image.swift */,
 				D03ED9E829236322005F30A8 /* Vendor.swift */,
 				D03ED9D929234F24005F30A8 /* Currency.swift */,
-				D0225B0C2936FA0B00343411 /* Params.swift */,
+				D0225B0C2936FA0B00343411 /* ParamsProduct.swift */,
 			);
 			path = Product;
 			sourceTree = "<group>";
@@ -498,7 +498,7 @@
 				D00F80B729251444001F6C03 /* MockURLSession.swift in Sources */,
 				D00F80A6292512EB001F6C03 /* URLSessionProtocol.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* MainViewController.swift in Sources */,
-				D0225B0D2936FA0B00343411 /* Params.swift in Sources */,
+				D0225B0D2936FA0B00343411 /* ParamsProduct.swift in Sources */,
 				B4DEADC8292DC0E80068F5E3 /* String+Extension.swift in Sources */,
 				D0225B112938DDAD00343411 /* Data+Extension.swift in Sources */,
 				B415024E2925CFB0006780CF /* MockData.swift in Sources */,

@@ -4,8 +4,8 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol NetworkPostable {
-    func post(to url: URL?)
+    func post(to url: URL?, param: ParamsProduct, imageArray: [UIImage])
 }

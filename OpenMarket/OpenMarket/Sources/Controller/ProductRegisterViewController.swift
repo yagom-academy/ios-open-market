@@ -25,10 +25,40 @@ class ProductRegisterViewController: UIViewController {
         configureImagePicker()
         configureTextComponent()
         checkKeyboard()
+        postNetwork()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        imageArray.removeAll()
+        imageArray.append(UIImage(named: "PlusImage") ?? UIImage())
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         view.endEditing(true)
+    }
+    
+    private func postNetwork() {
+        let session: URLSessionProtocol = URLSession.shared
+        let networkManager: NetworkPostable = NetworkManager(session: session)
+        
+        guard let name = mainView.productNameTextField.text,
+              let description = mainView.productsContentTextView.text,
+              let priceString = mainView.productPriceTextField.text,
+              let price = Double(priceString) else { return }
+        var param: ParamsProduct = .init(name: name,
+                                         description: description,
+                                         price: price, currency: Currency.KRWString, secret: "rzeyxdwzmjynnj3f")
+        
+        if let bargainPriceString = mainView.productBargainTextField.text,
+           let bargainPrice = Double(bargainPriceString),
+           let stockString = mainView.productStockTextField.text,
+           let stock = Int(stockString) {
+            param.discountedPrice = bargainPrice
+            param.stock = stock
+        }
+        
+        imageArray.removeLast()
+        networkManager.post(to: URLManager.post.url, param: param, imageArray: imageArray)
     }
     
     private func checkKeyboard() {
@@ -143,6 +173,16 @@ extension ProductRegisterViewController: ProductDelegate {
     func tappedDoneButton() {
         do {
             try checkRequirements()
+            postNetwork()
+            let alert: UIAlertController = UIAlertController(title: "상품등록 완료",
+                                                             message: nil,
+                                                             preferredStyle: .alert)
+            let okAction: UIAlertAction = UIAlertAction(title: "확인", style: .default) { _ in
+                self.dismiss(animated: true)
+            }
+            
+            alert.addAction(okAction)
+            present(alert, animated: true)
         } catch {
             var errorMessage: String = .init()
             
