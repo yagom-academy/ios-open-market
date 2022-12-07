@@ -9,20 +9,12 @@ import UIKit
 import PhotosUI
 
 final class AddViewController: ProductViewController {
-    
-    let picker = UIImagePickerController()
-    var cnt = 0
-    var addProductView = AddProductView()
+    private let picker = UIImagePickerController()
+    private let maxImageNumber = 5
+    private var addProductView = AddProductView()
     
     override var showView: ProductView {
-        get {
-            return self.addProductView
-        }
-        set {
-            if let view = newValue as? AddProductView {
-                self.addProductView = view
-            }
-        }
+        return addProductView
     }
      
     override func viewDidLoad() {

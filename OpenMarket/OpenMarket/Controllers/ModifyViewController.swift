@@ -8,17 +8,11 @@
 import UIKit
 
 final class ModifyViewController: ProductViewController {
-    var modifyProductView = ModifyProductView()
+    private let maxImageNumber = 5
+    private var modifyProductView = ModifyProductView()
     
     override var showView: ProductView {
-        get {
-            return self.modifyProductView
-        }
-        set {
-            if let view = newValue as? ModifyProductView {
-                self.modifyProductView = view
-            }
-        }
+        return modifyProductView
     }
      
     override func viewDidLoad() {

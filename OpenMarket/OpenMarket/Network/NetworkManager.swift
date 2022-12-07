@@ -20,20 +20,17 @@ final class NetworkManager {
         
         session.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print(NetworkError.networking.description)
                 completion(.failure(.networking))
                 return
             }
             
             guard data != nil else {
-                print(NetworkError.data.description)
                 completion(.failure(.data))
                 return
             }
             
             guard let response = response as? HTTPURLResponse,
                   200 == response.statusCode else {
-                print(NetworkError.networking.description)
                 completion(.failure(.networking))
                 return
             }

@@ -9,9 +9,10 @@ import UIKit
 
 class ProductViewController: UIViewController {
     let networkManager = NetworkManager()
-    var showView: ProductView = ProductView()
+    var showView: ProductView {
+        return ProductView()
+    }
     var cellImages: [UIImage?] = []
-    let maxImageNumber = 5
     
     private enum Constant: String {
         case uploadSuccessText = "상품 업로드 성공"
