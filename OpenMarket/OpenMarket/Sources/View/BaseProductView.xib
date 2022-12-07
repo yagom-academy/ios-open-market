@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BaseProductView" customModule="OpenMarket" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="7Fi-0K-SZ4" id="WqG-fR-swC"/>
+                <outlet property="currencySelector" destination="gXV-Mf-qwp" id="iDN-xw-1Xd"/>
+                <outlet property="productBargainTextField" destination="rZh-i2-lur" id="2qP-Fm-T1i"/>
+                <outlet property="productNameTextField" destination="WpX-fZ-h8b" id="V2e-ZE-xZ5"/>
+                <outlet property="productPriceTextField" destination="fcD-fa-gtp" id="aG1-RN-78R"/>
+                <outlet property="productStockTextField" destination="M85-8y-hca" id="Jhk-hU-ZZy"/>
+                <outlet property="productsContentTextView" destination="rdf-YM-nQQ" id="bTz-3s-dMb"/>
+                <outlet property="titleLabel" destination="zIr-zo-LwF" id="kCW-zk-bX8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DXQ-Hf-2Ak">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="34.333333333333336"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RcC-Ac-7Rc">
+                            <rect key="frame" x="0.0" y="0.0" width="76.666666666666671" height="34.333333333333336"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
+                            <connections>
+                                <action selector="tapCancelButton:" destination="-1" eventType="touchUpInside" id="dIE-qb-kID"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="상품등록" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIr-zo-LwF">
+                            <rect key="frame" x="173.33333333333334" y="6.9999999999999982" width="59" height="20.333333333333329"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eag-eX-II2">
+                            <rect key="frame" x="328.66666666666669" y="0.0" width="64.333333333333314" height="34.333333333333336"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Done"/>
+                            <connections>
+                                <action selector="tapDoneButton:" destination="-1" eventType="touchUpInside" id="2vH-Xp-lZM"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7Fi-0K-SZ4">
+                    <rect key="frame" x="10" y="44.333333333333343" width="373" height="128"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dXL-Np-OHx">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="tin-09-sSf">
+                    <rect key="frame" x="10" y="182.33333333333337" width="373" height="169"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품명" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WpX-fZ-h8b">
+                            <rect key="frame" x="0.0" y="0.0" width="373" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="JH1-T1-WTf">
+                            <rect key="frame" x="0.0" y="45" width="373" height="34"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="상품가격" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcD-fa-gtp">
+                                    <rect key="frame" x="0.0" y="0.0" width="265" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                </textField>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gXV-Mf-qwp">
+                                    <rect key="frame" x="276" y="0.0" width="97" height="35"/>
+                                    <segments>
+                                        <segment title="KRW"/>
+                                        <segment title="USD"/>
+                                    </segments>
+                                </segmentedControl>
+                            </subviews>
+                        </stackView>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할인금액" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rZh-i2-lur">
+                            <rect key="frame" x="0.0" y="89.999999999999972" width="373" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="재고수량" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M85-8y-hca">
+                            <rect key="frame" x="0.0" y="134.99999999999997" width="373" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
+                    </subviews>
+                </stackView>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fSo-rk-U1D">
+                    <rect key="frame" x="10" y="361.33333333333326" width="373" height="490.66666666666674"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rdf-YM-nQQ">
+                            <rect key="frame" x="0.0" y="0.0" width="373" height="450"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="450" id="iav-Ft-Ijn"/>
+                            </constraints>
+                            <color key="textColor" systemColor="labelColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="rdf-YM-nQQ" firstAttribute="bottom" secondItem="VLr-ku-shs" secondAttribute="bottom" id="2yx-9B-6jk"/>
+                        <constraint firstItem="rdf-YM-nQQ" firstAttribute="trailing" secondItem="VLr-ku-shs" secondAttribute="trailing" id="7fL-Y7-pt0"/>
+                        <constraint firstItem="rdf-YM-nQQ" firstAttribute="width" secondItem="RRI-48-V64" secondAttribute="width" id="CQZ-p8-tFH"/>
+                        <constraint firstItem="rdf-YM-nQQ" firstAttribute="leading" secondItem="VLr-ku-shs" secondAttribute="leading" id="fB8-3z-ebc"/>
+                        <constraint firstItem="rdf-YM-nQQ" firstAttribute="top" secondItem="VLr-ku-shs" secondAttribute="top" id="nZw-q6-mv9"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="VLr-ku-shs"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="RRI-48-V64"/>
+                </scrollView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="aCP-OM-hBa"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="7Fi-0K-SZ4" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.150235" id="1Cc-4g-7Ur"/>
+                <constraint firstItem="tin-09-sSf" firstAttribute="top" secondItem="7Fi-0K-SZ4" secondAttribute="bottom" constant="10" id="9yJ-BD-33V"/>
+                <constraint firstItem="DXQ-Hf-2Ak" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JOh-xw-CLf"/>
+                <constraint firstAttribute="trailing" secondItem="DXQ-Hf-2Ak" secondAttribute="trailing" id="S5U-eO-WOm"/>
+                <constraint firstItem="7Fi-0K-SZ4" firstAttribute="leading" secondItem="aCP-OM-hBa" secondAttribute="leading" constant="10" id="Ska-HS-maG"/>
+                <constraint firstItem="7Fi-0K-SZ4" firstAttribute="top" secondItem="DXQ-Hf-2Ak" secondAttribute="bottom" constant="10" id="W48-Zh-Qsq"/>
+                <constraint firstItem="fSo-rk-U1D" firstAttribute="top" secondItem="tin-09-sSf" secondAttribute="bottom" constant="10" id="ZF8-aO-dpQ"/>
+                <constraint firstItem="aCP-OM-hBa" firstAttribute="trailing" secondItem="tin-09-sSf" secondAttribute="trailing" constant="10" id="eQv-PQ-NfL"/>
+                <constraint firstItem="aCP-OM-hBa" firstAttribute="trailing" secondItem="7Fi-0K-SZ4" secondAttribute="trailing" constant="10" id="ef0-jp-Xok"/>
+                <constraint firstItem="fSo-rk-U1D" firstAttribute="leading" secondItem="aCP-OM-hBa" secondAttribute="leading" constant="10" id="f7W-vb-8jM"/>
+                <constraint firstItem="DXQ-Hf-2Ak" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fOq-Io-gE7"/>
+                <constraint firstItem="aCP-OM-hBa" firstAttribute="trailing" secondItem="fSo-rk-U1D" secondAttribute="trailing" constant="10" id="igX-hZ-92j"/>
+                <constraint firstItem="tin-09-sSf" firstAttribute="leading" secondItem="aCP-OM-hBa" secondAttribute="leading" constant="10" id="mNt-3u-3fX"/>
+                <constraint firstAttribute="bottom" secondItem="fSo-rk-U1D" secondAttribute="bottom" id="nKk-6Q-Sxc"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="81.679389312977094" y="31.690140845070424"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

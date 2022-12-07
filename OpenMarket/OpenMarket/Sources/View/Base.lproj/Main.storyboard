@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -12,14 +14,14 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQ0-8q-0RP">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="93.666666666666671"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Jik-G3-jym">
-                                        <rect key="frame" x="249.66666666666663" y="30" width="101" height="32"/>
+                                        <rect key="frame" x="146" y="57.666666666666657" width="101" height="32"/>
                                         <segments>
                                             <segment title="LIST"/>
                                             <segment title="GRID"/>
@@ -30,9 +32,12 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHZ-wt-o0a">
-                                        <rect key="frame" x="555" y="26" width="35" height="35"/>
+                                        <rect key="frame" x="348" y="53.666666666666657" width="35" height="35"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="+"/>
+                                        <connections>
+                                            <segue destination="7yY-yL-ow7" kind="presentation" modalPresentationStyle="fullScreen" id="Akr-RM-HKZ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -44,7 +49,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ins-mL-MZW">
-                                <rect key="frame" x="0.0" y="66" width="600" height="534"/>
+                                <rect key="frame" x="0.0" y="93.666666666666686" width="393" height="758.33333333333326"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lRA-ON-fpR">
                                     <size key="itemSize" width="393" height="63"/>
@@ -78,6 +83,67 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="139.69465648854961" y="-23.239436619718312"/>
+        </scene>
+        <!--Product Register View Controller-->
+        <scene sceneID="czR-kW-ABp">
+            <objects>
+                <viewController id="7yY-yL-ow7" customClass="ProductRegisterViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="89c-4f-8un">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jx0-ea-8Zp" customClass="ProductRegisterView" customModule="OpenMarket" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="xeL-As-xGT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="jx0-ea-8Zp" secondAttribute="bottom" id="1nY-62-jQY"/>
+                            <constraint firstItem="jx0-ea-8Zp" firstAttribute="leading" secondItem="xeL-As-xGT" secondAttribute="leading" id="7KY-Be-VoE"/>
+                            <constraint firstItem="jx0-ea-8Zp" firstAttribute="top" secondItem="xeL-As-xGT" secondAttribute="top" id="e8L-eP-uWb"/>
+                            <constraint firstItem="xeL-As-xGT" firstAttribute="trailing" secondItem="jx0-ea-8Zp" secondAttribute="trailing" id="vll-DO-XeK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="EbL-zW-9d4"/>
+                    <connections>
+                        <outlet property="mainView" destination="jx0-ea-8Zp" id="zch-2o-kbd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pHO-dq-uHO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="864.8854961832061" y="-23.239436619718312"/>
+        </scene>
+        <!--ProductEditViewController-->
+        <scene sceneID="Jn5-dR-ngQ">
+            <objects>
+                <viewController storyboardIdentifier="ProductEditViewController" title="ProductEditViewController" id="cF3-gH-Va2" customClass="ProductEditViewController" customModule="OpenMarket" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1S1-og-Gss">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RdS-PB-vnn" customClass="ProductChangeView" customModule="OpenMarket" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Dbw-RN-bxr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Dbw-RN-bxr" firstAttribute="trailing" secondItem="RdS-PB-vnn" secondAttribute="trailing" id="24n-Q1-Skp"/>
+                            <constraint firstItem="RdS-PB-vnn" firstAttribute="leading" secondItem="Dbw-RN-bxr" secondAttribute="leading" id="IkD-pf-2Z4"/>
+                            <constraint firstItem="RdS-PB-vnn" firstAttribute="top" secondItem="Dbw-RN-bxr" secondAttribute="top" id="Sfm-1h-qz8"/>
+                            <constraint firstAttribute="bottom" secondItem="RdS-PB-vnn" secondAttribute="bottom" id="y7S-gi-LrF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mainView" destination="RdS-PB-vnn" id="9rR-6E-cYb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kr0-Kw-xD9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1619" y="-23"/>
         </scene>
     </scenes>
     <resources>

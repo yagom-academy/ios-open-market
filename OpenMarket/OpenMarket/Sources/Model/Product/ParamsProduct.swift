@@ -1,16 +1,16 @@
 //
-//  OpenMarket - Params.swift
+//  OpenMarket - ParamsProduct.swift
 //  Created by Zhilly, Dragon. 22/11/30
 //  Copyright © yagom. All rights reserved.
 //
 
-struct Params: Encodable {
+struct ParamsProduct: Codable {
     let name: String
     let description: String
-    let price: Int
+    let price: Double
     let currency: Currency
-    let discountedPrice: Int? = 0
-    let stock: Int? = 0
+    var discountedPrice: Double? = 0
+    var stock: Int? = 0
     let secret: String
     
     private enum CodingKeys: String, CodingKey {

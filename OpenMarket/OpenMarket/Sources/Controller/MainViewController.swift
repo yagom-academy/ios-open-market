@@ -11,7 +11,7 @@ final class MainViewController: UIViewController {
         case listType = 0
         case gridType = 1
     }
-
+    
     private var product: ProductList?
     private var cellMode: CellMode = .listType
     private var flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -26,13 +26,12 @@ final class MainViewController: UIViewController {
         configureActivityIndicator()
         configureCollectionViewDelegate()
         configureCollectionView()
-        loadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         activityIndicator.startAnimating()
+        loadData()
     }
     
     private func configureActivityIndicator() {
@@ -44,11 +43,6 @@ final class MainViewController: UIViewController {
     private func loadData() {
         let session: URLSessionProtocol = URLSession.shared
         let networkManager: NetworkRequestable = NetworkManager(session: session)
-        let test = NetworkManager(session: session)
-                
-        DispatchQueue.global().async {
-//            test.delete(id: 607)
-        }
         
         networkManager.request(from: URLManager.productList(pageNumber: 1, itemsPerPage: 200).url,
                                httpMethod: HttpMethod.get,
@@ -93,7 +87,7 @@ final class MainViewController: UIViewController {
         let collectionViewCellNib = UINib(nibName: cellIdentifier, bundle: nil)
         
         collectionView.register(collectionViewCellNib,
-                                     forCellWithReuseIdentifier: cellIdentifier)
+                                forCellWithReuseIdentifier: cellIdentifier)
     }
     
     @IBAction private func tapViewModeController(_ sender: UISegmentedControl) {
@@ -142,7 +136,14 @@ final class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UICollectionViewDelegate {}
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let editVC = self.storyboard?.instantiateViewController(identifier: "ProductEditViewController") as? ProductEditViewController else { return }
+        editVC.modalPresentationStyle = .fullScreen
+        editVC.productID = product?.pages[indexPath.item].id
+        self.present(editVC, animated: true, completion: nil)
+    }
+}
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
@@ -162,10 +163,9 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     private func makeListCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: ListCollectionViewCell =
-        collectionView.dequeueReusableCell(withReuseIdentifier:
-                                            ListCollectionViewCell.stringIdentifier(),
-                                           for: indexPath) as? ListCollectionViewCell else {
+        guard let cell: ListCollectionViewCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ListCollectionViewCell.stringIdentifier(),
+            for: indexPath) as? ListCollectionViewCell else {
             return UICollectionViewCell()
         }
         guard let productItem = product?.pages[indexPath.item] else {
@@ -176,14 +176,13 @@ extension MainViewController: UICollectionViewDataSource {
         cell.addBottomLine(color: .gray, width: 0.5)
         
         return cell
-            
     }
     
     private func makeGridCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell: GridCollectionViewCell =
-        collectionView.dequeueReusableCell(withReuseIdentifier:
-                                            GridCollectionViewCell.stringIdentifier(),
-                                           for: indexPath) as? GridCollectionViewCell else {
+                collectionView.dequeueReusableCell(withReuseIdentifier:
+                                                    GridCollectionViewCell.stringIdentifier(),
+                                                   for: indexPath) as? GridCollectionViewCell else {
             return UICollectionViewCell()
         }
         guard let productItem = product?.pages[safe: indexPath.item] else {
