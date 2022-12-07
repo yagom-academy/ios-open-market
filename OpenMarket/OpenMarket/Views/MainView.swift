@@ -37,12 +37,12 @@ final class MainView: UIView {
         let control = UISegmentedControl(items: ["LIST", "GRID"])
         control.selectedSegmentIndex = 0
         control.layer.borderWidth = 1
-        control.layer.borderColor = UIColor.blue.cgColor
-        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.blue],
+        control.layer.borderColor = UIColor.systemBlue.cgColor
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue],
                                        for: UIControl.State.normal)
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white],
                                        for: UIControl.State.selected)
-        control.selectedSegmentTintColor = .blue
+        control.selectedSegmentTintColor = .systemBlue
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()

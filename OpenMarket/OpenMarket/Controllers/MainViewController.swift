@@ -7,35 +7,66 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-    let networkManager = NetworkManager()
-    let mainView = MainView()
-    var productData: [Product] = []
+    private let networkManager = NetworkManager()
+    private let mainView = MainView()
+    
+    private var productData: [Product] = []
+    private var pageCount = Constant.pageNumberUnit.rawValue
+    private var scrollState = ScrollState.idle
+    
+    private enum Constant: Int {
+        case pageNumberUnit = 1
+        case itemsPerPage = 10
+    }
+    
+    private enum ScrollState {
+        case idle
+        case isLoading
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        clearAll()
+        setupData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainView
         setupNavigationBar()
         setupSegmentedControlTarget()
-        setupData()
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
     }
     
+    private func clearAll() {
+        productData.removeAll()
+        pageCount = Constant.pageNumberUnit.rawValue
+        scrollState = ScrollState.idle
+    }
+    
     private func setupData() {
-        guard let productListURL = NetworkRequest.productList.requestURL else {
-            return
-        }
+        defer { pageCount += Constant.pageNumberUnit.rawValue }
+        
+        guard scrollState == .idle else { return }
+        scrollState = .isLoading
+        
+        let itemsPerPage = Constant.itemsPerPage.rawValue
+        guard let productListURL = NetworkRequest.productList(pageNo: pageCount,
+            itemsPerPage: itemsPerPage).requestURL else { return }
         
         networkManager.fetchData(to: productListURL, dataType: ProductPage.self) { result in
             switch result {
             case .success(let data):
-                self.productData = data.pages
-                
+                self.productData += data.pages
                 DispatchQueue.main.async {
                     self.mainView.collectionView.reloadData()
+                    self.scrollState = .idle
                 }
             case .failure(let error):
-                print(error.description)
+                self.showAlert(alertText: error.description,
+                               alertMessage: "오류가 발생했습니다.",
+                               completion: nil)
             }
         }
     }
@@ -79,7 +110,16 @@ extension MainViewController {
 
 // MARK: - Extension UICollectionView
 extension MainViewController: UICollectionViewDelegate {
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let collectionViewContentSizeY = scrollView.contentSize.height
+        let contentOffsetY = scrollView.contentOffset.y
+        let heightRemainBottomHeight = collectionViewContentSizeY - contentOffsetY
+        let frameHeight = scrollView.frame.size.height
+        
+        if heightRemainBottomHeight < frameHeight {
+            self.setupData()
+        }
+    }
 }
 
 extension MainViewController: UICollectionViewDataSource {
@@ -96,6 +136,9 @@ extension MainViewController: UICollectionViewDataSource {
                 withReuseIdentifier: ListCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? ListCollectionViewCell
             else {
+                self.showAlert(alertText: NetworkError.data.description,
+                               alertMessage: "오류가 발생했습니다.",
+                               completion: nil)
                 let errorCell = UICollectionViewCell()
                 return errorCell
             }
@@ -125,6 +168,9 @@ extension MainViewController: UICollectionViewDataSource {
                 withReuseIdentifier: GridCollectionViewCell.reuseIdentifier,
                 for: indexPath) as? GridCollectionViewCell
             else {
+                self.showAlert(alertText: NetworkError.data.description,
+                               alertMessage: "오류가 발생했습니다.",
+                               completion: nil)
                 let errorCell = UICollectionViewCell()
                 return errorCell
             }
