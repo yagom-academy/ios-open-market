@@ -27,7 +27,7 @@ class ProductRegisterViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-          view.endEditing(true)
+        view.endEditing(true)
     }
     
     private func checkKeyboard() {
@@ -89,7 +89,6 @@ extension ProductRegisterViewController: ProductDelegate {
 
 extension ProductRegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         if imageArray.count - 1 != indexPath.item && imageArray.count < 7 {
             let alert = UIAlertController(title: "이미지 편집", message: nil, preferredStyle: .actionSheet)
             let edit = UIAlertAction(title: "수정", style: .default) { _ in
@@ -107,6 +106,7 @@ extension ProductRegisterViewController: UICollectionViewDelegate {
             present(alert, animated: true)
         } else {
             if imageArray.count < 6 {
+                self.imageIndex = imageArray.count - 1
                 present(imagePicker, animated: true)
             } else {
                 let alert = UIAlertController(title: "안내", message: "사진 추가는 최대 5장입니다.", preferredStyle: .alert)
@@ -140,12 +140,37 @@ extension ProductRegisterViewController: UICollectionViewDataSource {
 
 extension ProductRegisterViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let image = info[.editedImage] as! UIImage
+        var image = info[.editedImage] as! UIImage
         
-        imageArray.insert(image, at: 0)
+        let isSquare = image.size.width == image.size.height
+        
+        if isSquare == false {
+            if let squareImage = cropSquare(image) {
+                image = squareImage
+            }
+        }
+        
+        imageArray.insert(image, at: imageIndex)
         mainView.collectionView.reloadData()
-        
+        mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                             at: .left,
+                                             animated: false)
         dismiss(animated: true)
+    }
+    
+    private func cropSquare(_ image: UIImage) -> UIImage? {
+        let imageSize = image.size
+        let shortLength = imageSize.width < imageSize.height ? imageSize.width : imageSize.height
+        let origin = CGPoint(
+            x: imageSize.width / 2 - shortLength / 2,
+            y: imageSize.height / 2 - shortLength / 2
+        )
+        let size = CGSize(width: shortLength, height: shortLength)
+        let square = CGRect(origin: origin, size: size)
+        guard let squareImage = image.cgImage?.cropping(to: square) else {
+            return nil
+        }
+        return UIImage(cgImage: squareImage)
     }
 }
 
