@@ -46,6 +46,7 @@
 		E3D3398629237AF7006325AB /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3398529237AF7006325AB /* MockURLSessionDataTask.swift */; };
 		E3D3398B292386F8006325AB /* products.json in Resources */ = {isa = PBXBuildFile; fileRef = E3D3398A292386F8006325AB /* products.json */; };
 		E3D3398D29238875006325AB /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D3398C29238875006325AB /* DataLoader.swift */; };
+		E3FAE10329407C0200FE2453 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FAE10229407C0200FE2453 /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		E3D3398529237AF7006325AB /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		E3D3398A292386F8006325AB /* products.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = products.json; sourceTree = "<group>"; };
 		E3D3398C29238875006325AB /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		E3FAE10229407C0200FE2453 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */,
 				E337FF6B292DF58B0098F945 /* AddProductViewController.swift */,
 				BFD1B6B329406E8600BAD54E /* ProductDetailViewController.swift */,
+				E3FAE10229407C0200FE2453 /* DetailView.swift */,
 				E337FF63292BB9E00098F945 /* ListCell.swift */,
 				E337FF67292CB7300098F945 /* GridCell.swift */,
 				E335D11B2938CE41001CD2BE /* ImageCell.swift */,
@@ -376,6 +379,7 @@
 				BFD1B6AC293E2AF800BAD54E /* UIImage+.swift in Sources */,
 				E3D3396D29232FEF006325AB /* Product.swift in Sources */,
 				BF226653292B68C6001D777C /* DecodingError+.swift in Sources */,
+				E3FAE10329407C0200FE2453 /* DetailView.swift in Sources */,
 				E335D11829362680001CD2BE /* Data+.swift in Sources */,
 				E335D11A29383D47001CD2BE /* EditProduct.swift in Sources */,
 				BFD1B6B62940713900BAD54E /* DetailProduct.swift in Sources */,
