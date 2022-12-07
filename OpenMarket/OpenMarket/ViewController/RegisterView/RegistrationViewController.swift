@@ -55,7 +55,7 @@ class RegistrationViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             case .failure(_):
-                print("업로드 실패입니다")
+                CustomAlert.showAlert(message: "업로드 실패입니다. 다시 시도해 주세요", target: self)
             }
         }
     }
@@ -63,28 +63,39 @@ class RegistrationViewController: UIViewController {
     func createProductFromUserInput() -> Product? {
         guard let name = registrationView.productNameTextField.text,
               name.count >= 3,
-              name.count <= 100 else { return nil }
+              name.count <= 100 else {
+            CustomAlert.showAlert(message: "상품명은 3~100자로 입력해 주세요", target: self)
+            return nil }
         
         guard let priceInput = registrationView.productPriceTextField.text,
-              let price = Double(priceInput) else { return nil }
+              let price = Double(priceInput) else {
+            CustomAlert.showAlert(message: "가격을 확인해 주세요", target: self)
+            return nil }
         
         if registrationView.productDiscountPriceTextField.text == nil {
             registrationView.productDiscountPriceTextField.text = "0"
         }
         
         guard let discountedPriceInput = registrationView.productDiscountPriceTextField.text,
-              let discountedPrice = Double(discountedPriceInput) else { return nil }
+              let discountedPrice = Double(discountedPriceInput),
+              discountedPrice <= price else {
+            CustomAlert.showAlert(message: "할인 가격을 확인해 주세요", target: self)
+            return nil }
         
         if registrationView.stockTextField.text == nil {
             registrationView.stockTextField.text = "0"
         }
         
         guard let stockInput = registrationView.stockTextField.text,
-              let stock = Int(stockInput) else { return nil }
+              let stock = Int(stockInput) else {
+            CustomAlert.showAlert(message: "재고 입력을 확인해 주세요", target: self)
+            return nil }
         
         guard let description = registrationView.textView.text,
               description.count >= 10,
-              description.count <= 1000 else { return nil }
+              description.count <= 1000 else {
+            CustomAlert.showAlert(message: "상세내용은 10~1000자 이내로 입력해야 합니다", target: self)
+            return nil }
         
         let currency = registrationView.currencySegmentControl.selectedSegmentIndex == 0 ? Currency.krw : Currency.usd
         
@@ -128,9 +139,6 @@ extension RegistrationViewController: UICollectionViewDelegate,
                 image = image.resize()
             }
             
-            let data = image.jpegData(compressionQuality: 1)!
-               print(Double(NSData(data: data).count) / 1000.0)
-            
             cell.setUpImage(image: image)
         }
         
@@ -166,6 +174,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard registrationView.selectedImages.count < 5 else {
             dismiss(animated: true)
+            CustomAlert.showAlert(message: "사진은 5장까지만 등록할 수 있습니다", target: self)
             return
         }
         

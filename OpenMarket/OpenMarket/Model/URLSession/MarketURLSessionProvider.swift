@@ -115,7 +115,7 @@ extension MarketURLSessionProvider {
         var body = Data()
     
         for image in images {
-            guard let imageData = image.jpegData(compressionQuality: 1) else { return nil }
+            guard let imageData = image.jpegData(compressionQuality: 0.5) else { return nil }
             
             body.append("--\(boundary + lineBreak)")
             body.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"image\"")
