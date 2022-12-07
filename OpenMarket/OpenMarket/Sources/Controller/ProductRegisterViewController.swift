@@ -87,6 +87,12 @@ extension ProductRegisterViewController: ProductDelegate {
     }
 }
 
+extension ProductRegisterViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+}
+
 extension ProductRegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if imageArray.count - 1 != indexPath.item && imageArray.count < 7 {
@@ -100,9 +106,11 @@ extension ProductRegisterViewController: UICollectionViewDelegate {
                 self.imageArray.remove(at: indexPath.item)
                 self.mainView.collectionView.reloadData()
             }
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
             
             alert.addAction(edit)
             alert.addAction(delete)
+            alert.addAction(cancel)
             present(alert, animated: true)
         } else {
             if imageArray.count < 6 {
@@ -140,7 +148,7 @@ extension ProductRegisterViewController: UICollectionViewDataSource {
 
 extension ProductRegisterViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        var image = info[.editedImage] as! UIImage
+        guard var image = info[.editedImage] as? UIImage else { return }
         
         let isSquare = image.size.width == image.size.height
         
@@ -150,6 +158,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate {
             }
         }
         
+        image = image.resize(newWidth: 100)
         imageArray.insert(image, at: imageIndex)
         mainView.collectionView.reloadData()
         mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
@@ -174,6 +183,4 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension ProductRegisterViewController: UINavigationControllerDelegate {
-    
-}
+extension ProductRegisterViewController: UINavigationControllerDelegate {}
