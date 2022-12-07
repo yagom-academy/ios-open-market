@@ -255,6 +255,14 @@ extension MainViewController {
 }
 
 extension MainViewController: UICollectionViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        let distance = collectionView.contentSize.height * 0.8
+        
+        if scrollView.contentOffset.y + collectionView.bounds.height >= distance {
+            // 80%가 넘으면 다음 페이지
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
