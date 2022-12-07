@@ -278,3 +278,9 @@ extension ProductEditViewController: UITextViewDelegate {
         return changedText.count <= 1000
     }
 }
+
+extension ProductEditViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+}
