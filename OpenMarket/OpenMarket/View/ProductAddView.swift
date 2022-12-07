@@ -119,10 +119,29 @@ class ProductAddView: UIView {
         configureStackView()
         configureImageScrollView()
         configureTextView()
+        configureData(product: product)
+        configureImage(images: images)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureData(product: Product) {
+        self.productNameTextField.text = product.name
+        self.productPriceSegment.selectedSegmentIndex = product.currency == "KRW" ? 0 : 1
+        self.productPriceTextField.text = product.price.decimalInt
+        self.productBargainPriceTextField.text = product.discountedPrice.decimalInt
+        self.productStockTextField.text = product.stock.description
+    }
+    
+    private func configureImage(images: [UIImage]) {
+        images.forEach { image in
+            let imageView = UIImageView()
+            imageView.image = image
+            self.imageStackView.addArrangedSubview(imageView)
+            self.imageStackView.heightAnchor.constraint(equalTo: imageView.widthAnchor).isActive = true
+        }
     }
     
     private func configureViews() {

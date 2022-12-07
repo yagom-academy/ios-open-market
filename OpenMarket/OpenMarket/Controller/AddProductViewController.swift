@@ -32,7 +32,7 @@ class AddProductViewController: UIViewController {
     
     private func configureView() {
         self.view = addView
-        addView.descriptionTextView.delegate = self
+        self.addView.descriptionTextView.delegate = self
     }
     
     func configureNavigationBar() {

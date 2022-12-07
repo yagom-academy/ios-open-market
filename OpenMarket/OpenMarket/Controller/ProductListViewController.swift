@@ -52,7 +52,7 @@ final class ProductListViewController: UIViewController {
     }
     
     @objc private func addButtonPressed() {
-        let addProductViewController = EditProductViewController()
+        let addProductViewController = AddProductViewController()
         addProductViewController.delegate = self
         addProductViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(addProductViewController, animated: true)
