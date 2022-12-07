@@ -50,24 +50,3 @@ class BaseProductView: UIView {
         delegate?.tappedDoneButton()
     }
 }
-
-// 등록하는 뷰
-class ProductRegisterView: BaseProductView {}
-
-// 수정하는 뷰
-class ProductChangeView: BaseProductView {
-    func configure(name: String, price: Double, currency: Currency, bargainPrice: Double, stock: Int, description: String) {
-        titleLabel?.text = "상품수정"
-        productNameTextField?.text = name
-        productPriceTextField?.text = String(price)
-        productBargainTextField?.text = String(bargainPrice)
-        productStockTextField?.text = String(stock)
-        productsContentTextView?.text = description
-        
-        if currency == Currency.KRWString {
-            currencySelector.selectedSegmentIndex = 0
-        } else {
-            currencySelector.selectedSegmentIndex = 1
-        }
-    }
-}

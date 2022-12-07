@@ -82,16 +82,16 @@ extension NetworkManager: NetworkPostable {
         request.httpBody = buildBody(boundary: boundary, params: param, imageArray: imageArray)
         
         session.dataTask(with: request) { data, response, error in
-            print(String(data: data!, encoding: .utf8)!)
         }.resume()
     }
     
     private func buildBody(boundary: String, params: ParamsProduct, imageArray: [UIImage]) -> Data {
         var httpBody = Data()
         let jsonEncoder: JSONEncoder = JSONEncoder()
-        let data = try! jsonEncoder.encode(params)
+        guard let data = try? jsonEncoder.encode(params) else { return Data() }
         
         httpBody.append(convertDataForm(named: "params", value: data, boundary: boundary))
+        
         for image in imageArray {
             if let data: Data = image.jpegData(compressionQuality: 1.0) {
                 httpBody.append(convertFileDataForm(boundary: boundary,
@@ -101,6 +101,7 @@ extension NetworkManager: NetworkPostable {
                                                     fileData: data))
             }
         }
+        
         httpBody.appendString("--\(boundary)--")
         
         return httpBody

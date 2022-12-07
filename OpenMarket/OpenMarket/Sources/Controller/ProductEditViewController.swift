@@ -7,14 +7,10 @@
 import UIKit
 
 final class ProductEditViewController: UIViewController {
-    var imageArray: [URL?] = []
-    var keyHeight: CGFloat = 0
     var productID: Int? = nil
-    @IBOutlet weak var mainView: ProductChangeView!
-    
-    override func loadView() {
-        super.loadView()
-    }
+    private var imageArray: [URL?] = []
+    private var keyHeight: CGFloat = 0
+    @IBOutlet private weak var mainView: ProductEditView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,38 +21,53 @@ final class ProductEditViewController: UIViewController {
         requestProduct(id: productID)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        view.endEditing(true)
+    }
+    
     private func requestProduct(id: Int?) {
         guard let id = id else { return }
         
         getProduct(id: id) { data in
             DispatchQueue.main.async { [self] in
-                for item in data.images! {
+                guard let images = data.images else { return }
+                
+                for item in images {
                     imageArray.append(URL(string: item.url))
                 }
-                mainView.configure(name: data.name, price: data.price, currency: data.currency, bargainPrice: data.bargainPrice, stock: data.stock, description: data.description)
                 
+                mainView.configure(name: data.name,
+                                   price: data.price,
+                                   currency: data.currency,
+                                   bargainPrice: data.bargainPrice,
+                                   stock: data.stock,
+                                   description: data.description)
                 mainView.collectionView.reloadData()
             }
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        view.endEditing(true)
-    }
-    
     private func checkKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func configureCollectionView() {
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
+        
         registerCellNib()
     }
     
     private func configureTextComponent() {
         mainView.productsContentTextView.delegate = self
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(textFieldDidChange(_:)),
                                                name: UITextField.textDidChangeNotification,
@@ -64,14 +75,14 @@ final class ProductEditViewController: UIViewController {
     }
     
     private func registerCellNib() {
-        let collectionViewCellNib = UINib(nibName: ImageCollectionViewCell.stringIdentifier(), bundle: nil)
+        let collectionViewCellNib = UINib(nibName: ImageCollectionViewCell.stringIdentifier(),
+                                          bundle: nil)
         
         mainView.collectionView.register(collectionViewCellNib,
                                          forCellWithReuseIdentifier: ImageCollectionViewCell.stringIdentifier())
     }
     
     private func checkRequirements() throws {
-        
         if let nameLength = mainView.productNameTextField.text?.count, nameLength < 3 {
             throw ProductPostRequirementError.productNameError
         }
@@ -129,17 +140,18 @@ final class ProductEditViewController: UIViewController {
             param.stock = stock
         }
         
-        networkManager.patch(to: URLManager.product(id: productID!).url, params: param) { data in
-            print(String(data: data, encoding: .utf8)!)
+        if let productID = productID {
+            networkManager.patch(to: URLManager.product(id: productID).url, params: param) { data in
+            }
         }
     }
     
     @objc
-    func keyboardWillShow(_ sender: Notification) {
+    private func keyboardWillShow(_ sender: Notification) {
         guard let senderUserInfo = sender.userInfo else { return }
-        let userInfo:NSDictionary = senderUserInfo as NSDictionary
+        let userInfo: NSDictionary = senderUserInfo as NSDictionary
         
-        if let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue {
+        if let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             var keyboardHeight = keyboardRectangle.height
             
@@ -155,7 +167,7 @@ final class ProductEditViewController: UIViewController {
     }
     
     @objc
-    func keyboardWillHide(_ sender: Notification) {
+    private func keyboardWillHide(_ sender: Notification) {
         view.frame.size.height += keyHeight
         keyHeight = 0
     }
@@ -209,7 +221,7 @@ extension ProductEditViewController: ProductDelegate {
                 errorMessage = "\(error.localizedDescription)"
             }
             
-            let alert: UIAlertController = UIAlertController(title: "상품등록 정보를 확인해주세요",
+            let alert: UIAlertController = UIAlertController(title: "상품수정 정보를 확인해주세요",
                                                              message: errorMessage,
                                                              preferredStyle: .alert)
             let okAction: UIAlertAction = UIAlertAction(title: "확인", style: .default)
@@ -227,7 +239,9 @@ extension ProductEditViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = mainView.collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.stringIdentifier(), for: indexPath) as? ImageCollectionViewCell else {
+        guard let cell = mainView.collectionView.dequeueReusableCell(
+            withReuseIdentifier: ImageCollectionViewCell.stringIdentifier(),
+            for: indexPath) as? ImageCollectionViewCell else {
             return UICollectionViewCell()
         }
         
@@ -259,7 +273,6 @@ extension ProductEditViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let currentText = mainView.productsContentTextView.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
-        
         let changedText = currentText.replacingCharacters(in: stringRange, with: text)
         
         return changedText.count <= 1000

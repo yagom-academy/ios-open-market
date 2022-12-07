@@ -1,5 +1,5 @@
 //
-//  OpenMarket - UIImageView+Extension.swift
+//  OpenMarket - UIImage(View)+Extension.swift
 //  Created by Zhilly, Dragon. 22/11/23
 //  Copyright © yagom. All rights reserved.
 //

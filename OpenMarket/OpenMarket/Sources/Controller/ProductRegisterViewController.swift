@@ -7,15 +7,11 @@
 import UIKit
 
 final class ProductRegisterViewController: UIViewController {
-    var imageArray: [UIImage] = []
-    let imagePicker: UIImagePickerController = .init()
-    var imageIndex: Int = 0
-    var keyHeight: CGFloat = 0
-    @IBOutlet weak var mainView: ProductRegisterView!
-    
-    override func loadView() {
-        super.loadView()
-    }
+    private var imageArray: [UIImage] = []
+    private let imagePicker: UIImagePickerController = .init()
+    private var imageIndex: Int = 0
+    private var keyHeight: CGFloat = 0
+    @IBOutlet private weak var mainView: ProductRegisterView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +32,7 @@ final class ProductRegisterViewController: UIViewController {
         view.endEditing(true)
     }
     
-    private func postNetwork() {
+    private func postProduct() {
         let session: URLSessionProtocol = URLSession.shared
         let networkManager: NetworkPostable = NetworkManager(session: session)
         
@@ -65,8 +61,14 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func checkKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func checkRequirements() throws {
@@ -113,7 +115,8 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     private func registerCellNib() {
-        let collectionViewCellNib = UINib(nibName: ImageCollectionViewCell.stringIdentifier(), bundle: nil)
+        let collectionViewCellNib = UINib(nibName: ImageCollectionViewCell.stringIdentifier(),
+                                          bundle: nil)
         
         mainView.collectionView.register(collectionViewCellNib,
                                          forCellWithReuseIdentifier: ImageCollectionViewCell.stringIdentifier())
@@ -128,11 +131,11 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     @objc
-    func keyboardWillShow(_ sender: Notification) {
+    private func keyboardWillShow(_ sender: Notification) {
         guard let senderUserInfo = sender.userInfo else { return }
-        let userInfo:NSDictionary = senderUserInfo as NSDictionary
+        let userInfo: NSDictionary = senderUserInfo as NSDictionary
         
-        if let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue {
+        if let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             var keyboardHeight = keyboardRectangle.height
             
@@ -148,7 +151,7 @@ final class ProductRegisterViewController: UIViewController {
     }
     
     @objc
-    func keyboardWillHide(_ sender: Notification) {
+    private func keyboardWillHide(_ sender: Notification) {
         view.frame.size.height += keyHeight
         keyHeight = 0
     }
@@ -176,7 +179,7 @@ extension ProductRegisterViewController: ProductDelegate {
     func tappedDoneButton() {
         do {
             try checkRequirements()
-            postNetwork()
+            postProduct()
             let alert: UIAlertController = UIAlertController(title: "상품등록 완료",
                                                              message: nil,
                                                              preferredStyle: .alert)
@@ -224,7 +227,9 @@ extension ProductRegisterViewController: UICollectionViewDelegateFlowLayout {
 extension ProductRegisterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if imageArray.count - 1 != indexPath.item && imageArray.count < 7 {
-            let alert = UIAlertController(title: "이미지 편집", message: nil, preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "이미지 편집",
+                                          message: nil,
+                                          preferredStyle: .actionSheet)
             let edit = UIAlertAction(title: "수정", style: .default) { _ in
                 self.imageIndex = indexPath.item
                 self.imageArray.remove(at: indexPath.item)
@@ -245,7 +250,9 @@ extension ProductRegisterViewController: UICollectionViewDelegate {
                 self.imageIndex = imageArray.count - 1
                 present(imagePicker, animated: true)
             } else {
-                let alert = UIAlertController(title: "안내", message: "사진 추가는 최대 5장입니다.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "안내",
+                                              message: "사진 추가는 최대 5장입니다.",
+                                              preferredStyle: .alert)
                 let action = UIAlertAction(title: "확인", style: .default)
                 
                 alert.addAction(action)
@@ -261,10 +268,9 @@ extension ProductRegisterViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: ImageCollectionViewCell =
-                collectionView.dequeueReusableCell(withReuseIdentifier:
-                                                    ImageCollectionViewCell.stringIdentifier(),
-                                                   for: indexPath) as? ImageCollectionViewCell else {
+        guard let cell: ImageCollectionViewCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ImageCollectionViewCell.stringIdentifier(),
+            for: indexPath) as? ImageCollectionViewCell else {
             return UICollectionViewCell()
         }
 

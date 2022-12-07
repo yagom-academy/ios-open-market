@@ -163,10 +163,9 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     private func makeListCell(cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: ListCollectionViewCell =
-                collectionView.dequeueReusableCell(withReuseIdentifier:
-                                                    ListCollectionViewCell.stringIdentifier(),
-                                                   for: indexPath) as? ListCollectionViewCell else {
+        guard let cell: ListCollectionViewCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ListCollectionViewCell.stringIdentifier(),
+            for: indexPath) as? ListCollectionViewCell else {
             return UICollectionViewCell()
         }
         guard let productItem = product?.pages[indexPath.item] else {

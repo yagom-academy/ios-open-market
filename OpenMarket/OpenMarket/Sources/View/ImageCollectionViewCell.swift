@@ -6,9 +6,13 @@
 
 import UIKit
 
-class ImageCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
-
+final class ImageCollectionViewCell: UICollectionViewCell, CellIdentifierInfo {
     @IBOutlet weak var image: UIImageView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        image.image = nil
+    }
     
     func configureImage(url: URL?) {
         image.load(url: url)
