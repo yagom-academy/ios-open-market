@@ -52,6 +52,8 @@ final class MainViewController: UIViewController {
     
     let manager = NetworkManager()
     
+    let refresher = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,6 +86,9 @@ final class MainViewController: UIViewController {
         self.view.addSubview(self.indicator)
         self.view.addSubview(self.collectionView)
         self.view.bringSubviewToFront(self.indicator)
+        
+        refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        collectionView.refreshControl = refresher
         
         let safeArea = self.view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -338,5 +343,24 @@ extension MainViewController {
         default:
             return
         }
+    }
+    
+    @objc func refresh() {
+        self.collectionView.refreshControl?.beginRefreshing()
+        
+        self.manager.getProductsList(pageNo: 1, itemsPerPage: 40) { list in
+            print(list.products)
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(list.products)
+            
+            self.listDataSource?.apply(snapshot)
+            self.gridDataSource?.apply(snapshot)
+            DispatchQueue.main.async {
+                self.indicator.stopAnimating()
+            }
+        }
+
+        self.collectionView.refreshControl?.endRefreshing()
     }
 }
