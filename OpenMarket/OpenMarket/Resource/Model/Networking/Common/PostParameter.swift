@@ -11,8 +11,8 @@ struct PostParameter: Encodable, HttpBodyConvertible {
     let description: String
     let price: Double
     let currency: Currency
-    let discounted_price: Double
-    let stock: Int
+    let discounted_price: Double?
+    let stock: Int?
     let secret: String = "4e5jv489csufrgs4"
     
     var contentType: ContentType {

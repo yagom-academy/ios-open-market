@@ -57,12 +57,12 @@ class NetworkManager<T: Decodable> {
             }
 
             guard let response = response as? HTTPURLResponse,
-                  let data = data else {
+                  (200..<300) ~= response.statusCode else {
                 completion(.failure(.invalidStatusCode))
                 return
             }
-
-            print(String(data: data, encoding: .utf8)!)
+            
+            completion(.success(true))
         }
         
         task.resume()

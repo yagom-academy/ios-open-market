@@ -161,6 +161,7 @@ final class RegisterProductViewController: UIViewController {
 }
 
 enum ConvertPostError: Error {
+    case wrongImage
     case wrongName
     case wrongDescription
     case wrongPrice
@@ -171,37 +172,78 @@ enum ConvertPostError: Error {
 
 // MARK: - Business Logic
 private extension RegisterProductViewController {
-    func convertPostParameters() throws -> PostParameter {
-        // TODO: - 요소 검사 로직 추가하기
-        // TODO: - 너무 많은 guard문을 사용하는 것을 어떻게 해결할까?
+    func invalidName() -> String? {
         guard let name = productNameTextField.text else {
+            return nil
+        }
+        
+        guard (3..<101) ~= name.count else {
+            return nil
+        }
+        
+        return name
+    }
+    
+    func invalidDescription() -> String? {
+        guard let description = descriptionTextView
+            .text else {
+            return nil
+        }
+        
+        guard (10..<1000) ~= description.count else {
+            return nil
+        }
+        
+        return description
+    }
+    
+    func convertPostParameters() throws -> PostParameter {
+        let filteredImage = selectedImage.filter { $0 != nil }
+        
+        if filteredImage.count == 0 {
+            alertErrorMessage("이미지 에러", "이미지 개수는 1개 이상 5개 이하입니다.")
+            throw ConvertPostError.wrongImage
+        }
+        
+        guard let name = invalidName() else {
+            alertErrorMessage("상품명 에러", "상품명의 길이는 3 ~ 100자 입니다.")
             throw ConvertPostError.wrongName
         }
         
-        guard let description = descriptionTextView.text else {
+        guard let description = invalidDescription() else {
+            alertErrorMessage("설명 에러", "설명은 10 ~ 1000자 입니다.")
             throw ConvertPostError.wrongDescription
         }
         
         guard let priceText = productPriceTextField.text,
               let price = Double(priceText) else {
+            alertErrorMessage("가격 에러", "가격은 숫자만 입력할 수 있습니다.")
             throw ConvertPostError.wrongPrice
         }
         
         guard let currency = Currency(rawInt: currencySegment.selectedSegmentIndex) else {
+            alertErrorMessage("화폐 단위 에러", "잘못된 입력입니다.")
             throw ConvertPostError.wrongCurrency
         }
         
-        guard let discountText = discountPriceTextField.text,
-              let discounted = Double(discountText) else {
+        let discounted = Double(discountPriceTextField.text ?? "0") ?? 0
+        
+        guard price > discounted else {
+            alertErrorMessage("할인 가격 에러", "할인 가격은 원래 가격보다 높을 수 없습니다.")
             throw ConvertPostError.wrongDiscount
         }
         
-        guard let stockText = stockTextField.text,
-              let stock = Int(stockText) else {
-            throw ConvertPostError.wrongStock
-        }
+        let stock = Int(stockTextField.text ?? "0")
         
         return .init(name: name, description: description, price: price, currency: currency, discounted_price: discounted, stock: stock)
+    }
+    
+    func alertErrorMessage(_ title: String, _ message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -215,6 +257,7 @@ private extension RegisterProductViewController {
     
     @objc func didTappedNavigationDoneButton() {
         guard let params = try? convertPostParameters() else {
+            print("파라미터 에러")
             return
         }
         
