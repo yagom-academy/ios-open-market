@@ -8,6 +8,27 @@ import UIKit
 
 // MARK: - Image 압축 메서드
 extension UIImage {
+    func convertDownSamplingImage() -> UIImage {
+        var originImage = self
+        var imageScale = 1.0
+        var imageSize = originImage.compressionSize
+        
+        if originImage.size.height != originImage.size.width {
+            originImage = originImage.resizeOfSquare()
+            imageSize = originImage.compressionSize
+        }
+        
+        while imageSize ?? 0 > 60000 {
+            originImage = originImage.downSampling(scale: imageScale)
+            imageSize = originImage.compressionSize
+            imageScale -= 0.1
+        }
+        
+        return originImage
+    }
+}
+
+private extension UIImage {
     var compressionSize: Int? {
         return self.jpegData(compressionQuality: 0.5)?.count
     }

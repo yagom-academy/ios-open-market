@@ -16,13 +16,37 @@
 import UIKit
 
 final class RegisterProductViewController: UIViewController {
+    enum Constant {
+        static let editProduct: String = "상품수정"
+        static let registProduct: String = "상품등록"
+        static let maxImageCount: Int = 5
+        
+        static let productName: String = "상품명"
+        static let productPrice: String = "상품가격"
+        static let discountPrice: String = "할인금액"
+        static let stockCount: String = "재고수량"
+        static let description: String = "설명"
+        
+        static let baseSpacing: CGFloat = 8
+        
+        static let horizontalSpacing: CGFloat = 16
+        static let collectionViewVerticalRatio: CGFloat = 0.2
+        static let segmentHorizontalRatio: CGFloat = 0.3
+        
+        static let cancel: String = "취소"
+        static let done: String = "Done"
+        
+        static let rowCount: CGFloat = 3
+        static let insetValue: CGFloat = 10
+    }
+    
     // MARK: - Properties
     private var isEditingMode: Bool = false {
         didSet {
             if isEditingMode {
-                navigationItem.title = "상품수정"
+                navigationItem.title = Constant.editProduct
             } else {
-                navigationItem.title = "상품등록"
+                navigationItem.title = Constant.registProduct
             }
             
             collectionView.reloadData()
@@ -34,8 +58,8 @@ final class RegisterProductViewController: UIViewController {
         }
     }
     
-    private var selectedImage = Array<UIImage?>(repeating: nil, count: 5)
-    private var selectedIndex: Int = 0
+    private var selectedImage = Array<UIImage?>(repeating: nil, count: Constant.maxImageCount)
+    private var selectedIndex: Int = .zero
     private let networkManager = NetworkManager<ProductListResponse>()
     
     // MARK: - View Properties
@@ -50,22 +74,22 @@ final class RegisterProductViewController: UIViewController {
         return collectionView
     }()
     
-    private let productNameTextField = UITextField(placeholder: "상품명")
-    private let productPriceTextField = UITextField(placeholder: "상품가격", keyboardType: .numberPad)
-    private let discountPriceTextField = UITextField(placeholder: "할인금액", keyboardType: .numberPad)
-    private let stockTextField = UITextField(placeholder: "재고수량", keyboardType: .numberPad)
+    private let productNameTextField = UITextField(placeholder: Constant.productName)
+    private let productPriceTextField = UITextField(placeholder: Constant.productPrice, keyboardType: .numberPad)
+    private let discountPriceTextField = UITextField(placeholder: Constant.discountPrice, keyboardType: .numberPad)
+    private let stockTextField = UITextField(placeholder: Constant.stockCount, keyboardType: .numberPad)
     
     private let currencySegment: UISegmentedControl = {
         let segment = UISegmentedControl(items: Currency.allCases.map(\.rawValue))
-        segment.selectedSegmentIndex = 0
+        segment.selectedSegmentIndex = .zero
         return segment
     }()
     
-    private let descriptionTextView = UITextView(text: "설명", textColor: .secondaryLabel, font: .preferredFont(forTextStyle: .body), spellCheckingType: .no)
+    private let descriptionTextView = UITextView(text: Constant.description, textColor: .secondaryLabel, font: .preferredFont(forTextStyle: .body), spellCheckingType: .no)
     
-    private let segmentStackView = UIStackView(axis: .horizontal, distribution: .fill, spacing: 8)
+    private let segmentStackView = UIStackView(axis: .horizontal, distribution: .fill, spacing: Constant.baseSpacing)
     
-    private let totalStackView = UIStackView(axis: .vertical, distribution: .equalSpacing, spacing: 8)
+    private let totalStackView = UIStackView(axis: .vertical, distribution: .equalSpacing, spacing: Constant.baseSpacing)
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -101,7 +125,7 @@ private extension RegisterProductViewController {
               let discounted = checker.invalidDiscountedPrice(textField: discountPriceTextField, price: price) else {
             return nil
         }
-        let stock = Int(stockTextField.text ?? "0")
+        let stock = Int(stockTextField.text ?? Int.zero.description)
         
         return PostParameter(name: name, description: description, price: price, currency: currency, discounted_price: discounted, stock: stock)
     }
@@ -122,7 +146,7 @@ private extension RegisterProductViewController {
         }
         
         var httpBodies = selectedImage.compactMap { $0?.convertHttpBody() }
-        httpBodies.insert(params.convertHttpBody(), at: 0)
+        httpBodies.insert(params.convertHttpBody(), at: .zero)
         
         let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: httpBodies)
         
@@ -165,7 +189,7 @@ private extension RegisterProductViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .systemBackground
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationItem.title = "상품등록"
+        navigationItem.title = Constant.registProduct
     }
     
     func setupSubViewInStackViews() {
@@ -197,10 +221,6 @@ private extension RegisterProductViewController {
         )
     }
     
-    func addTargetSegment() {
-        
-    }
-    
     func addSubViewsOfContent() {
         [
             collectionView,
@@ -220,21 +240,21 @@ private extension RegisterProductViewController {
         addSubViewsOfContent()
         
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: Constant.horizontalSpacing),
             collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -Constant.horizontalSpacing),
+            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: Constant.collectionViewVerticalRatio),
             
             totalStackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            totalStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            totalStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            totalStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: Constant.horizontalSpacing),
+            totalStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -Constant.horizontalSpacing),
             
             descriptionTextView.topAnchor.constraint(equalTo: totalStackView.bottomAnchor),
-            descriptionTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            descriptionTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            descriptionTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: Constant.horizontalSpacing),
+            descriptionTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -Constant.horizontalSpacing),
             descriptionTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             
-            currencySegment.widthAnchor.constraint(equalTo: productPriceTextField.widthAnchor, multiplier: 0.30)
+            currencySegment.widthAnchor.constraint(equalTo: productPriceTextField.widthAnchor, multiplier: Constant.segmentHorizontalRatio)
         ])
     }
     
@@ -253,7 +273,7 @@ private extension RegisterProductViewController {
     
     func presentAlertMessage(error: RegisterError) {
         let alert = UIAlertController(title: error.rawValue, message: error.description, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: Constant.cancel, style: .cancel, handler: nil)
         alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
@@ -262,7 +282,7 @@ private extension RegisterProductViewController {
     func setupDescriptionTextViewAccessoryView() {
         let toolbar = UIToolbar()
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTappedTextViewDoneButton))
+        let doneButton = UIBarButtonItem(title: Constant.done, style: .done, target: self, action: #selector(didTappedTextViewDoneButton))
         
         toolbar.setItems([flexSpace, doneButton], animated: true)
         toolbar.sizeToFit()
@@ -286,7 +306,7 @@ extension RegisterProductViewController: UICollectionViewDataSource {
             return images.count
         }
         
-        if images.count < 5 {
+        if images.count < Constant.maxImageCount {
             return images.count + 1
         }
         
@@ -327,7 +347,7 @@ extension RegisterProductViewController: UICollectionViewDelegate {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let viewSize = view.frame.size
-        let contentWidth = viewSize.width / 3 - 10
+        let contentWidth = viewSize.width / Constant.rowCount - Constant.insetValue
         
         return CGSize(width: contentWidth, height: contentWidth)
     }
@@ -359,23 +379,7 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
     ) {
         
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            // 만약에 이미지 비율이 1이 아니면 -> 이미지의 비율을 1로 변경해주는 cropping을 한다.
-            var originImage = image
-            var imageScale = 1.0
-            var imageSize = originImage.compressionSize
-            
-            if originImage.size.height != originImage.size.width {
-                originImage = originImage.resizeOfSquare()
-                imageSize = originImage.compressionSize
-            }
-            
-            while imageSize ?? 0 > 60000 {
-                originImage = originImage.downSampling(scale: imageScale)
-                imageSize = originImage.compressionSize
-                imageScale -= 0.1
-            }
-            
-            selectedImage[selectedIndex] = originImage
+            selectedImage[selectedIndex] = image.convertDownSamplingImage()
         }
         
         collectionView.reloadData()
@@ -391,7 +395,7 @@ extension RegisterProductViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.frame.origin.y = 0
+        view.frame.origin.y = .zero
         textField.endEditing(true)
         return true
     }
@@ -409,14 +413,14 @@ extension RegisterProductViewController: UITextViewDelegate {
             return
         }
         
-        additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: accessoryView.frame.height, right: 0)
+        additionalSafeAreaInsets = UIEdgeInsets(top: .zero, left: .zero, bottom: accessoryView.frame.height, right: .zero)
         
         view.frame.origin.y = -(textView.frame.origin.y - view.safeAreaInsets.top)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "설명"
+            textView.text = Constant.description
             textView.textColor = .secondaryLabel
         }
     }
