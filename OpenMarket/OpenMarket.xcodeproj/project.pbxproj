@@ -21,6 +21,7 @@
 		3C77A9302939DFB200280ACC /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77A92F2939DFB200280ACC /* UITextField+extension.swift */; };
 		3C8B1389292C742D00E3756E /* AddProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8B1388292C742D00E3756E /* AddProductViewController.swift */; };
 		3CE5CC89292662A100F8DD61 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE5CC88292662A100F8DD61 /* NetworkTests.swift */; };
+		573F2EF429406669000E7389 /* EditProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573F2EF329406669000E7389 /* EditProductViewController.swift */; };
 		5743DFE22923659100D2442D /* NetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFE12923659100D2442D /* NetworkAPI.swift */; };
 		5743DFE429236B5200D2442D /* URLComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFE329236B5200D2442D /* URLComponents+Extension.swift */; };
 		5743DFEB2925D6A000D2442D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5743DFEA2925D6A000D2442D /* URLSessionProtocol.swift */; };
@@ -65,6 +66,7 @@
 		3C8B1388292C742D00E3756E /* AddProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductViewController.swift; sourceTree = "<group>"; };
 		3CE5CC86292662A100F8DD61 /* NetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE5CC88292662A100F8DD61 /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
+		573F2EF329406669000E7389 /* EditProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductViewController.swift; sourceTree = "<group>"; };
 		5743DFE12923659100D2442D /* NetworkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPI.swift; sourceTree = "<group>"; };
 		5743DFE329236B5200D2442D /* URLComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+Extension.swift"; sourceTree = "<group>"; };
 		5743DFEA2925D6A000D2442D /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* ProductListViewController.swift */,
 				3C8B1388292C742D00E3756E /* AddProductViewController.swift */,
+				573F2EF329406669000E7389 /* EditProductViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */,
 				57D3E2F829372D2800D1BAB7 /* ImageNetworkManager.swift in Sources */,
 				3C45283F293E18BD00E59E94 /* ImageAddButton.swift in Sources */,
+				573F2EF429406669000E7389 /* EditProductViewController.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
 				57D3E2D0292F038200D1BAB7 /* String+Extension.swift in Sources */,
 				3C77A9302939DFB200280ACC /* UITextField+extension.swift in Sources */,

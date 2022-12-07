@@ -108,7 +108,17 @@ class ProductAddView: UIView {
         configureStackView()
         configureImageScrollView()
         configureTextView()
+        self.imageStackView.addArrangedSubview(self.photoAddButton)
         configureAddButton()
+    }
+    
+    required init(product: Product, images: [UIImage]) {
+        super.init(frame: .zero)
+        self.backgroundColor = .white
+        configureViews()
+        configureStackView()
+        configureImageScrollView()
+        configureTextView()
     }
     
     required init?(coder: NSCoder) {
@@ -126,7 +136,6 @@ class ProductAddView: UIView {
         self.addSubview(textFieldStackView)
         self.addSubview(imageScrollView)
         self.addSubview(descriptionTextView)
-        self.imageStackView.addArrangedSubview(self.photoAddButton)
     }
     
     private func configureImageScrollView() {

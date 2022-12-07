@@ -2,10 +2,10 @@
 
 import UIKit
 
-final class AddProductViewController: UIViewController {
+class AddProductViewController: UIViewController {
     
     weak var delegate: UploadDelegate?
-    let addView = ProductAddView()
+    var addView = ProductAddView()
     let imagePicker = UIImagePickerController()
     var imageCount = 0
     var textFieldConstraint: NSLayoutConstraint?
@@ -35,7 +35,7 @@ final class AddProductViewController: UIViewController {
         addView.descriptionTextView.delegate = self
     }
     
-    private func configureNavigationBar() {
+    func configureNavigationBar() {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .white
         navigationBarAppearance.shadowColor = .clear
