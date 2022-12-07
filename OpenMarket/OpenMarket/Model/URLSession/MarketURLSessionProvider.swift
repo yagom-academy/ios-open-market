@@ -37,7 +37,8 @@ final class MarketURLSessionProvider {
         dataTask.resume()
     }
     
-    func uploadProduct(request: URLRequest, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+    func uploadProduct(request: URLRequest,
+                       completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let session = session as? URLSession else { return }
         
         let dataTask = session.dataTask(with: request) { data, response, error in
@@ -54,7 +55,7 @@ final class MarketURLSessionProvider {
             guard let data = data else {
                 return completionHandler(.failure(.noDataError))
             }
-
+            
             return completionHandler(.success(data))
         }
         
@@ -69,6 +70,7 @@ extension MarketURLSessionProvider {
         let boundary = "Boundary-\(UUID().uuidString)"
         
         guard let url = Request.productRegistration.url else { return nil }
+        
         var request = URLRequest(url: url)
         
         request.httpMethod = HttpMethod.post.name
@@ -79,6 +81,7 @@ extension MarketURLSessionProvider {
         
         let stringBodyData = createTextBodyData(parameters: textParameters,
                                                 boundary: boundary)
+        
         guard let imageBodyData = createImageBodyData(key: imageKey,
                                                       images: images,
                                                       boundary: boundary) else { return nil }
@@ -87,14 +90,14 @@ extension MarketURLSessionProvider {
         bodyData.append(stringBodyData)
         bodyData.append(imageBodyData)
         bodyData.append("--\(boundary)--\(lineBreak)")
-
+        
         request.httpBody = bodyData
         
         return request
     }
     
-    func createTextBodyData(parameters: [String : Data],
-                            boundary: String) -> Data {
+    private func createTextBodyData(parameters: [String : Data],
+                                    boundary: String) -> Data {
         let lineBreak = "\r\n"
         var body = Data()
         
@@ -108,12 +111,12 @@ extension MarketURLSessionProvider {
         return body
     }
     
-    func createImageBodyData(key: String,
-                             images: [UIImage],
-                             boundary: String) -> Data? {
+    private func createImageBodyData(key: String,
+                                     images: [UIImage],
+                                     boundary: String) -> Data? {
         let lineBreak = "\r\n"
         var body = Data()
-    
+        
         for image in images {
             guard let imageData = image.jpegData(compressionQuality: 0.5) else { return nil }
             
@@ -125,13 +128,13 @@ extension MarketURLSessionProvider {
             body.append(imageData)
             body.append(lineBreak)
         }
-
+        
         return body
     }
 }
 
 extension MarketURLSessionProvider {
-    enum HttpMethod {
+    private enum HttpMethod {
         case get
         case post
         case patch
@@ -153,7 +156,7 @@ extension MarketURLSessionProvider {
 }
 
 extension Data {
-    public mutating func append(_ string: String) {
+    mutating func append(_ string: String) {
         if let data = string.data(using: .utf8) {
             self.append(data)
         }

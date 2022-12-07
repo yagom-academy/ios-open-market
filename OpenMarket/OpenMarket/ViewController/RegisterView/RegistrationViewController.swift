@@ -7,8 +7,8 @@
 
 import UIKit
 
-class RegistrationViewController: UIViewController {
-    let registrationView: RegistrationView = RegistrationView()
+final class RegistrationViewController: UIViewController {
+    private let registrationView: RegistrationView = RegistrationView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class RegistrationViewController: UIViewController {
         )
     }
     
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         let button = UIBarButtonItem(title: "Done",
                                      style: .plain,
                                      target: self,
@@ -37,16 +37,18 @@ class RegistrationViewController: UIViewController {
         navigationItem.rightBarButtonItem  = button
     }
     
-    @objc func registerProduct() {
+    @objc private func registerProduct() {
         let marketURLSessionProvider = MarketURLSessionProvider()
         let encoder = JSONEncoder()
         let product = createProductFromUserInput()
         let images = registrationView.selectedImages
+        
         guard let productData = try? encoder.encode(product) else { return }
         
-        guard let request = marketURLSessionProvider.generateRequest(textParameters: ["params": productData],
-                                                                     imageKey: "images",
-                                                                     images: images) else { return }
+        guard let request = marketURLSessionProvider.generateRequest(
+            textParameters: ["params": productData],
+            imageKey: "images",
+            images: images) else { return }
         
         marketURLSessionProvider.uploadProduct(request: request) { result in
             switch result {
@@ -60,7 +62,7 @@ class RegistrationViewController: UIViewController {
         }
     }
     
-    func createProductFromUserInput() -> Product? {
+    private func createProductFromUserInput() -> Product? {
         guard let name = registrationView.productNameTextField.text,
               name.count >= 3,
               name.count <= 100 else {
@@ -97,7 +99,9 @@ class RegistrationViewController: UIViewController {
             CustomAlert.showAlert(message: "상세내용은 10~1000자 이내로 입력해야 합니다", target: self)
             return nil }
         
-        let currency = registrationView.currencySegmentControl.selectedSegmentIndex == 0 ? Currency.krw : Currency.usd
+        let currency = registrationView.currencySegmentControl.selectedSegmentIndex == 0
+        ? Currency.krw
+        : Currency.usd
         
         let product = Product(name: name,
                               description: description,
@@ -161,7 +165,7 @@ extension RegistrationViewController: UICollectionViewDelegate,
 //MARK: - ImagePicker
 extension RegistrationViewController: UIImagePickerControllerDelegate,
                                       UINavigationControllerDelegate {
-    func showImagePicker() {
+    private func showImagePicker() {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
@@ -170,9 +174,10 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
         present(imagePicker, animated: true)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard registrationView.selectedImages.count < 5 else {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            guard registrationView.selectedImages.count < 5 else {
             dismiss(animated: true)
             CustomAlert.showAlert(message: "사진은 5장까지만 등록할 수 있습니다", target: self)
             return
@@ -188,15 +193,16 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
 
 //MARK: - control Keyboard
 extension RegistrationViewController: UIScrollViewDelegate {
-    func controlKeyBoard () {
-        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyBoard))
+    private func controlKeyBoard () {
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                action: #selector(hideKeyBoard))
         
         registrationView.fieldStackView.addGestureRecognizer(singleTapGestureRecognizer)
         addKeyboardNotifications()
         makeDoneButtonToKeyboard()
     }
     
-    func addKeyboardNotifications() {
+    private func addKeyboardNotifications() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(setKeyboardShow(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -207,7 +213,7 @@ extension RegistrationViewController: UIScrollViewDelegate {
                                                object: nil)
     }
     
-    @objc func setKeyboardShow(_ notification: Notification) {
+    @objc private func setKeyboardShow(_ notification: Notification) {
         self.registrationView.mainScrollView.contentOffset.y = 0
         
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
@@ -216,12 +222,13 @@ extension RegistrationViewController: UIScrollViewDelegate {
         let keyboardHeight = keyboardFrame.cgRectValue.height
         
         self.registrationView.mainScrollView.contentInset.bottom = keyboardHeight
-        self.registrationView.mainScrollView.contentOffset.y +=
-        self.registrationView.textView.isFirstResponder ?
-        keyboardHeight : 0
+        
+        if self.registrationView.textView.isFirstResponder {
+            self.registrationView.mainScrollView.contentOffset.y += keyboardHeight
+        }
     }
     
-    @objc func setKeyboardHide(_ notification: Notification) {
+    @objc private func setKeyboardHide(_ notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
                 as? NSValue else { return }
         
@@ -230,11 +237,11 @@ extension RegistrationViewController: UIScrollViewDelegate {
         self.registrationView.mainScrollView.contentInset.bottom -= keyboardHeight
     }
     
-    @objc func hideKeyBoard() {
+    @objc private func hideKeyBoard() {
         self.view.endEditing(true)
     }
     
-    func makeDoneButtonToKeyboard() {
+    private func makeDoneButtonToKeyboard() {
         let toolBar = UIToolbar()
         let barButton = UIBarButtonItem(barButtonSystemItem: .done,
                                         target: self,

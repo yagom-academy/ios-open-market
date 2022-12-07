@@ -7,15 +7,17 @@
 
 import UIKit
 
-class RegistrationView: UIView {
+final class RegistrationView: UIView {
     var selectedImages: [UIImage] = []
     
     let imageCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
+        
         flowLayout.scrollDirection = .horizontal
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         
         let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         view.showsHorizontalScrollIndicator = false
         
@@ -30,16 +32,20 @@ class RegistrationView: UIView {
     let stockTextField: CustomTextField = CustomTextField(placeholder: "재고수량",
                                                           keyboardType: .numberPad)
     let priceStackView: CustomStackView = CustomStackView(spacing: 10)
+    
     let currencySegmentControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
                                                           Currency.usd.rawValue])
+        
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
         
         return segmentedControl
     }()
+    
     let textView: UITextView = {
         let textView = UITextView()
+        
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = true
         textView.setContentHuggingPriority(.init(1), for: .vertical)
@@ -51,21 +57,24 @@ class RegistrationView: UIView {
         textView.text = "상세내용"
         textView.textColor = .systemGray3
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-      
+        
         return textView
     }()
+    
     let fieldStackView: CustomStackView = CustomStackView(axis: .vertical,
                                                           distribution: .fillEqually,
                                                           spacing: 10)
     let mainStackView: CustomStackView = CustomStackView(axis: .vertical, spacing: 10)
+    
     let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
         
         return scrollView
     }()
-
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         self.backgroundColor = .systemBackground
@@ -77,7 +86,7 @@ class RegistrationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         [productPriceTextField,
          currencySegmentControl].forEach {
             priceStackView.addArrangedSubview($0)
@@ -89,7 +98,7 @@ class RegistrationView: UIView {
          stockTextField].forEach {
             fieldStackView.addArrangedSubview($0)
         }
-         
+        
         [imageCollectionView,
          fieldStackView,
          textView].forEach {
@@ -98,30 +107,46 @@ class RegistrationView: UIView {
         
         mainScrollView.addSubview(mainStackView)
         self.addSubview(mainScrollView)
-
+        
         NSLayoutConstraint.activate([
-            imageCollectionView.topAnchor.constraint(equalTo: mainStackView.topAnchor),
-            imageCollectionView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
-            imageCollectionView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-            imageCollectionView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor,multiplier: 0.25),
+            imageCollectionView.topAnchor.constraint(
+                equalTo: mainStackView.topAnchor),
+            imageCollectionView.leadingAnchor.constraint(
+                equalTo: mainStackView.leadingAnchor),
+            imageCollectionView.trailingAnchor.constraint(
+                equalTo: mainStackView.trailingAnchor),
+            imageCollectionView.heightAnchor.constraint(
+                equalTo: mainStackView.heightAnchor,multiplier: 0.25),
             
-            fieldStackView.heightAnchor.constraint(equalTo: mainStackView.heightAnchor, multiplier: 0.25),
+            fieldStackView.heightAnchor.constraint(
+                equalTo: mainStackView.heightAnchor, multiplier: 0.25),
             
-            mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
-            mainStackView.heightAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.heightAnchor),
+            mainStackView.leadingAnchor.constraint(
+                equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(
+                equalTo: mainScrollView.frameLayoutGuide.trailingAnchor),
+            mainStackView.topAnchor.constraint(
+                equalTo: mainScrollView.topAnchor),
+            mainStackView.bottomAnchor.constraint(
+                equalTo: mainScrollView.bottomAnchor),
+            mainStackView.heightAnchor.constraint(
+                equalTo: mainScrollView.frameLayoutGuide.heightAnchor),
             
-            mainScrollView.frameLayoutGuide.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-                                                                     constant: 10),
-            mainScrollView.frameLayoutGuide.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-                                                                      constant: -10),
-            mainScrollView.frameLayoutGuide.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            mainScrollView.frameLayoutGuide.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            mainScrollView.frameLayoutGuide.leadingAnchor.constraint(
+                equalTo: self.leadingAnchor,
+                constant: 10),
+            mainScrollView.frameLayoutGuide.trailingAnchor.constraint(
+                equalTo: self.trailingAnchor,
+                constant: -10),
+            mainScrollView.frameLayoutGuide.topAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.topAnchor),
+            mainScrollView.frameLayoutGuide.bottomAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.bottomAnchor),
             
-            mainScrollView.contentLayoutGuide.leadingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
-            mainScrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainScrollView.frameLayoutGuide.trailingAnchor)
+            mainScrollView.contentLayoutGuide.leadingAnchor.constraint(
+                equalTo: mainScrollView.frameLayoutGuide.leadingAnchor),
+            mainScrollView.contentLayoutGuide.trailingAnchor.constraint(
+                equalTo: mainScrollView.frameLayoutGuide.trailingAnchor)
         ])
     }
 }

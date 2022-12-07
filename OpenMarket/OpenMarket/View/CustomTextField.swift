@@ -10,14 +10,13 @@ import UIKit
 final class CustomTextField: UITextField {
     init(placeholder: String, keyboardType: UIKeyboardType = .default) {
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
         self.placeholder = placeholder
         self.keyboardType = keyboardType
+        translatesAutoresizingMaskIntoConstraints = false
         clearButtonMode = .always
         layer.cornerRadius = 2
         layer.borderWidth = 2
         layer.borderColor = UIColor.systemGray3.cgColor
-
         leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
         leftViewMode = .always
     }
