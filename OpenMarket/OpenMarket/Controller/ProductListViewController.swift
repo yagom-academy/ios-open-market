@@ -7,6 +7,10 @@ enum Section: Hashable {
     case main
 }
 
+protocol UploadDelegate : AnyObject {
+    func isUploaded(_ isLoaded:Bool)
+}
+
 final class ProductListViewController: UIViewController {
     
     private var collectionView: UICollectionView!
@@ -49,9 +53,9 @@ final class ProductListViewController: UIViewController {
     
     @objc private func addButtonPressed() {
         let addProductViewController = AddProductViewController()
+        addProductViewController.delegate = self
         addProductViewController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(addProductViewController, animated: true)
-        
     }
     
     private func configureNavigationBar() {
@@ -64,6 +68,23 @@ final class ProductListViewController: UIViewController {
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                       action: #selector(addButtonPressed))
         self.navigationItem.rightBarButtonItem = addItem
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(ok)
+        present(alert, animated: true)
+    }
+}
+
+extension ProductListViewController: UploadDelegate {
+    func isUploaded(_ isLoaded: Bool) {
+        if isLoaded {
+            showAlert(title: "업로드 완료", message: "완료")
+        } else {
+            showAlert(title: "업로드 실패", message: "실패")
+        }
     }
 }
 

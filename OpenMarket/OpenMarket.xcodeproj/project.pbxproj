@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C0A07F229276FD900551418 /* JSONDecoder+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */; };
 		3C45283F293E18BD00E59E94 /* ImageAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C45283E293E18BD00E59E94 /* ImageAddButton.swift */; };
+		3C452841294053EE00E59E94 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C452840294053EE00E59E94 /* UIImage+Extension.swift */; };
 		3C458B352925CA9600E43838 /* NetworkAPIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */; };
 		3C62E5F02923649F00D0E45E /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C62E5EF2923649F00D0E45E /* ProductList.swift */; };
 		3C77A91F292EFFB700280ACC /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77A91E292EFFB700280ACC /* Double+Extension.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		3C0A07F129276FD900551418 /* JSONDecoder+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+extension.swift"; sourceTree = "<group>"; };
 		3C45283E293E18BD00E59E94 /* ImageAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAddButton.swift; sourceTree = "<group>"; };
+		3C452840294053EE00E59E94 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		3C458B342925CA9600E43838 /* NetworkAPIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPIProvider.swift; sourceTree = "<group>"; };
 		3C62E5EF2923649F00D0E45E /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		3C77A91E292EFFB700280ACC /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				57D3E2CF292F038200D1BAB7 /* String+Extension.swift */,
 				3C77A9282938877000280ACC /* Data+Extension.swift */,
 				3C77A92F2939DFB200280ACC /* UITextField+extension.swift */,
+				3C452840294053EE00E59E94 /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				57D3E2812928A3A000D1BAB7 /* NetworkError.swift in Sources */,
 				3C8B1389292C742D00E3756E /* AddProductViewController.swift in Sources */,
 				3C77A91F292EFFB700280ACC /* Double+Extension.swift in Sources */,
+				3C452841294053EE00E59E94 /* UIImage+Extension.swift in Sources */,
 				5743DFEB2925D6A000D2442D /* URLSessionProtocol.swift in Sources */,
 				3C77A9232934BA6900280ACC /* ProductNetworkManager.swift in Sources */,
 				5743DFE22923659100D2442D /* NetworkAPI.swift in Sources */,

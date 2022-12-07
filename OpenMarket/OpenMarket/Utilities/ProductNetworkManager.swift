@@ -72,7 +72,7 @@ final class ProductNetworkManager {
                 body.append("--\(boundary + lineBreak)")
                 body.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(uuid).jpeg\"\(lineBreak)")
                 body.append("Content-Type: image/jpeg\(lineBreak + lineBreak)")
-                body.append(image.jpegData(compressionQuality: 0.99)!)
+                body.append(image.compress(to: 300))
                 body.append(lineBreak)
             }
         }

@@ -4,6 +4,7 @@ import UIKit
 
 final class AddProductViewController: UIViewController {
     
+    weak var delegate: UploadDelegate?
     let addView = ProductAddView()
     let imagePicker = UIImagePickerController()
     var imageCount = 0
@@ -69,7 +70,6 @@ final class AddProductViewController: UIViewController {
     
     @objc private func doneButtonPressed() {
         self.uploadNewProduct()
-//        self.dismiss(animated: true)
     }
     
     @objc private func imageAddButtonPressed(_ sender: UIButton) {
@@ -113,26 +113,47 @@ extension AddProductViewController: UITextViewDelegate {
 }
 
 extension AddProductViewController {
-    private func uploadNewProduct() {
+    
+    private func fetchNewProductInfo() -> NewProductInfo? {
         guard let name = self.addView.productNameTextField.text, !name.isEmpty,
               let newProductDescription = self.addView.descriptionTextView.text, !newProductDescription.isEmpty,
               let price = Int(self.addView.productPriceTextField.text ?? "0"),
               let currency = self.addView.productPriceSegment.titleForSegment(at: self.addView.productPriceSegment.selectedSegmentIndex)
-        else { return }
+        else { return nil }
         
         let discountedPrice = Int(self.addView.productBargainPriceTextField.text ?? "0")
         let stock = Int(self.addView.productStockTextField.text ?? "0")
         
         let newProductInfo = NewProductInfo(name: name, newProductDescription: newProductDescription, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock)
-        let images: [UIImage] = self.addView.imageStackView.subviews.compactMap { $0 as? UIImageView }.compactMap { $0.image }
         
-        ProductNetworkManager.shared.postNewProduct(params: newProductInfo, images: images) { result in
-            switch result {
-            case .success(let product):
-                print(product)
-            case .failure(let error):
-                print(error)
+        return newProductInfo
+    }
+    
+    private func fetchImage() -> [UIImage]? {
+        let images: [UIImage] = self.addView.imageStackView.subviews.compactMap { $0 as? UIImageView }.compactMap { $0.image }
+        guard images.count > 0 else { return nil }
+        return images
+    }
+    
+    private func uploadNewProduct() {
+        guard let newProductInfo = fetchNewProductInfo(),
+              let images = fetchImage()
+        else { return }
+    
+        DispatchQueue.global().async {
+            ProductNetworkManager.shared.postNewProduct(params: newProductInfo, images: images) { result in
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        self.delegate?.isUploaded(true)
+                    }
+                case .failure:
+                    DispatchQueue.main.async {
+                        self.delegate?.isUploaded(false)
+                    }
+                }
             }
         }
+        self.navigationController?.popViewController(animated: true)
     }
 }
