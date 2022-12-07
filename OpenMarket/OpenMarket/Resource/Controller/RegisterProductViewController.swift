@@ -8,6 +8,7 @@
 import UIKit
 
 final class RegisterProductViewController: UIViewController {
+    // MARK: - Properties
     var isEditingMode: Bool = false {
         didSet {
             if isEditingMode {
@@ -27,7 +28,9 @@ final class RegisterProductViewController: UIViewController {
     }
     
     var selectedIndex: Int = 0
+    let networkManager = NetworkManager<ProductListResponse>()
     
+    // MARK: - View Properties
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -142,6 +145,7 @@ final class RegisterProductViewController: UIViewController {
         return stackView
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
@@ -156,6 +160,52 @@ final class RegisterProductViewController: UIViewController {
     }
 }
 
+enum ConvertPostError: Error {
+    case wrongName
+    case wrongDescription
+    case wrongPrice
+    case wrongCurrency
+    case wrongDiscount
+    case wrongStock
+}
+
+// MARK: - Business Logic
+private extension RegisterProductViewController {
+    func convertPostParameters() throws -> PostParameter {
+        // TODO: - 요소 검사 로직 추가하기
+        // TODO: - 너무 많은 guard문을 사용하는 것을 어떻게 해결할까?
+        guard let name = productNameTextField.text else {
+            throw ConvertPostError.wrongName
+        }
+        
+        guard let description = descriptionTextView.text else {
+            throw ConvertPostError.wrongDescription
+        }
+        
+        guard let priceText = productPriceTextField.text,
+              let price = Double(priceText) else {
+            throw ConvertPostError.wrongPrice
+        }
+        
+        guard let currency = Currency(rawInt: currencySegment.selectedSegmentIndex) else {
+            throw ConvertPostError.wrongCurrency
+        }
+        
+        guard let discountText = discountPriceTextField.text,
+              let discounted = Double(discountText) else {
+            throw ConvertPostError.wrongDiscount
+        }
+        
+        guard let stockText = stockTextField.text,
+              let stock = Int(stockText) else {
+            throw ConvertPostError.wrongStock
+        }
+        
+        return .init(name: name, description: description, price: price, currency: currency, discounted_price: discounted, stock: stock)
+    }
+}
+
+// MARK: - Objc Method
 private extension RegisterProductViewController {
     @objc func didTappedTextViewDoneButton() {
         view.frame.origin.y = .zero
@@ -164,43 +214,26 @@ private extension RegisterProductViewController {
     }
     
     @objc func didTappedNavigationDoneButton() {
-        guard let name = productNameTextField.text,
-              let description = descriptionTextView.text,
-              let price = Double(productPriceTextField.text ?? "0"),
-              let curreny = Currency.init(rawInt: currencySegment.selectedSegmentIndex),
-              let discounted = Double(discountPriceTextField.text ?? "1"),
-              let stock = Int(stockTextField.text ?? "2") else {
+        guard let params = try? convertPostParameters() else {
             return
         }
         
-        let params = PostParameter(
-            name: name,
-            description: description,
-            price: price,
-            currency: curreny,
-            discounted_price: discounted,
-            stock: stock,
-            secret: "4e5jv489csufrgs4"
-        )
+        var httpBodies = selectedImage.compactMap { $0?.convertHttpBody() }
+        httpBodies.insert(params.convertHttpBody(), at: 0)
+
+        let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: httpBodies)
         
-        guard let encodingData = try? JSONEncoder().encode(params) else {
-            return
-        }
-        
-        var bodies: [HttpBody] = [
-            .init(key: "params", contentType: .json, data: encodingData)
-        ]
-        
-        selectedImage.compactMap { $0?.pngData() }.map {
-            return HttpBody(key: "images", contentType: .image, data: $0)
-        }.forEach {
-            bodies.append($0)
-        }
-        
-        let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: bodies)
-        print(postPoint)
-        NetworkManager<ProductListResponse>().postProduct(endPoint: postPoint) { result in
-            print(result)
+        networkManager.postProduct(endPoint: postPoint) { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.navigationController?.popViewController(animated: true)
+                }
+            case .failure(let error):
+                // TODO: - Error Alert 띄우기
+                print(error)
+            }
         }
     }
     
@@ -216,6 +249,7 @@ private extension RegisterProductViewController {
     }
 }
 
+// MARK: - Configure UI
 private extension RegisterProductViewController {
     func configureNavigation() {
         let rightButton = UIBarButtonItem(
@@ -294,6 +328,7 @@ private extension RegisterProductViewController {
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension RegisterProductViewController: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -335,8 +370,10 @@ extension RegisterProductViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectinViewDelegateFlowLayout
 extension RegisterProductViewController: UICollectionViewDelegateFlowLayout { }
 
+// MARK: - UICollectionViewDelegate
 extension RegisterProductViewController: UICollectionViewDelegate {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -368,6 +405,7 @@ extension RegisterProductViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
 extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,
@@ -399,6 +437,7 @@ extension RegisterProductViewController: UIImagePickerControllerDelegate, UINavi
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension RegisterProductViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         view.frame.origin.y = -textField.frame.origin.y
@@ -412,6 +451,7 @@ extension RegisterProductViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - UITextViewDelegate
 extension RegisterProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .secondaryLabel {
@@ -433,45 +473,5 @@ extension RegisterProductViewController: UITextViewDelegate {
             textView.text = "설명"
             textView.textColor = .secondaryLabel
         }
-    }
-}
-
-private extension UIImage {
-    var compressionSize: Int? {
-        return self.jpegData(compressionQuality: 0.5)?.count
-    }
-    func resizeOfSquare() -> UIImage {
-        let minLength = min(self.size.width, self.size.height)
-        let size = CGSize(width: minLength, height: minLength)
-        
-        let render = UIGraphicsImageRenderer(size: size)
-        let renderImage = render.image { context in
-            self.draw(in: CGRect(origin: .zero, size: size))
-        }
-        
-        return renderImage
-    }
-
-    func downSampling(scale: Double) -> UIImage {
-        guard let data = self.jpegData(compressionQuality: 0.5),
-              let imageSource = CGImageSourceCreateWithData(data as CFData, nil) else {
-            return self
-        }
-        
-        let maxPixel = min(self.size.width, self.size.height) * scale
-        let downSampleOptions = [
-            kCGImageSourceCreateThumbnailFromImageAlways: true,
-            kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: maxPixel
-        ] as CFDictionary
-        
-        guard let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions) else {
-            return self
-        }
-        
-        let newImage = UIImage(cgImage: downSampledImage)
-        
-        return newImage
     }
 }

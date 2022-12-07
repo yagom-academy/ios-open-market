@@ -19,6 +19,8 @@
 		18E853C72925EFE200EDCE2A /* APIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853C62925EFE200EDCE2A /* APIType.swift */; };
 		18E853CA2925F01800EDCE2A /* OpenMarketAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853C92925F01800EDCE2A /* OpenMarketAPI.swift */; };
 		18E853CD2925F10800EDCE2A /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E853CC2925F10800EDCE2A /* NetworkError.swift */; };
+		18F503F92940664200BD444F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F503F82940664200BD444F /* UIImage.swift */; };
+		18F503FB294066D900BD444F /* HttpBodyConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F503FA294066D900BD444F /* HttpBodyConvertible.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */; };
@@ -58,6 +60,8 @@
 		18E853C62925EFE200EDCE2A /* APIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIType.swift; sourceTree = "<group>"; };
 		18E853C92925F01800EDCE2A /* OpenMarketAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMarketAPI.swift; sourceTree = "<group>"; };
 		18E853CC2925F10800EDCE2A /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		18F503F82940664200BD444F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		18F503FA294066D900BD444F /* HttpBodyConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpBodyConvertible.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 				189123812939E1DD00FD5690 /* PostParameter.swift */,
 				189123852939E27A00FD5690 /* HTTPMethod.swift */,
 				189123872939E28700FD5690 /* HTTPBody.swift */,
+				F6833682292733B200ADB02B /* TestDouble */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 		18E853C12925EF8200EDCE2A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				18F503F72940663900BD444F /* Common */,
 				18E853C42925EFA400EDCE2A /* Networking */,
 			);
 			path = Extensions;
@@ -204,10 +210,10 @@
 				18E853C62925EFE200EDCE2A /* APIType.swift */,
 				18509BF92924B90100C6B9AC /* NetworkManager.swift */,
 				189123802939E1D300FD5690 /* Common */,
-				F6833682292733B200ADB02B /* TestDouble */,
 				18E853CB2925F04300EDCE2A /* DTO */,
 				18E853C82925EFFC00EDCE2A /* NetworkTypes */,
 				18E853CC2925F10800EDCE2A /* NetworkError.swift */,
+				18F503FA294066D900BD444F /* HttpBodyConvertible.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -228,6 +234,14 @@
 				F683946029223E11001BCCBC /* Currency.swift */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		18F503F72940663900BD444F /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				18F503F82940664200BD444F /* UIImage.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -374,6 +388,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCBEE6302934C517005D74F7 /* ProductListItemCell.swift in Sources */,
+				18F503FB294066D900BD444F /* HttpBodyConvertible.swift in Sources */,
 				1898192A293A371C000E43DC /* RegisterCollectionImageCell.swift in Sources */,
 				F6833684292733C900ADB02B /* URLSessionProtocol.swift in Sources */,
 				F6833686292733E800ADB02B /* StubURLSession.swift in Sources */,
@@ -382,6 +397,7 @@
 				FC9A12A12939D606004A4C7E /* RegisterProductViewController.swift in Sources */,
 				18E3B685292B6C2C00B25B84 /* Mockable+.swift in Sources */,
 				189123882939E28800FD5690 /* HTTPBody.swift in Sources */,
+				18F503F92940664200BD444F /* UIImage.swift in Sources */,
 				F683945B29223B91001BCCBC /* ProductListResponse.swift in Sources */,
 				189123822939E1DD00FD5690 /* PostParameter.swift in Sources */,
 				189123862939E27A00FD5690 /* HTTPMethod.swift in Sources */,

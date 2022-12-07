@@ -6,13 +6,20 @@
         
 import Foundation
 
+enum ContentType: String {
+    case json = "application/json"
+    case image = "image/png"
+}
+
 struct HttpBody {
-    enum ContentType: String {
-        case json = "application/json"
-        case image = "image/png"
+    var key: String {
+        switch contentType {
+        case .json:
+            return "params"
+        case .image:
+            return "images"
+        }
     }
-    
-    var key: String
     var contentType: ContentType
     var data: Data
     
