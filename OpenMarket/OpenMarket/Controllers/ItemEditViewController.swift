@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemEditViewController: ItemViewController {
+final class ItemEditViewController: ItemViewController {
     // MARK: - Property
     var itemId: Int?
     var item: Item?

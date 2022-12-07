@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemAddViewController: ItemViewController {
+final class ItemAddViewController: ItemViewController {
     // MARK: - Property
     private lazy var registrationImageView: UIView = {
         let view = UIView()
