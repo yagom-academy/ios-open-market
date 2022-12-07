@@ -56,34 +56,12 @@ struct ProductAddRequest: NetworkRequest {
     let urlHost: String = "https://openmarket.yagom-academy.kr"
     let urlPath: String = "/api/products"
     let queryParameters: [String: String] = [:]
-    let httpHeader: [String: String]?
-    let httpBody: Data?
-    
-    init(identifier: String, params: Data, images: Data) {
-        var body = Data()
-        var header: [String: String] = [:]
-        let boundary = "----\(UUID().uuidString)"
-        let lineBreak = "\r\n"
-    
-        header["identifier"] = identifier
-        header["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
+    var httpHeader: [String: String]?
+    var httpBody: Data?
         
-        body.append("--" + boundary + lineBreak, using: .utf8)
-        body.append("Content-Disposition:form-data; name=\"params\"" + lineBreak, using: .utf8)
-        body.append("Content-Type: application/json" + lineBreak, using: .utf8)
-        body.append(lineBreak, using: .utf8)
-        body.append(params)
-        body.append(lineBreak, using: .utf8)
-        body.append("--" + boundary + lineBreak, using: .utf8)
-        body.append("Content-Disposition:form-data; name=\"images\"; filename=\"image.jpeg\"" + lineBreak, using: .utf8)
-        body.append("Content-Type: image/jpeg" + lineBreak, using: .utf8)
-        body.append(lineBreak, using: .utf8)
-        body.append(images)
-        body.append(lineBreak, using: .utf8)
-        body.append("--" + boundary + "--", using: .utf8)
-        
-        self.httpHeader = header
-        self.httpBody = body
+    init(from multipartFormData: MultipartFormData) {
+        self.httpHeader = multipartFormData.fetchHTTPHeader()
+        self.httpBody = multipartFormData.fetchHTTPBody()
     }
 }
 

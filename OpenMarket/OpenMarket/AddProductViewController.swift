@@ -132,7 +132,7 @@ final class AddProductViewController: UIViewController {
         view.backgroundColor = .white
         
         configureSubViews()
-        configureHierarchy()
+        configureCollectionView()
         configureDataSource()
         configureNavigationBar()
         addTarget()
@@ -171,16 +171,15 @@ final class AddProductViewController: UIViewController {
     }
     
     private func postProductData() {
-        guard let params = makeNewProductData(),
-              let images = makeImageData(),
-              let request = ProductAddRequest(identifier: "c598a7e9-6941-11ed-a917-8dbc932b3fe4", params: params, images: images).request
-        else { return }
+        guard let request = makeProductAddRequest() else { return }
         
         networkManager.postData(form: request) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async { [weak self] in
-                    self?.showAlert(message: "등록 성공!")
+                    self?.showAlert(message: "등록 성공!") {
+                        self?.dismiss(animated: true)
+                    }
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -226,10 +225,26 @@ final class AddProductViewController: UIViewController {
         return data
     }
     
+    private func makeProductAddRequest() -> URLRequest? {
+        guard let params = makeNewProductData(),
+              let images = makeImageData()
+        else { return nil }
+        var multipartFormData: MultipartFormData = MultipartFormData()
+        multipartFormData.appendHeader(key: "identifier", value: "c598a7e9-6941-11ed-a917-8dbc932b3fe4")
+        multipartFormData.appendBody(name: "params", contentType: "application/json", data: params)
+        multipartFormData.appendBody(name: "images", fileName: "image.jpeg", contentType: "image/jpeg", data: images)
+        
+        let request = ProductAddRequest(from: multipartFormData).request
+        
+        return request
+    }
+    
     private func showAlert(message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "확인", style: .default) { _ in
-            if alert.message == "등록 성공!" { self.dismiss(animated: true) }
+            if let completion = completion {
+                completion()
+            }
         }
         
         alert.addAction(action)
@@ -287,7 +302,7 @@ final class AddProductViewController: UIViewController {
 }
 
 extension AddProductViewController {
-    private func createLayout() -> UICollectionViewLayout {
+    private func createCollectionViewLayout() -> UICollectionViewLayout {
         let section: NSCollectionLayoutSection = {
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
@@ -316,8 +331,8 @@ extension AddProductViewController {
         return layout
     }
     
-    private func configureHierarchy() {
-        imageCollectionView.collectionViewLayout = createLayout()
+    private func configureCollectionView() {
+        imageCollectionView.collectionViewLayout = createCollectionViewLayout()
         imageCollectionView.delegate = self
     }
     
@@ -350,32 +365,35 @@ extension AddProductViewController {
     private func checkCanAddProduct() -> Bool {
         if let nameCount = nameTextField.text?.count,
            !((3...100) ~= nameCount) {
-            nameTextField.layer.borderWidth = 1.0
-            nameTextField.layer.borderColor = UIColor.systemRed.cgColor
-            nameTextField.layer.cornerRadius = 5
+            highlightTextBounds(nameTextField)
         } else {
-            nameTextField.layer.borderWidth = 0.0
+            nameTextField.layer.borderWidth = .zero
         }
         
         if let textCount = descriptionTextView.text?.count,
            !((10...1000) ~= textCount) {
-            descriptionTextView.layer.borderWidth = 1.0
-            descriptionTextView.layer.borderColor = UIColor.systemRed.cgColor
-            descriptionTextView.layer.cornerRadius = 5
+            highlightTextBounds(descriptionTextView)
         } else {
-            descriptionTextView.layer.borderWidth = 0.0
+            descriptionTextView.layer.borderWidth = .zero
         }
         
         if let price = Double(priceTextField.text ?? ""),
            !price.isZero {
-            priceTextField.layer.borderWidth = 0.0
+            priceTextField.layer.borderWidth = .zero
         } else {
-            priceTextField.layer.borderWidth = 1.0
-            priceTextField.layer.borderColor = UIColor.systemRed.cgColor
-            priceTextField.layer.cornerRadius = 5
+            highlightTextBounds(priceTextField)
         }
         
         return [nameTextField, priceTextField, descriptionTextView].filter { $0.layer.borderWidth == 0 }.count == 3
+    }
+    
+    private func highlightTextBounds(_ view: UIView) {
+        let highlightedBorderWidth: CGFloat = 1.0
+        let cornerRadius: CGFloat = 5
+        
+        view.layer.borderWidth = highlightedBorderWidth
+        view.layer.borderColor = UIColor.systemRed.cgColor
+        view.layer.cornerRadius = cornerRadius
     }
     
     func setNavigationBarHeight() {
@@ -406,7 +424,7 @@ extension AddProductViewController: UICollectionViewDelegate {
         view.endEditing(true)
         guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
         
-        if cell.isGetImage {
+        if cell.isNotEmpty {
             let removedIndex = imageCellIdentifiers.remove(at: indexPath.item)
             snapshot.deleteItems([removedIndex])
             dataSource.apply(snapshot, animatingDifferences: true) { [weak cell, weak self] in
@@ -437,7 +455,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     private func addNewCell() {
         let lastIndex = IndexPath(item: imageCellIdentifiers.count - 1, section: 0)
         guard let lastCell = imageCollectionView.cellForItem(at: lastIndex) as? ImageCell,
-              lastCell.isGetImage,
+              lastCell.isNotEmpty,
               let newCellIdentifier = defaultIdentifier.subtracting(imageCellIdentifiers).first else { return }
         imageCellIdentifiers.append(newCellIdentifier)
         snapshot.appendItems([newCellIdentifier])

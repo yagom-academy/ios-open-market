@@ -8,7 +8,7 @@
 import UIKit
 
 final class ImageCell: UICollectionViewCell {
-    var isGetImage: Bool {
+    var isNotEmpty: Bool {
         return productImageView.image != nil
     }
     
