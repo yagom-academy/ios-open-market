@@ -14,10 +14,10 @@ final class NetworkManager {
         self.session = session
     }
     
-    func fetchData<T: Decodable>(for url: URL,
+    func fetchData<T: Decodable>(from request: URLRequest,
                                  dataType: T.Type,
                                  completion: @escaping (Result<T, Error>) -> Void) {
-        let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: url) {
+        let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: request) {
             (data, response, error) in
             if let error = error {
                 completion(.failure(error))
@@ -40,7 +40,7 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func postData(form request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+    func postData(from request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))

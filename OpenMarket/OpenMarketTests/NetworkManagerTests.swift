@@ -46,7 +46,7 @@ final class NetworkManagerTests: XCTestCase {
         
         // when
         var result: ProductList?
-        sut.fetchData(for: url, dataType: ProductList.self) { response in
+        sut.fetchData(from: url, dataType: ProductList.self) { response in
             if case let .success(productList) = response {
                 result = productList
             }
@@ -76,7 +76,7 @@ final class NetworkManagerTests: XCTestCase {
         
         // when
         var result: NetworkError?
-        sut.fetchData(for: url, dataType: Product.self) { response in
+        sut.fetchData(from: url, dataType: Product.self) { response in
             if case let .failure(error) = response {
                 result = error as? NetworkError
             }
@@ -103,7 +103,7 @@ final class NetworkManagerTests: XCTestCase {
         
         // when
         var result: NetworkError?
-        sut.fetchData(for: url, dataType: ProductList.self) { response in
+        sut.fetchData(from: url, dataType: ProductList.self) { response in
             if case let .failure(error) = response {
                 result = error as? NetworkError
             }
@@ -133,7 +133,7 @@ final class NetworkManagerTests: XCTestCase {
         
         // when
         var result: NetworkError?
-        sut.fetchData(for: url, dataType: ProductList.self) { response in
+        sut.fetchData(from: url, dataType: ProductList.self) { response in
             if case let .failure(error) = response {
                 result = error as? NetworkError
             }

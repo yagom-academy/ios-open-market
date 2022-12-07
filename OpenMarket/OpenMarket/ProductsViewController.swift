@@ -72,7 +72,7 @@ final class ProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         self.navigationItem.titleView = self.segmentedControl
         addTarget()
         self.navigationItem.rightBarButtonItem = self.addProductButton
@@ -96,9 +96,9 @@ final class ProductsViewController: UIViewController {
     
     private func fetchData(_ completion: @escaping () -> Void) {
         let productListRequest = ProductListRequest(pageNo: pageNumber, itemsPerPage: 20)
-        guard let url = productListRequest.request?.url else { return }
+        guard let request = productListRequest.request else { return }
         
-        networkManager.fetchData(for: url, dataType: ProductList.self) { [weak self] result in
+        networkManager.fetchData(from: request, dataType: ProductList.self) { [weak self] result in
             switch result {
             case .success(let productList):
                 self?.productLists.append(productList)
@@ -219,6 +219,24 @@ extension ProductsViewController: UICollectionViewDelegate {
                     self?.collectionView.reloadData()
                     self?.isInfiniteScroll = true
                 }
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = productLists[valid: indexPath.section]?.pages[valid: indexPath.item],
+              let request = ProductDetailRequest(productID: product.id).request
+        else { return }
+        
+        networkManager.fetchData(from: request, dataType: DetailProduct.self) { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    let detailViewController = ProductDetailViewController(data)
+                    self.navigationController?.pushViewController(detailViewController, animated: true)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }

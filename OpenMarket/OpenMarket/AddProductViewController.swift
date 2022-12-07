@@ -129,7 +129,7 @@ final class AddProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         configureSubViews()
         configureCollectionView()
@@ -173,7 +173,7 @@ final class AddProductViewController: UIViewController {
     private func postProductData() {
         guard let request = makeProductAddRequest() else { return }
         
-        networkManager.postData(form: request) { result in
+        networkManager.postData(from: request) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async { [weak self] in

@@ -20,6 +20,8 @@
 		BF2266772935C99C001D777C /* NewProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2266762935C99C001D777C /* NewProduct.swift */; };
 		BFD1B6AC293E2AF800BAD54E /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B6AB293E2AF800BAD54E /* UIImage+.swift */; };
 		BFD1B6B229404ECA00BAD54E /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B6B129404ECA00BAD54E /* MultipartFormData.swift */; };
+		BFD1B6B429406E8600BAD54E /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B6B329406E8600BAD54E /* ProductDetailViewController.swift */; };
+		BFD1B6B62940713900BAD54E /* DetailProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B6B52940713900BAD54E /* DetailProduct.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */; };
@@ -71,6 +73,8 @@
 		BF2266762935C99C001D777C /* NewProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProduct.swift; sourceTree = "<group>"; };
 		BFD1B6AB293E2AF800BAD54E /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		BFD1B6B129404ECA00BAD54E /* MultipartFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
+		BFD1B6B329406E8600BAD54E /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		BFD1B6B52940713900BAD54E /* DetailProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProduct.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 				BF226650292B137F001D777C /* FormatConverter.swift */,
 				C70FB0FE25BEF61C00C9924E /* ProductsViewController.swift */,
 				E337FF6B292DF58B0098F945 /* AddProductViewController.swift */,
+				BFD1B6B329406E8600BAD54E /* ProductDetailViewController.swift */,
 				E337FF63292BB9E00098F945 /* ListCell.swift */,
 				E337FF67292CB7300098F945 /* GridCell.swift */,
 				E335D11B2938CE41001CD2BE /* ImageCell.swift */,
@@ -199,6 +204,7 @@
 				E3D3396E2923374C006325AB /* ProductList.swift */,
 				E335D11929383D47001CD2BE /* EditProduct.swift */,
 				BF2266762935C99C001D777C /* NewProduct.swift */,
+				BFD1B6B52940713900BAD54E /* DetailProduct.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -366,11 +372,13 @@
 				BF226662292DFC40001D777C /* ImageCacheManager.swift in Sources */,
 				BF22662929237C5A001D777C /* NetworkManager.swift in Sources */,
 				E337FF6A292D00C20098F945 /* Int+.swift in Sources */,
+				BFD1B6B429406E8600BAD54E /* ProductDetailViewController.swift in Sources */,
 				BFD1B6AC293E2AF800BAD54E /* UIImage+.swift in Sources */,
 				E3D3396D29232FEF006325AB /* Product.swift in Sources */,
 				BF226653292B68C6001D777C /* DecodingError+.swift in Sources */,
 				E335D11829362680001CD2BE /* Data+.swift in Sources */,
 				E335D11A29383D47001CD2BE /* EditProduct.swift in Sources */,
+				BFD1B6B62940713900BAD54E /* DetailProduct.swift in Sources */,
 				E337FF64292BB9E00098F945 /* ListCell.swift in Sources */,
 				BFD1B6B229404ECA00BAD54E /* MultipartFormData.swift in Sources */,
 				BF2266772935C99C001D777C /* NewProduct.swift in Sources */,
