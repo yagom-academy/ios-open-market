@@ -205,6 +205,13 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let editItemViewController = EditItemViewController()
+        
+        guard let itemId = listDataSource?.itemIdentifier(for: indexPath)?.id else {
+            return
+        }
+        
+        editItemViewController.getItemList(id: itemId)
+        
         self.navigationController?.pushViewController(editItemViewController, animated: true)
     }
 }

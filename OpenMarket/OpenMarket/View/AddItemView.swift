@@ -8,7 +8,7 @@
 import UIKit
 
 final class AddItemView: UIView {
-    private let imageScrollView: UIScrollView = {
+    let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,6 +72,7 @@ final class AddItemView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품명"
+        textField.keyboardType = .default
         
         return textField
     }()
@@ -82,6 +83,7 @@ final class AddItemView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
         textField.placeholder = "상품가격"
+        textField.keyboardType = .decimalPad
         
         return textField
     }()
@@ -92,6 +94,7 @@ final class AddItemView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
         textField.placeholder = "할인금액"
+        textField.keyboardType = .decimalPad
         
         return textField
     }()
@@ -102,6 +105,7 @@ final class AddItemView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
         textField.placeholder = "재고수량"
+        textField.keyboardType = .numberPad
         
         return textField
     }()

@@ -50,7 +50,7 @@ class EditItemView: UIView {
         return stackView
     }()
     
-    let productImage: UIImageView = {
+    var productImage: UIImageView = {
         let view = UIImageView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -176,6 +176,28 @@ class EditItemView: UIView {
             descTextView.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 10),
             descTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
         ])
+    }
+    
+    func configureItemLabel(data: Item) {
+        var priceForSale: String
+        var priceToString: String
+        var stock: String
+        
+        do {
+            priceToString = try data.price.formatDouble
+            priceForSale = try data.discountedPrice.formatDouble
+            stock = try data.stock.formatInt
+        } catch {
+            priceToString = OpenMarketStatus.noneError
+            priceForSale = OpenMarketStatus.noneError
+            stock = OpenMarketStatus.noneError
+        }
+        
+        productNameTextField.text = "\(data.name)"
+        priceTextField.text = "\(priceToString)"
+        stockTextField.text = OpenMarketDataText.stock + "\(stock)"
+        stockTextField.textColor = .systemGray
+        priceForSaleTextField.text = "\(priceForSale)"
     }
 }
 
