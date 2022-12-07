@@ -1,14 +1,14 @@
 //
-//  ProductRegistrationView.swift
+//  ProductFormView.swift
 //  OpenMarket
 //  Created by inho, Hamo, Jeremy on 2022/12/05.
 //
 
 import UIKit
 
-final class ProductRegistrationView: UIView {
+final class ProductFormView: UIView {
     let scrollView: UIScrollView = .init()
-    let totalStackView: UIStackView = {
+    private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -171,7 +171,7 @@ final class ProductRegistrationView: UIView {
     }
 }
 
-extension ProductRegistrationView {
+extension ProductFormView {
     var nameInput: String? {
         guard let text = productNameTextField.text,
               (3...100).contains(text.count) else { return nil }

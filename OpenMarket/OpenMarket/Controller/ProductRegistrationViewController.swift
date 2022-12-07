@@ -7,16 +7,16 @@
 import UIKit
 
 final class ProductRegistrationViewController: UIViewController {
-    let networkManager = NetworkManager()
-    let productRegistrationView = ProductRegistrationView()
-    let boundary = "Boundary-\(UUID().uuidString)"
-    let imagePicker: UIImagePickerController = {
+    private let networkManager = NetworkManager()
+    private let productRegistrationView = ProductFormView()
+    private let boundary = "Boundary-\(UUID().uuidString)"
+    private let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
         return picker
     }()
-    var images: [UIImage] = []
+    private var images: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +34,12 @@ final class ProductRegistrationViewController: UIViewController {
         imagePicker.delegate = self
     }
     
-    func configureView() {
+    private func configureView() {
         view = productRegistrationView
         view.backgroundColor = .white
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                            style: .plain,
                                                            target: self,
@@ -51,7 +51,7 @@ final class ProductRegistrationViewController: UIViewController {
                                                             action: #selector(registerProduct))
     }
     
-    func configureNotification() {
+    private func configureNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(moveUpScrollView),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -64,7 +64,8 @@ final class ProductRegistrationViewController: UIViewController {
 }
 
 extension ProductRegistrationViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         guard images.count != 5 else {
             return images.count
         }
@@ -72,10 +73,12 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         return images.count + 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: RegistrationImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistrationImageCell.identifier,
-                                                                                   for: indexPath)
-                as? RegistrationImageCell else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell: RegistrationImageCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: RegistrationImageCell.identifier,
+            for: indexPath) as? RegistrationImageCell
+        else {
             return UICollectionViewCell()
         }
         
@@ -92,27 +95,34 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
 }
 
 extension ProductRegistrationViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = view.bounds.width * 0.3
         let height: CGFloat = width
         
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10,
                             left: 10,
                             bottom: 10,
                             right: 10)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
 }
 
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             images.append(editedImage)
             productRegistrationView.imagesCollectionView.reloadData()
@@ -123,7 +133,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
 }
 
 extension ProductRegistrationViewController {
-    func configureRequest() -> URLRequest? {
+    private func configureRequest() -> URLRequest? {
         guard let url = URL(string: "https://openmarket.yagom-academy.kr/api/products") else {
             return nil
         }
@@ -138,7 +148,7 @@ extension ProductRegistrationViewController {
         return request
     }
     
-    func configureRequestBody(_ product: PostProduct, _ images: [UIImage]) -> Data? {
+    private func configureRequestBody(_ product: PostProduct, _ images: [UIImage]) -> Data? {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         guard let productData = try? encoder.encode(product) else {
@@ -165,7 +175,7 @@ extension ProductRegistrationViewController {
         return data
     }
     
-    func convertImageData(_ image: Data, fileName: String, mimeType: String) -> Data {
+    private func convertImageData(_ image: Data, fileName: String, mimeType: String) -> Data {
         var data = Data()
         data.appendString("--\(boundary)\r\n")
         data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName)\"\r\n")
@@ -178,15 +188,15 @@ extension ProductRegistrationViewController {
 }
 
 extension ProductRegistrationViewController {
-    @objc func cancelRegistration() {
+    @objc private func cancelRegistration() {
         dismiss(animated: true)
     }
     
-    @objc func selectImage() {
+    @objc private func selectImage() {
         present(imagePicker, animated: true, completion: nil)
     }
     
-    @objc func moveUpScrollView(_ notification: NSNotification) {
+    @objc private func moveUpScrollView(_ notification: NSNotification) {
         if productRegistrationView.descriptionTextView.isFirstResponder,
            let userInfo = notification.userInfo,
            let value = userInfo["UIKeyboardFrameEndUserInfoKey"] as? NSValue {
@@ -197,18 +207,18 @@ extension ProductRegistrationViewController {
         }
     }
     
-    @objc func moveDownScrollView(_ notification: NSNotification) {
+    @objc private func moveDownScrollView(_ notification: NSNotification) {
         productRegistrationView.scrollView.contentInset.bottom = 0
     }
     
-    @objc func hideKeyboard() {
+    @objc private func hideKeyboard() {
         view.endEditing(true)
         let contentOffset = CGPoint(x: 0, y: 0)
         productRegistrationView.scrollView.setContentOffset(contentOffset,
                                                             animated: true)
     }
     
-    @objc func registerProduct() {
+    @objc private func registerProduct() {
         navigationItem.rightBarButtonItem?.isEnabled = false
         guard let name = productRegistrationView.nameInput,
               let price = productRegistrationView.priceInput,
@@ -243,7 +253,7 @@ extension ProductRegistrationViewController {
     }
 }
 
-extension Data {
+fileprivate extension Data {
     mutating func appendString(_ input: String) {
         if let input = input.data(using: .utf8) {
             self.append(input)
@@ -251,7 +261,7 @@ extension Data {
     }
 }
 
-extension UIImage {
+fileprivate extension UIImage {
     func resizeImage(maxByte: Int) -> Data {
         var compressQuality: CGFloat = 1
         var imageData = Data()

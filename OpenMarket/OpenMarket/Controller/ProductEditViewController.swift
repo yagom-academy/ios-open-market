@@ -7,11 +7,11 @@
 import UIKit
 
 final class ProductEditViewController: UIViewController {
-    let networkManager: NetworkManager = .init()
-    let errorManager: ErrorManager = .init()
-    let productEditView: ProductRegistrationView
-    let id: Int
-    var images: [ImageData] = [] {
+    private let networkManager: NetworkManager = .init()
+    private let errorManager: ErrorManager = .init()
+    private let productEditView: ProductFormView
+    private let identifier: Int
+    private var images: [ImageData] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.productEditView.imagesCollectionView.reloadData()
@@ -20,7 +20,7 @@ final class ProductEditViewController: UIViewController {
     }
     
     init(product: ProductData) {
-        id = product.identifier
+        identifier = product.identifier
         let product = PostProduct(name: product.name,
                               description: product.description ?? "",
                               price: product.price,
@@ -28,7 +28,7 @@ final class ProductEditViewController: UIViewController {
                               discountedPrice: product.discountedPrice,
                               stock: product.stock,
                               secret: "9vqf2ysxk8tnhzm9")
-        productEditView = ProductRegistrationView(product: product)
+        productEditView = ProductFormView(product: product)
         productEditView.imagesCollectionView.register(RegistrationImageCell.self,
                                                       forCellWithReuseIdentifier: RegistrationImageCell.identifier)
         super.init(nibName: nil, bundle: nil)
@@ -41,7 +41,7 @@ final class ProductEditViewController: UIViewController {
         productEditView.imagesCollectionView.dataSource = self
         configureView()
         configureNavigationBar()
-        networkManager.loadData(of: .product(identifier: id),
+        networkManager.loadData(of: .product(identifier: identifier),
                                 dataType: ProductData.self) { result in
             switch result {
             case .success(let productData):
@@ -57,12 +57,12 @@ final class ProductEditViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureView() {
+    private func configureView() {
         view = productEditView
         view.backgroundColor = .white
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                            style: .plain,
                                                            target: self,
@@ -76,38 +76,47 @@ final class ProductEditViewController: UIViewController {
 }
 
 extension ProductEditViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = view.bounds.width * 0.3
         let height: CGFloat = width
         
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10,
                             left: 10,
                             bottom: 10,
                             right: 10)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
 }
 
 extension ProductEditViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell: RegistrationImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistrationImageCell.identifier,
-                                                                                   for: indexPath)
-        as? RegistrationImageCell else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell: RegistrationImageCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: RegistrationImageCell.identifier,
+            for: indexPath) as? RegistrationImageCell
+        else {
             return UICollectionViewCell()
         }
         
-        self.networkManager.loadThumbnailImage(of: images[indexPath.item].thumbnailUrl) { result  in
+        self.networkManager.loadThumbnailImage(of: images[indexPath.item].thumbnailUrl) { result in
             switch result {
             case .success(let image):
                 DispatchQueue.main.async {
@@ -126,7 +135,7 @@ extension ProductEditViewController: UICollectionViewDataSource {
 }
 
 extension ProductEditViewController {
-    @objc func cancelRegistration() {
+    @objc private func cancelRegistration() {
         dismiss(animated: true)
     }
 }
