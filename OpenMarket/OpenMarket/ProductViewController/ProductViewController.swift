@@ -106,6 +106,29 @@ final class ProductViewController: UIViewController {
         return textView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc func keyboardUp(notification:NSNotification) {
+        if self.descriptionTextView.isFirstResponder {
+            if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                
+                UIView.animate(
+                    withDuration: 0.3
+                    , animations: {
+                        self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height * 0.8)
+                    }
+                )
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -158,7 +181,7 @@ final class ProductViewController: UIViewController {
             addProductButton.widthAnchor.constraint(equalTo: addProductButton.heightAnchor),
             addProductButton.leadingAnchor.constraint(equalTo: imageStackView.trailingAnchor, constant: inset),
             addProductButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: inset),
-
+            
             productNameTextField.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: inset),
             productNameTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: inset),
             productNameTextField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -inset),
@@ -195,7 +218,7 @@ final class ProductViewController: UIViewController {
         let price = Double(productPriceTextField.text ?? "0") ?? 0
         let bargainPrice = Double(bargainPriceTextField.text ?? "0") ?? 0
         let stock = Int(stockTextField.text ?? "0") ?? 0
-
+        
         var imageArray: [UIImage] = []
         let imageViewArray = imageStackView.subviews as? [UIImageView] ?? []
         imageViewArray.forEach { imageView in
@@ -309,5 +332,14 @@ extension ProductViewController: UITextFieldDelegate {
 extension ProductViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return textView.text.count <= 1000
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        UIView.animate(
+            withDuration: 0.3
+            , animations: {
+                self.view.transform = .identity
+                
+        })
     }
 }
