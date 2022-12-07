@@ -16,10 +16,10 @@ extension ProductViewController: UIImagePickerControllerDelegate, UINavigationCo
             self.addProductButton.layer.cornerRadius = 4
             
             if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-                let transSize = CGSize(width: img.size.width / 10, height: img.size.height / 10)
+                let transSize = CGSize(width: img.size.width / 20, height: img.size.height / 20)
                 var resizeImage = img.resizeImageTo(size: transSize)
                 
-                while resizeImage.getSizeIn(.kilobyte) > 300 {
+                while resizeImage.getSizeIn(.kilobyte) > 200 {
                     resizeImage = resizeImage.resizeImageTo(size: transSize)
                 }
                 
