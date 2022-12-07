@@ -11,4 +11,12 @@ enum NetworkError: Error {
     case requestError(error: Error)
     case invalidStatusCode
     case decodeError
+    
+    var title: String {
+        return "네트워크 요청 실패"
+    }
+    
+    var message: String {
+        return "네트워크 요청에 실패하였습니다. 잠시후 다시 시도해주세요."
+    }
 }

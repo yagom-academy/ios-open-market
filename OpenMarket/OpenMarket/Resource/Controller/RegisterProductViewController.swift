@@ -7,8 +7,6 @@
 
 // TODO: - 추가적으로 할일
 /*
- 1. NameSpace 만들기
- 2. NetworkError Alert 만들기
  3. 업로드 후 데이터 다시 받아오기
  4. pagenation 구현하기
  */
@@ -18,7 +16,7 @@ import UIKit
 final class RegisterProductViewController: UIViewController {
     enum Constant {
         static let editProduct: String = "상품수정"
-        static let registProduct: String = "상품등록"
+        static let registerProduct: String = "상품등록"
         static let maxImageCount: Int = 5
         
         static let productName: String = "상품명"
@@ -33,7 +31,7 @@ final class RegisterProductViewController: UIViewController {
         static let collectionViewVerticalRatio: CGFloat = 0.2
         static let segmentHorizontalRatio: CGFloat = 0.3
         
-        static let cancel: String = "취소"
+        static let confirm: String = "확인"
         static let done: String = "Done"
         
         static let rowCount: CGFloat = 3
@@ -46,7 +44,7 @@ final class RegisterProductViewController: UIViewController {
             if isEditingMode {
                 navigationItem.title = Constant.editProduct
             } else {
-                navigationItem.title = Constant.registProduct
+                navigationItem.title = Constant.registerProduct
             }
             
             collectionView.reloadData()
@@ -68,7 +66,7 @@ final class RegisterProductViewController: UIViewController {
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-
+        
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -114,7 +112,8 @@ final class RegisterProductViewController: UIViewController {
 private extension RegisterProductViewController {
     func convertPostParameters() -> PostParameter? {
         let checker = RegisterProductChecker { [weak self] error in
-            self?.presentAlertMessage(error: error)
+            guard let self = self else { return }
+            self.presentAlertMessage(error: error)
         }
         
         checker.invalidImage(images: selectedImage)
@@ -141,7 +140,6 @@ private extension RegisterProductViewController {
     
     @objc func didTappedNavigationDoneButton() {
         guard let params = convertPostParameters() else {
-            print("파라미터 에러")
             return
         }
         
@@ -151,15 +149,15 @@ private extension RegisterProductViewController {
         let postPoint = OpenMarketAPI.addProduct(sendId: UUID(), bodies: httpBodies)
         
         networkManager.postProduct(endPoint: postPoint) { result in
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(_):
                     self.navigationController?.popViewController(animated: true)
+                case .failure(let error):
+                    self.presentAlertMessage(error: error)
                 }
-            case .failure(let error):
-                // TODO: - Error Alert 띄우기
-                print(error)
             }
         }
     }
@@ -189,7 +187,7 @@ private extension RegisterProductViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .systemBackground
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationItem.title = Constant.registProduct
+        navigationItem.title = Constant.registerProduct
     }
     
     func setupSubViewInStackViews() {
@@ -273,8 +271,16 @@ private extension RegisterProductViewController {
     
     func presentAlertMessage(error: RegisterError) {
         let alert = UIAlertController(title: error.rawValue, message: error.description, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: Constant.cancel, style: .cancel, handler: nil)
-        alert.addAction(cancel)
+        let confirmButton = UIAlertAction(title: Constant.confirm, style: .default, handler: nil)
+        alert.addAction(confirmButton)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func presentAlertMessage(error: NetworkError) {
+        let alert = UIAlertController(title: error.title, message: error.message, preferredStyle: .alert)
+        let confirmButton = UIAlertAction(title: Constant.confirm, style: .default, handler: nil)
+        alert.addAction(confirmButton)
         
         present(alert, animated: true, completion: nil)
     }
