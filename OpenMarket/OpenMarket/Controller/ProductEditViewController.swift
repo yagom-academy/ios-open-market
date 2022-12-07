@@ -67,7 +67,7 @@ final class ProductEditViewController: UIViewController {
                                                            style: .plain,
                                                            target: self,
                                                            action: #selector(cancelRegistration))
-        navigationItem.title = "상품 등록"
+        navigationItem.title = "상품 수정"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done",
                                                             style: .plain,
                                                             target: self,

@@ -13,7 +13,8 @@ struct NetworkManager {
         self.session = session
     }
     
-    func loadThumbnailImage(of url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    func loadThumbnailImage(of url: String,
+                            completion: @escaping (Result<UIImage, Error>) -> Void) {
         guard let url = URL(string: url) else { return }
         
         let task = session.dataTask(with: url) { data, response, error in
@@ -79,7 +80,7 @@ struct NetworkManager {
         task.resume()
     }
     
-    func postData(request: URLRequest, data: Data) {
+    func postData(request: URLRequest, data: Data, completion: @escaping () -> Void) {
         let task = URLSession.shared.uploadTask(with: request, from: data) { data, response, error in
             guard error == nil else { return }
             guard let httpResponse = response as? HTTPURLResponse,
@@ -88,7 +89,7 @@ struct NetworkManager {
                 return
             }
             guard let data = data else { return }
-            
+            completion()
             print(data)
         }
         task.resume()

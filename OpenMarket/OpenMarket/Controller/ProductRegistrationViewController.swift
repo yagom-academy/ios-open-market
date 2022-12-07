@@ -75,7 +75,7 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell: RegistrationImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistrationImageCell.identifier,
                                                                                    for: indexPath)
-        as? RegistrationImageCell else {
+                as? RegistrationImageCell else {
             return UICollectionViewCell()
         }
         
@@ -84,7 +84,7 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
             
             return cell
         }
-
+        
         cell.addImage(images[indexPath.item])
         
         return cell
@@ -152,7 +152,8 @@ extension ProductRegistrationViewController {
         data.appendString("\r\n")
         
         images.forEach { image in
-            guard let convertedImage = image.pngData() else { return }
+            let convertedImage = image.resizeImage(maxByte: 300000)
+            print(convertedImage.count)
             
             data.append(convertImageData(convertedImage,
                                          fileName: "inho.png",
@@ -208,6 +209,7 @@ extension ProductRegistrationViewController {
     }
     
     @objc func registerProduct() {
+        navigationItem.rightBarButtonItem?.isEnabled = false
         guard let name = productRegistrationView.nameInput,
               let price = productRegistrationView.priceInput,
               let discount = productRegistrationView.discountInput,
@@ -215,6 +217,7 @@ extension ProductRegistrationViewController {
               let description = productRegistrationView.descriptionInput,
               !images.isEmpty
         else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
             return
         }
         
@@ -232,7 +235,11 @@ extension ProductRegistrationViewController {
             return
         }
         
-        networkManager.postData(request: request, data: data)
+        networkManager.postData(request: request, data: data) {
+            DispatchQueue.main.async {
+                self.dismiss(animated: true)
+            }
+        }
     }
 }
 
@@ -241,5 +248,25 @@ extension Data {
         if let input = input.data(using: .utf8) {
             self.append(input)
         }
+    }
+}
+
+extension UIImage {
+    func resizeImage(maxByte: Int) -> Data {
+        var compressQuality: CGFloat = 1
+        var imageData = Data()
+        var imageByte = self.jpegData(compressionQuality: 1)?.count
+        
+        while imageByte! > maxByte {
+            guard let jpegData = self.jpegData(compressionQuality: compressQuality) else {
+                return imageData
+            }
+            
+            imageData = jpegData
+            imageByte = self.jpegData(compressionQuality: compressQuality)?.count
+            compressQuality -= 0.1
+        }
+        
+        return imageData
     }
 }

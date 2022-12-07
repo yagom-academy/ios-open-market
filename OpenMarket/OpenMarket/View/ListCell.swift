@@ -19,6 +19,20 @@ final class ListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func preferredLayoutAttributesFitting(
+        _ layoutAttributes: UICollectionViewLayoutAttributes
+    ) -> UICollectionViewLayoutAttributes {
+        super.preferredLayoutAttributesFitting(layoutAttributes)
+        
+        let size = self.frame.width * 0.2
+        var frame = layoutAttributes.frame
+        
+        frame.size.height = size
+        layoutAttributes.frame = frame
+        
+        return layoutAttributes
+    }
+    
     private func configureLayout() {
         contentView.addSubview(listContentView)
         contentView.addSubview(stockLabel)
@@ -34,19 +48,5 @@ final class ListCell: UICollectionViewListCell {
             stockLabel.centerYAnchor.constraint(equalTo: listContentView.centerYAnchor),
             stockLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
-    }
-    
-    override func preferredLayoutAttributesFitting(
-        _ layoutAttributes: UICollectionViewLayoutAttributes
-    ) -> UICollectionViewLayoutAttributes {
-        super.preferredLayoutAttributesFitting(layoutAttributes)
-        
-        let size = self.frame.width * 0.2
-        var frame = layoutAttributes.frame
-        
-        frame.size.height = size
-        layoutAttributes.frame = frame
-        
-        return layoutAttributes
     }
 }

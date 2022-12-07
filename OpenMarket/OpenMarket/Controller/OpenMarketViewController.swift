@@ -18,6 +18,7 @@ final class OpenMarketViewController: UIViewController {
     
     private let networkManager: NetworkManager = .init()
     private let errorManager: ErrorManager = .init()
+    private let cache = NSCache<NSString, UIImage>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
     private var productCollectionView: UICollectionView! {
         didSet {
@@ -178,17 +179,23 @@ final class OpenMarketViewController: UIViewController {
             cell.listContentView.configuration = content
             cell.accessories = [.disclosureIndicator()]
             
+            if let cachedImage = self.cache.object(forKey: product.thumbnail as NSString) {
+                content.image = cachedImage
+                cell.listContentView.configuration = content
+                return
+            }
+            
             self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
                 switch result {
                 case .success(let image):
                     content.image = image
                     DispatchQueue.main.async {
                         if indexPath == self.productCollectionView.indexPath(for: cell) {
+                            self.cache.setObject(image, forKey: product.thumbnail as NSString)
                             cell.listContentView.configuration = content
                         }
                     }
-                case .failure(let error):
-                    print(error)
+                case .failure(_):
                     DispatchQueue.main.async {
                         content.image = self.errorManager.showFailedImage()
                         cell.listContentView.configuration = content
@@ -219,16 +226,21 @@ final class OpenMarketViewController: UIViewController {
                 cell.priceLabel.attributedText = product.fetchCurrencyAndDiscountedPrice()
             }
             
+            if let cachedImage = self.cache.object(forKey: product.thumbnail as NSString) {
+                cell.imageView.image = cachedImage
+                return
+            }
+            
             self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
                 switch result {
                 case .success(let image):
                     DispatchQueue.main.async {
                         if indexPath == self.productCollectionView.indexPath(for: cell) {
+                            self.cache.setObject(image, forKey: product.thumbnail as NSString)
                             cell.imageView.image = image
                         }
                     }
-                case .failure(let error):
-                    print(error)
+                case .failure(_):
                     DispatchQueue.main.async {
                         cell.imageView.image = self.errorManager.showFailedImage()
                     }
