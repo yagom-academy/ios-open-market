@@ -44,15 +44,8 @@ final class EditItemViewController: UIViewController {
         let url = OpenMarketURL.productComponent(productID: id).url
         
         NetworkManager.publicNetworkManager.getJSONData(url: url, type: Item.self) { itemData in
-            
             DispatchQueue.main.async {
                 self.editItemView.configureItemLabel(data: itemData)
-            }
-        }
-        
-        NetworkManager.publicNetworkManager.getImageData(url: url) { image in
-            DispatchQueue.main.async { [weak self] in
-                self?.editItemView.productImage.image = image
             }
         }
     }

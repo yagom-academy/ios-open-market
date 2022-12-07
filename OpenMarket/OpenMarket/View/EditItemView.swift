@@ -137,7 +137,7 @@ class EditItemView: UIView {
         self.addSubview(descTextView)
         
         descTextView.delegate = self
-
+        
         descTextView.text = OpenMarketDataText.textViewPlaceHolder
         
         imageScrollView.addSubview(imageStackView)
@@ -195,9 +195,16 @@ class EditItemView: UIView {
         
         productNameTextField.text = "\(data.name)"
         priceTextField.text = "\(priceToString)"
-        stockTextField.text = OpenMarketDataText.stock + "\(stock)"
-        stockTextField.textColor = .systemGray
+        stockTextField.text = "\(stock)"
         priceForSaleTextField.text = "\(priceForSale)"
+        descTextView.text = "\(data.description)"
+        descTextView.textColor = .black
+        
+        NetworkManager.publicNetworkManager.getImageData(url: data.thumbnail) { image in
+            DispatchQueue.main.async {
+                self.productImage.image = image
+            }
+        }
     }
 }
 
