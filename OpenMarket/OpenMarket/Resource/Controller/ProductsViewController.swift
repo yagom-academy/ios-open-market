@@ -12,7 +12,7 @@ final class ProductsViewController: UIViewController {
         static let edgeInsetValue: CGFloat = 8
         static let listCellHeightRatio: Double = 0.1
         static let gridCellHeightRatio: Double = 0.3
-        static let productsRowCount: Int = 200
+        static let productsRowCount: Int = 20
     }
     
     enum LayoutType: Int {
@@ -38,16 +38,26 @@ final class ProductsViewController: UIViewController {
     }
     
     private let productResponseNetworkManager = NetworkManager<ProductListResponse>()
-    private var currentPage: Int = 1
+    private var currentPageNumber: Int = 1
     private var selectedLayout: LayoutType = .list
+    private var isFirstFetching: Bool = true
+    private var isLoading: Bool = false
     
     private var productsData: ProductListResponse? {
         didSet {
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 self.view = self.collectionView
-                self.collectionView.reloadData()
+                self.products.append(contentsOf: self.productsData?.products ?? [])
             }
+        }
+    }
+    
+    private var products: [Product] = [] {
+        didSet {
+            self.collectionView.reloadData()
+            self.isFirstFetching = false
+            self.isLoading = false
         }
     }
     
@@ -94,14 +104,13 @@ final class ProductsViewController: UIViewController {
         configureNavigationbar()
         view = activityIndicator
         activityIndicator.startAnimating()
-        
         fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        fetchData()
+//        let itemCount = currentPageNumber * Constant.productsRowCount
+//        fetchData(itemCount: itemCount)
     }
 }
 
@@ -134,6 +143,26 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGFloat {
         return Constant.edgeInsetValue
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if isFirstFetching {
+            return
+        }
+        
+        let position = scrollView.contentOffset.y
+        let contentHeight = collectionView.contentSize.height
+        let scrollFrameHeight = scrollView.frame.size.height
+        let targetPosition = (contentHeight - scrollFrameHeight - 20)
+        
+        if position > targetPosition {
+            if isLoading {
+                return
+            }
+            
+            currentPageNumber += 1
+            fetchData()
+        }
+    }
 }
 
 // MARK: UICollectionViewDataSource
@@ -142,15 +171,13 @@ extension ProductsViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return productsData?.products.count ?? 0
+        return products.count
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        
-        guard let products = productsData?.products else { return UICollectionViewCell() }
         let product = products[indexPath.row]
         
         switch selectedLayout {
@@ -197,10 +224,11 @@ private extension ProductsViewController {
 
 // MARK: Business Login
 private extension ProductsViewController {
-    func fetchData() {
+    func fetchData(itemCount: Int = Constant.productsRowCount) {
+        isLoading = true
         let endPoint = OpenMarketAPI.productsList(
-            pageNumber: currentPage,
-            rowCount: Constant.productsRowCount
+            pageNumber: currentPageNumber,
+            rowCount: itemCount
         )
         
         productResponseNetworkManager.fetchData(endPoint: endPoint) { result in
