@@ -113,15 +113,17 @@ class ItemViewController: UIViewController {
         configureScrollView()
         configureImageScrollView()
         configureTextFieldAndTextView()
+
+        descriptionTextView.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.addKeyboardNotifications()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        self.addKeyboardNotifications()
+//    }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.removeKeyboardNotifications()
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.removeKeyboardNotifications()
+//    }
     
 }
 
@@ -281,8 +283,18 @@ extension ItemViewController {
     }
 }
 
+extension ItemViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        addKeyboardNotifications()
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        removeKeyboardNotifications()
+    }
+}
+
 extension ItemViewController {
-    func addKeyboardNotifications(){
+    func addKeyboardNotifications() {
         // 키보드가 나타날 때 앱에게 알리는 메서드 추가
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
         // 키보드가 사라질 때 앱에게 알리는 메서드 추가
@@ -296,6 +308,7 @@ extension ItemViewController {
         // 키보드가 사라질 때 앱에게 알리는 메서드 제거
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+
     @objc func keyboardWillShow(_ noti: NSNotification){
         // 키보드의 높이만큼 화면을 올려준다.
         if !isTexting  ,let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
@@ -317,6 +330,6 @@ extension ItemViewController {
         }
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        view.endEditing(true)
+        view.endEditing(true)
     }
 }
