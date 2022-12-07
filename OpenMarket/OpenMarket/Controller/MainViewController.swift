@@ -48,6 +48,7 @@ final class MainViewController: UIViewController {
         configureHierarchy()
         configureDataSource()
         getItemList()
+        collectionView?.delegate = self
     }
     
     private func configureNaviBarItem() {
@@ -198,5 +199,12 @@ extension MainViewController {
             (collectionView: UICollectionView, indexPath: IndexPath, identifier: Item) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
         }
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let editItemViewController = EditItemViewController()
+        self.navigationController?.pushViewController(editItemViewController, animated: true)
     }
 }

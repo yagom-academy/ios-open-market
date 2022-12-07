@@ -141,8 +141,9 @@ final class GridCollectionViewCell: UICollectionViewCell {
         var stock: String
         
         do {
+            let discountPrice = item.price - item.discountedPrice
             priceToString = try item.price.formatDouble
-            priceForSale = try item.discountedPrice.formatDouble
+            priceForSale = try discountPrice.formatDouble
             stock = try item.stock.formatInt
         } catch {
             priceToString = OpenMarketStatus.noneError
@@ -155,14 +156,14 @@ final class GridCollectionViewCell: UICollectionViewCell {
         priceLabel.attributedText = .none
         stockLabel.text = OpenMarketDataText.stock + "\(stock)"
         stockLabel.textColor = .systemGray
-        priceForSaleLabel.text = "\(item.currency) \(priceForSale)"
+        priceForSaleLabel.text = "\(item.currency.rawValue) \(priceForSale)"
         priceForSaleLabel.textColor = .systemGray
         
-        if item.bargainPrice != 0 {
+        if item.bargainPrice != item.price {
             priceLabel.isHidden = false
-            priceForSaleLabel.text = "\(item.currency) \(priceForSale)"
+            priceForSaleLabel.text = "\(item.currency.rawValue) \(priceForSale)"
             priceLabel.textColor = .systemRed
-            priceLabel.text = "\(item.currency) \(priceToString)"
+            priceLabel.text = "\(item.currency.rawValue) \(priceToString)"
             
             guard let priceText = priceLabel.text else { return }
             let attribute = NSMutableAttributedString(string: priceText)
