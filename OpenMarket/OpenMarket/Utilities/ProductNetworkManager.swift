@@ -49,7 +49,7 @@ final class ProductNetworkManager {
                                  images: [UIImage]) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("46e19473-6942-11ed-a917-ffbdc6f50f81", forHTTPHeaderField: "identifier")
+        request.setValue("40343fb3-6941-11ed-a917-7be94b1381ef", forHTTPHeaderField: "identifier")
         request.setValue("multipart/form-data; boundary=" + boundary, forHTTPHeaderField: "Content-Type")
         request.httpBody = createBody(boundary, params, images)
         

@@ -44,7 +44,7 @@ final class AddProductViewController: UIViewController {
     
     private func configureDoneButton() {
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
-                                       action: nil)
+                                       action: #selector(doneButtonPressed))
         self.navigationItem.rightBarButtonItem = doneItem
     }
     
@@ -65,6 +65,11 @@ final class AddProductViewController: UIViewController {
     
     @objc private func cancelButtonPressed() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func doneButtonPressed() {
+        self.uploadNewProduct()
+//        self.dismiss(animated: true)
     }
     
     @objc private func imageAddButtonPressed(_ sender: UIButton) {
@@ -104,5 +109,30 @@ extension AddProductViewController: UITextViewDelegate {
     
     @objc func dismissMyKeyBoard() {
         self.addView.endEditing(true)
+    }
+}
+
+extension AddProductViewController {
+    private func uploadNewProduct() {
+        guard let name = self.addView.productNameTextField.text, !name.isEmpty,
+              let newProductDescription = self.addView.descriptionTextView.text, !newProductDescription.isEmpty,
+              let price = Int(self.addView.productPriceTextField.text ?? "0"),
+              let currency = self.addView.productPriceSegment.titleForSegment(at: self.addView.productPriceSegment.selectedSegmentIndex)
+        else { return }
+        
+        let discountedPrice = Int(self.addView.productBargainPriceTextField.text ?? "0")
+        let stock = Int(self.addView.productStockTextField.text ?? "0")
+        
+        let newProductInfo = NewProductInfo(name: name, newProductDescription: newProductDescription, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock)
+        let images: [UIImage] = self.addView.imageStackView.subviews.compactMap { $0 as? UIImageView }.compactMap { $0.image }
+        
+        ProductNetworkManager.shared.postNewProduct(params: newProductInfo, images: images) { result in
+            switch result {
+            case .success(let product):
+                print(product)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }

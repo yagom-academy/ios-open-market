@@ -6,8 +6,8 @@ struct NewProductInfo: Codable {
     let name, newProductDescription: String
     let price: Int
     let currency: String
-    let discountedPrice, stock: Int
-    let secret: String
+    let discountedPrice, stock: Int?
+    let secret: String = "t2j8r3x9zseesw6y"
 
     enum CodingKeys: String, CodingKey {
         case name
