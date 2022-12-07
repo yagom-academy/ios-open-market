@@ -8,7 +8,7 @@
 import UIKit
 
 protocol OpenMarketCollectionViewDelegate: AnyObject {
-    func openMarketCollectionView(didRequestNextPage: Bool) -> Bool
+    func openMarketCollectionView(didRequestNextPage: Bool)
 }
 
 final class OpenMarketCollectionView: UICollectionView {
@@ -18,7 +18,7 @@ final class OpenMarketCollectionView: UICollectionView {
     private var indicatorViewRegistration: UICollectionView.SupplementaryRegistration<IndicatorView>?
     private var openMarketDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     private var currentLayout: CollectionViewLayout = CollectionViewLayout.defaultLayout
-    private var hasNextPage: Bool? = true
+    private var hasNextPage: Bool = true
     weak var openMarketDelegate: OpenMarketCollectionViewDelegate?
     var currentSnapshot: NSDiffableDataSourceSnapshot<Section, Product>? {
         return openMarketDataSource?.snapshot()
@@ -41,6 +41,27 @@ final class OpenMarketCollectionView: UICollectionView {
         setCollectionViewLayout(LayoutMaker.make(of: layout), animated: false)
         currentLayout = layout
     }
+    func applyDataSource(using page: Page) {
+        guard var currentSnapshot = currentSnapshot else {
+            return
+        }
+        let products: [Product] = Array(page.products.prefix(page.productPerPage))
+
+        self.hasNextPage = page.hasNextPage
+        if currentSnapshot.numberOfSections == 0 {
+            currentSnapshot.appendSections([.main])
+        } else if page.number == 1 {
+            currentSnapshot.deleteAllItems()
+            currentSnapshot.appendSections([.main])
+            scrollToItem(at: .init(item: 0, section: 0), at: .top, animated: false)
+        } else {
+            currentSnapshot.deleteItems(products)
+        }
+        currentSnapshot.appendItems(products)
+        openMarketDataSource?.apply(currentSnapshot)
+        
+        refreshControl?.endRefreshing()
+    }
     //MARK: - Snapshot
     func applySnapshot(_ snapshot: NSDiffableDataSourceSnapshot<Section, Product>) {
         openMarketDataSource?.apply(snapshot, animatingDifferences: false)
@@ -49,21 +70,21 @@ final class OpenMarketCollectionView: UICollectionView {
     private func registerCell() {
         listCellRegistration = UICollectionView.CellRegistration<ProductListCell, Product> { (cell, indexPath, product) in
             cell.updateWithProduct(product)
-            cell.setUpImage(compareTo: cell)
+            cell.setUpImage(from: product.thumbnail)
             cell.accessories = [.disclosureIndicator()]
         }
         
         gridCellRegistration = UICollectionView.CellRegistration<ProductGridCell, Product> { (cell, indexPath, product) in
             cell.updateWithProduct(product)
-            cell.setUpImage(compareTo: cell)
+            cell.setUpImage(from: product.thumbnail)
         }
     }
     //MARK: - Footer
     private func registerSupplementaryView() {
         indicatorViewRegistration = UICollectionView.SupplementaryRegistration<IndicatorView>(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] (supplementaryView, elementKind, indexPath) in
             if elementKind == UICollectionView.elementKindSectionFooter {
-                self?.hasNextPage = self?.openMarketDelegate?.openMarketCollectionView(didRequestNextPage: true)
                 if self?.hasNextPage == true {
+                    self?.openMarketDelegate?.openMarketCollectionView(didRequestNextPage: true)
                     supplementaryView.startIndicator()
                 }
             }
@@ -93,3 +114,4 @@ final class OpenMarketCollectionView: UICollectionView {
         }
     }
 }
+

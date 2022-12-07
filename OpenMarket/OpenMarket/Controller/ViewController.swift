@@ -21,7 +21,6 @@ final class ViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         refreshData(nil)
     }
     
@@ -110,40 +109,28 @@ final class ViewController: UIViewController {
     
     @objc
     private func refreshData(_ sender: UIRefreshControl?) {
-        self.currentPage = 1
-        self.hasNextPage = true
-        applySnapshotOfFetchedPage(isRefresh: true)
+        reset()
+        fetchPage()
+    }
+    
+    private func reset() {
+        currentPage = 1
+        hasNextPage = true
     }
     
     //MARK: - Snapshot Apply Method
-    private func applySnapshotOfFetchedPage(isRefresh: Bool = false) {
+    private func fetchPage() {
         guard hasNextPage == true else { return }
         let networkManger: NetworkManager = NetworkManager(openMarketAPI: .fetchPage(pageNumber: currentPage, productsPerPage: productPerPage))
         networkManger.network { [weak self] (data, error) in
             if let error = error {
                 print(error.localizedDescription)
-            } else if let data = data,
-                      let page = try? JSONDecoder().decode(Page.self, from: data),
-                      var currentSnapshot: NSDiffableDataSourceSnapshot = self?.collectionView.currentSnapshot {
+            } else if let data = data, let page = try? JSONDecoder().decode(Page.self, from: data){
                 self?.hasNextPage = page.hasNextPage
-                if page.hasNextPage {
-                    self?.currentPage += 1
-                }
-                let products: [Product] = Array(page.products.prefix(self?.productPerPage ?? 0))
-                if isRefresh {
-                    currentSnapshot.deleteSections([.main])
-                    currentSnapshot.appendSections([.main])
-                    currentSnapshot.appendItems(products)
-                } else if currentSnapshot.numberOfSections != 0 {
-                    currentSnapshot.appendItems(products)
-                } else {
-                    currentSnapshot.appendSections([.main])
-                    currentSnapshot.appendItems(products)
-                }
+                self?.currentPage = page.number + 1
                 DispatchQueue.main.async {
+                    self?.collectionView.applyDataSource(using: page)
                     self?.removeIndicatorView()
-                    self?.collectionView.applySnapshot(currentSnapshot)
-                    self?.collectionView.refreshControl?.endRefreshing()
                 }
             }
         }
@@ -156,8 +143,7 @@ extension ViewController: UICollectionViewDelegate {
     }
 }
 extension ViewController: OpenMarketCollectionViewDelegate {
-    func openMarketCollectionView(didRequestNextPage: Bool) -> Bool {
-        applySnapshotOfFetchedPage()
-        return hasNextPage
+    func openMarketCollectionView(didRequestNextPage: Bool){
+        self.fetchPage()
     }
 }

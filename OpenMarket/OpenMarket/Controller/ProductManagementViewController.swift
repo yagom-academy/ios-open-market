@@ -72,6 +72,7 @@ class ProductManagementViewController: UIViewController {
         
         setUpBarButtonItem()
         setUpNotification()
+        setUpTapGestureRecognizer()
     }
 
     func setUpViewsIfNeeded() {
@@ -109,6 +110,7 @@ class ProductManagementViewController: UIViewController {
             contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             contentStackViewSizeConstraints.height, contentStackViewSizeConstraints.width
         ])
+        currencySegmentedControl.setContentHuggingPriority(.required, for: .horizontal)
     }
 
     func setUpDelegateIfNeeded() {
@@ -159,6 +161,16 @@ class ProductManagementViewController: UIViewController {
                                                object: nil)
     }
     
+    private func setUpTapGestureRecognizer() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        tapGestureRecognizer.isEnabled = true
+        tapGestureRecognizer.cancelsTouchesInView = false
+
+        scrollView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
     @objc
     func checkEnoughContents(_ sender: NSNotification?) {
         if let nameTextField: NameTextField = sender?.object as? NameTextField {
@@ -196,8 +208,8 @@ class ProductManagementViewController: UIViewController {
         scrollView.verticalScrollIndicatorInsets = contentInset
     }
     
-    override
-    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    @objc
+    func endEditing() {
         view.endEditing(true)
     }
 }
