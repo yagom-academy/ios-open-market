@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ProductRegisterViewController: UIViewController {
+final class ProductRegisterViewController: UIViewController {
     var imageArray: [UIImage] = []
     let imagePicker: UIImagePickerController = .init()
     var imageIndex: Int = 0
@@ -25,7 +25,6 @@ class ProductRegisterViewController: UIViewController {
         configureImagePicker()
         configureTextComponent()
         checkKeyboard()
-        postNetwork()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -268,8 +267,8 @@ extension ProductRegisterViewController: UICollectionViewDataSource {
                                                    for: indexPath) as? ImageCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
-        cell.image.image = imageArray[indexPath.item]
+
+        cell.configureImage(imageFile: imageArray[indexPath.item])
         
         return cell
     }

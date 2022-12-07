@@ -7,5 +7,5 @@
 import Foundation
 
 protocol NetworkPatchable {
-    func patch(to url: URL?)
+    func patch(to url: URL?, params: ParamsProduct, completion: @escaping (Data) -> Void)
 }
