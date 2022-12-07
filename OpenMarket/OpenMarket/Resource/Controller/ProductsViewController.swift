@@ -97,6 +97,12 @@ final class ProductsViewController: UIViewController {
         
         fetchData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchData()
+    }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
