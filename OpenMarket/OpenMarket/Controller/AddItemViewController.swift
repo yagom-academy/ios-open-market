@@ -21,14 +21,14 @@ final class AddItemViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        self.title = "상품등록"
+        self.title = OpenMarketNaviItem.addItemTitle
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: OpenMarketNaviItem.cancel,
                                                                 style: .plain,
                                                                 target: self, action:
                                                                     #selector(tappedCancel(sender:)))
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done",
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: OpenMarketNaviItem.done,
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(tappedDone(sender:)))
@@ -41,18 +41,21 @@ final class AddItemViewController: UIViewController {
     @objc private func tappedDone(sender: UIBarButtonItem) {
         guard let productNameText = addItemView.productNameTextField.text,
               productNameText.count >= 3 else {
-                  showAlertController(title: "상품명 글자수 제한", message: "3자 이상 입력이 되어야 합니다.")
+                  showAlertController(title: OpenMarketAlert.productTextLimit,
+                                      message: OpenMarketAlert.productTextLimitMessage)
                   return
               }
         
         guard addItemView.descTextView.text.count >= 1 && addItemView.descTextView.text.count <= 1000 else {
-            showAlertController(title: "상품 설명 글자수 제한", message: "1자 이상 1000자 이하 입력이 되어야 합니다.")
+            showAlertController(title: OpenMarketAlert.descTextLimit,
+                                message: OpenMarketAlert.descTextLimitMessage)
             return
         }
         
         guard let priceText = addItemView.priceTextField.text,
               !priceText.isEmpty else {
-                  showAlertController(title: "가격 미입력", message: "가격이 입력되지 않았습니다. 다시 입력해주세요.")
+                  showAlertController(title: OpenMarketAlert.priceEmpty,
+                                      message: OpenMarketAlert.priceEmptyMessage)
                   return
               }
         
@@ -67,7 +70,9 @@ final class AddItemViewController: UIViewController {
             return
         }
         
-        HTTPManager.shared.requestPOST(url: OpenMarketURL.postProductComponent.url, encodingData: encodingData, images: productImages) { data in
+        HTTPManager.shared.requestPOST(url: OpenMarketURL.postProductComponent.url,
+                                       encodingData: encodingData,
+                                       images: productImages) { data in
             print("성공!")
         }
     }
@@ -112,12 +117,15 @@ extension AddItemViewController {
 
 extension AddItemViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func configureImagePicker() {
-        self.addItemView.registrationButton.addTarget(self, action: #selector(showImagePicker), for: .touchUpInside)
+        self.addItemView.registrationButton.addTarget(self,
+                                                      action: #selector(showImagePicker),
+                                                      for: .touchUpInside)
     }
     
     @objc func showImagePicker() {
         guard productImages.count <= 4 else {
-            showAlertController(title: "이미지 등록 불가", message: "이미지는 5개까지 등록이 가능합니다.")
+            showAlertController(title: OpenMarketAlert.imageLimit,
+                                message: OpenMarketAlert.imageLimitMessage)
             return
         }
         
@@ -150,11 +158,11 @@ extension AddItemViewController: UINavigationControllerDelegate, UIImagePickerCo
 
 extension AddItemViewController {
     func showAlertController(title: String, message: String) {
-        let alert: UIAlertController = UIAlertController(title: "\(title)",
-                                                         message: "\(message)",
+        let alert: UIAlertController = UIAlertController(title: title,
+                                                         message: message,
                                                          preferredStyle: .alert)
         
-        let action: UIAlertAction = UIAlertAction(title: "확인",
+        let action: UIAlertAction = UIAlertAction(title: OpenMarketAlert.confirm,
                                                   style: .default,
                                                   handler: nil)
         

@@ -62,7 +62,7 @@ final class AddItemView: UIView {
     var registrationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(systemName: OpenMarketImage.plus), for: .normal)
         return button
     }()
     
@@ -71,7 +71,7 @@ final class AddItemView: UIView {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "상품명"
+        textField.placeholder = OpenMarketPlaceHolder.productName
         textField.keyboardType = .default
         
         return textField
@@ -82,7 +82,7 @@ final class AddItemView: UIView {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "상품가격"
+        textField.placeholder = OpenMarketPlaceHolder.price
         textField.keyboardType = .decimalPad
         
         return textField
@@ -93,7 +93,7 @@ final class AddItemView: UIView {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "할인금액"
+        textField.placeholder = OpenMarketPlaceHolder.priceForSale
         textField.keyboardType = .decimalPad
         
         return textField
@@ -104,14 +104,14 @@ final class AddItemView: UIView {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "재고수량"
+        textField.placeholder = OpenMarketPlaceHolder.stock
         textField.keyboardType = .numberPad
         
         return textField
     }()
     
     let currencySegmentControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["KRW", "USD"])
+        let control = UISegmentedControl(items: [Currency.krw.rawValue, Currency.usd.rawValue])
         
         control.translatesAutoresizingMaskIntoConstraints = false
         control.selectedSegmentIndex = 0

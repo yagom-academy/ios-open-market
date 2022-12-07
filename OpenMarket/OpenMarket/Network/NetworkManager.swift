@@ -5,7 +5,6 @@
 //  Created by Ash and som on 2022/11/16.
 //
 
-import Foundation
 import UIKit
 
 struct NetworkManager {
@@ -32,6 +31,7 @@ struct NetworkManager {
             guard let image = UIImage(data: data) else {
                 return
             }
+            
             ImageCacheManager.shared.setObject(image, forKey: cachedKey)
             completion(image)
         }

@@ -151,10 +151,10 @@ final class GridCollectionViewCell: UICollectionViewCell {
             stock = OpenMarketStatus.noneError
         }
         
-        productNameLabel.text = "\(item.name)"
+        productNameLabel.text = item.name
         priceLabel.text = .none
         priceLabel.attributedText = .none
-        stockLabel.text = OpenMarketDataText.stock + "\(stock)"
+        stockLabel.text = OpenMarketDataText.stock + stock
         stockLabel.textColor = .systemGray
         priceForSaleLabel.text = "\(item.currency.rawValue) \(priceForSale)"
         priceForSaleLabel.textColor = .systemGray

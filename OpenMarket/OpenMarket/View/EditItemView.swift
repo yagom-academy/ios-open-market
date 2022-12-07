@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditItemView: UIView {
+final class EditItemView: UIView {
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
@@ -17,7 +17,7 @@ class EditItemView: UIView {
         return scrollView
     }()
     
-    var imageStackView: UIStackView = {
+    private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ class EditItemView: UIView {
         return stackView
     }()
     
-    var productImage: UIImageView = {
+    private let productImage: UIImageView = {
         let view = UIImageView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -59,57 +59,56 @@ class EditItemView: UIView {
         return view
     }()
     
-    let productNameTextField: UITextField = {
+    private let productNameTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "상품명"
+        textField.placeholder = OpenMarketPlaceHolder.productName
         
         return textField
     }()
     
-    let priceTextField: UITextField = {
+    private let priceTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "상품가격"
+        textField.placeholder = OpenMarketPlaceHolder.price
         
         return textField
     }()
     
-    let priceForSaleTextField: UITextField = {
+    private let priceForSaleTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "할인금액"
+        textField.placeholder = OpenMarketPlaceHolder.priceForSale
         
         return textField
     }()
     
-    let stockTextField: UITextField = {
+    private let stockTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.borderStyle = .roundedRect
-        textField.placeholder = "재고수량"
+        textField.placeholder = OpenMarketPlaceHolder.stock
         
         return textField
     }()
     
-    let currencySegmentControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["KRW", "USD"])
+    private let currencySegmentControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: [Currency.krw.rawValue, Currency.usd.rawValue])
         
         control.translatesAutoresizingMaskIntoConstraints = false
         control.selectedSegmentIndex = 0
         
-        
         return control
     }()
     
-    let descTextView: UITextView = {
+    private let descTextView: UITextView = {
         let textView = UITextView()
         
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -193,11 +192,11 @@ class EditItemView: UIView {
             stock = OpenMarketStatus.noneError
         }
         
-        productNameTextField.text = "\(data.name)"
-        priceTextField.text = "\(priceToString)"
-        stockTextField.text = "\(stock)"
-        priceForSaleTextField.text = "\(priceForSale)"
-        descTextView.text = "\(data.description)"
+        productNameTextField.text = data.name
+        priceTextField.text = priceToString
+        stockTextField.text = stock
+        priceForSaleTextField.text = priceForSale
+        descTextView.text = data.description
         descTextView.textColor = .black
         
         NetworkManager.publicNetworkManager.getImageData(url: data.thumbnail) { image in

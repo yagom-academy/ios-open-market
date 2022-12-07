@@ -54,3 +54,29 @@ enum OpenMarketImage {
 enum OpenMarketSecretCode {
     static let somPassword = "jbb2dy6r65tkgn3q"
 }
+
+enum OpenMarketNaviItem {
+    static let addItemTitle = "상품 등록"
+    static let editItemTitle = "상품 수정"
+    static let cancel = "Cancel"
+    static let done = "Done"
+}
+
+enum OpenMarketAlert {
+    static let confirm = "확인"
+    static let productTextLimit = "상품명 글자수 제한"
+    static let productTextLimitMessage = "3자 이상 입력이 되어야 합니다."
+    static let descTextLimit = "상품 설명 글자수 제한"
+    static let descTextLimitMessage = "1자 이상 1000자 이하 입력이 되어야 합니다."
+    static let priceEmpty = "가격 미입력"
+    static let priceEmptyMessage = "가격이 입력되지 않았습니다. 다시 입력해주세요."
+    static let imageLimit = "이미지 등록 불가"
+    static let imageLimitMessage = "이미지는 5개까지 등록이 가능합니다."
+}
+
+enum OpenMarketPlaceHolder {
+    static let productName = "상품명"
+    static let price = "상품가격"
+    static let priceForSale = "할인금액"
+    static let stock = "재고수량"
+}

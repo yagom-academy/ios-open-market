@@ -44,4 +44,3 @@ extension Int {
         case formatterError
     }
 }
-
