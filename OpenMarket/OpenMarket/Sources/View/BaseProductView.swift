@@ -25,17 +25,13 @@ class BaseProductView: UIView {
     
     override init(frame:CGRect) {
         super.init(frame:frame)
-        prepareView()
         loadXib()
     }
     
     required init?(coder:NSCoder) {
         super.init(coder:coder)
-        prepareView()
         loadXib()
     }
-    
-    func prepareView() {}
     
     private func loadXib() {
         let identifier = "BaseProductView"
@@ -56,15 +52,22 @@ class BaseProductView: UIView {
 }
 
 // 등록하는 뷰
-class ProductRegisterView: BaseProductView {
-    override func prepareView() {
-        
-    }
-}
+class ProductRegisterView: BaseProductView {}
 
 // 수정하는 뷰
 class ProductChangeView: BaseProductView {
-    override func prepareView() {
+    func configure(name: String, price: Double, currency: Currency, bargainPrice: Double, stock: Int, description: String) {
+        titleLabel?.text = "상품수정"
+        productNameTextField?.text = name
+        productPriceTextField?.text = String(price)
+        productBargainTextField?.text = String(bargainPrice)
+        productStockTextField?.text = String(stock)
+        productsContentTextView?.text = description
         
+        if currency == Currency.KRWString {
+            currencySelector.selectedSegmentIndex = 0
+        } else {
+            currencySelector.selectedSegmentIndex = 1
+        }
     }
 }
