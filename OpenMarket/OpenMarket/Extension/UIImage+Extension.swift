@@ -10,12 +10,12 @@ import UIKit
 extension UIImage {
     func compressTo(expectedSizeInKb:Int) -> Data? {
         let sizeInBytes = expectedSizeInKb * 1024
-        var needCompress:Bool = true
-        var imgData:Data?
-        var compressingValue:CGFloat = 1.0
+        var needCompress: Bool = true
+        var imgData: Data?
+        var compressingValue: CGFloat = 1.0
         
         while (needCompress && compressingValue > 0.0) {
-            if let data:Data = self.jpegData(compressionQuality: compressingValue) {
+            if let data: Data = self.jpegData(compressionQuality: compressingValue) {
             if data.count < sizeInBytes {
                 needCompress = false
                 imgData = data
@@ -24,6 +24,7 @@ extension UIImage {
             }
         }
     }
+        
     if let data = imgData {
         if (data.count < sizeInBytes) {
             return data

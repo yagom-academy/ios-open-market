@@ -153,7 +153,7 @@ extension NetworkManager {
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: parameter) else { return }
         
-        request.httpBody = createRequestBody(parameter: ["parameter" : jsonData], images: images, boundary: boundary)
+        request.httpBody = createRequestBody(parameter: ["params" : jsonData], images: images, boundary: boundary)
         
         let dataTask: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             if error != nil {

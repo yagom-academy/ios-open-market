@@ -11,6 +11,7 @@ enum Section: Hashable {
 }
 
 final class MainViewController: UIViewController {
+    // MARK: - Private Property
     private let segmentedControl: UISegmentedControl = {
         let item = ["LIST", "GRID"]
         let segmentedControl = UISegmentedControl(items: item)
@@ -25,6 +26,7 @@ final class MainViewController: UIViewController {
     
     private var itemList: [Item] = []
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
@@ -32,15 +34,15 @@ final class MainViewController: UIViewController {
         
         gridCollectionView.delegate = self
         listCollectionView.delegate = self
-        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         configureFetchItemList()
     }
 }
 
+// MARK: - View Layout & Constraints
 extension MainViewController {
-    // MARK: - View Layout & Constraints
     private func createListLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: configuration)
@@ -89,8 +91,9 @@ extension MainViewController {
         ])
     }
 }
+
+// MARK: - Private Method
 extension MainViewController {
-    // MARK: - Private Method
     @objc private func addItem() {
         let itemAddVC = ItemAddViewController()
         let itemAddNavVC = UINavigationController(rootViewController: itemAddVC)
@@ -151,6 +154,7 @@ extension MainViewController {
     }
 }
 
+// MARK: - CollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let itemEditVC = ItemEditViewController()
