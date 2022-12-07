@@ -45,11 +45,7 @@ final class ProductsViewController: UIViewController {
     
     private var productsData: ProductListResponse? {
         didSet {
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.view = self.collectionView
-                self.products.append(contentsOf: self.productsData?.products ?? [])
-            }
+            self.updateCollectionView()
         }
     }
     
@@ -104,13 +100,11 @@ final class ProductsViewController: UIViewController {
         configureNavigationbar()
         view = activityIndicator
         activityIndicator.startAnimating()
-        fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        let itemCount = currentPageNumber * Constant.productsRowCount
-//        fetchData(itemCount: itemCount)
+        fetchData(isUpdateAndNotFirstFetching: true && !isFirstFetching)
     }
 }
 
@@ -160,7 +154,7 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
             }
             
             currentPageNumber += 1
-            fetchData()
+            fetchData(isUpdateAndNotFirstFetching: false && !isFirstFetching)
         }
     }
 }
@@ -224,17 +218,26 @@ private extension ProductsViewController {
 
 // MARK: Business Login
 private extension ProductsViewController {
-    func fetchData(itemCount: Int = Constant.productsRowCount) {
+    func fetchData(isUpdateAndNotFirstFetching: Bool) {
         isLoading = true
+    
+        let rowCount = isUpdateAndNotFirstFetching ? (currentPageNumber * Constant.productsRowCount) : Constant.productsRowCount
+        let pageNumber = isUpdateAndNotFirstFetching ? 1 : currentPageNumber
         let endPoint = OpenMarketAPI.productsList(
-            pageNumber: currentPageNumber,
-            rowCount: itemCount
+            pageNumber: pageNumber,
+            rowCount: rowCount
         )
         
         productResponseNetworkManager.fetchData(endPoint: endPoint) { result in
             switch result {
             case .success(let data):
-                self.productsData = data
+                DispatchQueue.main.async {
+                    if isUpdateAndNotFirstFetching {
+                        self.products.removeAll()
+                    }
+                    
+                    self.productsData = data
+                }
             case .failure(let error):
                 print(error)
             }
@@ -252,5 +255,14 @@ private extension ProductsViewController {
         )
         self.navigationItem.rightBarButtonItem = addButton
         self.navigationItem.titleView = segment
+    }
+    
+    func updateCollectionView() {
+        activityIndicator.stopAnimating()
+        view = collectionView
+        guard let productsSet = productsData?.products else {
+            return
+        }
+        products.append(contentsOf: productsSet)
     }
 }
