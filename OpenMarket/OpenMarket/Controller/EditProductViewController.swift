@@ -6,7 +6,7 @@ class EditProductViewController: AddProductViewController {
         
     init(product: Product, images: [UIImage]) {
         super.init()
-        self.addView = ProductAddView(product: product, images: images)
+        self.productManageView = ProductManageView(product: product, images: images)
     }
 
     required init?(coder: NSCoder) {

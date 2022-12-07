@@ -5,7 +5,7 @@ import UIKit
 class AddProductViewController: UIViewController {
     
     weak var delegate: UploadDelegate?
-    var addView = ProductAddView()
+    var productManageView = ProductManageView()
     let imagePicker = UIImagePickerController()
     var imageCount = 0
     var textFieldConstraint: NSLayoutConstraint?
@@ -31,8 +31,8 @@ class AddProductViewController: UIViewController {
     }
     
     private func configureView() {
-        self.view = addView
-        self.addView.descriptionTextView.delegate = self
+        self.view = productManageView
+        self.productManageView.descriptionTextView.delegate = self
     }
     
     func configureNavigationBar() {
@@ -56,7 +56,7 @@ class AddProductViewController: UIViewController {
     }
     
     private func configureAddImageButton() {
-        self.addView.photoAddButton.addTarget(self, action: #selector(imageAddButtonPressed), for: UIControl.Event.touchUpInside)
+        self.productManageView.photoAddButton.addTarget(self, action: #selector(imageAddButtonPressed), for: UIControl.Event.touchUpInside)
     }
     
     private func configureImagePicker() {
@@ -82,7 +82,7 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            self.addView.addImageView(with: image)
+            self.productManageView.addImageView(with: image)
         }
         imageCount += 1
         dismiss(animated: true, completion: nil)
@@ -93,8 +93,8 @@ extension AddProductViewController: UIImagePickerControllerDelegate, UINavigatio
 extension AddProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         UIView.animate(withDuration: 0.4) {
-            self.addView.imageScrollView.isHidden = true
-            self.textFieldConstraint =  self.addView.textFieldStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+            self.productManageView.imageScrollView.isHidden = true
+            self.textFieldConstraint =  self.productManageView.textFieldStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
             self.textFieldConstraint?.isActive = true
             self.view.layoutIfNeeded()
         }
@@ -102,31 +102,31 @@ extension AddProductViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         self.textFieldConstraint?.isActive = false
-        self.addView.imageScrollView.isHidden = false
+        self.productManageView.imageScrollView.isHidden = false
         self.view.layoutIfNeeded()
     }
     
     func initializeHideKeyBoard() {
         let tap: UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMyKeyBoard))
-        self.addView.addGestureRecognizer(tap)
+        self.productManageView.addGestureRecognizer(tap)
     }
     
     @objc func dismissMyKeyBoard() {
-        self.addView.endEditing(true)
+        self.productManageView.endEditing(true)
     }
 }
 
 extension AddProductViewController {
     
     private func fetchNewProductInfo() -> NewProductInfo? {
-        guard let name = self.addView.productNameTextField.text, !name.isEmpty,
-              let newProductDescription = self.addView.descriptionTextView.text, !newProductDescription.isEmpty,
-              let price = Int(self.addView.productPriceTextField.text ?? "0"),
-              let currency = self.addView.productPriceSegment.titleForSegment(at: self.addView.productPriceSegment.selectedSegmentIndex)
+        guard let name = self.productManageView.productNameTextField.text, !name.isEmpty,
+              let newProductDescription = self.productManageView.descriptionTextView.text, !newProductDescription.isEmpty,
+              let price = Int(self.productManageView.productPriceTextField.text ?? "0"),
+              let currency = self.productManageView.productPriceSegment.titleForSegment(at: self.productManageView.productPriceSegment.selectedSegmentIndex)
         else { return nil }
         
-        let discountedPrice = Int(self.addView.productBargainPriceTextField.text ?? "0")
-        let stock = Int(self.addView.productStockTextField.text ?? "0")
+        let discountedPrice = Int(self.productManageView.productBargainPriceTextField.text ?? "0")
+        let stock = Int(self.productManageView.productStockTextField.text ?? "0")
         
         let newProductInfo = NewProductInfo(name: name, newProductDescription: newProductDescription, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock)
         
@@ -134,7 +134,7 @@ extension AddProductViewController {
     }
     
     private func fetchImage() -> [UIImage]? {
-        let images: [UIImage] = self.addView.imageStackView.subviews.compactMap { $0 as? UIImageView }.compactMap { $0.image }
+        let images: [UIImage] = self.productManageView.imageStackView.subviews.compactMap { $0 as? UIImageView }.compactMap { $0.image }
         guard images.count > 0 else { return nil }
         return images
     }

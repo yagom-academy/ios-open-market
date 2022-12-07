@@ -2,7 +2,7 @@
 
 import UIKit
 
-class ProductAddView: UIView {
+class ProductManageView: UIView {
     
     let imageStackView: UIStackView = {
         let stackView = UIStackView()
