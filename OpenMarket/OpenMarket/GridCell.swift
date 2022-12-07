@@ -105,10 +105,9 @@ final class GridCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(from product: Product?) {
-        guard let product = product else { return }
-        self.identifier = product.identifier
+    func configure(from product: Product) {
         loadingView.startAnimating()
+        self.identifier = product.identifier
         productName.text = product.name.isEmpty ? " " : product.name
         setupPrice(from: product)
         setupStock(from: product)

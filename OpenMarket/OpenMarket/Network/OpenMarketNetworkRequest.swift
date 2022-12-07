@@ -5,7 +5,7 @@
 //  Created by Gundy, Wonbi on 2022/11/15.
 //
 
-import UIKit
+import Foundation
 
 struct HealthCheckerRequest: NetworkRequest {
     let httpMethod: HttpMethod = .get

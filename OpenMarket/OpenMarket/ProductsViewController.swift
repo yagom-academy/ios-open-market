@@ -180,27 +180,30 @@ extension ProductsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let productList = productLists[valid: indexPath.section]
+        guard let product = productLists[valid: indexPath.section]?.pages[valid: indexPath.item]
+        else {
+            return UICollectionViewCell()
+        }
         
         switch segmentedControl.selectedSegmentIndex {
         case LayoutType.list.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
-                                                                    for: indexPath) as? ListCell
+                                                                for: indexPath) as? ListCell
             else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(from: productList?.pages[indexPath.item])
+            cell.configure(from: product)
             return cell
             
         case LayoutType.grid.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
-                                                                    for: indexPath) as? GridCell
+                                                                for: indexPath) as? GridCell
             else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(from: productList?.pages[indexPath.item])
+            cell.configure(from: product)
             return cell
             
         default:

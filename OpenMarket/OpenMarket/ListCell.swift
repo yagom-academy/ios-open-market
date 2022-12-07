@@ -118,9 +118,8 @@ final class ListCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(from product: Product?) {
+    func configure(from product: Product) {
         loadingView.startAnimating()
-        guard let product = product else { return }
         self.identifier = product.identifier
         productName.text = product.name.isEmpty ? " " : product.name
         setupPrice(from: product)

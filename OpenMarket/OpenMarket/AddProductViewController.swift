@@ -20,7 +20,7 @@ final class AddProductViewController: UIViewController {
         return scrollView
     }()
     
-    private lazy var backView: UIView = {
+    private let backView: UIView = {
         var view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -157,12 +157,12 @@ final class AddProductViewController: UIViewController {
     }
     
     @objc private func tapDoneButton() {
-        if imageCellIdentifiers.count == 1 {
+        guard imageCellIdentifiers.count != 1 else {
             showAlert(message: "이미지를 추가해 주세요.")
             return
         }
         
-        if !checkCanAddProduct() {
+        guard checkCanAddProduct() else {
             showAlert(message: "입력값이 잘못되었습니다.")
             return
         }
