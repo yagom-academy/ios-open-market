@@ -8,17 +8,24 @@
 import UIKit
 
 class ItemInfomationViewController: UIViewController {
-    
     var item: Item?
     var itemId: Int?
     var itemImages: [UIImage] = []
     var networkManager = NetworkManager()
-    
-//    lazy var collectionView: UICollectionView = {
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: <#T##UICollectionViewLayout#>)
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        return collectionView
-//    }()
+
+    lazy var collectionViewLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        return layout
+    }()
+
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isPagingEnabled = true
+        collectionView.register(ItemImageCollectionViewCell.self, forCellWithReuseIdentifier: "ItemImageCollectionViewCell")
+        return collectionView
+    }()
     
     let testView: UIView = {
         let view = UIView()
@@ -79,6 +86,9 @@ class ItemInfomationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchItem()
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
     func configureItemInfo() {
@@ -110,6 +120,7 @@ class ItemInfomationViewController: UIViewController {
                     self.configureNavigation()
                     self.configureItemInfo()
                     self.abc()
+                    self.configureImageValue()
                 }
             case .failure(_):
                 DispatchQueue.main.async {
@@ -137,14 +148,9 @@ class ItemInfomationViewController: UIViewController {
             guard let url = URL(string: $0.url) else { return }
             networkManager.fetchImage(url: url) { image in
                 self.itemImages.append(image)
+                print("testtest")
                 DispatchQueue.main.async {
-                    let imageView = UIImageView()
-                    imageView.image = image
-                    imageView.translatesAutoresizingMaskIntoConstraints = false
-                    imageView.widthAnchor.constraint(equalToConstant: 130).isActive = true
-                    imageView.heightAnchor.constraint(equalToConstant: 130).isActive = true
-
-//                    self.collectionView.addArrangedSubview(imageView)
+                    self.collectionView.reloadData()
                 }
             }
         }
@@ -153,7 +159,7 @@ class ItemInfomationViewController: UIViewController {
 extension ItemInfomationViewController {
     func abc() {
         self.testView.backgroundColor = .red
-        self.view.addSubview(testView)
+        self.view.addSubview(collectionView)
         self.view.addSubview(itemlabelStackView)
         self.view.addSubview(descriptionTextView)
         self.itemlabelStackView.addArrangedSubview(itemNameLabel)
@@ -163,21 +169,46 @@ extension ItemInfomationViewController {
         self.priceStackView.addArrangedSubview(discountedPriceLabel)
         
         NSLayoutConstraint.activate([
-            self.testView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.testView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
-            self.testView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30),
-            self.testView.heightAnchor.constraint(equalTo: self.testView.widthAnchor),
-            
-            self.itemlabelStackView.topAnchor.constraint(equalTo: self.testView.bottomAnchor),
-            self.itemlabelStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            self.itemlabelStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            self.itemlabelStackView.heightAnchor.constraint(equalToConstant: 100),
-            
-            self.descriptionTextView.topAnchor.constraint(equalTo: self.itemlabelStackView.bottomAnchor),
-            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            self.descriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+//            self.testView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+//            self.testView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
+//            self.testView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30),
+//            self.testView.heightAnchor.constraint(equalTo: self.testView.widthAnchor),
+
+            self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+
+//            self.itemlabelStackView.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
+//            self.itemlabelStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+//            self.itemlabelStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+//            self.itemlabelStackView.heightAnchor.constraint(equalToConstant: 100),
+//
+//            self.descriptionTextView.topAnchor.constraint(equalTo: self.itemlabelStackView.bottomAnchor),
+//            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+//            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+//            self.descriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
+    }
+}
+
+extension ItemInfomationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("\(itemImages.count)")
+        return itemImages.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemImageCollectionViewCell", for: indexPath) as! ItemImageCollectionViewCell
+
+        cell.imageView?.image = itemImages[indexPath.item]
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+
     }
 }

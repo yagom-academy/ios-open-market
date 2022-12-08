@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A463D6F293A07CC00A186F8 /* ItemEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A463D6E293A07CC00A186F8 /* ItemEditViewController.swift */; };
+		1A463DCE2941F45700A186F8 /* ItemImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A463DCD2941F45700A186F8 /* ItemImageCollectionViewCell.swift */; };
 		1A576AB5292B32BC004C9CCF /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */; };
 		1A576ABE292C5D9B004C9CCF /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */; };
 		1A576AC0292CB2AE004C9CCF /* GridUICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		1A463D6E293A07CC00A186F8 /* ItemEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditViewController.swift; sourceTree = "<group>"; };
+		1A463DCD2941F45700A186F8 /* ItemImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A576AB4292B32BC004C9CCF /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridUICollectionView.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				1A576ABD292C5D9A004C9CCF /* GridCollectionViewCell.swift */,
 				1A576ABF292CB2AE004C9CCF /* GridUICollectionView.swift */,
 				54941D16292CB8FC003D63DA /* ListUICollectionView.swift */,
+				1A463DCD2941F45700A186F8 /* ItemImageCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				1A576AC829305540004C9CCF /* LoadingController.swift in Sources */,
 				54D0B0EB29232A110061BB15 /* Currency.swift in Sources */,
 				546EB2C029305F46006DA0CD /* ItemAddViewController.swift in Sources */,
+				1A463DCE2941F45700A186F8 /* ItemImageCollectionViewCell.swift in Sources */,
 				1A576AC4292DC3C6004C9CCF /* ImageCacheManager.swift in Sources */,
 				54035A1529373C9500F8B4DD /* HTTPMethod.swift in Sources */,
 				54BE7771292477E000BCD075 /* StubURLSession.swift in Sources */,

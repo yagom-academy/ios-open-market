@@ -173,6 +173,7 @@ extension NetworkManager {
                 completion(.failure(.parseError))
             }
         }
+
         dataTask.resume()
     }
     
