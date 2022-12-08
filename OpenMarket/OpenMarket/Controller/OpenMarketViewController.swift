@@ -27,7 +27,6 @@ final class OpenMarketViewController: UIViewController {
     
     private var gridCollectionView: UICollectionView?
     private var listCollectionView: UICollectionView?
-            
     private var segmentedControl: UISegmentedControl?
     
     private var productRegisterView: UIView = {
@@ -73,8 +72,8 @@ final class OpenMarketViewController: UIViewController {
         
         guard let segmentedControl = segmentedControl else { return }
         
-        addSegment(with: ViewType.list.typeName, at: segmentedControl.numberOfSegments)
-        addSegment(with: ViewType.grid.typeName, at: segmentedControl.numberOfSegments)
+        segmentedControl.insertSegment(withTitle: ViewType.list.typeName, at: segmentedControl.numberOfSegments, animated: true)
+        segmentedControl.insertSegment(withTitle: ViewType.grid.typeName, at: segmentedControl.numberOfSegments, animated: true)
         
         segmentedControl.addTarget(self, action: #selector(self.segmentValueChanged(_:)), for: .valueChanged)
         
@@ -82,10 +81,6 @@ final class OpenMarketViewController: UIViewController {
         segmentValueChanged(segmentedControl)
         
         navigationItem.titleView = segmentedControl
-    }
-
-    private func addSegment(with title: String?, at index: Int) {
-        segmentedControl?.insertSegment(withTitle: title, at: index, animated: false)
     }
     
     @objc private func segmentValueChanged(_ sender: UISegmentedControl) {

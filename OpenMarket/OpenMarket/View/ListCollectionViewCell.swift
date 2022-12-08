@@ -129,5 +129,7 @@ final class ListCollectionViewCell: UICollectionViewCell, CollectionViewCellType
         let priceWidth = priceLabel.widthAnchor.constraint(lessThanOrEqualTo: priceStackView.widthAnchor, multiplier: 0.5)
         priceWidth.priority = .defaultLow
         priceWidth.isActive = true
+        
+        stockLabel.setContentHuggingPriority(.required, for: .horizontal)
     }
 }

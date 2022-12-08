@@ -37,14 +37,11 @@ extension CollectionViewCellType {
     
     private func fetchImage(_ url: URL, completion: @escaping (UIImage) -> Void) {
         task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil else { return }
-            
-            guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode) else { return }
-            
-            guard let data else { return }
-            
-            guard let image = UIImage(data: data) else { return }
+            guard error == nil,
+                  let response = response as? HTTPURLResponse,
+                  (200..<300).contains(response.statusCode),
+                  let data,
+                  let image = UIImage(data: data) else { return }
             
             completion(image)
         }
