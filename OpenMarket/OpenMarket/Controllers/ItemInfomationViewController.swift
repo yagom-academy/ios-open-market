@@ -15,7 +15,7 @@ class ItemInfomationViewController: UIViewController {
 
     lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         return layout
     }()
 
@@ -142,31 +142,35 @@ class ItemInfomationViewController: UIViewController {
     }
 
     private func configureImageValue() {
-        guard let images = item?.images else { return }
+            let group = DispatchGroup()
 
-        images.forEach {
-            guard let url = URL(string: $0.url) else { return }
-            networkManager.fetchImage(url: url) { image in
-                self.itemImages.append(image)
-                print("testtest")
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+            LoadingController.showLoading()
+            guard let images = item?.images else { return }
+
+            images.forEach {
+                group.enter()
+                guard let url = URL(string: $0.url) else { return }
+                networkManager.fetchImage(url: url) { image in
+                    self.itemImages.append(image)
+                    group.leave()
                 }
             }
+            group.notify(queue: DispatchQueue.main) {
+                LoadingController.hideLoading()
+                self.collectionView.reloadData()
+            }
         }
-    }
 }
 extension ItemInfomationViewController {
     func abc() {
-        self.testView.backgroundColor = .red
         self.view.addSubview(collectionView)
-        self.view.addSubview(itemlabelStackView)
-        self.view.addSubview(descriptionTextView)
-        self.itemlabelStackView.addArrangedSubview(itemNameLabel)
-        self.itemlabelStackView.addArrangedSubview(priceStackView)
-        self.priceStackView.addArrangedSubview(stockLabel)
-        self.priceStackView.addArrangedSubview(priceLabel)
-        self.priceStackView.addArrangedSubview(discountedPriceLabel)
+//        self.view.addSubview(itemlabelStackView)
+//        self.view.addSubview(descriptionTextView)
+//        self.itemlabelStackView.addArrangedSubview(itemNameLabel)
+//        self.itemlabelStackView.addArrangedSubview(priceStackView)
+//        self.priceStackView.addArrangedSubview(stockLabel)
+//        self.priceStackView.addArrangedSubview(priceLabel)
+//        self.priceStackView.addArrangedSubview(discountedPriceLabel)
         
         NSLayoutConstraint.activate([
 //            self.testView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -202,13 +206,14 @@ extension ItemInfomationViewController: UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemImageCollectionViewCell", for: indexPath) as! ItemImageCollectionViewCell
 
-        cell.imageView?.image = itemImages[indexPath.item]
+        cell.imageView.image = UIImage(systemName: "person")
         return cell
     }
+}
 
+extension ItemInfomationViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
-
     }
 }
