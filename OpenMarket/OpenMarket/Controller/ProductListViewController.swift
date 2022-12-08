@@ -37,6 +37,10 @@ final class ProductListViewController: UIViewController {
         configureAddButton()
         configureCollectionViewConstraint()
         
+        fetchProductList()
+    }
+    
+    func fetchProductList() {
         ProductNetworkManager.shared.fetchProductList() { [weak self] result in
             switch result {
             case .success(let data):
@@ -81,6 +85,7 @@ final class ProductListViewController: UIViewController {
 extension ProductListViewController: UploadDelegate {
     func isUploaded(_ isLoaded: Bool) {
         if isLoaded {
+            fetchProductList()
             showAlert(title: "업로드 완료", message: "완료")
         } else {
             showAlert(title: "업로드 실패", message: "실패")
