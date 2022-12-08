@@ -28,14 +28,6 @@ final class OpenMarketViewController: UIViewController {
     private var gridCollectionView: UICollectionView?
     private var listCollectionView: UICollectionView?
     private var segmentedControl: UISegmentedControl?
-    
-    private var productRegisterView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemRed
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     private let activityIndicator = UIActivityIndicatorView()
     
     private var listDataSource: UICollectionViewDiffableDataSource<ProductListSection, Product.ID>?
@@ -106,16 +98,9 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
-    // TODO: - modal로 뷰컨 띄우기 구현
     @objc private func registerProduct(_ sender: UIBarButtonItem) {
-        view.addSubview(productRegisterView)
-        
-        NSLayoutConstraint.activate([
-            productRegisterView.topAnchor.constraint(equalTo: view.topAnchor),
-            productRegisterView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            productRegisterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            productRegisterView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        let productRegisterVC = ProductRegisterViewController()
+        self.present(productRegisterVC, animated: true)
     }
     
     private func configureActivityIndicator() {
