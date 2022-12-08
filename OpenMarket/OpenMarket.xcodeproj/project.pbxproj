@@ -15,6 +15,7 @@
 		04CA5F7229271A5B002FA01F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA5F7129271A5B002FA01F /* NetworkError.swift */; };
 		04E6438C2930E133001CAEF2 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */; };
 		04E643902930F334001CAEF2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6438F2930F334001CAEF2 /* String+.swift */; };
+		570228E5294219A800877268 /* ProductRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570228E4294219A800877268 /* ProductRegisterViewController.swift */; };
 		5717E8DF292B8655009B7C58 /* URLSessionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5717E8DE292B8655009B7C58 /* URLSessionable.swift */; };
 		5717E8E2292B86C5009B7C58 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5717E8E1292B86C5009B7C58 /* StubURLSession.swift */; };
 		5717E8E6292B871B009B7C58 /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5717E8E5292B871B009B7C58 /* URLSession+.swift */; };
@@ -60,6 +61,7 @@
 		04E6438B2930E133001CAEF2 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		04E6438F2930F334001CAEF2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		3B5463A69DC37D9D6B29F973 /* Pods_OpenMarket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMarket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		570228E4294219A800877268 /* ProductRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterViewController.swift; sourceTree = "<group>"; };
 		5717E8DE292B8655009B7C58 /* URLSessionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionable.swift; sourceTree = "<group>"; };
 		5717E8E1292B86C5009B7C58 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		5717E8E5292B871B009B7C58 /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			children = (
 				5746A292293F78C900325FE3 /* Constants */,
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
+				570228E4294219A800877268 /* ProductRegisterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				0422A946292387DD00BD97CD /* Vendor.swift in Sources */,
 				04CA5F7229271A5B002FA01F /* NetworkError.swift in Sources */,
 				5746A295293F7A3E00325FE3 /* AlertConstants.swift in Sources */,
+				570228E5294219A800877268 /* ProductRegisterViewController.swift in Sources */,
 				5746A28F293F666300325FE3 /* LayoutConstants.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				5717E8E6292B871B009B7C58 /* URLSession+.swift in Sources */,

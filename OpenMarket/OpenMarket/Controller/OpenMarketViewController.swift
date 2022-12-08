@@ -39,25 +39,27 @@ final class OpenMarketViewController: UIViewController {
     
     private let activityIndicator = UIActivityIndicatorView()
     
-    private var dataSource: UICollectionViewDiffableDataSource<ProductListSection, Product.ID>?
+    private var listDataSource: UICollectionViewDiffableDataSource<ProductListSection, Product.ID>?
+    private var gridDataSource: UICollectionViewDiffableDataSource<ProductListSection, Product.ID>?
     private var products: [Product] = []
-    
     private let networkManager = NetworkManager()
-    
     private var pageNumber: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavigationBar()
-        configureSegmentedControl()
-    
-        fetchData(for: pageNumber)
-        
-        configureListCollectionView()
+        configureUI()
         configureListDataSource()
         
+        fetchData(for: pageNumber)
+    }
+    
+    private func configureUI() {
+        configureNavigationBar()
+        configureSegmentedControl()
+        configureListCollectionView()
         configureActivityIndicator()
+        view.bringSubviewToFront(activityIndicator)
     }
     
     private func configureNavigationBar() {
@@ -109,6 +111,7 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     
+    // TODO: - modal로 뷰컨 띄우기 구현
     @objc private func registerProduct(_ sender: UIBarButtonItem) {
         view.addSubview(productRegisterView)
         
@@ -184,7 +187,7 @@ final class OpenMarketViewController: UIViewController {
             cell.updateImage(product)
         }
         
-        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: listCollectionView) { colllectionView, indexPath, identifier -> UICollectionViewCell? in
+        listDataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: listCollectionView) { colllectionView, indexPath, identifier -> UICollectionViewCell? in
             
             var product: Product?
             self.products.forEach {
@@ -206,7 +209,8 @@ final class OpenMarketViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<ProductListSection, Product.ID>()
         snapshot.appendSections([.main])
         snapshot.appendItems(itemIdentifiers, toSection: .main)
-        dataSource?.apply(snapshot, animatingDifferences: false)
+        listDataSource?.apply(snapshot, animatingDifferences: false)
+        gridDataSource?.apply(snapshot, animatingDifferences: false)
     }
     
     private func configureGridCollectionView() {
@@ -243,7 +247,7 @@ final class OpenMarketViewController: UIViewController {
         
         gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         
-        dataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: gridCollectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
+        gridDataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: gridCollectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
             
             var product: Product?
             self.products.forEach {
