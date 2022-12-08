@@ -7,8 +7,6 @@
 import Foundation
 
 struct Product: Codable, Hashable {
-    let identifier = UUID()
-    
     let id: Int?
     let vendorId: Int?
     let vendorName: String?
@@ -65,10 +63,10 @@ struct Product: Codable, Hashable {
     }
     
     static func == (lhs: Product, rhs: Product) -> Bool {
-        lhs.identifier == rhs.identifier
+        lhs.id == rhs.id
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
+        hasher.combine(id)
     }
 }

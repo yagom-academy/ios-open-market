@@ -34,6 +34,10 @@ final class MainViewController: UIViewController {
     var gridCellRegistration: UICollectionView.CellRegistration<GridCell, Product>?
     var listDataSource: UICollectionViewDiffableDataSource<Section, Product>?
     var gridDataSource: UICollectionViewDiffableDataSource<Section, Product>?
+    var productArray: [Product] = []
+    
+    var currentPageNo: Int = 1
+    var hasNext: Bool = false
     
     lazy var collectionView: UICollectionView = {
         let layout = createListLayout()
@@ -115,6 +119,9 @@ final class MainViewController: UIViewController {
             
             self.listDataSource?.apply(snapshot)
             self.gridDataSource?.apply(snapshot)
+            self.currentPageNo += 1
+            self.hasNext = list.hasNext
+            
             DispatchQueue.main.async {
                 self.indicator.stopAnimating()
             }
@@ -257,9 +264,29 @@ extension MainViewController {
 extension MainViewController: UICollectionViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         let distance = collectionView.contentSize.height * 0.8
-        
         if scrollView.contentOffset.y + collectionView.bounds.height >= distance {
             // 80%가 넘으면 다음 페이지
+            let manager = NetworkManager()
+            if hasNext == true {
+                manager.getProductsList(pageNo: currentPageNo, itemsPerPage: 40) { list in
+                    
+                    guard var snapshot = self.listDataSource?.snapshot() else {
+                        return
+                    }
+                    
+                    snapshot.appendItems(list.products)
+                    
+                    self.listDataSource?.apply(snapshot)
+                    self.gridDataSource?.apply(snapshot)
+                    
+                    self.currentPageNo += 1
+                    self.hasNext = list.hasNext
+                    
+                    DispatchQueue.main.async {
+                        self.indicator.stopAnimating()
+                    }
+                }
+            }
         }
     }
     
@@ -295,8 +322,8 @@ extension MainViewController: UICollectionViewDelegate {
                             }
                         }
                     }
-                    
                 }
+                
                 DispatchQueue.main.sync {
                     productVC.productNameTextField.text = productDetail.name
                     productVC.productPriceTextField.text = String(productDetail.price)
