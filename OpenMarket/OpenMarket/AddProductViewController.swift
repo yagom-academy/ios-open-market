@@ -188,15 +188,16 @@ final class AddProductViewController: UIViewController {
     }
     
     private func makeNewProductData() -> Data? {
-        checkTextField()
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
               let price = Double(priceTextField.text ?? ""),
               let currency = Currency.allCases[valid: segmentedControl.selectedSegmentIndex],
-              let discountedPrice = Double(discountedPriceTextField.text ?? ""),
-              let stock = Int(stockTextField.text ?? "")
+              let discountedPriceText = discountedPriceTextField.text,
+              let stockText = stockTextField.text
         else { return nil }
         
+        let discountedPrice = Double(discountedPriceText) ?? 0
+        let stock = Int(stockText) ?? 0
         let newProduct = NewProduct(name: name,
                                     description: description,
                                     price: price,
@@ -206,18 +207,6 @@ final class AddProductViewController: UIViewController {
                                     secret: "sth4w4p3knfsxqgx")
         
         return JSONEncoder.encode(from: newProduct)
-    }
-    
-    private func checkTextField() {
-        guard let discountedPrice = discountedPriceTextField.text,
-              let stock = stockTextField.text else { return }
-        
-        if discountedPrice.isEmpty {
-            discountedPriceTextField.text = "0"
-        }
-        if stock.isEmpty {
-            stockTextField.text = "0"
-        }
     }
     
     private func makeImageData() -> Data? {

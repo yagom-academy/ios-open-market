@@ -14,7 +14,7 @@ enum NetworkError: LocalizedError {
     case invalidData
     case invalidURL
     
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .invalidRequest:
             return "invalidRequest"
