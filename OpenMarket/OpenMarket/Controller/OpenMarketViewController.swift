@@ -112,22 +112,27 @@ final class OpenMarketViewController: UIViewController {
     private func fetchData(for page: Int) {
         activityIndicator.startAnimating()
         
-        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20), dataType: ProductList.self) { result in
+        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20),
+                               dataType: ProductList.self) { result in
             switch result {
             case .success(let productList):
-                var refinedProducts: [Product] = []
-                for product in productList.products {
-                    if self.products.contains(product) { continue }
-                    refinedProducts.append(product)
-                }
-                self.products += refinedProducts
+                self.filterProducts(productList.products)
                 DispatchQueue.main.async {
                     self.applySnapshot(for: self.products)
                     self.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
                 self.showDataRequestFailureAlert(error)
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                }
             }
+        }
+    }
+    
+    private func filterProducts(_ productList: [Product]) {
+        for product in productList where !products.contains(product) {
+            self.products.append(product)
         }
     }
     
@@ -162,22 +167,27 @@ final class OpenMarketViewController: UIViewController {
     private func configureListDataSource() {
         guard let listCollectionView = listCollectionView else { return }
         
-        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Product> { (cell, indexPath, product) in
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Product> { cell, indexPath, product in
             cell.updateContents(product)
             cell.updateImage(product)
         }
         
-        listDataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: listCollectionView) { colllectionView, indexPath, identifier -> UICollectionViewCell? in
-            
-            var product: Product?
-            self.products.forEach {
-                if $0.id == identifier { product = $0 }
-            }
+        listDataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: listCollectionView) {
+            colllectionView, indexPath, identifier -> UICollectionViewCell? in
+            let product = self.findProduct(identifier)
             let cell = listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
             cell.product = product
             
             return cell
         }
+    }
+    
+    private func findProduct(_ identifier: Product.ID) -> Product? {
+        for product in products where product.id == identifier {
+            return product
+        }
+
+        return nil
     }
     
     private func applySnapshot(for items: [Product]?) {
@@ -227,13 +237,9 @@ final class OpenMarketViewController: UIViewController {
         
         gridCollectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: GridCollectionViewCell.identifier)
         
-        gridDataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: gridCollectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
-            
-            var product: Product?
-            self.products.forEach {
-                if $0.id == identifier { product = $0 }
-            }
-            
+        gridDataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: gridCollectionView) {
+            collectionView, indexPath, identifier -> UICollectionViewCell? in
+            let product = self.findProduct(identifier)
             guard let product else { return UICollectionViewCell() }
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
@@ -256,8 +262,10 @@ extension OpenMarketViewController: UICollectionViewDelegate {
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = (collectionView.frame.width / LayoutConstants.gridPerRow.value) - (LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerRow.value + 1))
-        let height: CGFloat = (collectionView.frame.height / LayoutConstants.gridPerCol.value) - (LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerCol.value + 1))
+        let width: CGFloat = (collectionView.frame.width / LayoutConstants.gridPerRow.value)
+                            - (LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerRow.value + 1))
+        let height: CGFloat = (collectionView.frame.height / LayoutConstants.gridPerCol.value)
+                            - (LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerCol.value + 1))
         return CGSize(width: width, height: height)
     }
 }
