@@ -57,7 +57,7 @@ class ProductView: UIView {
         return textField
     }()
     
-    private let salePriceTextField: UITextField = {
+    let salePriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인가격"
         textField.borderStyle = .roundedRect

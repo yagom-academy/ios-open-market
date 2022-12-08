@@ -26,8 +26,8 @@ final class ModifyViewController: ProductViewController {
 }
 
 extension ModifyViewController {
-    func setupOriginProductData() {
-        // 각 UIComponent에 Data 바인딩
+    func setupOriginProductData(product: Product) {
+        modifyProductView.bindProductData(product: product)
     }
 }
 

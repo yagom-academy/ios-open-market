@@ -10,15 +10,18 @@ import UIKit
 final class DetailViewController: UIViewController {
 
     var productData: [Product] = []
+    var cellImages: [UIImage] = []
     let detailView = DetailProductView()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = detailView
         setupNavigationBar()
+        setupData()
     }
 
     private func setupData() {
         // UIComponent에 productData 바인딩
+        
     }
     
     private func setupNavigationBar() {
@@ -45,6 +48,7 @@ extension DetailViewController {
         let editAction = UIAlertAction(title: "수정", style: .default) { _ in
             let modifyViewController = ModifyViewController()
             modifyViewController.productData = self.productData
+            modifyViewController.setupOriginProductData(product: self.productData.first!)
             self.navigationController?.pushViewController(modifyViewController, animated: true)
         }
         
