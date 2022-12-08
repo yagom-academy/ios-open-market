@@ -157,11 +157,15 @@ extension MainViewController {
 // MARK: - CollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let itemEditVC = ItemEditViewController()
-        itemEditVC.itemId = (itemList[indexPath.item] as Item).id
-        let itemEditNavVC = UINavigationController(rootViewController: itemEditVC)
-        itemEditNavVC.modalPresentationStyle = .fullScreen
-        itemEditNavVC.modalTransitionStyle = .crossDissolve
-        present(itemEditNavVC, animated: false)
+        let itemInfoVC = ItemInfomationViewController()
+        itemInfoVC.itemId = (itemList[indexPath.item] as Item).id
+        itemInfoVC.view.backgroundColor = .systemBackground
+        self.navigationController?.pushViewController(itemInfoVC, animated: true)
+//        let itemEditVC = ItemEditViewController()
+//        itemEditVC.itemId = (itemList[indexPath.item] as Item).id
+//        let itemEditNavVC = UINavigationController(rootViewController: itemEditVC)
+//        itemEditNavVC.modalPresentationStyle = .fullScreen
+//        itemEditNavVC.modalTransitionStyle = .crossDissolve
+//        present(itemEditNavVC, animated: false)
     }
 }
