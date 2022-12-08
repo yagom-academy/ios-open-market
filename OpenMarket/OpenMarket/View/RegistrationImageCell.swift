@@ -23,6 +23,27 @@ final class RegistrationImageCell: UICollectionViewCell {
         ])
     }
     
+    func addDeleteButton(selector: Selector) {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        button.tintColor = .systemPink
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.addTarget(nil, action: selector, for: .touchUpInside)
+        contentView.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor,
+                                            constant: contentView.bounds.width / 2),
+            button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor,
+                                            constant: -contentView.bounds.width / 2),
+            button.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                          multiplier: 0.2),
+            button.heightAnchor.constraint(equalTo: contentView.widthAnchor,
+                                          multiplier: 0.2)
+        ])
+    }
+    
     func addButton(selector: Selector) {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)

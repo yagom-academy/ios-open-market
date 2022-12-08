@@ -90,6 +90,7 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
         }
         
         cell.addImage(images[indexPath.item])
+        cell.addDeleteButton(selector: #selector(deleteImage))
         
         return cell
     }
@@ -117,7 +118,7 @@ extension ProductRegistrationViewController: UICollectionViewDelegateFlowLayout 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 12
     }
 }
 
@@ -263,6 +264,17 @@ extension ProductRegistrationViewController {
                 navigationItem.rightBarButtonItem?.isEnabled = true
             }
         }
+    }
+    
+    @objc func deleteImage(_ button: UIButton) {
+        guard let cell = button.superview?.superview as? RegistrationImageCell,
+              let indexPath = productRegistrationView.imagesCollectionView.indexPath(for: cell)
+        else {
+            return
+        }
+        
+        images.remove(at: indexPath.item)
+        productRegistrationView.imagesCollectionView.reloadData()
     }
 }
 
