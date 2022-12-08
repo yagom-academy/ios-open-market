@@ -4,7 +4,7 @@
 
 import UIKit
 
-protocol CollectionViewCellType: AnyObject {
+protocol CollectionViewCellType: UICollectionViewCell {
     static var identifier: String { get }
     var product: Product? { get }
     var task: URLSessionDataTask? { get set }

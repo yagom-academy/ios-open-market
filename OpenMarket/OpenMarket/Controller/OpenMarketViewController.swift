@@ -50,7 +50,6 @@ final class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
         
         configureNavigationBar()
-        
         configureSegmentedControl()
     
         fetchData(for: pageNumber)
@@ -92,14 +91,18 @@ final class OpenMarketViewController: UIViewController {
 
         switch viewType {
         case ViewType.list:
-            configureListCollectionView()
-            configureListDataSource()
+            if listCollectionView == nil {
+                configureListCollectionView()
+                configureListDataSource()
+            }
             applySnapshot(for: products)
             listCollectionView?.isHidden = false
             gridCollectionView?.isHidden = true
         case ViewType.grid:
-            configureGridCollectionView()
-            configureGridDataSource()
+            if gridCollectionView == nil {
+                configureGridCollectionView()
+                configureGridDataSource()
+            }
             applySnapshot(for: products)
             gridCollectionView?.isHidden = false
             listCollectionView?.isHidden = true
@@ -135,8 +138,10 @@ final class OpenMarketViewController: UIViewController {
                     refinedProducts.append(product)
                 }
                 self.products += refinedProducts
-                self.applySnapshot(for: self.products)
-                self.activityIndicator.stopAnimating()
+                DispatchQueue.main.async {
+                    self.applySnapshot(for: self.products)
+                    self.activityIndicator.stopAnimating()
+                }
             case .failure(let error):
                 self.showDataRequestFailureAlert(error)
             }
@@ -267,8 +272,8 @@ extension OpenMarketViewController: UICollectionViewDelegate {
 
 extension OpenMarketViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = collectionView.frame.width / (LayoutConstants.gridPerRow.value - LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerRow.value + 1))
-        let height: CGFloat = collectionView.frame.height / (LayoutConstants.gridPerCol.value - LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerCol.value + 1))
+        let width: CGFloat = (collectionView.frame.width / LayoutConstants.gridPerRow.value) - (LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerRow.value + 1))
+        let height: CGFloat = (collectionView.frame.height / LayoutConstants.gridPerCol.value) - (LayoutConstants.gridCellMinimumInteritemSpacing.value * (LayoutConstants.gridPerCol.value + 1))
         return CGSize(width: width, height: height)
     }
 }
