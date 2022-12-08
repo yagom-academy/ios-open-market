@@ -12,7 +12,6 @@ protocol Requestable {
     var path: String { get }
     var method: HttpMethod { get }
     var headers: [String: String] { get }
-    var body: Data? { get }
 }
 
 extension Requestable {
