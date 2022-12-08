@@ -46,7 +46,9 @@ extension DetailViewController {
                     self.title = product.name
                 }
             case .failure(let error):
-                self.showAlert(alertText: error.description, alertMessage: "오류가 발생했습니다.", completion: nil)
+                DispatchQueue.main.async {
+                    self.showAlert(alertText: error.description, alertMessage: "오류가 발생했습니다.", completion: nil)
+                }
             }
         }
     }
@@ -82,7 +84,33 @@ extension DetailViewController {
         }
         
         let deleteAction = UIAlertAction(title: "삭제", style: .default) { _ in
-            //서버에 삭제 메서드 보냄
+            guard let productID = self.productID,
+                    let productDeleteURL = NetworkRequest.deleteDataURI(productID: productID).requestURL else { return }
+            
+            self.networkManager.deleteProduct(to: productDeleteURL) { result in
+                switch result {
+                case .success(let check):
+                    if check {
+                        DispatchQueue.main.async {
+                        self.showAlert(alertText: "삭제 성공", alertMessage: "삭제 성공하였습니다.") {
+                            self.navigationController?.popViewController(animated: true)
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.showAlert(alertText: "삭제 실패", alertMessage: "삭제 실패하였습니다.") {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: error.description,
+                                       alertMessage: "판매자가 맞는지 확인 부탁드립니다.",
+                                       completion: nil)
+                    }
+                }
+            }
         }
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)

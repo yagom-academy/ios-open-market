@@ -177,7 +177,8 @@ final class NetworkManager {
     }
         
     // MARK: - Fetch Delete Item URI
-    private func fetchDeleteDataURI(to url: URL, completionHandler: @escaping (String)-> Void) {
+    private func fetchDeleteDataURI(to url: URL,
+                                    completion: @escaping (Result<String, NetworkError>) -> Void) {
         var request = URLRequest(url: url)
         
         request.httpMethod = HttpMethod.POST
@@ -190,24 +191,58 @@ final class NetworkManager {
 
         session.dataTask(with: request) { data, response, error in
             guard let data = data else {
+                completion(.failure(.data))
                 return
             }
             
-            guard let deleteURI = String(data: data, encoding: .utf8) else { return }
-            completionHandler(deleteURI)
+            guard let deleteURI = String(data: data, encoding: .utf8) else {
+                completion(.failure(.networking))
+                return
+            }
+            
+            completion(.success(deleteURI))
         }.resume()
     }
     
     // MARK: - Delete Item Using URI
-    func deleteProduct(to url: URL) {
-        fetchDeleteDataURI(to: url) { deleteURI in
-            guard let deleteURL = NetworkRequest.deleteData(uri: deleteURI).requestURL else { return }
+    func deleteProduct(to url: URL, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        fetchDeleteDataURI(to: url) { result in
+            let deleteURL : URL?
+            switch result {
+            case .success(let uri):
+                deleteURL = NetworkRequest.deleteData(uri: uri).requestURL
+            case .failure(let error):
+                completion(.failure(error))
+                return
+            }
+            
+            guard let deleteURL = deleteURL else {
+                completion(.failure(.unknown))
+                return
+            }
+            
             var request = URLRequest(url: deleteURL)
             request.httpMethod = HttpMethod.DELETE
             request.settingIdentifier()
-               
+            
             self.session.dataTask(with: request) { data, response, error in
-                print(String(data: data!, encoding: .utf8))
+                guard error == nil else {
+                    completion(.failure(.networking))
+                    return
+                }
+                
+                guard data != nil else {
+                    completion(.failure(.data))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse,
+                      (200 ..< 299) ~= response.statusCode else {
+                    completion(.failure(.networking))
+                    return
+                }
+                
+                completion(.success(true))
             }.resume()
         }
     }

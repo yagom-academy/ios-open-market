@@ -68,7 +68,7 @@ extension ModifyViewController {
         switch result {
         case .success(let data):
             guard let patchURL = NetworkRequest.patchData(productID: productData.id).requestURL else { return }
-            networkManager.patchDatato(url: patchURL, updateData: data) { result in
+            networkManager.patchData(url: patchURL, updateData: data) { result in
                 switch result {
                 case .success(_):
                     DispatchQueue.main.async {
