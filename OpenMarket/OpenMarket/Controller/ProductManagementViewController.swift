@@ -96,9 +96,9 @@ class ProductManagementViewController: UIViewController {
         let spacing: CGFloat = 10
         let safeArea: UILayoutGuide = view.safeAreaLayoutGuide
         
-        let contentStackViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint) = (contentStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor), contentStackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor))
+        let contentStackViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint) = (contentStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor), contentStackView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.frameLayoutGuide.heightAnchor))
         
-        contentStackViewSizeConstraints.height.priority = .init(rawValue: 1)
+//        contentStackViewSizeConstraints.height.priority = .init(rawValue: 1)
 
         NSLayoutConstraint.activate([
             imageCollectionView.heightAnchor.constraint(equalToConstant: 160),
@@ -110,7 +110,10 @@ class ProductManagementViewController: UIViewController {
             contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            contentStackViewSizeConstraints.height, contentStackViewSizeConstraints.width
+            contentStackViewSizeConstraints.height, contentStackViewSizeConstraints.width,
+            priceAndCurrencyStackView.heightAnchor.constraint(equalTo: nameTextField.heightAnchor),
+            priceAndCurrencyStackView.heightAnchor.constraint(equalTo: discountedPriceTextField.heightAnchor),
+            priceAndCurrencyStackView.heightAnchor.constraint(equalTo: stockTextField.heightAnchor)
         ])
         currencySegmentedControl.setContentHuggingPriority(.required, for: .horizontal)
     }
