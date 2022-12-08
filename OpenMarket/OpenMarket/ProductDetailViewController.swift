@@ -120,14 +120,47 @@ final class ProductDetailViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: nil, message: "비밀번호를 입력하세요", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            guard let input = alert.textFields?.first?.text else { return }
+            self.searchURI(with: input)
+        }
+        alert.addTextField { textField in
+            textField.placeholder = "비밀번호"
+        }
+        [cancelAction, confirmAction].forEach {
+            alert.addAction($0)
+        }
+        alert.preferredAction = confirmAction
+        present(alert, animated: true)
+    }
+    
+    private func showAlert(title: String? = nil, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default) { _ in
+            if let completion = completion {
+                completion()
+            }
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+    
     private func editProduct() {
-        let navigationController = UINavigationController(rootViewController: AddProductViewController(networkManager))
+        let navigationController = UINavigationController(
+            rootViewController: EditProductViewController(networkManager, product: detailProduct, images: images)
+        )
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
     
     private func searchURI(with password: String) {
-        let uriSearchRequest = URISearchRequest(productID: detailProduct.id, identifier: "c598a7e9-6941-11ed-a917-8dbc932b3fe4", secret: password)
+        let uriSearchRequest = URISearchRequest(productID: detailProduct.id,
+                                                identifier: "c598a7e9-6941-11ed-a917-8dbc932b3fe4",
+                                                secret: password)
         guard let request = uriSearchRequest.request else { return }
         
         networkManager.postData(from: request) { result in
@@ -159,35 +192,6 @@ final class ProductDetailViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-    }
-    
-    private func showDeleteAlert() {
-        let alert = UIAlertController(title: nil, message: "비밀번호를 입력하세요", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-            guard let input = alert.textFields?.first?.text else { return }
-            self.searchURI(with: input)
-        }
-        alert.addTextField { textField in
-            textField.placeholder = "비밀번호"
-        }
-        [cancelAction, confirmAction].forEach {
-            alert.addAction($0)
-        }
-        alert.preferredAction = confirmAction
-        present(alert, animated: true)
-    }
-    
-    private func showAlert(title: String? = nil, message: String, completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default) { _ in
-            if let completion = completion {
-                completion()
-            }
-        }
-        
-        alert.addAction(action)
-        present(alert, animated: true)
     }
 }
 

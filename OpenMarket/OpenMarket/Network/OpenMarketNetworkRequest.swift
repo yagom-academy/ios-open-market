@@ -76,7 +76,7 @@ struct ProductEditRequest: NetworkRequest {
     init(identifier: String,
          editProduct: EditProduct) {
         let data = JSONEncoder.encode(from: editProduct)
-        var header: [String: String] = [:]
+        var header: [String: String] = ["Content-Type": "application/json"]
         header["identifier"] = identifier
         
         self.urlPath = "/api/products/\(editProduct.productID)"

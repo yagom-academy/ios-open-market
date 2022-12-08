@@ -44,4 +44,13 @@ struct Product: Codable, Hashable {
 enum Currency: String, Codable, CaseIterable {
     case krw = "KRW"
     case usd = "USD"
+    
+    var index: Int {
+        switch self {
+        case .krw:
+            return 0
+        case .usd:
+            return 1
+        }
+    }
 }
