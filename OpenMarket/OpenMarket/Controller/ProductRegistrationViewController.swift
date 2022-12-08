@@ -127,7 +127,7 @@ final class ProductRegistrationViewController: ProductManagementViewController {
     @objc
     private func tappedDoneButton(_ sender: UIBarButtonItem) {
         guard doneWorkItem == nil,
-              let product: Product = makeProductByInputedData(),
+              let product: ProductToRequest = makeProductByInputedData(),
               let images: [UIImage] = resizedRegisteredImages(), images.isEmpty == false else {
             return
         }
@@ -135,9 +135,11 @@ final class ProductRegistrationViewController: ProductManagementViewController {
             let registrationManager = NetworkManager(openMarketAPI: .registration(product: product, images: images))
             registrationManager.network { [weak self] data, error in
                 if let error = error {
-                    print(error.localizedDescription)
-                    self?.doneWorkItem = nil
-                    self?.showResultAlert(isSuccess: false)
+                    DispatchQueue.main.async {
+                        print(error.localizedDescription)
+                        self?.doneWorkItem = nil
+                        self?.showResultAlert(isSuccess: false)
+                    }
                 } else if let _ = data {
                     DispatchQueue.main.async {
                         self?.doneWorkItem = nil

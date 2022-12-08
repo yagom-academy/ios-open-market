@@ -121,13 +121,14 @@ class ProductManagementViewController: UIViewController {
         descriptionTextView.delegate = self
     }
 
-    func makeProductByInputedData() -> Product? {
-        return Product(name: nameTextField.text,
-                       description: descriptionTextView.text,
-                       currency: .init(currencySegmentedControl.selectedSegmentIndex),
-                       price: priceTextField.text,
-                       discountedPrice: discountedPriceTextField.text,
-                       stock: stockTextField.text)
+    func makeProductByInputedData() -> ProductToRequest? {
+        return ProductToRequest(name: nameTextField.text,
+                                description: descriptionTextView.text,
+                                currency: .init(currencySegmentedControl.selectedSegmentIndex),
+                                price: priceTextField.text,
+                                discountedPrice: discountedPriceTextField.text,
+                                stock: stockTextField.text,
+                                secret: Secret(secretKey: "xwxdkq8efjf3947z"))
     }
     
     private func setUpBarButtonItem() {

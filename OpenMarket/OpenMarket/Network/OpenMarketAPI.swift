@@ -11,8 +11,8 @@ enum OpenMarketAPI: Requestable {
     case checkHealth
     case fetchPage(pageNumber: Int, productsPerPage: Int)
     case fetchProduct(productNumber: Int)
-    case registration(product: Product, images: [UIImage], boundary: String = UUID().uuidString)
-    case update(product: Product)
+    case registration(product: ProductToRequest, images: [UIImage], boundary: String = UUID().uuidString)
+    case update(product: ProductToRequest)
     case inquiryDeregistrationURI(productId: Int)
     case deregistration(URI: String)
     
