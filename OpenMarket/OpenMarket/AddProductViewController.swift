@@ -11,7 +11,9 @@ final class AddProductViewController: UIViewController {
     private var imageCellIdentifiers: [Int] = [0]
     private let defaultIdentifier: Set<Int> = [0, 1, 2, 3, 4]
     private var navigationBarHeight: CGFloat = .zero
-    private let networkManager = NetworkManager()
+    private let networkManager: NetworkManager
+    private var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
+    private var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
     
     private let backgroundScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -124,8 +126,15 @@ final class AddProductViewController: UIViewController {
         return textView
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
-    private var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
+    init(_ networkManager: NetworkManager) {
+        self.networkManager = networkManager
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

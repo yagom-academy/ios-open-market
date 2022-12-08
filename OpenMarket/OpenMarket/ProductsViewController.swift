@@ -126,7 +126,7 @@ final class ProductsViewController: UIViewController {
     }
     
     @objc private func addNewProduct() {
-        let navigationController = UINavigationController(rootViewController: AddProductViewController())
+        let navigationController = UINavigationController(rootViewController: AddProductViewController(networkManager))
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
     }
@@ -232,7 +232,7 @@ extension ProductsViewController: UICollectionViewDelegate {
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    let detailViewController = ProductDetailViewController(data)
+                    let detailViewController = ProductDetailViewController(data, networkManager: self.networkManager)
                     self.navigationController?.pushViewController(detailViewController, animated: true)
                 }
             case .failure(let error):

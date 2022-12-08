@@ -9,7 +9,22 @@ import UIKit
 
 final class ProductDetailViewController: UIViewController {
     private let detailProduct: DetailProduct
+    private let networkManager: NetworkManager
     private let detailView: DetailView = DetailView()
+    private var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
+    private var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
+    private var images: [UIImage] = []
+    
+    init(_ detailProduct: DetailProduct, networkManager: NetworkManager) {
+        self.detailProduct = detailProduct
+        self.networkManager = networkManager
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func loadView() {
         super.loadView()
@@ -20,18 +35,11 @@ final class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
+        setupImages()
         configureNavigationBar()
         configureDetailView()
-    }
-    
-    init(_ detailProduct: DetailProduct) {
-        self.detailProduct = detailProduct
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        configureCollectionView()
+        configureDataSource()
     }
     
     private func configureNavigationBar() {
@@ -40,6 +48,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func configureDetailView() {
+        detailView.configureImageNumberLabel(present: 1, total: detailProduct.images.count)
         detailView.configureNameLabel(from: detailProduct.name)
         detailView.configureStockLabel(from: setupStock())
         detailView.configurePriceLabel(from: setupPrice())
@@ -76,5 +85,84 @@ final class ProductDetailViewController: UIViewController {
                                            range: (text as NSString).range(of: "\(currency) \(bargainPrice)"))
             return attributedString
         }
+    }
+    
+    private func setupImages() {
+        DispatchQueue.global().async {
+            self.detailProduct.images.forEach { image in
+                guard let url = URL(string: image.url),
+                      let data = try? Data(contentsOf: url),
+                      let image = UIImage(data: data)
+                else {
+                    return
+                }
+                self.images.append(image)
+            }
+            self.configureSnapshot()
+        }
+    }
+}
+
+extension ProductDetailViewController {
+    private func createCollectionViewLayout() -> UICollectionViewLayout {
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        
+        let layout = UICollectionViewCompositionalLayout(sectionProvider: {
+            (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            let imageItem = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
+                )
+            )
+            imageItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+
+            let containerGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalHeight(1.0),
+                    heightDimension: .fractionalHeight(1.0)),
+                subitems: [imageItem]
+            )
+            
+            let section = NSCollectionLayoutSection(group: containerGroup)
+            section.orthogonalScrollingBehavior = .groupPagingCentered
+            
+            section.visibleItemsInvalidationHandler = { (_, _, _) -> Void in
+                guard let itemIndex = self.detailView.imageCollectionView.indexPathsForVisibleItems.first?.item
+                else { return }
+                self.detailView.configureImageNumberLabel(present: itemIndex + 1, total: self.images.count)
+            }
+            return section
+
+        }, configuration: config)
+        return layout
+    }
+    
+    private func configureCollectionView() {
+        detailView.imageCollectionView.collectionViewLayout = createCollectionViewLayout()
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<DetailImageCell, Int> { (cell, indexPath, _) in
+            cell.configureImageView(with: self.images[indexPath.item])
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Int, Int>(collectionView: detailView.imageCollectionView) {(
+            collectionView: UICollectionView,
+            indexPath: IndexPath,
+            identifier: Int) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: identifier)
+        }
+    }
+    
+    private func configureSnapshot() {
+        let items = images.compactMap { images.firstIndex(of: $0) }
+
+        snapshot.appendSections([0])
+        snapshot.appendItems(items)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }

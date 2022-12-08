@@ -31,7 +31,7 @@ final class GridCell: UICollectionViewCell {
     
     private let price: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -40,7 +40,7 @@ final class GridCell: UICollectionViewCell {
     
     private let stock: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.systemFont(ofSize: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

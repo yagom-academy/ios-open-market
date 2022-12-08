@@ -33,15 +33,17 @@ final class DetailView: UIView {
         return stackView
     }()
     
-    private let imageCollectionView: UICollectionView = {
+    let imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.isScrollEnabled = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
     private let imageNumberLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textAlignment = .center
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
@@ -114,11 +116,14 @@ final class DetailView: UIView {
             scrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor),
             
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
             stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10),
+            
+            imageCollectionView.heightAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -20),
         ])
     }
     
@@ -144,5 +149,9 @@ final class DetailView: UIView {
     
     func configureDescriptionText(from text: String) {
         descriptionTextView.text = text
+    }
+    
+    func configureImageNumberLabel(present: Int, total: Int) {
+        imageNumberLabel.text = "\(present)/\(total)"
     }
 }
