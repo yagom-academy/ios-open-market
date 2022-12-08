@@ -95,9 +95,14 @@ extension ListCollectionViewCell {
         
         self.stockConstraints = constraints
     }
+
+
+
     override func updateConfiguration(using state: UICellConfigurationState) {
-        setupViewsIfNeeded()
         
+
+        setupViewsIfNeeded()
+
         guard let url = URL(string: state.item?.thumbnail ?? "") else { return }
         
         var content = defaultListContentConfiguration().updated(for: state)

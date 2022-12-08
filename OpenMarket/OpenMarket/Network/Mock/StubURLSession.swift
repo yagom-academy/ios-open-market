@@ -28,6 +28,10 @@ final class StubURLSession: URLSessionProtocol {
     func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
         return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)
     }
+    
+    func dataTask(with request: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
+        return StubURLSessionDataTask(dummy: dummyData, completionHandler: completionHandler)
+    }
 }
 
 final class StubURLSessionDataTask: URLSessionDataTask {

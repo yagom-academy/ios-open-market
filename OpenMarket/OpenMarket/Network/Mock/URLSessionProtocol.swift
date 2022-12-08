@@ -11,6 +11,7 @@ public typealias DataTaskCompletionHandler = (Data?, URLResponse?, Error?) -> Vo
 
 public protocol URLSessionProtocol {
     func dataTask(with url: URL, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask
+    func dataTask(with request: URLRequest, completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionProtocol { }

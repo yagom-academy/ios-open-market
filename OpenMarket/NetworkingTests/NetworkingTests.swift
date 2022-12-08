@@ -102,4 +102,71 @@ final class NetworkingTest: XCTestCase {
         
         wait(for: [promise], timeout: 3)
     }
+
+    func test_addItem메서드_테스트 () {
+        let promise = expectation(description: "test")
+        let params: [String: Any] = ["name": "눈온다", "description": "간식", "price": 1000, "currency": "KRW", "stock": 1, "secret": "snnq45ezg2tn9amy"]
+
+        sut.addItem(params: params, images: [UIImage()]){ result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual("눈온다", item.name)
+            case .failure(_):
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+
+        wait(for: [promise], timeout: 3)
+    }
+
+    func test_URI테스트 () {
+        let promise = expectation(description: "test")
+
+        sut.deleteURI(productId: 463, password: NetworkManager.secret) { result in
+            switch result {
+            case .success(let uri):
+                XCTAssertNotNil(uri)
+            case .failure(_):
+                XCTFail()
+            }
+
+            promise.fulfill()
+        }
+
+        wait(for: [promise], timeout: 3)
+    }
+
+    func test_deleteItem테스트 () {
+        let promise = expectation(description: "test")
+
+        sut.deleteItem(productId: 457, password: NetworkManager.secret) { result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual(457, item.id)
+            case .failure(_):
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+
+        wait(for: [promise], timeout: 3)
+    }
+
+    func test_상품수정테스트 () {
+        let promise = expectation(description: "test")
+        let params: [String: Any] = ["price": 7777, "secret": "\(NetworkManager.secret)"]
+
+        sut.editItem(productId: 465, params: params) { result in
+            switch result {
+            case .success(let item):
+                XCTAssertEqual(7777, item.price)
+            case .failure(_):
+                XCTFail()
+            }
+            promise.fulfill()
+        }
+
+        wait(for: [promise], timeout: 3)
+    }
 }

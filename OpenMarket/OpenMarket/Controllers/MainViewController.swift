@@ -11,6 +11,7 @@ enum Section: Hashable {
 }
 
 final class MainViewController: UIViewController {
+    // MARK: - Private Property
     private let segmentedControl: UISegmentedControl = {
         let item = ["LIST", "GRID"]
         let segmentedControl = UISegmentedControl(items: item)
@@ -18,20 +19,87 @@ final class MainViewController: UIViewController {
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
-
+    
+    private let networkManager = NetworkManager()
     private var gridCollectionView: GridUICollectionView!
     private var listCollectionView: ListUICollectionView!
     
     private var itemList: [Item] = []
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
+        configureCollectionView()
+        
+        gridCollectionView.delegate = self
+        listCollectionView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         configureFetchItemList()
     }
+}
 
+// MARK: - View Layout & Constraints
+extension MainViewController {
+    private func createListLayout() -> UICollectionViewLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: configuration)
+    }
+    
+    private func createGridLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(0.35))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let spacing = CGFloat(10)
+        group.interItemSpacing = .fixed(spacing)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = spacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    private func configureCollectionView() {
+        self.listCollectionView = ListUICollectionView(frame: self.view.bounds, collectionViewLayout: createListLayout())
+        self.gridCollectionView = GridUICollectionView(frame: self.view.bounds, collectionViewLayout: createGridLayout())
+        self.view.addSubview(self.listCollectionView)
+        self.view.addSubview(self.gridCollectionView)
+        
+        showCollectionType(segmentIndex: self.segmentedControl.selectedSegmentIndex)
+        
+        self.listCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.listCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.listCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.listCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            
+            self.gridCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.gridCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.gridCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+}
+
+// MARK: - Private Method
+extension MainViewController {
     @objc private func addItem() {
-        navigationController?.pushViewController(ItemAddViewController(), animated: false)
+        let itemAddVC = ItemAddViewController()
+        let itemAddNavVC = UINavigationController(rootViewController: itemAddVC)
+        itemAddNavVC.modalPresentationStyle = .fullScreen
+        itemAddNavVC.modalTransitionStyle = .crossDissolve
+        present(itemAddNavVC, animated: true)
     }
     
     @objc private func changeItemView(_ sender: UISegmentedControl) {
@@ -47,7 +115,7 @@ final class MainViewController: UIViewController {
             self.gridCollectionView.isHidden = false
         }
     }
-
+    
     private func configureNavigation() {
         self.navigationItem.titleView = segmentedControl
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
@@ -56,70 +124,44 @@ final class MainViewController: UIViewController {
     
     private func configureFetchItemList() {
         LoadingController.showLoading()
-        NetworkManager().fetchItemList(pageNo: 1, pageCount: 100) { result in
+        networkManager.fetchItemList(pageNo: 1, pageCount: 100) { result in
             switch result {
             case .success(let success):
                 LoadingController.hideLoading()
                 self.itemList = success.pages
                 DispatchQueue.main.async {
-                    self.configureCollectionView()
                     self.gridCollectionView.configureGridDataSource(self.itemList)
                     self.listCollectionView.configureListDataSource(self.itemList)
                 }
             case .failure(_):
                 LoadingController.hideLoading()
-                self.configureFetchItemList()
+                DispatchQueue.main.async {
+                    self.retryAlert()
+                }
             }
         }
     }
+    
+    private func retryAlert() {
+        let alert = UIAlertController(title: "통신 실패", message: "데이터를 받아오지 못했습니다", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "다시 시도", style: .default, handler: { _ in
+            self.configureFetchItemList()
+        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: { _ in
+            exit(0)
+        }))
+        self.present(alert, animated: false)
+    }
 }
 
-extension MainViewController {
-    private func createListLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: configuration)
-    }
-    
-    private func createGridLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.35))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        let spacing = CGFloat(10)
-        group.interItemSpacing = .fixed(spacing)
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = spacing
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-    
-    private func configureCollectionView() {
-        self.listCollectionView = ListUICollectionView(frame: self.view.bounds, collectionViewLayout: createListLayout())
-        self.gridCollectionView = GridUICollectionView(frame: self.view.bounds, collectionViewLayout: createGridLayout())
-        self.view.addSubview(self.listCollectionView)
-        self.view.addSubview(self.gridCollectionView)
-        
-        showCollectionType(segmentIndex: self.segmentedControl.selectedSegmentIndex)
-
-        self.listCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        self.gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            self.listCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            self.listCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.listCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.listCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-
-            self.gridCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            self.gridCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.gridCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.gridCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-        ])
+// MARK: - CollectionViewDelegate
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let itemEditVC = ItemEditViewController()
+        itemEditVC.itemId = (itemList[indexPath.item] as Item).id
+        let itemEditNavVC = UINavigationController(rootViewController: itemEditVC)
+        itemEditNavVC.modalPresentationStyle = .fullScreen
+        itemEditNavVC.modalTransitionStyle = .crossDissolve
+        present(itemEditNavVC, animated: false)
     }
 }

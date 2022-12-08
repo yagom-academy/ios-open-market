@@ -21,6 +21,7 @@ final class GridUICollectionView: UICollectionView {
     func configureGridDataSource(_ items: [Item]) {
         let cellRegisteration = UICollectionView.CellRegistration<GridCollectionViewCell, Item> { cell, indexPath, item in
             cell.updateWithItem(item)
+
         }
         self.gridDataSource = UICollectionViewDiffableDataSource(collectionView: self,
                                                         cellProvider: { collectionView, indexPath, item in
