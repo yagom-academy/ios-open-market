@@ -4,7 +4,7 @@ import UIKit
 
 class ImageAddButton: UIButton {
     
-    let plusImage: UIImageView = {
+    private let plusImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "plus")
         image.tintColor = .systemBlue

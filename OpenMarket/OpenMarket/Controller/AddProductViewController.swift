@@ -6,9 +6,9 @@ class AddProductViewController: UIViewController {
     
     weak var delegate: UploadDelegate?
     var productManageView = ProductManageView()
-    let imagePicker = UIImagePickerController()
-    var imageCount = 0
-    var textFieldConstraint: NSLayoutConstraint?
+    private let imagePicker = UIImagePickerController()
+    private var imageCount = 0
+    private var textFieldConstraint: NSLayoutConstraint?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -111,12 +111,12 @@ extension AddProductViewController: UITextViewDelegate {
         self.view.layoutIfNeeded()
     }
     
-    func initializeHideKeyBoard() {
+    private func initializeHideKeyBoard() {
         let tap: UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMyKeyBoard))
         self.productManageView.addGestureRecognizer(tap)
     }
     
-    @objc func dismissMyKeyBoard() {
+    @objc private func dismissMyKeyBoard() {
         self.productManageView.endEditing(true)
     }
 }
