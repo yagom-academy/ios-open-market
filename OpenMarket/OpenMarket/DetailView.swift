@@ -58,24 +58,27 @@ final class DetailView: UIView {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .headline)
         label.textAlignment = .left
+        label.numberOfLines = 0
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     private let stockLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .left
+        label.numberOfLines = 0
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
     
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .left
+        label.numberOfLines = 0
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
@@ -89,13 +92,41 @@ final class DetailView: UIView {
         return textView
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configureView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func configureView() {
         scrollView.addSubview(stackView)
         addSubview(scrollView)
+        configureConstraints()
+    }
+    
+    private func configureConstraints() {
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10),
+        ])
     }
     
     func fetchNavigationBarButton() -> UIBarButtonItem {
         return rightButton
+    }
+    func configureNameLabel(from text: String) {
+        nameLabel.text = text
     }
     
     func configureStockLabel(from text: String) {
@@ -111,7 +142,7 @@ final class DetailView: UIView {
         priceLabel.attributedText = text
     }
     
-    func configuredescriptionText(from text: String) {
+    func configureDescriptionText(from text: String) {
         descriptionTextView.text = text
     }
 }

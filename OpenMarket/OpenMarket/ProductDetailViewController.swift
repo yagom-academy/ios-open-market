@@ -34,15 +34,16 @@ final class ProductDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationItem.title = detailProduct.name
         navigationItem.rightBarButtonItem = detailView.fetchNavigationBarButton()
     }
     
     private func configureDetailView() {
+        detailView.configureNameLabel(from: detailProduct.name)
         detailView.configureStockLabel(from: setupStock())
         detailView.configurePriceLabel(from: setupPrice())
-        detailView.configuredescriptionText(from: detailProduct.description)
+        detailView.configureDescriptionText(from: detailProduct.description)
     }
     
     private func setupStock() -> String {
@@ -50,9 +51,9 @@ final class ProductDetailViewController: UIViewController {
             return "품절"
         } else if detailProduct.stock >= 1000 {
             let stock = FormatConverter.convertToDecimal(from: Double(detailProduct.stock / 1000))
-            return "잔여수량 : \(stock.components(separatedBy: ".")[0])k"
+            return "남은 수량 : \(stock.components(separatedBy: ".")[0])k"
         } else {
-            return "잔여수량 : \(detailProduct.stock)"
+            return "남은 수량 : \(detailProduct.stock)"
         }
     }
     
