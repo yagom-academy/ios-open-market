@@ -17,6 +17,7 @@ final class ModifyProductView: ProductView {
     }
 }
 
+// MARK: - Binding Data in UIComponent
 extension ModifyProductView {
     func bindProductData(product: Product) {
         self.nameTextField.text = product.name

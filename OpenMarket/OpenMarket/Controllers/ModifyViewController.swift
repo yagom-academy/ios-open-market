@@ -10,10 +10,20 @@ import UIKit
 final class ModifyViewController: ProductViewController {
     private let maxImageNumber = 5
     private var modifyProductView = ModifyProductView()
-    var productData: [Product] = []
+    private var productData: Product?
     
     override var showView: ProductView {
         return modifyProductView
+    }
+    
+    init(data: Product?, images: [UIImage?]) {
+        super.init(nibName: nil, bundle: nil)
+        productData = data
+        self.cellImages = images
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
      
     override func viewDidLoad() {
@@ -22,12 +32,16 @@ final class ModifyViewController: ProductViewController {
         self.view = showView
         showView.collectionView.delegate = self
         showView.collectionView.dataSource = self
+        bindingData(productData)
+        print(cellImages.count)
     }
 }
 
+// MARK: - Binding Data in View
 extension ModifyViewController {
-    func setupOriginProductData(product: Product) {
-        modifyProductView.bindProductData(product: product)
+    private func bindingData(_ data: Product?) {
+        guard let data = data else { return }
+        modifyProductView.bindProductData(product: data)
     }
 }
 
