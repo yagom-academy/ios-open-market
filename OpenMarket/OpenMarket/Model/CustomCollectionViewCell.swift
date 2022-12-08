@@ -21,9 +21,10 @@ class CustomCollectionViewCell: UICollectionViewCell {
         indicator.style = .medium
         return indicator
     }()
-    let networkCommunication = NetworkCommunication()
+    var networkCommunication = NetworkCommunication()
     
     override func prepareForReuse() {
+        networkCommunication.imageTask?.cancel()
         thumbnail.image = nil
         name.text = nil
         price.attributedText = nil

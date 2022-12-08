@@ -11,6 +11,7 @@ import UIKit
 struct NetworkCommunication {
     let session = URLSession(configuration: .default)
     let boundary = "boundary-\(UUID().uuidString)"
+    var imageTask: URLSessionDataTask?
     
     func requestHealthChecker(
         url: String,
@@ -75,8 +76,9 @@ struct NetworkCommunication {
         task.resume()
     }
     
-    func requestImageData(url: URL, completionHandler: @escaping (Result<Data, APIError>) -> Void) {
-        let task: URLSessionDataTask = session.dataTask(with: url) { data, response, error in
+    mutating func requestImageData(url: URL,
+                                   completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+        imageTask = session.dataTask(with: url) { data, response, error in
             if error != nil {
                 completionHandler(.failure(.unkownError))
                 return
@@ -96,7 +98,7 @@ struct NetworkCommunication {
                 completionHandler(.failure(.imageDataConvertError))
             }
         }
-        task.resume()
+        imageTask?.resume()
     }
 }
 
