@@ -45,3 +45,7 @@ struct Vendor: Codable {
     let id: Int
     let name: String
 }
+
+struct Secret: Encodable {
+    let secret: String
+}

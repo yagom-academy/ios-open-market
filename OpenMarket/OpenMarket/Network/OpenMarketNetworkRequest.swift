@@ -94,13 +94,13 @@ struct URISearchRequest: NetworkRequest {
     let httpBody: Data?
     
     init(productID: Int, identifier: String, secret: String) {
-        let body: String = "{\"secret\":\"\(secret)\"}"
-        var header: [String: String] = [:]
+        let body: Secret = Secret(secret: secret)
+        var header: [String: String] = ["Content-Type": "application/json"]
         header["identifier"] = identifier
         
         self.urlPath = "/api/products/\(productID)/archived"
         self.httpHeader = header
-        self.httpBody = body.data(using: .utf8)
+        self.httpBody = JSONEncoder.encode(from: body)
     }
 }
 
@@ -116,7 +116,7 @@ struct ProductDeleteRequest: NetworkRequest {
         var header: [String: String] = [:]
         header["identifier"] = identifier
         
-        self.urlPath = "/api/products/\(uri)"
+        self.urlPath = uri
         self.httpHeader = header
     }
 }

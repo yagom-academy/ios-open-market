@@ -184,9 +184,11 @@ final class AddProductViewController: UIViewController {
         
         networkManager.postData(from: request) { result in
             switch result {
-            case .success(_):
+            case .success(let data):
+                guard let product = JSONDecoder.decode(DetailProduct.self, from: data)
+                else { return }
                 DispatchQueue.main.async { [weak self] in
-                    self?.showAlert(message: "등록 성공!") {
+                    self?.showAlert(title: "등록 성공!", message: product.name) {
                         self?.dismiss(animated: true)
                     }
                 }
@@ -243,8 +245,8 @@ final class AddProductViewController: UIViewController {
         return request
     }
     
-    private func showAlert(message: String, completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    private func showAlert(title: String? = nil, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "확인", style: .default) { _ in
             if let completion = completion {
                 completion()

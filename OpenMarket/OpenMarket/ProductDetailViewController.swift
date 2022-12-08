@@ -25,7 +25,7 @@ final class ProductDetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func loadView() {
         super.loadView()
         view = detailView
@@ -33,7 +33,7 @@ final class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .systemBackground
         setupImages()
         configureNavigationBar()
@@ -45,6 +45,8 @@ final class ProductDetailViewController: UIViewController {
     private func configureNavigationBar() {
         navigationItem.title = detailProduct.name
         navigationItem.rightBarButtonItem = detailView.fetchNavigationBarButton()
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(showActionSheet)
     }
     
     private func configureDetailView() {
@@ -101,6 +103,92 @@ final class ProductDetailViewController: UIViewController {
             self.configureSnapshot()
         }
     }
+    
+    @objc private func showActionSheet() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: "수정", style: .default) { _ in
+            self.editProduct()
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.showDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        [editAction, deleteAction, cancelAction].forEach {
+            alert.addAction($0)
+        }
+        present(alert, animated: true)
+    }
+    
+    private func editProduct() {
+        let navigationController = UINavigationController(rootViewController: AddProductViewController(networkManager))
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
+    }
+    
+    private func searchURI(with password: String) {
+        let uriSearchRequest = URISearchRequest(productID: detailProduct.id, identifier: "c598a7e9-6941-11ed-a917-8dbc932b3fe4", secret: password)
+        guard let request = uriSearchRequest.request else { return }
+        
+        networkManager.postData(from: request) { result in
+            switch result {
+            case .success(let data):
+                guard let uri = String(data: data, encoding: .utf8) else { return }
+                self.deleteProduct(with: uri)
+            case .failure(_):
+                DispatchQueue.main.async { [weak self] in
+                    self?.showAlert(message: "비밀번호가 틀렸습니다")
+                }
+            }
+        }
+    }
+    
+    private func deleteProduct(with uri: String) {
+        let productDeleteRequest = ProductDeleteRequest(identifier: "c598a7e9-6941-11ed-a917-8dbc932b3fe4", uri: uri)
+        guard let request = productDeleteRequest.request else { return }
+        
+        networkManager.fetchData(from: request, dataType: DetailProduct.self) { result in
+            switch result {
+            case .success(let product):
+                DispatchQueue.main.async { [weak self] in
+                    self?.showAlert(title: "삭제 완료!", message: product.name) {
+                        self?.navigationController?.popToRootViewController(animated: true)
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: nil, message: "비밀번호를 입력하세요", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            guard let input = alert.textFields?.first?.text else { return }
+            self.searchURI(with: input)
+        }
+        alert.addTextField { textField in
+            textField.placeholder = "비밀번호"
+        }
+        [cancelAction, confirmAction].forEach {
+            alert.addAction($0)
+        }
+        alert.preferredAction = confirmAction
+        present(alert, animated: true)
+    }
+    
+    private func showAlert(title: String? = nil, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default) { _ in
+            if let completion = completion {
+                completion()
+            }
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
 }
 
 extension ProductDetailViewController {
@@ -116,7 +204,7 @@ extension ProductDetailViewController {
                 )
             )
             imageItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-
+            
             let containerGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalHeight(1.0),
@@ -133,7 +221,7 @@ extension ProductDetailViewController {
                 self.detailView.configureImageNumberLabel(present: itemIndex + 1, total: self.images.count)
             }
             return section
-
+            
         }, configuration: config)
         return layout
     }
@@ -159,7 +247,7 @@ extension ProductDetailViewController {
     
     private func configureSnapshot() {
         let items = images.compactMap { images.firstIndex(of: $0) }
-
+        
         snapshot.appendSections([0])
         snapshot.appendItems(items)
         
