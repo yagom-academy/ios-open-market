@@ -100,7 +100,6 @@ extension ListCollectionViewCell {
 
     override func updateConfiguration(using state: UICellConfigurationState) {
         
-
         setupViewsIfNeeded()
 
         guard let url = URL(string: state.item?.thumbnail ?? "") else { return }

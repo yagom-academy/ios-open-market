@@ -68,6 +68,7 @@ class ItemViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "상품가격"
+        textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
         return textField
         
@@ -85,6 +86,7 @@ class ItemViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "할인금액"
+        textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
         return textField
     }()
@@ -93,6 +95,7 @@ class ItemViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "재고수량"
+        textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
         return textField
     }()
@@ -116,15 +119,6 @@ class ItemViewController: UIViewController {
 
         descriptionTextView.delegate = self
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        self.addKeyboardNotifications()
-//    }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.removeKeyboardNotifications()
-//    }
-    
 }
 
 // MARK: - View Constraint
@@ -133,7 +127,6 @@ extension ItemViewController {
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(stackView)
         
-        let constraint = self.stackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
         NSLayoutConstraint.activate([
             self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.scrollView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -295,33 +288,26 @@ extension ItemViewController: UITextViewDelegate {
 
 extension ItemViewController {
     func addKeyboardNotifications() {
-        // 키보드가 나타날 때 앱에게 알리는 메서드 추가
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
-        // 키보드가 사라질 때 앱에게 알리는 메서드 추가
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    // 노티피케이션을 제거하는 메서드
     func removeKeyboardNotifications(){
-        // 키보드가 나타날 때 앱에게 알리는 메서드 제거
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-        // 키보드가 사라질 때 앱에게 알리는 메서드 제거
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     @objc func keyboardWillShow(_ noti: NSNotification){
-        // 키보드의 높이만큼 화면을 올려준다.
-        if !isTexting  ,let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+        if !isTexting, let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.view.frame.origin.y -= keyboardHeight
-            isTexting = true
+            self.isTexting = true
         }
     }
     
-    // 키보드가 사라졌다는 알림을 받으면 실행할 메서드
     @objc func keyboardWillHide(_ noti: NSNotification){
-        // 키보드의 높이만큼 화면을 내려준다.
         if isTexting, let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
@@ -329,6 +315,7 @@ extension ItemViewController {
             isTexting = false
         }
     }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
