@@ -8,6 +8,7 @@ import UIKit
 
 final class ProductRegistrationViewController: UIViewController {
     private let networkManager = NetworkManager()
+    private let errorManager = ErrorManager()
     private let productRegistrationView = ProductFormView()
     private let boundary = "Boundary-\(UUID().uuidString)"
     private let imagePicker: UIImagePickerController = {
@@ -220,34 +221,46 @@ extension ProductRegistrationViewController {
     
     @objc private func registerProduct() {
         navigationItem.rightBarButtonItem?.isEnabled = false
-        guard let name = productRegistrationView.nameInput,
-              let price = productRegistrationView.priceInput,
-              let discount = productRegistrationView.discountInput,
-              let stock = productRegistrationView.stockInput,
-              let description = productRegistrationView.descriptionInput,
-              !images.isEmpty
-        else {
+        guard !images.isEmpty else {
+            present(errorManager.createAlert(error: UserInputError.noImageInput), animated: true)
             navigationItem.rightBarButtonItem?.isEnabled = true
             return
         }
         
-        let product = PostProduct(name: name,
-                                  description: description,
-                                  price: price,
-                                  currency: productRegistrationView.currencyInput,
-                                  discountedPrice: discount,
-                                  stock: stock,
-                                  secret: "9vqf2ysxk8tnhzm9")
-        
-        guard let data = configureRequestBody(product, images),
-              let request = configureRequest()
-        else {
-            return
-        }
-        
-        networkManager.postData(request: request, data: data) {
-            DispatchQueue.main.async {
-                self.dismiss(animated: true)
+        do {
+            let name = try productRegistrationView.nameInput
+            let price = try productRegistrationView.priceInput
+            let discount = try productRegistrationView.discountInput
+            let stock = try productRegistrationView.stockInput
+            let description = try productRegistrationView.descriptionInput
+            
+            guard price >= discount else {
+                throw UserInputError.discountOverPrice
+            }
+            
+            let product = PostProduct(name: name,
+                                      description: description,
+                                      price: price,
+                                      currency: productRegistrationView.currencyInput,
+                                      discountedPrice: discount,
+                                      stock: stock,
+                                      secret: "9vqf2ysxk8tnhzm9")
+            
+            guard let data = configureRequestBody(product, images),
+                  let request = configureRequest()
+            else {
+                return
+            }
+
+            networkManager.postData(request: request, data: data) {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true)
+                }
+            }
+        } catch {
+            if let error = error as? UserInputError {
+                present(errorManager.createAlert(error: error), animated: true)
+                navigationItem.rightBarButtonItem?.isEnabled = true
             }
         }
     }

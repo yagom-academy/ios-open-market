@@ -172,37 +172,68 @@ final class ProductFormView: UIView {
 }
 
 extension ProductFormView {
-    var nameInput: String? {
-        guard let text = productNameTextField.text,
-              (3...100).contains(text.count) else { return nil }
-        
-        return text
+    var nameInput: String {
+        get throws {
+            guard let text = productNameTextField.text,
+                  (3...100).contains(text.count)
+            else {
+                throw UserInputError.invalidNameInput
+            }
+            
+            return text
+        }
     }
-    var priceInput: Double? {
-        guard let text = priceTextField.text,
-              let price = Double(text) else { return nil }
-        
-        return price
+    var priceInput: Double {
+        get throws {
+            guard let text = priceTextField.text,
+                  let price = Double(text)
+            else {
+                throw UserInputError.invalidPriceInput
+            }
+            
+            return price
+        }
     }
-    var discountInput: Double? {
-        guard let text = discountedPriceTextField.text,
-              let discount = Double(text) else { return nil }
-        
-        return discount
+    var discountInput: Double {
+        get throws {
+            guard let text = discountedPriceTextField.text, !text.isEmpty else {
+                discountedPriceTextField.text = "0.0"
+                return 0.0
+            }
+            
+            guard let discount = Double(text) else {
+                throw UserInputError.invalidDiscountInput
+            }
+            
+            return discount
+        }
     }
-    var stockInput: Int? {
-        guard let text = stockTextField.text,
-              let stock = Int(text) else { return nil }
-        
-        return stock
+    var stockInput: Int {
+        get throws {
+            guard let text = stockTextField.text, !text.isEmpty else {
+                stockTextField.text = "0"
+                return 0
+            }
+            
+            guard let stock = Int(stockTextField.text ?? "0") else {
+                throw UserInputError.invalidStockInput
+            }
+            
+            return stock
+        }
     }
     var currencyInput: Currency {
         return currencySegmentControl.selectedSegmentIndex == 0 ? .KRW : .USD
     }
-    var descriptionInput: String? {
-        guard let text = descriptionTextView.text,
-              (10...1000).contains(text.count) else { return nil }
-      
-        return text
+    var descriptionInput: String {
+        get throws {
+            guard let text = descriptionTextView.text,
+                  (10...1000).contains(text.count)
+            else {
+                throw UserInputError.invalidDescriptionInput
+            }
+          
+            return text
+        }
     }
 }

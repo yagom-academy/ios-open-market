@@ -7,8 +7,8 @@
 import UIKit
 
 struct ErrorManager {
-    func createAlert(error: NetworkError) -> UIAlertController {
-        let alert = UIAlertController(title: error.rawValue,
+    func createAlert(error: Error) -> UIAlertController {
+        let alert = UIAlertController(title: nil,
                                       message: error.localizedDescription,
                                       preferredStyle: .alert)
         let okButton = UIAlertAction(title: "OK", style: .default)
