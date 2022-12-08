@@ -21,16 +21,21 @@ class AddProductViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        configureImagePicker()
-        configureNavigationBar()
-        configureDoneButton()
-        configureCancelButton()
-        configureAddImageButton()
+        
         configureView()
         initializeHideKeyBoard()
     }
     
     private func configureView() {
+        configureImagePicker()
+        configureNavigationBar()
+        configureDoneButton()
+        configureCancelButton()
+        configureAddImageButton()
+        configureCustomView()
+    }
+    
+    private func configureCustomView() {
         self.view = productManageView
         self.productManageView.descriptionTextView.delegate = self
     }
