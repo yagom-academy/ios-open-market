@@ -145,10 +145,10 @@
 			children = (
 				3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */,
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				3C21F1912941D7360037B7B2 /* DetailViewController.swift */,
 				3CB07365293B7DA900881AE6 /* ProductViewController.swift */,
 				3C16B8E3292F0E360049AF55 /* AddViewController.swift */,
 				3CB07369293B8CCC00881AE6 /* ModifyViewController.swift */,
-				3C21F1912941D7360037B7B2 /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

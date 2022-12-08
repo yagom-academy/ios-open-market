@@ -141,25 +141,38 @@ final class NetworkManager {
     }
     
     // MARK: - Patch Data
-    func patchData(to url: URL) {
+    func patchData(url: URL,
+                     updateData: NewProduct,
+                     completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(updateData) else { return }
         var request = URLRequest(url: url)
         
         request.httpMethod = HttpMethod.PATCH
         request.settingIdentifier()
         request.addValue("application/json",
                          forHTTPHeaderField: "Content-Type")
-        let bodyData = try? JSONSerialization.data(withJSONObject: ["stock": 777,
-                                                                    "product_id": 999,
-                                                                    "name": "치킨999",
-                                                                    "description": "JMT999",
-                                                                    "discounted_price": 0,
-                                                                    "price": 99999,
-                                                                    "currency": "KRW",
-                                                                    "secret":"dk9r294wvfwkgvhn"])
         
-        request.httpBody = bodyData
+        request.httpBody = data
+        
         session.dataTask(with: request) { data, response, error in
-            print(String(data: data!, encoding: .utf8))
+            guard error == nil else {
+                completion(.failure(.networking))
+                return
+            }
+            
+            guard data != nil else {
+                completion(.failure(.data))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200 ..< 299) ~= response.statusCode else {
+                completion(.failure(.networking))
+                return
+            }
+            
+            completion(.success(true))
         }.resume()
     }
         

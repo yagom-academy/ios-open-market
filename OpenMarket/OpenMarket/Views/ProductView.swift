@@ -196,32 +196,6 @@ extension ProductView: UITextFieldDelegate, UITextViewDelegate {
     }
 }
 
-// MARK: - ProductViewProtocol
-extension ProductView {
-    func setupData() -> Result<NewProduct, DataError> {
-        guard let name = nameTextField.text,
-            let description = descriptionTextView.text,
-            let priceString = priceTextField.text,
-            let price = Double(priceString) else { return Result.failure(.none) }
-        
-        var newProduct = NewProduct(name: name,
-                                    description: description,
-                                    currency: currency,
-                                    price: price)
-        
-        if salePriceTextField.text != nil {
-            guard let salePriceString = salePriceTextField.text else { return Result.failure(.none) }
-            newProduct.discountedPrice = Double(salePriceString)
-        }
-        if stockTextField.text != nil {
-            guard let stock = stockTextField.text else { return Result.failure(.none) }
-            newProduct.stock = Int(stock)
-        }
-        
-        return Result.success(newProduct)
-    }
-}
-
 // MARK: - Constraints
 extension ProductView {
     func setupUI() {

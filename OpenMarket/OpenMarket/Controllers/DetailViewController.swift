@@ -41,10 +41,9 @@ extension DetailViewController {
             switch result {
             case .success(let product):
                 self.productData = product
-                guard let productData = self.productData else { return }
-                self.setupCellsImages()
+                self.setupCellsImages(data: product)
                 DispatchQueue.main.async {
-                    self.title = productData.name
+                    self.title = product.name
                 }
             case .failure(let error):
                 self.showAlert(alertText: error.description, alertMessage: "오류가 발생했습니다.", completion: nil)
@@ -52,8 +51,8 @@ extension DetailViewController {
         }
     }
     
-    private func setupCellsImages() {
-        guard let productData = productData, let productImages = productData.images else { return }
+    private func setupCellsImages(data: Product) {
+        guard let productImages = data.images else { return }
         
         productImages.forEach { productImage in
             networkManager.fetchImage(with: productImage.url) { image in
@@ -93,7 +92,6 @@ extension DetailViewController {
         present(alert, animated: true)
     }
 }
-
 
 // MARK: - Binding Data in View
 extension DetailViewController {

@@ -27,6 +27,39 @@ final class AddViewController: ProductViewController {
     }
 }
 
+// MARK: - Override doneButtonTapped
+extension AddViewController {
+    override func doneButtonTapped() {
+        let result = setupData()
+        switch result {
+        case .success(let data):
+            guard let postURL = NetworkRequest.postData.requestURL else { return }
+            networkManager.postData(to: postURL,
+                                    newData: (productData: data, images: cellImages)) { result in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: Constant.uploadSuccessText.rawValue,
+                                       alertMessage: Constant.uploadSuccessMessage.rawValue) {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: error.description,
+                                       alertMessage: Constant.failureMessage.rawValue,
+                                       completion: nil)
+                    }
+                }
+            }
+        case .failure(let error):
+            self.showAlert(alertText: error.description,
+                           alertMessage: Constant.confirmMessage.rawValue,
+                           completion: nil)
+        }
+    }
+}
+
 // MARK: - ImageCollectionViewCellDelegate
 extension AddViewController: ImageCollectionViewCellDelegate {
     func imageCollectionViewCell(_ isShowPicker: Bool) {

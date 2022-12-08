@@ -35,6 +35,62 @@ final class ModifyViewController: ProductViewController {
         bindingData(productData)
         print(cellImages.count)
     }
+    
+    override func setupData() -> Result<NewProduct, DataError> {
+        guard let name = showView.nameTextField.text,
+              let description = showView.descriptionTextView.text,
+              let priceString = showView.priceTextField.text,
+              let price = Double(priceString) else { return Result.failure(.none) }
+        
+        var newProduct = NewProduct(name: name, productID: productData?.id,
+                                    description: description,
+                                    currency: showView.currency,
+                                    price: price)
+        
+        if showView.salePriceTextField.text != nil {
+            guard let salePriceString = showView.salePriceTextField.text else { return Result.failure(.none) }
+            newProduct.discountedPrice = Double(salePriceString)
+        }
+        if showView.stockTextField.text != nil {
+            guard let stock = showView.stockTextField.text else { return Result.failure(.none) }
+            newProduct.stock = Int(stock)
+        }
+        
+        return Result.success(newProduct)
+    }
+}
+
+// MARK: - Override doneButtonTapped
+extension ModifyViewController {
+    override func doneButtonTapped() {
+        guard let productData = productData else { return }
+        let result = setupData()
+        switch result {
+        case .success(let data):
+            guard let patchURL = NetworkRequest.patchData(productID: productData.id).requestURL else { return }
+            networkManager.patchDatato(url: patchURL, updateData: data) { result in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: Constant.uploadSuccessText.rawValue,
+                                       alertMessage: Constant.uploadSuccessMessage.rawValue) {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: error.description,
+                                       alertMessage: Constant.failureMessage.rawValue,
+                                       completion: nil)
+                    }
+                }
+            }
+        case .failure(let error):
+            self.showAlert(alertText: error.description,
+                           alertMessage: Constant.confirmMessage.rawValue,
+                           completion: nil)
+        }
+    }
 }
 
 // MARK: - Binding Data in View

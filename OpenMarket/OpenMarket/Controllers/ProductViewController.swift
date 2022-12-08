@@ -14,7 +14,7 @@ class ProductViewController: UIViewController {
     }
     var cellImages: [UIImage?] = []
     
-    private enum Constant: String {
+    enum Constant: String {
         case uploadSuccessText = "상품 업로드 성공"
         case uploadSuccessMessage = "등록 성공하였습니다."
         case failureMessage = "상품 업로드에 실패했습니다."
@@ -23,6 +23,29 @@ class ProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func setupData() -> Result<NewProduct, DataError> {
+        guard let name = showView.nameTextField.text,
+              let description = showView.descriptionTextView.text,
+              let priceString = showView.priceTextField.text,
+              let price = Double(priceString) else { return Result.failure(.none) }
+        
+        var newProduct = NewProduct(name: name, productID: nil,
+                                    description: description,
+                                    currency: showView.currency,
+                                    price: price)
+        
+        if showView.salePriceTextField.text != nil {
+            guard let salePriceString = showView.salePriceTextField.text else { return Result.failure(.none) }
+            newProduct.discountedPrice = Double(salePriceString)
+        }
+        if showView.stockTextField.text != nil {
+            guard let stock = showView.stockTextField.text else { return Result.failure(.none) }
+            newProduct.stock = Int(stock)
+        }
+        
+        return Result.success(newProduct)
     }
 }
 
@@ -48,32 +71,6 @@ extension ProductViewController {
     }
     
     @objc func doneButtonTapped() {
-        let result = showView.setupData()
-        switch result {
-        case .success(let data):
-            guard let postURL = NetworkRequest.postData.requestURL else { return }
-            networkManager.postData(to: postURL,
-                                    newData: (productData: data, images: cellImages)) { result in
-                switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        self.showAlert(alertText: Constant.uploadSuccessText.rawValue,
-                                       alertMessage: Constant.uploadSuccessMessage.rawValue) {
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    }
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self.showAlert(alertText: error.description,
-                                       alertMessage: Constant.failureMessage.rawValue,
-                                       completion: nil)
-                    }
-                }
-            }
-        case .failure(let error):
-            self.showAlert(alertText: error.description,
-                           alertMessage: Constant.confirmMessage.rawValue,
-                           completion: nil)
-        }
+        
     }
 }
