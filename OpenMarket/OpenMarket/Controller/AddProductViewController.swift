@@ -22,6 +22,7 @@ class AddProductViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        configureView()
         initializeHideKeyBoard()
     }
     
