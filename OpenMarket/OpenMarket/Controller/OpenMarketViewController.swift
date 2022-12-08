@@ -168,16 +168,13 @@ final class OpenMarketViewController: UIViewController {
         guard let listCollectionView = listCollectionView else { return }
         
         let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Product> { cell, indexPath, product in
-            cell.updateContents(product)
-            cell.updateImage(product)
+            cell.product = product
         }
         
         listDataSource = UICollectionViewDiffableDataSource<ProductListSection, Product.ID>(collectionView: listCollectionView) {
             colllectionView, indexPath, identifier -> UICollectionViewCell? in
             let product = self.findProduct(identifier)
             let cell = listCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
-            cell.product = product
-            
             return cell
         }
     }
@@ -244,8 +241,6 @@ final class OpenMarketViewController: UIViewController {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridCollectionViewCell.identifier, for: indexPath) as? GridCollectionViewCell
             cell?.product = product
-            cell?.updateContents(product)
-            cell?.updateImage(product)
             return cell
         }
     }

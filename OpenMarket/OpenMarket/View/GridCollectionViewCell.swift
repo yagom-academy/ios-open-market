@@ -5,7 +5,12 @@
 import UIKit
 
 final class GridCollectionViewCell: UICollectionViewCell, CollectionViewCellType {
-    var product: Product?
+    var product: Product? {
+        didSet {
+            updateImage(product)
+            updateContents(product)
+        }
+    }
     var task: URLSessionDataTask?
     
     required init?(coder: NSCoder) {

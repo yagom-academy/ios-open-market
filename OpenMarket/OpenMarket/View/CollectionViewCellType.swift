@@ -18,14 +18,16 @@ protocol CollectionViewCellType: UICollectionViewCell {
 extension CollectionViewCellType {
     static var identifier: String { return String(describing: self) }
     
-    func updateContents(_ product: Product) {
+    func updateContents(_ product: Product?) {
+        guard let product else { return }
         self.productNameLabel.text = product.name
         self.updatePriceLabel(product)
         self.updateStockLabel(product)
     }
 
-    func updateImage(_ product: Product) {
-        guard let url = URL(string: product.thumbnailURL) else { return }
+    func updateImage(_ product: Product?) {
+        guard let product,
+              let url = URL(string: product.thumbnailURL) else { return }
         fetchImage(url) { image in
             DispatchQueue.main.async {
                 if self.product == product {
