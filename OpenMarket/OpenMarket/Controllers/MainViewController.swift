@@ -110,6 +110,12 @@ extension MainViewController {
 
 // MARK: - Extension UICollectionView
 extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController()
+        detailViewController.productData.append(productData[indexPath.item])
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let collectionViewContentSizeY = scrollView.contentSize.height
         let contentOffsetY = scrollView.contentOffset.y

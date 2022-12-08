@@ -10,6 +10,7 @@ import UIKit
 final class ModifyViewController: ProductViewController {
     private let maxImageNumber = 5
     private var modifyProductView = ModifyProductView()
+    var productData: [Product] = []
     
     override var showView: ProductView {
         return modifyProductView
@@ -26,7 +27,7 @@ final class ModifyViewController: ProductViewController {
 
 extension ModifyViewController {
     func setupOriginProductData() {
-        // 데이터 불러와서 View에 데이터 바인드 해주는 메서드 - 추후 구현
+        // 각 UIComponent에 Data 바인딩
     }
 }
 
