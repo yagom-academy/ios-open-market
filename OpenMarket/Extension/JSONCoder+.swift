@@ -15,10 +15,26 @@ extension JSONDecoder {
         do {
             decodedData = try decoder.decode(type, from: data)
         } catch let error as DecodingError {
-            print(error.errorDescription)
+            print(error.localizedDescription)
         } catch {
             print(error.localizedDescription)
         }
         return decodedData
+    }
+}
+
+extension JSONEncoder {
+    static func encode<T: Encodable>(from object: T) -> Data? {
+        let encoder: JSONEncoder = JSONEncoder()
+        
+        var encodedData: Data?
+        do {
+            encodedData = try encoder.encode(object)
+        } catch let error as EncodingError {
+            print(error.localizedDescription)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return encodedData
     }
 }

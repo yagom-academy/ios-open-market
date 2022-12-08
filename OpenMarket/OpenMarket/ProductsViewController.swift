@@ -45,8 +45,8 @@ final class ProductsViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        collectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: "ListCell")
-        collectionView.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: "GridCell")
+        collectionView.register(ListCell.self, forCellWithReuseIdentifier: "ListCell")
+        collectionView.register(GridCell.self, forCellWithReuseIdentifier: "GridCell")
         collectionView.contentInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -68,6 +68,8 @@ final class ProductsViewController: UIViewController {
         return barButton
     }()
     
+    private let refreshControl: UIRefreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -88,6 +90,7 @@ final class ProductsViewController: UIViewController {
         collectionView.collectionViewLayout = listLayout
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.refreshControl = refreshControl
         setupCollectionViewConstraints()
     }
     
@@ -119,11 +122,13 @@ final class ProductsViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(changeLayout(_:)), for: .valueChanged)
         addProductButton.target = self
         addProductButton.action = #selector(addNewProduct)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     @objc private func addNewProduct() {
-        let viewController = AddProductViewController()
-        present(viewController, animated: true)
+        let navigationController = UINavigationController(rootViewController: AddProductViewController())
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
     
     @objc private func changeLayout(_ segmentedControl: UISegmentedControl) {
@@ -143,6 +148,18 @@ final class ProductsViewController: UIViewController {
         collectionView.reloadData()
         collectionView.scrollToItem(at: index, at: .top, animated: false)
     }
+    
+    @objc private func refresh() {
+        pageNumber = 1
+        productLists = []
+        fetchData() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.collectionView.reloadData()
+                self?.refreshControl.endRefreshing()
+                self?.isInfiniteScroll = true
+            }
+        }
+    }
 }
 
 extension ProductsViewController: UICollectionViewDataSource {
@@ -157,27 +174,30 @@ extension ProductsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let productList = productLists[indexPath.section]
+        guard let product = productLists[valid: indexPath.section]?.pages[valid: indexPath.item]
+        else {
+            return UICollectionViewCell()
+        }
         
         switch segmentedControl.selectedSegmentIndex {
         case LayoutType.list.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCell",
-                                                                    for: indexPath) as? ListCollectionViewCell
+                                                                for: indexPath) as? ListCell
             else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(from: productList.pages[indexPath.item])
+            cell.configure(from: product)
             return cell
             
         case LayoutType.grid.rawValue:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCell",
-                                                                    for: indexPath) as? GridCollectionViewCell
+                                                                for: indexPath) as? GridCell
             else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(from: productList.pages[indexPath.item])
+            cell.configure(from: product)
             return cell
             
         default:

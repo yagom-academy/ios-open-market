@@ -8,7 +8,7 @@
 import Foundation
 
 extension DecodingError {
-    public var errorDescription: String {
+    var errorDescription: String? {
         switch self {
         case .typeMismatch(let type, let context):
             return "type mismatch for type \(type) in JSON: \(context.debugDescription)"

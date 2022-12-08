@@ -1,5 +1,5 @@
 //
-//  ListCollectionViewCell.swift
+//  ListCell.swift
 //  OpenMarket
 //
 //  Created by Gundy, Wonbi on 2022/11/21.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewCell {
+final class ListCell: UICollectionViewCell {
     private var identifier: String?
     
     private let loadingView: UIActivityIndicatorView = {
@@ -118,9 +118,9 @@ final class ListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(from product: Product) {
-        self.identifier = product.identifier
+    func configure(from product: Product) {
         loadingView.startAnimating()
+        self.identifier = product.identifier
         productName.text = product.name.isEmpty ? " " : product.name
         setupPrice(from: product)
         setupStock(from: product)

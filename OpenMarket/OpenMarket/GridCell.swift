@@ -1,5 +1,5 @@
 //
-//  GridCollectionViewCell.swift
+//  GridCell.swift
 //  OpenMarket
 //
 //  Created by Gundy, Wonbi on 2022/11/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GridCollectionViewCell: UICollectionViewCell {
+final class GridCell: UICollectionViewCell {
     private var identifier: String?
     
     private let loadingView: UIActivityIndicatorView = {
@@ -105,9 +105,9 @@ final class GridCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configureCell(from product: Product) {
-        self.identifier = product.identifier
+    func configure(from product: Product) {
         loadingView.startAnimating()
+        self.identifier = product.identifier
         productName.text = product.name.isEmpty ? " " : product.name
         setupPrice(from: product)
         setupStock(from: product)

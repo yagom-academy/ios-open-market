@@ -9,6 +9,12 @@ import Foundation
 @testable import OpenMarket
 
 final class MockURLSession: URLSessionProtocol {
+    func dataTask(with request: URLRequest,
+                  completionHandler: @escaping DataTaskCompletionHandler
+    ) -> URLSessionDataTaskProtocol {
+        return MockURLSessionDataTask(dummy: dummyData, resumeCompletion: completionHandler)
+    }
+    
     var dummyData: DummyData?
 
     init(dummy: DummyData) {
