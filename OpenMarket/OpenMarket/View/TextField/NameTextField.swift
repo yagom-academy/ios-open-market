@@ -9,7 +9,7 @@ import UIKit
 
 final class NameTextField: UITextField {
     private let countLabel: UILabel = {
-        let label: UILabel = UILabel(frame: .zero)
+        let label: UILabel = .init(frame: .zero)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "0 / 100"
@@ -31,7 +31,6 @@ final class NameTextField: UITextField {
         self.minimumLength = minimumLength
         self.maximumLength = maximumLength
         super.init(frame: .zero)
-
         configure()
         setUpCountLabel()
     }

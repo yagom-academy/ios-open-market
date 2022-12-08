@@ -25,8 +25,7 @@ final class OpenMarketCollectionView: UICollectionView {
     }
     
     init(frame: CGRect, collectionViewLayout layout: CollectionViewLayout) {
-        super.init(frame: frame,
-                   collectionViewLayout: LayoutMaker.make(of: layout))
+        super.init(frame: frame, collectionViewLayout: LayoutMaker.make(of: layout))
         currentLayout = layout
         registerCell()
         registerSupplementaryView()
@@ -42,9 +41,7 @@ final class OpenMarketCollectionView: UICollectionView {
         currentLayout = layout
     }
     func applyDataSource(using page: Page) {
-        guard var currentSnapshot = currentSnapshot else {
-            return
-        }
+        guard var currentSnapshot = currentSnapshot else { return }
         let products: [Product] = Array(page.products.prefix(page.productPerPage))
 
         self.hasNextPage = page.hasNextPage
@@ -101,16 +98,21 @@ final class OpenMarketCollectionView: UICollectionView {
         openMarketDataSource = UICollectionViewDiffableDataSource<Section, Product>(collectionView: self) { (collectionView: UICollectionView, indexPath: IndexPath, product: Product) -> UICollectionViewCell? in
             switch self.currentLayout {
             case .list:
-                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration, for: indexPath, item: product)
+                return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
+                                                                    for: indexPath,
+                                                                    item: product)
             case .grid:
-                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration, for: indexPath, item: product)
+                return collectionView.dequeueConfiguredReusableCell(using: gridCellRegistration,
+                                                                    for: indexPath,
+                                                                    item: product)
             case .imagePicker:
                 return UICollectionViewCell()
             }
         }
         
         openMarketDataSource?.supplementaryViewProvider = { (collectionView, identifier, indexPath) -> UICollectionReusableView in
-            return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
+            return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration,
+                                                                         for: indexPath)
         }
     }
 }

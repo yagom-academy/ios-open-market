@@ -10,12 +10,12 @@ import UIKit
 final class ProductRegistrationViewController: ProductManagementViewController {
     private let productRegistrationTitle: String = "상품등록"
     private let imagePickerButton: UIButton = {
-        let button: UIButton = UIButton()
-
+        let button: UIButton = .init()
+        
         button.setTitle("+", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         button.backgroundColor = .systemGray4
-
+        
         return button
     }()
     private var registeredImages: [UIView]? {
@@ -31,14 +31,11 @@ final class ProductRegistrationViewController: ProductManagementViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configure()
     }
     
     private func configure() {
         setUpNavigationBarButton()
-        setUpViewsIfNeeded()
-        setUpDelegateIfNeeded()
         imagePickerButton.addTarget(self, action: #selector(showImagePickerActionSheet), for: .touchUpInside)
         title = productRegistrationTitle
         registeredImages = []
@@ -53,33 +50,30 @@ final class ProductRegistrationViewController: ProductManagementViewController {
     }
     
     private func presentAlbum() {
-        let imagePickerController: UIImagePickerController = UIImagePickerController()
-
+        let imagePickerController: UIImagePickerController = .init()
+        
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
-
+        
         present(imagePickerController, animated: true)
     }
     
     private func applyRegisteredImages() {
-        guard let registeredImages = registeredImages else {
-            return
-        }
+        guard let registeredImages = registeredImages else { return }
+        var snapshot: NSDiffableDataSourceSnapshot<Section, UIView> = .init()
         
-        var snapshot: NSDiffableDataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, UIView>()
         snapshot.appendSections([.main])
         snapshot.appendItems(registeredImages)
         if snapshot.numberOfItems < 5 {
             snapshot.appendItems([imagePickerButton])
         }
+        
         imageCollectionView.applySnapshot(snapshot)
     }
     
     private func resizedRegisteredImages() -> [UIImage]? {
-        guard let registeredImages = registeredImages else {
-            return nil
-        }
+        guard let registeredImages: [UIView] = registeredImages else { return nil }
         let resizedImages: [UIImage] = registeredImages.compactMap {
             return ($0 as? UIImageView)?.image
         }.compactMap {
@@ -90,9 +84,11 @@ final class ProductRegistrationViewController: ProductManagementViewController {
     
     private func showResultAlert(isSuccess: Bool) {
         let title: String = isSuccess ? "상품 등록 성공" : "상품 등록 실패"
-        let resultAlertController: UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        
+        let resultAlertController: UIAlertController = .init(title: title,
+                                                             message: nil,
+                                                             preferredStyle: .alert)
         let alertAction: UIAlertAction
+        
         if isSuccess {
             alertAction = UIAlertAction(title: "확인", style: .cancel) { [weak self] (_) in
                 self?.navigationController?.popViewController(animated: false)
@@ -107,12 +103,15 @@ final class ProductRegistrationViewController: ProductManagementViewController {
     
     @objc
     private func showImagePickerActionSheet() {
-        let imagePickerActionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let albumAlertAction: UIAlertAction = UIAlertAction(title: "앨범", style: .default) { [weak self] (_) in
+        let imagePickerActionSheetController: UIAlertController = .init(title: nil,
+                                                                        message: nil,
+                                                                        preferredStyle: .actionSheet)
+        let albumAlertAction: UIAlertAction = .init(title: "앨범",
+                                                    style: .default) { [weak self] (_) in
             self?.presentAlbum()
         }
-        let cancelAlertAction: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAlertAction: UIAlertAction = .init(title: "취소", style: .cancel)
+        
         imagePickerActionSheetController.addAction(albumAlertAction)
         imagePickerActionSheetController.addAction(cancelAlertAction)
         
@@ -132,7 +131,8 @@ final class ProductRegistrationViewController: ProductManagementViewController {
             return
         }
         let workItem: DispatchWorkItem = DispatchWorkItem {
-            let registrationManager = NetworkManager(openMarketAPI: .registration(product: product, images: images))
+            let registrationManager: NetworkManager = .init(openMarketAPI: .registration(product: product,
+                                                                                         images: images))
             registrationManager.network { [weak self] data, error in
                 if let error = error {
                     DispatchQueue.main.async {

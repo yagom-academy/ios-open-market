@@ -9,12 +9,14 @@ import UIKit.UIImage
 
 extension UIImage {
     func resized(newWidth: CGFloat) -> UIImage? {
-        let scale = newWidth / size.width // 새 이미지 확대/축소 비율
-        let newHeight = size.height * scale
+        let scale: CGFloat = newWidth / size.width // 새 이미지 확대/축소 비율
+        let newHeight: CGFloat = size.height * scale
+        
         UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
         self.draw(in: CGRectMake(0, 0, newWidth, newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        let newImage: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        
         return newImage
     }
 }

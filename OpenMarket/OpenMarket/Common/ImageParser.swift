@@ -10,8 +10,7 @@ import UIKit.UIImage
 struct ImageParser {
     private var fetchImageTask: URLSessionDataTask? = nil
     
-    mutating func parse(_ urlString: String?,
-                        completion: @escaping (UIImage?) -> Void) {
+    mutating func parse(_ urlString: String?, completion: @escaping (UIImage?) -> Void) {
         guard let urlString: String = urlString else {
             completion(nil)
             return
@@ -35,16 +34,15 @@ struct ImageParser {
         fetchImageTask = nil
     }
     
-    private mutating func fetchImage(_ urlString: String,
-                                     completion: @escaping (UIImage?) -> Void) {
-        guard let url: URL = URL(string: urlString) else {
+    private mutating func fetchImage(_ urlString: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url: URL = .init(string: urlString) else {
             completion(nil)
             return
         }
         
         fetchImageTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data: Data = data,
-               let image: UIImage = UIImage(data: data) {
+               let image: UIImage = .init(data: data) {
                 completion(image)
             } else {
                 completion(nil)

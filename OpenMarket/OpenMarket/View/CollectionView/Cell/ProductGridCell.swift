@@ -10,7 +10,7 @@ import UIKit
 final class ProductGridCell: UICollectionViewCell {
     //MARK: - Views
     private let thumbnailImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
+        let imageView: UIImageView = .init()
         
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ final class ProductGridCell: UICollectionViewCell {
         return imageView
     }()
     private let nameLabel: UILabel = {
-        let label: UILabel = UILabel()
+        let label: UILabel = .init()
         
         label.font = UIFont.preferredFont(forTextStyle: .title3,
                                           compatibleWith: UITraitCollection.init(preferredContentSizeCategory: .large))
@@ -30,10 +30,10 @@ final class ProductGridCell: UICollectionViewCell {
         
         return label
     }()
-    private let stockLabel: StockLabel = StockLabel()
-    private let priceLabel: PriceLabel = PriceLabel()
+    private let stockLabel: StockLabel = .init()
+    private let priceLabel: PriceLabel = .init()
     private let stackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
+        let stackView: UIStackView = .init()
         
         stackView.axis = .vertical
         stackView.alignment = .fill

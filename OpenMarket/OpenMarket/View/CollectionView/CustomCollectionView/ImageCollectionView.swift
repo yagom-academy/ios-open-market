@@ -12,8 +12,7 @@ final class ImageCollectionView: UICollectionView {
     private var imagePickerDataSource: UICollectionViewDiffableDataSource<Section, UIView>?
     
     init(frame: CGRect, collectionViewLayout layout: CollectionViewLayout) {
-        super.init(frame: frame,
-                   collectionViewLayout: LayoutMaker.make(of: layout))
+        super.init(frame: frame, collectionViewLayout: LayoutMaker.make(of: layout))
         registerCell()
         configureDataSource()
     }

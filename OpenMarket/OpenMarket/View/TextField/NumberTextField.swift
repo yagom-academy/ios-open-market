@@ -17,7 +17,6 @@ final class NumberTextField: UITextField {
         self.hasDefaultValue = hasDefaultValue
         super.init(frame: .zero)
         self.placeholder = placeholder
-        
         configure()
     }
     

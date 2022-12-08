@@ -18,7 +18,7 @@ struct NetworkManager {
         case .fetchProduct:
             return nil
         case .registration(let product, let images, let boundary):
-            var body: Data = Data()
+            var body: Data = .init()
                         
             if let productData: Data = try? JSONEncoder().encode(product) {
                 body.append("--\(boundary)\r\n")
@@ -52,12 +52,12 @@ struct NetworkManager {
     }
     
     func network(completionHandler: @escaping (Data?, Error?) -> Void) {
-        guard let hostURL: URL = URL(string: openMarketAPI.baseURL),
-              let url: URL = URL(string: openMarketAPI.path, relativeTo: hostURL) else {
+        guard let hostURL: URL = .init(string: openMarketAPI.baseURL),
+              let url: URL = .init(string: openMarketAPI.path, relativeTo: hostURL) else {
             completionHandler(nil, OpenMarketError.invalidURL())
             return
         }
-        var request: URLRequest = URLRequest(url: url)
+        var request: URLRequest = .init(url: url)
         openMarketAPI.headers.forEach {
             request.addValue($0.value, forHTTPHeaderField: $0.key)
         }

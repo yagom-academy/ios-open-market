@@ -20,27 +20,28 @@ enum LayoutMaker {
     }
     
     private static func makeListLayout() -> UICollectionViewLayout {
-        let spacing: CGFloat = CGFloat(10)
-        let itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(100))
-        let item: NSCollectionLayoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        let spacing: CGFloat = .init(10)
+        let itemSize: NSCollectionLayoutSize = .init(widthDimension: .fractionalWidth(1.0),
+                                                     heightDimension: .estimated(100))
+        let item: NSCollectionLayoutItem = .init(layoutSize: itemSize)
         
-        let groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(100))
+        let groupSize: NSCollectionLayoutSize = .init(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .estimated(100))
         let group: NSCollectionLayoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                                               subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(spacing)
 
-        let section: NSCollectionLayoutSection = NSCollectionLayoutSection(group: group)
+        let section: NSCollectionLayoutSection = .init(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: spacing,
                                                         leading: spacing,
                                                         bottom: spacing,
                                                         trailing: spacing)
         
-        let footerSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(10))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        let footerSize: NSCollectionLayoutSize = .init(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .estimated(10))
+        let footer: NSCollectionLayoutBoundarySupplementaryItem = .init(layoutSize: footerSize,
+                                                                        elementKind: UICollectionView.elementKindSectionFooter,
+                                                                        alignment: .bottom)
         
         section.boundarySupplementaryItems = [footer]
         
@@ -48,30 +49,31 @@ enum LayoutMaker {
     }
     
     private static func makeGridLayout() -> UICollectionViewLayout {
-        let spacing: CGFloat = CGFloat(10)
+        let spacing: CGFloat = .init(10)
         let itemCountOfColumn: Int = 2
-        let itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(100))
-        let item: NSCollectionLayoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        let itemSize: NSCollectionLayoutSize = .init(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .estimated(100))
+        let item: NSCollectionLayoutItem = .init(layoutSize: itemSize)
         
-        let groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(100))
+        let groupSize: NSCollectionLayoutSize = .init(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .estimated(100))
         let group: NSCollectionLayoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                                                 subitem: item,
                                                                                 count: itemCountOfColumn)
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(spacing)
 
-        let section: NSCollectionLayoutSection = NSCollectionLayoutSection(group: group)
+        let section: NSCollectionLayoutSection = .init(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: spacing,
                                                         leading: spacing,
                                                         bottom: spacing,
                                                         trailing: spacing)
         section.interGroupSpacing = spacing
         
-        let footerSize: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        let footerSize: NSCollectionLayoutSize = .init(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .estimated(100))
+        let footer: NSCollectionLayoutBoundarySupplementaryItem = .init(layoutSize: footerSize,
+                                                                        elementKind: UICollectionView.elementKindSectionFooter,
+                                                                        alignment: .bottom)
         
         section.boundarySupplementaryItems = [footer]
         
@@ -79,15 +81,13 @@ enum LayoutMaker {
     }
     
     private static func makeImagePickerLayout() -> UICollectionViewLayout {
-        let spacing: CGFloat = CGFloat(10)
-        let itemSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1.0))
-        let item: NSCollectionLayoutItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        let spacing: CGFloat = .init(10)
+        let itemSize: NSCollectionLayoutSize = .init(widthDimension: .fractionalWidth(1.0),
+                                                     heightDimension: .fractionalHeight(1.0))
+        let item: NSCollectionLayoutItem = .init(layoutSize: itemSize)
         
-        let groupSize: NSCollectionLayoutSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(140),
-            heightDimension: .absolute(140))
+        let groupSize: NSCollectionLayoutSize = .init(widthDimension: .absolute(140),
+                                                      heightDimension: .absolute(140))
         let group: NSCollectionLayoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section: NSCollectionLayoutSection = NSCollectionLayoutSection(group: group)

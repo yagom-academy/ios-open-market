@@ -10,13 +10,13 @@ enum Currency: String, Codable, Hashable {
     case usd = "USD"
     
     init?(_ rawNumber: Int) {
-        let krwRawNumber: Int = 0
-        let usdRawNumber: Int = 1
+        let KRWRawNumber: Int = 0
+        let USDRawNumber: Int = 1
         
         switch rawNumber {
-        case krwRawNumber:
+        case KRWRawNumber:
             self = .krw
-        case usdRawNumber:
+        case USDRawNumber:
             self = .usd
         default:
             return nil

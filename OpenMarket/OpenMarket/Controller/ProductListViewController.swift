@@ -6,9 +6,9 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class ProductListViewController: UIViewController {
     //MARK: - Properties
-    private let segmentedControl: LayoutSegmentedControl = LayoutSegmentedControl()
+    private let segmentedControl: LayoutSegmentedControl = .init()
     private var collectionView: OpenMarketCollectionView!
     private var currentPage: Int = 1
     private let productPerPage: Int = 20
@@ -34,7 +34,7 @@ final class ViewController: UIViewController {
     }
     
     func setUpRefreshControl() {
-        let refreshControl: UIRefreshControl = UIRefreshControl()
+        let refreshControl: UIRefreshControl = .init()
      
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
@@ -69,10 +69,10 @@ final class ViewController: UIViewController {
     }
     
     private func setIndicatorView() {
-        let indicatorView: UIView = UIView(frame: view.bounds)
+        let indicatorView: UIView = .init(frame: view.bounds)
         indicatorView.backgroundColor = .systemGray6
         
-        let indicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
+        let indicator: UIActivityIndicatorView = .init(style: .large)
         indicator.center = indicatorView.center
         indicator.startAnimating()
         indicatorView.addSubview(indicator)
@@ -121,7 +121,8 @@ final class ViewController: UIViewController {
     //MARK: - Snapshot Apply Method
     private func fetchPage() {
         guard hasNextPage == true else { return }
-        let networkManger: NetworkManager = NetworkManager(openMarketAPI: .fetchPage(pageNumber: currentPage, productsPerPage: productPerPage))
+        let networkManger: NetworkManager = .init(openMarketAPI: .fetchPage(pageNumber: currentPage,
+                                                                            productsPerPage: productPerPage))
         networkManger.network { [weak self] (data, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -137,12 +138,12 @@ final class ViewController: UIViewController {
     }
 }
 //MARK: - Extension UICollectionViewDelegate
-extension ViewController: UICollectionViewDelegate {
+extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
-extension ViewController: OpenMarketCollectionViewDelegate {
+extension ProductListViewController: OpenMarketCollectionViewDelegate {
     func openMarketCollectionView(didRequestNextPage: Bool){
         self.fetchPage()
     }

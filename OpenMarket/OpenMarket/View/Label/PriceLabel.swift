@@ -22,10 +22,7 @@ final class PriceLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setPrice(_ price: Double,
-                  bargainPrice: Double,
-                  currency: Currency,
-                  style: CollectionViewLayout) {
+    func setPrice(_ price: Double, bargainPrice: Double, currency: Currency, style: CollectionViewLayout) {
         self.price = price
         self.bargainPrice = bargainPrice
         self.currency = currency
@@ -64,11 +61,9 @@ final class PriceLabel: UILabel {
     
     private func setAttributedString(priceTextLength: Int = 0,
                                      bargainPriceTextLength: Int) {
-        guard let text: String = text else {
-            return
-        }
-        
+        guard let text: String = text else { return }
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+        
         attributedString.addAttribute(.foregroundColor,
                                       value: UIColor.gray,
                                       range: NSRange(location: 0,

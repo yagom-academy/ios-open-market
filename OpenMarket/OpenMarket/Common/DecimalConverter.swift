@@ -9,8 +9,10 @@ import Foundation
 
 enum DecimalConverter {
     static func convert<T: Numeric>(_ number: T) -> String? {
-        let numberFormatter: NumberFormatter = NumberFormatter()
+        let numberFormatter: NumberFormatter = .init()
+        
         numberFormatter.numberStyle = .decimal
+        
         return numberFormatter.string(for: number)
     }
 }

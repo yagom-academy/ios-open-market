@@ -10,7 +10,7 @@ import UIKit
 final class ImagePickerCell: UICollectionViewCell {
     //MARK: - Views
     private let contentStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
+        let stackView: UIStackView = .init()
         
         stackView.alignment = .fill
         stackView.distribution = .fill

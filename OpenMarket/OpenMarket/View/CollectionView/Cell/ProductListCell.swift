@@ -10,7 +10,7 @@ import UIKit
 final class ProductListCell: UICollectionViewListCell {
     //MARK: - Views
     private let thumbnailImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
+        let imageView: UIImageView = .init()
         
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ final class ProductListCell: UICollectionViewListCell {
         return imageView
     }()
     private let nameLabel: UILabel = {
-        let label: UILabel = UILabel()
+        let label: UILabel = .init()
         
         label.font = UIFont.preferredFont(forTextStyle: .title3,
                                           compatibleWith: UITraitCollection.init(preferredContentSizeCategory: .large))
@@ -30,10 +30,10 @@ final class ProductListCell: UICollectionViewListCell {
         
         return label
     }()
-    private let stockLabel: StockLabel = StockLabel()
-    private let priceLabel: PriceLabel = PriceLabel()
+    private let stockLabel: StockLabel = .init()
+    private let priceLabel: PriceLabel = .init()
     private let contentStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
+        let stackView: UIStackView = .init()
         
         stackView.axis = .horizontal
         stackView.alignment = .leading
@@ -44,7 +44,7 @@ final class ProductListCell: UICollectionViewListCell {
         return stackView
     }()
     private let stackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
+        let stackView: UIStackView = .init()
         
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -83,7 +83,8 @@ final class ProductListCell: UICollectionViewListCell {
         
         let spacing: CGFloat = 10
         
-        let constraints = (width: thumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25),
+        let constraints = (width: thumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                                            multiplier: 0.25),
                            height: thumbnailImageView.heightAnchor.constraint(equalTo: thumbnailImageView.widthAnchor))
         constraints.width.priority = .init(rawValue: 1000)
         constraints.height.priority = .init(rawValue: 751)

@@ -9,7 +9,7 @@ import UIKit
 
 final class DescriptionTextView: UITextView {
     private let countLabel: UILabel = {
-        let label: UILabel = UILabel(frame: .zero)
+        let label: UILabel = .init(frame: .zero)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "0 / 1000"

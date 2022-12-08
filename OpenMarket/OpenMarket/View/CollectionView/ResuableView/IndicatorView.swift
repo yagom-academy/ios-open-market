@@ -11,10 +11,10 @@ final class IndicatorView: UICollectionReusableView {
     private var indicatorView: UIView?
     
     func startIndicator() {
-        let indicatorView: UIView = UIView(frame: self.bounds)
+        let indicatorView: UIView = .init(frame: self.bounds)
         indicatorView.backgroundColor = .white
         
-        let indicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
+        let indicator: UIActivityIndicatorView = .init(style: .large)
         indicator.center = indicatorView.center
         indicator.startAnimating()
         indicatorView.addSubview(indicator)

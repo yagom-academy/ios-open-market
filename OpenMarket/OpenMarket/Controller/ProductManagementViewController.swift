@@ -13,21 +13,22 @@ protocol ProductManagementNavigationBarButtonProtocol {
 }
 
 class ProductManagementViewController: UIViewController {
-    let imageCollectionView: ImageCollectionView = ImageCollectionView(frame: .zero, collectionViewLayout: .imagePicker)
-    let nameTextField: NameTextField = NameTextField(minimumLength: 3, maximumLength: 100)
-    let priceTextField: NumberTextField = NumberTextField(placeholder: "상품가격", hasDefaultValue: false)
-    let discountedPriceTextField: NumberTextField = NumberTextField(placeholder: "할인금액", hasDefaultValue: true)
-    let stockTextField: NumberTextField = NumberTextField(placeholder: "재고수량", hasDefaultValue: true)
-    let descriptionTextView: DescriptionTextView = DescriptionTextView(minimumLength: 10, maximumLength: 1000)
+    let imageCollectionView: ImageCollectionView = .init(frame: .zero,
+                                                         collectionViewLayout: .imagePicker)
+    let nameTextField: NameTextField = .init(minimumLength: 3, maximumLength: 100)
+    let priceTextField: NumberTextField = .init(placeholder: "상품가격", hasDefaultValue: false)
+    let discountedPriceTextField: NumberTextField = .init(placeholder: "할인금액", hasDefaultValue: true)
+    let stockTextField: NumberTextField = .init(placeholder: "재고수량", hasDefaultValue: true)
+    let descriptionTextView: DescriptionTextView = .init(minimumLength: 10, maximumLength: 1000)
     let currencySegmentedControl: UISegmentedControl = {
-        let segmentedControl: UISegmentedControl = UISegmentedControl(items: ["KRW", "USD"])
+        let segmentedControl: UISegmentedControl = .init(items: ["KRW", "USD"])
 
         segmentedControl.selectedSegmentIndex = 0
 
         return segmentedControl
     }()
     private let priceAndCurrencyStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
+        let stackView: UIStackView = .init()
 
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -38,7 +39,7 @@ class ProductManagementViewController: UIViewController {
         return stackView
     }()
     private let contentStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
+        let stackView: UIStackView = .init()
 
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -49,7 +50,7 @@ class ProductManagementViewController: UIViewController {
         return stackView
     }()
     private let scrollView: UIScrollView = {
-        let scrollView: UIScrollView = UIScrollView()
+        let scrollView: UIScrollView = .init()
         
         scrollView.bounces = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,13 +70,14 @@ class ProductManagementViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        setUpViews()
+        setUpDelegate()
         setUpBarButtonItem()
         setUpNotification()
         setUpTapGestureRecognizer()
     }
 
-    func setUpViewsIfNeeded() {
+    private func setUpViews() {
         imageCollectionView.bounces = false
         descriptionTextView.isScrollEnabled = false
         descriptionTextView.bounces = false
@@ -113,7 +115,7 @@ class ProductManagementViewController: UIViewController {
         currencySegmentedControl.setContentHuggingPriority(.required, for: .horizontal)
     }
 
-    func setUpDelegateIfNeeded() {
+    private func setUpDelegate() {
         nameTextField.delegate = self
         priceTextField.delegate = self
         discountedPriceTextField.delegate = self
@@ -163,7 +165,8 @@ class ProductManagementViewController: UIViewController {
     }
     
     private func setUpTapGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+        let tapGestureRecognizer: UITapGestureRecognizer = .init(target: self,
+                                                                 action: #selector(endEditing))
 
         tapGestureRecognizer.numberOfTapsRequired = 1
         tapGestureRecognizer.isEnabled = true
@@ -189,11 +192,12 @@ class ProductManagementViewController: UIViewController {
     
     @objc
     private func keyboardWillShow(_ sender: Notification) {
-        guard let userinfo = sender.userInfo,
-              let keyboardFrame = userinfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+        guard let userinfo: [AnyHashable : Any] = sender.userInfo,
+              let keyboardFrame: CGRect = userinfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
         }
         let keyboardHeight: CGFloat = keyboardFrame.size.height
+        
         scrollView.contentInset.bottom = keyboardHeight
         scrollView.verticalScrollIndicatorInsets.bottom = keyboardHeight
         
@@ -204,7 +208,8 @@ class ProductManagementViewController: UIViewController {
     
     @objc
     private func keyboardWillHide(_ sender: Notification) {
-        let contentInset = UIEdgeInsets.zero
+        let contentInset: UIEdgeInsets = .zero
+        
         scrollView.contentInset = contentInset
         scrollView.verticalScrollIndicatorInsets = contentInset
     }
