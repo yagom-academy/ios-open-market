@@ -163,7 +163,7 @@ final class OpenMarketViewController: UIViewController {
     }
     
     private func showDataRequestFailureAlert(_ error: NetworkError) {
-        let alert = UIAlertController(title: AlertConstants.alertTitle.rawValue, message: error.rawValue, preferredStyle: .alert)
+        let alert = UIAlertController(title: AlertConstants.alertTitle.rawValue, message: error.description, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: AlertConstants.actionTitle.rawValue, style: .default))
         
         self.present(alert, animated: true)
