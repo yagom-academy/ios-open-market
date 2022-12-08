@@ -5,15 +5,11 @@
 import UIKit
 
 final class ListCollectionViewCell: UICollectionViewCell, CollectionViewCellType {
-    static var identifier: String {
-        return String(describing: self)
-    }
-    
     var product: Product?
     var task: URLSessionDataTask?
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("This view should not be initialized via storyboard.")
     }
     
     override init(frame: CGRect) {

@@ -5,7 +5,6 @@
 import UIKit
 
 protocol CollectionViewCellType: UICollectionViewCell {
-    static var identifier: String { get }
     var product: Product? { get }
     var task: URLSessionDataTask? { get set }
     
@@ -17,6 +16,8 @@ protocol CollectionViewCellType: UICollectionViewCell {
 }
 
 extension CollectionViewCellType {
+    static var identifier: String { return String(describing: self) }
+    
     func updateContents(_ product: Product) {
         self.productNameLabel.text = product.name
         self.updatePriceLabel(product)
