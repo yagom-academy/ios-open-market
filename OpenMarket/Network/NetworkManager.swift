@@ -40,7 +40,7 @@ final class NetworkManager {
         dataTask.resume()
     }
     
-    func postData(form request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+    func postData(from request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
         let dataTask: URLSessionDataTaskProtocol = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 completion(.failure(error))
