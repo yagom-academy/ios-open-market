@@ -106,6 +106,10 @@ final class GridCollectionViewCell: UICollectionViewCell, CollectionViewCellType
             stockLabel.heightAnchor.constraint(equalTo: cellStackView.heightAnchor, multiplier: 0.1)
         ])
         
+        configureGrid()
+    }
+    
+    private func configureGrid() {
         contentView.backgroundColor = .systemBackground
         contentView.layer.borderColor = UIColor.gray.cgColor
         contentView.layer.borderWidth = 1.0
