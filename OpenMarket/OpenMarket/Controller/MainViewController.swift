@@ -64,8 +64,13 @@ final class MainViewController: UIViewController {
     private func getItemList() {
         let url = OpenMarketURL.itemPageComponent(pageNo: OpenMarketDataText.first, itemPerPage: OpenMarketDataText.last).url
         
-        NetworkManager.publicNetworkManager.getJSONData(url: url, type: ItemList.self) { itemData in
-            self.makeSnapshot(itemData: itemData)
+        NetworkManager.publicNetworkManager.getJSONData(url: url, type: ItemList.self) { result in
+            switch result {
+            case .success(let itemData):
+                self.makeSnapshot(itemData: itemData)
+            case .failure(_):
+                self.showAlertController(title: OpenMarketAlert.networkError, message: OpenMarketAlert.tryAgain)
+            }
         }
     }
     

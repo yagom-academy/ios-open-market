@@ -11,13 +11,17 @@ struct NetworkManager {
     public static let publicNetworkManager = NetworkManager()
     
     func getJSONData<T: Codable>(url: String, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void) {
-        HTTPManager.shared.requestGet(url: url) { data in
-            guard let data: T = JSONConverter.shared.decodeData(data: data) else {
-                completion(.failure(.missingData))
+        HTTPManager.shared.requestGet(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let data: T = JSONConverter.shared.decodeData(data: data) else {
+                    completion(.failure(.missingData))
+                    return
+                }
+                completion(.success(data))
+            case .failure(_):
                 return
             }
-            
-            completion(.success(data))
         }
     }
     
@@ -28,13 +32,18 @@ struct NetworkManager {
             return completion(cachedImage)
         } 
         
-        HTTPManager.shared.requestGet(url: url) { data in
-            guard let image = UIImage(data: data) else {
+        HTTPManager.shared.requestGet(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else {
+                    return
+                }
+                
+                ImageCacheManager.shared.setObject(image, forKey: cachedKey)
+                completion(image)
+            case .failure(_):
                 return
             }
-            
-            ImageCacheManager.shared.setObject(image, forKey: cachedKey)
-            completion(image)
         }
     }
 }
