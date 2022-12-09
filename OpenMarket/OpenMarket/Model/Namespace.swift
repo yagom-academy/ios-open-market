@@ -74,6 +74,8 @@ enum OpenMarketAlert {
     static let imageLimitMessage = "이미지는 5개까지 등록이 가능합니다."
     static let networkError = "데이터 통신 오류"
     static let tryAgain = "다시 시도해 주세요."
+    static let postCompletion = "상품 데이터 등록 완료"
+    static let blank = ""
 }
 
 enum OpenMarketPlaceHolder {

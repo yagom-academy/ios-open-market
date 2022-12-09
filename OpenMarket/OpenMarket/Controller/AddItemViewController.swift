@@ -56,6 +56,7 @@ final class AddItemViewController: ItemViewController {
         HTTPManager.shared.requestPost(url: OpenMarketURL.postProductComponent.url,
                                        encodingData: encodingData,
                                        images: productImages) { data in
+            self.showAlertController(title: OpenMarketAlert.postCompletion, message: OpenMarketAlert.blank)
         }
     }
 }
