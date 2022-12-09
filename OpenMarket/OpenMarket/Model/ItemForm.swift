@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Param: Codable {
+struct ItemForm: Codable {
     let name, description: String
     let price: Int
     let currency: Currency

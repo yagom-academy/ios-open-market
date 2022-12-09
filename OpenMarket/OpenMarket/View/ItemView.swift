@@ -222,7 +222,7 @@ final class ItemView: UIView {
         productImage.isHidden = true
     }
     
-    func transferData() -> Param? {
+    func transferData() -> ItemForm? {
         guard let itemName = productNameTextField.text,
               let itemDesc = descTextView.text,
               let itemPrice = priceTextField.text,
@@ -233,7 +233,7 @@ final class ItemView: UIView {
         
         let itemCurrency = currencySegmentControl.selectedSegmentIndex
         
-        let param = Param(name: itemName,
+        let param = ItemForm(name: itemName,
                           description: itemDesc,
                           price: Int(itemPrice) ?? 0,
                           currency: itemCurrency == 0 ? .krw : .usd,

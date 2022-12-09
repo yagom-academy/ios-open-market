@@ -16,15 +16,7 @@ enum NetworkError: Error {
 class HTTPManager {
     static let shared = HTTPManager()
     
-    func requestGet(url: String, completion: @escaping (Data) -> ()) {
-        guard let validURL = URL(string: url) else {
-            handleError(error: NetworkError.clientError)
-            return
-        }
-        
-        var urlRequest = URLRequest(url: validURL)
-        urlRequest.httpMethod = HTTPMethod.get
-        
+    func requestToServer(with urlRequest: URLRequest, completion: @escaping (Data) -> ()) {
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else {
                 self.handleError(error: NetworkError.missingData)
@@ -47,7 +39,19 @@ class HTTPManager {
         }.resume()
     }
     
-    func requestPOST(url: String, encodingData: Data, images: [UIImage], complete: @escaping (Data) -> ()) {
+    func requestGet(url: String, completion: @escaping (Data) -> ()) {
+        guard let validURL = URL(string: url) else {
+            handleError(error: NetworkError.clientError)
+            return
+        }
+        
+        var urlRequest = URLRequest(url: validURL)
+        urlRequest.httpMethod = HTTPMethod.get
+        
+        requestToServer(with: urlRequest, completion: completion)
+    }
+    
+    func requestPost(url: String, encodingData: Data, images: [UIImage], completion: @escaping (Data) -> ()) {
         guard let validURL = URL(string: url) else {
             handleError(error: NetworkError.clientError)
             return
@@ -62,29 +66,10 @@ class HTTPManager {
         
         urlRequest.httpBody = MultipartFormDataRequest.shared.httpBody as Data
         
-        URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
-            guard let data = data else {
-                self.handleError(error: NetworkError.missingData)
-                return
-            }
-            
-            guard let response = urlResponse as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-                if let response = urlResponse as? HTTPURLResponse {
-                    print(response.statusCode)
-                }
-                return
-            }
-            
-            guard error == nil else {
-                self.handleError(error: NetworkError.serverError)
-                return
-            }
-            
-            complete(data)
-        }.resume()
+        requestToServer(with: urlRequest, completion: completion)
     }
     
-    func requestPATCH(url: String, encodingData: Data, completion: @escaping (Data) -> ()) {
+    func requestPatch(url: String, encodingData: Data, completion: @escaping (Data) -> ()) {
         guard let validURL = URL(string: url) else {
             handleError(error: NetworkError.clientError)
             return
@@ -96,29 +81,10 @@ class HTTPManager {
         urlRequest.setValue("application/json", forHTTPHeaderField:"Content-Type")
         urlRequest.httpBody = encodingData
         
-        URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
-            guard let data = data else {
-                self.handleError(error: NetworkError.missingData)
-                return
-            }
-            
-            guard let response = urlResponse as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-                if let response = urlResponse as? HTTPURLResponse {
-                    print(response.statusCode)
-                }
-                return
-            }
-            
-            guard error == nil else {
-                self.handleError(error: NetworkError.serverError)
-                return
-            }
-            
-            completion(data)
-        }.resume()
+        requestToServer(with: urlRequest, completion: completion)
     }
     
-    func requestDELETE(url: String, encodingData: Data, complete: @escaping (Data) -> ()) {
+    func requestDelete(url: String, encodingData: Data, completion: @escaping (Data) -> ()) {
         guard let validURL = URL(string: url) else {
             handleError(error: NetworkError.clientError)
             return
@@ -130,23 +96,7 @@ class HTTPManager {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.httpBody = encodingData
         
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard let data = data else {
-                self.handleError(error: NetworkError.missingData)
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-                return
-            }
-            
-            guard error == nil else {
-                self.handleError(error: NetworkError.serverError)
-                return
-            }
-            
-            complete(data)
-        }.resume()
+        requestToServer(with: urlRequest, completion: completion)
     }
     
     func handleError(error: NetworkError) {

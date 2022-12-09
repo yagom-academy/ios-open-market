@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddItemViewController: UIViewController {
+final class AddItemViewController: ItemViewController {
     private let addItemView = ItemView()
     private var productImages: [UIImage] = []
     
@@ -15,7 +15,7 @@ final class AddItemViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        configureNavigationBar()
+        super.configureNavigationBar(title: OpenMarketNaviItem.addItemTitle)
         addItemView.isHiddenImage()
         configureImagePicker()
     }
@@ -24,25 +24,7 @@ final class AddItemViewController: UIViewController {
         self.view = addItemView
     }
     
-    private func configureNavigationBar() {
-        self.title = OpenMarketNaviItem.addItemTitle
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: OpenMarketNaviItem.cancel,
-                                                                style: .plain,
-                                                                target: self, action:
-                                                                    #selector(tappedCancel(sender:)))
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: OpenMarketNaviItem.done,
-                                                                 style: .plain,
-                                                                 target: self,
-                                                                 action: #selector(tappedDone(sender:)))
-    }
-    
-    @objc private func tappedCancel(sender: UIBarButtonItem) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func tappedDone(sender: UIBarButtonItem) {
+    @objc internal override func tappedDone(sender: UIBarButtonItem) {
         guard addItemView.nameTextCount >= 3 else {
             showAlertController(title: OpenMarketAlert.productTextLimit,
                                 message: OpenMarketAlert.productTextLimitMessage)
@@ -71,7 +53,7 @@ final class AddItemViewController: UIViewController {
             return
         }
         
-        HTTPManager.shared.requestPOST(url: OpenMarketURL.postProductComponent.url,
+        HTTPManager.shared.requestPost(url: OpenMarketURL.postProductComponent.url,
                                        encodingData: encodingData,
                                        images: productImages) { data in
         }
@@ -118,5 +100,3 @@ extension AddItemViewController: UINavigationControllerDelegate, UIImagePickerCo
         dismiss(animated: true)
     }
 }
-
-
