@@ -1,7 +1,3 @@
-# 오픈마켓 Ⅱ
-
-
-# README DAY
 # 🏦iOS Open Market Ⅱ🏦
 
 ## 🗒︎목차
@@ -65,7 +61,12 @@
     ├── AppDelegate
     ├── SceneDelegate
     ├── MainViewContorller
-    ├── AddProductViewContorller
+    │   ├── MainViewContorller
+    │   └── MainViewController+UpdateDelegate
+    ├── ProductViewContorller
+    │   ├── ProductViewController
+    │   ├── ProductViewController+ImagePickerDelegate
+    │   └── UIImage+Extension
     ├── Constant
     ├── CollectionView
     │   ├── Grid
@@ -98,16 +99,13 @@
 
 |상품 리스트|상품 사진 선택|상품 등록|
 |:--:|:--:|:--:|
-|<img src = "https://i.imgur.com/R8ajVX9.gif" width=280 height=450>|<img src = "https://i.imgur.com/R8ajVX9.gif" width=280 height=450>|<img src = "https://i.imgur.com/CXurSX5.gif" width=280 height=450>|
-
-
-
+|<img src = "https://i.imgur.com/R8ajVX9.gif" width=280 height=450>|<img src = "https://i.imgur.com/RCMGC5U.gif" width=280 height=450>|<img src = "https://i.imgur.com/CXurSX5.gif" width=280 height=450>|
 
 
 
 ## 🎯 트러블 슈팅 및 고민
 
-### fetch() 메서드의 네트워크 비동기 처리에 대한 고민. 
+### fetch() 메서드의 네트워크 비동기 처리에 대한 고민
 URLsession의 dataTask를 생성 resume 메서드를 실행하고 반환값을 받으면 비동기적으로 처리되어 `ViewController`에서 반영되지 않는 부분에 대해서 고민을 했습니다.
 해당 부분에 대해서는 컴플리션 핸들러를 `escaping`을 통해 사용하는 방법과 `withoutActuallyEscaping` 메서드를 사용하는 방법중 `escaping` 을 사용하는 방법으로 해결했습니다. 
 
@@ -222,7 +220,31 @@ extension NetworkManager {
 함께 고민하다가 
 테스트 진행 시 임의로 `UIImage`로 변환하여 하나하나 확인해 보는 방법으로 테스트를 진행했습니다.
 
-### Cache를 사용시 같은 값을 불러 와 업데이트가 되지 않음
+### 상품 등록화면에서 이미지 뷰를 어떻게 처리할 지
+`imagePickerController`를 사용해 등록된 이미지를 보여주는 부분에서 `scrollView`내부를 어떤 것으로 구현할 지에 대해 고민했습니다.
+> <img src = "https://i.imgur.com/Swz6QmZ.png" width=450 height=230>
+크게 `collectionView`와 `stackView`를 고민 하다가 `cell`의 재사용이 필요 없는 부분이라 빠른 구현과 처리를 용이하게 하기 위해 `stackView`를 사용해 이미지 추가 버튼을 담고 이미지가 추가 될 때 마다 이미지 뷰를 추가하는 방식으로 구현했습니다.
+```swift!
+picker.dismiss(animated: true) {
+            ...
+            if let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                ...
+                self.imageStackView.addArrangedSubview(imageView)
+                
+                if self.imageStackView.subviews.count == 5 {
+                    self.addProductButton.isHidden = true
+                    
+                ...
+                }
+                
+                ...
+            } else {
+                print("image nil")
+            }
+        }
+```
+
+### Cache를 사용시 같은 값을 불러 와 업데이트가 되지 않아서 고민
 ```swift!
 let cache: URLCache = {
         let cache = URLCache.shared
@@ -231,20 +253,48 @@ let cache: URLCache = {
         return cache
     }()
 ```
-cache의 저장 용량을 0으로 해서 매번 업데이트 하도록 진행했습니다.
-이후 수정해 캐시를 활용해 볼 생각입니다.
+
+최초 앱을 실행했을 때
+`getProductsList(pageNo: 1, itemsPerPage: 40)` 를 실행하고
+상품 등록 화면에서 Done 버튼을 누른 후 dissmiss 하며 상품 리스트 화면으로 돌아갈 때 
+뷰를 새로 업데이트 하는 과정에서
+한번 더 `getProductsList(pageNo: 1, itemsPerPage: 40)` 요청을 실행합니다.
+
+제가 생각하기에는 이 과정에서 캐시에 똑같은 url 요청이 들어가 있어서 반환하는 것 같았습니다.
+그래서 데이터의 stale을 판단해서 같은 요청이 들어오더라도 데이터가 stale 되었다면 통신을 하도록 하고 싶었습니다.
+
+하지만 잘 해결되지 않아서 임시로 메모리와 디스크 캐시 사용량을 0으로 지정해 준 후 
+캐시를 사용하지 않은 것 처럼 계속해서 통신을 하도록 해주었습니다.
+
+stale을 체크할 수 있는 방법을 좀 더 찾아 해결할 예정입니다.
+
+실행 화면입니다.
+|capacity 10000 <br>(등록 시 새 상품이 나오지 않음)| capacity 0 <br>(등록 시 새 상품이 나옴)|
+|:--:|:--:|
+|![cacheCapacity10000](https://user-images.githubusercontent.com/82566116/206275376-ce4473e3-5aac-4926-98f8-c756b3511f29.gif) |![cacheCapacity0](https://user-images.githubusercontent.com/82566116/206275388-eac8bd3f-3c2c-4ded-9922-adb4fdab1328.gif)|
+
+### priceStackView의 height가 애매모호한 점
+
+![](https://i.imgur.com/RZ8ZfnK.png)
+
+priceStackView 내에 
+가격을 적는 부분과
+통화를 정하는 segmentedControl이 들어있습니다.
+
+priceStackView의 height를 segmentedControl에 걸어주거나
+segmentedControl의 높이를 가격의 frame.height 로 지정해도 frame.height가 0 이라 지정이 되지 않았습니다.
+
+코드 리뷰를 받아본 결과 정확한 이유는 찾을 수 없으나 segmentedControl이나 toggle 같은 뷰의 경우 
+빈 뷰를 새로 만들어서 뷰에 넣어서 높이를 맞춰주어 높이를 체크하는 방법을 조언 받아 수정했습니다.
+
 
 ## 📚 참고 링크
 
-[URLSession](https://developer.apple.com/documentation/foundation/urlsession)
-[Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
-[CollectionView]()
-[CollectionViewDiffableDataSource](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource)
-[CollectionViewCompositionallayout](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout)
+[URLSession](https://developer.apple.com/documentation/foundation/urlsession)<br/>[Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)<br/>[CollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)<br/>[CollectionViewDiffableDataSource](https://developer.apple.com/documentation/uikit/uicollectionviewdiffabledatasource)<br/>[CollectionViewCompositionallayout](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout)<br/>
 
 ----
+
 
 ## 💻 개발환경 및 라이브러리
 [![swift](https://img.shields.io/badge/swift-5.6-orange)]()
 [![xcode](https://img.shields.io/badge/Xcode-13.4.1-blue)]()
-  
