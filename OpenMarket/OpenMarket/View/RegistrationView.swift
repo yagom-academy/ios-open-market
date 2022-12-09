@@ -8,7 +8,7 @@
 import UIKit
 
 final class RegistrationView: UIView {    
-    let imageCollectionView: UICollectionView = {
+    private(set) var imageCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         
         flowLayout.scrollDirection = .horizontal
@@ -22,16 +22,16 @@ final class RegistrationView: UIView {
         return view
     }()
     
-    let productNameTextField: CustomTextField = CustomTextField(placeholder: "상품명")
-    let productPriceTextField: CustomTextField = CustomTextField(placeholder: "상품가격",
+    private(set) var productNameTextField: CustomTextField = CustomTextField(placeholder: "상품명")
+    private(set) var productPriceTextField: CustomTextField = CustomTextField(placeholder: "상품가격",
                                                                  keyboardType: .decimalPad )
-    let productDiscountPriceTextField: CustomTextField = CustomTextField(placeholder: "할인금액",
+    private(set) var productDiscountPriceTextField: CustomTextField = CustomTextField(placeholder: "할인금액",
                                                                          keyboardType: .decimalPad)
-    let stockTextField: CustomTextField = CustomTextField(placeholder: "재고수량",
+    private(set) var stockTextField: CustomTextField = CustomTextField(placeholder: "재고수량",
                                                           keyboardType: .numberPad)
-    let priceStackView: CustomStackView = CustomStackView(spacing: 10)
+    private(set) var priceStackView: CustomStackView = CustomStackView(spacing: 10)
     
-    let currencySegmentControl: UISegmentedControl = {
+    private(set) var currencySegmentControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: [Currency.krw.rawValue,
                                                           Currency.usd.rawValue])
         
@@ -41,7 +41,7 @@ final class RegistrationView: UIView {
         return segmentedControl
     }()
     
-    let textView: UITextView = {
+    private(set) var textView: UITextView = {
         let textView = UITextView()
         
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,12 +59,12 @@ final class RegistrationView: UIView {
         return textView
     }()
     
-    let fieldStackView: CustomStackView = CustomStackView(axis: .vertical,
+    private(set) var fieldStackView: CustomStackView = CustomStackView(axis: .vertical,
                                                           distribution: .fillEqually,
                                                           spacing: 10)
-    let mainStackView: CustomStackView = CustomStackView(axis: .vertical, spacing: 10)
+    private var mainStackView: CustomStackView = CustomStackView(axis: .vertical, spacing: 10)
     
-    let mainScrollView: UIScrollView = {
+    private(set) var mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false

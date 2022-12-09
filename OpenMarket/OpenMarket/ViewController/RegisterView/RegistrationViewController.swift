@@ -8,12 +8,13 @@
 import UIKit
 
 final class RegistrationViewController: UIViewController {
-    private let registrationView: RegistrationView = RegistrationView()
+    private var registrationView: RegistrationView!
     private var selectedImages: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
+        registrationView = RegistrationView()
         self.view = registrationView
         setupNavigationBar()
         controlKeyBoard()
