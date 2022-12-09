@@ -16,7 +16,24 @@
 ## 👋 소개
 
 **서버와 통신이 가능한 오픈마켓 서비스 프로젝트 입니다**
+- 프로젝트 기간 : 22.11.14 ~ 22.12.09 (4주)
 
+**[다뤄본 기술]**
+- URLSession (Get, Post, Patch, Delete)
+- multipart/form-data의 구조 파악
+- URLSession을 활용한 multipart/form-data 요청 전송
+- UICollectionView 구현 및 FlowLayout으로 셀의 크기 다루기
+- JSON(Decode, Encode) 활용
+- UIImagePicker를 이용하여 사진 가져오는 방법 구현
+- ActivityIndicator을 활용하여 로딩 중인 상태 표시
+- Keyboard 타입 변경 및 높이에 따른 뷰 크기 조절
+- Segment Control를 통해 CollectionViewCell의 2가지 레이아웃을 구현
+- TextView & TextField의 PlaceHolder와 글자수 제한 기능을 구현
+- CustomCell을 Xib 활용하여 관리
+- 상속 혹은 프로토콜 기본구현을 통해 (수정/등록 과정의) 공통기능 구현
+- Image를 서버에 업로드 하기전에 용량을 제한하는 기능 구현
+- UI요소의 CellIdentifier을 간단히 가져오는 기능을 Extention으로 기능 추가
+- Mock을 통해 URLSessionTest를 구현
 
 
 <br>
@@ -36,7 +53,7 @@
 
 ## 🕖 타임라인
 
-### STEP 1
+### STEP 1 - [기간:11.14 ~ 11.18]
 - STEP 1-1
     - 2022.11.14
         - JSON파일을 디코딩하여 저장할 모델 타입들 구현
@@ -54,7 +71,7 @@
         - Mock 타입을 이용해 NetworkManager Unit Test 작성
         - 전반적인 코드 리팩토링 및 그룹화, 은닉화 작업
 
-### STEP 2
+### STEP 2 - [기간: 11.21 ~ 11.25]
 - STEP 2-1
     - 2022.11.22
         - CollectionView, ListCollectionViewCell 구현
@@ -70,6 +87,24 @@
         - Cell 디자인 요소 추가 (border line, bottom line)
         - NumberFormatter 적용
         - 전반적인 코드 리팩터링
+        
+### STEP 3 - [기간: 11.28 ~ 12.09]
+- STEP 3-1
+    - 2022.12.01
+        - NetworkManager Post &. Patch 구현
+    -  2022.12.02
+        - NetworkManager Delete 구현
+- STEP 3-2
+    - 2022.12.02
+        - BaseProductView 구현
+        - ProdudctRegisterViewController(상품 등록 화면) 구현
+    - 2022.12.05
+        - ImagePicker 구현
+        - 키보드 관련 추가기능 구현
+    - 2022.12.07
+        - 상품 등록 화면 추가 구현 및 리팩터링
+        - ProdudctEditViewController(상품 수정 화면) 구현
+        - 전반적인 코드 리팩터링
 
 <br>
 
@@ -79,71 +114,103 @@
 ```bash
 .
 ├── OpenMarket
-│   ├── JSONDecodeTests
-│   │   └── JSONDecodeTests.swift
-│   ├── MockURLSessionTests
-│   │   ├── Mock
-│   │   │   ├── MockData.swift
-│   │   │   ├── MockURLSession.swift
-│   │   │   └── MockURLSessionDataTask.swift
-│   │   └── MockURLSessionTests.swift
 │   ├── OpenMarket
 │   │   ├── Info.plist
 │   │   ├── Resources
+│   │   │   └── Assets.xcassets
 │   │   └── Sources
 │   │       ├── App
 │   │       │   ├── AppDelegate.swift
 │   │       │   └── SceneDelegate.swift
 │   │       ├── Controller
-│   │       │   └── MainViewController.swift
+│   │       │   ├── MainViewController.swift
+│   │       │   ├── ProductEditViewController.swift
+│   │       │   └── ProductRegisterViewController.swift
 │   │       ├── Enum
 │   │       │   └── NameSpace.swift
 │   │       ├── Error
 │   │       │   ├── JSONDecodeError.swift
-│   │       │   └── NetworkError.swift
+│   │       │   ├── NetworkError.swift
+│   │       │   └── ProductPostRequirementError.swift
 │   │       ├── Extension
+│   │       │   ├── Array+Extension.swift
+│   │       │   ├── CellIdentifierInfo+Extension.swift
+│   │       │   ├── Data+Extension.swift
 │   │       │   ├── Double+Extension.swift
 │   │       │   ├── JSONDecode+Extension.swift
 │   │       │   ├── String+Extension.swift
-│   │       │   └── UIImageView+Extension.swift
+│   │       │   └── UIImage(View)+Extension.swift
 │   │       ├── Model
 │   │       │   └── Product
 │   │       │       ├── Currency.swift
 │   │       │       ├── Image.swift
+│   │       │       ├── ParamsProduct.swift
 │   │       │       ├── Product.swift
 │   │       │       ├── ProductList.swift
 │   │       │       └── Vendor.swift
 │   │       ├── Network
+│   │       │   ├── HttpMethod.swift
+│   │       │   ├── NetworkDeletable.swift
 │   │       │   ├── NetworkManager.swift
+│   │       │   ├── NetworkPatchable.swift
+│   │       │   ├── NetworkPostable.swift
 │   │       │   ├── NetworkRequestable.swift
 │   │       │   └── URL
-│   │       │       ├── HttpMethod.swift
 │   │       │       ├── URLManager.swift
 │   │       │       ├── URLSession+Extension.swift
 │   │       │       └── URLSessionProtocol.swift
+│   │       ├── Protocol
+│   │       │   └── CellIdentifierInfo.swift
 │   │       └── View
 │   │           ├── Base.lproj
 │   │           │   └── Main.storyboard
+│   │           ├── BaseProductView.swift
+│   │           ├── BaseProductView.xib
 │   │           ├── GridCollectionViewCell.swift
 │   │           ├── GridCollectionViewCell.xib
+│   │           ├── ImageCollectionViewCell.swift
+│   │           ├── ImageCollectionViewCell.xib
 │   │           ├── ListCollectionViewCell.swift
-│   │           └── ListCollectionViewCell.xib
-│   └── OpenMarket.xcodeproj
+│   │           ├── ListCollectionViewCell.xib
+│   │           ├── ProductEditView.swift
+│   │           └── ProductRegisterView.swift
+│   ├── OpenMarket.xcodeproj
+│   ├── JSONDecodeTests
+│   │   └── JSONDecodeTests.swift
+│   └── MockURLSessionTests
+│       ├── Mock
+│       │   ├── MockData.swift
+│       │   ├── MockURLSession.swift
+│       │   └── MockURLSessionDataTask.swift
+│       └── MockURLSessionTests.swift
 └── README.md
 ```
 <br>
 
 ## 📊 UML
-(11/28일 작성 예정... 이번주는... 더이상... 못합니다...)
+![OpenMarket](https://user-images.githubusercontent.com/99257965/206636933-1ab21e00-4b18-45ca-8a16-594a5a00db9d.jpg)
 
 <br>
 
 ## 💻 실행 화면
 
+- 상품 목록 화면
+
 |ListType|GridType|
 |:-:|:-:|
 | ![](https://user-images.githubusercontent.com/99257965/203928346-03c2f2d6-c245-4f8e-a37a-6ebfbb8029a2.gif) | ![](https://user-images.githubusercontent.com/99257965/203928363-3f976dc3-4177-4eb1-990f-b3ac1ac0cba1.gif) |
 
+- 상품 등록화면
+
+|정상적인 등록|요구사항을 만족하지 못했을 때 알림표시|
+|:-:|:-:|
+| ![](https://user-images.githubusercontent.com/99257965/206636564-b64682d2-1c45-4bec-b0f5-1eb00dcebe6e.gif) | ![](https://user-images.githubusercontent.com/99257965/206636576-42eb7319-9cec-4eaa-8469-5088accf41f5.gif) |
+
+- 상품 수정화면
+
+|상품 수정하기|
+|:-:|
+| ![](https://user-images.githubusercontent.com/99257965/206636676-2f5751f0-149f-4b21-8288-805adf4e0b88.gif) |
 
 
 
@@ -387,7 +454,97 @@ func addBottomLine(color: UIColor, width: CGFloat) {
 
 </details><br>
 
+> **ViewController에 있는 UIView를 CustomView로 가져오는 방법**
 
+<details>
+    <summary>자세히보기</summary>
+
+- 메인스토리보드에 UIView 추가
+- 연결하고 싶은 View&Xib 생성 (View는 자동으로 Xib파일 생성안되어 따로 생성해주어야함!)
+- 메인스토리보드에 추가해준 UIView-Class를 생성한 View로 연결
+- Xib파일에서 File's Owner에서 Class를 생성한 View로 연결
+
+</details><br>
+
+> **Boundary에 사용할 UUID는 한번만 생성하여 전체 multipart/form-data을 작성해줘야함**
+
+<details>
+    <summary>자세히보기</summary>
+
+- multipart/form-data을 작성할 때, Boundary의 UUID를 2개 이상 생성해주면, UUID가 다르게 생성되어 오류발생...!
+
+</details><br>
+
+> **키보드 타입 지정 & 키보드 높이에 따른 UIView높이를 줄이는 방법**
+
+<details>
+    <summary>자세히보기</summary>
+
+- 키보드가 올라올 때 키보드가 올라오는 높이만큼 뷰의 일정부분을 줄여 상품정보가 더 많이 보이게 구현해줘야 했습니다.
+그래서 전체뷰에서 키보드가 올라올 때 키보드의 높이을 빼주고 뷰를 구성하도록 구현하였습니다. 
+그 과정에서 줄일 수 있는 부분이 상품 이미지뿐이라고 생각하여, 상품이미지가 살짝 줄어들고 상품설명을 적는 텍스트뷰를 조금 더 확보할 수 있었습니다. 
+추가로, 키보드 타입에 따라 높이가 다른 부분도 해결하기 위해 아래와 같이 코드를 작성하여 해결하였습니다.
+
+```swift
+private var keyHeight: CGFloat = 0
+
+private func checkKeyboard() {
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(keyboardWillShow(_:)),
+                                           name: UIResponder.keyboardWillShowNotification,
+                                           object: nil)
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(keyboardWillHide(_:)),
+                                           name: UIResponder.keyboardWillHideNotification,
+                                           object: nil)
+}
+
+@objc
+private func keyboardWillShow(_ sender: Notification) {
+    guard let senderUserInfo = sender.userInfo else { return }
+    let userInfo: NSDictionary = senderUserInfo as NSDictionary
+
+    if let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue {
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        var keyboardHeight = keyboardRectangle.height
+
+        if keyHeight == 0 {
+            keyHeight = keyboardHeight
+            view.frame.size.height -= keyboardHeight
+        } else if keyHeight > keyboardHeight {
+            keyboardHeight = keyboardHeight - keyHeight
+            keyHeight = keyHeight + keyboardHeight
+            view.frame.size.height -= keyboardHeight
+        }
+    }
+}
+
+@objc
+private func keyboardWillHide(_ sender: Notification) {
+    view.frame.size.height += keyHeight
+    keyHeight = 0
+}
+```
+
+- 리스트 셀에 처음 바텀라인에 줄을 주기위해 Cell.layer를 기준으로 했었더니 아래의 cell과 공간이 비어있게 보였습니다. 그래서 frame을 기준으로 잡고 진행했습니다!
+
+</details><br>
+
+>  **NetworkManager의 기능 분리를 어떻게 할지 고민했었습니다**
+
+<details>
+
+    <summary>자세히보기</summary>
+
+- 메서드에서 NetworkManger를 사용할 때마다 한 번만 할당해주기 때문에 사용 용도에 따라 프로토콜로 기능분리를 해주었습니다.
+![](https://i.imgur.com/3tY1M4I.png)
+
+</details><br>
+
+**[미흡했던 부분]**
+
+- ProductEditViewController과 ProductRegisterViewController에서 중복되는 코드가 많아서 어떻게 해결해야할지 고민해봐야할듯!
+- NetworkManager의 설계가 완성도가 많이 떨어지는듯하여 잘 설계된 코드를 한번 봐야할듯!
 
 
 <br>
