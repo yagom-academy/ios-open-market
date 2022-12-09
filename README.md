@@ -8,10 +8,12 @@
 5. [실행 화면](#5실행화면)
 6. [트러블 슈팅](#6트러블-슈팅)
 7. [핵심 경험](#7프로젝트-수행-중-핵심-경험)
-8. [참고 링크](#8참고-링크)
+8. [추가적으로 공부해야 하는 것](#8추가적으로-공부해야-하는-것)
+9. [참고 링크](#8참고-링크)
 
 ## 1.소개
-마트 API를 받아와서 뷰를 만드는 Project
+- OpenMarket API를 받아와서 뷰를 만드는 Project
+- 등록된 상품, 상품 등록 기능 구현
 
 <br>
 
@@ -34,7 +36,6 @@
     - 네트워크 타입 Unit Test 구현
 
 - 221116
-
     ![](https://i.imgur.com/NJIEwAJ.png)
     - URLSession을 이용하여 네트워킹
 
@@ -49,58 +50,106 @@
 
 **[STEP-2]**
 - 221121 - REFACTORING
-![](https://i.imgur.com/GbaovNU.png)
     - 리펙토링
+    ![](https://i.imgur.com/GbaovNU.png)
 - 221122
     - 개인 학습
 - 221123
-![](https://i.imgur.com/3EHdEqN.png)
+    ![](https://i.imgur.com/3EHdEqN.png)
     - ListView, GridView 구현
+    
 - 221124
-![](https://i.imgur.com/eahJC7b.png)
+    ![](https://i.imgur.com/eahJC7b.png)
     - stock 품절 처리 및 Grid Item Cell Autolayout 설정
+    
 - 221125 : STEP2 - PR
-![](https://i.imgur.com/r5WJ9mN.png)
+    ![](https://i.imgur.com/r5WJ9mN.png)
     - 다음화면 및 readme 작성
+    
+**[STEP-3]**
+- 221128 : PR Refactoring
+    ![](https://i.imgur.com/Q2ocslY.png)
+    - STEP2 Refctoring
+    
+- 221130 & 221201 
+    ![](https://i.imgur.com/wZJnc68.png)
+    ![](https://i.imgur.com/EnxJrUR.png)
+    - ProductCell 구현 및 Indicator 구현
+    
+- 221202
+    ![](https://i.imgur.com/6v2o1fQ.png)
+    - API POST 메서드 구현
+    
+- 221205 : Merge
+    ![](https://i.imgur.com/5SyPJhf.png)
+    - KeyBoard에 따른 화면 조정
+    
+- 221206 
+    ![](https://i.imgur.com/eIZaEa3.png)
+    - ImagePicker 구현
+    
+- 221207
+    ![](https://i.imgur.com/xISSKrd.png)
+    - 각 에러 타입에 따른 알림창 구현 
+- 221208 : PR
+    ![](https://i.imgur.com/gr9a8km.png)
+    - 데이터 전송 후 데이터 reFetching 메서드 구현 및 뷰 업데이트
+    - PR 발송
 
 <br>
 
 ## 4.다이어그램
 - 파일 구조
 ```bash
-├── OpenMarket
-│   ├── NetworkUnitTest
-│   │   └── NetworkUnitTest.swift
-│   └── OpenMarket
-│       ├── Resource
-│       ├── Controller
-│       │   └── ViewController.swift
-│       ├── Extensions
-│       │   └── Networking
-│       │       └── Dictionary+.swift
-│       ├── Model
-│       │   └── Networking
-│       │       ├── APIType.swift
-│       │       ├── DTO
-│       │       │   ├── Currency.swift
-│       │       │   ├── Product.swift
-│       │       │   └── ProductListResponse.swift
-│       │       ├── NetworkError.swift
-│       │       ├── NetworkManager.swift
-│       │       ├── NetworkTypes
-│       │       │   └── OpenMarketAPI.swift
-│       │       └── TestDouble
-│       │           ├── StubURLSession.swift
-│       │           └── URLSessionProtocol.swift
-│       └── View
-│           └── Main.storyboard
-└── README.md
+├── Controller
+│   ├── ProductsViewController.swift
+│   └── RegisterProductViewController.swift
+├── Extensions
+│   ├── Common
+│   │   ├── UIImage.swift
+│   │   ├── UIStackView.swift
+│   │   ├── UITextField.swift
+│   │   └── UITextView.swift
+│   └── Networking
+│       ├── Dictionary+.swift
+│       ├── Mockable+.swift
+│       └── NSMutableData +.swift
+├── Model
+│   ├── Checker
+│   │   ├── Common
+│   │   │   └── RegisterError.swift
+│   │   └── RegisterProductChecker.swift
+│   └── Networking
+│       ├── APIType.swift
+│       ├── Common
+│       │   ├── HTTPBody.swift
+│       │   ├── HTTPMethod.swift
+│       │   ├── PostParameter.swift
+│       │   └── TestDouble
+│       │       ├── StubURLSession.swift
+│       │       └── URLSessionProtocol.swift
+│       ├── DTO
+│       │   ├── Currency.swift
+│       │   ├── Product.swift
+│       │   └── ProductListResponse.swift
+│       ├── HttpBodyConvertible.swift
+│       ├── NetworkError.swift
+│       ├── NetworkManager.swift
+│       └── NetworkTypes
+│           └── OpenMarketAPI.swift
+└── View
+    ├── Base.lproj
+    ├── ProductCollectionView
+    │   ├── Cells
+    │   │   ├── ProductGridItemCell.swift
+    │   │   └── ProductListItemCell.swift
+    │   └── ProductItemCellContent.swift
+    └── RegisterProductCollectionView
+        └── RegisterCollectionImageCell.swift
 ```
 
 - 네트워크 관련 UML
 ![](https://i.imgur.com/X7hKyNV.png)
-
-
 
 ## 5.실행화면
 #### STEP1
@@ -109,9 +158,11 @@
 ![netWorkView](https://i.imgur.com/M18lPLd.png)
 
 #### STEP2
-![Scroll Image](https://i.imgur.com/bGnwwdP.gif)
 
 
+| 상품 목록 화면 | 상품 등록 화면 | 상품 상세 화면 |
+| :--------: | :--------: | :--------: |
+| <img src = "https://i.imgur.com/bGnwwdP.gif" height = "600"> | <img src="https://i.imgur.com/5FF7gBB.gif" height = "600"> | 추가 예정     |
 
 ## 6.트러블 슈팅
 ### JSON 파일과 서버의 응답 JSON의 형식이 다른 것
@@ -149,7 +200,6 @@ class NetworkManager {
         ...
     }
 }
-
 ```
 ```swift
 protocol APIType {
@@ -226,13 +276,52 @@ struct NetworkManager<T: Decodable> {
 - 다음과 같은 문제를 해결하기 위해서 `cellForItemAt` 메서드에서는 이미지 로드 Task를 설정할 수 있도록 하고, 이를 Cell이 수행할 수 있도록 하였습니다.
 - 또한, `prepareForReuse` 메서드 내부에서 작업을 취소할 수 있도록 하였습니다.
 
-<br>
+### 사진 한개의 용량과 전체 이미지의 사이즈
+```swift
+func downSampling(scale: Double) -> UIImage {
+    guard let data = self.jpegData(compressionQuality: 0.5), 
+          let imageSource = CGImageSourceCreateWithData(data as CFData, nil) else {
+        return self
+    }
+        
+    let maxPixel = min(self.size.width, self.size.height) * scale
+    let downSampleOptions = [
+        kCGImageSourceCreateThumbnailFromImageAlways: true,
+        kCGImageSourceShouldCacheImmediately: true,
+        kCGImageSourceCreateThumbnailWithTransform: true,
+        kCGImageSourceThumbnailMaxPixelSize: maxPixel
+    ] as CFDictionary
+        
+    guard let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions) else {
+            return self
+    }
+        
+    let newImage = UIImage(cgImage: downSampledImage)
+        
+    return newImage
+}
+```
+- API 문서의 이미지의 용량에 대한 요구 사항이 있었습니다. 이에 대해서 전체 30kb가 아닌 한개의 이미지가 30kb가 되는 것으로 생각하였습니다. 하지만, 실질적인 API 통신의 요구 사항은 여러 장의 이미지의 용량의 합이 30kb가 되는 것이였습니다.
+- 이에 대해서 수정하는 과정에서 어떤 방식으로 이미지의 용량을 제한 해야 하는 것인지 고민하게 되었습니다.
+- 합에 대한 조건을 통해서 이미지의 사이즈를 줄일 것인지, 한개의 이미지의 용량을 제한 할 것인지에 대해서 고민하였습니다.
+- 이에 대한 결론으로 이미지를 모두 받아 둔 후, 데이터를 압축시키는 것은 사용자에게 좋은 UX를 제공하지 못한다고 판단하여서 한개의 이미지의 사이즈를 30kb / 전체 이미지의 개수로 계산하여서 제한하였습니다.
+- 위의 코드를 통해서 이미지의 최대 픽셀의 사이즈를 조절함으로써 데이터의 양을 줄이도록 했습니다.
 
-## 8.참고 링크
+## 8.추가적으로 공부해야 하는 것
+### 비대한 ViewController
+![Massive ViewController](https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/Art/model_view_controller_2x.png)
+<br>
+- MVC 아키텍처 패턴을 활용하서 구성하였습니다. 이 과정에서 `Delegate`와 `DataSource`를 `Controller`로 지정되는 구문이 많아서 메서드를 가지고 있음으로써 `Controller`가 비대해졌다고 생각이 듭니다.
+- 또한, `ViewController`가 `View`에 대한 요소들을 가지고 있고, 이에 대한 `Constraint`를 구성하는 것이 적절한지에 대해서 고민하게 되었습니다.
+- 이에 대해서 추가적으로 MVC의 단점을 보안할 수 있는 점에 대해서 공부하려고 합니다.
+
+## 9.참고 링크
 - Apple Developer 
     - [Generic](https://docs.swift.org/swift-book/LanguageGuide/Generics.html)
     - [Choosing Between Structures and Classes](https://developer.apple.com/documentation/swift/choosing-between-structures-and-classes)
     - [Attributedtext](https://developer.apple.com/documentation/uikit/uilabel/1620542-attributedtext)
+    - [Data Entry - iOS - Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/ios/user-interaction/data-entry/)
+    - [UIImagePicker](https://developer.apple.com/documentation/uikit/uiimagepickercontroller)
 - Swift Programming Language
     - [클로저 캡쳐(캡쳐 값)](https://docs.swift.org/swift-book/LanguageGuide/Closures.html)
     - [클로저의 강한 참조](https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html#ID56)
@@ -240,7 +329,8 @@ struct NetworkManager<T: Decodable> {
     - [동시성 프로그래밍](https://yagom.net/courses/%EB%8F%99%EC%8B%9C%EC%84%B1-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-concurrency-programming/)
     - [Test Double](https://yagom.net/courses/unit-test-작성하기/lessons/테스트를-위한-객체-만들기/topic/test-double/)
     - [URLSession](https://developer.apple.com/documentation/foundation/urlsession)
+    - [UIAlertController](https://developer.apple.com/documentation/uikit/uialertcontroller)
+- MDN
+    - [mdn POST](https://developer.mozilla.org/ko/docs/Web/HTTP/Methods/POST)
 ---
 [🔝 맨 위로 이동하기](#오픈마켓)
-
-
