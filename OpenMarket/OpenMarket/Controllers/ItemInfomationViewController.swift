@@ -102,7 +102,53 @@ class ItemInfomationViewController: UIViewController {
     
     @objc func configureNavigation() {
         self.navigationItem.title = item?.name
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .action)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonTapped))
+    }
+
+    @objc func actionButtonTapped() {
+        let actionsheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let editItemAction = UIAlertAction(title: "수정", style: .default) { action in
+            let itemEditVC = ItemEditViewController()
+            itemEditVC.itemId = self.itemId
+            let itemEditNavVC = UINavigationController(rootViewController: itemEditVC)
+            itemEditNavVC.modalPresentationStyle = .fullScreen
+            itemEditNavVC.modalTransitionStyle = .crossDissolve
+            self.present(itemEditNavVC, animated: false)
+        }
+
+        let deleteItemAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            let alertController = UIAlertController(title: "비밀번호 입력", message: "암호", preferredStyle: .alert)
+
+            let okAction = UIAlertAction(title: "입력", style: .destructive) { action in
+                guard let password = alertController.textFields?.first?.text,
+                      let itemId = self.itemId else { return }
+
+                self.networkManager.deleteItem(productId: itemId, password: password) { result in
+                    switch result {
+                    case .success(let success):
+                        DispatchQueue.main.async {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    case .failure(let failure):
+                        print("실패")
+                    }
+                }
+            }
+
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            alertController.addTextField()
+
+            self.present(alertController, animated: true)
+        }
+
+        actionsheetController.addAction(editItemAction)
+        actionsheetController.addAction(deleteItemAction)
+        actionsheetController.addAction(cancelAction)
+
+        present(actionsheetController, animated: true)
     }
     
     private func fetchItem() {
