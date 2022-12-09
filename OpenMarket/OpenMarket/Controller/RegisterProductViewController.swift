@@ -16,6 +16,10 @@ class RegisterProductViewController: UIViewController {
         return indicator
     }()
     var imageSet: [UIImage] = []
+    var mode: String = ""
+    var productID: Int = 0
+    var patchImages: [Image] = []
+    var productData: DetailProduct?
     
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var cancelBarButtonItem: UIBarButtonItem!

@@ -9,12 +9,116 @@ import UIKit
 
 class ProductDetailViewController: UIViewController {
     
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var stock: UILabel!
+    @IBOutlet weak var bargainPrice: UILabel!
+    @IBOutlet weak var price: UILabel!
+    @IBOutlet weak var productDescription: UITextView!
     @IBOutlet weak var collectionView: UICollectionView!
+    
     private let collectionViewFlowLayout = UICollectionViewFlowLayout()
+    private let networkCommunication = NetworkCommunication()
+    var detailProductData: DetailProduct?
+    var detailProductImages: [Image] = []
     var productID: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(selectModifyOrDeleteProduct))
+        barButtonItem.customView?.translatesAutoresizingMaskIntoConstraints = false
+        settingCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getProductDetailData(productID: productID)
+    }
+    
+    @objc private func selectModifyOrDeleteProduct() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let modifyAction = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let registerProductViewController = storyboard.instantiateViewController(
+                withIdentifier: "registerProductViewController") as? RegisterProductViewController,
+                  let id = self?.productID,
+                  let images = self?.detailProductImages else { return }
+            registerProductViewController.mode = "patch"
+            registerProductViewController.productID = id
+            registerProductViewController.patchImages = images
+            registerProductViewController.modalPresentationStyle = .fullScreen
+            self?.present(registerProductViewController, animated: true)
+        }
+        
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            print("삭제 선택")
+//            self?.showDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(modifyAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+    
+    private func getProductDetailData(productID: Int) {
+        let url = ApiUrl.Path.detailProduct + String(productID)
+        networkCommunication.requestProductsInformation(
+            url: url,
+            type: DetailProduct.self
+        ) { [weak self] data in
+            switch data {
+            case .success(let data):
+                self?.detailProductData = data
+                self?.detailProductImages = data.images
+                DispatchQueue.main.async {
+                    self?.settingDetailData()
+                    self?.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print("에러가나와용")
+                print(error.rawValue)
+            }
+        }
+    }
+    
+    private func settingDetailData() {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        guard let detailProductData = detailProductData,
+              let priceText = numberFormatter.string(for: detailProductData.price),
+              let bargainPriceText = numberFormatter.string(for: detailProductData.bargainPrice) else { return }
+            navigationItem.title = detailProductData.name
+            productName.text = detailProductData.name
+            price.text = "\(detailProductData.currency) \(priceText)"
+        
+        if detailProductData.bargainPrice <= 0 || detailProductData.price <= detailProductData.bargainPrice {
+            bargainPrice.text = ""
+            price.textColor = UIColor.systemGray
+        } else {
+            guard let priceText = price.text else { return }
+            let attributeText = NSMutableAttributedString(string: priceText)
+            attributeText.addAttribute(.strikethroughStyle,
+                                       value: NSUnderlineStyle.single.rawValue,
+                                       range: NSMakeRange(0, attributeText.length))
+            price.attributedText = attributeText
+            bargainPrice.text = "\(detailProductData.currency) \(bargainPriceText)"
+            price.textColor = UIColor.systemRed
+        }
+        
+        if detailProductData.stock > 0 {
+            stock.text = "잔여수량 : \(detailProductData.stock)"
+            stock.textColor = UIColor.systemGray
+        } else {
+            stock.text = "품절"
+            stock.textColor = UIColor.systemYellow
+        }
+        
+        productDescription.text = detailProductData.description
+    }
+    
+    private func settingCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isPagingEnabled = true

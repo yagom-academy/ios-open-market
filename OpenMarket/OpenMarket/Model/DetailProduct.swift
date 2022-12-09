@@ -8,12 +8,10 @@
 import Foundation
 
 struct DetailProduct: Codable {
-    let id, vendorID: Int
-    let name, welcomeDescription: String
-    let thumbnail: String
-    let currency: String
-    let price, bargainPrice, discountedPrice, stock: Int
-    let createdAt, issuedAt: String
+    let id, vendorID, stock: Int
+    let name, description, thumbnail, createdAt, issuedAt: String
+    let currency: Currency
+    let price, bargainPrice, discountedPrice: Double
     let images: [Image]
     let vendors: Vendors
 
@@ -21,7 +19,7 @@ struct DetailProduct: Codable {
         case id
         case vendorID = "vendor_id"
         case name
-        case welcomeDescription = "description"
+        case description
         case thumbnail, currency, price
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
