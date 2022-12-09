@@ -36,6 +36,7 @@
 		DF6EE0652925255400CB57F3 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6EE0642925255400CB57F3 /* DummyData.swift */; };
 		DFDCA5282923BC6A00655B05 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDCA5272923BC6A00655B05 /* ImageData.swift */; };
 		DFDCA52A2923BDD800655B05 /* VendorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDCA5292923BDD800655B05 /* VendorData.swift */; };
+		DFDDBB6B294328A90005B1DC /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDDBB6A294328A90005B1DC /* ProductDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		DF6EE0642925255400CB57F3 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		DFDCA5272923BC6A00655B05 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		DFDCA5292923BDD800655B05 /* VendorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorData.swift; sourceTree = "<group>"; };
+		DFDDBB6A294328A90005B1DC /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				C70FB0FE25BEF61C00C9924E /* OpenMarketViewController.swift */,
 				DF14E6FF2930B8E700AEFA91 /* ProductRegistrationViewController.swift */,
 				B26286CB293F73250055A512 /* ProductEditViewController.swift */,
+				DFDDBB6A294328A90005B1DC /* ProductDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				0C892A4529252EA300109AB8 /* StubURLSession.swift in Sources */,
 				DF14E7002930B8E700AEFA91 /* ProductRegistrationViewController.swift in Sources */,
 				DFDCA5282923BC6A00655B05 /* ImageData.swift in Sources */,
+				DFDDBB6B294328A90005B1DC /* ProductDetailViewController.swift in Sources */,
 				B2B9C2B7292E16DD006E6869 /* GridCell.swift in Sources */,
 				0C2F5795293DFA410061D579 /* ProductFormView.swift in Sources */,
 			);

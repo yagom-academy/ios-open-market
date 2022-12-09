@@ -277,11 +277,10 @@ extension OpenMarketViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = productList?.pages[indexPath.row] else { return }
         
-        let viewController = ProductEditViewController(product: product)
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let viewController = ProductDetailViewController()
+        viewController.productData = product
+        navigationController?.pushViewController(viewController, animated: true)
         
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true, completion: nil)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
