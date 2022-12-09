@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddProductViewController: UIViewController,   ProductManagingViewController {
+final class AddProductViewController: UIViewController, ProductManagingViewController {
     private var imageCellIdentifiers: [Int] = [0]
     private let defaultIdentifier: Set<Int> = [0, 1, 2, 3, 4]
     var navigationBarHeight: CGFloat = .zero

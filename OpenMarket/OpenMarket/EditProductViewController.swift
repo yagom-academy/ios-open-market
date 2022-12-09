@@ -213,11 +213,11 @@ final class EditProductViewController: UIViewController, ProductManagingViewCont
         
         let discountedPrice = Double(discountedPriceText) ?? 0
         let stock = Int(stockText) ?? 0
-        let thumnailID = imageCollectionView.indexPathsForSelectedItems?.first?.item
+        let thumbnailID = imageCollectionView.indexPathsForSelectedItems?.first?.item
         let editedProduct = SendingProduct(productID: product.id,
                                            name: name,
                                            description: description,
-                                           thumbnailID: thumnailID,
+                                           thumbnailID: thumbnailID,
                                            price: price,
                                            discountedPrice: discountedPrice,
                                            currency: currency,
