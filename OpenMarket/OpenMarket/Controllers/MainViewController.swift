@@ -125,16 +125,16 @@ extension MainViewController {
     private func configureFetchItemList() {
         LoadingController.showLoading()
         networkManager.fetchItemList(pageNo: 1, pageCount: 100) { result in
+            LoadingController.hideLoading()
+
             switch result {
             case .success(let success):
-                LoadingController.hideLoading()
                 self.itemList = success.pages
                 DispatchQueue.main.async {
                     self.gridCollectionView.configureGridDataSource(self.itemList)
                     self.listCollectionView.configureListDataSource(self.itemList)
                 }
             case .failure(_):
-                LoadingController.hideLoading()
                 DispatchQueue.main.async {
                     self.retryAlert()
                 }
