@@ -101,14 +101,14 @@ extension AddProductViewController: UITextViewDelegate {
             self.productManageView.imageScrollView.isHidden = true
             self.textFieldConstraint =  self.productManageView.textFieldStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
             self.textFieldConstraint?.isActive = true
-            self.view.layoutIfNeeded()
+//            self.view.layoutIfNeeded()
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         self.textFieldConstraint?.isActive = false
         self.productManageView.imageScrollView.isHidden = false
-        self.view.layoutIfNeeded()
+//        self.view.layoutIfNeeded()
     }
     
     private func initializeHideKeyBoard() {
