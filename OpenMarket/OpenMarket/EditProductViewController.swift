@@ -7,54 +7,54 @@
 
 import UIKit
 
-final class EditProductViewController: UIViewController {
+final class EditProductViewController: UIViewController,   ProductManagingViewController {
     private let product: DetailProduct
-    private var navigationBarHeight: CGFloat = .zero
-    private let networkManager: NetworkManager
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
-    private var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
     private let images: [UIImage]
+    var navigationBarHeight: CGFloat = .zero
+    let networkManager: NetworkManager
+    var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
+    var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
     
-    private let backgroundScrollView: UIScrollView = {
+    let backgroundScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private let backView: UIView = {
+    let backView: UIView = {
         var view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private let leftButton: UIBarButtonItem = {
+    let leftButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem()
         barButton.title = "Cancel"
         return barButton
     }()
     
-    private let rightButton: UIBarButtonItem = {
+    let rightButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem()
         barButton.title = "Done"
         return barButton
     }()
     
-    private let imageCollectionView: UICollectionView = {
+    let imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.isScrollEnabled = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    private let nameTextField: UITextField = {
+    let nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품명"
         textField.borderStyle = .roundedRect
         return textField
     }()
     
-    private let priceTextField: UITextField = {
+    let priceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "상품가격"
         textField.borderStyle = .roundedRect
@@ -62,7 +62,7 @@ final class EditProductViewController: UIViewController {
         return textField
     }()
     
-    private let discountedPriceTextField: UITextField = {
+    let discountedPriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인금액"
         textField.borderStyle = .roundedRect
@@ -70,7 +70,7 @@ final class EditProductViewController: UIViewController {
         return textField
     }()
     
-    private let stockTextField: UITextField = {
+    let stockTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "재고수량"
         textField.borderStyle = .roundedRect
@@ -78,15 +78,15 @@ final class EditProductViewController: UIViewController {
         return textField
     }()
     
-    private let segmentedControl: UISegmentedControl = {
+    let segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: Currency.allCases.compactMap { $0.rawValue })
         segmentedControl.selectedSegmentIndex = Currency.allCases.startIndex
         segmentedControl.backgroundColor = .systemGray6
         return segmentedControl
     }()
     
-    private lazy var priceStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [priceTextField, segmentedControl])
+    let priceStackView: UIStackView = {
+        var stackView = UIStackView()
         stackView.spacing = 10
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -94,11 +94,8 @@ final class EditProductViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var productStackView: UIStackView = {
-        var stackView = UIStackView(arrangedSubviews: [nameTextField,
-                                                       priceStackView,
-                                                       discountedPriceTextField,
-                                                       stockTextField])
+    let productStackView: UIStackView = {
+        var stackView = UIStackView()
         stackView.spacing = 10
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -107,13 +104,12 @@ final class EditProductViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var descriptionTextView: UITextView = {
+    let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = "상세정보 입력"
         textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
-        textView.delegate = self
         return textView
     }()
     
@@ -137,16 +133,17 @@ final class EditProductViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         configureSnapshot()
-        configureNavigationBar()
+        configureDelegate()
+        configureNavigationBar(title: "상품수정")
         configureProductInfomation()
         addTarget()
         setKeyboardDoneButton()
     }
-    
-    private func configureNavigationBar() {
-        navigationItem.title = "상품수정"
-        navigationItem.leftBarButtonItem = leftButton
-        navigationItem.rightBarButtonItem = rightButton
+
+    func configureDelegate() {
+        [nameTextField, priceTextField, discountedPriceTextField, stockTextField].forEach { $0.delegate = self }
+        imageCollectionView.delegate = self
+        descriptionTextView.delegate = self
     }
     
     private func configureProductInfomation() {
@@ -168,19 +165,19 @@ final class EditProductViewController: UIViewController {
         return number
     }
     
-    private func addTarget() {
+    func addTarget() {
         leftButton.action = #selector(tapCancelButton)
         leftButton.target = self
         rightButton.action = #selector(tapDoneButton)
         rightButton.target = self
     }
     
-    @objc private func tapCancelButton() {
+    @objc func tapCancelButton() {
         dismiss(animated: true)
     }
     
-    @objc private func tapDoneButton() {
-        guard checkCanAddProduct() else {
+    @objc func tapDoneButton() {
+        guard checkCanRequest() else {
             showAlert(message: "입력값이 잘못되었습니다.")
             return
         }
@@ -238,104 +235,10 @@ final class EditProductViewController: UIViewController {
 
         return request
     }
-    
-    private func showAlert(title: String? = nil, message: String, completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default) { _ in
-            if let completion = completion {
-                completion()
-            }
-        }
-
-        alert.addAction(action)
-        present(alert, animated: true)
-    }
-    
-    private func configureSubViews() {
-        view.addSubview(backgroundScrollView)
-        backgroundScrollView.addSubview(backView)
-        backView.addSubview(imageCollectionView)
-        backView.addSubview(productStackView)
-        backView.addSubview(descriptionTextView)
-        
-        [nameTextField, priceTextField, discountedPriceTextField, stockTextField].forEach { $0.delegate = self }
-        
-        NSLayoutConstraint.activate([
-            backgroundScrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            backView.topAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.topAnchor),
-            backView.leadingAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.leadingAnchor),
-            backView.trailingAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.trailingAnchor),
-            backView.bottomAnchor.constraint(equalTo: backgroundScrollView.contentLayoutGuide.bottomAnchor),
-            
-            backView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor),
-            backView.widthAnchor.constraint(equalTo: backgroundScrollView.frameLayoutGuide.widthAnchor),
-            
-            imageCollectionView.topAnchor.constraint(equalTo: backView.topAnchor,
-                                                     constant: 10),
-            imageCollectionView.leadingAnchor.constraint(equalTo: backView.leadingAnchor),
-            imageCollectionView.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
-            imageCollectionView.heightAnchor.constraint(equalTo: backView.widthAnchor,
-                                                        multiplier: 0.4),
-            
-            productStackView.topAnchor.constraint(equalTo: imageCollectionView.bottomAnchor,
-                                                  constant: 10),
-            productStackView.leadingAnchor.constraint(equalTo: backView.leadingAnchor,
-                                                      constant: 10),
-            productStackView.trailingAnchor.constraint(equalTo: backView.trailingAnchor,
-                                                       constant: -10),
-            segmentedControl.widthAnchor.constraint(equalToConstant: 90),
-            
-            descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor,
-                                                     constant: 10),
-            descriptionTextView.leadingAnchor.constraint(equalTo: backView.leadingAnchor,
-                                                         constant: 10),
-            descriptionTextView.trailingAnchor.constraint(equalTo: backView.trailingAnchor,
-                                                          constant: -10),
-            descriptionTextView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -10),
-        ])
-    }
 }
 
 extension EditProductViewController {
-    private func createCollectionViewLayout() -> UICollectionViewLayout {
-        let section: NSCollectionLayoutSection = {
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .fractionalHeight(1.0)
-                )
-            )
-            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-            
-            let containerGroup = NSCollectionLayoutGroup.horizontal(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.4),
-                    heightDimension: .fractionalHeight(1.0)
-                ),
-                subitem: item,
-                count: 1
-            )
-            
-            let section = NSCollectionLayoutSection(group: containerGroup)
-            
-            return section
-        }()
-        section.orthogonalScrollingBehavior = .continuous
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-    
-    private func configureCollectionView() {
-        imageCollectionView.collectionViewLayout = createCollectionViewLayout()
-        imageCollectionView.delegate = self
-    }
-    
-    private func configureDataSource() {
+    func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<ImageCell, Int> { (cell, indexPath, identifier) in
             cell.updateImage(image: self.images[indexPath.item])
         }
@@ -350,7 +253,7 @@ extension EditProductViewController {
         }
     }
     
-    private func configureSnapshot() {
+    func configureSnapshot() {
         let items = images.compactMap { images.firstIndex(of: $0) }
         
         snapshot.appendSections([0])
@@ -359,62 +262,7 @@ extension EditProductViewController {
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    private func addImageForCell(indexPath: IndexPath, image: UIImage) {
-        guard let cell = imageCollectionView.cellForItem(at: indexPath) as? ImageCell else { return }
-        cell.updateImage(image: image)
-    }
-    
-    @discardableResult
-    private func checkCanAddProduct() -> Bool {
-        if let nameCount = nameTextField.text?.count,
-           !((3...100) ~= nameCount) {
-            highlightTextBounds(nameTextField)
-        } else {
-            nameTextField.layer.borderWidth = .zero
-        }
-        
-        if let textCount = descriptionTextView.text?.count,
-           !((10...1000) ~= textCount) {
-            highlightTextBounds(descriptionTextView)
-        } else {
-            descriptionTextView.layer.borderWidth = .zero
-        }
-        
-        if let price = Double(priceTextField.text ?? ""),
-           !price.isZero {
-            priceTextField.layer.borderWidth = .zero
-        } else {
-            highlightTextBounds(priceTextField)
-        }
-        
-        if let price = Double(priceTextField.text ?? ""),
-           let discountPrice = Double(discountedPriceTextField.text ?? ""),
-           discountPrice > price {
-            highlightTextBounds(discountedPriceTextField)
-        } else {
-            discountedPriceTextField.layer.borderWidth = .zero
-        }
-        
-        let components = [nameTextField, priceTextField, discountedPriceTextField, descriptionTextView]
-        return components.filter { $0.layer.borderWidth == 0 }.count == 4
-    }
-    
-    private func highlightTextBounds(_ view: UIView) {
-        let highlightedBorderWidth: CGFloat = 1.0
-        let cornerRadius: CGFloat = 5
-
-        view.layer.borderWidth = highlightedBorderWidth
-        view.layer.borderColor = UIColor.systemRed.cgColor
-        view.layer.cornerRadius = cornerRadius
-    }
-    
-    private func setNavigationBarHeight() {
-        if navigationBarHeight.isZero {
-            navigationBarHeight = -(backgroundScrollView.contentOffset.y)
-        }
-    }
-    
-    private func setKeyboardDoneButton() {
+    func setKeyboardDoneButton() {
         let keyboardBar = UIToolbar()
         keyboardBar.sizeToFit()
         let button = UIBarButtonItem(title: "Done",
@@ -471,7 +319,7 @@ extension EditProductViewController: UITextViewDelegate {
             descriptionTextView.textColor = .systemGray3
         }
 
-        checkCanAddProduct()
+        checkCanRequest()
     }
 }
 
@@ -487,7 +335,7 @@ extension EditProductViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         let contentOffset = CGPoint(x: 0, y: -navigationBarHeight)
         backgroundScrollView.setContentOffset(contentOffset, animated: true)
-        checkCanAddProduct()
+        checkCanRequest()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ProductManagingViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, UICollectionViewDelegate {
+protocol ProductManagingViewController: UIViewController {
     var navigationBarHeight: CGFloat { get set }
     var networkManager: NetworkManager { get }
     var dataSource: UICollectionViewDiffableDataSource<Int, Int>! { get set }
@@ -32,6 +32,7 @@ protocol ProductManagingViewController: UIViewController, UITextViewDelegate, UI
     func tapCancelButton()
     func tapDoneButton()
     func configureDataSource()
+    func configureSnapshot()
     func setKeyboardDoneButton()
 }
 
@@ -65,8 +66,6 @@ extension ProductManagingViewController {
         backView.addSubview(imageCollectionView)
         backView.addSubview(productStackView)
         backView.addSubview(descriptionTextView)
-        
-        [nameTextField, priceTextField, discountedPriceTextField, stockTextField].forEach { $0.delegate = self }
         
         NSLayoutConstraint.activate([
             backgroundScrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -140,7 +139,6 @@ extension ProductManagingViewController {
     
     func configureCollectionView() {
         imageCollectionView.collectionViewLayout = createCollectionViewLayout()
-        imageCollectionView.delegate = self
     }
     
     func addImageForCell(indexPath: IndexPath, image: UIImage) {
@@ -196,53 +194,5 @@ extension ProductManagingViewController {
         if navigationBarHeight.isZero {
             navigationBarHeight = -(backgroundScrollView.contentOffset.y)
         }
-    }
-}
-
-extension ProductManagingViewController {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        setNavigationBarHeight()
-        let contentOffset = CGPoint(x: 0, y: productStackView.frame.maxY - navigationBarHeight)
-        backgroundScrollView.setContentOffset(contentOffset, animated: true)
-
-        descriptionTextView.layer.borderWidth = 0.0
-
-        if descriptionTextView.text == "상세정보 입력" {
-            descriptionTextView.text = nil
-            descriptionTextView.textColor = .black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        let contentOffset = CGPoint(x: 0, y: -navigationBarHeight)
-        backgroundScrollView.setContentOffset(contentOffset, animated: true)
-
-        if descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            descriptionTextView.text = "상세정보 입력"
-            descriptionTextView.textColor = .systemGray3
-        }
-
-        checkCanRequest()
-    }
-}
-
-extension ProductManagingViewController {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        setNavigationBarHeight()
-        let contentOffset = CGPoint(x: 0, y: imageCollectionView.frame.maxY - navigationBarHeight)
-        backgroundScrollView.setContentOffset(contentOffset, animated: true)
-
-        textField.layer.borderWidth = 0.0
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let contentOffset = CGPoint(x: 0, y: -navigationBarHeight)
-        backgroundScrollView.setContentOffset(contentOffset, animated: true)
-        checkCanRequest()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
-        return true
     }
 }
