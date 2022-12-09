@@ -71,8 +71,6 @@ class ViewController: UIViewController {
     }
     
     private func settingSegmentedControll() {
-        segmentedControl.setWidth(view.bounds.width/4, forSegmentAt: 0)
-        segmentedControl.setWidth(view.bounds.width/4, forSegmentAt: 1)
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
         segmentedControl.layer.borderWidth = CGFloat(2)
         segmentedControl.selectedSegmentTintColor = UIColor.systemBlue
@@ -138,4 +136,15 @@ extension ViewController: UICollectionViewDataSource {
 }
 
 extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("클릭 \(indexPath.item)")
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let productDetailViewController = storyboard.instantiateViewController(
+            withIdentifier: "productDetailViewController"
+        ) as? ProductDetailViewController else { return }
+        productDetailViewController.productID = searchListPages[indexPath.item].id
+        
+        self.navigationController?.pushViewController(productDetailViewController, animated: true)
+    }
 }
