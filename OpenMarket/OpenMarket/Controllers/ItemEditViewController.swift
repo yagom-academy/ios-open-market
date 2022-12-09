@@ -32,7 +32,7 @@ extension ItemEditViewController {
         LoadingController.showLoading()
         networkManager.fetchItem(productId: itemId) { result in
             LoadingController.hideLoading()
-
+            
             switch result {
             case .success(let item):
                 self.item = item
@@ -48,7 +48,30 @@ extension ItemEditViewController {
             }
         }
     }
-
+    
+    override func doneButtonTapped() {
+        guard let parameter = createParameter() else { return }
+        
+        self.isPost = true
+        LoadingController.showLoading()
+        networkManager.editItem(productId: itemId!, parameter: parameter) { result in
+            LoadingController.hideLoading()
+            
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "성공", message: "등록에 성공했습니다", actionTitle: "확인", dismiss: true)
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
+                }
+            }
+            
+            self.isPost = false
+        }
+    }
+    
     private func retryAlert() {
         let alert = UIAlertController(title: "통신 실패", message: "데이터를 받아오지 못했습니다", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "다시 시도", style: .default, handler: { _ in
@@ -59,10 +82,10 @@ extension ItemEditViewController {
         }))
         self.present(alert, animated: false)
     }
-
+    
     private func configureImageValue() {
         guard let images = item?.images else { return }
-
+        
         images.forEach {
             guard let url = URL(string: $0.url) else { return }
             networkManager.fetchImage(url: url) { image in
@@ -73,16 +96,16 @@ extension ItemEditViewController {
                     imageView.translatesAutoresizingMaskIntoConstraints = false
                     imageView.widthAnchor.constraint(equalToConstant: 130).isActive = true
                     imageView.heightAnchor.constraint(equalToConstant: 130).isActive = true
-
+                    
                     self.imageStackView.addArrangedSubview(imageView)
                 }
             }
         }
     }
-
+    
     private func configureUIValue() {
         guard let item else { return }
-
+        
         itemNameTextField.text = item.name
         priceTextField.text = String(item.price)
         discountedPriceTextField.text = String(item.discountedPrice)

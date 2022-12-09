@@ -189,28 +189,7 @@ extension ItemViewController {
         dismiss(animated: true)
     }
     
-    @objc func doneButtonTapped() {
-        guard let parameter = createParameter() else { return }
-        
-        self.isPost = true
-        LoadingController.showLoading()
-        networkManager.addItem(parameter: parameter, images: itemImages) { result in
-            LoadingController.hideLoading()
-            
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                    self.showAlert(title: "성공", message: "등록에 성공했습니다", actionTitle: "확인", dismiss: true)
-                }
-            case .failure(_):
-                DispatchQueue.main.async {
-                    self.showAlert(title: "실패", message: "등록에 실패했습니다", actionTitle: "확인", dismiss: false)
-                }
-            }
-            
-            self.isPost = false
-        }
-    }
+    @objc func doneButtonTapped() { }
     
     func showAlert(title: String, message: String, actionTitle: String, dismiss: Bool){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
