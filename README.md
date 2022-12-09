@@ -20,10 +20,14 @@
     - CodingKeys프로토콜 활용
     - Unit Test를 통한 설계 검증
         - Test Double - Stub
+    - multipart/form-data
+    - UICollectionView
+    - Diffable DataSource
 ## 🛠 프로젝트 구조
 
 ### 📊 UML
-### 오픈마켓 STEP2 구현 이후 추가예정입니다.
+![](https://i.imgur.com/LDQxOYv.jpg)
+
 
 
 ### 🌲 Tree
@@ -33,8 +37,11 @@
 │   ├── Extension/
 │   │   ├── String+Extension.swift
 │   │   └── Double+Extension.swift
+│   │   ├── UIImage+Extension.swift
+│   │   ├── Data+Extension.swift
 │   ├── Models/
 │   │   ├── Item.swift
+│   │   ├── ImageCacheManager.swift
 │   │   ├── ItemList.swfit
 │   │   └── Currency.swift
 │   ├── Views/
@@ -42,16 +49,21 @@
 │   │   ├── GridCollectionViewCell.swift
 │   │   ├── GridUICollectionView.swift
 │   │   └── ListUICollectionView.swift
+│   │   └── ItemImageCollectionViewCell.swift
 │   ├── Controllers/
 │   │   ├── MainViewController.swift
 │   │   ├── LoadingController.swift
 │   │   ├── ImageCacheManager.swift
 │   │   └── ItemAddViewController.swift
+│   │   └── ItemEditViewController.swift
+│   │   └── ItemViewController.swift
+│   │   └── ItemInfomationViewController.swift
 │   ├── Resource/
 │   │   └── Assets.xcassets
 │   ├── Network/
 │   │   ├── NetworkManager.swift
 │   │   ├── NetworkError.swift
+│   │   ├── HTTPMethod.swift
 │   │   └── Mock/
 │   │       ├── StubURLSession.swift
 │   │       └── URLSessionProtocol.swift
@@ -185,8 +197,32 @@ private func showCollectionType(segmentIndex: Int) {
 }
 ```
 - 사용자가 segmentedControl의 `LIST` 또는 `GRID` 버튼을 누르면, 상품목록을 List 또는 Grid 형태로 보여줍니다.
+### ItemViewController
+상품을 등록과 수정에서 상속받아 사용하는 클래스로 공통으로 사용되는 로직을 담고있습니다.
+```swift
+func showAlert(title, message, actionMessage, dismiss)
+```
+- 같은 형식으로 사용되는 `alert`의 갯수가 많아 메서드로 분리해주었습니다.
+```swift
+@objc func doneButtonTapped()
+```
+- 하위 네비게이션컨트롤러의 우측 버튼으로, 하위 뷰컨트롤러에서 재정의하여 사용합니다.
+### ItemAddViewController
+```swift
+@objc private func presentAlbum()
+```
+- 앨범에서 이미지를 가져오는 메서드입니다. 이미지가 5개 이하일 경우에만 동작합니다.
+```swift
+func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
+```
+- 앨범에서 선택된 이미지를 itemImages와 imageStackView에 추가해주는 메서드입니다.
+### ItemEditViewController
+```swift
+private func fetchItem()
+```
+- 컬렉션 뷰에서 전달받은 `itemId`를 통해 아이템의 정보를 가져오는 메서드입니다.
 
-### Views
+## Views
 - Modern Collection View를 사용하여 구현한 리스트, 그리드 형태의 상품리스트입니다.
 - 레이아웃은 `UICollectionViewCompositionalLayout`을 사용했습니다.
 - 콜렉션 뷰의 셀 데이터는 `UICollectionViewDiffableDataSource`을 사용했습니다.
@@ -197,13 +233,47 @@ private func showCollectionType(segmentIndex: Int) {
 ### GridUICollectionView
 - 상품 목록을 그리드 형태로 보여주는 콜렉션 뷰 입니다.
 
+## Extension
+### UIImage
+```swift
+extension UIImage {
+    func compressTo(expectedSizeInKb:Int) -> Data? {
+        let sizeInBytes = expectedSizeInKb * 1024
+        var needCompress: Bool = true
+        var imgData: Data?
+        var compressingValue: CGFloat = 1.0
+        
+        while (needCompress && compressingValue > 0.0) {
+            if let data: Data = self.jpegData(compressionQuality: compressingValue) {
+            if data.count < sizeInBytes {
+                needCompress = false
+                imgData = data
+            } else {
+                compressingValue -= 0.1
+            }
+        }
+    }
+        
+    if let data = imgData {
+        if (data.count < sizeInBytes) {
+            return data
+        }
+    }
+        return nil
+    }
+}
+```
+- `func compressTo(expectedSizeInKb:Int) -> Data?`
+    - 이미지를 `jpegData(compressionQuality:)`함수로 인자로 받은 `KB`단위로 압축하는 메서드입니다.
+
 ## 📱 실행 화면
-|           로딩 후 ListView           |       `+`버튼 클릭시 빈 페이지       |
+|           최초 페이지 진입시 Loading           |       `+`버튼 클릭시 빈 페이지       |
 |:------------------------------------:|:------------------------------------:|
-| ![](https://i.imgur.com/GaGWjXO.gif) | ![](https://i.imgur.com/huerEUY.gif) |
+| ![](https://i.imgur.com/Y9KI2W9.gif) | ![](https://i.imgur.com/huerEUY.gif) |
 |            **List View**             |            **Grid View**             |
 | ![](https://i.imgur.com/djQk4nV.gif) | ![](https://i.imgur.com/FLAcAuJ.gif) |
-
+|     **Market2 - 상품 등록**            |           **Market2 - 상품 수정**       |
+| ![](https://i.imgur.com/Kq2zjmo.gif) | ![](https://i.imgur.com/X5mfg6O.gif) |
 
 
 
@@ -272,14 +342,31 @@ private func showCollectionType(segmentIndex: Int) {
     - 상품 등록에 필요한 httpBody를 구성하는 `createBody` 메서드구현
 - **2022.11.30**
     - 상품 삭제를 위한 Delete메서드 `deleteItem` 메서드구현
-    - 상품 삭제에 필요한 URI를 받아오는 메서드 `deleteURI` 메서드 구현
-    - 상품 수정을 위한 Patch메서드 `editItem` 메서드 구현
+    - 상품 삭제에 필요한 URI를 받아오는 메서드 `deleteURI` 메서드구현
+    - 상품 수정을 위한 Patch메서드 `editItem` 메서드구현
     - HTTPMethod enum 타입 구현
     - `deleteURI`, `deleteItem` 메서드 리팩토링
 - **2022.12.02**
-    - `imagePickerController` 를 통한 이미지 가져오기 구현
+    - `imagePickerController` 를 통한 이미지 가져오기구현
     - 상품 등록화면 구현 및 화면 전환 방식 수정
+- **2022.12.07**
+    - 수정, 등록화면에서 `done` 버튼 클릭시 값으로 parameter를 생성하는 메서드구현
+    - 수정, 등록화면 뷰 스크롤뷰로 변경
+    - 텍스트 뷰 클릭시 화면가리지 않게 수정
+- **2022.12.08**
+    - 수정, 등록화면에서 Number타입의 텍스트필드클릭시 키패드 변경되게 수정
+    
+</div>
+</details>
 
+
+<details>
+<summary>OpenMarket2 Step2-2 타임라인</summary>
+<div markdown="1">       
+    
+- **2022.12.08**
+    - 아이템 상세페이지 레이아웃 구성
+    
     
 </div>
 </details>
@@ -287,7 +374,7 @@ private func showCollectionType(segmentIndex: Int) {
 
 ## ❓ 트러블 슈팅 & 어려웠던 점
 
-### 샘플 Json데이터와 서버에서 받아온 Json데이터가 다른 문제
+### 1. 샘플 Json데이터와 서버에서 받아온 Json데이터가 다른 문제
 - 샘플 json데이터를 이용해 모델타입으로 파싱은 성공했으나, 서버에서 json데이터를 받아올 때 파싱이 안되는 문제가 있었습니다.
 
 **샘플 데이터**
@@ -351,7 +438,7 @@ private func showCollectionType(segmentIndex: Int) {
 #### 해결방안
 - 샘플 JSON 데이터의 page_no, items_per_page, total_count와 같이 Snake case로 정의되어 있는 부분을 Codingkeys프로토콜을 사용해 Camel case로 매핑했었는데, 해당 매핑하는 부분을 지움으로써 모델의 프로퍼티 네이밍과 통신시 데이터 네이밍을 동일하게하여 해결했습니다.
 ---
-### 서버에 multipart/form 데이터 POST시 400번 에러발생한 문제
+### 1. 서버에 multipart/form 데이터 POST시 400번 에러발생한 문제
 - 상품 등록을 위한 상품 이미지 및 정보를 multipart/form 데이터를 만들어 서버에 POST 하였을 때 HTTP Response가 400번 에러가 발생하여 POST가 되지 않았던 문제가 있었습니다.
 
 #### 해결방안
@@ -400,4 +487,4 @@ request.httpBody = createRequestBody(params: ["params" : jsonData], images: [UII
 
 ---
 
-[🔝 맨 위로 이동하기](#오픈마켓-🏬)
+[🔝 맨 위로 이동하기](#오픈마켓-)
