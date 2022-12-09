@@ -8,14 +8,16 @@
 import UIKit
 
 final class EditItemViewController: UIViewController {
-    let editItemView = EditItemView()
+    let editItemView = ItemView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
         configureNavigationBar()
-        configureLayout()
+    }
+    
+    override func loadView() {
+        self.view = editItemView
     }
     
     private func configureNavigationBar() {
@@ -48,20 +50,5 @@ final class EditItemViewController: UIViewController {
                 self.editItemView.configureItemLabel(data: itemData)
             }
         }
-    }
-}
-
-extension EditItemViewController {
-    func configureLayout() {
-        self.view.addSubview(editItemView)
-        
-        editItemView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            editItemView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            editItemView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            editItemView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            editItemView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-        ])
     }
 }

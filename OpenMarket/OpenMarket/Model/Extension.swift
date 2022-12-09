@@ -40,3 +40,18 @@ extension UIImage {
         return nil
     }
 }
+
+extension UIViewController {
+    func showAlertController(title: String, message: String) {
+        let alert: UIAlertController = UIAlertController(title: title,
+                                                         message: message,
+                                                         preferredStyle: .alert)
+        
+        let action: UIAlertAction = UIAlertAction(title: OpenMarketAlert.confirm,
+                                                  style: .default,
+                                                  handler: nil)
+        
+        alert.addAction(action)
+        self.present(alert, animated: true)
+    }
+}

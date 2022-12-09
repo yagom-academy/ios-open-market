@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class AddItemView: UIView {
-    let imageScrollView: UIScrollView = {
+final class ItemView: UIView {
+    private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,7 +17,7 @@ final class AddItemView: UIView {
         return scrollView
     }()
     
-    var imageStackView: UIStackView = {
+    let imageStackView: UIStackView = {
         let stackView = UIStackView()
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ final class AddItemView: UIView {
         return stackView
     }()
     
-    let productBackgroundView: UIView = {
+    private let productBackgroundView: UIView = {
         let view = UIView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -59,14 +59,23 @@ final class AddItemView: UIView {
         return view
     }()
     
-    var registrationButton: UIButton = {
+    private let productImage: UIImageView = {
+        let view = UIImageView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray5
+        
+        return view
+    }()
+    
+    let registrationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: OpenMarketImage.plus), for: .normal)
         return button
     }()
     
-    let productNameTextField: UITextField = {
+    private let productNameTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +86,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    let priceTextField: UITextField = {
+    private let priceTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +97,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    let priceForSaleTextField: UITextField = {
+    private let priceForSaleTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +108,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    let stockTextField: UITextField = {
+    private let stockTextField: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +119,7 @@ final class AddItemView: UIView {
         return textField
     }()
     
-    let currencySegmentControl: UISegmentedControl = {
+    private let currencySegmentControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [Currency.krw.rawValue, Currency.usd.rawValue])
         
         control.translatesAutoresizingMaskIntoConstraints = false
@@ -120,7 +129,7 @@ final class AddItemView: UIView {
         return control
     }()
     
-    let descTextView: UITextView = {
+    private let descTextView: UITextView = {
         let textView = UITextView()
         
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -132,6 +141,18 @@ final class AddItemView: UIView {
         
         return textView
     }()
+    
+    var nameTextCount: Int {
+        return productNameTextField.text?.count ?? 0
+    }
+    
+    var priceText: String {
+        return priceTextField.text ?? "0"
+    }
+    
+    var descTextCount: Int {
+        return descTextView.text?.count ?? 0
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -154,6 +175,7 @@ final class AddItemView: UIView {
         imageScrollView.addSubview(imageStackView)
         
         imageStackView.addArrangedSubview(productBackgroundView)
+        imageStackView.addArrangedSubview(productImage)
         productBackgroundView.addSubview(registrationButton)
         
         labelStackView.addArrangedSubview(productNameTextField)
@@ -178,6 +200,9 @@ final class AddItemView: UIView {
             productBackgroundView.heightAnchor.constraint(equalToConstant: 150),
             productBackgroundView.widthAnchor.constraint(equalToConstant: 150),
             
+            productImage.heightAnchor.constraint(equalToConstant: 150),
+            productImage.widthAnchor.constraint(equalToConstant: 150),
+            
             labelStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             labelStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             labelStackView.topAnchor.constraint(equalTo: imageStackView.bottomAnchor, constant: 10),
@@ -192,9 +217,66 @@ final class AddItemView: UIView {
             registrationButton.centerYAnchor.constraint(equalTo: productBackgroundView.centerYAnchor)
         ])
     }
+    
+    func isHiddenImage() {
+        productImage.isHidden = true
+    }
+    
+    func transferData() -> Param? {
+        guard let itemName = productNameTextField.text,
+              let itemDesc = descTextView.text,
+              let itemPrice = priceTextField.text,
+              let itemDiscountPrice = priceForSaleTextField.text,
+              let itemStock = stockTextField.text else {
+                  return nil
+              }
+        
+        let itemCurrency = currencySegmentControl.selectedSegmentIndex
+        
+        let param = Param(name: itemName,
+                          description: itemDesc,
+                          price: Int(itemPrice) ?? 0,
+                          currency: itemCurrency == 0 ? .krw : .usd,
+                          discountedPrice: Int(itemDiscountPrice) ?? 0,
+                          stock: Int(itemStock) ?? 0,
+                          secret: OpenMarketSecretCode.somPassword)
+        
+        return param
+    }
+    
+    func configureItemLabel(data: Item) {
+        var priceForSale: String
+        var priceToString: String
+        var stock: String
+        
+        do {
+            priceToString = try data.price.formatDouble
+            priceForSale = try data.discountedPrice.formatDouble
+            stock = try data.stock.formatInt
+        } catch {
+            priceToString = OpenMarketStatus.noneError
+            priceForSale = OpenMarketStatus.noneError
+            stock = OpenMarketStatus.noneError
+        }
+        
+        productBackgroundView.isHidden = true
+        registrationButton.isHidden = true
+        productNameTextField.text = data.name
+        priceTextField.text = priceToString
+        stockTextField.text = stock
+        priceForSaleTextField.text = priceForSale
+        descTextView.text = data.description
+        descTextView.textColor = .black
+        
+        NetworkManager.publicNetworkManager.getImageData(url: data.thumbnail) { image in
+            DispatchQueue.main.async {
+                self.productImage.image = image
+            }
+        }
+    }
 }
 
-extension AddItemView: UITextViewDelegate {
+extension ItemView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == OpenMarketDataText.textViewPlaceHolder {
             textView.text = nil

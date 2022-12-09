@@ -8,16 +8,20 @@
 import UIKit
 
 final class AddItemViewController: UIViewController {
-    let addItemView = AddItemView()
-    var productImages: [UIImage] = []
+    private let addItemView = ItemView()
+    private var productImages: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         configureNavigationBar()
-        configureLayout()
+        addItemView.isHiddenImage()
         configureImagePicker()
+    }
+    
+    override func loadView() {
+        self.view = addItemView
     }
     
     private func configureNavigationBar() {
@@ -39,26 +43,23 @@ final class AddItemViewController: UIViewController {
     }
     
     @objc private func tappedDone(sender: UIBarButtonItem) {
-        guard let productNameText = addItemView.productNameTextField.text,
-              productNameText.count >= 3 else {
-                  showAlertController(title: OpenMarketAlert.productTextLimit,
-                                      message: OpenMarketAlert.productTextLimitMessage)
-                  return
-              }
+        guard addItemView.nameTextCount >= 3 else {
+            showAlertController(title: OpenMarketAlert.productTextLimit,
+                                message: OpenMarketAlert.productTextLimitMessage)
+            return
+        }
         
-        guard addItemView.descTextView.text.count >= 1 && addItemView.descTextView.text.count <= 1000 else {
+        guard 1 <= addItemView.descTextCount && addItemView.descTextCount <= 1000 else {
             showAlertController(title: OpenMarketAlert.descTextLimit,
                                 message: OpenMarketAlert.descTextLimitMessage)
             return
         }
         
-        guard let priceText = addItemView.priceTextField.text,
-              !priceText.isEmpty else {
-                  showAlertController(title: OpenMarketAlert.priceEmpty,
-                                      message: OpenMarketAlert.priceEmptyMessage)
-                  return
-              }
-        
+        guard addItemView.priceText.isEmpty == false else {
+            showAlertController(title: OpenMarketAlert.priceEmpty,
+                                message: OpenMarketAlert.priceEmptyMessage)
+            return
+        }
         
         postItemDatas()
         
@@ -66,7 +67,7 @@ final class AddItemViewController: UIViewController {
     }
     
     private func postItemDatas() {
-        guard let encodingData = JSONConverter.shared.encodeJson(param: receiveData()) else {
+        guard let encodingData = JSONConverter.shared.encodeJson(param: addItemView.transferData()) else {
             return
         }
         
@@ -74,43 +75,6 @@ final class AddItemViewController: UIViewController {
                                        encodingData: encodingData,
                                        images: productImages) { data in
         }
-    }
-    
-    private func receiveData() -> Param? {
-        guard let itemName = addItemView.productNameTextField.text,
-              let itemDesc = addItemView.descTextView.text,
-              let itemPrice = addItemView.priceTextField.text,
-              let itemDiscountPrice = addItemView.priceForSaleTextField.text,
-              let itemStock = addItemView.stockTextField.text else {
-                  return nil
-              }
-        
-        let itemCurrency = addItemView.currencySegmentControl.selectedSegmentIndex
-        
-        let param = Param(name: itemName,
-                          description: itemDesc,
-                          price: Int(itemPrice) ?? 0,
-                          currency: itemCurrency == 0 ? .krw : .usd,
-                          discountedPrice: Int(itemDiscountPrice) ?? 0,
-                          stock: Int(itemStock) ?? 0,
-                          secret: OpenMarketSecretCode.somPassword)
-        
-        return param
-    }
-}
-
-extension AddItemViewController {
-    func configureLayout() {
-        self.view.addSubview(addItemView)
-        
-        addItemView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            addItemView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            addItemView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            addItemView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            addItemView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-        ])
     }
 }
 
@@ -155,17 +119,4 @@ extension AddItemViewController: UINavigationControllerDelegate, UIImagePickerCo
     }
 }
 
-extension AddItemViewController {
-    func showAlertController(title: String, message: String) {
-        let alert: UIAlertController = UIAlertController(title: title,
-                                                         message: message,
-                                                         preferredStyle: .alert)
-        
-        let action: UIAlertAction = UIAlertAction(title: OpenMarketAlert.confirm,
-                                                  style: .default,
-                                                  handler: nil)
-        
-        alert.addAction(action)
-        self.present(alert, animated: true)
-    }
-}
+
