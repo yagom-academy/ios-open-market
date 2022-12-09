@@ -135,7 +135,7 @@ extension ItemInfomationViewController {
         }
     }
 
-    @objc private func configureNavigation() {
+    @objc private func configureNavigationItem() {
         self.navigationItem.title = item?.name
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonTapped))
     }
