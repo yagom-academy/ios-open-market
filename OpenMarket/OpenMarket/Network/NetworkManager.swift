@@ -10,13 +10,14 @@ import UIKit
 struct NetworkManager {
     public static let publicNetworkManager = NetworkManager()
     
-    func getJSONData<T: Codable>(url: String, type: T.Type, completion: @escaping (T) -> Void) {
+    func getJSONData<T: Codable>(url: String, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void) {
         HTTPManager.shared.requestGet(url: url) { data in
             guard let data: T = JSONConverter.shared.decodeData(data: data) else {
+                completion(.failure(.missingData))
                 return
             }
             
-            completion(data)
+            completion(.success(data))
         }
     }
     

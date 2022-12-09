@@ -72,6 +72,8 @@ enum OpenMarketAlert {
     static let priceEmptyMessage = "가격이 입력되지 않았습니다. 다시 입력해주세요."
     static let imageLimit = "이미지 등록 불가"
     static let imageLimitMessage = "이미지는 5개까지 등록이 가능합니다."
+    static let networkError = "데이터 통신 오류"
+    static let tryAgain = "다시 시도해 주세요."
 }
 
 enum OpenMarketPlaceHolder {

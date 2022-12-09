@@ -23,9 +23,14 @@ final class EditItemViewController: ItemViewController {
     func getItemList(id: Int) {
         let url = OpenMarketURL.productComponent(productID: id).url
         
-        NetworkManager.publicNetworkManager.getJSONData(url: url, type: Item.self) { itemData in
+        NetworkManager.publicNetworkManager.getJSONData(url: url, type: Item.self) { result in
             DispatchQueue.main.async {
-                self.editItemView.configureItemLabel(data: itemData)
+                switch result {
+                case .success(let data):
+                    self.editItemView.configureItemLabel(data: data)
+                case .failure(_):
+                    self.showAlertController(title: OpenMarketAlert.networkError, message: OpenMarketAlert.tryAgain)
+                }
             }
         }
     }

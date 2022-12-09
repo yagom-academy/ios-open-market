@@ -16,10 +16,10 @@ enum NetworkError: Error {
 class HTTPManager {
     static let shared = HTTPManager()
     
-    func requestToServer(with urlRequest: URLRequest, completion: @escaping (Data) -> ()) {
+    func requestToServer(with urlRequest: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else {
-                self.handleError(error: NetworkError.missingData)
+                completion(.failure(.clientError))
                 return
             }
             
@@ -31,17 +31,17 @@ class HTTPManager {
             }
             
             guard error == nil else {
-                self.handleError(error: NetworkError.serverError)
+                completion(.failure(.serverError))
                 return
             }
             
-            completion(data)
+            completion(.success(data))
         }.resume()
     }
     
-    func requestGet(url: String, completion: @escaping (Data) -> ()) {
+    func requestGet(url: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let validURL = URL(string: url) else {
-            handleError(error: NetworkError.clientError)
+            completion(.failure(.clientError))
             return
         }
         
@@ -51,9 +51,9 @@ class HTTPManager {
         requestToServer(with: urlRequest, completion: completion)
     }
     
-    func requestPost(url: String, encodingData: Data, images: [UIImage], completion: @escaping (Data) -> ()) {
+    func requestPost(url: String, encodingData: Data, images: [UIImage], completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let validURL = URL(string: url) else {
-            handleError(error: NetworkError.clientError)
+            completion(.failure(.clientError))
             return
         }
         
@@ -69,9 +69,9 @@ class HTTPManager {
         requestToServer(with: urlRequest, completion: completion)
     }
     
-    func requestPatch(url: String, encodingData: Data, completion: @escaping (Data) -> ()) {
+    func requestPatch(url: String, encodingData: Data, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let validURL = URL(string: url) else {
-            handleError(error: NetworkError.clientError)
+            completion(.failure(.clientError))
             return
         }
         
@@ -84,9 +84,9 @@ class HTTPManager {
         requestToServer(with: urlRequest, completion: completion)
     }
     
-    func requestDelete(url: String, encodingData: Data, completion: @escaping (Data) -> ()) {
+    func requestDelete(url: String, encodingData: Data, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let validURL = URL(string: url) else {
-            handleError(error: NetworkError.clientError)
+            completion(.failure(.clientError))
             return
         }
         
@@ -97,16 +97,5 @@ class HTTPManager {
         urlRequest.httpBody = encodingData
         
         requestToServer(with: urlRequest, completion: completion)
-    }
-    
-    func handleError(error: NetworkError) {
-        switch error {
-        case .clientError:
-            print("ERROR: 클라이언트 요청 오류")
-        case .missingData:
-            print("ERROR: 데이터 유실")
-        case .serverError:
-            print("ERROR: 서버 오류")
-        }
     }
 }
