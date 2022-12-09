@@ -21,8 +21,8 @@ final class ItemEditViewController: ItemViewController {
 
 // MARK: - Method
 extension ItemEditViewController {
-    override func configureNavigation() {
-        super.configureNavigation()
+    override func configureNavigationItem() {
+        super.configureNavigationItem()
         self.navigationItem.title = "상품수정"
     }
     
@@ -38,8 +38,8 @@ extension ItemEditViewController {
                 self.item = item
                 
                 DispatchQueue.main.async {
-                    self.configureUIValue()
-                    self.configureImageValue()
+                    self.configureUI()
+                    self.configureImage()
                 }
             case .failure(_):
                 DispatchQueue.main.async {
@@ -83,7 +83,7 @@ extension ItemEditViewController {
         self.present(alert, animated: false)
     }
     
-    private func configureImageValue() {
+    private func configureImage() {
         guard let images = item?.images else { return }
         
         images.forEach {
@@ -103,7 +103,7 @@ extension ItemEditViewController {
         }
     }
     
-    private func configureUIValue() {
+    private func configureUI() {
         guard let item else { return }
         
         itemNameTextField.text = item.name

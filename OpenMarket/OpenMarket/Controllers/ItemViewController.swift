@@ -112,7 +112,7 @@ class ItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackGroundColor()
-        configureNavigation()
+        configureNavigationItem()
         configureScrollView()
         configureImageScrollView()
         configureTextFieldAndTextView()
@@ -179,7 +179,7 @@ extension ItemViewController {
 
 // MARK: - Method
 extension ItemViewController {
-    @objc func configureNavigation() {
+    @objc func configureNavigationItem() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action:
                                                                     #selector(doneButtonTapped))
@@ -242,11 +242,13 @@ extension ItemViewController {
             showAlert(title: "경고", message: "내용은 1000자 이하만 등록가능합니다.", actionTitle: "확인", dismiss: false)
             return nil
         }
-        
+
+        let currency = currencySegmentedControl.selectedSegmentIndex == 0
+                       ? Currency.krw.rawValue : Currency.usd.rawValue
+
         let parameter: [String: Any] = ["name": itemNameText,
                                         "price": price,
-                                        "currency": currencySegmentedControl.selectedSegmentIndex == 0
-                                        ? Currency.krw.rawValue: Currency.usd.rawValue,
+                                        "currency": currency,
                                         "discounted_price": discountPrice,
                                         "stock": stock,
                                         "description": descriptionText,

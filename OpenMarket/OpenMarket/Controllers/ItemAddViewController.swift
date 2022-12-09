@@ -52,8 +52,8 @@ extension ItemAddViewController {
 
 // MARK: - Method
 extension ItemAddViewController {
-    override func configureNavigation() {
-        super.configureNavigation()
+    override func configureNavigationItem() {
+        super.configureNavigationItem()
         self.navigationItem.title = "상품생성"
     }
     override func doneButtonTapped() {
