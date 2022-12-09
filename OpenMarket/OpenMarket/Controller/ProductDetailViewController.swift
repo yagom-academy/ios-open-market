@@ -24,15 +24,17 @@ class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UINib(nibName: "CustomCollectionViewPageCell", bundle: nil), forCellWithReuseIdentifier: "customCollectionViewPageCell")
         
         let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(selectModifyOrDeleteProduct))
         barButtonItem.customView?.translatesAutoresizingMaskIntoConstraints = false
-        settingCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         getProductDetailData(productID: productID)
+        settingCollectionView()
     }
     
     @objc private func selectModifyOrDeleteProduct() {
@@ -40,7 +42,7 @@ class ProductDetailViewController: UIViewController {
         let modifyAction = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let registerProductViewController = storyboard.instantiateViewController(
-                withIdentifier: "registerProductViewController") as? RegisterProductViewController,
+                withIdentifier: "registerProductViewController") as? RegisterProductViewController
                   let id = self?.productID,
                   let images = self?.detailProductImages else { return }
             registerProductViewController.mode = "patch"
@@ -52,7 +54,7 @@ class ProductDetailViewController: UIViewController {
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             print("삭제 선택")
-//            self?.showDeleteAlert()
+            //            self?.showDeleteAlert()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(modifyAction)
@@ -89,9 +91,9 @@ class ProductDetailViewController: UIViewController {
         guard let detailProductData = detailProductData,
               let priceText = numberFormatter.string(for: detailProductData.price),
               let bargainPriceText = numberFormatter.string(for: detailProductData.bargainPrice) else { return }
-            navigationItem.title = detailProductData.name
-            productName.text = detailProductData.name
-            price.text = "\(detailProductData.currency) \(priceText)"
+        navigationItem.title = detailProductData.name
+        productName.text = detailProductData.name
+        price.text = "\(detailProductData.currency) \(priceText)"
         
         if detailProductData.bargainPrice <= 0 || detailProductData.price <= detailProductData.bargainPrice {
             bargainPrice.text = ""
@@ -119,26 +121,28 @@ class ProductDetailViewController: UIViewController {
     }
     
     private func settingCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.isPagingEnabled = true
-        collectionView.decelerationRate = .fast
-        collectionView.register(UINib(nibName: "CustomCollectionViewPageCell", bundle: nil), forCellWithReuseIdentifier: "customCollectionViewPageCell")
-        collectionView.collectionViewLayout = collectionViewFlowLayout
-        collectionView.showsHorizontalScrollIndicator = false
         collectionViewFlowLayout.scrollDirection = .horizontal
         collectionViewFlowLayout.itemSize = CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
         collectionViewFlowLayout.minimumLineSpacing = 0
+        collectionView.collectionViewLayout = collectionViewFlowLayout
+        collectionView.isPagingEnabled = true
+        collectionView.decelerationRate = .fast
+        collectionView.showsHorizontalScrollIndicator = false
     }
 }
 
-extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ProductDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return detailProductImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewPageCell", for: indexPath) as? CustomCollectionViewPageCell ?? CustomCollectionViewPageCell()
+        let customCell: CustomCollectionViewPageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewPageCell", for: indexPath) as? CustomCollectionViewPageCell ?? CustomCollectionViewPageCell()
+        let image = detailProductImages[indexPath.item]
+        customCell.configureCell(image: image, index: indexPath.item, totalCount: detailProductImages.count)
         return customCell
     }
+}
+
+extension ProductDetailViewController: UICollectionViewDelegate {
 }
