@@ -12,13 +12,13 @@ class ItemInfomationViewController: UIViewController {
     var itemId: Int?
     var itemImages: [UIImage] = []
     var networkManager = NetworkManager()
-
+    
     lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         return layout
     }()
-
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +86,7 @@ class ItemInfomationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchItem()
-
+        
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -104,11 +104,12 @@ class ItemInfomationViewController: UIViewController {
         self.navigationItem.title = item?.name
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonTapped))
     }
-
+    
     @objc func actionButtonTapped() {
         let actionsheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
         let editItemAction = UIAlertAction(title: "수정", style: .default) { action in
             let itemEditVC = ItemEditViewController()
             itemEditVC.itemId = self.itemId
@@ -117,37 +118,46 @@ class ItemInfomationViewController: UIViewController {
             itemEditNavVC.modalTransitionStyle = .crossDissolve
             self.present(itemEditNavVC, animated: false)
         }
-
+        
         let deleteItemAction = UIAlertAction(title: "삭제", style: .destructive) { action in
             let alertController = UIAlertController(title: "비밀번호 입력", message: "암호", preferredStyle: .alert)
-
+            
             let okAction = UIAlertAction(title: "입력", style: .destructive) { action in
                 guard let password = alertController.textFields?.first?.text,
                       let itemId = self.itemId else { return }
-
+                LoadingController.showLoading()
                 self.networkManager.deleteItem(productId: itemId, password: password) { result in
+                    LoadingController.hideLoading()
                     switch result {
-                    case .success(let success):
+                    case .success(_):
                         DispatchQueue.main.async {
                             self.navigationController?.popViewController(animated: true)
                         }
-                    case .failure(let failure):
-                        print("실패")
+                    case .failure(_):
+                        let failAlert = UIAlertController(title: "오류", message: "삭제 실패", preferredStyle: .alert)
+                        failAlert.addAction(UIAlertAction(title: "확인", style: .default) { action in
+                            DispatchQueue.main.async {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        })
+                        DispatchQueue.main.async {
+                            self.present(failAlert, animated: true)
+                        }
                     }
                 }
             }
-
+            
             alertController.addAction(cancelAction)
             alertController.addAction(okAction)
             alertController.addTextField()
-
+            
             self.present(alertController, animated: true)
         }
-
+        
         actionsheetController.addAction(editItemAction)
         actionsheetController.addAction(deleteItemAction)
         actionsheetController.addAction(cancelAction)
-
+        
         present(actionsheetController, animated: true)
     }
     
@@ -157,7 +167,7 @@ class ItemInfomationViewController: UIViewController {
         LoadingController.showLoading()
         networkManager.fetchItem(productId: itemId) { result in
             LoadingController.hideLoading()
-
+            
             switch result {
             case .success(let item):
                 self.item = item
@@ -186,58 +196,54 @@ class ItemInfomationViewController: UIViewController {
         }))
         self.present(alert, animated: false)
     }
-
+    
     private func configureImageValue() {
-            let group = DispatchGroup()
-
-            LoadingController.showLoading()
-            guard let images = item?.images else { return }
-
-            images.forEach {
-                group.enter()
-                guard let url = URL(string: $0.url) else { return }
-                networkManager.fetchImage(url: url) { image in
-                    self.itemImages.append(image)
-                    group.leave()
-                }
-            }
-            group.notify(queue: DispatchQueue.main) {
-                LoadingController.hideLoading()
-                self.collectionView.reloadData()
+        let group = DispatchGroup()
+        
+        LoadingController.showLoading()
+        guard let images = item?.images else { return }
+        
+        images.forEach {
+            group.enter()
+            guard let url = URL(string: $0.url) else { return }
+            networkManager.fetchImage(url: url) { image in
+                self.itemImages.append(image)
+                group.leave()
             }
         }
+        group.notify(queue: DispatchQueue.main) {
+            LoadingController.hideLoading()
+            self.collectionView.reloadData()
+        }
+    }
 }
 extension ItemInfomationViewController {
     func abc() {
         self.view.addSubview(collectionView)
-//        self.view.addSubview(itemlabelStackView)
-//        self.view.addSubview(descriptionTextView)
-//        self.itemlabelStackView.addArrangedSubview(itemNameLabel)
-//        self.itemlabelStackView.addArrangedSubview(priceStackView)
-//        self.priceStackView.addArrangedSubview(stockLabel)
-//        self.priceStackView.addArrangedSubview(priceLabel)
-//        self.priceStackView.addArrangedSubview(discountedPriceLabel)
+        self.view.addSubview(itemlabelStackView)
+        self.view.addSubview(descriptionTextView)
+        self.itemlabelStackView.addArrangedSubview(itemNameLabel)
+        self.itemlabelStackView.addArrangedSubview(priceStackView)
+        self.priceStackView.addArrangedSubview(stockLabel)
+        self.priceStackView.addArrangedSubview(priceLabel)
+        self.priceStackView.addArrangedSubview(discountedPriceLabel)
         
         NSLayoutConstraint.activate([
-//            self.testView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-//            self.testView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: 30),
-//            self.testView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -30),
-//            self.testView.heightAnchor.constraint(equalTo: self.testView.widthAnchor),
-
             self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-
-//            self.itemlabelStackView.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
-//            self.itemlabelStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-//            self.itemlabelStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-//            self.itemlabelStackView.heightAnchor.constraint(equalToConstant: 100),
-//
-//            self.descriptionTextView.topAnchor.constraint(equalTo: self.itemlabelStackView.bottomAnchor),
-//            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-//            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-//            self.descriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
+                                                          constant: -20),
+            self.collectionView.heightAnchor.constraint(equalTo: self.collectionView.widthAnchor),
+            
+            self.itemlabelStackView.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
+            self.itemlabelStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            self.itemlabelStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            self.itemlabelStackView.heightAnchor.constraint(equalToConstant: 100),
+            
+            self.descriptionTextView.topAnchor.constraint(equalTo: self.itemlabelStackView.bottomAnchor),
+            self.descriptionTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            self.descriptionTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            self.descriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
     }
@@ -248,18 +254,18 @@ extension ItemInfomationViewController: UICollectionViewDataSource, UICollection
         print("\(itemImages.count)")
         return itemImages.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemImageCollectionViewCell", for: indexPath) as! ItemImageCollectionViewCell
-
-        cell.imageView.image = UIImage(systemName: "person")
+        
+        cell.imageView.image = itemImages[indexPath.item]
         return cell
     }
 }
 
 extension ItemInfomationViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        
+        return CGSize(width: view.frame.width - 40, height: collectionView.frame.height)
     }
 }
