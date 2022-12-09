@@ -212,9 +212,9 @@
                         <outlet property="imagePlusButton" destination="0Y1-Os-tRY" id="45t-nC-g8c"/>
                         <outlet property="imageStackView" destination="eVC-wg-qQg" id="wYh-Kf-SQZ"/>
                         <outlet property="navigationBar" destination="pVa-QY-cqJ" id="Sfz-P1-C7I"/>
+                        <outlet property="productBargainPriceTextField" destination="SS8-rv-iXo" id="XBq-MY-xnn"/>
                         <outlet property="productCurrencySegmentedControl" destination="gfU-9z-pRp" id="nXF-hz-BQZ"/>
                         <outlet property="productDescriptionTextView" destination="NAL-HZ-RjB" id="6l6-Gb-UXr"/>
-                        <outlet property="productDiscountedPriceTextField" destination="SS8-rv-iXo" id="XBq-MY-xnn"/>
                         <outlet property="productInformationStackView" destination="Vh1-EO-9Nd" id="GxN-U3-Uue"/>
                         <outlet property="productNameTextField" destination="j87-S8-zQP" id="cLF-Yj-LZk"/>
                         <outlet property="productPriceTextField" destination="674-SV-anw" id="3NT-tx-Ocs"/>

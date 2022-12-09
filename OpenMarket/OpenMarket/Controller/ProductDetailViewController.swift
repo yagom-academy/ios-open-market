@@ -30,6 +30,8 @@ class ProductDetailViewController: UIViewController {
         
         let barButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(selectModifyOrDeleteProduct))
         barButtonItem.customView?.translatesAutoresizingMaskIntoConstraints = false
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationItem.rightBarButtonItem = barButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +44,7 @@ class ProductDetailViewController: UIViewController {
         let modifyAction = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let registerProductViewController = storyboard.instantiateViewController(
-                withIdentifier: "registerProductViewController") as? RegisterProductViewController
+                withIdentifier: "registerProductViewController") as? RegisterProductViewController,
                   let id = self?.productID,
                   let images = self?.detailProductImages else { return }
             registerProductViewController.mode = "patch"

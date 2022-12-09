@@ -8,7 +8,7 @@
 import UIKit
 
 class RegisterProductViewController: UIViewController {
-    let networkCommunication = NetworkCommunication()
+    var networkCommunication = NetworkCommunication()
     let loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)) as UIActivityIndicatorView
         indicator.hidesWhenStopped = true
@@ -32,14 +32,49 @@ class RegisterProductViewController: UIViewController {
     @IBOutlet weak var productInformationStackView: UIStackView!
     @IBOutlet weak var productNameTextField: UITextField!
     @IBOutlet weak var productPriceTextField: UITextField!
-    @IBOutlet weak var productDiscountedPriceTextField: UITextField!
+    @IBOutlet weak var productBargainPriceTextField: UITextField!
     @IBOutlet weak var productStockTextField: UITextField!
     @IBOutlet weak var productCurrencySegmentedControl: UISegmentedControl!
     @IBOutlet weak var productDescriptionTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePlusButton.setTitle("", for: .normal)
+        
+        if mode == "patch" {
+            navigationBar.topItem?.title = "상품수정"
+            imagePlusButton.isHidden = true
+            
+            for patchImage in patchImages {
+                guard let imageUrl: URL = URL(string: patchImage.thumbnailURL) else { return }
+                networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
+                    switch data {
+                    case .success(let data):
+                        DispatchQueue.main.async {
+                            self?.showImagesWhenPatchMode(data: data)
+                        }
+                    case .failure(let error):
+                        print(error.rawValue)
+                    }
+                }
+            }
+            
+            networkCommunication.requestProductsInformation(
+                url: ApiUrl.Path.detailProduct + String(productID),
+                type: DetailProduct.self
+            ) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self?.productData = data
+                        self?.showProductDataWhenPatchMode()
+                    }
+                case .failure(let error):
+                    print(error.rawValue)
+                }
+            }
+        } else {
+            imagePlusButton.setTitle("", for: .normal)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +102,7 @@ class RegisterProductViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         productNameTextField.resignFirstResponder()
         productPriceTextField.resignFirstResponder()
-        productDiscountedPriceTextField.resignFirstResponder()
+        productBargainPriceTextField.resignFirstResponder()
         productStockTextField.resignFirstResponder()
         productDescriptionTextView.resignFirstResponder()
     }
@@ -77,49 +112,11 @@ class RegisterProductViewController: UIViewController {
     }
     
     @IBAction func touchUpDoneBarButtonItem(_ sender: UIBarButtonItem) {
-        guard let productName = productNameTextField.text,
-              let priceText = productPriceTextField.text,
-              let productDescription = productDescriptionTextView.text,
-              let discountedPriceText = productDiscountedPriceTextField.text,
-              let stockText = productStockTextField.text else { return }
-        
-        let productCurrency: Currency =
-        productCurrencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
-        
-        let stackFirstView = imageStackView.arrangedSubviews.first
-        guard let _ = stackFirstView as? UIImageView else {
-            resisterProductAlert(message: "이미지가 등록되지 않았습니다.\n 확인해주세요.", success: false)
-            return
-        }
-        
-        if productName == "" || priceText == "" || productDescription == "" {
-            resisterProductAlert(message: "입력되지 않은 필드가 있습니다.\n 확인해주세요.", success: false)
+        if mode == "patch" {
+            requestPatchProductWhenPatchMode()
         } else {
-            for subView in imageStackView.arrangedSubviews {
-                if let imageView = subView as? UIImageView,
-                   let image = imageView.image {
-                    imageSet.append(image)
-                }
-            }
-            
-            guard let productPrice = Int(priceText) else { return }
-            let productDiscountedPrice = Int(discountedPriceText) ?? 0
-            let productStock = Int(stockText) ?? 0
-            
-            requestPost(name: productName,
-                        description: productDescription,
-                        price: productPrice,
-                        currency: productCurrency,
-                        discountPrice: productDiscountedPrice,
-                        stock: productStock,
-                        secret: "fne3fgu2k6a4r9wu")
-            
-            loadingIndicator.center = view.center
-            view.addSubview(loadingIndicator)
-            loadingIndicator.startAnimating()
-            
+            postProductWhenRegisterMode()
         }
-        imageSet = []
     }
     
     @IBAction func touchUpImagePlusButton(_ sender: UIButton) {
@@ -159,6 +156,118 @@ class RegisterProductViewController: UIViewController {
     
     @objc private func keyboardWillHide(_ notification: NSNotification) {
         view.transform = .identity
+    }
+    
+    private func showImagesWhenPatchMode(data: Data) {
+        if let image = UIImage(data: data) {
+            let imageView = makeImageView(image: image)
+            imageStackView.addArrangedSubview(imageView)
+            imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,
+                                              multiplier: 0.15).isActive = true
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor,
+                                             multiplier: 1).isActive = true
+        }
+    }
+    
+    private func showProductDataWhenPatchMode() {
+        guard let productData = productData else { return }
+        
+        productNameTextField.text = productData.name
+        productPriceTextField.text = String(productData.price)
+        productBargainPriceTextField.text = String(productData.bargainPrice)
+        productStockTextField.text = String(productData.stock)
+        productCurrencySegmentedControl.selectedSegmentIndex = productData.currency == .KRW ? 0 : 1
+        productDescriptionTextView.text = productData.description
+    }
+    
+    private func requestPatchProductWhenPatchMode() {
+        guard let productName = productNameTextField.text,
+              let priceText = productPriceTextField.text,
+              let productDescription = productDescriptionTextView.text,
+              let discountedPriceText = productBargainPriceTextField.text,
+              let stockText = productStockTextField.text else { return }
+        
+        let productCurrency: Currency =
+        productCurrencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
+        
+        guard let productPrice = Double(priceText),
+              let productDiscountedPrice = Double(discountedPriceText) else { return }
+        let productStock = Int(stockText) ?? 0
+        
+        if productName.count < 3 ||  productName.count > 100 {
+            resisterProductAlert(message: "상품명은 3~100자를 입력하셔야합니다.", success: false)
+            return
+        }
+        
+        if productDescription.count < 10 || productDescription.count > 1000 {
+            resisterProductAlert(message: "상품상세정보는 10~1000자를 입력하셔야합니다.", success: false)
+            return
+        }
+        
+        if productDiscountedPrice < 0 || productDiscountedPrice > productPrice {
+            resisterProductAlert(message: "할인가는 0보다 높거나 상품가보다 낮아야 합니다.", success: false)
+            return
+        }
+        
+        // 썸네일 ID 전해주는거 수정 (썸네일 이미지 바꾸는거 아직 안함)
+//        requestPatch(productID: productID,
+//                     name: productName,
+//                     description: productDescription,
+//                     thumbnailID: 0,
+//                     price: productPrice,
+//                     currency: productCurrency,
+//                     discountedPrice: productDiscountedPrice,
+//                     stock: productStock)
+        
+        loadingIndicator.center = view.center
+        view.addSubview(loadingIndicator)
+        loadingIndicator.startAnimating()
+    }
+    
+    private func postProductWhenRegisterMode() {
+        guard let productName = productNameTextField.text,
+              let priceText = productPriceTextField.text,
+              let productDescription = productDescriptionTextView.text,
+              let discountedPriceText = productBargainPriceTextField.text,
+              let stockText = productStockTextField.text else { return }
+        
+        let productCurrency: Currency =
+        productCurrencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
+        
+        let stackFirstView = imageStackView.arrangedSubviews.first
+        guard let _ = stackFirstView as? UIImageView else {
+            resisterProductAlert(message: "이미지가 등록되지 않았습니다.\n 확인해주세요.", success: false)
+            return
+        }
+        
+        if productName == "" || priceText == "" || productDescription == "" {
+            resisterProductAlert(message: "입력되지 않은 필드가 있습니다.\n 확인해주세요.", success: false)
+        } else {
+            for subView in imageStackView.arrangedSubviews {
+                if let imageView = subView as? UIImageView,
+                   let image = imageView.image {
+                    imageSet.append(image)
+                }
+            }
+            
+            guard let productPrice = Int(priceText) else { return }
+            let productDiscountedPrice = Int(discountedPriceText) ?? 0
+            let productStock = Int(stockText) ?? 0
+            
+            requestPost(name: productName,
+                        description: productDescription,
+                        price: productPrice,
+                        currency: productCurrency,
+                        discountPrice: productDiscountedPrice,
+                        stock: productStock,
+                        secret: "fne3fgu2k6a4r9wu")
+            
+            loadingIndicator.center = view.center
+            view.addSubview(loadingIndicator)
+            loadingIndicator.startAnimating()
+            
+        }
+        imageSet = []
     }
     
     private func makeImageView(image: UIImage) -> UIImageView {

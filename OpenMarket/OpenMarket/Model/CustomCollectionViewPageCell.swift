@@ -20,7 +20,7 @@ class CustomCollectionViewPageCell: UICollectionViewCell {
 
     func configureCell(image: Image, index: Int, totalCount: Int) {
         if let url = URL(string: image.thumbnailURL) {
-            imageOrderLabel.text = "(index+1)/(totalCount)"
+            imageOrderLabel.text = "\(index+1)/\(totalCount)"
             networkCommunication.requestImageData(url: url) { [weak self] data in
                 switch data {
                 case .success(let data):
