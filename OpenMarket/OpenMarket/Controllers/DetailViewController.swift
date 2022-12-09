@@ -100,7 +100,7 @@ extension DetailViewController {
                 case .failure(let error):
                     DispatchQueue.main.async {
                         self.showAlert(alertText: error.description,
-                                       alertMessage: "판매자가 맞는지 확인 부탁드립니다.",
+                                       alertMessage: "해당 상품의 판매자가 맞는지 확인 부탁드립니다.",
                                        completion: nil)
                     }
                 }

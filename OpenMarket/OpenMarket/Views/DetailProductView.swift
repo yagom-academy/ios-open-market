@@ -25,14 +25,17 @@ final class DetailProductView: UIView {
                                               collectionViewLayout: imageLayout)
         collectionView.isPagingEnabled = false
         collectionView.decelerationRate = .fast
+        collectionView.layer.borderWidth = 1
+        collectionView.layer.cornerRadius = 10
+        collectionView.layer.borderColor = UIColor.systemGray4.cgColor
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
     private let imageLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
+        layout.scrollDirection = .horizontal
         let collectionCellWidth = UIScreen.main.bounds.width * 0.9
         let collectionCellHeight = UIScreen.main.bounds.height * 0.4
         layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellHeight)
@@ -45,6 +48,7 @@ final class DetailProductView: UIView {
     
     private let productNameLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         return label
     }()
@@ -57,24 +61,24 @@ final class DetailProductView: UIView {
     
     private let productPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
     private let productSalePriceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.systemGray4.cgColor
-        textView.layer.cornerRadius = 10
-        textView.font = UIFont.systemFont(ofSize: 20)
         textView.isEditable = false
         textView.isScrollEnabled = true
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 10
+        textView.font = UIFont.systemFont(ofSize: 20)
+        textView.layer.borderColor = UIColor.systemGray4.cgColor
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -82,8 +86,8 @@ final class DetailProductView: UIView {
     lazy var priceStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productPriceLabel,
                                                       productSalePriceLabel])
-        stackView.axis = .vertical
         stackView.spacing = 5
+        stackView.axis = .vertical
         stackView.alignment = .trailing
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,10 +97,10 @@ final class DetailProductView: UIView {
     lazy var stockStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productStockLabel,
                                                       priceStackView])
-        stackView.axis = .vertical
         stackView.spacing = 20
-        stackView.alignment = .trailing
+        stackView.axis = .vertical
         stackView.distribution = .fill
+        stackView.alignment = .trailing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -104,20 +108,30 @@ final class DetailProductView: UIView {
     lazy var productStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [productNameLabel,
                                                       stockStackView])
-        stackView.axis = .horizontal
-        stackView.spacing = 30
+
+        stackView.spacing = 10
         stackView.alignment = .top
-        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.layer.borderWidth = 1
+        stackView.layer.cornerRadius = 10
+        stackView.layer.borderColor = UIColor.systemGray4.cgColor
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     func bindProductData(product: Product) {
+        clearPriceLabel()
         self.productNameLabel.text = product.name
         self.productPriceLabel.text = String(product.currencyPrice)
         self.productSalePriceLabel.text = String(product.currencyBargainPrice)
         self.productStockLabel.text = String(product.stockDescription)
         self.descriptionTextView.text = product.description
+        
+        setupPriceLabel(product: product)
+        setupStockLabelText()
     }
 }
 
@@ -126,6 +140,33 @@ extension DetailProductView {
     private func setupUI() {
         setupView()
         setupConstraints()
+    }
+    
+    private func setupPriceLabel(product: Product) {
+        if product.discountedPrice == Double.zero {
+            productSalePriceLabel.isHidden = true
+        } else {
+            changePriceLabel()
+        }
+    }
+    
+    private func changePriceLabel() {
+        productPriceLabel.textColor = .red
+        productPriceLabel.applyStrikeThroughStyle()
+    }
+    
+    private func clearPriceLabel() {
+        productSalePriceLabel.isHidden = false
+        productPriceLabel.textColor = .black
+        productPriceLabel.attributedText = .none
+    }
+    
+    private func setupStockLabelText() {
+        if productStockLabel.text == "품절" {
+            productStockLabel.textColor = .systemOrange
+        } else {
+            productStockLabel.textColor = .gray
+        }
     }
     
     private func setupView() {
@@ -145,7 +186,7 @@ extension DetailProductView {
             productStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             productStackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
             
-            descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 30),
+            descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 10),
             descriptionTextView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9),
             descriptionTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             descriptionTextView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor)
