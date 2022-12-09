@@ -74,7 +74,7 @@ class ProductDetailViewController: UIViewController {
                 self?.showAlert(message: "암호가 일치하지 않습니다.", isBack: false)
                 return
             }
-//            self?.getProductDeleteUriDataAndRequestDeleteProduct()
+            self?.getProductDeleteUriDataAndRequestDeleteProduct()
         }
         requestDeleteAlert.addTextField { passwordTextField in
             passwordTextField.placeholder = "암호 입력"
@@ -85,16 +85,47 @@ class ProductDetailViewController: UIViewController {
     }
     
     private func showAlert(message: String, isBack: Bool) {
-            let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-            let okAction = isBack ?
-            UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
-            :
-            UIAlertAction(title: "확인", style: .default)
-            alert.addAction(okAction)
-            present(alert, animated: true)
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = isBack ?
+        UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
+        })
+        :
+        UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    private func getProductDeleteUriDataAndRequestDeleteProduct() {
+        networkCommunication.requestPostUriInqueryData(
+            url: ApiUrl.Path.detailProduct + String(productID) + ApiUrl.Path.uriInquery,
+            secret: Secret.password
+        ) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let address = String(data: data, encoding: .utf8) else { return }
+                self?.requestDeleteProduct(url: ApiUrl.host + address)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: "<<\(error.rawValue)>>\n자신이 등록한 상품만 삭제할 수 있습니다.",
+                                    isBack: false)
+                }
+            }
         }
+    }
+    
+    private func requestDeleteProduct(url: String) {
+        networkCommunication.requestDeleteData(url: url) { [weak self] result in
+            switch result {
+            case .success(let message):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: "\(message)\n상품이 삭제되었습니다!", isBack: true)
+                }
+            case .failure(let error):
+                print(error.rawValue)
+            }
+        }
+    }
     
     private func getProductDetailData(productID: Int) {
         let url = ApiUrl.Path.detailProduct + String(productID)
