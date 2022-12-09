@@ -224,20 +224,9 @@ extension ProductsViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let product = productLists[valid: indexPath.section]?.pages[valid: indexPath.item],
-              let request = ProductDetailRequest(productID: product.id).request
+        guard let product = productLists[valid: indexPath.section]?.pages[valid: indexPath.item]
         else { return }
-        
-        networkManager.fetchData(from: request, dataType: DetailProduct.self) { result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    let detailViewController = ProductDetailViewController(data, networkManager: self.networkManager)
-                    self.navigationController?.pushViewController(detailViewController, animated: true)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        let detailViewController = ProductDetailViewController(product.id, networkManager: networkManager)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

@@ -208,12 +208,12 @@ final class EditProductViewController: UIViewController,   ProductManagingViewCo
               let price = Double(priceTextField.text ?? ""),
               let currency = Currency.allCases[valid: segmentedControl.selectedSegmentIndex],
               let discountedPriceText = discountedPriceTextField.text,
-              let stockText = stockTextField.text,
-              let thumnailID = imageCollectionView.indexPathsForSelectedItems?.first?.item
+              let stockText = stockTextField.text
         else { return nil }
         
         let discountedPrice = Double(discountedPriceText) ?? 0
         let stock = Int(stockText) ?? 0
+        let thumnailID = imageCollectionView.indexPathsForSelectedItems?.first?.item
         let editedProduct = EditProduct(productID: product.id,
                                         secret: "sth4w4p3knfsxqgx",
                                         stock: stock,

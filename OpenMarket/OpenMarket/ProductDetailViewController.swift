@@ -8,15 +8,16 @@
 import UIKit
 
 final class ProductDetailViewController: UIViewController {
-    private let detailProduct: DetailProduct
+    private let productID: Int
+    private var detailProduct: DetailProduct?
     private let networkManager: NetworkManager
     private let detailView: DetailView = DetailView()
     private var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
     private var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
     private var images: [UIImage] = []
     
-    init(_ detailProduct: DetailProduct, networkManager: NetworkManager) {
-        self.detailProduct = detailProduct
+    init(_ productID: Int, networkManager: NetworkManager) {
+        self.productID = productID
         self.networkManager = networkManager
         
         super.init(nibName: nil, bundle: nil)
@@ -35,40 +36,58 @@ final class ProductDetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        setupImages()
         configureNavigationBar()
-        configureDetailView()
         configureCollectionView()
         configureDataSource()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let request = ProductDetailRequest(productID: productID).request
+        else { return }
+        
+        networkManager.fetchData(from: request, dataType: DetailProduct.self) { result in
+            switch result {
+            case .success(let data):
+                self.detailProduct = data
+                DispatchQueue.main.async {
+                    self.configureDetailView(detailProduct: data)
+                    self.setupImages(data.images)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     private func configureNavigationBar() {
-        navigationItem.title = detailProduct.name
+        navigationItem.title = detailProduct?.name
         navigationItem.rightBarButtonItem = detailView.fetchNavigationBarButton()
         navigationItem.rightBarButtonItem?.target = self
         navigationItem.rightBarButtonItem?.action = #selector(showActionSheet)
     }
     
-    private func configureDetailView() {
+    private func configureDetailView(detailProduct: DetailProduct) {
         detailView.configureImageNumberLabel(present: 1, total: detailProduct.images.count)
         detailView.configureNameLabel(from: detailProduct.name)
-        detailView.configureStockLabel(from: setupStock())
-        detailView.configurePriceLabel(from: setupPrice())
+        detailView.configureStockLabel(from: setupStock(detailProduct.stock))
+        detailView.configurePriceLabel(from: setupPrice(detailProduct))
         detailView.configureDescriptionText(from: detailProduct.description)
     }
     
-    private func setupStock() -> String {
-        if detailProduct.stock.isZero {
+    private func setupStock(_ stock: Int) -> String {
+        if stock.isZero {
             return "품절"
-        } else if detailProduct.stock >= 1000 {
-            let stock = FormatConverter.convertToDecimal(from: Double(detailProduct.stock / 1000))
+        } else if stock >= 1000 {
+            let stock = FormatConverter.convertToDecimal(from: Double(stock / 1000))
             return "남은 수량 : \(stock.components(separatedBy: ".")[0])k"
         } else {
-            return "남은 수량 : \(detailProduct.stock)"
+            return "남은 수량 : \(stock)"
         }
     }
     
-    private func setupPrice() -> NSMutableAttributedString {
+    private func setupPrice(_ detailProduct: DetailProduct) -> NSMutableAttributedString {
         let text: String
         let currency = detailProduct.currency.rawValue
         let price = FormatConverter.convertToDecimal(from: detailProduct.price)
@@ -89,9 +108,10 @@ final class ProductDetailViewController: UIViewController {
         }
     }
     
-    private func setupImages() {
+    private func setupImages(_ images: [Image]) {
+        guard snapshot.numberOfItems.isZero else { return }
         DispatchQueue.global().async {
-            self.detailProduct.images.forEach { image in
+            images.forEach { image in
                 guard let url = URL(string: image.url),
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data)
@@ -150,6 +170,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func editProduct() {
+        guard let detailProduct = detailProduct else { return }
         let navigationController = UINavigationController(
             rootViewController: EditProductViewController(networkManager, product: detailProduct, images: images)
         )
@@ -158,7 +179,7 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func searchURI(with password: String) {
-        let uriSearchRequest = URISearchRequest(productID: detailProduct.id,
+        let uriSearchRequest = URISearchRequest(productID: productID,
                                                 identifier: "c598a7e9-6941-11ed-a917-8dbc932b3fe4",
                                                 secret: password)
         guard let request = uriSearchRequest.request else { return }
