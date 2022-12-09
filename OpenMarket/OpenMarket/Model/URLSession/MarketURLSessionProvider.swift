@@ -68,7 +68,10 @@ extension MarketURLSessionProvider {
         let lineBreak = "\r\n"
         let boundary = "Boundary-\(UUID().uuidString)"
         
-        guard let url = Request.productRegistration.url else { return nil }
+        guard let url = Request.productRegistration.url else {
+            print(NetworkError.generateUrlFailError.localizedDescription)
+            return nil
+        }
         
         var request = URLRequest(url: url)
         
@@ -83,7 +86,11 @@ extension MarketURLSessionProvider {
         
         guard let imageBodyData = createImageBodyData(key: imageKey,
                                                       images: images,
-                                                      boundary: boundary) else { return nil }
+                                                      boundary: boundary) else {
+            print(NetworkError.generateImageDataFailError.localizedDescription)
+            return nil
+        }
+        
         var bodyData = Data()
         
         bodyData.append(stringBodyData)
@@ -117,7 +124,10 @@ extension MarketURLSessionProvider {
         var body = Data()
         
         for image in images {
-            guard let imageData = image.jpegData(compressionQuality: 0.5) else { return nil }
+            guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+                print(NetworkError.generateImageDataFailError.localizedDescription)
+                return nil
+            }
             
             body.append("--\(boundary + lineBreak)")
             body.append("Content-Disposition: form-data; name=\"\(key)\"; filename=\"image\"")

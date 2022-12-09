@@ -44,12 +44,18 @@ final class RegistrationViewController: UIViewController {
         let encoder = JSONEncoder()
         let product = createProductFromUserInput()
         
-        guard let productData = try? encoder.encode(product) else { return }
+        guard let productData = try? encoder.encode(product) else {
+            print(NetworkError.parameterEncodingFailError.localizedDescription)
+            return
+        }
         
         guard let request = marketURLSessionProvider.generateRequest(
             textParameters: ["params": productData],
             imageKey: "images",
-            images: selectedImages) else { return }
+            images: selectedImages) else {
+            print(NetworkError.generateRequestFailError)
+            return
+        }
         
         marketURLSessionProvider.uploadData(request: request) { result in
             switch result {
@@ -57,7 +63,8 @@ final class RegistrationViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
                 }
-            case .failure(_):
+            case .failure(let error):
+                print(error.localizedDescription)
                 CustomAlert.showAlert(message: "업로드 실패입니다. 다시 시도해 주세요", target: self)
             }
         }
