@@ -150,7 +150,7 @@ extension NetworkCommunication {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("70e4e3d7-6942-11ed-a917-6d2a7e9f7538", forHTTPHeaderField: "identifier")
+        urlRequest.addValue(Secret.vendorID, forHTTPHeaderField: "identifier")
         urlRequest.httpBody = bodyData
   
         return urlRequest
@@ -191,5 +191,55 @@ extension NetworkCommunication {
             return compressQualityImage(image: image, value: value - 0.01)
         }
         return imageData
+    }
+}
+
+// MARK: -PatchRequest
+extension NetworkCommunication {
+    func requestPatchData(url: String,
+                          name: String,
+                          description: String,
+                          thumbnailID: Int,
+                          price: Double,
+                          currency: Currency,
+                          discountedPrice: Double,
+                          stock: Int,
+                          secret: String,
+                          completionHandler: @escaping (Result<String, APIError>) -> Void) {
+        guard let url: URL = URL(string: url) else { return }
+        let patchRequestParams = PatchRequestParams(name: name,
+                                                    description: description,
+                                                    secret: secret,
+                                                    price: price,
+                                                    discountedPrice: discountedPrice,
+                                                    stock: stock,
+                                                    thumbnailID: thumbnailID,
+                                                    currency: currency)
+        guard let urlRequest = generatePatchRequest(url: url, patchRequestParams) else { return }
+        let task: URLSessionDataTask = session.dataTask(with: urlRequest) { data, response, error in
+            if error != nil { return }
+
+            if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    print("PATCH CODE Error : <<(response.statusCode)>>")
+                    completionHandler(.failure(.statusCodeError))
+                } else {
+                    completionHandler(.success("PATCH CODE : (response.statusCode)"))
+                }
+            }
+        }
+        task.resume()
+    }
+
+    private func generatePatchRequest(url: URL, _ patchRequestParams: PatchRequestParams) -> URLRequest? {
+        var urlRequest: URLRequest = URLRequest(url: url)
+
+        guard let jsonParams = try? JSONEncoder().encode(patchRequestParams) else { return nil }
+
+        urlRequest.httpMethod = "PATCH"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue(Secret.vendorID, forHTTPHeaderField: "identifier")
+        urlRequest.httpBody = jsonParams
+        return urlRequest
     }
 }

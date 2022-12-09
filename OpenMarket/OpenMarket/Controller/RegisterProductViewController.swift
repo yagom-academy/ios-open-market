@@ -260,7 +260,7 @@ class RegisterProductViewController: UIViewController {
                         currency: productCurrency,
                         discountPrice: productDiscountedPrice,
                         stock: productStock,
-                        secret: "fne3fgu2k6a4r9wu")
+                        secret: Secret.password)
             
             loadingIndicator.center = view.center
             view.addSubview(loadingIndicator)
