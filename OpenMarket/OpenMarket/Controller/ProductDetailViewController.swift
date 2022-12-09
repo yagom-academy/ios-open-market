@@ -56,7 +56,7 @@ class ProductDetailViewController: UIViewController {
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             print("삭제 선택")
-            //            self?.showDeleteAlert()
+            self?.showDeleteAlert()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(modifyAction)
@@ -64,6 +64,37 @@ class ProductDetailViewController: UIViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
+    
+    private func showDeleteAlert() {
+        let requestDeleteAlert = UIAlertController(title: "암호를 입력해주세요", message: nil, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            let inputValue = requestDeleteAlert.textFields?[0].text
+            guard inputValue == Secret.password else {
+                self?.showAlert(message: "암호가 일치하지 않습니다.", isBack: false)
+                return
+            }
+//            self?.getProductDeleteUriDataAndRequestDeleteProduct()
+        }
+        requestDeleteAlert.addTextField { passwordTextField in
+            passwordTextField.placeholder = "암호 입력"
+        }
+        requestDeleteAlert.addAction(cancelAction)
+        requestDeleteAlert.addAction(deleteAction)
+        present(requestDeleteAlert, animated: true)
+    }
+    
+    private func showAlert(message: String, isBack: Bool) {
+            let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            let okAction = isBack ?
+            UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            })
+            :
+            UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
     
     private func getProductDetailData(productID: Int) {
         let url = ApiUrl.Path.detailProduct + String(productID)
