@@ -102,6 +102,69 @@ struct NetworkCommunication {
     }
 }
 
+// MARK: -DeleteRequest
+extension NetworkCommunication {
+    func requestDeleteData(url: String,
+                           completionHandler: @escaping (Result<String, APIError>) -> Void) {
+        guard let url: URL = URL(string: url) else { return }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        urlRequest.setValue(Secret.vendorID, forHTTPHeaderField: "identifier")
+        
+        let task: URLSessionDataTask = session.dataTask(with: urlRequest) { _, response, error in
+            if error != nil { return }
+            
+            if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    print("DELETE CODE Error : <<\(response.statusCode)>>")
+                    completionHandler(.failure(.statusCodeError))
+                } else {
+                    completionHandler(.success("DELETE CODE : \(response.statusCode)"))
+                }
+            }
+        }
+        task.resume()
+    }
+}
+
+// MARK: -PostUriInqueryRequest
+extension NetworkCommunication {
+    func requestPostUriInqueryData(url: String,
+                                   secret: String,
+                                   completionHandler: @escaping (Result<Data, APIError>) -> Void) {
+        guard let url: URL = URL(string: url) else { return }
+        
+        var body = Data()
+        body.append("{ \"secret\" : \"\(secret)\" }")
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue(Secret.vendorID, forHTTPHeaderField: "identifier")
+        urlRequest.httpBody = body
+        
+        let task: URLSessionDataTask = session.dataTask(with: urlRequest) { data, response, error in
+            if error != nil { return }
+            
+            if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    // 오류 발생
+                    print("POST CODE Error : <<\(response.statusCode)>>")
+                    completionHandler(.failure(.statusCodeError))
+                }
+            }
+            
+            if let data = data {
+                completionHandler(.success(data))
+            } else {
+                completionHandler(.failure(.unkownError))
+            }
+        }
+        task.resume()
+    }
+}
+
 // MARK: -PostRequest
 extension NetworkCommunication {
     func requestPostData(url: String,
