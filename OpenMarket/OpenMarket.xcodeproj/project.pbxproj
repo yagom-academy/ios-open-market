@@ -27,6 +27,8 @@
 		D27FA6362923293E004E3B38 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D27FA6352923293E004E3B38 /* .swiftlint.yml */; };
 		D27FA6402924839D004E3B38 /* SearchListProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FA63F2924839D004E3B38 /* SearchListProducts.swift */; };
 		D27FA642292483F9004E3B38 /* DetailProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FA641292483F9004E3B38 /* DetailProduct.swift */; };
+		D292E1CD29431FA7007DEE20 /* CustomCollectionViewPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D292E1CC29431FA7007DEE20 /* CustomCollectionViewPageCell.swift */; };
+		D292E1CF29431FF7007DEE20 /* CustomCollectionViewPageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D292E1CE29431FF7007DEE20 /* CustomCollectionViewPageCell.xib */; };
 		D2AF64A9293F218300CA507F /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AF64A8293F218300CA507F /* ImageCacheManager.swift */; };
 		D2B4188E292C694800874541 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */; };
 		D2C0A4CF2938A84D00AB3D2D /* PostRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C0A4CE2938A84D00AB3D2D /* PostRequestParams.swift */; };
@@ -66,6 +68,8 @@
 		D27FA6352923293E004E3B38 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D27FA63F2924839D004E3B38 /* SearchListProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListProducts.swift; sourceTree = "<group>"; };
 		D27FA641292483F9004E3B38 /* DetailProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProduct.swift; sourceTree = "<group>"; };
+		D292E1CC29431FA7007DEE20 /* CustomCollectionViewPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewPageCell.swift; sourceTree = "<group>"; };
+		D292E1CE29431FF7007DEE20 /* CustomCollectionViewPageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewPageCell.xib; sourceTree = "<group>"; };
 		D2AF64A8293F218300CA507F /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		D2B4188D292C694800874541 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		D2C0A4CE2938A84D00AB3D2D /* PostRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequestParams.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 				09D2BC202938A21F009E0895 /* Data+Extensions.swift */,
 				D2C0A4CE2938A84D00AB3D2D /* PostRequestParams.swift */,
 				D2AF64A8293F218300CA507F /* ImageCacheManager.swift */,
+				D292E1CC29431FA7007DEE20 /* CustomCollectionViewPageCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -117,6 +122,7 @@
 				C70FB10525BEF61D00C9924E /* LaunchScreen.storyboard */,
 				09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib */,
 				09D39AEF292DBF020039F1B9 /* CustomCollectionViewListCell.xib */,
+				D292E1CE29431FF7007DEE20 /* CustomCollectionViewPageCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 			files = (
 				09D39AF0292DBF020039F1B9 /* CustomCollectionViewListCell.xib in Resources */,
 				D27FA6362923293E004E3B38 /* .swiftlint.yml in Resources */,
+				D292E1CF29431FF7007DEE20 /* CustomCollectionViewPageCell.xib in Resources */,
 				C70FB10725BEF61D00C9924E /* LaunchScreen.storyboard in Resources */,
 				C70FB10425BEF61D00C9924E /* Assets.xcassets in Resources */,
 				C70FB10225BEF61C00C9924E /* Main.storyboard in Resources */,
@@ -357,6 +364,7 @@
 				D2AF64A9293F218300CA507F /* ImageCacheManager.swift in Sources */,
 				09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */,
 				09D8602D2928BF8E008FBE56 /* ApiUrl.swift.swift in Sources */,
+				D292E1CD29431FA7007DEE20 /* CustomCollectionViewPageCell.swift in Sources */,
 				09D2BC212938A21F009E0895 /* Data+Extensions.swift in Sources */,
 				09DB0F8A292333C10038DE45 /* TestJsonProducts.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
