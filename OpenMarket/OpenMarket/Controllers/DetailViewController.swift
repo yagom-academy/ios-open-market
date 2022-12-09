@@ -25,12 +25,16 @@ final class DetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setupData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = detailView
         detailView.collectionView.delegate = self
         detailView.collectionView.dataSource = self
-        setupData()
         setupNavigationBar()
     }
 }
