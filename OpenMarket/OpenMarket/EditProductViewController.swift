@@ -202,7 +202,7 @@ final class EditProductViewController: UIViewController,   ProductManagingViewCo
         }
     }
     
-    private func makeEditProduct() -> EditProduct? {
+    private func makeEditProduct() -> SendingProduct? {
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
               let price = Double(priceTextField.text ?? ""),
@@ -214,16 +214,15 @@ final class EditProductViewController: UIViewController,   ProductManagingViewCo
         let discountedPrice = Double(discountedPriceText) ?? 0
         let stock = Int(stockText) ?? 0
         let thumnailID = imageCollectionView.indexPathsForSelectedItems?.first?.item
-        let editedProduct = EditProduct(productID: product.id,
-                                        secret: "sth4w4p3knfsxqgx",
-                                        stock: stock,
+        let editedProduct = SendingProduct(productID: product.id,
                                         name: name,
                                         description: description,
                                         thumbnailID: thumnailID,
-                                        discountedPrice: discountedPrice,
                                         price: price,
-                                        currency: currency)
-        
+                                        discountedPrice: discountedPrice,
+                                        currency: currency,
+                                        stock: stock,
+                                        secret: "sth4w4p3knfsxqgx")
         return editedProduct
     }
     

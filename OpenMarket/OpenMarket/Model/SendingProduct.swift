@@ -1,5 +1,5 @@
 //
-//  EditProduct.swift
+//  SendingProduct.swift
 //  OpenMarket
 //
 //  Created by Gundy, Wonbi on 2022/12/01.
@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct EditProduct: Codable {
-    let productID: Int
-    let name, description: String?
-    let stock, thumbnailID: Int?
-    let discountedPrice, price: Double?
-    let currency: Currency?
+struct SendingProduct: Encodable {
+    let productID: Int?
+    let name, description: String
+    let stock: Int
+    let thumbnailID: Int?
+    let discountedPrice, price: Double
+    let currency: Currency
     let secret: String
     
     enum CodingKeys: String, CodingKey {
@@ -24,15 +25,15 @@ struct EditProduct: Codable {
         case price, currency, secret
     }
     
-    init(productID: Int,
-         secret: String,
-         stock: Int? = nil,
-         name: String? = nil,
-         description: String? = nil,
+    init(productID: Int? = nil,
+         name: String,
+         description: String,
          thumbnailID: Int? = nil,
-         discountedPrice: Double? = nil,
-         price: Double? = nil,
-         currency: Currency? = nil
+         price: Double,
+         discountedPrice: Double,
+         currency: Currency,
+         stock: Int,
+         secret: String
     ) {
         self.productID = productID
         self.secret = secret

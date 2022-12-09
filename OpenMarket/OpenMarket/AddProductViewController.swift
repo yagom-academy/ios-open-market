@@ -206,13 +206,13 @@ final class AddProductViewController: UIViewController,   ProductManagingViewCon
         
         let discountedPrice = Double(discountedPriceText) ?? 0
         let stock = Int(stockText) ?? 0
-        let newProduct = NewProduct(name: name,
-                                    description: description,
-                                    price: price,
-                                    currency: currency,
-                                    discountedPrice: discountedPrice,
-                                    stock: stock,
-                                    secret: "sth4w4p3knfsxqgx")
+        let newProduct = SendingProduct(name: name,
+                                     description: description,
+                                     price: price,
+                                     discountedPrice: discountedPrice,
+                                     currency: currency,
+                                     stock: stock,
+                                     secret: "sth4w4p3knfsxqgx")
         
         return JSONEncoder.encode(from: newProduct)
     }

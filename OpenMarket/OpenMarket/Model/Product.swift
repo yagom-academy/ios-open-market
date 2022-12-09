@@ -19,16 +19,9 @@ struct Product: Codable, Hashable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-    
+
     let identifier: String = UUID().uuidString
-    
-    var createdDate: Date? {
-        FormatConverter.convertToDate(from: createdAt)
-    }
-    var issuedDate: Date? {
-        FormatConverter.convertToDate(from: issuedAt)
-    }
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
@@ -53,4 +46,25 @@ enum Currency: String, Codable, CaseIterable {
             return 1
         }
     }
+}
+
+struct Image: Codable {
+    let id: Int
+    let url, thumbnailURL: String
+    let issuedAt: String
+
+    enum CodingKeys: String, CodingKey {
+        case id, url
+        case thumbnailURL = "thumbnail_url"
+        case issuedAt = "issued_at"
+    }
+}
+
+struct Vendor: Codable {
+    let id: Int
+    let name: String
+}
+
+struct Secret: Encodable {
+    let secret: String
 }

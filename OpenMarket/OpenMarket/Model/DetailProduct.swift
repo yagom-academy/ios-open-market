@@ -28,24 +28,3 @@ struct DetailProduct: Codable {
         case images, vendors
     }
 }
-
-struct Image: Codable {
-    let id: Int
-    let url, thumbnailURL: String
-    let issuedAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id, url
-        case thumbnailURL = "thumbnail_url"
-        case issuedAt = "issued_at"
-    }
-}
-
-struct Vendor: Codable {
-    let id: Int
-    let name: String
-}
-
-struct Secret: Encodable {
-    let secret: String
-}
