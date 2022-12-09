@@ -19,9 +19,9 @@ struct Product: Codable, Hashable {
     let stock: Int
     let createdAt: String
     let issuedAt: String
-
+    
     let identifier: String = UUID().uuidString
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
@@ -52,7 +52,7 @@ struct Image: Codable {
     let id: Int
     let url, thumbnailURL: String
     let issuedAt: String
-
+    
     enum CodingKeys: String, CodingKey {
         case id, url
         case thumbnailURL = "thumbnail_url"

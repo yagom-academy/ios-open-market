@@ -77,7 +77,7 @@ final class ListCell: UICollectionViewCell {
         border.frame = CGRect(x: -10, y: frame.height - 0.4, width: frame.width + 20, height: 0.4)
         border.backgroundColor = UIColor.systemGray.cgColor
         layer.addSublayer(border)
-
+        
         [loadingView, productImage, productStackView, stockStackView].forEach { contentView.addSubview($0) }
     }
     

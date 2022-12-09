@@ -207,12 +207,12 @@ final class AddProductViewController: UIViewController,   ProductManagingViewCon
         let discountedPrice = Double(discountedPriceText) ?? 0
         let stock = Int(stockText) ?? 0
         let newProduct = SendingProduct(name: name,
-                                     description: description,
-                                     price: price,
-                                     discountedPrice: discountedPrice,
-                                     currency: currency,
-                                     stock: stock,
-                                     secret: "sth4w4p3knfsxqgx")
+                                        description: description,
+                                        price: price,
+                                        discountedPrice: discountedPrice,
+                                        currency: currency,
+                                        stock: stock,
+                                        secret: "sth4w4p3knfsxqgx")
         
         return JSONEncoder.encode(from: newProduct)
     }
@@ -260,7 +260,7 @@ extension AddProductViewController {
     }
     
     func configureSnapshot() {
-
+        
         snapshot.appendSections([0])
         snapshot.appendItems([0])
         
@@ -337,9 +337,9 @@ extension AddProductViewController: UITextViewDelegate {
         setNavigationBarHeight()
         let contentOffset = CGPoint(x: 0, y: productStackView.frame.maxY - navigationBarHeight)
         backgroundScrollView.setContentOffset(contentOffset, animated: true)
-
+        
         descriptionTextView.layer.borderWidth = 0.0
-
+        
         if descriptionTextView.text == "상세정보 입력" {
             descriptionTextView.text = nil
             descriptionTextView.textColor = .black
@@ -349,12 +349,12 @@ extension AddProductViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let contentOffset = CGPoint(x: 0, y: -navigationBarHeight)
         backgroundScrollView.setContentOffset(contentOffset, animated: true)
-
+        
         if descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             descriptionTextView.text = "상세정보 입력"
             descriptionTextView.textColor = .systemGray3
         }
-
+        
         checkCanRequest()
     }
 }
@@ -364,7 +364,7 @@ extension AddProductViewController: UITextFieldDelegate {
         setNavigationBarHeight()
         let contentOffset = CGPoint(x: 0, y: imageCollectionView.frame.maxY - navigationBarHeight)
         backgroundScrollView.setContentOffset(contentOffset, animated: true)
-
+        
         textField.layer.borderWidth = 0.0
     }
     

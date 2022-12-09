@@ -50,7 +50,7 @@ extension ProductManagingViewController {
                 completion()
             }
         }
-
+        
         alert.addAction(action)
         present(alert, animated: true)
     }
@@ -184,7 +184,7 @@ extension ProductManagingViewController {
     func highlightTextBounds(_ view: UIView) {
         let highlightedBorderWidth: CGFloat = 1.0
         let cornerRadius: CGFloat = 5
-
+        
         view.layer.borderWidth = highlightedBorderWidth
         view.layer.borderColor = UIColor.systemRed.cgColor
         view.layer.cornerRadius = cornerRadius

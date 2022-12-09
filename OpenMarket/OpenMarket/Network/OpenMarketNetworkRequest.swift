@@ -58,7 +58,7 @@ struct ProductAddRequest: NetworkRequest {
     let queryParameters: [String: String] = [:]
     var httpHeader: [String: String]?
     var httpBody: Data?
-        
+    
     init(from multipartFormData: MultipartFormData) {
         self.httpHeader = multipartFormData.fetchHTTPHeader()
         self.httpBody = multipartFormData.fetchHTTPBody()

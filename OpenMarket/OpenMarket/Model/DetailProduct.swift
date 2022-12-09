@@ -15,7 +15,7 @@ struct DetailProduct: Codable {
     let createdAt, issuedAt: String
     let images: [Image]
     let vendors: Vendor
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case vendorID = "vendor_id"
