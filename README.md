@@ -51,9 +51,11 @@
 - HTTP POST, PATCH 메서드 구현
 - 상품 등록 화면 UI 구성
 - `UIImagePickerController`를 활용해 이미지 업로드 구현
-
-
-
+- HTTP DELETE 메서드 구현
+- UIImagePicker 사진 등록 개수 5개로 제한
+- textView 글자수 제한, textField keyboard 타입 numberPad 설정
+- 상품클릭 시 수정화면으로 이동
+- refresh control을 사용한 업데이트 구현
 
 ## 💾 파일구조
 ```
@@ -298,3 +300,4 @@ segmentedControl의 높이를 가격의 frame.height 로 지정해도 frame.heig
 ## 💻 개발환경 및 라이브러리
 [![swift](https://img.shields.io/badge/swift-5.6-orange)]()
 [![xcode](https://img.shields.io/badge/Xcode-13.4.1-blue)]()
+  
