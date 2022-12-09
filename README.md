@@ -126,11 +126,9 @@
 </details>
 
 ## 📱 실행 화면
-|처음설치|종료후다시실행|
-|:--:|:--:|
-|![Simulator Screen Recording - iPhone 11 - 2022-11-25 at 00 57 15](https://user-images.githubusercontent.com/49121469/203825802-c1a9679c-89b2-4506-917c-05cb88236e39.gif)|![Simulator Screen Recording - iPhone 11 - 2022-11-25 at 00 31 56](https://user-images.githubusercontent.com/49121469/203821039-8767d88d-eedb-492c-ab84-47fb8d534190.gif)|
-|**상품등록**|
-|![](https://i.imgur.com/TkWW9Yt.gif)||
+
+step4 구현 후 추가예정입니다.
+
 ## 👀 고민한 점
 
 ### Step 1
