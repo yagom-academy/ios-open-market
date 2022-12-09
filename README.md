@@ -2,67 +2,75 @@
 
 ## 📖 목차
 
-1. [소개](#-소개)
-2. [프로젝트 구조](#-프로젝트-구조)
-3. [구현 내용](#-구현-내용)
-4. [타임라인](#-타임라인)
-5. [실행 화면](#-실행-화면)
-6. [트러블 슈팅 & 어려웠던 점](#-트러블-슈팅-및-어려웠던-점)
-7. [프로젝트 wiki](#-프로젝트에서-배운-점-wiki)
-8. [참고 링크](#-참고-링크)
+1. [프로젝트 및 팀원 소개](#-프로젝트-및-팀원-소개)
+2. [개발환경](#-개발환경)
+3. [프로젝트 구조](#-프로젝트-구조)
+4. [구현 내용](#-구현-내용)
+5. [타임라인](#-타임라인)
+6. [실행 화면](#-실행-화면)
+7. [트러블 슈팅 & 어려웠던 점](#-트러블-슈팅-및-어려웠던-점)
+8. [프로젝트 wiki](#-프로젝트에서-배운-점-wiki)
+9. [참고 링크](#-참고-링크)
 
-## 🌱 소개
-
+## 🌱 프로젝트 및 팀원 소개
+### 👀프로젝트 소개
+- URL Session을 활용한 서버와의 통신으로 오픈마켓의 상품들을 보여주고, 새로운 상품을 등록할 수 있음
+- Diffable DataSource를 활용한 ModernCollection View로 UI 구현
 
 |<img src= https://i.imgur.com/ryeIjHH.png width=150>|<img src= https://i.imgur.com/RG4tpLq.jpg width=150>|
 |:---:|:---:|
 |[토털이](https://github.com/tottalE)|[애종](https://github.com/jonghancha)
 
-
+## 💻 개발환경
+[![swift](https://img.shields.io/badge/swift-5.7.1-orange)]()
+[![iOS](https://img.shields.io/badge/iOS_Deployment_Target-14.0-blue)]()
+[![xcode](https://img.shields.io/badge/Xcode-14.0-brightgreen)]()
  
 ## 🛠 프로젝트 구조
 
 ### 🌲 Tree
 ```
-├── OpenMarket
-│   ├── NetworkTests
-│   │   ├── MockData.swift
-│   │   ├── MockURLSession.swift
-│   │   ├── MockURLSessionDataTask.swift
-│   │   └── NetworkTests.swift
-│   ├── OpenMarket
-│   │   ├── Controller
-│   │   │   ├── AddProductViewController.swift
-│   │   │   └── ProductListViewController.swift
-│   │   ├── Errors
-│   │   │   └── NetworkError.swift
-│   │   ├── Extensions
-│   │   │   ├── Double+Extension.swift
-│   │   │   ├── JSONDecoder+extension.swift
-│   │   │   ├── String+Extension.swift
-│   │   │   └── URLComponents+Extension.swift
-│   │   ├── Model
-│   │   │   └── ProductList.swift
-│   │   ├── Utilities
-│   │   │   ├── NetworkAPI.swift
-│   │   │   └── NetworkAPIProvider.swift
-│   │   └── View
-│   │   │   ├── ProductGridCell.swift
-│   │   │   ├── ProductListCell.swift
-│   │   │   └── Base.lproj
-│   │   │       └── LaunchScreen.storyboard
-│   │   ├── AppDelegate.swift
-│   │   ├── SceneDelegate.swift
-│   │   ├── URLSessionProtocol.swift
-│   │   ├── Info.plist
-│   │   ├── Assets.xcassets
-│   └── OpenMarket.xcodeproj
-└── README.md
+OpenMarket
+├── Controller
+│   ├── AddProductViewController.swift
+│   ├── EditProductViewController.swift
+│   └── ProductListViewController.swift
+├── Errors
+│   └── NetworkError.swift
+├── Extensions
+│   ├── Data+Extension.swift
+│   ├── Double+Extension.swift
+│   ├── JSONDecoder+extension.swift
+│   ├── String+Extension.swift
+│   ├── UIImage+Extension.swift
+│   ├── UITextField+extension.swift
+│   └── URLComponents+Extension.swift
+├── Info.plist
+├── Model
+│   ├── NewProductInfo.swift
+│   └── ProductList.swift
+├── NSAttributeProtocol.swift
+├── SceneDelegate.swift
+├── URLSessionProtocol.swift
+├── Utilities
+│   ├── ImageNetworkManager.swift
+│   ├── NetworkAPI.swift
+│   ├── NetworkAPIProvider.swift
+│   └── ProductNetworkManager.swift
+└── View
+    ├── Base.lproj
+    │   └── LaunchScreen.storyboard
+    ├── ImageAddButton.swift
+    ├── ProductGridCell.swift
+    ├── ProductListCell.swift
+    └── ProductManageView.swift
+
 ```
 
 ### 📊 Class Diagram
 
-![](https://i.imgur.com/KmYPYho.jpg)
+![](https://i.imgur.com/4HzMNpk.jpg)
+
 
 ## 📌 구현 내용
 ### STEP 1
@@ -87,6 +95,20 @@
     - DispatchQueue.main.async 활용
 - segement control을 통한 화면 전환 구현
     - `removeFromSuperview()` 메서드 활용
+
+### STEP 3
+
+- Cell이 재사용됨에 따른 불필요한 URL Request 취소 구현
+    - `prepareForReUse` 내부에 `URLTask.Cancel` 호출
+- 상품을 등록하거나 수정하는 화면 구현
+    - 각각 다른 init()을 통해 등록화면, 수정화면 분기처리
+- `UIImagePickerController를` 활용한 이미지 추가
+    - image를 고르는 순간 stackView에 이미지를 추가
+    - `UIGraphicsImageRenderer()` 활용해 업로드 전 용량 축소
+- POST method형태로 multipart/form-data 요청 전송
+- 키보드가 컨텐츠를 가리지 않도록 구현
+    - `UITextViewDelegate`의 `textViewDidBeginEditing()`활용
+- delegate를 활용해 등록 결과를 다른 화면에서 Alert로 보여줌
 
 ## ⏰ 타임라인
 
@@ -163,14 +185,49 @@
 <details>
 <summary>Step3 타임라인</summary>
 <div markdown="1">       
+- **2022.11.28**
+    - ProductNetworkManager 생성
     
+- **2022.11.29**
+    - state 삭제
+    - NSAttributeProtocol 생성
+    
+- **2022.12.02**
+    - AddProductView의 UI요소 추가
+        - 네비게이션 바
+        - imageScrollView
+        - TextFieldStackView
+        - TextView
+    
+- **2022.12.05**
+    - 이미지 추가기능 구현
+    
+- **2022.12.06**
+    - View를 tap했을 때 endEditing 처리
+    - TextView 클릭 시 ImageScrollView Hidden처리
+    
+- **2022.12.07**
+    - post기능 추가
+    - UIImage 용량 축소기능 구현
+    - post 결과에 따른 Alert 출력 구현
+    - EditProductViewController 추가
+        - AddProductViewController를 상속
 </div>
 </details>
 
 
 ## 📱 실행 화면
 
-<img src= "https://i.imgur.com/6nwbq2c.gif" width=200>
+
+| 첫화면                                   | 상품등록                                 | 화면전환                                 |
+| :----------------------------------------: | :----------------------------------------: | :----------------------------------------: |
+| ![](https://i.imgur.com/UI9W0os.gif)     | ![](https://i.imgur.com/bGqcisx.gif)     | ![](https://i.imgur.com/NncX1O5.gif)     |
+| 키보드화면변경                                 | Request.cancel 적용 전                          | Request.cancel 적용 후                     |
+| ![](https://i.imgur.com/U9SrWCg.gif)     | ![](https://i.imgur.com/7SOiZed.gif)     |  ![](https://i.imgur.com/xVk4EWV.gif) |
+
+
+
+
 
 ## ❓ 트러블 슈팅 및 어려웠던 점
 
@@ -324,7 +381,36 @@ self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectio
             }
         }
 ```
-특정 트리거가 발생하면 collectionView의 viewLayout을 바꾸어 주어서 List 형태가 Grid형태로 바뀔 수 있도록 해주었다. 여기서 중요한 점은 SnapShot의 관점에서 데이터는 변하지 않았기 때문에 reloadData를 해주어야 한다는 점이다.
+특정 트리거가 발생하면 collectionView의 viewLayout을 바꾸어 주어서 List 형태가 Grid형태로 바뀔 수 있도록 해주었다. 여기서 중요한 점은 SnapShot의 관점에서 데이터는 변하지 않았기 때문에 reloadData를 해주어야 한다는 점이다.(추후 reloadSection으로 수정)
+
+## STEP 3
+### 1. 이미지 추가 버튼을 통해 이미지 추가 구현
+상품을 등록할 때 이미지를 추가할 뷰로 collectionView와 StackView 사이에서 고민했다. 이미지를 뷰에 추가해주기만 하면 되기 때문에 CollectionView의 기능을 하나도 사용하지 않는다고 판단해 스크롤 뷰와 스택뷰를 활용하여 구현해 주었다.
+
+`self.imageStackView.insertArrangedSubview(imageView, at: self.imageStackView.subviews.count - 1)`를 이용하여 이미지뷰에 추가해도 버튼이 가장 마지막에 위치하도록 구현했다.
+
+### 2. keyboard textView 클릭 시 사진부분 hidden
+텍스트뷰를 클릭시에 오토레이아웃을 바꾸고, Image 부분을 hidden 시켜 키보드가 텍스트뷰를 가리지 않도록 구현해 주었다. iOS15 버전부터 사용가능한 `KeyboardLayoutGuide`을 사용하거나, UI들을 scrollView에 담고 키보드의 높이만큼 inset을 변경시켜주는 것도 좋은 방법이라고 생각했다.
+
+### 3. 새로운 상품post 과정의 기능 분리
+네트워킹 과정에서 `NetworkAPIProvider`의 역할이 어디까지인지에 대한 고민을 했다. 역할에 맞는 메서드를 위치시켜주고 싶었기 때문이다. 
+`NetworkAPIProvider`에서는 post method를 채택하는 네트워킹만 알고 있도록 하고, 구체적인 상품에 대한 정보를 body에 담는 과정은 `ProductNetworkManager로` 분류했다
+- NetworkAPIProvider
+    - post()
+- ProductNetworkManager
+    - postNewProduct()
+    - generatePostRequest()
+    - createBody()
+위와 같이 메서드를 추가하여 post를 구현해 주었다. multipart/form-data로 전송하기 위해서 body를 직접 만들어주고 request를 만들어줄 수 있도록 하였다.
+
+### 4. delegate으로 alert 구현
+상품을 등록한 후 성공 혹은 결과에 대한 정보를 사용자에게 주고싶었다.
+상품등록 네트워킹을 비동기로 처리하며 리스트 화면으로 돌아와 alert를 통해 등록결과를 알렸다.
+
+상품을 post 한 후에 상품등록 화면은 pop이 되고, 상품 등록이 완료 되었을 때 delegate를 통해 이전 리스트 화면에서 alert을 띄워줄 수 있도록 구현해 보았다.
+
+### 5. 수정화면과 등록화면의 공통기능 구현
+등록화면인 AddProductViewController를 상속받은 EditProductViewController를 통해서 수정화면을 만들어주었다. 다음 화면에 넘어갈 때 이미 데이터를 이전 화면이 가지고 있을 것이라고 가정하여 커스텀 init을 만들어 주었다.
 
 
 ## 📕 프로젝트에서 배운 점 wiki
@@ -332,6 +418,7 @@ self.dataSource = UICollectionViewDiffableDataSource<Section, Product>(collectio
 1. @testable은 왜 사용해주는 걸까?
 2. Test Double - Mocks, Stubs
 3. URLSession에 데이터 주입
+4. 접근 제어자
 
 ## 📖 참고 링크
 - [URLSession.dataTask를 통해 데이터 Fetching하기(공식문서)](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
