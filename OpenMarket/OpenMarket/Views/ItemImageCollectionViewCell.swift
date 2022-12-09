@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemImageCollectionViewCell: UICollectionViewCell {
+final class ItemImageCollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false

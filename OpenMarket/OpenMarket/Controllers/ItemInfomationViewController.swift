@@ -7,20 +7,21 @@
 
 import UIKit
 
-class ItemInfomationViewController: UIViewController {
+final class ItemInfomationViewController: UIViewController {
+    // MARK: Properties
     var item: Item?
     var itemId: Int?
     var itemImages: [UIImage] = []
-    var networkManager = NetworkManager()
+    let networkManager = NetworkManager()
     
-    lazy var collectionViewLayout: UICollectionViewFlowLayout = {
+    private let collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         return layout
     }()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isPagingEnabled = true
@@ -28,20 +29,14 @@ class ItemInfomationViewController: UIViewController {
         return collectionView
     }()
     
-    let imageIndexLabel: UILabel = {
+    private let imageIndexLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
     }()
     
-    let testView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let itemlabelStackView: UIStackView = {
+    private let itemlabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -49,48 +44,64 @@ class ItemInfomationViewController: UIViewController {
         stackView.distribution = .fillEqually
         return stackView
     }()
+
+    private let rightSideLabelStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        return stackView
+    }()
     
-    let priceStackView: UIStackView = {
+    private let priceLabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         return stackView
     }()
     
-    let itemNameLabel: UILabel = {
+    private let itemNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
-    let stockLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .right
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let discountedPriceLabel: UILabel = {
+    private let stockLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .systemGray
         return label
     }()
     
-    let priceLabel: UILabel = {
+    private let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
-    let descriptionTextView: UITextView = {
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = .systemRed
+        return label
+    }()
+    
+    private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
         return textView
     }()
-    
+
+    // MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchItem()
@@ -98,26 +109,43 @@ class ItemInfomationViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-    
-    func configureItemInfo() {
+}
+
+// MARK: Methods
+extension ItemInfomationViewController {
+    private func configureItemInfo() {
         guard let item else { return }
         itemNameLabel.text = item.name
-        stockLabel.text = "\(item.stock)"
-        priceLabel.text = "\(item.price)"
-        discountedPriceLabel.text = "\(item.price - item.discountedPrice)"
+
+        if item.stock == 0 {
+            stockLabel.text = "품절"
+            stockLabel.textColor = .systemYellow
+
+        } else {
+            stockLabel.text = "남은 수량 : \(item.stock)"
+            stockLabel.textColor = .systemGray
+        }
+
         descriptionTextView.text = item.pageDescription
+
+        if item.discountedPrice > 0 {
+            priceLabel.attributedText = "\(item.currency.rawValue) \(item.price.formattedString!)".strikeThrough()
+            bargainPriceLabel.text = "\(item.currency.rawValue) \(item.bargainPrice.formattedString!)"
+        } else {
+            bargainPriceLabel.text = "\(item.currency.rawValue) \(item.price.formattedString!)"
+        }
     }
-    
-    @objc func configureNavigation() {
+
+    @objc private func configureNavigation() {
         self.navigationItem.title = item?.name
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonTapped))
     }
-    
-    @objc func actionButtonTapped() {
+
+    @objc private func actionButtonTapped() {
         let actionsheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
+
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
+
         let editItemAction = UIAlertAction(title: "수정", style: .default) { action in
             let itemEditVC = ItemEditViewController()
             itemEditVC.itemId = self.itemId
@@ -126,10 +154,10 @@ class ItemInfomationViewController: UIViewController {
             itemEditNavVC.modalTransitionStyle = .crossDissolve
             self.present(itemEditNavVC, animated: false)
         }
-        
+
         let deleteItemAction = UIAlertAction(title: "삭제", style: .destructive) { action in
             let alertController = UIAlertController(title: "비밀번호 입력", message: "암호", preferredStyle: .alert)
-            
+
             let okAction = UIAlertAction(title: "입력", style: .destructive) { action in
                 guard let password = alertController.textFields?.first?.text,
                       let itemId = self.itemId else { return }
@@ -154,36 +182,36 @@ class ItemInfomationViewController: UIViewController {
                     }
                 }
             }
-            
+
             alertController.addAction(cancelAction)
             alertController.addAction(okAction)
             alertController.addTextField()
-            
+
             self.present(alertController, animated: true)
         }
-        
+
         actionsheetController.addAction(editItemAction)
         actionsheetController.addAction(deleteItemAction)
         actionsheetController.addAction(cancelAction)
-        
+
         present(actionsheetController, animated: true)
     }
-    
+
     private func fetchItem() {
         guard let itemId = itemId else { return }
-        
+
         LoadingController.showLoading()
         networkManager.fetchItem(productId: itemId) { result in
             LoadingController.hideLoading()
-            
+
             switch result {
             case .success(let item):
                 self.item = item
-                
+
                 DispatchQueue.main.async {
+                    self.configureView()
                     self.configureNavigation()
                     self.configureItemInfo()
-                    self.abc()
                     self.configureImageValue()
                 }
             case .failure(_):
@@ -193,7 +221,7 @@ class ItemInfomationViewController: UIViewController {
             }
         }
     }
-    
+
     private func retryAlert() {
         let alert = UIAlertController(title: "통신 실패", message: "데이터를 받아오지 못했습니다", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "다시 시도", style: .default, handler: { _ in
@@ -204,13 +232,13 @@ class ItemInfomationViewController: UIViewController {
         }))
         self.present(alert, animated: false)
     }
-    
+
     private func configureImageValue() {
         let group = DispatchGroup()
-        
+
         LoadingController.showLoading()
         guard let images = item?.images else { return }
-        
+
         images.forEach {
             group.enter()
             guard let url = URL(string: $0.url) else { return }
@@ -219,6 +247,7 @@ class ItemInfomationViewController: UIViewController {
                 group.leave()
             }
         }
+
         group.notify(queue: DispatchQueue.main) {
             LoadingController.hideLoading()
             self.imageIndexLabel.text = "1/\(self.itemImages.count)"
@@ -226,60 +255,69 @@ class ItemInfomationViewController: UIViewController {
         }
     }
 }
+
+// MARK: configureView
 extension ItemInfomationViewController {
-    func abc() {
+    private func configureView() {
         self.view.addSubview(collectionView)
         self.view.addSubview(imageIndexLabel)
         self.view.addSubview(itemlabelStackView)
+        self.view.addSubview(rightSideLabelStackView)
         self.view.addSubview(descriptionTextView)
         self.itemlabelStackView.addArrangedSubview(itemNameLabel)
-        self.itemlabelStackView.addArrangedSubview(priceStackView)
-        self.priceStackView.addArrangedSubview(stockLabel)
-        self.priceStackView.addArrangedSubview(priceLabel)
-        self.priceStackView.addArrangedSubview(discountedPriceLabel)
-        
+        self.itemlabelStackView.addArrangedSubview(rightSideLabelStackView)
+        self.rightSideLabelStackView.addArrangedSubview(stockLabel)
+        self.rightSideLabelStackView.addArrangedSubview(priceLabelStackView)
+        self.priceLabelStackView.addArrangedSubview(priceLabel)
+        self.priceLabelStackView.addArrangedSubview(bargainPriceLabel)
+
         NSLayoutConstraint.activate([
             self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.collectionView.heightAnchor.constraint(equalTo: self.collectionView.widthAnchor),
-            
+            self.collectionView.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.4),
+
             self.imageIndexLabel.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
             self.imageIndexLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             self.imageIndexLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            
+
             self.itemlabelStackView.topAnchor.constraint(equalTo: self.imageIndexLabel.bottomAnchor),
             self.itemlabelStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             self.itemlabelStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             self.itemlabelStackView.heightAnchor.constraint(equalToConstant: 100),
-            
+
             self.descriptionTextView.topAnchor.constraint(equalTo: self.itemlabelStackView.bottomAnchor),
             self.descriptionTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             self.descriptionTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             self.descriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
     }
 }
 
+// MARK: CollectionView, Delegate
 extension ItemInfomationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("\(itemImages.count)")
         return itemImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemImageCollectionViewCell", for: indexPath) as! ItemImageCollectionViewCell
-        
         cell.imageView.image = itemImages[indexPath.item]
         return cell
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        for cell in collectionView.visibleCells {
+            let indexPath = collectionView.indexPath(for: cell)
+
+            guard let currentIndex = indexPath?.item else { return }
+            imageIndexLabel.text = "\(currentIndex + 1)/\(self.itemImages.count)"
+        }
     }
 }
 
 extension ItemInfomationViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
-    
 }
