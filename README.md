@@ -61,9 +61,25 @@
 
 ### ▶️ Step-3 실행화면
 
-|**기본실행**|**상품등록**|
-|:--:|:--:|
-||||
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+|**기본실행**|**상품등록**|**이미지등록 최대5장**|**키보드타입,콘텐츠영역보장**|
+|:--:|:--:|:--:|:--:|
+|<img src="https://i.imgur.com/xZgF7Uv.gif" width=220> |<img src="https://i.imgur.com/AJZRF6r.gif" width=220> |<img src="https://i.imgur.com/KiDbcAU.gif" width=210>|<img src="https://i.imgur.com/6JpDuqh.gif" width=190>|
+    
+    
+</details>
+
+### ▶️ Step-4 실행화면
+
+    
+|**기본실행**|**상품수정**|**상품삭제**|**Alert**|
+|:--:|:--:|:--:|:--:|
+|<img src="https://i.imgur.com/EcLhpH3.gif" width=220> |<img src="https://i.imgur.com/RiBuMAG.gif" width=220>| <img src="https://i.imgur.com/VTPXA5m.gif" width=215> | <img src="https://i.imgur.com/Zzwf0xf.gif" width=225> |
+
 
 
 ## Diagram
@@ -81,42 +97,56 @@ OpenMarket
 ├── NetworkManagerTest
 │   ├── NetworkManagerTest.swift
 │   └── TestData.swift
-└── OpenMarket
-    ├── AppDelegate.swift
-    ├── SceneDelegate.swift
-    ├── Common
-    │   ├── NetworkError.swift
-    │   └── Protocol
-    │       └── ReuseIdentifierProtocol+Extension.swift
-    ├── Controllers
-    │   ├── AddViewController.swift
-    │   ├── ImageCacheManager.swift
-    │   └── MainViewController.swift
-    ├── Extensions
-    │   ├── Formatter+Extension.swift
-    │   ├── String+Extension.swift
-    │   ├── UILabel+Extension.swift
-    │   └── URLComponents+Extension.swift
-    ├── Models
-    │   ├── DecodeManager.swift
-    │   ├── NewProduct.swift
-    │   ├── Product.swift
-    │   └── ProductPage.swift
-    ├── Network
-    │   ├── MockURLSession
-    │   │   └── MockURLSession.swift
-    │   ├── NetworkManager.swift
-    │   ├── NetworkRequest.swift
-    │   └── Protocols
-    │       ├── URLSessionDataTaskProtocol.swift
-    │       └── URLSessionProtocol.swift
-    └── Views
-        ├── AddProductView.swift
-        ├── GridCollectionViewCell.swift
-        ├── ImageCollectionViewCell.swift
-        ├── ListCollectionViewCell.swift
-        └── MainView.swift
-                
+├── OpenMarket
+│   ├── AppDelegate.swift
+│   ├── SceneDelegate.swift
+│   ├── Info.plist
+│   ├── Base.lproj
+│   │   └── LaunchScreen.storyboard
+│   ├── Resources
+│   │   └── Assets.xcassets
+│   ├── Common
+│   │   ├── Error.swift
+│   │   └── Protocol
+│   │       └── ReuseIdentifierProtocol+Extension.swift
+│   ├── Controllers
+│   │   ├── ImageCacheManager.swift
+│   │   ├── AddViewController.swift
+│   │   ├── DetailViewController.swift
+│   │   ├── MainViewController.swift
+│   │   ├── ModifyViewController.swift
+│   │   └── ProductViewController.swift
+│   ├── Extensions
+│   │   ├── Formatter+Extension.swift
+│   │   ├── UIImage+Extension.swift
+│   │   ├── UILabel+Extension.swift
+│   │   ├── UIViewController+Extension.swift
+│   │   └── URLComponents+Extension.swift
+│   ├── Models
+│   │   ├── DecodeManager.swift
+│   │   ├── NewProduct.swift
+│   │   ├── Product.swift
+│   │   └── ProductPage.swift
+│   ├── Network
+│   │   ├── MockURLSession
+│   │   │   └── MockURLSession.swift
+│   │   ├── NetworkManager.swift
+│   │   ├── NetworkRequest.swift
+│   │   └── Protocols
+│   │       ├── URLSessionDataTaskProtocol.swift
+│   │       └── URLSessionProtocol.swift
+│   └── Views
+│       ├── Cells
+│       │   ├── AddProductCollectionViewCell.swift
+│       │   ├── DetailProductCollectionViewCell.swift
+│       │   ├── GridCollectionViewCell.swift
+│       │   └── ListCollectionViewCell.swift
+│       ├── MainView.swift
+│       ├── DetailProductView.swift
+│       ├── ProductView.swift
+│       ├── AddProductView.swift
+│       └── ModifyProductView.swift
+└── README.md                
 ```
 
 ##  타임라인
@@ -217,26 +247,27 @@ OpenMarket
     - ✅ Collection View의 활용
     - ✅ Cell 내부 Button Action Delegate 처리 
 - Network
-    -  ✅ multipart/form-data의 구조 파악
-    -  ✅ URLSession을 활용한 multipart/form-data 요청 전송
-    -  ✅ NetworkManager POST, FETCH, DELETE Method 구현
+    - ✅ multipart/form-data의 구조 파악
+    - ✅ URLSession을 활용한 multipart/form-data 요청 전송
+    - ✅ NetworkManager POST, FETCH, DELETE Method 구현
     
 - 추가 구현 
     - ✅ Pagination 구현
     - ✅ PHPickerView 구현
     - ✅ Image 표기 시 Image가 변경되는 이슈 해결
 
-<details>
-<summary> 
-펼쳐보기
-</summary>
+### 👟 Step 4
+- Alert
+    - ✅ 상황에 적합한 Alert 활용
+    - ✅ UIAlertController 액션의 completion handler 활용
+    - ✅ UICollectionView 를 통한 좌우 스크롤 기능 구현
 
-    
-</details>
+- Network
+    - ✅ NetworkManager UPDATE, DELETE Method 구현 및 적용
+
 
 ## 기술적 도전
 ### ⚙️ Network
-
 <details>
 <summary> 
 펼쳐보기
@@ -317,20 +348,101 @@ if indexPath == collectionView.indexPath(for: cell) {
 </details>
 
 
-### ⚙️ PHPickerView - 추후 추가
+### ⚙️ PHPickerView
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+- 서버에 올릴 상품의 이미지를 PhotoLibrary에서 가져올 때, PHPickerView를 사용하였습니다.
+PHPickerView를 사용함으로서 multi Select가 가능해졌기 때문에 여러장의 사진을 한번에 가져올 수 있었습니다. 
+- 💡 먼저 `PHPickerConfiguratin` 객체를 생성하여 기본적인 configuration을 setup 후 
+`PHPickerViewControllerDelegate`의 `picker(_ picker:, didFinishPicking results:)` 메서드를 구현해주었습니다.
+이미지를 최대 5장까지 선택을 한 후에 가져와야했기때문에 아래 처럼 compacMap을 통해서 가져온 결과들을 가져왔습니다.
+
+```swift
+let itemProvides = results.compactMap { result in
+    return result.itemProvider
+}
+```
+    
+</details>
+
+### ⚙️ UIImagePicker
 <details>
 <summary> 
 펼쳐보기
 </summary>
     
+- 서버에 올릴 상품의 이미지를 PHPickerView를 사용하여 가져왔었습니다.
+하지만 PHPickerView에는 이미지 편집기능이 없었고, iOS14이상의 시뮬레이터에서 분홍색 꽃 이미지를 선택하면 이미지가 로드되지 않는 오류가 있었습니다. 해당 오류는 PHPickerView에서 
+Heic 사진을 선택할 때 발생하는 iOS 시뮬레이터 문제였습니다. 
+분홍색/보라색 꽃 이미지에서만 발생하고 정상 동작하는 다른 모든 이미지는 jpeg이며, heic 사진을 선택할 때 실제 장치에서 잘 작동한다는 자료 내용들을 찾을 수 있었습니다.
+- 때문에 UIImagePicker로 구현 내용을 바꾸기로 하였습니다.
+
+- 💡 먼저 picker라는 UIImagePickerController()객체를 생성후 아래와 같이 기본 setup을 해주었습니다.
+    
+```swift
+picker.sourceType = .photoLibrary
+picker.allowsEditing = true
+```
+그리고 아래와 같이 편집과 원본에 따라 동작을 다르게 구현하였습니다.
+multi Select 동작은 `PHPicker` 와는 달리 사용할 수 없었지만 이미지 이슈 및 이미지 편집 기능을 활욜할 수 있었습니다.
+```swift
+func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    if let image = info[.editedImage] as? UIImage {
+        ...
+    } else {
+        if let image = info[.originalImage] as? UIImage {
+            ...
+        }
+    }
+    ...
+}
+```
+    
 </details>
 
 
-### ⚙️ Multipart/form-Data - 추후 추가
+### ⚙️ Multipart/form-Data
 <details>
 <summary> 
 펼쳐보기
 </summary>
+    
+파일 업로드를 구현할 때, 클라이언트가 파일을 등록해서 전송합니다.
+이때 클라이언트가 보내는 HTTP 메시지는 `Content-Type 속성이 multipart/form-data로 지정`이 되고, 정해진 형식에 따라서 메시지를 인코딩하여 전송하게 됩니다.
+
+이미지 파일도 문자로 이뤄져 있기 때문에 이미지 파일을 스펙에 맞게 문자로 생성해서 HTTP request body에 담아 서버로 전송하게 됩니다. 
+
+<img src="https://i.imgur.com/Sy1RYMj.png" width=220> 
+<img src="https://i.imgur.com/EXwIBsf.png" width=550>
+    
+    
+- 💡  위와 같은 4개의 부분과 형식에 맞춰 구현을 진행하였습니다.
+`request`의 `HeadrField`를 구성 후, 아래와 같이 별도의 메서드를 생성하여 데이터를 형식에 맞게 바꾸고, 이미지 데이터 또한 형식에 맞게 바꾼후 `HttpBody`로 사용하였습니다.
+```swift
+private func convertDataForm(named name: String, value: Data, boundary: String) -> Data {
+        var data = Data()
+        data.appendStringData("--\(boundary)\r\n")
+        data.appendStringData("Content-Disposition: form-data; name=\"\(name)\"\r\n")
+        data.appendStringData("\r\n")
+        data.append(value)
+        data.appendStringData("\r\n")
+        return data
+    }
+     
+private func convertFileDataForm(fieldName: String, fileName: String, mimeType: String, fileData: Data, boundary: String) -> Data {
+        var data = Data()
+        data.appendStringData("--\(boundary)\r\n")
+        data.appendStringData("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+        data.appendStringData("Content-Type: \(mimeType)\r\n\r\n")
+        data.append(fileData)
+        data.appendStringData("\r\n")
+        return data
+}
+```
 
 </details>
 
@@ -358,11 +470,10 @@ if indexPath == collectionView.indexPath(for: cell) {
 - `json`파일의 항목명을 변환하여 모델타입의 변수와 매칭하는 방법이 더 간단하다 판단했습니다. 
 - 현재 프로젝트에서는 키의 갯수가 많이 없었고, 파일이 snakeCase로 되어있었지만, 만약 `Parsing` 할 데이터의 키값이 조금 더 다양했다면 멀티 CodingKey 방법이 적합할 것이라고 생각됩니다.
 - 멀티 CodingKey를 사용하여 Decode 부분에서 메서드 호출에 따라서 어떤 CodingKey를 사용할지 파라메터값으로 전달해주면 더욱 다양한 Case에서 대응이 가능할것이라고 생각합니다.
-
 </details>
 
 ### 🔥 URLComponent 확장과 NetworkRequest enum으로 URL값 구성 
-    
+
 <details>
 <summary> 
 펼쳐보기
@@ -596,8 +707,9 @@ private func clearPriceLabel() {
 </summary>
 
 **문제 👀**
-- 상품등록하는 화면의 `CollectionViewCell`의 이미지 추가 버튼을 누르게 되면 상품등록`ViewController`의 `PHPickerView`가 나타나야 했습니다.
-- 하지만 Cell객체를 `ViewController`내부에서 가지고 있는 부분은 `UICollectionViewDataSource` 프로토콜을 채택받아 생성해야만하는 메서드들 밖에 없었습니다.
+    
+상품등록하는 화면의 `CollectionViewCell`의 이미지 추가 버튼을 누르게 되면 상품등록`ViewController`의 `PHPickerView`가 나타나야 했습니다.
+하지만 Cell객체를 `ViewController`내부에서 가지고 있는 부분은 `UICollectionViewDataSource` 프로토콜을 채택받아 생성해야만하는 메서드들 밖에 없었습니다.
 
 **해결 🔥**
 - Delegate 패턴을 사용하였습니다. Cell 내부에 `buttonDelegate`라는 위임자를 생성해놓았습니다.
@@ -630,7 +742,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 
 </details>
 
-### 🔥 PHPickerView에서 이미지를 가져오고 스택뷰에 추가하는 로직 - 추후 추가
+### 🔥 UIViewController을 확장하여 Alert 재사용 확대
     
 <details>
 <summary> 
@@ -638,10 +750,26 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 </summary>
 
 **문제 👀**
-
+- POST, PATCH, DELETE를 한 후에 서버에서의 응답에 따른 성공 Alert, 오류 Alert를 나타내야 했고, Alert의 Action으로 전화면으로 돌아가거나 현재의 화면에 그대로 머물러 있어야 했습니다.
 
 **해결 🔥**
- 
+UIViewController을 Extension하여 저희가 사용하고자하는 Alert의 형태를 만들었으며, completion을 사용하여 Alert Action 그 이후의 동작도 Custom하게 정의해 줄 수 있었습니다.
+
+```swift
+extension UIViewController {
+    func showAlert(alertText: String, alertMessage: String, completion: (() -> (Void))?) {
+        let alert = UIAlertController(title: alertText, message: alertMessage, preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) {  _ in
+            if let completion = completion {
+                completion()
+            }
+        }
+        alert.addAction(confirm)
+        self.present(alert, animated: true)
+    }
+}
+
+```
 
 </details>
 
@@ -669,3 +797,6 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 - [NSURLCache](https://developer.apple.com/documentation/foundation/nsurlcache/)
 
 - [UIActivityIndicatorView](https://developer.apple.com/documentation/uikit/uiactivityindicatorview/)
+
+- [Data Entry - iOS - Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/patterns/entering-data/)
+
