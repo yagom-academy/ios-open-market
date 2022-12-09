@@ -35,7 +35,6 @@
 - UI요소의 CellIdentifier을 간단히 가져오는 기능을 Extention으로 기능 추가
 - Mock을 통해 URLSessionTest를 구현
 
-
 <br>
 
 ## 💻 개발환경 및 라이브러리
@@ -95,7 +94,7 @@
     -  2022.12.02
         - NetworkManager Delete 구현
 - STEP 3-2
-    - 2022.12.02
+    - 2022.12.02=
         - BaseProductView 구현
         - ProdudctRegisterViewController(상품 등록 화면) 구현
     - 2022.12.05
@@ -189,6 +188,7 @@
 
 ## 📊 UML
 ![OpenMarket](https://user-images.githubusercontent.com/99257965/206636933-1ab21e00-4b18-45ca-8a16-594a5a00db9d.jpg)
+
 
 <br>
 
