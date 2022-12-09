@@ -209,7 +209,7 @@ extension ItemInfomationViewController {
 
                 DispatchQueue.main.async {
                     self.configureView()
-                    self.configureNavigation()
+                    self.configureNavigationItem()
                     self.configureItemInfo()
                     self.configureImageValue()
                 }
