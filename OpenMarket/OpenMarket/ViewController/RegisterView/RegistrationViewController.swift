@@ -9,6 +9,7 @@ import UIKit
 
 final class RegistrationViewController: UIViewController {
     private let registrationView: RegistrationView = RegistrationView()
+    private var selectedImages: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,14 +42,13 @@ final class RegistrationViewController: UIViewController {
         let marketURLSessionProvider = MarketURLSessionProvider()
         let encoder = JSONEncoder()
         let product = createProductFromUserInput()
-        let images = registrationView.selectedImages
         
         guard let productData = try? encoder.encode(product) else { return }
         
         guard let request = marketURLSessionProvider.generateRequest(
             textParameters: ["params": productData],
             imageKey: "images",
-            images: images) else { return }
+            images: selectedImages) else { return }
         
         marketURLSessionProvider.uploadData(request: request) { result in
             switch result {
@@ -120,7 +120,7 @@ extension RegistrationViewController: UICollectionViewDelegate,
                                       UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return registrationView.selectedImages.count + 1
+        return selectedImages.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -133,10 +133,10 @@ extension RegistrationViewController: UICollectionViewDelegate,
         }
         
         switch indexPath.item {
-        case registrationView.selectedImages.count:
+        case selectedImages.count:
             cell.setUpPlusImage()
         default:
-            var image = registrationView.selectedImages[indexPath.item]
+            var image = selectedImages[indexPath.item]
             
             if let data = image.jpegData(compressionQuality: 1),
                Double(NSData(data: data).count) / 1000.0 > 300 {
@@ -157,7 +157,7 @@ extension RegistrationViewController: UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.item == registrationView.selectedImages.count else { return }
+        guard indexPath.item == selectedImages.count else { return }
         showImagePicker()
     }
 }
@@ -177,7 +177,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            guard registrationView.selectedImages.count < 5 else {
+            guard selectedImages.count < 5 else {
             dismiss(animated: true)
             CustomAlert.showAlert(message: "사진은 5장까지만 등록할 수 있습니다", target: self)
             return
@@ -185,7 +185,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate,
         
         guard let image = info[.editedImage] as? UIImage else { return }
         
-        registrationView.selectedImages.append(image)
+        selectedImages.append(image)
         dismiss(animated: true)
         registrationView.imageCollectionView.reloadData()
     }
