@@ -59,7 +59,7 @@ final class RegistrationViewController: UIViewController {
         
         marketURLSessionProvider.uploadData(request: request) { result in
             switch result {
-            case .success(_):
+            case .success:
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
                 }
@@ -71,27 +71,62 @@ final class RegistrationViewController: UIViewController {
     }
     
     private func createProductFromUserInput() -> Product? {
+        guard let name = checkProductNameInput(),
+              let price = checkProductPriceInput(),
+              let discountedPrice = checkProductDiscountedPriceInput(),
+              let stock = checkProductStockInput(),
+              let description = checkProductDescriptionInput() else { return nil }
+        
+        let currency = checkProductCurrencyInput()
+        let product = Product(name: name,
+                              price: price,
+                              currency: currency,
+                              discountedPrice: discountedPrice,
+                              stock: stock,
+                              description: description)
+        
+        return product
+    }
+}
+
+//MARK: - check UserInput is available
+extension RegistrationViewController {
+    private func checkProductNameInput() -> String? {
         guard let name = registrationView.productNameTextField.text,
               name.count >= 3,
               name.count <= 100 else {
             CustomAlert.showAlert(message: "상품명은 3~100자로 입력해 주세요", target: self)
-            return nil }
+            return nil
+        }
         
+        return name
+    }
+    
+    private func checkProductPriceInput() -> Double? {
         guard let priceInput = registrationView.productPriceTextField.text,
               let price = Double(priceInput) else {
             CustomAlert.showAlert(message: "가격을 확인해 주세요", target: self)
-            return nil }
+            return nil
+        }
         
+        return price
+    }
+    
+    private func checkProductDiscountedPriceInput() -> Double? {
         if registrationView.productDiscountPriceTextField.text == nil {
             registrationView.productDiscountPriceTextField.text = "0"
         }
         
         guard let discountedPriceInput = registrationView.productDiscountPriceTextField.text,
-              let discountedPrice = Double(discountedPriceInput),
-              discountedPrice <= price else {
+              let discountedPrice = Double(discountedPriceInput) else {
             CustomAlert.showAlert(message: "할인 가격을 확인해 주세요", target: self)
-            return nil }
+            return nil
+        }
         
+        return discountedPrice
+    }
+    
+    private func checkProductStockInput() -> Int? {
         if registrationView.stockTextField.text == nil {
             registrationView.stockTextField.text = "0"
         }
@@ -99,26 +134,27 @@ final class RegistrationViewController: UIViewController {
         guard let stockInput = registrationView.stockTextField.text,
               let stock = Int(stockInput) else {
             CustomAlert.showAlert(message: "재고 입력을 확인해 주세요", target: self)
-            return nil }
+            return nil
+        }
         
+        return stock
+    }
+    
+    private func checkProductDescriptionInput() -> String? {
         guard let description = registrationView.textView.text,
               description.count >= 10,
               description.count <= 1000 else {
             CustomAlert.showAlert(message: "상세내용은 10~1000자 이내로 입력해야 합니다", target: self)
-            return nil }
-        
-        let currency = registrationView.currencySegmentControl.selectedSegmentIndex == 0
+            return nil
+        }
+
+        return description
+    }
+    
+    private func checkProductCurrencyInput() -> Currency {
+        return registrationView.currencySegmentControl.selectedSegmentIndex == 0
         ? Currency.krw
         : Currency.usd
-        
-        let product = Product(name: name,
-                              description: description,
-                              price: price,
-                              currency: currency,
-                              discountedPrice: discountedPrice,
-                              stock: stock)
-        
-        return product
     }
 }
 
