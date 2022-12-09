@@ -8,13 +8,13 @@
 import Foundation
 
 protocol URLSessionProtocol {
-    func dataTask(with url: URL,
+    func dataTask(with request: URLRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> MockURLSessionDataTaskProtocol
 }
 
 extension URLSession: URLSessionProtocol {
-    func dataTask(with url: URL,
+    func dataTask(with request: URLRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> MockURLSessionDataTaskProtocol {
-        return dataTask(with: url, completionHandler: completionHandler) as URLSessionDataTask
+        return dataTask(with: request, completionHandler: completionHandler) as URLSessionDataTask
     }
 }

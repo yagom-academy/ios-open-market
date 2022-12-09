@@ -25,7 +25,7 @@ final class MarketGridViewController: UIViewController {
         
         guard let url = Request.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
         
-        marketURLSessionProvider.fetchData(url: url) { result in
+        marketURLSessionProvider.fetchData(request: URLRequest(url: url)) { result in
             switch result {
             case .success(let data):
                 guard let marketData = JSONDecoder.decodeFromSnakeCase(type: Market.self,

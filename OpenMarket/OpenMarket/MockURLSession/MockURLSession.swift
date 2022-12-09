@@ -15,10 +15,14 @@ final class MockURLSession: URLSessionProtocol {
         self.isRequestFail = isRequestFail
     }
     
-    func dataTask(with url: URL,
+    func dataTask(with request: URLRequest,
                   completionHandler: @escaping (Data?,
                                                 URLResponse?,
                                                 Error?) -> Void) -> MockURLSessionDataTaskProtocol {
+        guard let url = request.url else {
+            return MockURLSessionDataTask()
+        }
+        
         let successResponse = MockHTTPURLResponse(url: url,
                                                   statusCode: 200,
                                                   httpVersion: "2",

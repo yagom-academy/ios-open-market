@@ -15,8 +15,9 @@ final class MarketURLSessionProvider {
         self.session = session
     }
     
-    func fetchData(url: URL, completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        let dataTask = session.dataTask(with: url) { data, response, error in
+    func fetchData(request: URLRequest,
+                   completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
+        let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return completionHandler(.failure(.requestFailError))
             }
@@ -37,10 +38,8 @@ final class MarketURLSessionProvider {
         dataTask.resume()
     }
     
-    func uploadProduct(request: URLRequest,
-                       completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let session = session as? URLSession else { return }
-        
+    func uploadData(request: URLRequest,
+                    completionHandler: @escaping (Result<Data, NetworkError>) -> Void) {
         let dataTask = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return completionHandler(.failure(.requestFailError))

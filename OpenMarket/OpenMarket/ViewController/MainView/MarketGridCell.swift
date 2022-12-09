@@ -119,8 +119,9 @@ final class MarketGridCell: UICollectionViewCell {
             productImage.image = cachedImage
         } else {
             guard let imageUrl = URL(string: thumbnailUrl) else { return }
+            let request = URLRequest(url: imageUrl)
             
-            session.fetchData(url: imageUrl) { result in
+            session.fetchData(request: request) { result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async {

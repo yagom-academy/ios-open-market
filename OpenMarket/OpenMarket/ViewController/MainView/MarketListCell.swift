@@ -122,7 +122,7 @@ final class MarketListCell: UICollectionViewListCell {
         } else {
             guard let imageUrl = URL(string: thumbnailUrl) else { return }
             
-            session.fetchData(url: imageUrl) { result in
+            session.fetchData(request: URLRequest(url: imageUrl)) { result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async {

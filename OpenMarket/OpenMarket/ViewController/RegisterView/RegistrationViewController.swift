@@ -50,7 +50,7 @@ final class RegistrationViewController: UIViewController {
             imageKey: "images",
             images: images) else { return }
         
-        marketURLSessionProvider.uploadProduct(request: request) { result in
+        marketURLSessionProvider.uploadData(request: request) { result in
             switch result {
             case .success(_):
                 DispatchQueue.main.async {
