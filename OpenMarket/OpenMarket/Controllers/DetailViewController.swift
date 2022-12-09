@@ -2,7 +2,7 @@
 //  DetailViewController.swift
 //  OpenMarket
 //
-//  Created by parkhyo on 2022/12/08.
+//  Created by Kyo, LJ on 2022/12/08.
 //
 
 import UIKit
@@ -15,8 +15,9 @@ final class DetailViewController: UIViewController {
     var productID: Int?
     var cellImages: [UIImage] = []
     
-    init(id: Int) {
+    init(id: Int, data: Product?) {
         super.init(nibName: nil, bundle: nil)
+        productData = data
         productID = id
     }
     
@@ -27,8 +28,11 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = detailView
+        detailView.collectionView.delegate = self
+        detailView.collectionView.dataSource = self
         setupData()
         setupNavigationBar()
+        bindingData(productData)
     }
 }
 
@@ -125,5 +129,28 @@ extension DetailViewController {
 extension DetailViewController {
     private func bindingData(_ data: Product?) {
         // 추후 구현
+        guard let data = data else { return }
+        detailView.bindProductData(product: data)
+    }
+}
+
+// MARK: - Extension UICollectionView
+extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return cellImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as? ImageCollectionViewCell else {
+            let errorCell = UICollectionViewCell()
+            return errorCell
+        }
+        
+        if indexPath.item != cellImages.count {
+            let view = cell.createImageView()
+            view.image = cellImages[indexPath.item]
+            cell.stackView.addArrangedSubview(view)
+        }
+        return cell
     }
 }
