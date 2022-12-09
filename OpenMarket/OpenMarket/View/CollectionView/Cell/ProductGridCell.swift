@@ -10,7 +10,7 @@ import UIKit
 final class ProductGridCell: UICollectionViewCell {
     //MARK: - Views
     private let thumbnailImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
+        let imageView: UIImageView = .init()
         
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ final class ProductGridCell: UICollectionViewCell {
         return imageView
     }()
     private let nameLabel: UILabel = {
-        let label: UILabel = UILabel()
+        let label: UILabel = .init()
         
         label.font = UIFont.preferredFont(forTextStyle: .title3,
                                           compatibleWith: UITraitCollection.init(preferredContentSizeCategory: .large))
@@ -30,10 +30,10 @@ final class ProductGridCell: UICollectionViewCell {
         
         return label
     }()
-    private let stockLabel: StockLabel = StockLabel()
-    private let priceLabel: PriceLabel = PriceLabel()
+    private let stockLabel: StockLabel = .init()
+    private let priceLabel: PriceLabel = .init()
     private let stackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
+        let stackView: UIStackView = .init()
         
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -43,12 +43,12 @@ final class ProductGridCell: UICollectionViewCell {
         
         return stackView
     }()
-    
     private var product: Product? {
         didSet {
             setUpDataIfNeeded()
         }
     }
+    private var imageParser: ImageParser = ImageParser()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -109,23 +109,30 @@ final class ProductGridCell: UICollectionViewCell {
     }
     
     private func setUpDataIfNeeded() {
-        guard let product: Product = product else {
+        guard let product: Product = product,
+              let bargainPrice: Double = product.bargainPrice else {
             return
         }
         
-        ImageParser.parse(product.thumbnail) { (thumbnailImage) in
-            self.thumbnailImageView.image = thumbnailImage
-        }
         nameLabel.text = product.name
         stockLabel.stock = product.stock
         priceLabel.setPrice(product.price,
-                            bargainPrice: product.bargainPrice,
+                            bargainPrice: bargainPrice,
                             currency: product.currency,
                             style: .grid)
     }
     
+    func setUpImage(from thumbnail: String?) {
+        imageParser.parse(thumbnail) { [weak self] (thumbnailImage) in
+            if self?.product?.thumbnail == thumbnail {
+                self?.thumbnailImageView.image = thumbnailImage
+            }
+        }
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
+        imageParser.cancelTask()
         thumbnailImageView.image = nil
         nameLabel.text = ""
         stockLabel.stock = 0

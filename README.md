@@ -17,7 +17,7 @@
 [Ayaan🦖](https://github.com/oneStar92), [준호](https://github.com/junho15) 의 간단한 마켓기능을 이용할 수 있는 프로젝트 입니다.
 Mordern Collection View 활용하여 LIST와 GRID 형태로 상품 목록 화면을 보여줍니다.
 
-***개발 기간 : 2022-11-14 ~ 2022-11-25***
+***개발 기간 : 2022-11-14 ~ 2022-12-02***
 
 <br>
 
@@ -77,37 +77,52 @@ Mordern Collection View 활용하여 LIST와 GRID 형태로 상품 목록 화면
 - 2022.11.25
     - GridLayout 가변 높이 구현
 
+### Step 3
+
+- 2022.11.29
+    - ProductInformationView 구현
+    - UpdateViewController 구현
+- 2022.11.30
+    - ItemPickerCollectionView 구현
+    - ViewContainer 구현
+    - ImagePickerController 구현
+- 2022.12.02
+    - OpenMarketAPI 구현
+    - NetworkManager 구현
+
 <br>
 
 ## 📊 UML
 
 ### Model
 
-<img src="https://i.imgur.com/YSomJuD.jpg" width="500">
+<img src="https://i.imgur.com/omNAx4w.jpg" width="500">
 
-### URLSession Protocol
+### Network
 
-<img src="https://i.imgur.com/oVURD58.jpg">
+<img src="https://i.imgur.com/ZpuPL5o.jpg" width="500px">
 
 <br>
 
 ## 💻 실행 화면
 
-
-
 |List|Grid|
 |:---:|:---:|
 |<img src="https://i.imgur.com/zbf016U.gif" width="400">|<img src="https://i.imgur.com/OmFmQEU.gif" width="400">|
 
-|LIST GRID 전환|
-|:---:|
-|<img src="https://i.imgur.com/sm69aR6.gif" width="400" height = "450">|
+|LIST GRID 전환|등록 화면|수정 화면|
+|:---:|:---:|:---:|
+|<img src="https://i.imgur.com/sm69aR6.gif" width="200">|추후 작성|추후 작성|
+
+|삭제|페이지 네이션|리스트 새로고침|
+|:---:|:---:|:---:|
+|추후 작성|추후 작성|추후 작성|
 
 <br>
 
 ## 🎯 트러블 슈팅 및 고민
 
-### Decodable Model Property Optional
+### Decodable Model
 |상품 리스트 조회시 아이템|상품 상세 조회시 아이템|
 |:---:|:---:|
 |![](https://i.imgur.com/mnpGzkb.png)|![](https://i.imgur.com/GfPoqcb.png)|
@@ -137,29 +152,40 @@ Mordern Collection View 활용하여 LIST와 GRID 형태로 상품 목록 화면
 
 <br>
 
-### API 통신 기능별 Protocol화
-- URLSession에 API 통신과 관련된 기능을 extension을 통해 구현했었습니다. POP의 관점에서 구현해 보고자하여 기능별로 프로토콜을 만들어서 `URLSession` 이 채택하도록 구현했습니다.
+### Encodable Model
+- OpenMarket API에 POST, PATCH 작업을 수행할 때 JSON Data에 `secret` 또한 입력해 줘야 하는 문제가 생겼습니다.
+- `Product`에 `secret`을 프로퍼티로 소유하는 것은 `Product`의 역활이 아니라고 생각되었습니다. 
+- POST, PATCH만을 위한 Model을 만들어서 해당 문제를 해결하고자 했으나, 이러한 방향성은 올바른 설계가 아니라고 생각되어, `Product`의 `encode(to:)`를 직접 구현해 secret을 같이 encode할 수 있도록해 해당 문제를 해결하였습니다.
 
 <details>
 <summary>코드 보기</summary>
 <div markdown="1">
     
 ```swift
-    extension URLSession: OpenMarketURLSessionProtocol { }
-    extension URLSession: OpenMarketHealthFetchable { }
-    extension URLSession: OpenMarketPageFetchable { }
-    extension URLSession: OpenMarketProductFetchable { }
+    extension Product: Encodable {
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.currency, forKey: .currency)
+            try container.encode(self.price, forKey: .price)
+            try container.encode(self.discountedPrice, forKey: .discountedPrice)
+            try container.encode(self.stock, forKey: .stock)
+            try container.encode("xwxdkq8efjf3947z", forKey: .secret)
+        }
+    }
 ```
-    
+
 </div>
 </details>
 
 <br>
 
-### 중복된 Guard문
-
-- URLSessionDataTask의 CompletionHandler에서 data, response, error에 따른 분기처리를 해주지 않고 data를 처리하는 로직에서 guard문을 이용해 분기처리를 해줌으로써 중복된 코드가 발생하는 부분이 있었습니다.
-- URLSessionDataTask의 CompletionHandler에서 if let을 이용하여 분기 처리를 해주어 중복된 코드를 줄일 수 있었습니다.
+### NetWork 통신 역할
+- URLSession에 API 통신과 관련된 기능을 extension을 통해 구현했었습니다. POP의 관점에서 구현해 보고자하여 기능별로 프로토콜을 만들어서 `URLSession` 이 채택하도록 구현했습니다.
+- 하지만, URLSession이 OpenMarketAPI의 작업들을 메서드로 가지고 있는 것은 URLSession의 역할이 아니라고 생각했습니다.
+- NetworkManager Type이 URLSession을 이용해 네트워크 통신을 하도록 구현했습니다.
+- NetworkManager는 생성될 때 OpenMarketAPI를 주입받으며 그에 따른 네트워크 작업을 수행합니다.
 
 <details>
 <summary>코드 보기</summary>
@@ -167,73 +193,14 @@ Mordern Collection View 활용하여 LIST와 GRID 형태로 상품 목록 화면
     
 ```swift
     // 수정 전
-    private func fetchOpenMarketAPIDataTask(query: String,
-                                            completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        guard let hostURL = URL(string: "https://openmarket.yagom-academy.kr"),
-              let url = URL(string: query, relativeTo: hostURL) else {
-            fatalError()
-        }
-        
-        return self.dataTask(with: url) { (data, response, error) in
-            guard let data = data, error == nil else {
-                completion(nil, response, error)
-                return
-            }
-            completion(data, response, nil)
-        }
-    }
-
-    func checkHealthTask(completion: @escaping (Bool) -> Void) {
-        let query: String = "healthChecker"
-        fetchOpenMarketAPIDataTask(query: query) { (_, response, error) in
-            // 중복된 코드 발생 구간
-            guard error == nil, let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                completion(false)
-                return
-            }
-            // 모든 로직에서 해당 코드가 존재.
-            completion(true)
-        }.resume()
-    }
-
+    extension URLSession: OpenMarketURLSessionProtocol { }
+    extension URLSession: OpenMarketHealthFetchable { }
+    extension URLSession: OpenMarketPageFetchable { }
+    extension URLSession: OpenMarketProductFetchable { }
+    
     // 수정 후
-    func fetchOpenMarketDataTask(query: String,
-                                 completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask? {
-        guard let hostURL = URL(string: host),
-              let url = URL(string: query, relativeTo: hostURL) else {
-            return nil
-        }
-        
-        return self.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                completion(nil, error)
-            } else if (response as? HTTPURLResponse)?.statusCode != 200 {
-                completion(nil, OpenMarketError.badStatus)
-            } else if let data = data {
-                completion(data, nil)
-            } else {
-                completion(nil, nil)
-            }
-        }
-    }
-
-
-    func fetchHealth(completion: @escaping (OpenMarketHealth) -> Void) {
-        let query: String = "healthChecker"
-        
-        fetchOpenMarketDataTask(query: query) { (data, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(.bad)
-            } else if data != nil {
-                completion(.ok)
-            } else {
-                completion(.bad)
-            }
-        }?.resume()
-    }
-
+    struct NetworkManager {
+        let openMarketAPI: OpenMarketAPI
 ```
     
 </div>
@@ -317,6 +284,49 @@ Mordern Collection View 활용하여 LIST와 GRID 형태로 상품 목록 화면
 - GridLayout의 Item과 Group의 높이를 `.fractionalHeight()`로 지정해 주게 되면서 모든 Cell의 높이가 동일하게 설정되었습니다. 하지만 텍스트의 길이가 길어지게되면 텍스트에 줄임말 표시가 생기는 문제가 발생했습니다.
 - Item과 Group의 높이를 `.estimated()`로 지정해 줌으로 해당 문제를 해결했습니다.
 
+### ImagePicker
+- 제품 등록 및 수정에서 이미지를 등록하고, 보여주는 View를 `CollectionView`와 `ScrollView`중 어떤 것을 사용해서 구현할지에 대한 고민을 했습니다.
+
+
+- `CollectionView`
+    - `CollectionView`의 마지막에 `ImagePicker`를 띄어주는 Button이 위치해야 함으로 `footerView`를 이용해 구현하려고 했습니다.
+    - `Section`의 `footerView`는 가로의 끝이 아닌 세로의 끝에만 위치될 수 있는 문제가 있었습니다.
+    - 해당 문제를 해결하고자 마지막 Cell에 `StackView`에 Content에 해당하는 `View`를 담아줌으로써 해당 문제를 해결했습니다.
+
+<details>
+<summary>스크린샷 보기</summary>
+<div markdown="1">
+
+|문제 발생|해결|
+|:---:|:---:|
+|<img src="https://i.imgur.com/iwMdsUD.png" width="200">|<img src="https://i.imgur.com/hhafwQN.png" width="200">|
+    
+</div>
+</details>
+<br>
+
+- `ScrollView`
+    - `ScrollView`에 `StackView`를 위치시키고 `StackView`에 `ImageView`와 `Button`을 `addArrangedSubview()`해주었습니다.
+    - 하지만 `ImageView`와 `Button`에 고유크기를 지정해 주어도 `StackView`에 `addArrangedSubview()`하게되면 지정해준 크기는 무시되고 `StackView`의 정렬기준에 의해 크기가 변경되는 문제가 발생했습니다.
+    - `ImageView`와 `Button`을 `StackView`에 `addArrangedSubview()`해줄때 `Constraint`를 직접 작성해주어 해당 문제를 해결했습니다.
+- `CollectionView`와 `StackView` 중에서 어떤 것을 사용할지 고민하다 두개 다 구현해 봤으며, 최종적으로는 `CollectionView` 를 사용해서 구현했습니다.
+
+<details>
+<summary>스크린샷 보기</summary>
+<div markdown="1">
+
+|문제 발생|해결|
+|:---:|:---:|
+|<img src="https://i.imgur.com/7anNkVz.png" width="200">|<img src="https://i.imgur.com/gKUfwHK.png" width="200">|
+    
+</div>
+</details>
+
+<br>
+
+### Ambiguous Height, Width
+- Cell의 크기가 정적이고 Cell의 content를 StackView에 담게되면 StackView의 subView들 중 어떤 View를 줄이고 늘려야 되는지 모르는 문제가 발생했습니다.
+- `setContentCompressionResistancePriority`와 `setContentHuggingPriority`를 이용해서 Hugging 및 Compression Priority를 조정해여 해결했습니다.
 
 <br>
 
@@ -331,3 +341,6 @@ Mordern Collection View 활용하여 LIST와 GRID 형태로 상품 목록 화면
 - [UICollectionViewCompositionalLayout](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout)
 - [NSCache](https://developer.apple.com/documentation/foundation/nscache)
 - [UIActivityIndicatorView](https://developer.apple.com/documentation/uikit/uiactivityindicatorview)
+- [UIAlertController](https://developer.apple.com/documentation/uikit/uialertcontroller)
+- [UIImagePickerController](https://developer.apple.com/documentation/uikit/uiimagepickercontroller")
+- [MDN](https://developer.mozilla.org/ko/docs/Web/HTTP/Methods/POST)

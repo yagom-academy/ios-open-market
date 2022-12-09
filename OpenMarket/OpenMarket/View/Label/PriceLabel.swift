@@ -22,10 +22,7 @@ final class PriceLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setPrice(_ price: Double,
-                  bargainPrice: Double,
-                  currency: Currency,
-                  style: CollectionViewLayout) {
+    func setPrice(_ price: Double, bargainPrice: Double, currency: Currency, style: CollectionViewLayout) {
         self.price = price
         self.bargainPrice = bargainPrice
         self.currency = currency
@@ -44,31 +41,29 @@ final class PriceLabel: UILabel {
     private func setText(style: CollectionViewLayout) {
         if let price: String = DecimalConverter.convert(price),
            let bargainPrice: String = DecimalConverter.convert(bargainPrice) {
-               let separator: String = style == .list ? " " : "\n"
-               let priceText: String = "\(currency.rawValue) \(price)"
-               let bargainPriceText: String = "\(currency.rawValue) \(bargainPrice)"
-               
-               if price == bargainPrice {
-                   text = "\(bargainPriceText)"
-                   setAttributedString(bargainPriceTextLength: bargainPriceText.count)
-               } else {
-                   text = "\(priceText)\(separator)\(bargainPriceText)"
-                   setAttributedString(priceTextLength: priceText.count,
-                                       bargainPriceTextLength: bargainPriceText.count)
-               }
-           } else {
-               let invalidPrice: String = "Invalid Price"
-               text = invalidPrice
-           }
+            let separator: String = style == .list ? " " : "\n"
+            let priceText: String = "\(currency.rawValue) \(price)"
+            let bargainPriceText: String = "\(currency.rawValue) \(bargainPrice)"
+            
+            if price == bargainPrice {
+                text = "\(bargainPriceText)"
+                setAttributedString(bargainPriceTextLength: bargainPriceText.count)
+            } else {
+                text = "\(priceText)\(separator)\(bargainPriceText)"
+                setAttributedString(priceTextLength: priceText.count,
+                                    bargainPriceTextLength: bargainPriceText.count)
+            }
+        } else {
+            let invalidPrice: String = "Invalid Price"
+            text = invalidPrice
+        }
     }
     
     private func setAttributedString(priceTextLength: Int = 0,
                                      bargainPriceTextLength: Int) {
-        guard let text: String = text else {
-            return
-        }
-        
+        guard let text: String = text else { return }
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: text)
+        
         attributedString.addAttribute(.foregroundColor,
                                       value: UIColor.gray,
                                       range: NSRange(location: 0,

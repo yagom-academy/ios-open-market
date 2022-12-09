@@ -5,7 +5,7 @@
 //  Created by Ayaan, junho on 2022/11/15.
 //
 
-struct ProductImage: Decodable, Hashable {
+struct ProductImage: Codable, Hashable {
     let id: Int
     let url, thumbnailUrl, issuedAt: String
     

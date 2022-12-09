@@ -5,14 +5,16 @@
 //  Created by Ayaan, junho on 2022/11/14.
 //
 
-struct Product: Decodable, Hashable {    
-    let id, vendorID: Int
-    let name, thumbnail: String
+struct Product: Hashable, Decodable {
+    let id, vendorID: Int?
+    let name: String
+    let thumbnail: String?
     let description: String?
     let currency: Currency
-    let price, bargainPrice, discountedPrice: Double
+    let price, discountedPrice: Double
+    let bargainPrice: Double?
     let stock: Int
-    let createdAt, issuedAt: String
+    let createdAt, issuedAt: String?
     let images: [ProductImage]?
     let vendor: Vendor?
     
