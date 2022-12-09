@@ -2,12 +2,12 @@
 //  EditProductViewController.swift
 //  OpenMarket
 //
-//  Created by Wonbi on 2022/12/08.
+//  Created by Gundy, Wonbi on 2022/12/08.
 //
 
 import UIKit
 
-class EditProductViewController: UIViewController {
+final class EditProductViewController: UIViewController {
     private let product: DetailProduct
     private var navigationBarHeight: CGFloat = .zero
     private let networkManager: NetworkManager
@@ -246,7 +246,7 @@ class EditProductViewController: UIViewController {
                 completion()
             }
         }
-        
+
         alert.addAction(action)
         present(alert, animated: true)
     }
@@ -402,7 +402,7 @@ extension EditProductViewController {
     private func highlightTextBounds(_ view: UIView) {
         let highlightedBorderWidth: CGFloat = 1.0
         let cornerRadius: CGFloat = 5
-        
+
         view.layer.borderWidth = highlightedBorderWidth
         view.layer.borderColor = UIColor.systemRed.cgColor
         view.layer.cornerRadius = cornerRadius
@@ -448,26 +448,14 @@ extension EditProductViewController: UICollectionViewDelegate {
     }
 }
 
-extension EditProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let newImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        let numberOfCells = imageCollectionView.numberOfItems(inSection: 0)
-        let cellIndex = IndexPath(item: numberOfCells - 1, section: 0)
-        
-        addImageForCell(indexPath: cellIndex, image: newImage)
-        picker.dismiss(animated: true, completion: nil)
-    }
-}
-
 extension EditProductViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         setNavigationBarHeight()
         let contentOffset = CGPoint(x: 0, y: productStackView.frame.maxY - navigationBarHeight)
         backgroundScrollView.setContentOffset(contentOffset, animated: true)
-        
+
         descriptionTextView.layer.borderWidth = 0.0
-        
+
         if descriptionTextView.text == "상세정보 입력" {
             descriptionTextView.text = nil
             descriptionTextView.textColor = .black
@@ -477,12 +465,12 @@ extension EditProductViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let contentOffset = CGPoint(x: 0, y: -navigationBarHeight)
         backgroundScrollView.setContentOffset(contentOffset, animated: true)
-        
+
         if descriptionTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             descriptionTextView.text = "상세정보 입력"
             descriptionTextView.textColor = .systemGray3
         }
-        
+
         checkCanAddProduct()
     }
 }
@@ -492,7 +480,7 @@ extension EditProductViewController: UITextFieldDelegate {
         setNavigationBarHeight()
         let contentOffset = CGPoint(x: 0, y: imageCollectionView.frame.maxY - navigationBarHeight)
         backgroundScrollView.setContentOffset(contentOffset, animated: true)
-        
+
         textField.layer.borderWidth = 0.0
     }
     
