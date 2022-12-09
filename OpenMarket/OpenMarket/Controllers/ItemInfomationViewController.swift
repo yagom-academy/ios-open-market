@@ -157,7 +157,9 @@ extension ItemInfomationViewController {
         let deleteItemAction = UIAlertAction(title: "삭제", style: .destructive) { action in
             let alertController = UIAlertController(title: "비밀번호 입력", message: "암호", preferredStyle: .alert)
 
-            let okAction = UIAlertAction(title: "입력", style: .destructive) { action in
+            let cancelAction = UIAlertAction(title: "취소", style: .destructive, handler: nil)
+
+            let okAction = UIAlertAction(title: "입력", style: .default) { action in
                 guard let password = alertController.textFields?.first?.text,
                       let itemId = self.itemId else { return }
                 LoadingController.showLoading()
