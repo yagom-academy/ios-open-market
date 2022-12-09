@@ -28,6 +28,13 @@ class ItemInfomationViewController: UIViewController {
         return collectionView
     }()
     
+    let imageIndexLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        return label
+    }()
+    
     let testView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -214,6 +221,7 @@ class ItemInfomationViewController: UIViewController {
         }
         group.notify(queue: DispatchQueue.main) {
             LoadingController.hideLoading()
+            self.imageIndexLabel.text = "1/\(self.itemImages.count)"
             self.collectionView.reloadData()
         }
     }
@@ -221,6 +229,7 @@ class ItemInfomationViewController: UIViewController {
 extension ItemInfomationViewController {
     func abc() {
         self.view.addSubview(collectionView)
+        self.view.addSubview(imageIndexLabel)
         self.view.addSubview(itemlabelStackView)
         self.view.addSubview(descriptionTextView)
         self.itemlabelStackView.addArrangedSubview(itemNameLabel)
@@ -235,7 +244,11 @@ extension ItemInfomationViewController {
             self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             self.collectionView.heightAnchor.constraint(equalTo: self.collectionView.widthAnchor),
             
-            self.itemlabelStackView.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
+            self.imageIndexLabel.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
+            self.imageIndexLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.imageIndexLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            
+            self.itemlabelStackView.topAnchor.constraint(equalTo: self.imageIndexLabel.bottomAnchor),
             self.itemlabelStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             self.itemlabelStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             self.itemlabelStackView.heightAnchor.constraint(equalToConstant: 100),
