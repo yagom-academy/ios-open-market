@@ -23,21 +23,24 @@ final class DetailProductView: UIView {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: imageLayout)
+        collectionView.isPagingEnabled = false
+        collectionView.decelerationRate = .fast
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    let imageLayout: UICollectionViewFlowLayout = {
+    private let imageLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        let collectionCellWidth = UIScreen.main.bounds.width
-        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
+        layout.minimumLineSpacing = 10
+        let collectionCellWidth = UIScreen.main.bounds.width * 0.9
+        let collectionCellHeight = UIScreen.main.bounds.height * 0.4
+        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellHeight)
         return layout
     }()
     
     private func registerCell() {
-        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+        collectionView.register(DetailProductCollectionViewCell.self, forCellWithReuseIdentifier: DetailProductCollectionViewCell.reuseIdentifier)
     }
     
     private let productNameLabel: UILabel = {
@@ -120,22 +123,22 @@ final class DetailProductView: UIView {
 
 // MARK: - Constraints
 extension DetailProductView {
-    func setupUI() {
+    private func setupUI() {
         setupView()
         setupConstraints()
     }
     
-    func setupView() {
+    private func setupView() {
         self.addSubview(collectionView)
         self.addSubview(productStackView)
         self.addSubview(descriptionTextView)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            collectionView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.6),
-            collectionView.heightAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 1),
+            collectionView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9),
+            collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.4),
             collectionView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             
             productStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),

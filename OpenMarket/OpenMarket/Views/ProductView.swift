@@ -114,8 +114,8 @@ class ProductView: UIView {
     }()
     
     func registerCell() {
-        collectionView.register(ImageCollectionViewCell.self,
-                                forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+        collectionView.register(AddProductCollectionViewCell.self,
+                                forCellWithReuseIdentifier: AddProductCollectionViewCell.reuseIdentifier)
     }
     
     @objc func segmentedControlValueChanged(sender: UISegmentedControl) {

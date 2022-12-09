@@ -112,8 +112,8 @@ extension AddViewController: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier,
-            for: indexPath) as? ImageCollectionViewCell
+            withReuseIdentifier: AddProductCollectionViewCell.reuseIdentifier,
+            for: indexPath) as? AddProductCollectionViewCell
         else {
             self.showAlert(alertText: NetworkError.data.description,
                            alertMessage: "오류가 발생했습니다.",

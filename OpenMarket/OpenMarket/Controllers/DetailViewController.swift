@@ -32,7 +32,6 @@ final class DetailViewController: UIViewController {
         detailView.collectionView.dataSource = self
         setupData()
         setupNavigationBar()
-        bindingData(productData)
     }
 }
 
@@ -45,24 +44,15 @@ extension DetailViewController {
             switch result {
             case .success(let product):
                 self.productData = product
-                self.setupCellsImages(data: product)
                 DispatchQueue.main.async {
                     self.title = product.name
+                    self.detailView.bindProductData(product: product)
+                    self.detailView.collectionView.reloadData()
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.showAlert(alertText: error.description, alertMessage: "오류가 발생했습니다.", completion: nil)
                 }
-            }
-        }
-    }
-    
-    private func setupCellsImages(data: Product) {
-        guard let productImages = data.images else { return }
-        
-        productImages.forEach { productImage in
-            networkManager.fetchImage(with: productImage.url) { image in
-                self.cellImages.append(image)
             }
         }
     }
@@ -125,32 +115,55 @@ extension DetailViewController {
     }
 }
 
-// MARK: - Binding Data in View
-extension DetailViewController {
-    private func bindingData(_ data: Product?) {
-        // 추후 구현
-        guard let data = data else { return }
-        detailView.bindProductData(product: data)
+// MARK: - Extension UICollectionView
+extension DetailViewController: UICollectionViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let layout = self.detailView.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+                
+                let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+                
+                let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
+        
+                let tempCG: CGFloat
+                if velocity.x > 0 {
+                    tempCG = ceil(estimatedIndex)
+                } else if velocity.x < 0 {
+                    tempCG = floor(estimatedIndex)
+                } else {
+                    tempCG = round(estimatedIndex)
+                }
+                
+                targetContentOffset.pointee = CGPoint(x: tempCG * cellWidthIncludingSpacing, y: 0)
     }
 }
 
-// MARK: - Extension UICollectionView
-extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellImages.count
+        guard let productImagesCount = productData?.images else { return 0}
+        return productImagesCount.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as? ImageCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailProductCollectionViewCell.reuseIdentifier, for: indexPath) as? DetailProductCollectionViewCell else {
             let errorCell = UICollectionViewCell()
             return errorCell
         }
         
-        if indexPath.item != cellImages.count {
-            let view = cell.createImageView()
-            view.image = cellImages[indexPath.item]
-            cell.stackView.addArrangedSubview(view)
+        guard let productImages = productData?.images else {
+            let errorCell = UICollectionViewCell()
+            return errorCell
         }
+        
+        productImages.forEach { productImage in
+            networkManager.fetchImage(with: productImage.url) { image in
+                self.cellImages.append(image)
+                
+                DispatchQueue.main.async {
+                    cell.uploadImage(self.cellImages[indexPath.item])
+                }
+            }
+        }
+        
         return cell
     }
 }
