@@ -221,10 +221,10 @@ extension NetworkCommunication {
 
             if let response = response as? HTTPURLResponse {
                 if !(200...299).contains(response.statusCode) {
-                    print("PATCH CODE Error : <<(response.statusCode)>>")
+                    print("PATCH CODE Error : <<\(response.statusCode)>>")
                     completionHandler(.failure(.statusCodeError))
                 } else {
-                    completionHandler(.success("PATCH CODE : (response.statusCode)"))
+                    completionHandler(.success("PATCH CODE : \(response.statusCode)"))
                 }
             }
         }

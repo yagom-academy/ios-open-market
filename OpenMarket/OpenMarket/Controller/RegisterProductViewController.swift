@@ -43,35 +43,8 @@ class RegisterProductViewController: UIViewController {
         if mode == "patch" {
             navigationBar.topItem?.title = "상품수정"
             imagePlusButton.isHidden = true
-            
-            for patchImage in patchImages {
-                guard let imageUrl: URL = URL(string: patchImage.thumbnailURL) else { return }
-                networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
-                    switch data {
-                    case .success(let data):
-                        DispatchQueue.main.async {
-                            self?.showImagesWhenPatchMode(data: data)
-                        }
-                    case .failure(let error):
-                        print(error.rawValue)
-                    }
-                }
-            }
-            
-            networkCommunication.requestProductsInformation(
-                url: ApiUrl.Path.detailProduct + String(productID),
-                type: DetailProduct.self
-            ) { [weak self] result in
-                switch result {
-                case .success(let data):
-                    DispatchQueue.main.async {
-                        self?.productData = data
-                        self?.showProductDataWhenPatchMode()
-                    }
-                case .failure(let error):
-                    print(error.rawValue)
-                }
-            }
+            requestImageDataWhenPatchMode()
+            requestDetailDataWhenPatchMode()
         } else {
             imagePlusButton.setTitle("", for: .normal)
         }
@@ -158,6 +131,39 @@ class RegisterProductViewController: UIViewController {
         view.transform = .identity
     }
     
+    private func requestImageDataWhenPatchMode() {
+        for patchImage in patchImages {
+            guard let imageUrl: URL = URL(string: patchImage.thumbnailURL) else { return }
+            networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
+                switch data {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self?.showImagesWhenPatchMode(data: data)
+                    }
+                case .failure(let error):
+                    print(error.rawValue)
+                }
+            }
+        }
+    }
+    
+    private func requestDetailDataWhenPatchMode() {
+        networkCommunication.requestProductsInformation(
+            url: ApiUrl.Path.detailProduct + String(productID),
+            type: DetailProduct.self
+        ) { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self?.productData = data
+                    self?.showProductDataWhenPatchMode()
+                }
+            case .failure(let error):
+                print(error.rawValue)
+            }
+        }
+    }
+    
     private func showImagesWhenPatchMode(data: Data) {
         if let image = UIImage(data: data) {
             let imageView = makeImageView(image: image)
@@ -210,14 +216,14 @@ class RegisterProductViewController: UIViewController {
         }
         
         // 썸네일 ID 전해주는거 수정 (썸네일 이미지 바꾸는거 아직 안함)
-//        requestPatch(productID: productID,
-//                     name: productName,
-//                     description: productDescription,
-//                     thumbnailID: 0,
-//                     price: productPrice,
-//                     currency: productCurrency,
-//                     discountedPrice: productDiscountedPrice,
-//                     stock: productStock)
+        requestPatch(productID: productID,
+                     name: productName,
+                     description: productDescription,
+                     thumbnailID: 0,
+                     price: productPrice,
+                     currency: productCurrency,
+                     discountedPrice: productDiscountedPrice,
+                     stock: productStock)
         
         loadingIndicator.center = view.center
         view.addSubview(loadingIndicator)
@@ -308,15 +314,51 @@ class RegisterProductViewController: UIViewController {
                                              discountPrice: discountPrice,
                                              stock: stock,
                                              secret: secret) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.loadingIndicator.stopAnimating()
+                self?.loadingIndicator.removeFromSuperview()
+            }
             switch result {
             case .success(let statusCode):
                 DispatchQueue.main.async {
-                    self?.loadingIndicator.stopAnimating()
                     self?.resisterProductAlert(message: "\(statusCode):\n 상품이 성공적으로 등록되었습니다.", success: true)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self?.loadingIndicator.stopAnimating()
+                    self?.resisterProductAlert(message: "\(error.rawValue)", success: false)
+                }
+            }
+        }
+    }
+    
+    private func requestPatch(productID: Int,
+                              name: String,
+                              description: String,
+                              thumbnailID: Int,
+                              price: Double,
+                              currency: Currency,
+                              discountedPrice: Double,
+                              stock: Int) {
+        networkCommunication.requestPatchData(url: ApiUrl.Path.detailProduct+String(productID),
+                                              name: name,
+                                              description: description,
+                                              thumbnailID: thumbnailID,
+                                              price: price,
+                                              currency: currency,
+                                              discountedPrice: discountedPrice,
+                                              stock: stock,
+                                              secret: Secret.password) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.loadingIndicator.stopAnimating()
+                self?.loadingIndicator.removeFromSuperview()
+            }
+            switch result {
+            case .success(let statusCode):
+                DispatchQueue.main.async {
+                    self?.resisterProductAlert(message: "\(statusCode):\n 상품이 성공적으로 수정되었습니다.", success: true)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
                     self?.resisterProductAlert(message: "\(error.rawValue)", success: false)
                 }
             }
