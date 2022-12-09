@@ -25,7 +25,8 @@ final class ItemInfomationViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isPagingEnabled = true
-        collectionView.register(ItemImageCollectionViewCell.self, forCellWithReuseIdentifier: "ItemImageCollectionViewCell")
+        collectionView.register(ItemImageCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ItemImageCollectionViewCell.identifier)
         return collectionView
     }()
     
@@ -116,17 +117,15 @@ extension ItemInfomationViewController {
     private func configureItemInfo() {
         guard let item else { return }
         itemNameLabel.text = item.name
+        descriptionTextView.text = item.pageDescription
 
         if item.stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
-
         } else {
             stockLabel.text = "남은 수량 : \(item.stock)"
             stockLabel.textColor = .systemGray
         }
-
-        descriptionTextView.text = item.pageDescription
 
         if item.discountedPrice > 0 {
             priceLabel.attributedText = "\(item.currency.rawValue) \(item.price.formattedString!)".strikeThrough()
@@ -301,7 +300,7 @@ extension ItemInfomationViewController: UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemImageCollectionViewCell", for: indexPath) as! ItemImageCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemImageCollectionViewCell.identifier, for: indexPath) as! ItemImageCollectionViewCell
         cell.imageView.image = itemImages[indexPath.item]
         return cell
     }
