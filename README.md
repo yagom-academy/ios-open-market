@@ -256,6 +256,38 @@ OpenMarket
     - ✅ PHPickerView 구현
     - ✅ Image 표기 시 Image가 변경되는 이슈 해결
 
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+ 1️⃣ RootProductViewController
+ - 상품등록과 상품수정의 공통기능(NavigationItem-cancel버튼,done버튼)을 가진 뷰컨트롤러입니다.
+ - AddViewController와 ModifyViewController가 이 클래스를 상속받아 버튼을 눌렀을 때 alert각각 역할에 맞는 기능을 수행하도록 구현하였습니다.
+ - showView 전역변수를 선언하여 AddViewController에서는 AddProductView를, ModifyViewController에서는 ModifyProductView를 보여주도록 구현하였습니다
+
+ 2️⃣ AddViewController
+ - 상품등록 시 이미지를 첨부하는 기능을 PHPickerView를 활용하여 구현하였습니다.
+ - ImageCollectionViewCellDelegate 프로토콜을 채택하여 등록가능한 최대 이미지개수와 asset타입(이미지, 라이브포토, 비디오)을 이미지만 가능하도록 설정하였습니다.
+
+ 3️⃣ NewProduct
+ 
+ - 상품등록을 위해 POST 할 때 사용하기 위한 타입입니다.
+
+ 4️⃣ NetworkManager - postData(url:newData:completion:), patchData(url:), fetchDeleteDataURI(to: url), deleteProduct(url:)
+ 
+ - postData(url:newData:completion:) : 상품등록할 때 http 메세지를 작성하고, 등록할 상품데이터를 보내주는 메서드입니다.
+ - patchData(url:)` : 상품수정 시 수정할 데이터를 encoding하여 보내주는 메서드입니다.
+ - fetchDeleteDataURI(to: url) : 삭제할 상품의 URI 응답값을 받아오는 메서드입니다. 
+ - deleteProduct(url:) : 삭제할 상품의 URI를 받아온 후 해당 URI를 삭제요청하는 메서드입니다.
+ - UIImage+Extension
+
+ 5️⃣ 이미지 리사이징을 위한 메서드들을 확장하여 구현하였습니다.
+ - compressTo(expectedSizeInKb:) : compressionQuality를 줄여나가는 메서드입니다.
+ - resize(expectedSizeInKb:) : width, height를 줄여나가는 메서드입니다.
+
+ </details>
+ 
 ### 👟 Step 4
 - Alert
     - ✅ 상황에 적합한 Alert 활용
