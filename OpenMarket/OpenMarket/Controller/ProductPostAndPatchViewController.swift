@@ -16,7 +16,7 @@ class ProductPostAndPatchViewController: UIViewController {
         return indicator
     }()
     var imageSet: [UIImage] = []
-    var mode: String = ""
+    var mode: Mode?
     var productID: Int = 0
     var patchImages: [Image] = []
     var productData: DetailProduct?
@@ -40,7 +40,7 @@ class ProductPostAndPatchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if mode == "patch" {
+        if mode == .patch {
             navigationBar.topItem?.title = "상품수정"
             imagePlusButton.isHidden = true
             requestImageDataWhenPatchMode()
@@ -85,7 +85,7 @@ class ProductPostAndPatchViewController: UIViewController {
     }
     
     @IBAction func touchUpDoneBarButtonItem(_ sender: UIBarButtonItem) {
-        if mode == "patch" {
+        if mode == .patch {
             requestPatchProductWhenPatchMode()
         } else {
             postProductWhenRegisterMode()

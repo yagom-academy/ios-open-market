@@ -10,6 +10,7 @@
 		09940CA829398F1100562037 /* ProductPostAndPatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09940CA729398F1100562037 /* ProductPostAndPatchViewController.swift */; };
 		09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09987EB629248D48006B9922 /* NetworkCommunication.swift */; };
 		09CE2749294314B900BF18B3 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE2748294314B900BF18B3 /* ProductDetailViewController.swift */; };
+		09CE8FA62944802B0050A955 /* Mode.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CE8FA52944802B0050A955 /* Mode.swift.swift */; };
 		09D2BC212938A21F009E0895 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D2BC202938A21F009E0895 /* Data+Extensions.swift */; };
 		09D39AF0292DBF020039F1B9 /* CustomCollectionViewListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D39AEF292DBF020039F1B9 /* CustomCollectionViewListCell.xib */; };
 		09D432ED292C6B04003C51A7 /* CustomCollectionViewGridCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib */; };
@@ -50,6 +51,7 @@
 		09940CA729398F1100562037 /* ProductPostAndPatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPostAndPatchViewController.swift; sourceTree = "<group>"; };
 		09987EB629248D48006B9922 /* NetworkCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCommunication.swift; sourceTree = "<group>"; };
 		09CE2748294314B900BF18B3 /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		09CE8FA52944802B0050A955 /* Mode.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift.swift; sourceTree = "<group>"; };
 		09D2BC202938A21F009E0895 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		09D39AEF292DBF020039F1B9 /* CustomCollectionViewListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewListCell.xib; sourceTree = "<group>"; };
 		09D432EC292C6B04003C51A7 /* CustomCollectionViewGridCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewGridCell.xib; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				D292E1CC29431FA7007DEE20 /* CustomCollectionViewPageCell.swift */,
 				D292E1D029435C0D007DEE20 /* PatchRequestParams.swift */,
 				D292E1D229435C3D007DEE20 /* Secret.swift */,
+				09CE8FA52944802B0050A955 /* Mode.swift.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				D292E1D129435C0D007DEE20 /* PatchRequestParams.swift in Sources */,
 				D2AF64A9293F218300CA507F /* ImageCacheManager.swift in Sources */,
 				09987EB729248D48006B9922 /* NetworkCommunication.swift in Sources */,
+				09CE8FA62944802B0050A955 /* Mode.swift.swift in Sources */,
 				09D8602D2928BF8E008FBE56 /* ApiUrl.swift.swift in Sources */,
 				D292E1CD29431FA7007DEE20 /* CustomCollectionViewPageCell.swift in Sources */,
 				09D2BC212938A21F009E0895 /* Data+Extensions.swift in Sources */,

@@ -47,7 +47,7 @@ class ProductDetailViewController: UIViewController {
                 withIdentifier: "registerProductViewController") as? ProductPostAndPatchViewController,
                   let id = self?.productID,
                   let images = self?.detailProductImages else { return }
-            registerProductViewController.mode = "patch"
+            registerProductViewController.mode = .patch
             registerProductViewController.productID = id
             registerProductViewController.patchImages = images
             registerProductViewController.modalPresentationStyle = .fullScreen
