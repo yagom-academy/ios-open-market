@@ -252,6 +252,7 @@ final class OpenMarketViewController: UIViewController {
     }
 }
 
+//MARK: - Action Method
 extension OpenMarketViewController {
     @objc private func showProductRegistrationView() {
         let viewController = ProductRegistrationViewController()
@@ -273,6 +274,7 @@ extension OpenMarketViewController {
     }
 }
 
+//MARK: - CollectionViewDelegate
 extension OpenMarketViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let product = productList?.pages[indexPath.row] else { return }

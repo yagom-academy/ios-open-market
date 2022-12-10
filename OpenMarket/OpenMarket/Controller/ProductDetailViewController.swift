@@ -1,8 +1,7 @@
 //
 //  ProductDetailViewController.swift
 //  OpenMarket
-//
-//  Created by 유제민 on 2022/12/09.
+//  Created by inho, Hamo, Jeremy on 2022/12/9.
 //
 
 import UIKit
@@ -22,6 +21,7 @@ class ProductDetailViewController: UIViewController {
     }
 }
 
+//MARK: - Action Method
 extension ProductDetailViewController {
     @objc func showActionSheet() {
         

@@ -65,6 +65,7 @@ final class ProductRegistrationViewController: UIViewController {
     }
 }
 
+//MARK: - CollectionViewDataSource
 extension ProductRegistrationViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -97,6 +98,7 @@ extension ProductRegistrationViewController: UICollectionViewDataSource {
     }
 }
 
+//MARK: - CollectionViewDelegateFlowLayout
 extension ProductRegistrationViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -123,6 +125,7 @@ extension ProductRegistrationViewController: UICollectionViewDelegateFlowLayout 
     }
 }
 
+//MARK: - ImagePickerControllerDelegate
 extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -135,6 +138,7 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
     }
 }
 
+//MARK: - Action Method
 extension ProductRegistrationViewController {
     @objc private func cancelRegistration() {
         dismiss(animated: true)

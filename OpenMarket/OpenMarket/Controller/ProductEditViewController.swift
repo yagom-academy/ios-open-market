@@ -22,12 +22,12 @@ final class ProductEditViewController: UIViewController {
     init(product: ProductData) {
         identifier = product.identifier
         let product = PostProduct(name: product.name,
-                              description: product.description ?? "",
-                              price: product.price,
-                              currency: product.currency,
-                              discountedPrice: product.discountedPrice,
-                              stock: product.stock,
-                              secret: "9vqf2ysxk8tnhzm9")
+                                  description: product.description ?? "",
+                                  price: product.price,
+                                  currency: product.currency,
+                                  discountedPrice: product.discountedPrice,
+                                  stock: product.stock,
+                                  secret: "9vqf2ysxk8tnhzm9")
         productEditView = ProductFormView(product: product)
         productEditView.imagesCollectionView.register(RegistrationImageCell.self,
                                                       forCellWithReuseIdentifier: RegistrationImageCell.identifier)
@@ -48,7 +48,10 @@ final class ProductEditViewController: UIViewController {
                 guard let images = productData.images else { return }
                 self.images = images
             case .failure(let error):
-                print(error)
+                guard let error = error as? NetworkError else { return }
+                DispatchQueue.main.async {
+                    self.present(self.errorManager.createAlert(error: error),                 animated: true)
+                }
             }
         }
     }
@@ -75,6 +78,7 @@ final class ProductEditViewController: UIViewController {
     }
 }
 
+//MARK: - CollectionViewDelegateFlowLayout
 extension ProductEditViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -101,6 +105,7 @@ extension ProductEditViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK: - CollectionViewDataSource
 extension ProductEditViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -133,6 +138,7 @@ extension ProductEditViewController: UICollectionViewDataSource {
     }
 }
 
+//MARK: - Action Method
 extension ProductEditViewController {
     @objc private func cancelRegistration() {
         dismiss(animated: true)
