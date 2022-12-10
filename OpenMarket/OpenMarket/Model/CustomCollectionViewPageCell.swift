@@ -19,13 +19,19 @@ class CustomCollectionViewPageCell: UICollectionViewCell {
     }
 
     func configureCell(image: Image, index: Int, totalCount: Int) {
-        if let url = URL(string: image.thumbnailURL) {
-            imageOrderLabel.text = "\(index+1)/\(totalCount)"
+        imageOrderLabel.text = "\(index+1)/\(totalCount)"
+        let imageCacheKey = NSString(string: image.thumbnailURL)
+        if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
+            productImage.image = imageCacheValue
+            
+        } else if let url = URL(string: image.thumbnailURL) {
             networkCommunication.requestImageData(url: url) { [weak self] data in
                 switch data {
                 case .success(let data):
                     DispatchQueue.main.async {
                         self?.productImage.image = UIImage(data: data)
+                        guard let image = UIImage(data: data) else { return }
+                        ImageCacheManager.shared.setObject(image, forKey: imageCacheKey)
                     }
                 case .failure(let error):
                     print(error.rawValue)
