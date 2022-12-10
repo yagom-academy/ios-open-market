@@ -9,6 +9,7 @@ import UIKit
 final class ProductRegistrationViewController: UIViewController {
     private let networkManager = NetworkManager()
     private let errorManager = ErrorManager()
+    private let imageDataManager = ImageDataManager()
     private let productRegistrationView = ProductFormView()
     private let boundary = "Boundary-\(UUID().uuidString)"
     private let imagePicker: UIImagePickerController = {
@@ -135,60 +136,6 @@ extension ProductRegistrationViewController: UIImagePickerControllerDelegate, UI
 }
 
 extension ProductRegistrationViewController {
-    private func configureRequest() -> URLRequest? {
-        guard let url = URL(string: "https://openmarket.yagom-academy.kr/api/products") else {
-            return nil
-        }
-        var request = URLRequest(url: url)
-        
-        request.httpMethod = "POST"
-        request.setValue("3595be32-6941-11ed-a917-b17164efe870",
-                         forHTTPHeaderField: "identifier")
-        request.setValue("multipart/form-data; boundary=\(boundary)",
-                         forHTTPHeaderField: "Content-Type")
-        
-        return request
-    }
-    
-    private func configureRequestBody(_ product: PostProduct, _ images: [UIImage]) -> Data? {
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        guard let productData = try? encoder.encode(product) else {
-            return nil
-        }
-        
-        var data = Data()
-        data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
-        data.append(productData)
-        data.appendString("\r\n")
-        
-        images.forEach { image in
-            let convertedImage = image.resizeImage(maxByte: 300000)
-            
-            data.append(convertImageData(convertedImage,
-                                         fileName: "inho.png",
-                                         mimeType: "image/png"))
-        }
-        
-        data.appendString("\r\n--\(boundary)--\r\n")
-        
-        return data
-    }
-    
-    private func convertImageData(_ image: Data, fileName: String, mimeType: String) -> Data {
-        var data = Data()
-        data.appendString("--\(boundary)\r\n")
-        data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(fileName)\"\r\n")
-        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
-        data.append(image)
-        data.appendString("\r\n")
-        
-        return data
-    }
-}
-
-extension ProductRegistrationViewController {
     @objc private func cancelRegistration() {
         dismiss(animated: true)
     }
@@ -246,8 +193,12 @@ extension ProductRegistrationViewController {
                                       stock: stock,
                                       secret: "9vqf2ysxk8tnhzm9")
             
-            guard let data = configureRequestBody(product, images),
-                  let request = configureRequest()
+            let imageData = imageDataManager.convertImageData(images,
+                                                              fileName: UUID().uuidString,
+                                                              mimeType: "image/jpeg", boundary)
+            
+            guard let data = networkManager.configureRequestBody(product, imageData, boundary),
+                  let request = networkManager.configureRequest(boundary)
             else {
                 return
             }
@@ -274,33 +225,5 @@ extension ProductRegistrationViewController {
         
         images.remove(at: indexPath.item)
         productRegistrationView.imagesCollectionView.reloadData()
-    }
-}
-
-fileprivate extension Data {
-    mutating func appendString(_ input: String) {
-        if let input = input.data(using: .utf8) {
-            self.append(input)
-        }
-    }
-}
-
-fileprivate extension UIImage {
-    func resizeImage(maxByte: Int) -> Data {
-        var compressQuality: CGFloat = 1
-        var imageData = Data()
-        var imageByte = self.jpegData(compressionQuality: 1)?.count
-        
-        while imageByte! > maxByte {
-            guard let jpegData = self.jpegData(compressionQuality: compressQuality) else {
-                return imageData
-            }
-            
-            imageData = jpegData
-            imageByte = self.jpegData(compressionQuality: compressQuality)?.count
-            compressQuality -= 0.1
-        }
-        
-        return imageData
     }
 }
