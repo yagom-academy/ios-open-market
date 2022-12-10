@@ -17,6 +17,7 @@
   - `URLSession`, `Codable`, `JsonDecoder`, `GCD`
   - `@escaping` `URLSessionDataTask`, `generic function`
   - `Result<Success, Failure>`, `UICollectionView`
+  - `UICollectionViewCompositionalLayout`, `UICollectionViewFlowLayout`
   - `multipart/form-data`, `UIImagePickerController`
   - `NotificationCenter`, `NSCache`, `FileManager`
 
@@ -36,8 +37,9 @@
 ├── OpenMarket
 │   ├── AppDelegate.swift
 │   ├── Controller
-│   │   ├── RegisterProductViewController.swift
-│   │   └── ViewController.swift
+│   │   ├── ProductDetailViewController.swift
+│   │   ├── ProductListViewController.swift
+│   │   └── ProductPostAndPatchViewController.swift
 │   ├── Info.plist
 │   ├── Model
 │   │   ├── APIError.swift.swift
@@ -52,11 +54,16 @@
 │   │   │       ├── Contents.json
 │   │   │       └── step1_testdata.json
 │   │   ├── CustomCollectionViewCell.swift
+│   │   ├── CustomCollectionViewPageCell.swift
 │   │   ├── Data+Extensions.swift
 │   │   ├── DetailProduct.swift
+│   │   ├── ImageCacheManager.swift
+│   │   ├── Mode.swift.swift
 │   │   ├── NetworkCommunication.swift
+│   │   ├── PatchRequestParams.swift
 │   │   ├── PostRequestParams.swift
 │   │   ├── SearchListProducts.swift
+│   │   ├── Secret.swift
 │   │   └── TestJsonProducts.swift
 │   ├── SceneDelegate.swift
 │   └── View
@@ -64,7 +71,8 @@
 │       │   ├── LaunchScreen.storyboard
 │       │   └── Main.storyboard
 │       ├── CustomCollectionViewGridCell.xib
-│       └── CustomCollectionViewListCell.xib
+│       ├── CustomCollectionViewListCell.xib
+│       └── CustomCollectionViewPageCell.xib
 ```
  
 ## ⏰ 타임라인
@@ -125,9 +133,33 @@
     
 </details>
 
+<details>
+<summary>Step 4 타임라인</summary>
+    
+- **22/12/09**
+    - 상품상세화면 UI 구현
+    - CustomCollectionViewPageCell 구현 및 flowlayout 적용
+    - 상품수정화면 UI 구현
+    - API서버의 데이터를 PATCH 할수있도록 구현 
+    - 패스워드 입력 가능한 알람 구현
+    - 고유삭제주소를 가져오기위한 POST 구현
+    - API서버의 데이터를 DELETE 할수있도록 구현
+
+- **22/12/10**
+    - 상품상세화면 및 수정화면에 메모리캐시 적용
+    - 갖가지 버그와 오토레이아웃 수정 및 컨벤션 정리
+    
+</details>
+
 ## 📱 실행 화면
 
-step4 구현 후 추가예정입니다.
+|List&GridCell|상품등록|
+|:--:|:--:|
+|![Simulator Screen Recording - iphone 11 - 2022-12-10 at 18 04 46](https://user-images.githubusercontent.com/96489602/206843215-e72b9dbd-7aa7-48f4-8749-4a9aa7a1dea5.gif)[](https://i.imgur.com/A1SFfVz.gif)|![Simulator Screen Recording - iphone 11 - 2022-12-10 at 18 17 06](https://user-images.githubusercontent.com/96489602/206843233-99c9bc22-78a9-41c7-b7f5-9b453135806e.gif)|
+|**상품수정**|**상품삭제**|
+|![Simulator Screen Recording - iphone 11 - 2022-12-10 at 18 20 25](https://user-images.githubusercontent.com/96489602/206843241-f26236dc-64ea-4227-9885-762e11d36ac6.gif)|![Simulator Screen Recording - iphone 11 - 2022-12-10 at 18 31 29](https://user-images.githubusercontent.com/96489602/206843681-e97a137b-fa7b-47db-9c4c-551a987d2434.gif)|
+
+
 
 ## 👀 고민한 점
 
@@ -156,22 +188,28 @@ step4 구현 후 추가예정입니다.
     - 고민해보니 ResisterProductViewController에서 dismiss 메서드를 통해 ViewController로 돌아오면 viewWillAppear(:) 메서드가 실행되었고 해당 메서드가 호출 될 시점에 상품 리스트 데이터를 GET해오는 것으로 셀을 업데이트 해줄 수 있었습니다.
 
 - API 문서를 해석하며 swift에 어떻게 구현할지에 대한 고민
-    1. 문서를 읽으며, Content-Type, Mime-Type, multipart/formdata, application/json, application/x-www-form-urlencoded, httpMethod 등 생소한 단어들이 많았습니다.
-    2. MDN 및 공식문서, 기타 블로그 등을 참고하여 해당 용어의 의미를 찾아보려고 노력했습니다.
-    3. 해당 용어에 대해 이해한 후에는 PostMan을 이용하여 데이터를 어떻게 주고 받는지 테스트를 시도해보았습니다.
-    4. API 통신으로 데이터를 어떻게 주고 받는지 이해한 후 오픈소스나 강의영상, 등 갖가지 매체를 통해 swift 환경에서 어떻게 적용하고 구현해야할지 찾아보았습니다.
+    - 문서를 읽으며, Content-Type, Mime-Type, multipart/formdata, application/json, application/x-www-form-urlencoded, httpMethod 등 생소한 단어들이 많았습니다.
+    - MDN 및 공식문서, 기타 블로그 등을 참고하여 해당 용어의 의미를 찾아보려고 노력했습니다.
+    - 해당 용어에 대해 이해한 후에는 PostMan을 이용하여 데이터를 어떻게 주고 받는지 테스트를 시도해보았습니다.
+    - API 통신으로 데이터를 어떻게 주고 받는지 이해한 후 오픈소스나 강의영상, 등 갖가지 매체를 통해 swift 환경에서 어떻게 적용하고 구현해야할지 찾아보았습니다.
 
 - 키보드가 올라올때, 화면을 보여주는 방식에 대한 고민
-    1. 사용자가 데이터를 입력하려고 할때 키보드가 올라오게되는데 키보드 위의 화면은 어디로 어떻게 사용자에게 보여줄지 고민했습니다.
-    2. textField부분은 4가지가 모여있고 textView는 하나만 구성되어 있기 때문에 textField를 터치했을경우랑 textView를 터치했을경우 두가지로 구분했습니다.
-    3. textField를 터치했을 경우 입력할 정보가 많기 때문에 입력란에 신경을 쓸 수 있도록 y축을 이동시켰습니다.
-    4. textView를 터치했을 경우 키보드가 정보를 가리지 않게 y축을 이동했습니다.
+    - 사용자가 데이터를 입력하려고 할때 키보드가 올라오게되는데 키보드 위의 화면은 어디로 어떻게 사용자에게 보여줄지 고민했습니다.
+    - textField부분은 4가지가 모여있고 textView는 하나만 구성되어 있기 때문에 textField를 터치했을경우랑 textView를 터치했을경우 두가지로 구분했습니다.
+    - textField를 터치했을 경우 입력할 정보가 많기 때문에 입력란에 신경을 쓸 수 있도록 y축을 이동시켰습니다.
+    - textView를 터치했을 경우 키보드가 정보를 가리지 않게 y축을 이동했습니다.
 
 |초기화면|텍스트필드 입력|텍스트뷰 입력|
 |:--:|:--:|:--:|
 ![](https://i.imgur.com/qNtIytz.png)|![](https://i.imgur.com/3k4DaAV.png)|![](https://i.imgur.com/GPKSbfA.png)|
     
-</details>
+### Step 4
+
+- 상세화면에 이미지나 데이터들을 전달하는 방법에 대한 고민
+    - 메인화면에서 셀을 클릭하여 상제화면으로 이동할 때 어떤식으로 이미지와 데이터들을 전달해야 할지 고민해보았습니다.
+    - 처음에 프로퍼티로 값을 전달하면 쉽게 구현할 수 있겠다고 생각했습니다.
+    - 그런데 상세화면에서 수정화면으로 갔다가 값을 수정하고 다시 상세화면으로 돌아왔을 때, 수정된 값으로 갱신되지 않을거라는 생각을 하게 되었습니다.
+    - 그래서 productID만 전달하여 그 ID값으로 API통신으로 값을 받아 올 수 있게 설계하였습니다.
 
 ## ❓ 트러블 슈팅
 
@@ -180,23 +218,23 @@ step4 구현 후 추가예정입니다.
 <details>
     <summary>parsing 모델 타입 구현</summary>
 
-Asset에 저장된 json파일을 파싱하는 타입과 API서버와 통신하여 가져오는 json을 파싱하는 타입을 구현할때 오타가 있었습니다.  
-단위 테스트를 통해 오타가 있었다는것을 뒤늦게 확인할수있었습니다.  
-json파일에 매칭해야할 자료형이 많을수록 오타가 나올 확률이 높을것이란 생각이 들었습니다.  
-[json을 swift모델로 바꿔주는사이트](https://app.quicktype.io/)  
+- Asset에 저장된 json파일을 파싱하는 타입과 API서버와 통신하여 가져오는 json을 파싱하는 타입을 구현할때 오타가 있었습니다.  
+- 단위 테스트를 통해 오타가 있었다는것을 뒤늦게 확인할수있었습니다.  
+- json파일에 매칭해야할 자료형이 많을수록 오타가 나올 확률이 높을것이란 생각이 들었습니다.  
+- [json을 swift모델로 바꿔주는사이트](https://app.quicktype.io/)  
 이 사이트를 이용해서 json파일을 swift 모델로 바꾸어서 사용했습니다.  
-시간도 절약하고 오타를 유발할일이 없기때문에 유용하게 이용했습니다.  
+- 시간도 절약하고 오타를 유발할일이 없기때문에 유용하게 이용했습니다.  
     
 </details>
 
 <details>
 <summary>Metatype & Generic함수를 활용하여 중복되는 코드 해결 </summary>
 
-통신해야할 네트워킹요소가 3가지(`GET:Application HealthChekcer`, `GET:상품리스트조회` ,`GET상품 상세 조회`)이며, 디코딩해야하는 요소는 2가지 였습니다.  
-따라서, 통신요소에 따라서 너무 많은 중복코드가 발생했고 이를 보완하려고 고민했습니다. 
-하지만, JSONDecoder의 .decode 메서드는 `Decodable` 프로토콜을 준수하는 `타입자체`를 파라미터값으로 전달해주어야만 했습니다.  
-우리는 `타입자체`를 어떻게 함수의 `Placeholder`로 활용할 지 고민하였습니다.  
-결과적으로 제네릭과 메타타입을 공부하여 타입자체(메타타입)을 파라미터값과 Placehorder로 전달하여 이를 해결했습니다. 
+- 통신해야할 네트워킹요소가 3가지(`GET:Application HealthChekcer`, `GET:상품리스트조회` ,`GET상품 상세 조회`)이며, 디코딩해야하는 요소는 2가지 였습니다.  
+- 따라서, 통신요소에 따라서 너무 많은 중복코드가 발생했고 이를 보완하려고 고민했습니다. 
+- 하지만, JSONDecoder의 .decode 메서드는 `Decodable` 프로토콜을 준수하는 `타입자체`를 파라미터값으로 전달해주어야만 했습니다.  
+- 우리는 `타입자체`를 어떻게 함수의 `Placeholder`로 활용할 지 고민하였습니다. 
+- 결과적으로 제네릭과 메타타입을 공부하여 타입자체(메타타입)을 파라미터값과 Placehorder로 전달하여 이를 해결했습니다. 
 
 ```swift
 JSONDecoder().decode(type: Decodable을 준수하는 타입, from: data)
@@ -208,9 +246,9 @@ JSONDecoder().decode(type: Decodable을 준수하는 타입, from: data)
 <details>
 <summary>NSCache의 한계</summary>
     
-처음에 NSCache를 이용해서 각 셀의 이미지를 구현을했었습니다.  
-그런데 앱을 종료했다 키면 저장된 캐쉬데이터들이 사라져서 실행할때마다 모든 이미지들이 다 보이기까지 시간이 걸려서 비록 긴시간은 아니지만 조금이라도 기다려야하는 불편한 상황을 경험해야했습니다.  
-NSCache는 Memory Cache영역에 저장되기때문에 발생하게 된 문제인데 이를 해결하기 위해 FileManager로 Disk Cache영역에 저장하는 방식으로 바꾸었습니다. Disk Cache 영역은 앱을 종료했다 켜도 지워지지않는 영역이기때문에 처음 의도한대로 구현할수있었습니다. 
+- 처음에 NSCache를 이용해서 각 셀의 이미지를 구현을했었습니다.  
+- 그런데 앱을 종료했다 키면 저장된 캐쉬데이터들이 사라져서 실행할때마다 모든 이미지들이 다 보이기까지 시간이 걸려서 비록 긴시간은 아니지만 조금이라도 기다려야하는 불편한 상황을 경험해야했습니다.  
+- NSCache는 Memory Cache영역에 저장되기때문에 발생하게 된 문제인데 이를 해결하기 위해 FileManager로 Disk Cache영역에 저장하는 방식으로 바꾸었습니다. - Disk Cache 영역은 앱을 종료했다 켜도 지워지지않는 영역이기때문에 처음 의도한대로 구현할수있었습니다. 
     
 </details>
 
@@ -230,11 +268,11 @@ NSCache는 Memory Cache영역에 저장되기때문에 발생하게 된 문제�
 <details>
 <summary>multipart/form-data 구조 파악</summary>
     
-HTTP Request 구조에서 Content-Type중 multipart/form-data의 구조를 처음에 파악하기가 어려웠습니다.  
-가장 기본적이고 많이 쓰이는 application/x-www-form-urlencoded, application/json Content-Type과 무엇이 다른지 하나씩 비교해보면서 학습했습니다.  
-구조를 완전히 이해하는데 2-3일이 걸려 프로젝트에 착수하는데 시간이 많이 부족했었습니다.  
-HTTP Request 구조를 처음 접해보았고 multipart/form-data란 친구를 만났을때 사용 예시를 보고 당황했습니다.  
-이걸 내가 이해할수있을까 걱정되었지만 이해하려고 노력하고 공부하다보면 언젠간 결국 해내게 되는구나라는 깨달음을 얻게 되었습니다.  
+- HTTP Request 구조에서 Content-Type중 multipart/form-data의 구조를 처음에 파악하기가 어려웠습니다.  
+- 가장 기본적이고 많이 쓰이는 application/x-www-form-urlencoded, application/json Content-Type과 무엇이 다른지 하나씩 비교해보면서 학습했습니다.  
+- 구조를 완전히 이해하는데 2-3일이 걸려 프로젝트에 착수하는데 시간이 많이 부족했었습니다.  
+- HTTP Request 구조를 처음 접해보았고 multipart/form-data란 친구를 만났을때 사용 예시를 보고 당황했습니다.  
+- 이걸 내가 이해할수있을까 걱정되었지만 이해하려고 노력하고 공부하다보면 언젠간 결국 해내게 되는구나라는 깨달음을 얻게 되었습니다.  
 
 </details>
 
@@ -252,9 +290,9 @@ HTTP Request 구조를 처음 접해보았고 multipart/form-data란 친구를 �
 <details>
 <summary>이미지를 캐싱하는 여러 방법</summary>
 
-1. 기존에는 메모리캐시와 디스크캐시영역 중 어느걸 사용할지 고민해서 디스크캐시영역을 선택하여 구현했습니다.
-2. 이후에 메모리캐시와 디스크캐시 둘 다 동시에 구현할 수 있다고 듣게 되어서 왜 처음에 둘 다 구현할 생각을 하지 못했을까 하는 깨우침을 얻었습니다. 
-3. 어떻게 구현하면 좋을지 고민 해 본 결과, 앱을 실행 할 때 이와같은 순서로 작동할 수 있게 구성했습니다.
+- 기존에는 메모리캐시와 디스크캐시영역 중 어느걸 사용할지 고민해서 디스크캐시영역을 선택하여 구현했습니다.
+- 이후에 메모리캐시와 디스크캐시 둘 다 동시에 구현할 수 있다고 듣게 되어서 왜 처음에 둘 다 구현할 생각을 하지 못했을까 하는 깨우침을 얻었습니다. 
+- 어떻게 구현하면 좋을지 고민 해 본 결과, 앱을 실행 할 때 이와같은 순서로 작동할 수 있게 구성했습니다.
     (1) 메모리캐쉬에 데이터를 가져온다 없다면 2번으로 이동
     (2) 디스크캐쉬에 데이터를 가져온다 없다면 3번으로 이동, 있다면 추가로 메모리캐쉬에 저장
     (3) 디스크캐쉬에 해당하는 데이터가 없다면 API통신으로 데이터를 받아온다. 그리고 디스크캐쉬와 메모리캐쉬에 저장
@@ -264,6 +302,18 @@ HTTP Request 구조를 처음 접해보았고 multipart/form-data란 친구를 �
 |![networkandmemory](https://user-images.githubusercontent.com/96489602/205856689-dbb21584-19d7-4cae-9e57-8ed76d160127.gif)|![diskandMemory](https://user-images.githubusercontent.com/96489602/205856739-4f8c44cf-fe36-4112-b871-8aa32f94628f.gif)|
     
 </details>
+
+### STEP4
+
+<details>
+<summary>이미지가 엉뚱한이미지로 바뀌는 문제 해결</summary>
+
+- 앱을 처음 실행시킬 때, 정상적인 이미지가 보여야 할 셀에 다른 엉뚱한 이미지가 들어오는것을 확인했습니다.
+- 이 현상이 발생하게 된 이유는 각각의 셀마다 비동기로 이미지를 받아오도록 처리했는데 이미지를 받아오기도 전에 셀이 재사용이되어서 재사용된 셀 위치에 비동기 처리를 끝내고 받아온 이미지를 보여주어서 엉뚱한 이미지가 들어오게 된 것이었습니다. 
+- 그래서 이미지를 비동기로 받아오는 URLSessionDataTask를 셀이  prepareReuse() 메서드에서 재사용될때 캔슬을 하여 해결했습니다.
+
+</details>
+
 
 ## 🔗 참고 링크
 
