@@ -121,34 +121,47 @@ extension DetailViewController {
 
 // MARK: - Extension UICollectionView
 extension DetailViewController: UICollectionViewDelegate {
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        guard let layout = self.detailView.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-                
-                let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-                
-                let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard let productImagesCount = productData?.images else { return }
         
-                let tempCG: CGFloat
-                if velocity.x > 0 {
-                    tempCG = ceil(estimatedIndex)
-                } else if velocity.x < 0 {
-                    tempCG = floor(estimatedIndex)
-                } else {
-                    tempCG = round(estimatedIndex)
-                }
-                
-                targetContentOffset.pointee = CGPoint(x: tempCG * cellWidthIncludingSpacing, y: 0)
+        for cell in detailView.collectionView.visibleCells {
+            let indexPath = detailView.collectionView.indexPath(for: cell)
+
+            guard let currentIndex = indexPath?.item else { return }
+            detailView.chanePagingLabel(num: currentIndex + 1, total: productImagesCount.count)
+        }
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let layout = self.detailView.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
+        
+        let tempCG: CGFloat
+        if velocity.x > 0 {
+            tempCG = ceil(estimatedIndex)
+        } else if velocity.x < 0 {
+            tempCG = floor(estimatedIndex)
+        } else {
+            tempCG = round(estimatedIndex)
+        }
+        
+        targetContentOffset.pointee = CGPoint(x: tempCG * cellWidthIncludingSpacing, y: 0)
     }
 }
 
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let productImagesCount = productData?.images else { return 0}
+        detailView.chanePagingLabel(num: 1, total: productImagesCount.count)
         return productImagesCount.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailProductCollectionViewCell.reuseIdentifier, for: indexPath) as? DetailProductCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailProductCollectionViewCell.reuseIdentifier,
+                                                            for: indexPath) as? DetailProductCollectionViewCell else {
             let errorCell = UICollectionViewCell()
             return errorCell
         }

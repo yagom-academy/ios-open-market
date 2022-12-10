@@ -71,6 +71,14 @@ final class DetailProductView: UIView {
         return label
     }()
     
+    private let pagingLabel: UILabel = {
+        let label = UILabel()
+        
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
@@ -133,6 +141,10 @@ final class DetailProductView: UIView {
         setupPriceLabel(product: product)
         setupStockLabelText()
     }
+    
+    func chanePagingLabel(num: Int, total: Int) {
+        pagingLabel.text = "\(num)/\(total)"
+    }
 }
 
 // MARK: - Constraints
@@ -171,6 +183,7 @@ extension DetailProductView {
     
     private func setupView() {
         self.addSubview(collectionView)
+        self.addSubview(pagingLabel)
         self.addSubview(productStackView)
         self.addSubview(descriptionTextView)
     }
@@ -182,9 +195,12 @@ extension DetailProductView {
             collectionView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.heightAnchor, multiplier: 0.4),
             collectionView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             
+            pagingLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 5),
+            pagingLabel.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            
+            productStackView.topAnchor.constraint(equalTo: pagingLabel.bottomAnchor, constant: 5),
             productStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             productStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            productStackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
             
             descriptionTextView.topAnchor.constraint(equalTo: productStackView.bottomAnchor, constant: 10),
             descriptionTextView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9),
