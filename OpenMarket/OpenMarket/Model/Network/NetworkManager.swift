@@ -81,14 +81,14 @@ struct NetworkManager {
     }
     
     func postData(request: URLRequest, data: Data, completion: @escaping () -> Void) {
-        let task = session.uploadTask(with: request, from: data) { data, response, error in
+        let task = session.uploadTask(with: request, from: data) { _, response, error in
             guard error == nil else { return }
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode)
             else {
                 return
             }
-            guard let data = data else { return }
+            
             completion()
         }
         task.resume()

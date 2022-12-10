@@ -210,6 +210,8 @@ extension ProductRegistrationViewController {
             networkManager.postData(request: request, data: data) {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true)
+                    NotificationCenter.default.post(name: Notification.Name("post done"),
+                                                    object: nil)
                 }
             }
         } catch {

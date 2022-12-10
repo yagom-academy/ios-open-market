@@ -49,8 +49,9 @@ final class ProductEditViewController: UIViewController {
                 self.images = images
             case .failure(let error):
                 guard let error = error as? NetworkError else { return }
+                
                 DispatchQueue.main.async {
-                    self.present(self.errorManager.createAlert(error: error),                 animated: true)
+                    self.present(self.errorManager.createAlert(error: error), animated: true)
                 }
             }
         }

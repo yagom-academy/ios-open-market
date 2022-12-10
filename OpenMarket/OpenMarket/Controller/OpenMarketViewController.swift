@@ -28,7 +28,6 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     private var productList: ProductListData?
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
     private let segmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["list", "grid"])
         segment.selectedSegmentIndex = 0
@@ -40,10 +39,10 @@ final class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
 
         configureNavigationBar()
+        configureNotification()
         configureProductCollectionView(type: .list)
         loadProductData(pageNumber: 1, itemsPerPage: 20)
         productCollectionView.delegate = self
-        snapshot.appendSections([.main])
     }
     
     private func configureNavigationBar() {
@@ -54,22 +53,34 @@ final class OpenMarketViewController: UIViewController {
                                                             action: #selector(showProductRegistrationView))
     }
     
+    private func configureNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadData),
+                                               name: Notification.Name("post done"),
+                                               object: nil)
+    }
+    
     private func loadProductData(pageNumber: Int, itemsPerPage: Int) {
         networkManager.loadData(of: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage),
                                 dataType: ProductListData.self) { result in
             switch result {
             case .success(let productListData):
-                if let productList = self.productList {
+                if let productList = self.productList, self.isPaging {
                     let newList = productList.pages + productListData.pages
                     
                     self.productList = productListData
                     self.productList?.pages = newList
+                    self.isPaging = false
                 } else {
                     self.productList = productListData
                 }
                 
                 DispatchQueue.main.async {
-                    self.configureSnapshot(with: productListData.pages)
+                    guard let productList = self.productList else {
+                        return
+                    }
+
+                    self.configureSnapshot(with: productList.pages)
                 }
             case .failure(let error):
                 guard let error = error as? NetworkError else { return }
@@ -147,9 +158,10 @@ final class OpenMarketViewController: UIViewController {
     }
     
     func configureSnapshot(with products: [ProductData]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
+        snapshot.appendSections([.main])
         snapshot.appendItems(products)
         dataSource.apply(snapshot, animatingDifferences: false)
-        isPaging = false
     }
     
     private func createListCellRegistration() -> UICollectionView.CellRegistration<ListCell, ProductData> {
@@ -270,7 +282,12 @@ extension OpenMarketViewController {
             configureProductCollectionView(type: .grid)
         }
         productCollectionView.delegate = self
-        dataSource.apply(snapshot, animatingDifferences: false)
+        let snapshot = dataSource.snapshot()
+        dataSource.apply(snapshot)
+    }
+    
+    @objc private func reloadData() {
+        loadProductData(pageNumber: 1, itemsPerPage: 20)
     }
 }
 
