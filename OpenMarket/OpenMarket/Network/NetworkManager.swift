@@ -11,49 +11,10 @@ final class NetworkManager {
         self.session = session
     }
     
-    func request<Model: Decodable>(endpoint: Endpointable,
-                                   dataType: Model.Type,
-                                   completion: @escaping (Result<Model, NetworkError>) -> Void) {
-        guard let requestURL = endpoint.createURL() else {
-            return completion(.failure(.URLError))
-        }
-        
-        let request = URLRequest(url: requestURL)
-
-        let task = session.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                return completion(.failure(.URLError))
-            }
+    func checkAPIHealth(completion: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) {
+        guard let urlRequest = Endpoint.healthChecker.createURLRequest(httpMethod: .get) else { return }
             
-            guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode) else {
-                      return completion(.failure(.statusCodeError))
-            }
-            
-            guard let data = data else {
-                return completion(.failure(.noData))
-            }
-            
-            do {
-                let result = try JSONDecoder().decode(dataType, from: data)
-                completion(.success(result))
-            } catch {
-                completion(.failure(.decodingError))
-            }
-        }
-        
-        task.resume()
-    }
-    
-    func checkAPIHealth(endpoint: Endpointable,
-                        completion: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) {
-        guard let requestURL = endpoint.createURL() else {
-            return completion(.failure(.URLError))
-        }
-        
-        let request = URLRequest(url: requestURL)
-        
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 return completion(.failure(.URLError))
             }
@@ -68,4 +29,18 @@ final class NetworkManager {
         
         task.resume()
     }
+	
+	func fetchProductList(_ page: Int, completion: @escaping ((Result<ProductList, NetworkError>) -> Void)) {
+		let endpoint = Endpoint.fetchProductList(pageNumber: page)
+		guard let urlRequest = endpoint.createURLRequest(httpMethod: .get) else { return }
+		session.request(urlRequest: urlRequest) { result in
+			switch result {
+			case .success(let data):
+				guard let productList = try? JSONDecoder().decode(ProductList.self, from: data) else { return }
+				completion(.success(productList))
+			case .failure(let error):
+				completion(.failure(error))
+			}
+		}
+	}
 }

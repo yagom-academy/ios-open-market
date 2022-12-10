@@ -68,7 +68,7 @@ final class OpenMarketViewController: UIViewController {
         configureUI()
         configureListDataSource()
         
-        fetchData(for: pageNumber)
+		fetchProductList(page: pageNumber)
     }
     
     private func configureUI() {
@@ -135,25 +135,23 @@ final class OpenMarketViewController: UIViewController {
         activityIndicator.center = view.center
     }
 
-    private func fetchData(for page: Int) {
+	private func fetchProductList(page: Int) {
         activityIndicator.startAnimating()
-        
-        networkManager.request(endpoint: OpenMarketAPI.productList(pageNumber: page, itemsPerPage: 20),
-                               dataType: ProductList.self) { result in
-            switch result {
-            case .success(let productList):
-                self.filterProducts(productList.products)
-                DispatchQueue.main.async {
-                    self.applySnapshot(for: self.products)
-                    self.activityIndicator.stopAnimating()
-                }
-            case .failure(let error):
-                self.showDataRequestFailureAlert(error)
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                }
-            }
-        }
+		networkManager.fetchProductList(page) { result in
+			switch result {
+			case .success(let productList):
+				self.filterProducts(productList.products)
+				DispatchQueue.main.async {
+					self.applySnapshot(for: self.products)
+					self.activityIndicator.stopAnimating()
+				}
+			case .failure(let error):
+				self.showDataRequestFailureAlert(error)
+				DispatchQueue.main.async {
+					self.activityIndicator.stopAnimating()
+				}
+			}
+		}
     }
     
     private func filterProducts(_ productList: [Product]) {
@@ -276,7 +274,7 @@ extension OpenMarketViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.item == products.count - 1 {
             pageNumber += 1
-            fetchData(for: pageNumber)
+			fetchProductList(page: pageNumber)
         }
     }
 }
