@@ -1,5 +1,5 @@
 //
-//  OpenMarket - ViewController.swift
+//  OpenMarket - ProductListViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 //  Created by Mangdi, Woong on 2022/11/15.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ProductListViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     var networkCommunication = NetworkCommunication()
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension ProductListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchListPages.count
     }
@@ -135,7 +135,7 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("클릭 \(indexPath.item)")
         collectionView.deselectItem(at: indexPath, animated: true)

@@ -1,5 +1,5 @@
 //
-//  RegisterProductViewController.swift
+//  ProductPostAndPatchViewController.swift
 //  OpenMarket
 //
 //  Created by Mangdi, woong on 2022/12/02.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterProductViewController: UIViewController {
+class ProductPostAndPatchViewController: UIViewController {
     var networkCommunication = NetworkCommunication()
     let loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)) as UIActivityIndicatorView
@@ -370,7 +370,7 @@ class RegisterProductViewController: UIViewController {
     }
 }
 
-extension RegisterProductViewController: UIImagePickerControllerDelegate,
+extension ProductPostAndPatchViewController: UIImagePickerControllerDelegate,
                                          UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         

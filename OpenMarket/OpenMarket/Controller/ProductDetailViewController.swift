@@ -44,7 +44,7 @@ class ProductDetailViewController: UIViewController {
         let modifyAction = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let registerProductViewController = storyboard.instantiateViewController(
-                withIdentifier: "registerProductViewController") as? RegisterProductViewController,
+                withIdentifier: "registerProductViewController") as? ProductPostAndPatchViewController,
                   let id = self?.productID,
                   let images = self?.detailProductImages else { return }
             registerProductViewController.mode = "patch"
