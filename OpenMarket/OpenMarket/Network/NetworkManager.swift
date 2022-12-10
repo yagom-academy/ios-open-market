@@ -12,7 +12,7 @@ final class NetworkManager {
     }
     
     func checkAPIHealth(completion: @escaping (Result<HTTPURLResponse, NetworkError>) -> Void) {
-        guard let urlRequest = Endpoint.healthChecker.createURLRequest(httpMethod: .get) else { return }
+        guard let urlRequest = Endpoint.healthChecker.createURLRequest() else { return }
             
         let task = session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
@@ -32,7 +32,8 @@ final class NetworkManager {
 	
 	func fetchProductList(_ page: Int, completion: @escaping ((Result<ProductList, NetworkError>) -> Void)) {
 		let endpoint = Endpoint.fetchProductList(pageNumber: page)
-		guard let urlRequest = endpoint.createURLRequest(httpMethod: .get) else { return }
+		guard var urlRequest = endpoint.createURLRequest() else { return }
+		urlRequest.httpMethod = HTTPMethod.get.rawValue
 		session.request(urlRequest: urlRequest) { result in
 			switch result {
 			case .success(let data):
@@ -46,7 +47,9 @@ final class NetworkManager {
 	
 	func fetchProductDetail(id: Int, completion: @escaping ((Result<Product, NetworkError>) -> Void)) {
 		let endpoint = Endpoint.fetchProductDetail(id: id)
-		guard let urlRequest = endpoint.createURLRequest(httpMethod: .get) else { return }
+		guard var urlRequest = endpoint.createURLRequest() else { return }
+		urlRequest.httpMethod = HTTPMethod.get.rawValue
+
 		session.request(urlRequest: urlRequest) { result in
 			switch result {
 			case .success(let data):
@@ -57,4 +60,17 @@ final class NetworkManager {
 			}
 		}
 	}
+	
+	// TODO: - POST
+	func registerProduct() {
+		let endpoint = Endpoint.registerProduct
+		guard var urlRequest = endpoint.createURLRequest() else { return }
+		urlRequest.httpMethod = HTTPMethod.post.rawValue
+
+		
+	}
+	
+	// TODO: - PATCH
+	
+	// TODO: - DELETE
 }

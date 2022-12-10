@@ -41,16 +41,13 @@ extension Endpoint {
         }
     }
     
-    func createURLRequest(httpMethod: HTTPMethod) -> URLRequest? {
+    func createURLRequest() -> URLRequest? {
         guard var components = URLComponents(string: self.baseURL) else { return nil }
         components.path = path
         components.queryItems = self.queries
         
         guard let url = components.url else { return nil }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = httpMethod.rawValue
-        
-        return urlRequest
+
+        return URLRequest(url: url)
     }
 }
