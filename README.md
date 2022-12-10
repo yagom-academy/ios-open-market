@@ -249,7 +249,7 @@ OpenMarket
 - Network
     - ✅ multipart/form-data의 구조 파악
     - ✅ URLSession을 활용한 multipart/form-data 요청 전송
-    - ✅ NetworkManager POST, FETCH, DELETE Method 구현
+    - ✅ NetworkManager POST, PATCH, DELETE Method 구현
     
 - 추가 구현 
     - ✅ Pagination 구현
@@ -419,7 +419,7 @@ picker.sourceType = .photoLibrary
 picker.allowsEditing = true
 ```
 그리고 아래와 같이 편집과 원본에 따라 동작을 다르게 구현하였습니다.
-multi Select 동작은 `PHPicker` 와는 달리 사용할 수 없었지만 이미지 이슈 및 이미지 편집 기능을 활욜할 수 있었습니다.
+multi Select 동작은 `PHPicker` 와는 달리 사용할 수 없었지만 이미지 이슈가 없었고 이미지 편집 기능을 용할 수 있었습니다.
 ```swift
 func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
