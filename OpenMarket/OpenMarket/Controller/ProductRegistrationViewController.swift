@@ -165,7 +165,6 @@ extension ProductRegistrationViewController {
         
         images.forEach { image in
             let convertedImage = image.resizeImage(maxByte: 300000)
-            print(convertedImage.count)
             
             data.append(convertImageData(convertedImage,
                                          fileName: "inho.png",

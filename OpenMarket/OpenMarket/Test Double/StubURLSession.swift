@@ -13,4 +13,8 @@ final class StubURLSession: URLSessionProtocol {
                   completionHandler: @escaping DataTaskCompletionHandler) -> URLSessionDataTask {
         return StubURLSessionDataTask(dummyData: dummyData, completionHandler: completionHandler)
     }
+    
+    func uploadTask(with request: URLRequest, from bodyData: Data?, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask {
+        return URLSessionUploadTask()
+    }
 }

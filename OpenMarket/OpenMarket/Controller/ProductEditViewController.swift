@@ -122,8 +122,7 @@ extension ProductEditViewController: UICollectionViewDataSource {
                 DispatchQueue.main.async {
                     cell.addImage(image)
                 }
-            case .failure(let error):
-                print(error)
+            case .failure(_):
                 DispatchQueue.main.async {
                     cell.addImage(self.errorManager.showFailedImage() ?? UIImage())
                 }

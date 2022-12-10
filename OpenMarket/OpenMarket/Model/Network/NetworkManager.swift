@@ -81,7 +81,7 @@ struct NetworkManager {
     }
     
     func postData(request: URLRequest, data: Data, completion: @escaping () -> Void) {
-        let task = URLSession.shared.uploadTask(with: request, from: data) { data, response, error in
+        let task = session.uploadTask(with: request, from: data) { data, response, error in
             guard error == nil else { return }
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode)
@@ -90,7 +90,6 @@ struct NetworkManager {
             }
             guard let data = data else { return }
             completion()
-            print(data)
         }
         task.resume()
     }
