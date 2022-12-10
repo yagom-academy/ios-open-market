@@ -133,15 +133,23 @@ class RegisterProductViewController: UIViewController {
     
     private func requestImageDataWhenPatchMode() {
         for patchImage in patchImages {
-            guard let imageUrl: URL = URL(string: patchImage.thumbnailURL) else { return }
-            networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
-                switch data {
-                case .success(let data):
-                    DispatchQueue.main.async {
-                        self?.showImagesWhenPatchMode(data: data)
+            let imageCacheKey = NSString(string: patchImage.thumbnailURL)
+            
+            if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
+                showImagesWhenPatchMode(image: imageCacheValue)
+            } else {
+                guard let imageUrl: URL = URL(string: patchImage.thumbnailURL) else { return }
+                networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
+                    switch data {
+                    case .success(let data):
+                        DispatchQueue.main.async {
+                            guard let image = UIImage(data: data) else { return }
+                            ImageCacheManager.shared.setObject(image, forKey: imageCacheKey)
+                            self?.showImagesWhenPatchMode(image: image)
+                        }
+                    case .failure(let error):
+                        print(error.rawValue)
                     }
-                case .failure(let error):
-                    print(error.rawValue)
                 }
             }
         }
@@ -164,15 +172,13 @@ class RegisterProductViewController: UIViewController {
         }
     }
     
-    private func showImagesWhenPatchMode(data: Data) {
-        if let image = UIImage(data: data) {
-            let imageView = makeImageView(image: image)
-            imageStackView.addArrangedSubview(imageView)
-            imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,
-                                              multiplier: 0.15).isActive = true
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor,
-                                             multiplier: 1).isActive = true
-        }
+    private func showImagesWhenPatchMode(image: UIImage) {
+        let imageView = makeImageView(image: image)
+        imageStackView.addArrangedSubview(imageView)
+        imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor,
+                                          multiplier: 0.15).isActive = true
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor,
+                                         multiplier: 1).isActive = true
     }
     
     private func showProductDataWhenPatchMode() {
