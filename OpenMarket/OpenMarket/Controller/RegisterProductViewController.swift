@@ -220,8 +220,6 @@ class RegisterProductViewController: UIViewController {
             resisterProductAlert(message: "할인가는 0보다 높거나 상품가보다 낮아야 합니다.", success: false)
             return
         }
-        
-        // 썸네일 ID 전해주는거 수정 (썸네일 이미지 바꾸는거 아직 안함)
         requestPatch(productID: productID,
                      name: productName,
                      description: productDescription,
@@ -230,7 +228,7 @@ class RegisterProductViewController: UIViewController {
                      currency: productCurrency,
                      discountedPrice: productDiscountedPrice,
                      stock: productStock)
-        
+
         loadingIndicator.center = view.center
         view.addSubview(loadingIndicator)
         loadingIndicator.startAnimating()

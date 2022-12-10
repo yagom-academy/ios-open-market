@@ -2,7 +2,7 @@
 //  Secret.swift
 //  OpenMarket
 //
-//  Created by 서현웅 on 2022/12/09.
+//  Created by Mangdi, Woong on 2022/12/09.
 //
 
 import Foundation

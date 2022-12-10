@@ -2,7 +2,7 @@
 //  CustomCollectionViewPageCell.swift
 //  OpenMarket
 //
-//  Created by 서현웅 on 2022/12/09.
+//  Created by Mangdi, Woong on 2022/12/09.
 //
 
 import UIKit
@@ -15,7 +15,6 @@ class CustomCollectionViewPageCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     func configureCell(image: Image, index: Int, totalCount: Int) {
@@ -39,7 +38,4 @@ class CustomCollectionViewPageCell: UICollectionViewCell {
             }
         }
     }
-    
-    
-    
 }
