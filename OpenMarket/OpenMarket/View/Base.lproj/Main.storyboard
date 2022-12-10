@@ -245,14 +245,14 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aDF-IL-ZQ6">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aDF-IL-ZQ6">
                                 <rect key="frame" x="8" y="379" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayh-t3-lIj">
-                                <rect key="frame" x="364" y="379" width="42" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayh-t3-lIj">
+                                <rect key="frame" x="58" y="379" width="348" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -281,6 +281,7 @@
                         <viewLayoutGuide key="safeArea" id="tQB-5g-saW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ayh-t3-lIj" firstAttribute="leading" secondItem="aDF-IL-ZQ6" secondAttribute="trailing" constant="8" id="0cm-7v-pjn"/>
                             <constraint firstItem="tQB-5g-saW" firstAttribute="trailing" secondItem="8aS-gO-7mZ" secondAttribute="trailing" constant="8" id="4Bs-78-YhB"/>
                             <constraint firstItem="tQB-5g-saW" firstAttribute="trailing" secondItem="jH9-em-GcE" secondAttribute="trailing" constant="8" id="5Ni-gd-KBt"/>
                             <constraint firstItem="FEM-xN-ip9" firstAttribute="leading" secondItem="tQB-5g-saW" secondAttribute="leading" constant="8" id="6Lh-Sg-A6D"/>
