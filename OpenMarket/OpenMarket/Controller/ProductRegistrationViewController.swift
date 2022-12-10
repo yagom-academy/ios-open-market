@@ -199,19 +199,30 @@ extension ProductRegistrationViewController {
             
             let imageData = imageDataManager.convertImageData(images,
                                                               fileName: UUID().uuidString,
-                                                              mimeType: "image/jpeg", boundary)
+                                                              mimeType: "image/jpeg", boundary + "321312")
             
             guard let data = networkManager.configureRequestBody(product, imageData, boundary),
                   let request = networkManager.configureRequest(boundary)
             else {
+                present(errorManager.createAlert(error: NetworkError.transportError),
+                        animated: true)
                 return
             }
-
-            networkManager.postData(request: request, data: data) {
+            
+            networkManager.postData(request: request, data: data) { error in
+                guard let error = error else {
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true)
+                        NotificationCenter.default.post(name: Notification.Name("post done"),
+                                                        object: nil)
+                    }
+                    
+                    return
+                }
+                
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true)
-                    NotificationCenter.default.post(name: Notification.Name("post done"),
-                                                    object: nil)
+                    self.present(self.errorManager.createAlert(error: error),
+                                 animated: true)
                 }
             }
         } catch {
