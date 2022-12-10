@@ -79,7 +79,12 @@ class CustomCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configureImage(imageSource: String) {
+    private func stopLoadingIndicator() {
+        loadingIndicator.stopAnimating()
+        loadingIndicator.removeFromSuperview()
+    }
+    
+    private func configureImage(imageSource: String) {
         let fileManager = FileManager()
         let imageCacheKey = NSString(string: imageSource)
         
@@ -91,18 +96,19 @@ class CustomCollectionViewCell: UICollectionViewCell {
         filePath.appendPathComponent(imageUrl.lastPathComponent)
         
         if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
+            stopLoadingIndicator()
             thumbnail.image = imageCacheValue
         } else if let loadedImageData = try? Data(contentsOf: filePath) {
             guard let image = UIImage(data: loadedImageData) else { return }
             ImageCacheManager.shared.setObject(image, forKey: imageCacheKey)
+            stopLoadingIndicator()
             thumbnail.image = image
         } else {
             networkCommunication.requestImageData(url: imageUrl) { [weak self] data in
                 switch data {
                 case .success(let data):
                     DispatchQueue.main.async {
-                        self?.loadingIndicator.stopAnimating()
-                        self?.loadingIndicator.removeFromSuperview()
+                        self?.stopLoadingIndicator()
                         self?.thumbnail.image = UIImage(data: data)
                     }
                     guard let image = UIImage(data: data) else { return }
