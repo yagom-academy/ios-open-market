@@ -43,4 +43,18 @@ final class NetworkManager {
 			}
 		}
 	}
+	
+	func fetchProductDetail(id: Int, completion: @escaping ((Result<Product, NetworkError>) -> Void)) {
+		let endpoint = Endpoint.fetchProductDetail(id: id)
+		guard let urlRequest = endpoint.createURLRequest(httpMethod: .get) else { return }
+		session.request(urlRequest: urlRequest) { result in
+			switch result {
+			case .success(let data):
+				guard let product = try? JSONDecoder().decode(Product.self, from: data) else { return }
+				completion(.success(product))
+			case .failure(let error):
+				completion(.failure(error))
+			}
+		}
+	}
 }

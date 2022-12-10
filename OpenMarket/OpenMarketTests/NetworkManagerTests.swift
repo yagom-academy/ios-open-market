@@ -33,7 +33,7 @@ final class NetworkManagerTests: XCTestCase {
         sut = NetworkManager(session: stubSession)
         
         // when
-        sut.request(endpoint: Endpoint.product(id: 215), dataType: Product.self, completion: { result in
+		sut.fetchProductDetail(id: 215, completion: { result in
             // then
             switch result {
             case .success(let product):
@@ -53,7 +53,7 @@ final class NetworkManagerTests: XCTestCase {
         sut = NetworkManager(session: stubSession)
         
         // when
-        sut.request(endpoint: Endpoint.product(id: 215), dataType: Product.self, completion: { result in
+        sut.fetchProductDetail(id: 215, completion: { result in
             // then
             switch result {
             case .success(_):
