@@ -9,7 +9,7 @@ import Foundation
 
 struct HealthCheckerRequest: NetworkRequest {
     let httpMethod: HttpMethod = .get
-    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlHost: String = "http://openmarket.yagom-academy.kr"
     let urlPath: String = "/healthChecker"
     let queryParameters: [String: String] = [:]
     let httpHeader: [String: String]?
@@ -18,7 +18,7 @@ struct HealthCheckerRequest: NetworkRequest {
 
 struct ProductListRequest: NetworkRequest {
     let httpMethod: HttpMethod = .get
-    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlHost: String = "http://openmarket.yagom-academy.kr"
     let urlPath: String = "/api/products"
     let queryParameters: [String: String]
     let httpHeader: [String: String]? = nil
@@ -40,7 +40,7 @@ struct ProductListRequest: NetworkRequest {
 
 struct ProductDetailRequest: NetworkRequest {
     let httpMethod: HttpMethod = .get
-    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlHost: String = "http://openmarket.yagom-academy.kr"
     let urlPath: String
     let queryParameters: [String: String] = [:]
     let httpHeader: [String: String]? = nil
@@ -53,7 +53,7 @@ struct ProductDetailRequest: NetworkRequest {
 
 struct ProductAddRequest: NetworkRequest {
     let httpMethod: HttpMethod = .post
-    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlHost: String = "http://openmarket.yagom-academy.kr"
     let urlPath: String = "/api/products"
     let queryParameters: [String: String] = [:]
     var httpHeader: [String: String]?
@@ -67,7 +67,7 @@ struct ProductAddRequest: NetworkRequest {
 
 struct ProductEditRequest: NetworkRequest {
     let httpMethod: HttpMethod = .patch
-    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlHost: String = "http://openmarket.yagom-academy.kr"
     let urlPath: String
     let queryParameters: [String : String] = [:]
     let httpHeader: [String : String]?
@@ -87,7 +87,7 @@ struct ProductEditRequest: NetworkRequest {
 
 struct URISearchRequest: NetworkRequest {
     let httpMethod: HttpMethod = .post
-    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlHost: String = "http://openmarket.yagom-academy.kr"
     let urlPath: String
     let queryParameters: [String : String] = [:]
     let httpHeader: [String : String]?
@@ -106,7 +106,7 @@ struct URISearchRequest: NetworkRequest {
 
 struct ProductDeleteRequest: NetworkRequest {
     let httpMethod: HttpMethod = .delete
-    let urlHost: String = "https://openmarket.yagom-academy.kr"
+    let urlHost: String = "http://openmarket.yagom-academy.kr"
     let urlPath: String
     let queryParameters: [String : String] = [:]
     let httpHeader: [String : String]?

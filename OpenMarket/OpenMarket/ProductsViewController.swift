@@ -95,12 +95,20 @@ final class ProductsViewController: UIViewController {
     }
     
     private func fetchData(_ completion: @escaping () -> Void) {
+        let isRefreshing = refreshControl.isRefreshing
+        if isRefreshing {
+            self.pageNumber = 1
+        }
+        
         let productListRequest = ProductListRequest(pageNo: pageNumber, itemsPerPage: 20)
         guard let request = productListRequest.request else { return }
         
         networkManager.fetchData(from: request, dataType: ProductList.self) { [weak self] result in
             switch result {
             case .success(let productList):
+                if isRefreshing {
+                    self?.productLists = []
+                }
                 self?.productLists.append(productList)
                 completion()
             case .failure(let error):
@@ -150,12 +158,10 @@ final class ProductsViewController: UIViewController {
     }
     
     @objc private func refresh() {
-        pageNumber = 1
-        productLists = []
         fetchData() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                self?.collectionView.reloadData()
                 self?.refreshControl.endRefreshing()
+                self?.collectionView.reloadData()
                 self?.isInfiniteScroll = true
             }
         }
@@ -208,7 +214,9 @@ extension ProductsViewController: UICollectionViewDataSource {
 
 extension ProductsViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let endPoint: CGFloat = scrollView.contentSize.height - scrollView.bounds.height
+        guard !scrollView.contentSize.height.isZero else { return }
+        
+        let endPoint: CGFloat = scrollView.contentSize.height - scrollView.bounds.height - 400
         let isEndOfScroll: Bool = scrollView.contentOffset.y > endPoint
         
         if isEndOfScroll, isInfiniteScroll {
