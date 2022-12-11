@@ -18,6 +18,7 @@ final class OpenMarketViewController: UIViewController {
     
     private let networkManager: NetworkManager = .init()
     private let errorManager: ErrorManager = .init()
+    private let cache = NSCache<NSString, UIImage>()
     private var dataSource: UICollectionViewDiffableDataSource<Section, ProductData>!
     private var productCollectionView: UICollectionView! {
         didSet {
@@ -27,7 +28,6 @@ final class OpenMarketViewController: UIViewController {
         }
     }
     private var productList: ProductListData?
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
     private let segmentControl: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["list", "grid"])
         segment.selectedSegmentIndex = 0
@@ -39,10 +39,10 @@ final class OpenMarketViewController: UIViewController {
         super.viewDidLoad()
 
         configureNavigationBar()
+        configureNotification()
         configureProductCollectionView(type: .list)
         loadProductData(pageNumber: 1, itemsPerPage: 20)
         productCollectionView.delegate = self
-        snapshot.appendSections([.main])
     }
     
     private func configureNavigationBar() {
@@ -53,22 +53,34 @@ final class OpenMarketViewController: UIViewController {
                                                             action: #selector(showProductRegistrationView))
     }
     
+    private func configureNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadData),
+                                               name: Notification.Name("post done"),
+                                               object: nil)
+    }
+    
     private func loadProductData(pageNumber: Int, itemsPerPage: Int) {
         networkManager.loadData(of: .productList(pageNumber: pageNumber, itemsPerPage: itemsPerPage),
                                 dataType: ProductListData.self) { result in
             switch result {
             case .success(let productListData):
-                if let productList = self.productList {
+                if let productList = self.productList, self.isPaging {
                     let newList = productList.pages + productListData.pages
                     
                     self.productList = productListData
                     self.productList?.pages = newList
+                    self.isPaging = false
                 } else {
                     self.productList = productListData
                 }
                 
                 DispatchQueue.main.async {
-                    self.configureSnapshot(with: productListData.pages)
+                    guard let productList = self.productList else {
+                        return
+                    }
+
+                    self.configureSnapshot(with: productList.pages)
                 }
             case .failure(let error):
                 guard let error = error as? NetworkError else { return }
@@ -146,9 +158,10 @@ final class OpenMarketViewController: UIViewController {
     }
     
     func configureSnapshot(with products: [ProductData]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductData>()
+        snapshot.appendSections([.main])
         snapshot.appendItems(products)
         dataSource.apply(snapshot, animatingDifferences: false)
-        isPaging = false
     }
     
     private func createListCellRegistration() -> UICollectionView.CellRegistration<ListCell, ProductData> {
@@ -178,17 +191,23 @@ final class OpenMarketViewController: UIViewController {
             cell.listContentView.configuration = content
             cell.accessories = [.disclosureIndicator()]
             
+            if let cachedImage = self.cache.object(forKey: product.thumbnail as NSString) {
+                content.image = cachedImage
+                cell.listContentView.configuration = content
+                return
+            }
+            
             self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
                 switch result {
                 case .success(let image):
                     content.image = image
                     DispatchQueue.main.async {
                         if indexPath == self.productCollectionView.indexPath(for: cell) {
+                            self.cache.setObject(image, forKey: product.thumbnail as NSString)
                             cell.listContentView.configuration = content
                         }
                     }
-                case .failure(let error):
-                    print(error)
+                case .failure(_):
                     DispatchQueue.main.async {
                         content.image = self.errorManager.showFailedImage()
                         cell.listContentView.configuration = content
@@ -219,16 +238,21 @@ final class OpenMarketViewController: UIViewController {
                 cell.priceLabel.attributedText = product.fetchCurrencyAndDiscountedPrice()
             }
             
+            if let cachedImage = self.cache.object(forKey: product.thumbnail as NSString) {
+                cell.imageView.image = cachedImage
+                return
+            }
+            
             self.networkManager.loadThumbnailImage(of: product.thumbnail) { result  in
                 switch result {
                 case .success(let image):
                     DispatchQueue.main.async {
                         if indexPath == self.productCollectionView.indexPath(for: cell) {
+                            self.cache.setObject(image, forKey: product.thumbnail as NSString)
                             cell.imageView.image = image
                         }
                     }
-                case .failure(let error):
-                    print(error)
+                case .failure(_):
                     DispatchQueue.main.async {
                         cell.imageView.image = self.errorManager.showFailedImage()
                     }
@@ -240,11 +264,13 @@ final class OpenMarketViewController: UIViewController {
     }
 }
 
+//MARK: - Action Method
 extension OpenMarketViewController {
     @objc private func showProductRegistrationView() {
         let viewController = ProductRegistrationViewController()
-        
-        present(viewController, animated: true, completion: nil)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
     
     @objc private func switchView(_ sender: UISegmentedControl) {
@@ -256,12 +282,24 @@ extension OpenMarketViewController {
             configureProductCollectionView(type: .grid)
         }
         productCollectionView.delegate = self
-        dataSource.apply(snapshot, animatingDifferences: false)
+        let snapshot = dataSource.snapshot()
+        dataSource.apply(snapshot)
+    }
+    
+    @objc private func reloadData() {
+        loadProductData(pageNumber: 1, itemsPerPage: 20)
     }
 }
 
+//MARK: - CollectionViewDelegate
 extension OpenMarketViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let product = productList?.pages[indexPath.row] else { return }
+        
+        let viewController = ProductDetailViewController()
+        viewController.productData = product
+        navigationController?.pushViewController(viewController, animated: true)
+        
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     

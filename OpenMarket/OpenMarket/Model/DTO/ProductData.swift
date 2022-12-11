@@ -41,12 +41,6 @@ struct ProductData: Decodable, Hashable {
         case images
         case vendors
     }
-    
-    enum Currency: String, Codable {
-        case USD
-        case KRW
-        case JPY
-    }
 }
 
 extension ProductData {

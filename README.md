@@ -15,49 +15,71 @@
 ## 🌱 팀 소개
  |[inho](https://github.com/inho-98)|[Hamo](https://github.com/lxodud)|[Jeremy](https://github.com/yjjem)|
  |:---:|:---:|:---:|
-| <img width="180px" src="https://user-images.githubusercontent.com/71054048/188081997-a9ac5789-ddd6-4682-abb1-90d2722cf998.jpg">| <img width="180px" src="https://i.imgur.com/ydRkDFq.jpg">|<img width="180px" src="https://i.imgur.com/RbVTB47.jpg">|
+| <a href="https://github.com/inho-98"><img width="180px" src="https://user-images.githubusercontent.com/71054048/188081997-a9ac5789-ddd6-4682-abb1-90d2722cf998.jpg"></a>| <a href="https://github.com/lxodud"><img width="180px" src="https://i.imgur.com/ydRkDFq.jpg"></a>|<a href="https://github.com/yjjem"><img width="180px" src="https://i.imgur.com/RbVTB47.jpg"></a>|
 
 ## 🛠 기능 소개
-> step2에서 업데이트할 예정입니다✨
 
-|<img src="https://i.imgur.com/wqyWvRe.gif" width=180px>|<img src="https://i.imgur.com/gyog05D.gif" width=180px>| <img width="180px" src="https://i.imgur.com/G0zbobk.gif">|
+|<img src="https://i.imgur.com/wqyWvRe.gif" width=180>|<img src="https://i.imgur.com/gyog05D.gif" width=180>| <img width="180px" src="https://i.imgur.com/G0zbobk.gif">|
 |:-:|:-:|:-:|
 |리스트 스크롤 화면|리스트와 그리드 화면 전환|그리드 스크롤 화면|
 
+|<img src="https://i.imgur.com/nrZp4Ow.gif" width=180>|<img src="https://i.imgur.com/qqYShuX.gif" width=180>| <img width="180px" src="https://i.imgur.com/rz0aGIy.gif">|
+|:-:|:-:|:-:|
+|상품 등록 화면|키보드 타입와 화면 이동|이미지 추가 및 삭제버튼 구현|
+
+
 ## 👀 Diagram
 
-|<img width=900, src="https://i.imgur.com/eu4XEmd.png">|
+|<img width=900, src="https://i.imgur.com/GDJh1Su.png">|
 |---|
 
 ## 🗂 폴더 구조
 ```
 OpenMarket
-├─ Model
-│  ├─ Error
-│  │  └─ NetworkError.swift
-│  ├─ Network
-│  │  └─ NetworkRequest.swift
-│  └─ DTO
-│     ├─ ProductData.swift
-│     ├─ ProductListData.swift
-│     ├─ VendorData.swift
-│     └─ ImageData.swift
-├─ View
-│  ├─ GridCell.swift
-│  └─ ListCell.swift
-├─ Controller
-│  ├─ AppDelegate.swift
-│  ├─ SceneDelegate.swift
-│  ├─ ProductRegistrationViewController.swift
-│  └─ OpenMarketViewController.swift
-├─ Info.plist
-└─ README.md
+├── Model
+│   ├── Error
+│   │   ├── NetworkError.swift
+│   │   ├── ErrorManager.swift
+│   │   └── UserInputError.swift
+│   ├── Network
+│   │   ├── URLSessionProtocol.swift
+│   │   ├── NetworkManager.swift
+│   │   ├── UsetInputError.swift
+│   │   └── NetworkRequest.swift
+│   ├── DTO
+│   │   ├── ProductData.swift
+│   │   ├── ProductListData.swift
+│   │   ├── PostProduct.swift
+│   │   ├── Currency.swift
+│   │   ├── VendorData.swift
+│   │   └── ImageData.swift
+│   ├── View
+│   │   ├── GridCell.swift
+│   │   ├── ListCell.swift
+│   │   ├── ProductFormView
+│   │   └── RegistrationImageCell.swift
+│   ├── Controller
+│   │   ├── AppDelegate.swift
+│   │   ├── SceneDelegate.swift
+│   │   ├── OpenMarketViewController.swift
+│   │   ├── ProductRegistrationViewController.swift
+│   │   ├── ProductEditViewController.swift
+│   │   └── ProductDetailViewController.swift
+│   ├── TestDouble
+│   │   ├── DummyData
+│   │   ├── StubURLSessionDataTask
+│   │   └── StubURLSession
+│   └── OpenMarketTests
+│       ├── StubURLSessionTest
+│       └── ProductListDataTest
+├── Assets
+├── Info.plist
+└── README.md
 ```
 
 
 ## ⏰ 타임라인
 
-### 👟 Step 1
 |날짜|구현 내용|
 |--|--| 
 |22.11.15|<`step1` 시작>`ProductData`, `ProductListData`, `VendorData`, `ImageData` `DTO`타입 구현, 네트워킹을 담당할 `NetworkManager`타입 구현, `UnitTest`작성 |
@@ -67,11 +89,18 @@ OpenMarket
 |22.11.22|<`step2` 시작> 뷰에 `segemented control` 추가, `ProductCell`클래스 구현 및 `CollectionView`구현|
 |22.11.23|이미지를 가져올 네트워킹 메서드 구현, 셀 높이를 수동을 지정하는 `preferredLayoutAttributesFitting`메서드 재정의, `cell`의 텍스트에 `attributedString` 적용, `GridCell`클래스 구현, 컬렉션뷰에 grid레이아웃 추가, 셀을 구성하는 메서드의 기능 분리|
 |22.11.24|상품 추가 뷰를 보여주는 버튼과 액션 구현, `cell`에 이미지 로드 전 로딩 이미지 추가, 클래스에 `final` 적용 및 접근제어 추가|
+|22.11.28|컬렉션 뷰의 스크롤이 제일 하단에 도달했을 때 상품을 20개씩 가져오도록 페이지네이션 구현|
+|22.11.29|`diffable dataSource`를 사용하고 `CollectionView의 layout`을 변경했을 때 발생하는 버그 수정|
+|22.12.01|Post 작업 헤더, 바디를 구성하는 메서드 구현|
+|22.12.05|`ProductRegistrationView`, `imagesCollectionView layout`, `RegistrationImageCell` 구현|
+|22.12.06|키보드 유무에 따른 UI 업데이트, ProductEditViewController 구현|
+|22.12.07|이미지 캐싱, 이미지 리사이징 구현|
+|22.12.08|상품 등록시 발생하는 입력 에러 처리, 상품 등록 중 이미지 삭제기능 구현|
 
 <details>
-<summary>Details - 구현 내용과 기능 설명 </summary>
+<summary> Details - 구현 내용과 기능 설명 </summary>
 
-### step1 
+### STEP 1-1
 #### 1️⃣ `DTO`
 - 데이터를 전달받을 타입들을 구현했습니다. 각 타입의 이름 뒤에는 데이터를 전달받을 목적임을 명시하기 위해 `Data`를 포함합니다.
     - `ProductListData`
@@ -84,7 +113,7 @@ OpenMarket
 
 #### 3️⃣ `StubURLSession`
  
-### step2
+### STEP 1-2
 #### 1️⃣ `UICollectionViewCompositionalLayout`
 - 컬렉션뷰의 레이아웃을 구성할때, `CompositionLayout`객체를 이용하여 구현했습니다.
 - 리스트 형식에 `ListConfiguration`와 그리드 형식에 `CompositionalLayout`과 섹션을 이용해서 구현하였습니다.
@@ -99,8 +128,23 @@ OpenMarket
 #### 4️⃣ `UICollectionViewDiffableDataSource`
 - 컬렉션뷰의 데이터 소스 객체로는 `DiffableDataSource`를 이용하였습니다.
 
-</details>
+### STEP 2-1
+#### 1️⃣ `ProductFormView`
+- 상품 등록과 상품 수정에 사용되는 양식을 구현한 뷰입니다.
+    - 추가될 이미지와 이미지 추가 버튼을 `imagesCollectionView`와 `cell`로 보여줍니다.
+    - 상품의 이름, 가격, 재고 등을 `textField & textView`로 입력받습니다.
+    - 전체 요소들을 `scrollView`안에 포함하여 컨텐츠가 화면을 초과하면 스크롤 가능하도록 구현하였습니다.
 
+#### 2️⃣ `ProductRegistrationViewController`
+- 상품 등록을 위한 뷰컨트롤러 입니다.
+    - 뷰에 입력받은 요소들을 확인하고, 조건이 충족된다면 `Done`버튼을 눌렀을때 상품 등록하는 `registerProduct`메서드가 실행됩니다.
+
+#### 3️⃣ `ProductEditViewController`
+- 상품 수정을 위한 뷰컨트롤러입니다.
+    - 상품 등록과 같은 양식으로 이루어진 뷰를 보여주지만, 초기화면의 셀을 눌렀을때 해당 셀의 상품 정보를 이미지, 텍스트필드 등에 추가한 상태로 보여지게 됩니다.
+    - 수정과 삭제 과정은 개인벤더 정보와 일치할때 진행할 수 있다고 생각하여, 현재에는 `Done`버튼에 액션을 추가하지 않았고 다음 스텝에서 기능을 구현할 예정입니다.
+
+</details>
 
 ## ✅ 프로젝트에서 경험하고 배운 것
 - CompositionalLayout을 이용한 리스트 구현  
@@ -115,9 +159,21 @@ OpenMarket
 - Segmented Control 적용과 활용  
     ☑️ UISegmentedControl  
     ☑️ addTarget  
-    
+- Post  
+    ☑️ `multipart/form-data`의 구조 파악  
+    ☑️ `http request` 구조 파악  
+    ☑️ `uploadTask` 메서드 사용  
+- Caching  
+    ☑️ `NSCache`  
+    ☑️ `URLCache`
+- Keyboard 유무에 따라 동적으로 UI업데이트  
+    ☑️ `Notification Center`  
+    ☑️ `ImagePickerController`  
+    ☑️ 텍스트필드의 입력값에 따른 키보드 설정  
+    ☑️ 스크롤뷰의 `Content Inset`  
+     
 ## 🚀 트러블 슈팅
-## Step-1
+## STEP 1-1
 ### 1️⃣ 로컬의 JSON (테스트할때 사용할)키 값과 API문서 상의 키 값이 다른 문제
 |<img src="https://i.imgur.com/4Kl6HGR.png" width="300px"/> | <img src="https://i.imgur.com/cpGzC9E.png" width=500px/>|
 |:-:|:-:|
@@ -216,7 +272,7 @@ OpenMarket
     ```
     
     - 위 예시에서, 받아올 것이라고 예상되는 데이터를 작성하고, 응답이 성공한다고 가정해서 성공하는`response`를 작성하였습니다. 이 정보들을 `dummyData`에 포함하여 가짜 객체인 `stubUrlSession`에 전달하고, `NetworkManager`의 `loadData`메서드를 호출해서 의도한 결과와 일치하는지 확인합니다.
-## Step-2
+## STEP 1-2
 ### 1️⃣ 모던 컬렉션뷰를 이용한 컬렉션뷰 구현
 - 컬렉션 뷰를 구현할때, `flowLayout`과 `dataSource` 대신, `composableLayout`과 `diffableDataSource`를 이용해서 구현하였습니다. 
 - `snapshot`은 뷰의 데이터의 특정 시점의 상태를 나타내고 섹션별로 나누어서 원하는 섹션과 아이템으로 구성하고, `dataSource`의 `apply`메서드를 이용하여 `snapshot`의 데이터를 현재 `state`와 새 state를 비교하여 업데이트합니다.
@@ -255,6 +311,51 @@ OpenMarket
 
 ![](https://i.imgur.com/evOUc3i.png)
 - 따라서 외부에서 `CellRegistration` 인스턴스를 생성하고 클로저 내부에서 사용하여 문제를 해결하였다.
+    
+## STEP 2-1
+### 1️⃣ 상품 등록을 위한 `PostData`메서드 구현
+- 상품 정보에 이미지 파일을 포함하고 있기 때문에 `POST`와 `multipart/form-data`형식을 이해해야 했습니다.
+- 형식에 맞게 `request`의 헤더와 바디를 구성하고, 이미지를 데이터 형식으로 바디에 추가한 후 이를 `uploadTask`메서드의 매개변수로 전달합니다. (`request & data`)
+
+### 2️⃣ 상품 등록 화면에서 사진 개수에 따른 `imagePicker` 구현?
+- 상품 등록 화면에서 사진을 선택하기 위한 방법으로 `phpickerViewController`와 `imagePickerViewController` 2가지가 있습니다.
+- 요구사항에 선택된 사진을 `crop`하는 기능이 추가되어야 하는데 `phpickerViewController`의 경우 `crop` 기능이 없기 때문에 `imagePickerViewController`를 선택하였습니다.
+
+### 3️⃣ 키보드 높이만큼 스크롤뷰 올리기
+- 텍스트뷰에 입력을 할 때 키보드가 올라와서 화면을 가리는 문제가 있어서 키보드가 올라왔을 때 키보드 높이만큼 `scrollView`의 `contentOffSet`을 높여주었습니다.
+- `contentOffSet`을 조절하여도 `content`의 `height`가 증가하는게 아니기 때문에 스크롤하거나 타이핑을 하거나 스크롤했을 때 `contentOffSet`이 이전으로 변하는 문제가 발생했습니다.
+- `scrollView`의 `contentInset`을 이용하여 키보드가 올라올 때 그 높이 만큼의 여백을 주고 내려갈 때 다시 0으로 만들어주어서 해결하였습니다.
+
+### 4️⃣ 상품 등록, 수정 뷰에서 텍스트 필드, 텍스트 뷰를 제외한 곳을 터치했을 때 키보드 내리기
+- 터치 이벤트가 `responder chain`을 타고 내려오기 때문에 `viewController`에서 이벤트를 처리하는 `touchBegan`을 재정의하여 내부에서 `endEditing`을 호출하려 하였는데 특정 부분에서는 `viewController`가 이벤트를 처리하지 못하는 상황이 발생하였습니다.
+- 해당 뷰에서 `viewController`위에 `scrollView`가 있게 그 위에 `contentView`가 있는 계층이었고 터치 이벤트를 `scrollView`가 가져가기 때문에 `viewController`에서 이벤트를 처리하지 못하는 문제임을 파악하고 `scrollView`에 `gesture`를 추가하여 터치 이벤트가 발생했을 때 `endEditing`하도록 하였습니다.
+
+### 5️⃣ 유저의 입력을 확인하는 과정 및 POST 시도 제한
+- `ProductFormView`에서 각각의 `TextField`의 요구사항 충족 및 타입을 확인하는 연산 프로퍼티를 구현했습니다.
+- 상품 등록 조건을 충족하지 않으면 `nil`을 반환하도록하여 값이 `nil`이면 `POST`가 진행되지 않도록 구현했습니다.
+```swift
+var nameInput: String? {
+    guard let text = productNameTextField.text,
+          (3...100).contains(text.count) else { return nil } //글자수 제한
+        return text
+    }
+}
+...
+```
+
+### 6️⃣ `Done`버튼을 여러번 눌러 중복 `POST`되는 현상과 `POST`가 완료된 후에 `dismiss`작업
+- `Done` 버튼을 여러번 누르면 한 게시물이 여러번 등록되는 문제가 있었습니다. 
+- 이를 해결하기 위해 POST가 진행될 때 버튼이 한번 눌리면 `button`의 `isEnabled` 프로퍼티를 이용해서 비활성화 되도록 구현하였습니다.
+- 상품 등록화면은 등록이 성공적으로 진행된 후에 내려가야 한다고 생각하여, 업로드를 수행하는 `postData`에 `completion handler`를 추가하여 작업이 완료된 후에 `dismiss`하도록 구현하였습니다.
+```swift
+networkManager.postData(request: request, data: data) {
+    DispatchQueue.main.async {
+        self.dismiss(animated: true)
+    }
+}
+```
+
+
 
 ## 🔗 참고 링크
 
@@ -263,8 +364,20 @@ OpenMarket
 - [📎 URLSession](https://developer.apple.com/documentation/foundation/urlsession)
 - [📎 URLSessionDataTask](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory/)
 - [📎 dataTask(with:completionHandler:)](https://developer.apple.com/documentation/foundation/urlsession/1410330-datatask/)
+- [📎 uploadTask(with:from:completionHandler:)](https://developer.apple.com/documentation/foundation/urlsession/1411518-uploadtask)
 - [📎 Fetching Website Data into Memory](https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory)
+- [📎 Uploading Data to a Website](https://developer.apple.com/documentation/foundation/url_loading_system/uploading_data_to_a_website)
 - [📎 Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
+- [📎 NSCache](https://developer.apple.com/documentation/foundation/nscache)
+- [📎 URLCache](https://developer.apple.com/documentation/foundation/urlcache)
+- [📎 URLCache.StoragePolicy](https://developer.apple.com/documentation/foundation/urlcache/storagepolicy)
+- [📎 NSURLRequest.CachePolicy](https://developer.apple.com/documentation/foundation/nsurlrequest/cachepolicy)
+- [📎 NSURLRequest.CachePolicy.useProtocolCachePolicy](https://developer.apple.com/documentation/foundation/nsurlrequest/cachepolicy)
+- [📎 UIImagePickerController](https://developer.apple.com/documentation/uikit/uiimagepickercontroller)
+- [📎 PHPickerViewController](https://developer.apple.com/documentation/photokit/phpickerviewcontroller)
+
+
+
 
 [WWDC]
 - [📎 Modern cell configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)

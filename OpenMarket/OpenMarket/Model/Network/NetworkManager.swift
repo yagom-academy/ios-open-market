@@ -13,7 +13,8 @@ struct NetworkManager {
         self.session = session
     }
     
-    func loadThumbnailImage(of url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    func loadThumbnailImage(of url: String,
+                            completion: @escaping (Result<UIImage, Error>) -> Void) {
         guard let url = URL(string: url) else { return }
         
         let task = session.dataTask(with: url) { data, response, error in
@@ -77,5 +78,53 @@ struct NetworkManager {
         }
         
         task.resume()
+    }
+    
+    func postData(request: URLRequest, data: Data, completion: @escaping (Error?) -> Void) {
+        let task = session.uploadTask(with: request, from: data) { _, response, error in
+            guard error == nil else { return }
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode)
+            else {
+                completion(NetworkError.transportError)
+                return
+            }
+            
+            completion(nil)
+        }
+        task.resume()
+    }
+    
+    func configureRequest(_ boundary: String) -> URLRequest? {
+        guard let url = NetworkRequest.postProduct.url else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("3595be32-6941-11ed-a917-b17164efe870",
+                         forHTTPHeaderField: "identifier")
+        request.setValue("multipart/form-data; boundary=\(boundary)",
+                         forHTTPHeaderField: "Content-Type")
+        
+        return request
+    }
+    
+    func configureRequestBody(_ product: PostProduct, _ imageData: Data, _ boundary: String) -> Data? {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        guard let productData = try? encoder.encode(product) else {
+            return nil
+        }
+        
+        var data = Data()
+        data.appendString("--\(boundary)\r\n")
+        data.appendString("Content-Disposition: form-data; name=\"params\"\r\n\r\n")
+        data.append(productData)
+        data.appendString("\r\n")
+        data.append(imageData)
+        data.appendString("\r\n--\(boundary)--\r\n")
+        
+        return data
     }
 }

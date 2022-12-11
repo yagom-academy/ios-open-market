@@ -10,6 +10,7 @@ enum NetworkRequest {
     case healthCheck
     case productList(pageNumber: Int, itemsPerPage: Int, searchValue: String? = nil)
     case product(identifier: Int)
+    case postProduct
     
     var url: URL? {
         switch self {
@@ -26,6 +27,8 @@ enum NetworkRequest {
             return configureURL(path: "/api/products", queryNames: names, queryValues: values)
         case .product(let identifier):
             return configureURL(path: "/api/products/\(identifier)")
+        case .postProduct:
+            return configureURL(path: "/api/products")
         }
     }
 }
