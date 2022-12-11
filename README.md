@@ -1,24 +1,22 @@
-# 오픈마켓 
+# 오픈마켓 README
 
 ## 목차
 1. [소개](#1-소개)
 2. [타임라인](#2-타임라인)
-3. [UML](#3-uml)
+3. [UML](#3-다이어그램)
 4. [실행 화면](#4-실행화면)
 5. [고민했던 점](#5-고민했던-점)
 6. [트러블 슈팅](#6-트러블-슈팅)
 7. [참고 링크](#7-참고-링크)
 
----
-
 ## 1. 소개
 ### 📱 앱 소개
 - URLSession을 활용해 API 서버와 통신해서 JSON 형식의 데이터를 받아와 각 Model 타입으로 변환합니다.
-- URLSession, Generics, POP, JSON 개념을 활용해 진행되었습니다.
+- 네트워킹을 통해 받아온 데이터를 List, Grid 형태로 화면에 보여줍니다.
+- URLSession, Collection View, Modern Collection View, Diffable Data Source, POP, JSON 개념을 활용해 진행되었습니다.
 
 ### 💻 개발환경 및 라이브러리
-[![swift](https://img.shields.io/badge/swift-5.6-orange)]()
-[![xcode](https://img.shields.io/badge/Xcode-13.2.1-blue)]()
+[![swift](https://img.shields.io/badge/swift-5.6-orange)]() [![xcode](https://img.shields.io/badge/Xcode-14.1-blue)]()
 
 ### 👩🏻 팀원
 | SummerCat | bella |
@@ -32,17 +30,85 @@
 
 ## 2. 타임라인
 
-### [STEP-1]
-**22.11.15**
-- Model 구현
-- ProductList JSON 데이터 파싱 테스트 구현
-- NetworkManager 타입 구현
-- 네트워킹 요소 메서드 구현 (checkAPIHealth, fetchProductList, fetchProductDetail)
+프로젝트 기간: 2022.11.14 ~
 
-**22.11.18**
-- Endpointable 프로토콜 구현
-- OpenMarketAPI 열거형 구현
-- NetworkManager 타입 리팩토링
+<details>
+    <summary><b>[STEP 1] (2022.11.14~22)</b></summary>
+    <div markdown="1">
+        <b>22.11.15</b></br>
+        - Model 구현</br>
+        - ProductList JSON 데이터 파싱 테스트 구현</br>
+        - NetworkManager 타입 구현</br>
+        - 네트워킹 메서드 구현 (checkAPIHealth, fetchProductList, fetchProductDetail)</br></br>
+        <b>22.11.18</b></br>
+        - Endpointable 프로토콜 구현</br>
+        - OpenMarketAPI 열거형 구현</br>
+        - NetworkManager 타입 리팩토링</br></br>
+        <b>22.11.20</b></br>
+        - Identifiable 프로토콜 적용</br>
+        - 컨벤션 수정</br></br>
+        <b>22.11.22</b></br>
+        - 테스트를 위한 URLSessionable 프로토콜 생성</br>
+        - StubURLSession을 이용한 상태 기반 테스트 메서드 구현</br>
+    </div>
+</details>
+
+<details>
+    <summary><b>[STEP 2] (2022.11.25~12.12)</b></summary>
+    <div markdown="1">
+        <b>22.11.25</b></br>
+        - GridCollectionViewCell 구현</br></br>
+        <b>22.11.26</b></br>
+        - OpenMarketVC에 gridCollectionView 추가, DiffableDataSource 적용</br>
+        - fetchData 함수 구현</br>
+        - OpenMarketVC에 segmentedControl 생성</br></br>
+        <b>22.11.28</b></br>
+        - OpenMarketAPI, gridCollectionView 리팩토링</br></br>
+        <b>22.11.29</b></br>
+        - pagination 기능 구현</br>
+        - ListCollectionViewCell 구현</br>
+        - OpenMarketVC에 listCollectionView 추가</br>
+        - segmentedControl 기능 구현</br>
+        - activityIndicator 생성</br></br>
+        <b>22.11.30</b></br>
+        - gridCollectionViewCell 레이아웃 수정</br></br>
+        <b>22.12.01</b></br>
+        - 셀 업데이트 시 업데이트할 객체를 검증하는 로직 추가</br>
+        - listCollectionViewCell 레이아웃 수정 및 리팩토링</br></br>
+        <b>22.12.03</b></br>
+        - Deployment Target iOS 14.0으로 통일</br>
+        - SwiftLint 적용</br>
+        - listCollectionView, gridCollectionViewCell 배경색 적용</br></br>
+        <b>22.12.04</b></br>
+        - DiffableDataSource와 Snapshot의 identifierType 변경</br></br>
+        <b>22.12.05</b></br>
+        - cellIdentifier 연산 프로퍼티로 변경</br></br>
+        <b>22.12.06</b></br>
+        - CollectionViewCellType 프로토콜 생성</br>
+        - createLabel 메서드 생성</br>
+        - 열거형을 활용한 매직 리터럴 제거</br></br>
+        <b>22.12.08</b></br>
+        - segmentedControl 변경 시 collectionView와 dataSource를 설정하는 로직 수정</br>
+        - listCollectionView와 gridCollectionView의 dataSource 분리</br>
+        - 스토리보드로 셀 생성 시 fatalError를 반환하도록 변경</br>
+        - ListCollectionViewCell 오토레이아웃 제약 수정</br>
+        - ProductRegisterVC 생성</br></br>
+        <b>22.12.09</b></br>
+        - filterProducts, findProduct 메서드 구현</br>
+        - 레이아웃 설정 메서드 분리</br></br>
+        <b>22.12.10</b></br>
+        - 네트워킹 구조 리팩토링</br>
+        - request 메서드 역할 분리</br>
+        - fetchProductDetail 메서드 구현</br></br>
+        <b>22.12.11</b></br>
+        - createURLRequest 메서드의 httpMethod 매개변수 제거
+    </div>
+</details>
+
+
+
+
+
 
 </br>
 
@@ -56,11 +122,9 @@
 ## 4. 실행화면
 
 **데이터 요청**
-
 <img src=https://i.imgur.com/bk31glQ.png width="550">
 
 **요청 결과**
-
 <img src=https://i.imgur.com/LZt7fxf.png width="550">
 
 </br>
@@ -197,7 +261,7 @@ enum OpenMarketURL: String {
 ### 1️⃣ `request` 메서드를 통해 `checkHealth`의 응답을 받아올 수 없는 문제
 네트워크에 응답을 요청하는 메서드를 아래와 같이 `request`라는 하나의 메서드로 구현했는데, `checkHealth`의 경우에는 요청 시 디코딩 에러가 발생했습니다. `request` 메서드는 JSON 데이터를 디코딩 하도록 작성되어 있지만 `checkHealth`의 응답 형식이 JSON 데이터가 아닌 text/plain이기 때문입니다.
 
-```swift
+```swift!
 func request<Model: Decodable>(endpoint: Endpointable, dataType: Model.Type, completion: @escaping (Result<Model, NetworkError>) -> Void) {
     guard let url = endpoint.createURL() else {
         return completion(.failure(.URLError))
@@ -233,7 +297,7 @@ func request<Model: Decodable>(endpoint: Endpointable, dataType: Model.Type, com
 
 `checkHealth`가 반환하는 text/plain 형식의 데이터를 String으로 변환해주는 별도의 메서드를 작성해 해결했습니다.
 
-```swift
+```swift!
 func checkAPIHealth(endpoint: Endpointable, completion: @escaping (Result<String, NetworkError>) -> Void) {
     guard let url = endpoint.createURL() else {
         return completion(.failure(.URLError))
@@ -261,6 +325,48 @@ func checkAPIHealth(endpoint: Endpointable, completion: @escaping (Result<String
     task.resume()
 }
 ```
+
+### 스크롤 시 내비게이션 바가 투명해지는 문제
+![](https://i.imgur.com/jPlifp7.png)
+
+![](https://i.imgur.com/z4yXcnF.png)
+
+![](https://i.imgur.com/YPtBKB7.png)
+
+![](https://i.imgur.com/WNbVqJm.png)
+
+![](https://i.imgur.com/EEGCLKn.png)
+
+![](https://i.imgur.com/KxZ0fYi.png)
+
+![](https://i.imgur.com/iDrM6OV.png)
+
+![](https://i.imgur.com/hBhV6ZD.png)
+
+```swift!
+@objc private func segmentValueChanged(_ sender: UISegmentedControl) {
+    guard let viewType: ViewType = ViewType(rawValue: sender.selectedSegmentIndex) else { return }
+
+    switch viewType {
+    case ViewType.list:
+        configureListCollectionView()
+        configureListDataSource()
+        applySnapshot(for: products)
+        listCollectionView?.isHidden = false
+        gridCollectionView?.isHidden = true
+    case ViewType.grid:
+        configureGridCollectionView()
+        configureGridDataSource()
+        applySnapshot(for: products)
+        gridCollectionView?.isHidden = false
+        listCollectionView?.isHidden = true
+    }
+}
+```
+
+![](https://i.imgur.com/AqM7vMZ.png)
+
+
 
 ---
 
