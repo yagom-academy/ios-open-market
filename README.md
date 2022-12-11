@@ -3,7 +3,7 @@
 ## 목차
 1. [소개](#1-소개)
 2. [타임라인](#2-타임라인)
-3. [UML](#3-다이어그램)
+3. [UML](#3-uml)
 4. [실행 화면](#4-실행화면)
 5. [고민했던 점](#5-고민했던-점)
 6. [트러블 슈팅](#6-트러블-슈팅)
@@ -16,7 +16,7 @@
 - URLSession, Collection View, Modern Collection View, Diffable Data Source, POP, JSON 개념을 활용해 진행되었습니다.
 
 ### 💻 개발환경 및 라이브러리
-[![swift](https://img.shields.io/badge/swift-5.6-orange)]() [![xcode](https://img.shields.io/badge/Xcode-14.1-blue)]()
+[![swift](https://img.shields.io/badge/swift-5.6-orange)]() [![xcode](https://img.shields.io/badge/Xcode-14.1-blue)]() [![SwiftLint](https://img.shields.io/badge/SwiftLint-0.50-green)]()
 
 ### 👩🏻 팀원
 | SummerCat | bella |
@@ -115,17 +115,24 @@
 ---
 
 ## 3. UML
-![UML](https://i.imgur.com/Qv3H1PG.png)
+
+**Network**
+
+![Network](https://i.imgur.com/2PzWIOB.png)
+
+
+**MVC**
+
+![MVC](https://i.imgur.com/Ir5O1Es.png)
+
 
 ---
 
 ## 4. 실행화면
 
-**데이터 요청**
-<img src=https://i.imgur.com/bk31glQ.png width="550">
-
-**요청 결과**
-<img src=https://i.imgur.com/LZt7fxf.png width="550">
+| ListView | GridView | List-Grid 화면전환 |
+| --- | --- | --- |
+| <image src="https://i.imgur.com/ba1VzAY.gif" width="300"> | <image src="https://i.imgur.com/mFJthH5.gif" width="300"> | <image src="https://i.imgur.com/oBtcjVT.gif" width="310"> |
 
 </br>
 
