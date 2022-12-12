@@ -4,7 +4,7 @@
 
 import UIKit
 
-class ProductRegisterViewController: UIViewController {
+final class ProductRegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
