@@ -7,4 +7,8 @@ disabled_rules: # 실행에서 제외할 룰 식별자들
 - function_body_length
 - function_parameter_count
 - legacy_constructor
+- legacy_random
+- unused_closure_parameter
+- mark
+- void_function_in_ternary
 opt_in_rules: # 일부 룰은 옵트 인 형태로 제공

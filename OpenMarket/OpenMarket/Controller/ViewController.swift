@@ -10,7 +10,6 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     var networkCommunication = NetworkCommunication()
     var searchListPages: [SearchListPage] = []
     
@@ -18,20 +17,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        
         getResponseAboutHealChecker()
-        getProductsListData()
         getCollectionViewCellNib()
         settingCollectionViewLayoutList()
         settingSegmentedControll()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getProductsListData()
+    }
+    
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            settingCollectionViewLayoutList()
-        } else {
-            settingCollectionViewLayoutGrid()
-        }
+        sender.selectedSegmentIndex == 0 ? settingCollectionViewLayoutList() : settingCollectionViewLayoutGrid()
     }
     
     private func getCollectionViewCellNib() {
@@ -118,7 +116,6 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        activityIndicatorView.stopAnimating()
         
         let customCell: CustomCollectionViewCell
         if segmentedControl.selectedSegmentIndex == 0 {
