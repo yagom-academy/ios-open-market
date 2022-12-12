@@ -68,7 +68,7 @@ final class OpenMarketViewController: UIViewController {
 		configureUI()
 		configureListDataSource()
 		
-		fetchProductList(page: pageNumber)
+        fetchProductList(page: pageNumber)
 	}
 	
 	private func configureUI() {
