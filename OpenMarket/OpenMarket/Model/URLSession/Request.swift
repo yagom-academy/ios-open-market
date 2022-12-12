@@ -11,6 +11,7 @@ enum Request {
     case healthChecker
     case productList(pageNumber: Int, itemsPerPage: Int)
     case productDetail(productNumber: Int)
+    case productRegistration
     
     var url: URL? {
         switch self {
@@ -24,6 +25,8 @@ enum Request {
                                                                      value: String(itemsPerPage))])
         case .productDetail(let productNumber):
             return URLComponents.marketUrl(path: [String(productNumber)], queryItems: nil)
+        case .productRegistration:
+            return URLComponents.marketUrl(path: nil, queryItems: nil)
         }
     }
 }

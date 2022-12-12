@@ -120,13 +120,19 @@ final class MarketListCell: UICollectionViewListCell {
         if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
             content.image = cachedImage
         } else {
-            guard let imageUrl = URL(string: thumbnailUrl) else { return }
+            guard let imageUrl = URL(string: thumbnailUrl) else {
+                print(NetworkError.generateUrlFailError.localizedDescription)
+                return
+            }
             
-            session.fetchData(url: imageUrl) { result in
+            session.fetchData(request: URLRequest(url: imageUrl)) { result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async {
-                        guard let image = UIImage(data: data) else { return }
+                        guard let image = UIImage(data: data) else {
+                            print(NetworkError.generateImageDataFailError.localizedDescription)
+                            return
+                        }
                         
                         ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
                         content.image = image
@@ -134,6 +140,7 @@ final class MarketListCell: UICollectionViewListCell {
                         let updateConfiguration = {
                             self.pageListContentView.configuration = content
                         }
+                        
                         completionHandler(updateConfiguration)
                     }
                 case .failure(let error):

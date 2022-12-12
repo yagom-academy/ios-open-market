@@ -8,11 +8,6 @@
 import Foundation
 
 struct Page: Decodable, Hashable {
-    enum Currency: String, Decodable, Hashable {
-        case krw = "KRW"
-        case usd = "USD"
-    }
-
     struct Image: Decodable, Hashable {
         let id: Int
         let url: String

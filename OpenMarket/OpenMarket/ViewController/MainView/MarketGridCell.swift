@@ -118,19 +118,28 @@ final class MarketGridCell: UICollectionViewCell {
         if let cachedImage = ImageCacheProvider.shared.object(forKey: cacheKey) {
             productImage.image = cachedImage
         } else {
-            guard let imageUrl = URL(string: thumbnailUrl) else { return }
+            guard let imageUrl = URL(string: thumbnailUrl) else {
+                print(NetworkError.generateUrlFailError.localizedDescription)
+                return
+            }
             
-            session.fetchData(url: imageUrl) { result in
+            let request = URLRequest(url: imageUrl)
+            
+            session.fetchData(request: request) { result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async {
-                        guard let image = UIImage(data: data) else { return }
+                        guard let image = UIImage(data: data) else {
+                            print(NetworkError.generateImageDataFailError.localizedDescription)
+                            return
+                        }
                         
                         ImageCacheProvider.shared.setObject(image, forKey: cacheKey)
                         
                         let updateImage = {
                             self.productImage.image = image
                         }
+                        
                         completionHandler(updateImage)
                     }
                 case .failure(let error):

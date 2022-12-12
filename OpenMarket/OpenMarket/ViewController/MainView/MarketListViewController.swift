@@ -20,16 +20,28 @@ final class MarketListViewController: UIViewController {
         fetchMarketData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchMarketData()
+    }
+    
     private func fetchMarketData() {
         let marketURLSessionProvider = MarketURLSessionProvider()
         
-        guard let url = Request.productList(pageNumber: 1, itemsPerPage: 100).url else { return }
+        guard let url = Request.productList(pageNumber: 1, itemsPerPage: 100).url else {
+            print(NetworkError.generateUrlFailError)
+            return
+        }
         
-        marketURLSessionProvider.fetchData(url: url) { result in
+        marketURLSessionProvider.fetchData(request: URLRequest(url: url)) { result in
             switch result {
             case .success(let data):
                 guard let marketData = JSONDecoder.decodeFromSnakeCase(type: Market.self,
-                                                                       from: data) else { return }
+                                                                       from: data) else {
+                    print(NetworkError.dataDecodingFailError.localizedDescription)
+                    return
+                }
+                
                 self.pageData = marketData.pages
                 DispatchQueue.main.async {
                     self.configureListView()
@@ -37,7 +49,7 @@ final class MarketListViewController: UIViewController {
                     self.applySnapshot()
                 }
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }

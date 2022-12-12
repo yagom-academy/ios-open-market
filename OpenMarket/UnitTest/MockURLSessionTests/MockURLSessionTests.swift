@@ -23,20 +23,21 @@ class MockURLSessionTests: XCTestCase {
     }
     
     func test_mockURLSession_success() {
-        // when: MockURLSession 호출결과가 성공이고, 결과 data가 Json 형태라면
-        let response = JSONDecoder.decodeFromSnakeCase(type: Market.self,
-                                                       from: SampleData.sampleData)
-
+        // when: MockURLSession 호출결과가 성공일 때,
+        sut = MarketURLSessionProvider(session: MockURLSession())
+        
         // then: MockURLSession을 통해 테스트
         let expectation = XCTestExpectation()
         
         guard let url = URL(string: "url") else { return }
         
-        sut.fetchData(url: url, type: Market.self) { result in
+        sut.fetchData(request: URLRequest(url: url)) { result in
             switch result {
             case .success(let market):
-                XCTAssertEqual(market.totalCount , response?.totalCount)
-                XCTAssertEqual(market.pageNo , response?.pageNo)
+                let marketData = JSONDecoder.decodeFromSnakeCase(type: Market.self, from: market)
+
+                XCTAssertEqual(marketData?.pageNo, 1)
+                XCTAssertEqual(marketData?.lastPage, 114)
             case .failure(_):
                 XCTFail("fetchData failure")
             }
@@ -50,13 +51,13 @@ class MockURLSessionTests: XCTestCase {
     func test_mockURLSession_failure() {
         // when: MockURLSession 호출결과가 실패일 때
         sut = MarketURLSessionProvider(session: MockURLSession(isRequestFail: true))
- 
+        
         // then: MockURLSession을 통해 테스트
         let expectation = XCTestExpectation()
         
         guard let url = URL(string: "url") else { return }
         
-        sut.fetchData(url: url, type: Market.self) { result in
+        sut.fetchData(request: URLRequest(url: url)) { result in
             switch result {
             case .success(_):
                 XCTFail("result is success")
