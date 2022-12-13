@@ -1,16 +1,16 @@
 # 📣 Open Market 
-
 - Gundy와 Wonbi가 만든 Open Market App입니다.
 
 ## 📖 목차
 1. [팀 소개](#-팀-소개)
 2. [팀 위키](#-팀-위키)
-3. [Diagram](#-diagram)
-4. [폴더 구조](#-폴더-구조)
-5. [타임라인](#-타임라인)
-6. [기술적 도전](#-기술적-도전)
-7. [트러블 슈팅 및 고민](#-트러블-슈팅-및-고민)
-8. [참고 링크](#-참고-링크)
+3. [실행 화면](#-실행-화면)
+4. [Diagram](#-diagram)
+5. [폴더 구조](#-폴더-구조)
+6. [타임라인](#-타임라인)
+7. [기술적 도전](#-기술적-도전)
+8. [트러블 슈팅 및 고민](#-트러블-슈팅-및-고민)
+9. [참고 링크](#-참고-링크)
 
 
 ## 🌱 팀 소개
@@ -26,10 +26,18 @@
 
 #### [📝 일일 스크럼](https://github.com/wonbi92/ios-open-market/wiki/3.-Open-Market-Scrum)
 
+## 🛠 실행 화면
+
+|상품 등록하기|상품 수정하기|상품 삭제하기|
+|:-:|:-:|:-:|
+|![](https://i.imgur.com/zcV7Vog.gif)|![](https://i.imgur.com/eFOJ40b.gif)|![](https://i.imgur.com/qrtF3n9.gif)|
+|**스크롤하기**|**리스트 그리드 스위치하기**|**리프레시하기**|
+|![](https://i.imgur.com/UdF51GR.gif)|![](https://i.imgur.com/ffuak0c.gif)|![](https://i.imgur.com/INfTQJZ.gif)|
+
 ## 👀 Diagram
 
 ### 🧬 Class Diagram
-![](https://i.imgur.com/kLdn0Ix.png)
+![](https://i.imgur.com/PIlQgev.png)
 
  
 ## 🗂 폴더 구조
@@ -39,55 +47,58 @@
 > OpenMarketTests: 유닛 테스트
 ```
 OpenMarket
+├── AppDelegate
+├── SceneDelegate
 ├── Extension
 │   ├── Collection+
-│   ├── DecodingError+
 │   ├── Data+
+│   ├── DecodingError+
 │   ├── Int+
-│   └── JSONDecoder+
+│   ├── JSONCoder+
+│   └── UIImage+
 ├── Network
-│   ├── HttpMethod
 │   ├── Network Protocol
 │   │   ├── URLSessionDataTaskProtocol
 │   │   └── URLSessionProtocol
+│   ├── HttpMethod
 │   ├── NetworkError
 │   ├── NetworkManager
 │   └── NetworkRequest
 ├── OpenMarket
+│   ├── ProductsViewController
+│   ├── ProductManagingViewController
 │   ├── AddProductViewController
-│   ├── AppDelegate
-│   ├── FormatConverter
-│   ├── GridCollectionViewCell
+│   ├── EditProductViewController
+│   ├── ProductDetailViewController
+│   ├── DetailView
+│   ├── ListCell
+│   ├── GridCell
 │   ├── ImageCell
-│   ├── ListCollectionViewCell
+│   ├── DetailImageCell
 │   ├── Model
-│   │   ├── EditProduct
-│   │   ├── NewProduct
 │   │   ├── Product
-│   │   └── ProductList
+│   │   ├── ProductList
+│   │   ├── DetailProduct
+│   │   └── SendingProduct
 │   ├── Network
 │   │   ├── ImageCacheManager
+│   │   ├── MultipartFormData
 │   │   └── OpenMarketNetworkRequest
-│   ├── ProductsViewController
-│   └── SceneDelegate
+│   └── FormatConverter
 └── OpenMarketTests
-    ├── JSONParsingTests
-    ├── MockData
-    │   ├── DataLoader
-    │   └── products
-    ├── NetworkManagerTests
-    ├── NetworkRequestTests
-    └── Test Double
-        ├── DummyData
-        ├── MockURLSession
-        └── MockURLSessionDataTask
+    ├── JSONParsingTests
+    ├── MockData
+    │   ├── DataLoader
+    │   └── products
+    ├── NetworkManagerTests
+    ├── NetworkRequestTests
+    └── Test Double
+        ├── DummyData
+        ├── MockURLSession
+        └── MockURLSessionDataTask
 ```
 
 ## ⏰ 타임라인
-
-### 🅰️ 오픈마켓 I
-<details>
-<summary>펼쳐보기</summary>
 
 #### 👟 Step 1
 - JSONParsing
@@ -203,14 +214,8 @@ OpenMarket
     - 그리드 형태의 컬렉션 뷰에서 사용하는 셀입니다.
     - 그리드 형태로 커스터마이징 된 셀을 그립니다.
 </details>
-    
-</details>
 
-### 🅱️ 오픈마켓 II
-<details open>
-<summary>펼쳐보기</summary>
-
-#### 👟 Step 1
+#### 👟 Step 3
 - 컬렉션 뷰 사용하기
     - ✅ 하나의 컬렉션 뷰에 여러개의 FlowLayout적용하기
 - 모던 컬렉션 뷰 사용하기
@@ -257,14 +262,40 @@ OpenMarket
     - NetworkRequest를 채택하고, 상품 삭제를 리퀘스트하기위한 프로퍼티를 갖고 있는 구조체입니다.
 </details>
     
+#### 👟 Step4
+- UIAlertController 활용
+    - ✅ textFields 사용하기
+    - ✅ Action Sheet 사용하기
+    - ✅ preferredAction 사용하기
+- 프로토콜 및 기본구현 활용하기
+    - ✅ 프로토콜로 공통기능 구현하고 채택하기
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+1️⃣ **Controller**
+- ProductManagingViewController
+    - 상품 수정 화면과 상품 등록 화면의 공통 기능을 구현한 프로토콜입니다.
+- EditProductViewController
+    - 상품 수정시 변경할 값을 가져와 표시하고 사용자에게 수정값을 입력받아 처리하는 뷰 컨트롤러입니다.
+    
+2️⃣ **View**
+- DetailView
+    - 상품 상세 화면에서 사용하는 뷰입니다.
+    - DetailProduct가 갖고 있는 정보를 나타내는 텍스트와 이미지를 그립니다.
+- DetailImageCell
+    - EditProductViewController에서 상품의 이미지를 담당하는 셀입니다.
+
+3️⃣ **Model**
+- SendingProduct
+    - 상품 수정과 상품 등록시 사용하는 모델입니다.
+
 </details>
 
 ## 🏃🏻 기술적 도전
 
-### 🅰️ 오픈마켓 I
-<details>
-<summary>펼쳐보기</summary>
-    
 #### ⚙️ URLSession 
 <details>
 <summary>펼쳐보기</summary>
@@ -315,12 +346,6 @@ OpenMarket
 - 💡 이번 프로젝트에서는 `NSCache<NSString, UIImage>`타입의 싱글턴 객체를 갖는 `ImageCacheManager` 클래스를 구현하였습니다. 이를 통해 한 번 사용된 이미지는 캐싱하여 성능을 향상시킬 수 있도록 구현하였습니다.
 
 </details>
-
-</details> 
-
-### 🅱️ 오픈마켓 II
-<details open>
-<summary>펼쳐보기</summary>
     
 #### ⚙️ UIRefreshControl
 <details>
@@ -348,14 +373,34 @@ OpenMarket
 - 💡 이번 프로젝트에서는 상품등록 및 수정 화면에서 상품의 사진을 추가할 때 마다 자연스럽게 셀이 추가되고, 가로로 스크롤되도록 구현하였습니다.
     
 </details>
-    
-</details> 
 
-## 🏔 트러블 슈팅 및 고민
-    
-### 🅰️ 오픈마켓 I
+#### ⚙️ UIAlertController
 <details>
 <summary>펼쳐보기</summary>
+    
+- 얼럿 메시지를 표시하는 객체로 preferredStyle에 따라 alert과 actionSheet가 있습니다.
+- 사용자에게 메시지를 표시하는 것 외에도 얼럿 컨트롤러와 액션을 연결하여 사람들이 응답할 수 있는 방법을 제공할 수 있습니다.
+- 사용자가 해당 액션을 탭하면 경고 컨트롤러는 작업 개체를 만들 때 제공한 코드 블록을 실행합니다.
+- 또한, textFields를 프로퍼티로 가지고 있어 이를 이용하면 사용자에게 메시지를 제공함과 동시에, 필요한 정보를 제공받아 처리할 수 있습니다.
+- 💡 이번 프로젝트에서는 상품 상세화면에서 액션시트를 통해 상품 수정과 삭제에 대한 액션을 제공하고, 상품 등록 화면 등에서 얼럿을 통해 사용자에게 메시지를 표시하며, 상품을 삭제하는 경우 사용자에게 비밀번호를 전달받아 일치하는 경우에만 삭제하도록 구현해 보았습니다.
+    
+</details>
+    
+### collectionView의 Paging
+<details>
+<summary>펼쳐보기</summary>
+   
+- scrollView에서 paging 기능을 활성화하면 scrollView는 사용자가 스크롤할 때 scrollView의 경계에서 정지합니다.
+- scrollView를 상속받는 collectionView의 경우에도 paging 기능을 사용할 수 있고, 셀, 그룹, 섹션 등을 지정할 수 있습니다.
+- iOS 13부터 사용 가능한 NSCollectionLayoutSection의 경우 orthogonalScrollingBehavior 프로퍼티를 groupPagingCentered 등으로 설정하면 자동으로 paging을 계산해줍니다.
+- 상품 상세 페이지에서의 이미지는 더욱 용량이 큰 원본 이미지입니다.
+- 이 이미지들을 하나씩 잘 확인할 수 있도록 화면을 가득 메우는 크기로 이미지를 표시합니다.
+- 또한 이미지별로 사진의 번호가 레이블로 표시됩니다.
+- 💡 이번 프로젝트에서는 상품 상세 페이지의 이미지를 하나씩 잘 확인할 수 있도록 더 명확한 UI/UX를 위해 Paging 기능을 사용하였습니다.
+        
+</details>
+
+## 🏔 트러블 슈팅 및 고민
     
 #### 🚀 테스트용 JSON 파일과 서버 API 문서
     
@@ -598,11 +643,6 @@ Int) -> Int {
 
 </details>
     
-</details> 
-
-### 🅱️ 오픈마켓 II
-<details open>
-<summary>펼쳐보기</summary>
 
 #### 🚀 multipart/form-data httpBody
     
@@ -757,6 +797,71 @@ UICollectionViewLayout())
 ```
     
 </details>
+    
+#### 🚀 상품 수정 완료시 수정된 정보가 보이지 않던 문제
+    
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**문제 👻**
+- 상품 상세화면에서 수정 버튼을 눌러 수정을 진행한 후 수정이 성공적으로 이루어지면 상품 수정화면이 dismiss됩니다.
+- 이 때, 상품 수정화면이 dismiss된 후 다시 나타난 상품 상세화면에서 상품 정보를 수정하기 이전 내용을 보여주는 문제가 있었습니다.
+    
+**해결 🔫**
+- 기존에는 이런 사용자 경험을 고려하지 않고 작업을 진행했기에 `viewDidLoad`에서 상품 정보를 받는 로직을 구현했었습니다.
+- 이러한 UX를 개선하기 위해 `viewDidLoad`가 아닌 `viewWillAppear`에서 상품 수정 네트워킹이 완료된 Response의 데이터를 보여주도록 다시 구현해 보았습니다.
+    
+```swift
+override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+        
+    guard let request = ProductDetailRequest(productID: productID).request
+    else { return }
+    
+    networkManager.fetchData(from: request, dataType: DetailProduct.self) { result in
+        switch result {
+        case .success(let data):
+            self.detailProduct = data
+            DispatchQueue.main.async {
+                self.navigationItem.title = self.detailProduct?.name
+                self.configureDetailView(detailProduct: data)
+                self.setupImages(data.images)
+            }
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+    }
+}
+```
+</details>
+    
+#### 💭 네트워킹을 통해 받아온 DTO 파일의 병합
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**고민 🤔**
+- 기존 `NewProduct`와 `EditProduct`의 경우, 비슷한 값이 많고 사용하는 방식또한 비슷해 이 둘을 합치는 것이 더 좋은 방향이 아닐까 하는 고민을 하였습니다.
+- 때문에 여러 DTO를 점검하고 하나로 통합할 수 있는 DTO끼리 통합하여 코드의 가독성을 높이고, 불필요한 중복을 줄이는 방향으로 리팩토링하였습니다. 
+- 결과적으로 `NewProduct`와 `EditProduct`을 하나의 `SendingProduct`라는 객체로 통합하여 관리하게 되었습니다.
+    
+```swift
+struct SendingProduct: Encodable {
+    let productID: Int?
+    let name, description: String
+    let stock: Int
+    let thumbnailID: Int?
+    let discountedPrice, price: Double
+    let currency: Currency
+    let secret: String
+    
+    // CodingKeys 및 이니셜라이저..
+}
+```
     
 </details>
     
