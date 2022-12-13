@@ -52,6 +52,7 @@ final class ProductDetailViewController: UIViewController {
             case .success(let data):
                 self.detailProduct = data
                 DispatchQueue.main.async {
+                    self.navigationItem.title = self.detailProduct?.name
                     self.configureDetailView(detailProduct: data)
                     self.setupImages(data.images)
                 }
@@ -62,7 +63,6 @@ final class ProductDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = detailProduct?.name
         navigationItem.rightBarButtonItem = detailView.fetchNavigationBarButton()
         navigationItem.rightBarButtonItem?.target = self
         navigationItem.rightBarButtonItem?.action = #selector(showActionSheet)

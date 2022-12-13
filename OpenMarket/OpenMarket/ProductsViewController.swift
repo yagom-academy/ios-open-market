@@ -235,6 +235,7 @@ extension ProductsViewController: UICollectionViewDelegate {
         guard let product = productLists[valid: indexPath.section]?.pages[valid: indexPath.item]
         else { return }
         let detailViewController = ProductDetailViewController(product.id, networkManager: networkManager)
+        detailViewController.navigationItem.title = product.name
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
