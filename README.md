@@ -85,8 +85,8 @@
 ## Diagram
 
 ### Class Diagram
-![](https://i.imgur.com/kN8kjZe.jpg)
-
+대략적으로 나타낸 Class Diagram입니다.
+![](https://i.imgur.com/L9FwSJ6.jpg)
  
 ## 폴더 구조
 
