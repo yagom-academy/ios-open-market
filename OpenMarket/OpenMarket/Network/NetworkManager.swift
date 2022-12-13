@@ -8,7 +8,7 @@
 import UIKit
 
 final class NetworkManager {
-    let session: URLSessionProtocol
+    private let session: URLSessionProtocol
     init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
@@ -142,8 +142,8 @@ final class NetworkManager {
     
     // MARK: - Patch Data
     func patchData(url: URL,
-                     updateData: NewProduct,
-                     completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+                   updateData: NewProduct,
+                   completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         let encoder = JSONEncoder()
         guard let data = try? encoder.encode(updateData) else { return }
         var request = URLRequest(url: url)

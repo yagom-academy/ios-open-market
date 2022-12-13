@@ -8,7 +8,6 @@
 import UIKit
 
 final class DetailProductView: UIView {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -142,7 +141,7 @@ final class DetailProductView: UIView {
         setupStockLabelText()
     }
     
-    func chanePagingLabel(num: Int, total: Int) {
+    func changePagingLabel(num: Int, total: Int) {
         pagingLabel.text = "\(num)/\(total)"
     }
 }

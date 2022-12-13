@@ -110,7 +110,8 @@ extension AddViewController: UICollectionViewDelegate, UICollectionViewDataSourc
         return cellImages.count < maxImageNumber ? cellImages.count + 1 : maxImageNumber
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: AddProductCollectionViewCell.reuseIdentifier,
             for: indexPath) as? AddProductCollectionViewCell

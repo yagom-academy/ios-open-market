@@ -38,7 +38,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 2
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .title3)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -46,7 +45,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -54,7 +52,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -62,7 +59,6 @@ final class GridCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     

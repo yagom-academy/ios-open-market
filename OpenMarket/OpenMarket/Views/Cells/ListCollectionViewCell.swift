@@ -44,7 +44,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -52,14 +51,12 @@ final class ListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let productStockLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -67,7 +64,6 @@ final class ListCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(UIImage.init(systemName: "chevron.right"), for: .normal)
         button.tintColor = .gray
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -77,7 +73,7 @@ final class ListCollectionViewCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.spacing = 2
         stackView.alignment = .leading
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()

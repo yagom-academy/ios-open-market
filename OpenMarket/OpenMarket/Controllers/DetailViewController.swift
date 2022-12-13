@@ -42,7 +42,8 @@ final class DetailViewController: UIViewController {
 // MARK: - Data Setting
 extension DetailViewController {
     private func setupData() {
-        guard let productID = productID, let productDetailURL =  NetworkRequest.productDetail(productID: productID).requestURL else { return }
+        guard let productID = productID,
+                let productDetailURL =  NetworkRequest.productDetail(productID: productID).requestURL else { return }
         
         networkManager.fetchData(to: productDetailURL, dataType: Product.self) { result in
             switch result {
@@ -55,7 +56,9 @@ extension DetailViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.showAlert(alertText: error.description, alertMessage: "오류가 발생했습니다.", completion: nil)
+                    self.showAlert(alertText: error.description,
+                                   alertMessage: "오류가 발생했습니다.",
+                                   completion: nil)
                 }
             }
         }
@@ -68,7 +71,9 @@ extension DetailViewController {
         let appearance = UINavigationBarAppearance()
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        let optionBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(optionButtonTapped))
+        let optionBarButton = UIBarButtonItem(barButtonSystemItem: .edit,
+                                              target: self,
+                                              action: #selector(optionButtonTapped))
         
         self.navigationItem.rightBarButtonItem = optionBarButton
     }
@@ -77,7 +82,8 @@ extension DetailViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let editAction = UIAlertAction(title: "수정", style: .default) { _ in
-            let modifyViewController = ModifyViewController(data: self.productData, images: self.cellImages)
+            let modifyViewController = ModifyViewController(data: self.productData,
+                                                            images: self.cellImages)
             self.navigationController?.pushViewController(modifyViewController, animated: true)
         }
         
@@ -128,7 +134,7 @@ extension DetailViewController: UICollectionViewDelegate {
             let indexPath = detailView.collectionView.indexPath(for: cell)
 
             guard let currentIndex = indexPath?.item else { return }
-            detailView.chanePagingLabel(num: currentIndex + 1, total: productImagesCount.count)
+            detailView.changePagingLabel(num: currentIndex + 1, total: productImagesCount.count)
         }
     }
     
@@ -155,7 +161,7 @@ extension DetailViewController: UICollectionViewDelegate {
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let productImagesCount = productData?.images else { return 0}
-        detailView.chanePagingLabel(num: 1, total: productImagesCount.count)
+        detailView.changePagingLabel(num: 1, total: productImagesCount.count)
         return productImagesCount.count
     }
     

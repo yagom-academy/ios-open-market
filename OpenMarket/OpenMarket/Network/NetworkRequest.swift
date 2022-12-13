@@ -26,8 +26,7 @@ enum NetworkRequest {
                                          queryItem: [URLQueryItem(name: "page_no",
                                                                   value: String(pageNo)),
                                                      URLQueryItem(name: "items_per_page",
-                                                                  value: String(itemsPerPage))
-                                         ])
+                                                                  value: String(itemsPerPage))])
         case .productDetail(let id):
             return URLComponents.createURL(path: "/api/products/\(id)",
                                          queryItem: nil)
