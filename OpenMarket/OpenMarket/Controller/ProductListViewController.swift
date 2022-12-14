@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ProductListViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-    var networkCommunication = NetworkCommunication()
-    var searchListPages: [SearchListPage] = []
+final class ProductListViewController: UIViewController {
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var segmentedControl: UISegmentedControl!
+    private var networkCommunication = NetworkCommunication()
+    private var searchListPages: [SearchListPage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

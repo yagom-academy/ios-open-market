@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 struct NetworkCommunication {
-    let session = URLSession(configuration: .default)
-    let boundary = "boundary-\(UUID().uuidString)"
+    private let session = URLSession(configuration: .default)
+    private let boundary = "boundary-\(UUID().uuidString)"
     var imageTask: URLSessionDataTask?
     
     func requestHealthChecker(

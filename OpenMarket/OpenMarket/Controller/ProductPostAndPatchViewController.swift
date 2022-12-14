@@ -7,35 +7,35 @@
 
 import UIKit
 
-class ProductPostAndPatchViewController: UIViewController {
-    var networkCommunication = NetworkCommunication()
-    let loadingIndicator: UIActivityIndicatorView = {
+final class ProductPostAndPatchViewController: UIViewController {
+    private var networkCommunication = NetworkCommunication()
+    private let loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)) as UIActivityIndicatorView
         indicator.hidesWhenStopped = true
         indicator.style = .large
         return indicator
     }()
-    var imageSet: [UIImage] = []
+    private var imageSet: [UIImage] = []
+    private var productData: DetailProduct?
     var mode: Mode?
     var productID: Int = 0
     var patchImages: [Image] = []
-    var productData: DetailProduct?
     
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var cancelBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var navigationBar: UINavigationBar!
+    @IBOutlet private weak var cancelBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var doneBarButtonItem: UIBarButtonItem!
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var imagePlusButton: UIButton!
-    @IBOutlet weak var imageStackView: UIStackView!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var imagePlusButton: UIButton!
+    @IBOutlet private weak var imageStackView: UIStackView!
     
-    @IBOutlet weak var productInformationStackView: UIStackView!
-    @IBOutlet weak var productNameTextField: UITextField!
-    @IBOutlet weak var productPriceTextField: UITextField!
-    @IBOutlet weak var productBargainPriceTextField: UITextField!
-    @IBOutlet weak var productStockTextField: UITextField!
-    @IBOutlet weak var productCurrencySegmentedControl: UISegmentedControl!
-    @IBOutlet weak var productDescriptionTextView: UITextView!
+    @IBOutlet private weak var productInformationStackView: UIStackView!
+    @IBOutlet private weak var productNameTextField: UITextField!
+    @IBOutlet private weak var productPriceTextField: UITextField!
+    @IBOutlet private weak var productBargainPriceTextField: UITextField!
+    @IBOutlet private weak var productStockTextField: UITextField!
+    @IBOutlet private weak var productCurrencySegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var productDescriptionTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,11 +80,11 @@ class ProductPostAndPatchViewController: UIViewController {
         productDescriptionTextView.resignFirstResponder()
     }
     
-    @IBAction func touchUpCancelBarButtonItem(_ sender: UIBarButtonItem) {
+    @IBAction private func touchUpCancelBarButtonItem(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
     }
     
-    @IBAction func touchUpDoneBarButtonItem(_ sender: UIBarButtonItem) {
+    @IBAction private func touchUpDoneBarButtonItem(_ sender: UIBarButtonItem) {
         if mode == .patch {
             requestPatchProductWhenPatchMode()
         } else {
@@ -92,7 +92,7 @@ class ProductPostAndPatchViewController: UIViewController {
         }
     }
     
-    @IBAction func touchUpImagePlusButton(_ sender: UIButton) {
+    @IBAction private func touchUpImagePlusButton(_ sender: UIButton) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self

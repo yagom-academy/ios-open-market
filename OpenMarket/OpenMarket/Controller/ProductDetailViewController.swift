@@ -7,19 +7,19 @@
 
 import UIKit
 
-class ProductDetailViewController: UIViewController {
+final class ProductDetailViewController: UIViewController {
     
-    @IBOutlet weak var productName: UILabel!
-    @IBOutlet weak var stock: UILabel!
-    @IBOutlet weak var bargainPrice: UILabel!
-    @IBOutlet weak var price: UILabel!
-    @IBOutlet weak var productDescription: UITextView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var productName: UILabel!
+    @IBOutlet private weak var stock: UILabel!
+    @IBOutlet private weak var bargainPrice: UILabel!
+    @IBOutlet private weak var price: UILabel!
+    @IBOutlet private weak var productDescription: UITextView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     
     private let collectionViewFlowLayout = UICollectionViewFlowLayout()
     private let networkCommunication = NetworkCommunication()
-    var detailProductData: DetailProduct?
-    var detailProductImages: [Image] = []
+    private var detailProductData: DetailProduct?
+    private var detailProductImages: [Image] = []
     var productID: Int = 0
     
     override func viewDidLoad() {

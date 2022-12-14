@@ -7,11 +7,11 @@
 
 import UIKit
 
-class CustomCollectionViewPageCell: UICollectionViewCell {
-    @IBOutlet weak var productImage: UIImageView!
-    @IBOutlet weak var imageOrderLabel: UILabel!
+final class CustomCollectionViewPageCell: UICollectionViewCell {
+    @IBOutlet private weak var productImage: UIImageView!
+    @IBOutlet private weak var imageOrderLabel: UILabel!
 
-    var networkCommunication = NetworkCommunication()
+    private var networkCommunication = NetworkCommunication()
 
     override func awakeFromNib() {
         super.awakeFromNib()

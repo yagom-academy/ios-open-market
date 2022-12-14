@@ -7,21 +7,21 @@
 
 import UIKit
 
-class CustomCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var price: UILabel!
-    @IBOutlet weak var bargainPrice: UILabel!
-    @IBOutlet weak var stock: UILabel!
+final class CustomCollectionViewCell: UICollectionViewCell {
+    @IBOutlet private weak var thumbnail: UIImageView!
+    @IBOutlet private weak var name: UILabel!
+    @IBOutlet private weak var price: UILabel!
+    @IBOutlet private weak var bargainPrice: UILabel!
+    @IBOutlet private weak var stock: UILabel!
     
-    let loadingIndicator: UIActivityIndicatorView = {
+    private let loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         indicator.style = .medium
         return indicator
     }()
-    var networkCommunication = NetworkCommunication()
+    private var networkCommunication = NetworkCommunication()
     
     override func prepareForReuse() {
         networkCommunication.imageTask?.cancel()
