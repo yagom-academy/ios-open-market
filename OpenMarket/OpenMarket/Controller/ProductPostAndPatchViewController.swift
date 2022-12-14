@@ -10,7 +10,10 @@ import UIKit
 final class ProductPostAndPatchViewController: UIViewController {
     private var networkCommunication = NetworkCommunication()
     private let loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100)) as UIActivityIndicatorView
+        let indicator = UIActivityIndicatorView(frame: CGRect(x: 0,
+                                                              y: 0,
+                                                              width: 100,
+                                                              height: 100)) as UIActivityIndicatorView
         indicator.hidesWhenStopped = true
         indicator.style = .large
         return indicator
@@ -39,7 +42,6 @@ final class ProductPostAndPatchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if mode == .patch {
             navigationBar.topItem?.title = "상품수정"
             imagePlusButton.isHidden = true
@@ -156,10 +158,9 @@ final class ProductPostAndPatchViewController: UIViewController {
     }
     
     private func requestDetailDataWhenPatchMode() {
-        networkCommunication.requestProductsInformation(
-            url: ApiUrl.Path.detailProduct + String(productID),
-            type: DetailProduct.self
-        ) { [weak self] result in
+        networkCommunication.requestProductsInformation(url: ApiUrl.Path.detailProduct
+                                                        + String(productID),
+                                                        type: DetailProduct.self) { [weak self] result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
@@ -183,7 +184,6 @@ final class ProductPostAndPatchViewController: UIViewController {
     
     private func showProductDataWhenPatchMode() {
         guard let productData = productData else { return }
-        
         productNameTextField.text = productData.name
         productPriceTextField.text = String(productData.price)
         productBargainPriceTextField.text = String(productData.bargainPrice)
@@ -198,24 +198,19 @@ final class ProductPostAndPatchViewController: UIViewController {
               let productDescription = productDescriptionTextView.text,
               let discountedPriceText = productBargainPriceTextField.text,
               let stockText = productStockTextField.text else { return }
-        
         let productCurrency: Currency =
         productCurrencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
-        
         guard let productPrice = Double(priceText),
               let productDiscountedPrice = Double(discountedPriceText) else { return }
         let productStock = Int(stockText) ?? 0
-        
         if productName.count < 3 ||  productName.count > 100 {
             resisterProductAlert(message: "상품명은 3~100자를 입력하셔야합니다.", success: false)
             return
         }
-        
         if productDescription.count < 10 || productDescription.count > 1000 {
             resisterProductAlert(message: "상품상세정보는 10~1000자를 입력하셔야합니다.", success: false)
             return
         }
-        
         if productDiscountedPrice < 0 || productDiscountedPrice > productPrice {
             resisterProductAlert(message: "할인가는 0보다 높거나 상품가보다 낮아야 합니다.", success: false)
             return
@@ -228,7 +223,6 @@ final class ProductPostAndPatchViewController: UIViewController {
                      currency: productCurrency,
                      discountedPrice: productDiscountedPrice,
                      stock: productStock)
-
         loadingIndicator.center = view.center
         view.addSubview(loadingIndicator)
         loadingIndicator.startAnimating()
@@ -240,16 +234,13 @@ final class ProductPostAndPatchViewController: UIViewController {
               let productDescription = productDescriptionTextView.text,
               let discountedPriceText = productBargainPriceTextField.text,
               let stockText = productStockTextField.text else { return }
-        
         let productCurrency: Currency =
         productCurrencySegmentedControl.selectedSegmentIndex == 0 ? .KRW : .USD
-        
         let stackFirstView = imageStackView.arrangedSubviews.first
         guard let _ = stackFirstView as? UIImageView else {
             resisterProductAlert(message: "이미지가 등록되지 않았습니다.\n 확인해주세요.", success: false)
             return
         }
-        
         if productName == "" || priceText == "" || productDescription == "" {
             resisterProductAlert(message: "입력되지 않은 필드가 있습니다.\n 확인해주세요.", success: false)
         } else {
@@ -259,11 +250,9 @@ final class ProductPostAndPatchViewController: UIViewController {
                     imageSet.append(image)
                 }
             }
-            
             guard let productPrice = Int(priceText) else { return }
             let productDiscountedPrice = Int(discountedPriceText) ?? 0
             let productStock = Int(stockText) ?? 0
-            
             requestPost(name: productName,
                         description: productDescription,
                         price: productPrice,
@@ -271,11 +260,9 @@ final class ProductPostAndPatchViewController: UIViewController {
                         discountPrice: productDiscountedPrice,
                         stock: productStock,
                         secret: Secret.password)
-            
             loadingIndicator.center = view.center
             view.addSubview(loadingIndicator)
             loadingIndicator.startAnimating()
-            
         }
         imageSet = []
     }
@@ -292,12 +279,15 @@ final class ProductPostAndPatchViewController: UIViewController {
     }
     
     private func resisterProductAlert(message: String, success: Bool) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "닫기", style: .default) { [weak self] _ in
+        let alert = UIAlertController(title: nil,
+                                      message: message,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "닫기",
+                                     style: .default) { [weak self] _ in
             self?.dismiss(animated: true)
         }
-        let noAction = UIAlertAction(title: "닫기", style: .default)
-        
+        let noAction = UIAlertAction(title: "닫기",
+                                     style: .default)
         alert.addAction(success ? okAction : noAction)
         present(alert, animated: true)
     }
@@ -343,7 +333,8 @@ final class ProductPostAndPatchViewController: UIViewController {
                               currency: Currency,
                               discountedPrice: Double,
                               stock: Int) {
-        networkCommunication.requestPatchData(url: ApiUrl.Path.detailProduct+String(productID),
+        networkCommunication.requestPatchData(url: ApiUrl.Path.detailProduct
+                                              + String(productID),
                                               name: name,
                                               description: description,
                                               thumbnailID: thumbnailID,

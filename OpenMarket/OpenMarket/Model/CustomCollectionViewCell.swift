@@ -38,21 +38,16 @@ final class CustomCollectionViewCell: UICollectionViewCell {
                        currency: Currency,
                        price: Double,
                        bargainPrice: Double,
-                       stock: Int
-    ) {
-        
+                       stock: Int) {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        
         thumbnail.addSubview(loadingIndicator)
         loadingIndicator.centerXAnchor.constraint(equalTo: thumbnail.centerXAnchor).isActive = true
         loadingIndicator.centerYAnchor.constraint(equalTo: thumbnail.centerYAnchor).isActive = true
         loadingIndicator.startAnimating()
         configureImage(imageSource: imageSource)
-        
         guard let priceText = numberFormatter.string(for: price),
               let bargainPriceText = numberFormatter.string(for: bargainPrice) else { return }
-        
         self.name.text = name
         self.price.text = "\(currency) \(priceText)"
         
@@ -69,7 +64,6 @@ final class CustomCollectionViewCell: UICollectionViewCell {
             self.bargainPrice.text = "\(currency) \(bargainPriceText)"
             self.price.textColor = UIColor.systemRed
         }
-        
         if stock > 0 {
             self.stock.text = "잔여수량 : \(stock)"
             self.stock.textColor = UIColor.systemGray
@@ -87,14 +81,12 @@ final class CustomCollectionViewCell: UICollectionViewCell {
     private func configureImage(imageSource: String) {
         let fileManager = FileManager()
         let imageCacheKey = NSString(string: imageSource)
-        
         guard let imageUrl = URL(string: imageSource) else { return }
         guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory,
                                                              .userDomainMask,
                                                              true).first else { return }
         var filePath = URL(fileURLWithPath: path)
         filePath.appendPathComponent(imageUrl.lastPathComponent)
-        
         if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
             stopLoadingIndicator()
             thumbnail.image = imageCacheValue

@@ -22,7 +22,6 @@ final class CustomCollectionViewPageCell: UICollectionViewCell {
         let imageCacheKey = NSString(string: image.thumbnailURL)
         if let imageCacheValue = ImageCacheManager.shared.object(forKey: imageCacheKey) {
             productImage.image = imageCacheValue
-            
         } else if let url = URL(string: image.thumbnailURL) {
             networkCommunication.requestImageData(url: url) { [weak self] data in
                 switch data {

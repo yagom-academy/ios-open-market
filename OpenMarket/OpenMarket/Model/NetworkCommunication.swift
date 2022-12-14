@@ -13,21 +13,17 @@ struct NetworkCommunication {
     private let boundary = "boundary-\(UUID().uuidString)"
     var imageTask: URLSessionDataTask?
     
-    func requestHealthChecker(
-        url: String,
-        completionHandler: @escaping (Result<HTTPURLResponse, APIError>) -> Void
-    ) {
+    func requestHealthChecker(url: String,
+                              completionHandler: @escaping (Result<HTTPURLResponse, APIError>) -> Void) {
         guard let url: URL = URL(string: url) else {
             completionHandler(.failure(.wrongUrlError))
             return
         }
-        
         let task: URLSessionDataTask = session.dataTask(with: url) { _, response, error in
             if error != nil {
                 completionHandler(.failure(.unkownError))
                 return
             }
-            
             if let response = response as? HTTPURLResponse {
                 if !(200...299).contains(response.statusCode) {
                     print("URL요청 실패 : 코드\(response.statusCode)")
@@ -40,22 +36,18 @@ struct NetworkCommunication {
         task.resume()
     }
     
-    func requestProductsInformation<T: Decodable>(
-        url: String,
-        type: T.Type,
-        completionHandler: @escaping (Result<T, APIError>) -> Void
-    ) {
+    func requestProductsInformation<T: Decodable>(url: String,
+                                                  type: T.Type,
+                                                  completionHandler: @escaping (Result<T, APIError>) -> Void) {
         guard let url: URL = URL(string: url) else {
             completionHandler(.failure(.wrongUrlError))
             return
         }
-        
         let task: URLSessionDataTask = session.dataTask(with: url) { data, response, error in
             if error != nil {
                 completionHandler(.failure(.unkownError))
                 return
             }
-            
             if let response = response as? HTTPURLResponse {
                 if !(200...299).contains(response.statusCode) {
                     print("URL요청 실패 : 코드\(response.statusCode)")
@@ -63,7 +55,6 @@ struct NetworkCommunication {
                     return
                 }
             }
-            
             if let data = data {
                 do {
                     let decodingData = try JSONDecoder().decode(type.self, from: data)
@@ -83,7 +74,6 @@ struct NetworkCommunication {
                 completionHandler(.failure(.unkownError))
                 return
             }
-            
             if let response = response as? HTTPURLResponse {
                 if !(200...299).contains(response.statusCode) {
                     print("URL요청 실패 : 코드\(response.statusCode)")
@@ -91,7 +81,6 @@ struct NetworkCommunication {
                     return
                 }
             }
-            
             if let data = data {
                 completionHandler(.success(data))
             } else {
@@ -107,14 +96,11 @@ extension NetworkCommunication {
     func requestDeleteData(url: String,
                            completionHandler: @escaping (Result<String, APIError>) -> Void) {
         guard let url: URL = URL(string: url) else { return }
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "DELETE"
         urlRequest.setValue(Secret.vendorID, forHTTPHeaderField: "identifier")
-        
         let task: URLSessionDataTask = session.dataTask(with: urlRequest) { _, response, error in
             if error != nil { return }
-            
             if let response = response as? HTTPURLResponse {
                 if !(200...299).contains(response.statusCode) {
                     print("DELETE CODE Error : <<\(response.statusCode)>>")
@@ -134,16 +120,13 @@ extension NetworkCommunication {
                                    secret: String,
                                    completionHandler: @escaping (Result<Data, APIError>) -> Void) {
         guard let url: URL = URL(string: url) else { return }
-        
         var body = Data()
         body.append("{ \"secret\" : \"\(secret)\" }")
-        
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue(Secret.vendorID, forHTTPHeaderField: "identifier")
         urlRequest.httpBody = body
-        
         let task: URLSessionDataTask = session.dataTask(with: urlRequest) { data, response, error in
             if error != nil { return }
             
@@ -154,7 +137,6 @@ extension NetworkCommunication {
                     completionHandler(.failure(.statusCodeError))
                 }
             }
-            
             if let data = data {
                 completionHandler(.success(data))
             } else {
@@ -188,10 +170,8 @@ extension NetworkCommunication {
         let urlRequest = generatePostRequest(url: url,
                                              images: images,
                                              params: postRequestParams)
-        
         let task: URLSessionDataTask = session.dataTask(with: urlRequest) { _, response, error in
             if error != nil { return }
-            
             if let response = response as? HTTPURLResponse {
                 if !(200...299).contains(response.statusCode) {
                     print("POST CODE Error : <<\(response.statusCode)>>")
@@ -207,7 +187,6 @@ extension NetworkCommunication {
     func generatePostRequest(url: URL,
                              images: [UIImage],
                              params: PostRequestParams) -> URLRequest {
-        
         let bodyData = multipartFormDataBody(images: images,
                                              params: params)
         var urlRequest = URLRequest(url: url)
@@ -215,19 +194,15 @@ extension NetworkCommunication {
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue(Secret.vendorID, forHTTPHeaderField: "identifier")
         urlRequest.httpBody = bodyData
-  
         return urlRequest
     }
     
     private func multipartFormDataBody(images: [UIImage],
                                        params: PostRequestParams) -> Data? {
-        
         let postRequestParams = params
         guard let jsonParams = try? JSONEncoder().encode(postRequestParams) else { return nil }
-        
         let lineBreak = "\r\n"
         var body = Data()
-        
         body.append("--\(boundary + lineBreak)")
         body.append("Content-Disposition: form-data; name=\"params\" \(lineBreak + lineBreak)")
         body.append(jsonParams)
@@ -244,7 +219,6 @@ extension NetworkCommunication {
             }
         }
         body.append("--\(boundary)--")
-        
         return body
     }
     
@@ -281,7 +255,6 @@ extension NetworkCommunication {
         guard let urlRequest = generatePatchRequest(url: url, patchRequestParams) else { return }
         let task: URLSessionDataTask = session.dataTask(with: urlRequest) { data, response, error in
             if error != nil { return }
-
             if let response = response as? HTTPURLResponse {
                 if !(200...299).contains(response.statusCode) {
                     print("PATCH CODE Error : <<\(response.statusCode)>>")
@@ -296,9 +269,7 @@ extension NetworkCommunication {
 
     private func generatePatchRequest(url: URL, _ patchRequestParams: PatchRequestParams) -> URLRequest? {
         var urlRequest: URLRequest = URLRequest(url: url)
-
         guard let jsonParams = try? JSONEncoder().encode(patchRequestParams) else { return nil }
-
         urlRequest.httpMethod = "PATCH"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue(Secret.vendorID, forHTTPHeaderField: "identifier")

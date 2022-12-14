@@ -50,14 +50,12 @@ final class ProductListViewController: UIViewController {
     }
     
     private func getProductsListData(pageNumber: String = "1", itemPerPage: String = "100") {
-        networkCommunication.requestProductsInformation(
-            url: ApiUrl.Path.products +
-            ApiUrl.Query.pageNumber +
-            pageNumber +
-            ApiUrl.Query.itemsPerPage +
-            itemPerPage,
-            type: SearchListProducts.self
-        ) { [weak self] data in
+        networkCommunication.requestProductsInformation(url: ApiUrl.Path.products
+                                                        + ApiUrl.Query.pageNumber
+                                                        + pageNumber
+                                                        + ApiUrl.Query.itemsPerPage
+                                                        + itemPerPage,
+                                                        type: SearchListProducts.self) { [weak self] data in
             switch data {
             case .success(let data):
                 self?.searchListPages = data.pages
@@ -75,8 +73,10 @@ final class ProductListViewController: UIViewController {
         segmentedControl.layer.borderWidth = CGFloat(2)
         segmentedControl.selectedSegmentTintColor = UIColor.systemBlue
         segmentedControl.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0)
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue], for: UIControl.State.normal)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white],
+                                                for: UIControl.State.selected)
+        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemBlue],
+                                                for: UIControl.State.normal)
     }
     
     private func settingCollectionViewLayoutList() {
@@ -97,10 +97,15 @@ final class ProductListViewController: UIViewController {
         let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                 heightDimension: .fractionalHeight(1))
         let layoutItem = NSCollectionLayoutItem(layoutSize: layoutSize)
-        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        layoutItem.contentInsets = NSDirectionalEdgeInsets(top: 8,
+                                                           leading: 8,
+                                                           bottom: 8,
+                                                           trailing: 8)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                heightDimension: .fractionalHeight(0.4))
-        let layoutGruop = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: layoutItem, count: 2)
+        let layoutGruop = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                             subitem: layoutItem,
+                                                             count: 2)
         let layoutSection = NSCollectionLayoutSection(group: layoutGruop)
         let compositionalLayout = UICollectionViewCompositionalLayout(section: layoutSection)
         collectionView.collectionViewLayout = compositionalLayout
@@ -114,17 +119,17 @@ extension ProductListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let customCell: CustomCollectionViewCell
         if segmentedControl.selectedSegmentIndex == 0 {
-            customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewListCell", for: indexPath) as? CustomCollectionViewCell ?? CustomCollectionViewCell()
+            customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewListCell",
+                                                            for: indexPath) as? CustomCollectionViewCell ?? CustomCollectionViewCell()
         } else {
-            customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewGridCell", for: indexPath) as? CustomCollectionViewCell ?? CustomCollectionViewCell()
+            customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectionViewGridCell",
+                                                            for: indexPath) as? CustomCollectionViewCell ?? CustomCollectionViewCell()
             customCell.layer.cornerRadius = CGFloat(10)
             customCell.layer.borderWidth = CGFloat(3)
             customCell.layer.borderColor = UIColor.systemGray3.cgColor
         }
-        
         customCell.configureCell(imageSource: searchListPages[indexPath.item].thumbnail,
                                  name: searchListPages[indexPath.item].name,
                                  currency: searchListPages[indexPath.item].currency,
@@ -144,7 +149,6 @@ extension ProductListViewController: UICollectionViewDelegate {
             withIdentifier: "productDetailViewController"
         ) as? ProductDetailViewController else { return }
         productDetailViewController.productID = searchListPages[indexPath.item].id
-        
         self.navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
