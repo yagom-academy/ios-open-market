@@ -1,5 +1,5 @@
 //
-//  ImageCollectionViewCell.swift
+//  AddProductCollectionViewCell.swift
 //  OpenMarket
 //
 //  Created by Kyo, LJ on 2022/12/01.
@@ -11,7 +11,7 @@ protocol ImageCollectionViewCellDelegate: AnyObject {
     func imageCollectionViewCell(_ isShowPicker: Bool)
 }
 
-final class ImageCollectionViewCell: UICollectionViewCell {
+final class AddProductCollectionViewCell: UICollectionViewCell {
     weak var buttonDelegate: ImageCollectionViewCellDelegate?
 
     override init(frame: CGRect) {
@@ -54,14 +54,14 @@ final class ImageCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Action
-extension ImageCollectionViewCell {
+extension AddProductCollectionViewCell {
     @objc func addImageButtonTapped() {
         buttonDelegate?.imageCollectionViewCell(true)
     }
 }
 
 // MARK: - Constraints
-extension ImageCollectionViewCell {
+extension AddProductCollectionViewCell {
     private func setupUI() {
         contentView.addSubview(stackView)
         setupStackViewConstraints()
@@ -77,6 +77,6 @@ extension ImageCollectionViewCell {
     }
 }
 
-extension ImageCollectionViewCell: ReuseIdentifierProtocol {
+extension AddProductCollectionViewCell: ReuseIdentifierProtocol {
     
 }

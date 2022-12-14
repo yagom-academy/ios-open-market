@@ -16,3 +16,14 @@ final class ModifyProductView: ProductView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+// MARK: - Binding Data in UIComponent
+extension ModifyProductView {
+    func bindProductData(product: Product) {
+        self.nameTextField.text = product.name
+        self.priceTextField.text = String(product.price)
+        self.salePriceTextField.text = String(product.bargainPrice)
+        self.stockTextField.text = String(product.stock)
+        self.descriptionTextView.text = product.description
+    }
+}

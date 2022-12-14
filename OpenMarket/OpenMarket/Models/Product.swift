@@ -20,6 +20,8 @@ struct Product: Decodable {
     let stock: Int
     let createdAt: Date
     let issuedAt: Date
+    let images: [ProductImage]?
+    let vendors: Venders?
     
     enum CurrencyUnit: String, Decodable {
         case KRW
@@ -55,3 +57,14 @@ struct Product: Decodable {
     }
 }
 
+struct ProductImage: Decodable {
+    let id: Int
+    let url: String
+    let thumbnailUrl: String
+    let issuedAt: Date
+}
+
+struct Venders: Decodable {
+    let id: Int
+    let name: String
+}

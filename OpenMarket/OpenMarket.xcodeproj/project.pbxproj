@@ -14,8 +14,11 @@
 		3C16B8DC292DF8E10049AF55 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */; };
 		3C16B8E2292F0E110049AF55 /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8E1292F0E110049AF55 /* AddProductView.swift */; };
 		3C16B8E4292F0E360049AF55 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C16B8E3292F0E360049AF55 /* AddViewController.swift */; };
+		3C21F1922941D7360037B7B2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C21F1912941D7360037B7B2 /* DetailViewController.swift */; };
+		3C21F1942941D7580037B7B2 /* DetailProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C21F1932941D7580037B7B2 /* DetailProductView.swift */; };
+		3C21F1962942C95F0037B7B2 /* DetailProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C21F1952942C95F0037B7B2 /* DetailProductCollectionViewCell.swift */; };
 		3C2A5B7F293B94A500BC6E3D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2A5B7E293B94A500BC6E3D /* UIImage+Extension.swift */; };
-		3C5518092938B431000FBE60 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5518082938B431000FBE60 /* ImageCollectionViewCell.swift */; };
+		3C5518092938B431000FBE60 /* AddProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5518082938B431000FBE60 /* AddProductCollectionViewCell.swift */; };
 		3C84EB282924BE5200E667A3 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB272924BE5200E667A3 /* URLSessionProtocol.swift */; };
 		3C84EB2A2924BE9000E667A3 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB292924BE9000E667A3 /* URLSessionDataTaskProtocol.swift */; };
 		3C84EB2C2924C72500E667A3 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C84EB2B2924C72500E667A3 /* MockURLSession.swift */; };
@@ -69,8 +72,11 @@
 		3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		3C16B8E1292F0E110049AF55 /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
 		3C16B8E3292F0E360049AF55 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		3C21F1912941D7360037B7B2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		3C21F1932941D7580037B7B2 /* DetailProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProductView.swift; sourceTree = "<group>"; };
+		3C21F1952942C95F0037B7B2 /* DetailProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		3C2A5B7E293B94A500BC6E3D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		3C5518082938B431000FBE60 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		3C5518082938B431000FBE60 /* AddProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		3C84EB272924BE5200E667A3 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		3C84EB292924BE9000E667A3 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		3C84EB2B2924C72500E667A3 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -141,6 +147,7 @@
 			children = (
 				3C16B8DB292DF8E10049AF55 /* ImageCacheManager.swift */,
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
+				3C21F1912941D7360037B7B2 /* DetailViewController.swift */,
 				3CB07365293B7DA900881AE6 /* ProductViewController.swift */,
 				3C16B8E3292F0E360049AF55 /* AddViewController.swift */,
 				3CB07369293B8CCC00881AE6 /* ModifyViewController.swift */,
@@ -204,7 +211,8 @@
 			children = (
 				3C0931FD292B655D00F96865 /* ListCollectionViewCell.swift */,
 				3C0931FF292B657400F96865 /* GridCollectionViewCell.swift */,
-				3C5518082938B431000FBE60 /* ImageCollectionViewCell.swift */,
+				3C5518082938B431000FBE60 /* AddProductCollectionViewCell.swift */,
+				3C21F1952942C95F0037B7B2 /* DetailProductCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -243,6 +251,7 @@
 				3CB07367293B87B900881AE6 /* ProductView.swift */,
 				3C16B8E1292F0E110049AF55 /* AddProductView.swift */,
 				3CB07363293B795900881AE6 /* ModifyProductView.swift */,
+				3C21F1932941D7580037B7B2 /* DetailProductView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -432,6 +441,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C84EB2C2924C72500E667A3 /* MockURLSession.swift in Sources */,
+				3C21F1942941D7580037B7B2 /* DetailProductView.swift in Sources */,
 				90D3319C29223667001C2B46 /* Error.swift in Sources */,
 				3C16B8E4292F0E360049AF55 /* AddViewController.swift in Sources */,
 				3C093200292B657400F96865 /* GridCollectionViewCell.swift in Sources */,
@@ -450,10 +460,12 @@
 				3C093205292BE7EC00F96865 /* UILabel+Extension.swift in Sources */,
 				9058BE7F2938C61C00EDDC66 /* NewProduct.swift in Sources */,
 				90FF0AB7292B08D600D5A0C7 /* MainView.swift in Sources */,
+				3C21F1922941D7360037B7B2 /* DetailViewController.swift in Sources */,
 				3CA35E2829236AC000C47E06 /* NetworkManager.swift in Sources */,
-				3C5518092938B431000FBE60 /* ImageCollectionViewCell.swift in Sources */,
+				3C5518092938B431000FBE60 /* AddProductCollectionViewCell.swift in Sources */,
 				3CB07368293B87B900881AE6 /* ProductView.swift in Sources */,
 				3CA35E152922318D00C47E06 /* Product.swift in Sources */,
+				3C21F1962942C95F0037B7B2 /* DetailProductCollectionViewCell.swift in Sources */,
 				3C0931FE292B655D00F96865 /* ListCollectionViewCell.swift in Sources */,
 				3C093203292B68C800F96865 /* ReuseIdentifierProtocol+Extension.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,

@@ -57,7 +57,7 @@ class ProductView: UIView {
         return textField
     }()
     
-    private let salePriceTextField: UITextField = {
+    let salePriceTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "할인가격"
         textField.borderStyle = .roundedRect
@@ -114,8 +114,8 @@ class ProductView: UIView {
     }()
     
     func registerCell() {
-        collectionView.register(ImageCollectionViewCell.self,
-                                forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+        collectionView.register(AddProductCollectionViewCell.self,
+                                forCellWithReuseIdentifier: AddProductCollectionViewCell.reuseIdentifier)
     }
     
     @objc func segmentedControlValueChanged(sender: UISegmentedControl) {
@@ -193,32 +193,6 @@ extension ProductView: UITextFieldDelegate, UITextViewDelegate {
             return false
         }
         return true
-    }
-}
-
-// MARK: - ProductViewProtocol
-extension ProductView {
-    func setupData() -> Result<NewProduct, DataError> {
-        guard let name = nameTextField.text,
-            let description = descriptionTextView.text,
-            let priceString = priceTextField.text,
-            let price = Double(priceString) else { return Result.failure(.none) }
-        
-        var newProduct = NewProduct(name: name,
-                                    description: description,
-                                    currency: currency,
-                                    price: price)
-        
-        if salePriceTextField.text != nil {
-            guard let salePriceString = salePriceTextField.text else { return Result.failure(.none) }
-            newProduct.discountedPrice = Double(salePriceString)
-        }
-        if stockTextField.text != nil {
-            guard let stock = stockTextField.text else { return Result.failure(.none) }
-            newProduct.stock = Int(stock)
-        }
-        
-        return Result.success(newProduct)
     }
 }
 

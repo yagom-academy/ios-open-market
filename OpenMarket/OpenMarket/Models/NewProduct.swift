@@ -9,6 +9,7 @@ import Foundation
 
 struct NewProduct: Encodable {
     let name: String
+    let productID: Int?
     let description: String
     let currency: CurrencyUnit
     let price: Double
@@ -22,7 +23,7 @@ struct NewProduct: Encodable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case name, description, currency, price, stock, secret
+        case name, productID, description, currency, price, stock, secret
         case discountedPrice = "discounted_price"
     }
 }

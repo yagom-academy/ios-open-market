@@ -27,6 +27,39 @@ final class AddViewController: ProductViewController {
     }
 }
 
+// MARK: - Override doneButtonTapped
+extension AddViewController {
+    override func doneButtonTapped() {
+        let result = setupData()
+        switch result {
+        case .success(let data):
+            guard let postURL = NetworkRequest.postData.requestURL else { return }
+            networkManager.postData(to: postURL,
+                                    newData: (productData: data, images: cellImages)) { result in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: Constant.uploadSuccessText.rawValue,
+                                       alertMessage: Constant.uploadSuccessMessage.rawValue) {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self.showAlert(alertText: error.description,
+                                       alertMessage: Constant.failureMessage.rawValue,
+                                       completion: nil)
+                    }
+                }
+            }
+        case .failure(let error):
+            self.showAlert(alertText: error.description,
+                           alertMessage: Constant.confirmMessage.rawValue,
+                           completion: nil)
+        }
+    }
+}
+
 // MARK: - ImageCollectionViewCellDelegate
 extension AddViewController: ImageCollectionViewCellDelegate {
     func imageCollectionViewCell(_ isShowPicker: Bool) {
@@ -77,10 +110,11 @@ extension AddViewController: UICollectionViewDelegate, UICollectionViewDataSourc
         return cellImages.count < maxImageNumber ? cellImages.count + 1 : maxImageNumber
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier,
-            for: indexPath) as? ImageCollectionViewCell
+            withReuseIdentifier: AddProductCollectionViewCell.reuseIdentifier,
+            for: indexPath) as? AddProductCollectionViewCell
         else {
             self.showAlert(alertText: NetworkError.data.description,
                            alertMessage: "오류가 발생했습니다.",
